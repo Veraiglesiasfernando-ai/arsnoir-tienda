@@ -1,18 +1,13 @@
 {%- liquid
   assign s = section.settings
   assign collection = s.collection
+  assign button_url = collection.url | default: routes.all_products_collection_url
 -%}
 
 <section class="section{% if s.border_top %} section--border-top{% endif %}">
   <div class="page-width">
-    <div class="section-header">
-      <div>
-        {%- if s.eyebrow != blank -%}<span class="eyebrow">{{ s.eyebrow }}</span>{%- endif -%}
-        <h2>{{ s.heading | default: collection.title }}</h2>
-      </div>
-      {%- if collection != blank -%}
-        <a class="link-underline" href="{{ collection.url }}">Ver todo</a>
-      {%- endif -%}
+    <div class="section-header section-header--center">
+      <h2>{{ s.heading | default: collection.title }}</h2>
     </div>
 
     <ul class="product-grid" style="--cols: {{ s.columns }}">
@@ -22,10 +17,16 @@
         {%- endfor -%}
       {%- else -%}
         {%- for i in (1..s.limit) -%}
-          <li>{% render 'product-card', product: blank, placeholder_index: i %}</li>
+          <li>{% render 'product-card', product: blank, placeholder_index: i, placeholder_price: s.placeholder_price %}</li>
         {%- endfor -%}
       {%- endif -%}
     </ul>
+
+    {%- if s.button_label != blank -%}
+      <div class="section-footer">
+        <a class="button button--outline" href="{{ button_url }}">{{ s.button_label }}</a>
+      </div>
+    {%- endif -%}
   </div>
 </section>
 
@@ -33,11 +34,12 @@
 {
   "name": "Colección destacada",
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "Selección" },
-    { "type": "text", "id": "heading", "label": "Título", "default": "Nuevas obras" },
+    { "type": "text", "id": "heading", "label": "Título", "default": "Más vendidos" },
     { "type": "collection", "id": "collection", "label": "Colección" },
-    { "type": "range", "id": "limit", "label": "Número de obras", "min": 2, "max": 16, "step": 1, "default": 8 },
+    { "type": "range", "id": "limit", "label": "Número de obras", "min": 2, "max": 16, "step": 1, "default": 4 },
     { "type": "range", "id": "columns", "label": "Columnas en escritorio", "min": 2, "max": 5, "step": 1, "default": 4 },
+    { "type": "text", "id": "button_label", "label": "Texto del botón", "default": "Ver más" },
+    { "type": "text", "id": "placeholder_price", "label": "Precio de ejemplo (mientras no haya obras)", "default": "39,95 €" },
     { "type": "checkbox", "id": "border_top", "label": "Línea superior", "default": false }
   ],
   "presets": [{ "name": "Colección destacada" }]

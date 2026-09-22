@@ -1,0 +1,14 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-story",
+      "settings": {
+        "eyebrow": "arsnoir",
+        "signature": "— Vera, fundador de arsnoir",
+        "button_label": "Ver las obras",
+        "button_link": "shopify://collections/all"
+      }
+    }
+  },
+  "order": ["main"]
+}

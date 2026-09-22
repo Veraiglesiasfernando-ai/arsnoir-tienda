@@ -1,0 +1,33 @@
+<section class="story">
+  <div class="story__band">
+    <div class="page-width">
+      <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+      <h1 class="story__title">{{ page.title }}</h1>
+    </div>
+  </div>
+  <div class="page-width">
+    <div class="story__body rte">
+      {{ page.content }}
+    </div>
+    {%- if section.settings.signature != blank -%}
+      <p class="story__signature">{{ section.settings.signature }}</p>
+    {%- endif -%}
+    {%- if section.settings.button_label != blank -%}
+      <div class="story__cta">
+        <a class="button" href="{{ section.settings.button_link | default: routes.all_products_collection_url }}">{{ section.settings.button_label }}</a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Historia",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "arsnoir" },
+    { "type": "text", "id": "signature", "label": "Firma", "default": "— arsnoir" },
+    { "type": "text", "id": "button_label", "label": "Texto del botón", "default": "Ver las obras" },
+    { "type": "url", "id": "button_link", "label": "Enlace del botón" }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,10 @@
+{%- comment -%}
+  Empty framed placeholder: light grey rectangle inside a black frame.
+  Stands in for artwork until real images are uploaded.
+  - label: optional text shown faintly in the centre
+{%- endcomment -%}
+<div class="frame-ph" aria-hidden="true">
+  <div class="frame-ph__inner">
+    {%- if label != blank -%}<span class="frame-ph__label">{{ label }}</span>{%- endif -%}
+  </div>
+</div>

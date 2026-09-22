@@ -40,7 +40,7 @@
           { "value": "tall", "label": "Vertical alto (2:3)" }
         ]
       },
-      { "type": "checkbox", "id": "card_show_vendor", "label": "Mostrar artista en las tarjetas", "default": false },
+      { "type": "checkbox", "id": "card_frame", "label": "Marco negro en las obras de los listados", "default": true },
       { "type": "image_picker", "id": "favicon", "label": "Favicon" }
     ]
   },

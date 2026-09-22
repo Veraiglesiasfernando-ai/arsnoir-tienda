@@ -1,7 +1,9 @@
 {%- comment -%}
   Product card for grids.
-  - product: product object (blank renders a placeholder card)
+  - product: product object (blank renders an empty framed placeholder)
   - lazy: boolean, lazy-load image (default true)
+  - placeholder_index: number used for the placeholder title ("Obra 01")
+  - placeholder_price: price text for the placeholder
 {%- endcomment -%}
 {%- liquid
   assign ratio_class = 'card__media--' | append: settings.card_ratio
@@ -11,7 +13,7 @@
   endif
 -%}
 {%- if product != blank -%}
-  <a href="{{ product.url }}" class="card">
+  <a href="{{ product.url }}" class="card{% if settings.card_frame %} card--framed{% endif %}">
     <div class="card__media {{ ratio_class }}">
       {%- if product.featured_media -%}
         {{ product.featured_media | image_url: width: 900 | image_tag:
@@ -20,39 +22,27 @@
           sizes: '(min-width: 1100px) 22vw, (min-width: 750px) 30vw, 45vw',
           alt: product.featured_media.alt | default: product.title
         }}
-        {%- if product.media.size > 1 -%}
-          {{ product.media[1] | image_url: width: 900 | image_tag:
-            loading: 'lazy',
-            class: 'card__img--hover',
-            widths: '300, 450, 600, 900',
-            sizes: '(min-width: 1100px) 22vw, (min-width: 750px) 30vw, 45vw',
-            alt: ''
-          }}
-        {%- endif -%}
       {%- else -%}
-        {{ 'image' | placeholder_svg_tag }}
+        {% render 'frame-placeholder' %}
       {%- endif -%}
       {%- unless product.available -%}
         <span class="card__badge">Agotado</span>
-      {%- else -%}
-        {%- if product.compare_at_price > product.price -%}<span class="card__badge">Rebajas</span>{%- endif -%}
       {%- endunless -%}
     </div>
     <div class="card__info">
-      {%- if settings.card_show_vendor -%}<div class="card__vendor">{{ product.vendor }}</div>{%- endif -%}
       <h3 class="card__title">{{ product.title }}</h3>
       <div class="card__price">{% render 'price', product: product, show_from: true %}</div>
     </div>
   </a>
 {%- else -%}
+  {%- assign ph_index = placeholder_index | default: 1 -%}
   <div class="card">
     <div class="card__media {{ ratio_class }}">
-      {%- assign ph_index = placeholder_index | default: 1 -%}
-      {{ 'product-' | append: ph_index | placeholder_svg_tag }}
+      {% render 'frame-placeholder' %}
     </div>
     <div class="card__info">
-      <h3 class="card__title">Título de la obra</h3>
-      <div class="card__price">Desde 45,00 €</div>
+      <h3 class="card__title">Obra {{ ph_index | prepend: '0' | slice: -2, 2 }}</h3>
+      <div class="card__price">{{ placeholder_price | default: '39,95 €' }}</div>
     </div>
   </div>
 {%- endif -%}

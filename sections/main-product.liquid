@@ -31,7 +31,7 @@
           {%- endif -%}
         </div>
       {%- else -%}
-        <div class="product__media">{{ 'product-1' | placeholder_svg_tag }}</div>
+        <div class="product__media">{% render 'frame-placeholder' %}</div>
       {%- endfor -%}
     </div>
 
@@ -183,16 +183,16 @@
     {
       "type": "notes", "name": "Notas breves", "limit": 1,
       "settings": [
-        { "type": "text", "id": "note_1", "label": "Nota 1", "default": "Impreso por encargo en 3–5 días laborables" },
-        { "type": "text", "id": "note_2", "label": "Nota 2", "default": "Marco no incluido salvo que lo elijas" },
-        { "type": "text", "id": "note_3", "label": "Nota 3", "default": "Devolución gratuita durante 30 días" }
+        { "type": "text", "id": "note_1", "label": "Nota 1", "default": "Edición limitada" },
+        { "type": "text", "id": "note_2", "label": "Nota 2", "default": "Obra original y exclusiva" },
+        { "type": "text", "id": "note_3", "label": "Nota 3", "default": "" }
       ]
     },
     {
       "type": "collapsible", "name": "Desplegable",
       "settings": [
-        { "type": "text", "id": "heading", "label": "Título", "default": "Detalles de impresión" },
-        { "type": "richtext", "id": "content", "label": "Contenido", "default": "<p>Papel fine art mate de alto gramaje. Tintas pigmentadas. Margen blanco de 1 cm para facilitar el enmarcado.</p>" },
+        { "type": "text", "id": "heading", "label": "Título", "default": "Detalles de la obra" },
+        { "type": "richtext", "id": "content", "label": "Contenido", "default": "<p>Añade aquí los detalles de la obra.</p>" },
         { "type": "page", "id": "page", "label": "Contenido desde una página" },
         { "type": "checkbox", "id": "open", "label": "Abierto por defecto", "default": false }
       ]

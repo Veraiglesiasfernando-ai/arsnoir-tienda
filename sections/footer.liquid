@@ -2,7 +2,7 @@
   <div class="page-width">
     <div class="footer__grid">
       <div>
-        <div class="footer__brand">{{ shop.name | strip }}</div>
+        <div class="footer__brand">{{ shop.name | strip | downcase }}</div>
         {%- if section.settings.about != blank -%}
           <div class="rte muted" style="max-width:36ch">{{ section.settings.about }}</div>
         {%- endif -%}
@@ -33,7 +33,7 @@
     </div>
 
     <div class="footer__bottom">
-      <span>&copy; {{ 'now' | date: '%Y' }} {{ shop.name | strip }}</span>
+      <span>&copy; {{ 'now' | date: '%Y' }} {{ shop.name | strip | downcase }}</span>
       {%- if section.settings.show_payment_icons -%}
         <ul class="footer__payments" aria-label="Métodos de pago">
           {%- for type in shop.enabled_payment_types -%}
@@ -52,7 +52,7 @@
   "enabled_on": { "groups": ["footer"] },
   "max_blocks": 3,
   "settings": [
-    { "type": "richtext", "id": "about", "label": "Texto de marca", "default": "<p>Arte de pared en blanco y negro. Láminas impresas en papel fine art, pensadas para durar.</p>" },
+    { "type": "richtext", "id": "about", "label": "Texto de marca", "default": "<p>Arte de pared original en ediciones limitadas.</p>" },
     { "type": "checkbox", "id": "show_payment_icons", "label": "Mostrar métodos de pago", "default": true }
   ],
   "blocks": [

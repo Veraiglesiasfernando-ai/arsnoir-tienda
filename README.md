@@ -1,4 +1,4 @@
-# ARSNOIR — tema Shopify
+# arsnoir — tema Shopify
 
 Tema propio (Online Store 2.0) para vender arte de pared en blanco y negro. Estética de galería: mucho blanco, tipografía limpia, obras sobre paspartú gris claro y sin trucos de dropshipping (sin contadores de tiempo, sin «X personas viendo», sin pop-ups).
 
@@ -10,39 +10,39 @@ Tema propio (Online Store 2.0) para vender arte de pared en blanco y negro. Est�
 
 Cada cambio que se sube a la rama se sincroniza solo con el tema.
 
-## Secciones de la tienda (colecciones)
+## Contenido de la tienda
 
-Las colecciones ya están creadas en Shopify y son **automáticas por etiqueta**: basta con etiquetar cada obra.
+Todo son huecos vacíos listos para tu propio arte: rectángulos gris claro con marco negro, sin imágenes de terceros, sin nombres de artistas y sin logos de prensa.
 
-| Sección      | Etiqueta del producto |
-|--------------|-----------------------|
-| Abstracto    | `abstracto`           |
-| Líneas       | `lineas`              |
-| Fotografía   | `fotografia`          |
-| Tipografía   | `tipografia`          |
-| Arquitectura | `arquitectura`        |
-| Novedades    | `novedad`             |
+- **Cabecera:** logo «arsnoir» en texto y menú Inicio · Productos · La Historia · Contacto, con iconos de búsqueda, cuenta y carrito.
+- **Portada:** fondo negro a pantalla completa con «WELCOME OFFER — 40% OFF YOUR FIRST PURCHASE» y un botón blanco «SHOP NOW».
+- **Más vendidos:** 4 obras. Mientras no haya productos se muestran «Obra 01…04» a 39,95 €. Botón «VER MÁS».
+- **Explorar ediciones:** Noir, Cine, Silencio y Ruido.
+- **Comprar por categoría:** Tienda XL, Bellas Artes, Impresiones en Tela y Marcos de Madera.
+- **La Historia:** página `/pages/la-historia` con plantilla propia (`page.historia`). El texto se edita en Shopify → Tienda online → Páginas.
 
-Una obra puede estar en varias secciones a la vez (por ejemplo, `abstracto, novedad`).
+## Colecciones (automáticas por etiqueta)
 
-## Cómo subir una obra para que se vea bien
+Etiqueta cada obra y aparece sola en su colección:
 
-- **Imagen 1 (y 2):** la obra sola, recortada al borde del papel, sobre fondo blanco o transparente. El tema la muestra centrada sobre paspartú gris con una sombra suave.
-- **Imagen 3 en adelante:** fotos de la obra colgada en una pared (ambientes). Se muestran a sangre. El número de imagen desde el que empiezan se cambia en *Personalizar → Obra*.
-- **Variantes:** opción 1 `Tamaño` (30 × 40, 50 × 70, 70 × 100…) y opción 2 `Marco` (Sin marco, Negro, Roble…). Se muestran como botones.
-- **Proveedor** = nombre del artista (aparece encima del título).
+| Colección           | Etiqueta        |
+|---------------------|-----------------|
+| Noir                | `noir`          |
+| Cine                | `cine`          |
+| Silencio            | `silencio`      |
+| Ruido               | `ruido`         |
+| Tienda XL           | `xl`            |
+| Bellas Artes        | `bellas-artes`  |
+| Impresiones en Tela | `tela`          |
+| Marcos de Madera    | `marco-madera`  |
 
-## Menús recomendados
+«Más vendidos» incluye todas las obras ordenadas por ventas; no necesita etiqueta.
 
-Contenido → Menús:
+## Cómo subir una obra
 
-- **Menú principal** (`main-menu`): Tienda (`/collections/all`), Secciones (`/collections`), Sobre nosotros.
-- **Pie** (`footer`): Envíos, Devoluciones, Contacto, Aviso legal.
-
-## Páginas que conviene crear
-
-- `sobre-nosotros`: quién está detrás, cómo se hace cada obra. Es lo que más distingue una tienda de arte de un dropshipping.
-- `contacto`: asígnale la plantilla `page.contact`.
+- **Imagen 1:** la obra sola. En los listados se muestra dentro de un marco negro (se desactiva en *Configuración del tema → Diseño*).
+- **Imágenes siguientes:** fotos de ambiente, a sangre en la ficha de producto.
+- **Variantes:** por ejemplo `Tamaño` y `Marco`; se muestran como botones.
 
 ## Estructura
 

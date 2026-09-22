@@ -10,6 +10,6 @@
     "page_width": 1440,
     "button_radius": 0,
     "card_ratio": "portrait",
-    "card_show_vendor": false
+    "card_frame": true
   }
 }

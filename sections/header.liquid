@@ -1,5 +1,12 @@
 {%- assign menu = linklists[section.settings.menu] -%}
 
+{%- capture fallback_links -%}
+  <li><a href="{{ routes.root_url }}">Inicio</a></li>
+  <li><a href="{{ routes.all_products_collection_url }}">Productos</a></li>
+  <li><a href="/pages/la-historia">La Historia</a></li>
+  <li><a href="/pages/contacto">Contacto</a></li>
+{%- endcapture -%}
+
 <div class="header-wrapper">
   <header class="header page-width">
     <div class="header__menu-toggle">
@@ -7,22 +14,15 @@
         <summary aria-label="Menú">{% render 'icon', name: 'menu' %}</summary>
         <div class="mobile-menu__panel">
           <ul>
-            {%- for link in menu.links -%}
-              <li>
-                <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a>
-                {%- if link.links.size > 0 -%}
-                  <ul class="submenu">
-                    {%- for child in link.links -%}
-                      <li><a href="{{ child.url }}">{{ child.title }}</a></li>
-                    {%- endfor -%}
-                  </ul>
-                {%- endif -%}
-              </li>
-            {%- endfor -%}
-            <li><a href="{{ routes.search_url }}">Buscar</a></li>
-            {%- if shop.customer_accounts_enabled -%}
-              <li><a href="{{ routes.account_url }}">Cuenta</a></li>
+            {%- if menu.links.size > 0 -%}
+              {%- for link in menu.links -%}
+                <li><a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a></li>
+              {%- endfor -%}
+            {%- else -%}
+              {{ fallback_links }}
             {%- endif -%}
+            <li><a href="{{ routes.search_url }}">Buscar</a></li>
+            <li><a href="{{ routes.account_url }}">Cuenta</a></li>
           </ul>
         </div>
       </details>
@@ -30,9 +30,13 @@
 
     <nav class="header__nav" aria-label="Principal">
       <ul>
-        {%- for link in menu.links -%}
-          <li><a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a></li>
-        {%- endfor -%}
+        {%- if menu.links.size > 0 -%}
+          {%- for link in menu.links -%}
+            <li><a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a></li>
+          {%- endfor -%}
+        {%- else -%}
+          {{ fallback_links }}
+        {%- endif -%}
       </ul>
     </nav>
 
@@ -42,16 +46,14 @@
           {%- assign logo_style = 'width:' | append: section.settings.logo_width | append: 'px;height:auto;' -%}
           {{ section.settings.logo | image_url: width: 600 | image_tag: style: logo_style, alt: shop.name }}
         {%- else -%}
-          {{ shop.name | strip }}
+          {{ section.settings.logo_text | default: shop.name | strip }}
         {%- endif -%}
       </a>
     </div>
 
     <div class="header__icons">
       <a href="{{ routes.search_url }}" class="hide-mobile" aria-label="Buscar">{% render 'icon', name: 'search' %}</a>
-      {%- if shop.customer_accounts_enabled -%}
-        <a href="{{ routes.account_url }}" class="hide-mobile" aria-label="Cuenta">{% render 'icon', name: 'account' %}</a>
-      {%- endif -%}
+      <a href="{{ routes.account_url }}" class="hide-mobile" aria-label="Cuenta">{% render 'icon', name: 'account' %}</a>
       <a href="{{ routes.cart_url }}" aria-label="Carrito, {{ cart.item_count }} artículos" style="display:inline-flex;align-items:center;">
         {% render 'icon', name: 'bag' %}
         {%- if cart.item_count > 0 -%}<span class="cart-count">{{ cart.item_count }}</span>{%- endif -%}
@@ -66,7 +68,8 @@
   "class": "header-section",
   "enabled_on": { "groups": ["header"] },
   "settings": [
-    { "type": "image_picker", "id": "logo", "label": "Logo", "info": "Si lo dejas vacío se muestra el nombre de la tienda." },
+    { "type": "text", "id": "logo_text", "label": "Logo (texto)", "default": "arsnoir" },
+    { "type": "image_picker", "id": "logo", "label": "Logo (imagen)", "info": "Opcional. Si subes una imagen, sustituye al texto." },
     { "type": "range", "id": "logo_width", "label": "Ancho del logo", "min": 60, "max": 300, "step": 10, "unit": "px", "default": 140 },
     { "type": "link_list", "id": "menu", "label": "Menú", "default": "main-menu" }
   ]

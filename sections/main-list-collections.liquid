@@ -4,17 +4,16 @@
     <h1>Secciones</h1>
   </div>
 
-  <div class="collection-grid collection-grid--grayscale" style="--cols: 3; padding-bottom: clamp(48px, 8vw, 112px)">
+  <div class="collection-grid" style="--cols: 3; padding-bottom: clamp(48px, 8vw, 112px)">
     {%- for collection in collections -%}
-      {%- if collection.handle == 'frontpage' -%}{%- continue -%}{%- endif -%}
+      {%- if collection.handle == 'frontpage' or collection.handle == 'mas-vendidos' -%}{%- continue -%}{%- endif -%}
       <a class="collection-tile" href="{{ collection.url }}">
         <div class="collection-tile__media">
           {%- assign img = collection.featured_image -%}
           {%- if img != blank -%}
             {{ img | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '400, 600, 900, 1200', sizes: '(min-width: 900px) 33vw, 50vw' }}
           {%- else -%}
-            {%- assign ph = forloop.index0 | modulo: 6 | plus: 1 -%}
-            {{ 'collection-' | append: ph | placeholder_svg_tag }}
+            <div class="tile-ph" aria-hidden="true"><span>{{ collection.title }}</span></div>
           {%- endif -%}
         </div>
         <div class="collection-tile__info">

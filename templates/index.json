@@ -3,81 +3,48 @@
     "hero": {
       "type": "hero",
       "settings": {
-        "layout": "split",
-        "grayscale": true,
-        "eyebrow": "Colección 01",
-        "heading": "Arte para paredes que no necesitan color.",
-        "text": "<p>Láminas en blanco y negro, impresas en papel fine art de calidad museo.</p>",
-        "button_label": "Ver obras",
-        "button_link": "shopify://collections/all"
+        "heading": "WELCOME OFFER — 40% OFF YOUR FIRST PURCHASE",
+        "button_label": "SHOP NOW",
+        "button_link": "shopify://collections/all",
+        "height": "full",
+        "overlay": 40,
+        "grayscale": true
       }
     },
-    "sections": {
-      "type": "collection-list",
-      "blocks": {
-        "c1": { "type": "collection", "settings": { "collection": "abstracto" } },
-        "c2": { "type": "collection", "settings": { "collection": "lineas" } },
-        "c3": { "type": "collection", "settings": { "collection": "fotografia" } },
-        "c4": { "type": "collection", "settings": { "collection": "tipografia" } },
-        "c5": { "type": "collection", "settings": { "collection": "arquitectura" } }
-      },
-      "block_order": ["c1", "c2", "c3", "c4", "c5"],
+    "bestsellers": {
+      "type": "featured-collection",
       "settings": {
-        "eyebrow": "Explorar",
-        "heading": "Secciones",
-        "style": "index",
-        "columns": 3,
-        "grayscale": true,
-        "show_view_all": true,
+        "heading": "Más vendidos",
+        "collection": "mas-vendidos",
+        "limit": 4,
+        "columns": 4,
+        "button_label": "Ver más",
+        "placeholder_price": "39,95 €",
         "border_top": false
       }
     },
-    "featured": {
-      "type": "featured-collection",
-      "settings": {
-        "eyebrow": "Selección",
-        "heading": "Nuevas obras",
-        "collection": "novedades",
-        "limit": 8,
-        "columns": 4,
-        "border_top": true
-      }
-    },
-    "manifesto": {
-      "type": "rich-text",
-      "settings": {
-        "eyebrow": "Manifiesto",
-        "text": "<p>Creemos en las paredes tranquilas. En el contraste, el espacio vacío y las imágenes que se miran despacio. Cada lámina se imprime por encargo, sin excedentes.</p>",
-        "center": true,
-        "border_top": true
-      }
-    },
-    "process": {
-      "type": "image-with-text",
-      "settings": {
-        "grayscale": true,
-        "reverse": false,
-        "eyebrow": "El proceso",
-        "heading": "Impreso, no fabricado en serie.",
-        "button_label": "Sobre nosotros",
-        "button_link": "/pages/sobre-nosotros"
-      }
-    },
-    "values": {
-      "type": "values",
+    "editions": {
+      "type": "collection-list",
       "blocks": {
-        "v1": { "type": "item", "settings": { "title": "Papel fine art", "text": "<p>Papel mate de alto gramaje y tintas pigmentadas de larga duración.</p>" } },
-        "v2": { "type": "item", "settings": { "title": "Impreso por encargo", "text": "<p>Cada lámina se imprime cuando la pides. Sin stock, sin excedentes.</p>" } },
-        "v3": { "type": "item", "settings": { "title": "Envío protegido", "text": "<p>Enviado en tubo rígido o caja plana con esquinas reforzadas.</p>" } },
-        "v4": { "type": "item", "settings": { "title": "Devolución 30 días", "text": "<p>Si la obra no encaja en tu pared, te devolvemos el dinero.</p>" } }
+        "e1": { "type": "collection", "settings": { "collection": "noir", "title": "Noir" } },
+        "e2": { "type": "collection", "settings": { "collection": "cine", "title": "Cine" } },
+        "e3": { "type": "collection", "settings": { "collection": "silencio", "title": "Silencio" } },
+        "e4": { "type": "collection", "settings": { "collection": "ruido", "title": "Ruido" } }
       },
-      "block_order": ["v1", "v2", "v3", "v4"],
-      "settings": { "border_top": false }
+      "block_order": ["e1", "e2", "e3", "e4"],
+      "settings": { "heading": "Explorar ediciones", "style": "neutral", "columns": 4, "border_top": true }
     },
-    "newsletter": {
-      "type": "newsletter",
-      "settings": {}
+    "categories": {
+      "type": "collection-list",
+      "blocks": {
+        "k1": { "type": "collection", "settings": { "collection": "tienda-xl", "title": "Tienda XL" } },
+        "k2": { "type": "collection", "settings": { "collection": "bellas-artes", "title": "Bellas Artes" } },
+        "k3": { "type": "collection", "settings": { "collection": "impresiones-en-tela", "title": "Impresiones en Tela" } },
+        "k4": { "type": "collection", "settings": { "collection": "marcos-de-madera", "title": "Marcos de Madera" } }
+      },
+      "block_order": ["k1", "k2", "k3", "k4"],
+      "settings": { "heading": "Comprar por categoría", "style": "framed", "columns": 4, "border_top": true }
     }
   },
-  "order": ["hero", "sections", "featured", "manifesto", "process", "values", "newsletter"]
+  "order": ["hero", "bestsellers", "editions", "categories"]
 }

@@ -4,12 +4,21 @@
   "sections": {
     "announcement": {
       "type": "announcement-bar",
-      "settings": { "text": "Envío gratuito en pedidos desde 80 €" }
+      "settings": {
+        "text": ""
+      }
     },
     "header": {
       "type": "header",
-      "settings": { "menu": "main-menu", "logo_width": 140 }
+      "settings": {
+        "menu": "main-menu",
+        "logo_width": 140,
+        "logo_text": "arsnoir"
+      }
     }
   },
-  "order": ["announcement", "header"]
+  "order": [
+    "announcement",
+    "header"
+  ]
 }
