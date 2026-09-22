@@ -1,0 +1,15 @@
+{
+  "type": "header",
+  "name": "Cabecera",
+  "sections": {
+    "announcement": {
+      "type": "announcement-bar",
+      "settings": { "text": "Envío gratuito en pedidos desde 80 €" }
+    },
+    "header": {
+      "type": "header",
+      "settings": { "menu": "main-menu", "logo_width": 140 }
+    }
+  },
+  "order": ["announcement", "header"]
+}

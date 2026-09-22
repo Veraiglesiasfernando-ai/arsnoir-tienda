@@ -1,0 +1,15 @@
+{
+  "current": {
+    "color_background": "#FFFFFF",
+    "color_foreground": "#0A0A0A",
+    "color_muted": "#6B6B6B",
+    "color_line": "#E6E6E6",
+    "color_surface": "#F4F4F2",
+    "type_heading_font": "inter_n4",
+    "type_body_font": "inter_n4",
+    "page_width": 1440,
+    "button_radius": 0,
+    "card_ratio": "portrait",
+    "card_show_vendor": false
+  }
+}

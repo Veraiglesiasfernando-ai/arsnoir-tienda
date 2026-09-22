@@ -1,0 +1,55 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Ars Noir",
+    "theme_version": "1.0.0",
+    "theme_author": "ARSNOIR",
+    "theme_documentation_url": "https://help.shopify.com/manual/online-store/themes",
+    "theme_support_url": "https://help.shopify.com/manual/online-store/themes"
+  },
+  {
+    "name": "Colores",
+    "settings": [
+      { "type": "color", "id": "color_background", "label": "Fondo", "default": "#FFFFFF" },
+      { "type": "color", "id": "color_foreground", "label": "Texto y botones", "default": "#0A0A0A" },
+      { "type": "color", "id": "color_muted", "label": "Texto secundario", "default": "#6B6B6B" },
+      { "type": "color", "id": "color_line", "label": "Líneas y bordes", "default": "#E6E6E6" },
+      { "type": "color", "id": "color_surface", "label": "Fondo de las obras (paspartú)", "default": "#F4F4F2" }
+    ]
+  },
+  {
+    "name": "Tipografía",
+    "settings": [
+      { "type": "font_picker", "id": "type_heading_font", "label": "Títulos", "default": "inter_n4" },
+      { "type": "font_picker", "id": "type_body_font", "label": "Texto", "default": "inter_n4" }
+    ]
+  },
+  {
+    "name": "Diseño",
+    "settings": [
+      { "type": "range", "id": "page_width", "label": "Ancho máximo de página", "min": 1000, "max": 1800, "step": 20, "unit": "px", "default": 1440 },
+      { "type": "range", "id": "button_radius", "label": "Redondeo de botones", "min": 0, "max": 30, "step": 1, "unit": "px", "default": 0 },
+      {
+        "type": "select",
+        "id": "card_ratio",
+        "label": "Proporción de las obras en listados",
+        "default": "portrait",
+        "options": [
+          { "value": "portrait", "label": "Vertical (4:5)" },
+          { "value": "square", "label": "Cuadrado (1:1)" },
+          { "value": "tall", "label": "Vertical alto (2:3)" }
+        ]
+      },
+      { "type": "checkbox", "id": "card_show_vendor", "label": "Mostrar artista en las tarjetas", "default": false },
+      { "type": "image_picker", "id": "favicon", "label": "Favicon" }
+    ]
+  },
+  {
+    "name": "Redes sociales",
+    "settings": [
+      { "type": "text", "id": "social_instagram", "label": "Instagram", "info": "https://instagram.com/tu_cuenta" },
+      { "type": "text", "id": "social_pinterest", "label": "Pinterest" },
+      { "type": "text", "id": "social_tiktok", "label": "TikTok" }
+    ]
+  }
+]

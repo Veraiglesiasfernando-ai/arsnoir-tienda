@@ -1,0 +1,53 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "vendor": { "type": "vendor", "settings": {} },
+        "title": { "type": "title", "settings": {} },
+        "price": { "type": "price", "settings": {} },
+        "buy": { "type": "buy_buttons", "settings": { "show_dynamic_checkout": false } },
+        "notes": { "type": "notes", "settings": {} },
+        "description": { "type": "description", "settings": {} },
+        "details": {
+          "type": "collapsible",
+          "settings": {
+            "heading": "Detalles de impresión",
+            "content": "<p>Papel fine art mate de alto gramaje. Tintas pigmentadas. Margen blanco de 1 cm para facilitar el enmarcado.</p>",
+            "open": false
+          }
+        },
+        "sizes": {
+          "type": "collapsible",
+          "settings": {
+            "heading": "Guía de tamaños",
+            "content": "<table><tr><th>A4</th><td>21 × 29,7 cm</td></tr><tr><th>30 × 40</th><td>Estanterías, rincones, composiciones</td></tr><tr><th>50 × 70</th><td>Sobre cómodas y escritorios</td></tr><tr><th>70 × 100</th><td>Pieza protagonista: sofá o cabecero</td></tr></table>",
+            "open": false
+          }
+        },
+        "shipping": {
+          "type": "collapsible",
+          "settings": {
+            "heading": "Envío y devoluciones",
+            "content": "<p>Preparación en 3–5 días laborables. Envío protegido. Devolución gratuita durante 30 días.</p>",
+            "open": false
+          }
+        }
+      },
+      "block_order": ["vendor", "title", "price", "buy", "notes", "description", "details", "sizes", "shipping"],
+      "settings": { "lifestyle_from": 2 }
+    },
+    "related": {
+      "type": "featured-collection",
+      "settings": {
+        "eyebrow": "Seguir mirando",
+        "heading": "También te puede gustar",
+        "collection": "novedades",
+        "limit": 4,
+        "columns": 4,
+        "border_top": true
+      }
+    }
+  },
+  "order": ["main", "related"]
+}

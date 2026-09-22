@@ -1,0 +1,82 @@
+<section class="page-width section">
+  <h1>Carrito</h1>
+
+  {%- if cart.item_count > 0 -%}
+    <form action="{{ routes.cart_url }}" method="post" class="cart" novalidate>
+      <div>
+        <ul class="cart-items">
+          {%- for item in cart.items -%}
+            <li class="cart-item">
+              <a class="cart-item__media" href="{{ item.url }}">
+                {%- if item.image -%}
+                  {{ item.image | image_url: width: 300 | image_tag: loading: 'lazy', alt: item.product.title }}
+                {%- endif -%}
+              </a>
+              <div>
+                <a class="cart-item__title" href="{{ item.url }}">{{ item.product.title }}</a>
+                <div class="cart-item__meta">
+                  {%- unless item.product.has_only_default_variant -%}
+                    {%- for option in item.options_with_values -%}
+                      <div>{{ option.name }}: {{ option.value }}</div>
+                    {%- endfor -%}
+                  {%- endunless -%}
+                  {%- for property in item.properties -%}
+                    {%- unless property.last == blank or property.first contains '_' -%}
+                      <div>{{ property.first }}: {{ property.last }}</div>
+                    {%- endunless -%}
+                  {%- endfor -%}
+                  <div>{{ item.final_price | money }}</div>
+                </div>
+                <div class="cart-item__actions">
+                  <div class="qty">
+                    <button type="button" data-qty="-1" aria-label="Menos">&minus;</button>
+                    <input type="number" name="updates[]" value="{{ item.quantity }}" min="0" aria-label="Cantidad de {{ item.product.title | escape }}">
+                    <button type="button" data-qty="1" aria-label="Más">+</button>
+                  </div>
+                  <a class="cart-item__remove" href="{{ item.url_to_remove }}">Eliminar</a>
+                </div>
+              </div>
+              <div class="cart-item__price">{{ item.final_line_price | money }}</div>
+            </li>
+          {%- endfor -%}
+        </ul>
+        <button type="submit" name="update" class="link-underline" style="background:none;border:0;border-bottom:1px solid;margin-top:24px">Actualizar carrito</button>
+      </div>
+
+      <aside class="cart-summary">
+        <div class="cart-summary__row"><span>Subtotal</span><span>{{ cart.items_subtotal_price | money }}</span></div>
+        {%- for discount in cart.cart_level_discount_applications -%}
+          <div class="cart-summary__row muted"><span>{{ discount.title }}</span><span>&minus;{{ discount.total_allocated_amount | money }}</span></div>
+        {%- endfor -%}
+        <div class="cart-summary__row cart-summary__total"><span>Total</span><span>{{ cart.total_price | money }}</span></div>
+        <small>{% if cart.taxes_included %}IVA incluido. {% endif %}Envío calculado en el pago.</small>
+
+        {%- if section.settings.show_note -%}
+          <details class="cart-note">
+            <summary>Añadir una nota (p. ej. para regalo)</summary>
+            <textarea class="field" name="note" aria-label="Nota del pedido">{{ cart.note }}</textarea>
+          </details>
+        {%- endif -%}
+
+        <button type="submit" name="checkout" class="button button--full">Finalizar compra</button>
+        {%- if additional_checkout_buttons -%}
+          <div style="margin-top:12px">{{ content_for_additional_checkout_buttons }}</div>
+        {%- endif -%}
+      </aside>
+    </form>
+  {%- else -%}
+    <div class="empty-state">
+      <p>Tu carrito está vacío.</p>
+      <a class="button" href="{{ routes.all_products_collection_url }}">Ver obras</a>
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Carrito",
+  "settings": [
+    { "type": "checkbox", "id": "show_note", "label": "Permitir nota del pedido", "default": true }
+  ]
+}
+{% endschema %}

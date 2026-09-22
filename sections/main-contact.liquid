@@ -1,0 +1,25 @@
+<section class="page-width section">
+  <div class="page-content">
+    <h1>{{ page.title }}</h1>
+    {%- if page.content != blank -%}<div class="rte muted" style="margin-bottom:2rem">{{ page.content }}</div>{%- endif -%}
+
+    {%- form 'contact', class: 'form-grid' -%}
+      {%- if form.posted_successfully? -%}
+        <p class="form-message">Gracias por escribirnos. Te responderemos lo antes posible.</p>
+      {%- elsif form.errors -%}
+        <div class="form-message">{{ form.errors | default_errors }}</div>
+      {%- endif -%}
+      <label class="visually-hidden" for="ContactName">Nombre</label>
+      <input class="field" id="ContactName" type="text" name="contact[name]" placeholder="Nombre" autocomplete="name" value="{{ form.name }}">
+      <label class="visually-hidden" for="ContactEmail">Email</label>
+      <input class="field" id="ContactEmail" type="email" name="contact[email]" placeholder="Email" autocomplete="email" required value="{{ form.email }}">
+      <label class="visually-hidden" for="ContactBody">Mensaje</label>
+      <textarea class="field" id="ContactBody" name="contact[body]" placeholder="Mensaje" rows="6">{{ form.body }}</textarea>
+      <div><button class="button" type="submit">Enviar</button></div>
+    {%- endform -%}
+  </div>
+</section>
+
+{% schema %}
+{ "name": "Formulario de contacto", "settings": [] }
+{% endschema %}

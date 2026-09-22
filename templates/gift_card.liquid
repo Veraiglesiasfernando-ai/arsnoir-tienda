@@ -1,0 +1,23 @@
+{% layout none %}
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tarjeta regalo &ndash; {{ shop.name }}</title>
+    {{ 'base.css' | asset_url | stylesheet_tag }}
+    <style>:root{--color-bg:#fff;--color-fg:#0a0a0a;--color-muted:#6b6b6b;--color-line:#e6e6e6;--color-surface:#f4f4f2;--font-body:Helvetica,Arial,sans-serif;--font-heading:Helvetica,Arial,sans-serif;--page-width:1440px;--radius:0px}</style>
+    {{ content_for_header }}
+  </head>
+  <body>
+    <main class="page-width section center">
+      <div class="footer__brand">{{ shop.name | strip }}</div>
+      <h1>{{ gift_card.initial_value | money }}</h1>
+      {%- if gift_card.balance != gift_card.initial_value -%}<p class="muted">Saldo: {{ gift_card.balance | money }}</p>{%- endif -%}
+      {%- if gift_card.expired or gift_card.enabled == false -%}<p class="muted">Esta tarjeta ya no es válida.</p>{%- endif -%}
+      <p style="font-size:24px;letter-spacing:0.2em;margin:32px 0">{{ gift_card.code | format_code }}</p>
+      <a class="button" href="{{ shop.url }}">Ir a la tienda</a>
+      {%- if gift_card.pass_url -%}<p style="margin-top:16px"><a href="{{ gift_card.pass_url }}">Añadir a Apple Wallet</a></p>{%- endif -%}
+    </main>
+  </body>
+</html>

@@ -1,0 +1,23 @@
+{%- comment -%}
+  Renders a product or variant price.
+  - product: product object (required)
+  - variant: optional variant object; when given, shows that variant's price
+  - show_from: show "Desde" when prices vary (for cards)
+{%- endcomment -%}
+{%- liquid
+  if variant
+    assign price = variant.price
+    assign compare = variant.compare_at_price
+  else
+    assign price = product.price
+    assign compare = product.compare_at_price
+  endif
+-%}
+<span class="price">
+  {%- if show_from and product.price_varies -%}
+    Desde {{ product.price_min | money }}
+  {%- else -%}
+    {%- if compare > price -%}<s class="muted">{{ compare | money }}</s>{%- endif -%}
+    <span>{{ price | money }}</span>
+  {%- endif -%}
+</span>

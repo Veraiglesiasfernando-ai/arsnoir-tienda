@@ -1,0 +1,202 @@
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign form_id = 'ProductForm-' | append: section.id
+  assign price_id = 'Price-' | append: section.id
+-%}
+
+<section class="page-width">
+  <div class="product">
+    <div class="product__gallery">
+      {%- for media in product.media -%}
+        {%- liquid
+          assign is_lifestyle = false
+          if section.settings.lifestyle_from > 0 and forloop.index >= section.settings.lifestyle_from
+            assign is_lifestyle = true
+          endif
+          assign load = 'lazy'
+          if forloop.first
+            assign load = 'eager'
+          endif
+        -%}
+        <div class="product__media{% if is_lifestyle %} product__media--lifestyle{% endif %}" data-media-id="{{ media.id }}">
+          {%- if media.media_type == 'image' -%}
+            {{ media | image_url: width: 1600 | image_tag:
+              loading: load,
+              widths: '500, 800, 1100, 1400, 1600',
+              sizes: '(min-width: 900px) 55vw, 90vw',
+              alt: media.alt | default: product.title
+            }}
+          {%- else -%}
+            {{ media | media_tag: image_size: '1600x' }}
+          {%- endif -%}
+        </div>
+      {%- else -%}
+        <div class="product__media">{{ 'product-1' | placeholder_svg_tag }}</div>
+      {%- endfor -%}
+    </div>
+
+    <div class="product__info">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'vendor' -%}
+            <div class="product__vendor" {{ block.shopify_attributes }}>{{ product.vendor }}</div>
+
+          {%- when 'title' -%}
+            <h1 class="product__title" {{ block.shopify_attributes }}>{{ product.title }}</h1>
+
+          {%- when 'price' -%}
+            <div class="product__price" id="{{ price_id }}" {{ block.shopify_attributes }}>
+              {% render 'price', product: product, variant: current_variant %}
+            </div>
+            {%- if cart.taxes_included or shop.shipping_policy.body != blank -%}
+              <div class="product__tax">
+                {%- if cart.taxes_included -%}IVA incluido.{%- endif -%}
+                {%- if shop.shipping_policy.body != blank %} <a href="{{ shop.shipping_policy.url }}" style="text-decoration:underline">Envío</a> calculado en el pago.{%- endif -%}
+              </div>
+            {%- endif -%}
+
+          {%- when 'description' -%}
+            {%- if product.description != blank -%}
+              <div class="product__description rte" {{ block.shopify_attributes }}>{{ product.description }}</div>
+            {%- endif -%}
+
+          {%- when 'buy_buttons' -%}
+            <div {{ block.shopify_attributes }}>
+              {%- unless product.has_only_default_variant -%}
+                <variant-picker data-form="{{ form_id }}" data-price="{{ price_id }}">
+                  {%- for option in product.options_with_values -%}
+                    {%- assign option_index = forloop.index0 -%}
+                    <fieldset class="option">
+                      <legend>{{ option.name }} <span data-selected-value>{{ option.selected_value }}</span></legend>
+                      <div class="option__values">
+                        {%- for value in option.values -%}
+                          {%- assign input_id = section.id | append: '-' | append: option_index | append: '-' | append: forloop.index0 -%}
+                          <input type="radio"
+                            id="{{ input_id }}"
+                            name="{{ section.id }}-{{ option.name | handle }}"
+                            value="{{ value | escape }}"
+                            {% if option.selected_value == value %}checked{% endif %}>
+                          <label for="{{ input_id }}">{{ value }}</label>
+                        {%- endfor -%}
+                      </div>
+                    </fieldset>
+                  {%- endfor -%}
+                  <script type="application/json">{{ product.variants | json }}</script>
+                </variant-picker>
+              {%- endunless -%}
+
+              {%- form 'product', product, id: form_id -%}
+                <input type="hidden" name="id" value="{{ current_variant.id }}">
+                <div class="product__buy">
+                  <div class="qty">
+                    <button type="button" data-qty="-1" aria-label="Menos">&minus;</button>
+                    <input type="number" name="quantity" value="1" min="1" aria-label="Cantidad">
+                    <button type="button" data-qty="1" aria-label="Más">+</button>
+                  </div>
+                  <button type="submit" class="button"
+                    data-add-text="Añadir al carrito"
+                    data-sold-out-text="Agotado"
+                    data-unavailable-text="No disponible"
+                    {% unless current_variant.available %}disabled{% endunless %}>
+                    {%- if current_variant.available -%}Añadir al carrito{%- else -%}Agotado{%- endif -%}
+                  </button>
+                </div>
+                {%- if block.settings.show_dynamic_checkout -%}
+                  {{ form | payment_button }}
+                {%- endif -%}
+              {%- endform -%}
+            </div>
+
+          {%- when 'notes' -%}
+            <ul class="product__notes" {{ block.shopify_attributes }}>
+              {%- if block.settings.note_1 != blank -%}<li>{{ block.settings.note_1 }}</li>{%- endif -%}
+              {%- if block.settings.note_2 != blank -%}<li>{{ block.settings.note_2 }}</li>{%- endif -%}
+              {%- if block.settings.note_3 != blank -%}<li>{{ block.settings.note_3 }}</li>{%- endif -%}
+            </ul>
+
+          {%- when 'collapsible' -%}
+            <div class="accordion" {{ block.shopify_attributes }} style="margin-top:0;border-top:0">
+              <details{% if block.settings.open %} open{% endif %}>
+                <summary>{{ block.settings.heading }}</summary>
+                <div class="accordion__content rte">
+                  {{ block.settings.content }}
+                  {%- if block.settings.page != blank -%}{{ block.settings.page.content }}{%- endif -%}
+                </div>
+              </details>
+            </div>
+
+          {%- when '@app' -%}
+            {% render block %}
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org/",
+    "@type": "Product",
+    "name": {{ product.title | json }},
+    "url": {{ request.origin | append: product.url | json }},
+    {%- if product.featured_media -%}
+    "image": [{{ product.featured_media | image_url: width: 1200 | prepend: 'https:' | json }}],
+    {%- endif -%}
+    "description": {{ product.description | strip_html | json }},
+    "brand": { "@type": "Brand", "name": {{ product.vendor | json }} },
+    "offers": [
+      {%- for variant in product.variants -%}
+      {
+        "@type": "Offer",
+        "sku": {{ variant.sku | json }},
+        "availability": "http://schema.org/{% if variant.available %}InStock{% else %}OutOfStock{% endif %}",
+        "price": {{ variant.price | divided_by: 100.0 | json }},
+        "priceCurrency": {{ cart.currency.iso_code | json }},
+        "url": {{ request.origin | append: variant.url | json }}
+      }{% unless forloop.last %},{% endunless %}
+      {%- endfor -%}
+    ]
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Obra",
+  "settings": [
+    {
+      "type": "range", "id": "lifestyle_from", "label": "Fotos ambientadas a partir de la imagen nº", "min": 0, "max": 6, "step": 1, "default": 2,
+      "info": "Las primeras imágenes se muestran sobre paspartú gris; a partir de este número, a sangre (fotos de la obra en una pared). 0 = todas con paspartú."
+    }
+  ],
+  "blocks": [
+    { "type": "@app" },
+    { "type": "vendor", "name": "Artista", "limit": 1 },
+    { "type": "title", "name": "Título", "limit": 1 },
+    { "type": "price", "name": "Precio", "limit": 1 },
+    { "type": "description", "name": "Descripción", "limit": 1 },
+    {
+      "type": "buy_buttons", "name": "Opciones y compra", "limit": 1,
+      "settings": [
+        { "type": "checkbox", "id": "show_dynamic_checkout", "label": "Mostrar botón de pago rápido", "default": false }
+      ]
+    },
+    {
+      "type": "notes", "name": "Notas breves", "limit": 1,
+      "settings": [
+        { "type": "text", "id": "note_1", "label": "Nota 1", "default": "Impreso por encargo en 3–5 días laborables" },
+        { "type": "text", "id": "note_2", "label": "Nota 2", "default": "Marco no incluido salvo que lo elijas" },
+        { "type": "text", "id": "note_3", "label": "Nota 3", "default": "Devolución gratuita durante 30 días" }
+      ]
+    },
+    {
+      "type": "collapsible", "name": "Desplegable",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Título", "default": "Detalles de impresión" },
+        { "type": "richtext", "id": "content", "label": "Contenido", "default": "<p>Papel fine art mate de alto gramaje. Tintas pigmentadas. Margen blanco de 1 cm para facilitar el enmarcado.</p>" },
+        { "type": "page", "id": "page", "label": "Contenido desde una página" },
+        { "type": "checkbox", "id": "open", "label": "Abierto por defecto", "default": false }
+      ]
+    }
+  ]
+}
+{% endschema %}

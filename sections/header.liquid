@@ -1,0 +1,74 @@
+{%- assign menu = linklists[section.settings.menu] -%}
+
+<div class="header-wrapper">
+  <header class="header page-width">
+    <div class="header__menu-toggle">
+      <details class="mobile-menu">
+        <summary aria-label="Menú">{% render 'icon', name: 'menu' %}</summary>
+        <div class="mobile-menu__panel">
+          <ul>
+            {%- for link in menu.links -%}
+              <li>
+                <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a>
+                {%- if link.links.size > 0 -%}
+                  <ul class="submenu">
+                    {%- for child in link.links -%}
+                      <li><a href="{{ child.url }}">{{ child.title }}</a></li>
+                    {%- endfor -%}
+                  </ul>
+                {%- endif -%}
+              </li>
+            {%- endfor -%}
+            <li><a href="{{ routes.search_url }}">Buscar</a></li>
+            {%- if shop.customer_accounts_enabled -%}
+              <li><a href="{{ routes.account_url }}">Cuenta</a></li>
+            {%- endif -%}
+          </ul>
+        </div>
+      </details>
+    </div>
+
+    <nav class="header__nav" aria-label="Principal">
+      <ul>
+        {%- for link in menu.links -%}
+          <li><a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a></li>
+        {%- endfor -%}
+      </ul>
+    </nav>
+
+    <div class="header__logo">
+      <a href="{{ routes.root_url }}">
+        {%- if section.settings.logo != blank -%}
+          {%- assign logo_style = 'width:' | append: section.settings.logo_width | append: 'px;height:auto;' -%}
+          {{ section.settings.logo | image_url: width: 600 | image_tag: style: logo_style, alt: shop.name }}
+        {%- else -%}
+          {{ shop.name | strip }}
+        {%- endif -%}
+      </a>
+    </div>
+
+    <div class="header__icons">
+      <a href="{{ routes.search_url }}" class="hide-mobile" aria-label="Buscar">{% render 'icon', name: 'search' %}</a>
+      {%- if shop.customer_accounts_enabled -%}
+        <a href="{{ routes.account_url }}" class="hide-mobile" aria-label="Cuenta">{% render 'icon', name: 'account' %}</a>
+      {%- endif -%}
+      <a href="{{ routes.cart_url }}" aria-label="Carrito, {{ cart.item_count }} artículos" style="display:inline-flex;align-items:center;">
+        {% render 'icon', name: 'bag' %}
+        {%- if cart.item_count > 0 -%}<span class="cart-count">{{ cart.item_count }}</span>{%- endif -%}
+      </a>
+    </div>
+  </header>
+</div>
+
+{% schema %}
+{
+  "name": "Cabecera",
+  "class": "header-section",
+  "enabled_on": { "groups": ["header"] },
+  "settings": [
+    { "type": "image_picker", "id": "logo", "label": "Logo", "info": "Si lo dejas vacío se muestra el nombre de la tienda." },
+    { "type": "range", "id": "logo_width", "label": "Ancho del logo", "min": 60, "max": 300, "step": 10, "unit": "px", "default": 140 },
+    { "type": "link_list", "id": "menu", "label": "Menú", "default": "main-menu" }
+  ]
+}
+{% endschema %}

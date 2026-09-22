@@ -1,0 +1,91 @@
+{%- assign s = section.settings -%}
+
+<section class="section{% if s.border_top %} section--border-top{% endif %}">
+  <div class="page-width">
+    {%- if s.heading != blank or s.eyebrow != blank -%}
+      <div class="section-header">
+        <div>
+          {%- if s.eyebrow != blank -%}<span class="eyebrow">{{ s.eyebrow }}</span>{%- endif -%}
+          {%- if s.heading != blank -%}<h2>{{ s.heading }}</h2>{%- endif -%}
+        </div>
+        {%- if s.show_view_all -%}
+          <a class="link-underline" href="{{ routes.collections_url }}">Todas las secciones</a>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if s.style == 'index' -%}
+      <ul class="section-index">
+        {%- for block in section.blocks -%}
+          {%- assign c = block.settings.collection -%}
+          <li {{ block.shopify_attributes }}>
+            <a href="{{ c.url | default: '#' }}">
+              <span class="section-index__num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+              <span class="section-index__title">{{ block.settings.title | default: c.title | default: 'Sección' }}</span>
+              <span class="section-index__count">{% if c != blank %}{{ c.products_count }} obras{% endif %}</span>
+            </a>
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- else -%}
+      <div class="collection-grid{% if s.grayscale %} collection-grid--grayscale{% endif %}" style="--cols: {{ s.columns }}">
+        {%- for block in section.blocks -%}
+          {%- assign c = block.settings.collection -%}
+          {%- assign img = block.settings.image | default: c.featured_image -%}
+          <a class="collection-tile" href="{{ c.url | default: '#' }}" {{ block.shopify_attributes }}>
+            <div class="collection-tile__media">
+              {%- if img != blank -%}
+                {{ img | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '400, 600, 900, 1200', sizes: '(min-width: 900px) 33vw, 50vw' }}
+              {%- else -%}
+                {%- assign ph = forloop.index0 | modulo: 6 | plus: 1 -%}
+                {{ 'collection-' | append: ph | placeholder_svg_tag }}
+              {%- endif -%}
+            </div>
+            <div class="collection-tile__info">
+              <span class="collection-tile__title">{{ block.settings.title | default: c.title | default: 'Sección' }}</span>
+              {%- if c != blank -%}<span class="collection-tile__count">{{ c.products_count }}</span>{%- endif -%}
+            </div>
+          </a>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Secciones (colecciones)",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "Explorar" },
+    { "type": "text", "id": "heading", "label": "Título", "default": "Secciones" },
+    {
+      "type": "select", "id": "style", "label": "Estilo", "default": "grid",
+      "options": [
+        { "value": "grid", "label": "Cuadrícula con imágenes" },
+        { "value": "index", "label": "Índice tipográfico" }
+      ]
+    },
+    { "type": "range", "id": "columns", "label": "Columnas (cuadrícula)", "min": 2, "max": 5, "step": 1, "default": 3 },
+    { "type": "checkbox", "id": "grayscale", "label": "Imágenes en blanco y negro", "default": true },
+    { "type": "checkbox", "id": "show_view_all", "label": "Mostrar enlace \"Todas las secciones\"", "default": true },
+    { "type": "checkbox", "id": "border_top", "label": "Línea superior", "default": false }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Colección",
+      "settings": [
+        { "type": "collection", "id": "collection", "label": "Colección" },
+        { "type": "text", "id": "title", "label": "Título personalizado" },
+        { "type": "image_picker", "id": "image", "label": "Imagen personalizada" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Secciones (colecciones)",
+      "blocks": [{ "type": "collection" }, { "type": "collection" }, { "type": "collection" }]
+    }
+  ]
+}
+{% endschema %}

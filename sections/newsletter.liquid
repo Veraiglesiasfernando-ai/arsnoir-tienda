@@ -1,0 +1,30 @@
+{%- assign s = section.settings -%}
+<section class="section section--border-top">
+  <div class="page-width">
+    <div class="newsletter">
+      {%- if s.heading != blank -%}<h2>{{ s.heading }}</h2>{%- endif -%}
+      {%- if s.text != blank -%}<div class="rte muted">{{ s.text }}</div>{%- endif -%}
+      {%- form 'customer', class: 'newsletter__form' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        {%- if form.posted_successfully? -%}
+          <p class="form-message" style="width:100%">Gracias. Te escribiremos solo cuando haya algo que merezca la pena.</p>
+        {%- else -%}
+          <label class="visually-hidden" for="Newsletter-{{ section.id }}">Email</label>
+          <input class="field" id="Newsletter-{{ section.id }}" type="email" name="contact[email]" placeholder="Tu email" autocomplete="email" required>
+          <button class="button" type="submit">Suscribirme</button>
+        {%- endif -%}
+      {%- endform -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Newsletter",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Título", "default": "Nuevas obras, primero." },
+    { "type": "richtext", "id": "text", "label": "Texto", "default": "<p>Un email cuando lancemos una colección. Nada más.</p>" }
+  ],
+  "presets": [{ "name": "Newsletter" }]
+}
+{% endschema %}

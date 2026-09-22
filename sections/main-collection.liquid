@@ -1,0 +1,86 @@
+{%- assign nav_menu = linklists[section.settings.sections_menu] -%}
+
+<section class="page-width">
+  <div class="collection-hero">
+    <span class="eyebrow">{% if collection.handle == 'all' %}Tienda{% else %}Sección{% endif %}</span>
+    <h1>{{ collection.title }}</h1>
+    {%- if collection.description != blank -%}
+      <div class="collection-hero__desc rte">{{ collection.description }}</div>
+    {%- endif -%}
+  </div>
+
+  {%- if section.settings.show_nav -%}
+    <nav class="collection-nav" aria-label="Secciones">
+      <a href="{{ routes.all_products_collection_url }}"{% if collection.handle == 'all' %} aria-current="page"{% endif %}>Todo</a>
+      {%- if nav_menu.links.size > 0 -%}
+        {%- for link in nav_menu.links -%}
+          <a href="{{ link.url }}"{% if link.url == collection.url %} aria-current="page"{% endif %}>{{ link.title }}</a>
+        {%- endfor -%}
+      {%- else -%}
+        {%- for c in collections -%}
+          {%- if c.handle == 'frontpage' or c.handle == 'all' or c.products_count == 0 -%}{%- continue -%}{%- endif -%}
+          <a href="{{ c.url }}"{% if c.handle == collection.handle %} aria-current="page"{% endif %}>{{ c.title }}</a>
+        {%- endfor -%}
+      {%- endif -%}
+    </nav>
+  {%- endif -%}
+
+  {%- paginate collection.products by section.settings.per_page -%}
+    <div class="toolbar">
+      <span class="muted">{{ collection.products_count }} {% if collection.products_count == 1 %}obra{% else %}obras{% endif %}</span>
+      <form method="get">
+        <label for="SortBy" class="visually-hidden">Ordenar por</label>
+        {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+        <select id="SortBy" name="sort_by" data-autosubmit>
+          {%- for option in collection.sort_options -%}
+            <option value="{{ option.value | escape }}"{% if option.value == sort_by %} selected{% endif %}>{{ option.name | escape }}</option>
+          {%- endfor -%}
+        </select>
+      </form>
+    </div>
+
+    {%- if collection.products.size > 0 -%}
+      <ul class="product-grid" style="--cols: {{ section.settings.columns }}">
+        {%- for product in collection.products -%}
+          {%- assign lazy = true -%}{%- if forloop.index <= 4 -%}{%- assign lazy = false -%}{%- endif -%}
+          <li>{% render 'product-card', product: product, lazy: lazy %}</li>
+        {%- endfor -%}
+      </ul>
+    {%- else -%}
+      <div class="empty-state">
+        <p>Esta sección todavía no tiene obras.</p>
+        <a class="link-underline" href="{{ routes.all_products_collection_url }}">Ver todas las obras</a>
+      </div>
+    {%- endif -%}
+
+    {%- if paginate.pages > 1 -%}
+      <nav class="pagination section" aria-label="Paginación">
+        {%- if paginate.previous -%}<a href="{{ paginate.previous.url }}">&larr; Anterior</a>{%- endif -%}
+        {%- for part in paginate.parts -%}
+          {%- if part.is_link -%}
+            <a href="{{ part.url }}">{{ part.title }}</a>
+          {%- elsif part.title == paginate.current_page -%}
+            <span class="current" aria-current="page">{{ part.title }}</span>
+          {%- else -%}
+            <span>{{ part.title }}</span>
+          {%- endif -%}
+        {%- endfor -%}
+        {%- if paginate.next -%}<a href="{{ paginate.next.url }}">Siguiente &rarr;</a>{%- endif -%}
+      </nav>
+    {%- else -%}
+      <div style="height:clamp(48px,8vw,112px)"></div>
+    {%- endif -%}
+  {%- endpaginate -%}
+</section>
+
+{% schema %}
+{
+  "name": "Colección",
+  "settings": [
+    { "type": "range", "id": "per_page", "label": "Obras por página", "min": 8, "max": 48, "step": 4, "default": 24 },
+    { "type": "range", "id": "columns", "label": "Columnas en escritorio", "min": 2, "max": 5, "step": 1, "default": 4 },
+    { "type": "checkbox", "id": "show_nav", "label": "Mostrar navegación entre secciones", "default": true },
+    { "type": "link_list", "id": "sections_menu", "label": "Menú de secciones", "info": "Opcional. Si lo dejas vacío se listan todas las colecciones con obras." }
+  ]
+}
+{% endschema %}
