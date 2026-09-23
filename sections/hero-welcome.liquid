@@ -28,23 +28,25 @@
             assign loading = 'eager'
           endif
         -%}
-        <a href="{{ url }}" class="drop-card drop-card--{{ b.tone }}{% if b.featured %} drop-card--featured{% endif %}" {{ block.shopify_attributes }}>
-          <div class="drop-card__media">
-            {%- if img != blank -%}
-              {{ img | image_url: width: 1200 | image_tag: loading: loading, widths: '400, 600, 900, 1200', sizes: '(min-width: 900px) 32vw, 78vw', alt: title }}
-            {%- else -%}
-              <div class="drop-card__ph" aria-hidden="true"></div>
-            {%- endif -%}
+        <a href="{{ url }}" class="poster poster--{{ b.tone }}{% if b.featured %} poster--featured{% endif %}" {{ block.shopify_attributes }}>
+          <div class="poster__frame">
+            <div class="poster__media">
+              {%- if img != blank -%}
+                {{ img | image_url: width: 1200 | image_tag: loading: loading, widths: '400, 600, 900, 1200', sizes: '(min-width: 900px) 32vw, 78vw', alt: title }}
+              {%- else -%}
+                <div class="poster__ph" aria-hidden="true"></div>
+              {%- endif -%}
+            </div>
+            {%- if b.tag != blank -%}<span class="poster__tag">{{ b.tag }}</span>{%- endif -%}
           </div>
-          {%- if b.tag != blank -%}<span class="drop-card__tag">{{ b.tag }}</span>{%- endif -%}
-          <span class="drop-card__pill">
-            <span class="drop-card__meta">
-              <span class="drop-card__title">{{ title }}</span>
-              <span class="drop-card__price">
+          <span class="poster__info">
+            <span class="poster__meta">
+              <span class="poster__title">{{ title }}</span>
+              <span class="poster__price">
                 {%- if p != blank -%}{% render 'price', product: p, show_from: true %}{%- else -%}{{ b.placeholder_price }}{%- endif -%}
               </span>
             </span>
-            <span class="drop-card__plus" aria-hidden="true">+</span>
+            <span class="poster__plus" aria-hidden="true">+</span>
           </span>
         </a>
       {%- endfor -%}
