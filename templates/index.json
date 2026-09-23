@@ -56,7 +56,7 @@
         "t2": {
           "type": "item",
           "settings": {
-            "text": "Impreso con Gelato"
+            "text": "Impresión de alta calidad"
           }
         },
         "t3": {
@@ -197,8 +197,8 @@
           "type": "item",
           "settings": {
             "icon": "print",
-            "title": "Impreso con Gelato",
-            "text": "Impresión profesional bajo demanda, con papeles y tintas de alta calidad."
+            "title": "Impresión de alta calidad",
+            "text": "Cada obra se imprime bajo demanda para ti, con papeles y tintas profesionales."
           }
         },
         "g4": {
@@ -234,7 +234,7 @@
           "type": "question",
           "settings": {
             "question": "¿Cuánto tarda el envío?",
-            "answer": "<p>Cada obra se imprime bajo demanda con Gelato cuando haces el pedido y se envía a toda España con seguimiento. Verás el plazo estimado antes de pagar.</p>"
+            "answer": "<p>Cada obra se imprime bajo demanda cuando haces el pedido y se envía a toda España con seguimiento. Verás el plazo estimado antes de pagar.</p>"
           }
         },
         "q3": {

@@ -1,25 +1,53 @@
-<section class="page-width section">
-  <div class="page-content">
-    <h1>{{ page.title }}</h1>
-    {%- if page.content != blank -%}<div class="rte muted" style="margin-bottom:2rem">{{ page.content }}</div>{%- endif -%}
+<section class="page-width">
+  {% render 'page-head', eyebrow: section.settings.eyebrow, title: page.title, subtitle: page.content, crumbs: true %}
 
-    {%- form 'contact', class: 'form-grid' -%}
+  <div class="contact reveal">
+    {%- form 'contact', class: 'contact__form' -%}
       {%- if form.posted_successfully? -%}
-        <p class="form-message">Gracias por escribirnos. Te responderemos lo antes posible.</p>
+        <p class="contact__ok">Gracias por escribirnos. Te responderemos lo antes posible.</p>
       {%- elsif form.errors -%}
-        <div class="form-message">{{ form.errors | default_errors }}</div>
+        <div class="contact__error">{{ form.errors | default_errors }}</div>
       {%- endif -%}
-      <label class="visually-hidden" for="ContactName">Nombre</label>
-      <input class="field" id="ContactName" type="text" name="contact[name]" placeholder="Nombre" autocomplete="name" value="{{ form.name }}">
-      <label class="visually-hidden" for="ContactEmail">Email</label>
-      <input class="field" id="ContactEmail" type="email" name="contact[email]" placeholder="Email" autocomplete="email" required value="{{ form.email }}">
-      <label class="visually-hidden" for="ContactBody">Mensaje</label>
-      <textarea class="field" id="ContactBody" name="contact[body]" placeholder="Mensaje" rows="6">{{ form.body }}</textarea>
-      <div><button class="button" type="submit">Enviar</button></div>
+      <div class="contact__row">
+        <label class="field-float">
+          <span>Nombre</span>
+          <input type="text" name="contact[name]" autocomplete="name" value="{{ form.name }}">
+        </label>
+        <label class="field-float">
+          <span>Email</span>
+          <input type="email" name="contact[email]" autocomplete="email" required value="{{ form.email }}">
+        </label>
+      </div>
+      <label class="field-float">
+        <span>Nº de pedido (opcional)</span>
+        <input type="text" name="contact[pedido]" value="{{ form.pedido }}">
+      </label>
+      <label class="field-float">
+        <span>Mensaje</span>
+        <textarea name="contact[body]" rows="6" required>{{ form.body }}</textarea>
+      </label>
+      <button class="button button--accent" type="submit">Enviar mensaje</button>
     {%- endform -%}
+
+    <aside class="contact__aside">
+      <p class="contact__aside-title">Antes de escribir</p>
+      <ul>
+        <li><a href="/pages/preguntas-frecuentes">Preguntas frecuentes &rarr;</a></li>
+        <li><a href="/pages/envios-y-devoluciones">Envíos y devoluciones &rarr;</a></li>
+        <li><a href="/pages/guia-de-tamanos">Guía de tamaños &rarr;</a></li>
+      </ul>
+      {%- if shop.email != blank -%}
+        <p class="contact__mail">O escríbenos a <a href="mailto:{{ shop.email }}">{{ shop.email }}</a></p>
+      {%- endif -%}
+    </aside>
   </div>
 </section>
 
 {% schema %}
-{ "name": "Formulario de contacto", "settings": [] }
+{
+  "name": "Formulario de contacto",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Texto pequeño (rojo)", "default": "CONTACTO" }
+  ]
+}
 {% endschema %}

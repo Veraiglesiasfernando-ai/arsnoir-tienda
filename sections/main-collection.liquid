@@ -1,61 +1,118 @@
-{%- assign nav_menu = linklists[section.settings.sections_menu] -%}
+{%- liquid
+  assign s = section.settings
+  assign nav_menu = linklists[s.sections_menu]
+  assign title = collection.title
+  if collection.handle == 'all'
+    assign title = s.all_title
+  endif
+-%}
 
-<section class="page-width">
-  <div class="collection-hero">
-    <span class="eyebrow">{% if collection.handle == 'all' %}Tienda{% else %}Sección{% endif %}</span>
-    <h1>{{ collection.title }}</h1>
-    {%- if collection.description != blank -%}
-      <div class="collection-hero__desc rte">{{ collection.description }}</div>
-    {%- endif -%}
-  </div>
+<section class="page-width collection-page">
+  {% render 'page-head', eyebrow: s.eyebrow, title: title, subtitle: collection.description, crumbs: true %}
 
-  {%- if section.settings.show_nav -%}
-    <nav class="collection-nav" aria-label="Secciones">
-      <a href="{{ routes.all_products_collection_url }}"{% if collection.handle == 'all' %} aria-current="page"{% endif %}>Todo</a>
+  {%- if s.show_nav -%}
+    <nav class="collection-nav reveal" aria-label="Colecciones">
+      <a href="{{ routes.all_products_collection_url }}"{% if collection.handle == 'all' %} aria-current="page"{% endif %}>Todas</a>
       {%- if nav_menu.links.size > 0 -%}
         {%- for link in nav_menu.links -%}
           <a href="{{ link.url }}"{% if link.url == collection.url %} aria-current="page"{% endif %}>{{ link.title }}</a>
         {%- endfor -%}
       {%- else -%}
         {%- for c in collections -%}
-          {%- if c.handle == 'frontpage' or c.handle == 'all' or c.products_count == 0 -%}{%- continue -%}{%- endif -%}
+          {%- if c.handle == 'frontpage' or c.handle == 'all' or c.handle == 'mas-vendidos' or c.products_count == 0 -%}{%- continue -%}{%- endif -%}
           <a href="{{ c.url }}"{% if c.handle == collection.handle %} aria-current="page"{% endif %}>{{ c.title }}</a>
         {%- endfor -%}
       {%- endif -%}
     </nav>
   {%- endif -%}
 
-  {%- paginate collection.products by section.settings.per_page -%}
-    <div class="toolbar">
-      <span class="muted">{{ collection.products_count }} {% if collection.products_count == 1 %}obra{% else %}obras{% endif %}</span>
-      <form method="get">
-        <label for="SortBy" class="visually-hidden">Ordenar por</label>
+  {%- paginate collection.products by s.per_page -%}
+    <form class="toolbar reveal" method="get" data-filter-form>
+      <span class="toolbar__count">{{ collection.products_count }} {% if collection.products_count == 1 %}obra{% else %}obras{% endif %}</span>
+
+      <div class="toolbar__controls">
+        {%- for filter in collection.filters -%}
+          <details class="filter">
+            <summary>
+              {{ filter.label }}
+              {%- if filter.active_values.size > 0 -%}<span class="filter__count">{{ filter.active_values.size }}</span>{%- endif -%}
+            </summary>
+            <div class="filter__panel">
+              {%- case filter.type -%}
+                {%- when 'price_range' -%}
+                  <div class="filter__price">
+                    <label>Desde <input type="number" name="{{ filter.min_value.param_name }}" value="{{ filter.min_value.value | divided_by: 100 }}" placeholder="0" min="0"></label>
+                    <label>Hasta <input type="number" name="{{ filter.max_value.param_name }}" value="{{ filter.max_value.value | divided_by: 100 }}" placeholder="{{ filter.range_max | divided_by: 100 }}" min="0"></label>
+                  </div>
+                {%- else -%}
+                  {%- for value in filter.values -%}
+                    <label class="filter__option{% if value.count == 0 and value.active == false %} is-disabled{% endif %}">
+                      <input type="checkbox" name="{{ value.param_name }}" value="{{ value.value }}"{% if value.active %} checked{% endif %}{% if value.count == 0 and value.active == false %} disabled{% endif %}>
+                      <span>{{ value.label }}</span>
+                      <span class="filter__n">{{ value.count }}</span>
+                    </label>
+                  {%- endfor -%}
+              {%- endcase -%}
+            </div>
+          </details>
+        {%- endfor -%}
+
         {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
-        <select id="SortBy" name="sort_by" data-autosubmit>
+        <label class="visually-hidden" for="SortBy">Ordenar por</label>
+        <select id="SortBy" class="toolbar__sort" name="sort_by">
           {%- for option in collection.sort_options -%}
             <option value="{{ option.value | escape }}"{% if option.value == sort_by %} selected{% endif %}>{{ option.name | escape }}</option>
           {%- endfor -%}
         </select>
-      </form>
-    </div>
+      </div>
+    </form>
+
+    {%- assign active_count = 0 -%}
+    {%- for filter in collection.filters -%}{%- assign active_count = active_count | plus: filter.active_values.size -%}{%- endfor -%}
+    {%- if active_count > 0 -%}
+      <div class="active-filters">
+        {%- for filter in collection.filters -%}
+          {%- for value in filter.active_values -%}
+            <a href="{{ value.url_to_remove }}" class="active-filters__pill">{{ value.label }} &times;</a>
+          {%- endfor -%}
+          {%- if filter.type == 'price_range' -%}
+            {%- if filter.min_value.value != nil or filter.max_value.value != nil -%}
+              <a href="{{ filter.url_to_remove }}" class="active-filters__pill">Precio &times;</a>
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+        <a href="{{ collection.url }}?sort_by={{ sort_by }}" class="active-filters__clear">Quitar filtros</a>
+      </div>
+    {%- endif -%}
 
     {%- if collection.products.size > 0 -%}
-      <ul class="product-grid" style="--cols: {{ section.settings.columns }}">
+      <ul class="product-grid collection-grid-art" style="--cols: {{ s.columns }}">
         {%- for product in collection.products -%}
-          {%- assign lazy = true -%}{%- if forloop.index <= 4 -%}{%- assign lazy = false -%}{%- endif -%}
-          <li>{% render 'product-card', product: product, lazy: lazy, index: forloop.index %}</li>
+          {%- liquid
+            assign lazy = true
+            if forloop.index <= 4
+              assign lazy = false
+            endif
+            assign idx = paginate.current_offset | plus: forloop.index
+          -%}
+          <li class="reveal">{% render 'product-card', product: product, lazy: lazy, index: idx %}</li>
         {%- endfor -%}
       </ul>
+    {%- elsif request.design_mode -%}
+      <ul class="product-grid collection-grid-art" style="--cols: {{ s.columns }}">
+        {%- for i in (1..8) -%}<li>{% render 'product-card', product: blank, index: i %}</li>{%- endfor -%}
+      </ul>
     {%- else -%}
-      <div class="empty-state">
-        <p>Esta sección todavía no tiene obras.</p>
-        <a class="link-underline" href="{{ routes.all_products_collection_url }}">Ver todas las obras</a>
+      <div class="empty-note reveal">
+        <p class="empty-note__title">{% if active_count > 0 %}Ninguna obra coincide con estos filtros.{% else %}Muy pronto, nuevas obras aquí.{% endif %}</p>
+        <p class="empty-note__text">{% if active_count > 0 %}Prueba a quitar alguno.{% else %}Únete a ARSNOIR y te avisamos el primero.{% endif %}</p>
+        <a class="button" href="{% if active_count > 0 %}{{ collection.url }}{% else %}{{ routes.root_url }}#Join{% endif %}">{% if active_count > 0 %}Quitar filtros{% else %}Avisarme{% endif %}</a>
       </div>
     {%- endif -%}
 
     {%- if paginate.pages > 1 -%}
-      <nav class="pagination section" aria-label="Paginación">
-        {%- if paginate.previous -%}<a href="{{ paginate.previous.url }}">&larr; Anterior</a>{%- endif -%}
+      <nav class="pagination" aria-label="Paginación">
+        {%- if paginate.previous -%}<a class="round-btn" href="{{ paginate.previous.url }}" aria-label="Anterior">&larr;</a>{%- endif -%}
         {%- for part in paginate.parts -%}
           {%- if part.is_link -%}
             <a href="{{ part.url }}">{{ part.title }}</a>
@@ -65,10 +122,8 @@
             <span>{{ part.title }}</span>
           {%- endif -%}
         {%- endfor -%}
-        {%- if paginate.next -%}<a href="{{ paginate.next.url }}">Siguiente &rarr;</a>{%- endif -%}
+        {%- if paginate.next -%}<a class="round-btn" href="{{ paginate.next.url }}" aria-label="Siguiente">&rarr;</a>{%- endif -%}
       </nav>
-    {%- else -%}
-      <div style="height:clamp(48px,8vw,112px)"></div>
     {%- endif -%}
   {%- endpaginate -%}
 </section>
@@ -77,10 +132,12 @@
 {
   "name": "Colección",
   "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Texto pequeño (rojo)", "default": "OBRAS" },
+    { "type": "text", "id": "all_title", "label": "Título de «todas las obras»", "default": "Todas las obras" },
     { "type": "range", "id": "per_page", "label": "Obras por página", "min": 8, "max": 48, "step": 4, "default": 24 },
     { "type": "range", "id": "columns", "label": "Columnas en escritorio", "min": 2, "max": 5, "step": 1, "default": 4 },
-    { "type": "checkbox", "id": "show_nav", "label": "Mostrar navegación entre secciones", "default": true },
-    { "type": "link_list", "id": "sections_menu", "label": "Menú de secciones", "info": "Opcional. Si lo dejas vacío se listan todas las colecciones con obras." }
+    { "type": "checkbox", "id": "show_nav", "label": "Mostrar navegación entre colecciones", "default": true },
+    { "type": "link_list", "id": "sections_menu", "label": "Menú de colecciones", "info": "Opcional. Si lo dejas vacío se listan las colecciones con obras." }
   ]
 }
 {% endschema %}

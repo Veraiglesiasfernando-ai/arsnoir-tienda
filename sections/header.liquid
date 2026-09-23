@@ -2,6 +2,7 @@
   assign s = section.settings
   assign link_1_url = s.link_1_url | default: routes.all_products_collection_url
   assign link_2_url = s.link_2_url | default: '/pages/manifiesto'
+  assign mobile_menu = linklists[s.mobile_menu]
 -%}
 
 <div class="glass-header-wrap">
@@ -11,8 +12,14 @@
         <summary aria-label="Menú">{% render 'icon', name: 'menu' %}</summary>
         <div class="mobile-menu__panel">
           <ul>
-            {%- if s.link_1_label != blank -%}<li><a href="{{ link_1_url }}">{{ s.link_1_label }}</a></li>{%- endif -%}
-            {%- if s.link_2_label != blank -%}<li><a href="{{ link_2_url }}">{{ s.link_2_label }}</a></li>{%- endif -%}
+            {%- if mobile_menu.links.size > 0 -%}
+              {%- for link in mobile_menu.links -%}
+                <li><a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a></li>
+              {%- endfor -%}
+            {%- else -%}
+              {%- if s.link_1_label != blank -%}<li><a href="{{ link_1_url }}">{{ s.link_1_label }}</a></li>{%- endif -%}
+              {%- if s.link_2_label != blank -%}<li><a href="{{ link_2_url }}">{{ s.link_2_label }}</a></li>{%- endif -%}
+            {%- endif -%}
             <li><a href="{{ routes.search_url }}">Buscar</a></li>
           </ul>
         </div>
@@ -55,7 +62,8 @@
     { "type": "text", "id": "link_1_label", "label": "Enlace 1", "default": "OBRAS" },
     { "type": "url", "id": "link_1_url", "label": "Destino enlace 1" },
     { "type": "text", "id": "link_2_label", "label": "Enlace 2", "default": "MANIFIESTO" },
-    { "type": "url", "id": "link_2_url", "label": "Destino enlace 2" }
+    { "type": "url", "id": "link_2_url", "label": "Destino enlace 2" },
+    { "type": "link_list", "id": "mobile_menu", "label": "Menú del móvil", "default": "main-menu", "info": "Lista completa de enlaces que se ve al abrir el menú en el móvil." }
   ]
 }
 {% endschema %}

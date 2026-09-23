@@ -3,12 +3,28 @@
     "main": {
       "type": "main-story",
       "settings": {
-        "eyebrow": "arsnoir",
-        "signature": "— Vera, fundador de arsnoir",
+        "style": "story",
+        "eyebrow": "LA HISTORIA",
+        "subtitle": "Por qué existe ARSNOIR.",
+        "signature": "— Vera, fundador de ARSNOIR",
         "button_label": "Ver las obras",
-        "button_link": "shopify://collections/all"
+        "button_link": "shopify://collections/all",
+        "link_label": "Leer el manifiesto",
+        "link_url": "/pages/manifiesto"
+      }
+    },
+    "featured": {
+      "type": "featured-slider",
+      "settings": {
+        "eyebrow": "LO MÁS PEDIDO",
+        "heading": "Empieza por aquí",
+        "subtitle": "Piezas originales que solo encontrarás aquí.",
+        "collection": "mas-vendidos",
+        "limit": 8,
+        "button_label": "VER TODAS",
+        "placeholder_price": "39,95 €"
       }
     }
   },
-  "order": ["main"]
+  "order": ["main", "featured"]
 }

@@ -36,6 +36,7 @@
     </div>
 
     <div class="product__info">
+      {% render 'breadcrumbs' %}
       {%- for block in section.blocks -%}
         {%- case block.type -%}
           {%- when 'vendor' -%}
@@ -105,7 +106,7 @@
                 </variant-picker>
               {%- endunless -%}
 
-              {%- form 'product', product, id: form_id -%}
+              {%- form 'product', product, id: form_id, data-ajax-cart: 'true' -%}
                 <input type="hidden" name="id" value="{{ current_variant.id }}">
                 <div class="product__buy">
                   <div class="qty">
@@ -113,7 +114,7 @@
                     <input type="number" name="quantity" value="1" min="1" aria-label="Cantidad">
                     <button type="button" data-qty="1" aria-label="Más">+</button>
                   </div>
-                  <button type="submit" class="button"
+                  <button type="submit" class="button button--accent"
                     data-add-text="Añadir al carrito"
                     data-sold-out-text="Agotado"
                     data-unavailable-text="No disponible"
@@ -163,6 +164,16 @@
     </div>
   </div>
 </section>
+
+<div class="sticky-buy" data-sticky-buy aria-hidden="true">
+  <div class="sticky-buy__meta">
+    <span class="sticky-buy__title">{{ product.title }}</span>
+    <span class="sticky-buy__price">{% render 'price', product: product, variant: current_variant %}</span>
+  </div>
+  <button type="submit" class="button button--accent" form="{{ form_id }}" tabindex="-1"{% unless current_variant.available %} disabled{% endunless %}>
+    {%- if current_variant.available -%}Añadir{%- else -%}Agotado{%- endif -%}
+  </button>
+</div>
 
 <script type="application/ld+json">
   {
@@ -218,7 +229,7 @@
     {
       "type": "trust", "name": "Garantías", "limit": 1,
       "settings": [
-        { "type": "text", "id": "line_1", "label": "Línea 1", "default": "Impreso con Gelato en alta calidad" },
+        { "type": "text", "id": "line_1", "label": "Línea 1", "default": "Impresión profesional de alta calidad" },
         { "type": "text", "id": "line_2", "label": "Línea 2", "default": "Envío a toda España con seguimiento" },
         { "type": "text", "id": "line_3", "label": "Línea 3", "default": "[DIAS] días para devolver" },
         { "type": "text", "id": "line_4", "label": "Línea 4", "default": "Pago 100% seguro" }

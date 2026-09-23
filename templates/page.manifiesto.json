@@ -1,0 +1,33 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-story",
+      "settings": {
+        "style": "manifesto",
+        "eyebrow": "MANIFIESTO",
+        "subtitle": "Lo que creemos. Lo que nunca haremos.",
+        "button_label": "Ver las obras",
+        "button_link": "shopify://collections/all",
+        "link_label": "Nuestra historia",
+        "link_url": "/pages/la-historia"
+      }
+    },
+    "marquee": {
+      "type": "marquee",
+      "settings": { "text": "ARTE QUE NO VERÁS EN NINGÚN OTRO SITIO · 100% ORIGINAL · SOLO EN ARSNOIR ·", "speed": 35 }
+    },
+    "featured": {
+      "type": "featured-slider",
+      "settings": {
+        "eyebrow": "LAS OBRAS",
+        "heading": "Hechas para remover algo",
+        "subtitle": "Piezas originales que solo encontrarás aquí.",
+        "collection": "mas-vendidos",
+        "limit": 8,
+        "button_label": "VER TODAS",
+        "placeholder_price": "39,95 €"
+      }
+    }
+  },
+  "order": ["main", "marquee", "featured"]
+}

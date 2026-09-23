@@ -1,6 +1,17 @@
 {
   "sections": {
-    "main": { "type": "main-collection", "settings": { "per_page": 24, "columns": 4, "show_nav": true } }
+    "main": { "type": "main-collection", "settings": { "eyebrow": "OBRAS", "all_title": "Todas las obras", "per_page": 24, "columns": 4, "show_nav": true } },
+    "guarantees": {
+      "type": "guarantees",
+      "blocks": {
+        "g1": { "type": "item", "settings": { "icon": "truck", "title": "Envío a toda España", "text": "Gratis en pedidos desde [ENVIO_GRATIS] €. Seguimiento en cada pedido." } },
+        "g2": { "type": "item", "settings": { "icon": "return", "title": "[DIAS] días para devolver", "text": "Si no encaja en tu pared, tienes [DIAS] días para devolverla." } },
+        "g3": { "type": "item", "settings": { "icon": "print", "title": "Impresión de alta calidad", "text": "Cada obra se imprime bajo demanda para ti, con papeles y tintas profesionales." } },
+        "g4": { "type": "item", "settings": { "icon": "lock", "title": "Pago 100% seguro", "text": "Pagos cifrados y protegidos a través de Shopify." } }
+      },
+      "block_order": ["g1", "g2", "g3", "g4"],
+      "settings": { "heading": "Compra con total tranquilidad" }
+    }
   },
-  "order": ["main"]
+  "order": ["main", "guarantees"]
 }

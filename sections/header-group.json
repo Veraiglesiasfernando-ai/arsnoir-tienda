@@ -22,7 +22,7 @@
         "m3": {
           "type": "message",
           "settings": {
-            "text": "Arte 100% original · Impreso con Gelato"
+            "text": "Arte 100% original · Solo en ARSNOIR"
           }
         }
       },
@@ -43,7 +43,8 @@
         "link_1_label": "OBRAS",
         "link_1_url": "shopify://collections/all",
         "link_2_label": "MANIFIESTO",
-        "link_2_url": "/pages/manifiesto"
+        "link_2_url": "/pages/manifiesto",
+        "mobile_menu": "main-menu"
       }
     }
   },

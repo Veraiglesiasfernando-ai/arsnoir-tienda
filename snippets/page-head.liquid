@@ -1,0 +1,10 @@
+{%- comment -%}
+  Shared heading for interior pages, so every page opens the same way as the home.
+  - eyebrow, title, subtitle (strings); crumbs: true to show breadcrumbs
+{%- endcomment -%}
+<header class="page-head reveal">
+  {%- if crumbs -%}{% render 'breadcrumbs' %}{%- endif -%}
+  {%- if eyebrow != blank -%}<p class="eyebrow eyebrow--accent">{{ eyebrow }}</p>{%- endif -%}
+  <h1 class="page-head__title">{{ title }}</h1>
+  {%- if subtitle != blank -%}<div class="page-head__subtitle">{{ subtitle }}</div>{%- endif -%}
+</header>

@@ -1,5 +1,5 @@
 {%- comment -%}
-  Product card: square glass frame with photo-mount corners.
+  Product card: the same 4:5 poster used in the hero, so every listing matches.
   - product: product object (blank renders an empty placeholder)
   - index: position number, shown as [001]
   - lazy: boolean (default true)
@@ -12,25 +12,49 @@
   endif
   assign idx = index | default: 1
   assign idx_label = '00' | append: idx | slice: -3, 3
+  assign tone_i = idx | modulo: 3
+  if tone_i == 1
+    assign tone = 'dark'
+  elsif tone_i == 2
+    assign tone = 'light'
+  else
+    assign tone = 'accent'
+  endif
 -%}
 {%- if product != blank -%}
-  <a href="{{ product.url }}" class="art-card">
-    {% render 'glass-card', image: product.featured_media.preview_image, tone: 'light', loading: load, sizes: '(min-width: 900px) 24vw, 70vw' %}
-    <div class="art-card__info">
-      <span class="art-card__index">[{{ idx_label }}]</span>
-      <h3 class="art-card__title">{{ product.title }}</h3>
-      <span class="art-card__price">
-        {%- unless product.available -%}Agotado{%- else -%}{% render 'price', product: product, show_from: true %}{%- endunless -%}
-      </span>
+  <a href="{{ product.url }}" class="poster poster--{{ tone }} art-card">
+    <div class="poster__frame">
+      <div class="poster__media">
+        {%- if product.featured_media -%}
+          {{ product.featured_media | image_url: width: 900 | image_tag:
+            loading: load,
+            widths: '300, 450, 600, 900',
+            sizes: '(min-width: 1100px) 24vw, (min-width: 750px) 32vw, 48vw',
+            alt: product.featured_media.alt | default: product.title
+          }}
+        {%- else -%}
+          <div class="poster__ph" aria-hidden="true"></div>
+        {%- endif -%}
+      </div>
+      {%- unless product.available -%}<span class="poster__tag">AGOTADA</span>{%- endunless -%}
     </div>
+    <span class="poster__info">
+      <span class="poster__meta">
+        <span class="poster__title"><span class="art-card__index">[{{ idx_label }}]</span> {{ product.title }}</span>
+        <span class="poster__price">{% render 'price', product: product, show_from: true %}</span>
+      </span>
+      <span class="poster__plus" aria-hidden="true">+</span>
+    </span>
   </a>
 {%- else -%}
-  <div class="art-card">
-    {% render 'glass-card', tone: 'light' %}
-    <div class="art-card__info">
-      <span class="art-card__index">[{{ idx_label }}]</span>
-      <h3 class="art-card__title">Obra {{ idx_label }}</h3>
-      <span class="art-card__price">{{ placeholder_price | default: '39,95 €' }}</span>
-    </div>
+  <div class="poster poster--{{ tone }} art-card">
+    <div class="poster__frame"><div class="poster__media"><div class="poster__ph" aria-hidden="true"></div></div></div>
+    <span class="poster__info">
+      <span class="poster__meta">
+        <span class="poster__title"><span class="art-card__index">[{{ idx_label }}]</span> Obra {{ idx_label }}</span>
+        <span class="poster__price">{{ placeholder_price | default: '39,95 €' }}</span>
+      </span>
+      <span class="poster__plus" aria-hidden="true">+</span>
+    </span>
   </div>
 {%- endif -%}

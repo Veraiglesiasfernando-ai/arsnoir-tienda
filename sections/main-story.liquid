@@ -1,20 +1,25 @@
-<section class="story">
-  <div class="story__band">
-    <div class="page-width">
-      <span class="eyebrow">{{ section.settings.eyebrow }}</span>
-      <h1 class="story__title">{{ page.title }}</h1>
-    </div>
-  </div>
+{%- assign s = section.settings -%}
+<section class="story story--{{ s.style }}">
   <div class="page-width">
-    <div class="story__body rte">
-      {{ page.content }}
+    {% render 'page-head', eyebrow: s.eyebrow, title: page.title, subtitle: s.subtitle, crumbs: true %}
+
+    <div class="story__card reveal">
+      <div class="story__body rte">
+        {{ page.content }}
+      </div>
+      {%- if s.signature != blank -%}
+        <p class="story__signature">{{ s.signature }}</p>
+      {%- endif -%}
     </div>
-    {%- if section.settings.signature != blank -%}
-      <p class="story__signature">{{ section.settings.signature }}</p>
-    {%- endif -%}
-    {%- if section.settings.button_label != blank -%}
-      <div class="story__cta">
-        <a class="button" href="{{ section.settings.button_link | default: routes.all_products_collection_url }}">{{ section.settings.button_label }}</a>
+
+    {%- if s.button_label != blank or s.link_label != blank -%}
+      <div class="story__cta reveal">
+        {%- if s.button_label != blank -%}
+          <a class="button" href="{{ s.button_link | default: routes.all_products_collection_url }}">{{ s.button_label }}</a>
+        {%- endif -%}
+        {%- if s.link_label != blank -%}
+          <a class="button button--outline" href="{{ s.link_url | default: '/' }}">{{ s.link_label }}</a>
+        {%- endif -%}
       </div>
     {%- endif -%}
   </div>
@@ -22,12 +27,22 @@
 
 {% schema %}
 {
-  "name": "Historia",
+  "name": "Historia / Manifiesto",
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "arsnoir" },
-    { "type": "text", "id": "signature", "label": "Firma", "default": "— arsnoir" },
-    { "type": "text", "id": "button_label", "label": "Texto del botón", "default": "Ver las obras" },
-    { "type": "url", "id": "button_link", "label": "Enlace del botón" }
+    {
+      "type": "select", "id": "style", "label": "Estilo", "default": "story",
+      "options": [
+        { "value": "story", "label": "Historia (texto)" },
+        { "value": "manifesto", "label": "Manifiesto (frases grandes numeradas)" }
+      ]
+    },
+    { "type": "text", "id": "eyebrow", "label": "Texto pequeño (rojo)", "default": "ARSNOIR" },
+    { "type": "text", "id": "subtitle", "label": "Subtítulo" },
+    { "type": "text", "id": "signature", "label": "Firma" },
+    { "type": "text", "id": "button_label", "label": "Botón principal", "default": "Ver las obras" },
+    { "type": "url", "id": "button_link", "label": "Enlace del botón principal" },
+    { "type": "text", "id": "link_label", "label": "Botón secundario" },
+    { "type": "url", "id": "link_url", "label": "Enlace del botón secundario" }
   ]
 }
 {% endschema %}

@@ -1,0 +1,21 @@
+<nav class="crumbs" aria-label="Migas de pan">
+  <a href="{{ routes.root_url }}">Inicio</a>
+  {%- case request.page_type -%}
+    {%- when 'product' -%}
+      <span aria-hidden="true">/</span>
+      {%- if collection -%}<a href="{{ collection.url }}">{{ collection.title }}</a>{%- else -%}<a href="{{ routes.all_products_collection_url }}">Obras</a>{%- endif -%}
+      <span aria-hidden="true">/</span><span aria-current="page">{{ product.title }}</span>
+    {%- when 'collection' -%}
+      <span aria-hidden="true">/</span>
+      {%- if collection.handle != 'all' -%}<a href="{{ routes.collections_url }}">Colecciones</a><span aria-hidden="true">/</span>{%- endif -%}
+      <span aria-current="page">{{ collection.title | default: 'Obras' }}</span>
+    {%- when 'list-collections' -%}
+      <span aria-hidden="true">/</span><span aria-current="page">Colecciones</span>
+    {%- when 'page' -%}
+      <span aria-hidden="true">/</span><span aria-current="page">{{ page.title }}</span>
+    {%- when 'search' -%}
+      <span aria-hidden="true">/</span><span aria-current="page">Buscar</span>
+    {%- when 'cart' -%}
+      <span aria-hidden="true">/</span><span aria-current="page">Carrito</span>
+  {%- endcase -%}
+</nav>

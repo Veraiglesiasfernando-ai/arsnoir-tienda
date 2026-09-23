@@ -124,7 +124,12 @@
         }
         html += '<span>' + formatMoney(variant.price) + '</span>';
         priceEl.innerHTML = html;
+        document.querySelectorAll('.sticky-buy__price').forEach(function (el) { el.innerHTML = html; });
       }
+      document.querySelectorAll('.sticky-buy .button').forEach(function (b) {
+        b.disabled = !variant.available;
+        b.textContent = variant.available ? 'Añadir' : button.dataset.soldOutText;
+      });
 
       const url = new URL(window.location.href);
       url.searchParams.set('variant', variant.id);
@@ -159,6 +164,140 @@
       });
     }
   }
+
+
+  /* Scroll reveal (only when JS runs; content is visible without it) ---- */
+  const revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) { entry.target.classList.add('is-in'); io.unobserve(entry.target); }
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+    revealEls.forEach(function (el) { io.observe(el); });
+  } else {
+    revealEls.forEach(function (el) { el.classList.add('is-in'); });
+  }
+
+  /* Collection filters: submit on change ------------------------------- */
+  document.querySelectorAll('[data-filter-form]').forEach(function (form) {
+    let t;
+    form.addEventListener('change', function (event) {
+      clearTimeout(t);
+      const delay = event.target.type === 'number' ? 700 : 0;
+      t = setTimeout(function () { form.submit(); }, delay);
+    });
+  });
+
+  /* Sticky buy bar on mobile product pages ----------------------------- */
+  const stickyBuy = document.querySelector('[data-sticky-buy]');
+  const buyForm = document.querySelector('form[data-ajax-cart]');
+  if (stickyBuy && buyForm && 'IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      const hidden = !entries[0].isIntersecting && entries[0].boundingClientRect.top < 0;
+      stickyBuy.classList.toggle('is-visible', hidden);
+      stickyBuy.setAttribute('aria-hidden', hidden ? 'false' : 'true');
+    }).observe(buyForm);
+  }
+
+  /* Cart drawer -------------------------------------------------------- */
+  const root = (window.Shopify && Shopify.routes && Shopify.routes.root) || '/';
+  let lastFocus = null;
+
+  function drawer() { return document.querySelector('[data-cart-drawer]'); }
+
+  function openDrawer() {
+    const d = drawer();
+    if (!d) return false;
+    lastFocus = document.activeElement;
+    d.classList.add('is-open');
+    d.setAttribute('aria-hidden', 'false');
+    document.documentElement.classList.add('drawer-open');
+    const panel = d.querySelector('.drawer__panel');
+    if (panel) panel.focus();
+    return true;
+  }
+
+  function closeDrawer() {
+    const d = drawer();
+    if (!d) return;
+    d.classList.remove('is-open');
+    d.setAttribute('aria-hidden', 'true');
+    document.documentElement.classList.remove('drawer-open');
+    if (lastFocus) lastFocus.focus();
+  }
+
+  function updateCount(count) {
+    document.querySelectorAll('.glass-header__cart').forEach(function (link) {
+      let badge = link.querySelector('.cart-count');
+      if (count > 0) {
+        if (!badge) { badge = document.createElement('span'); badge.className = 'cart-count'; link.appendChild(badge); }
+        badge.textContent = count;
+      } else if (badge) {
+        badge.remove();
+      }
+      link.setAttribute('aria-label', 'Carrito, ' + count + ' artículos');
+    });
+  }
+
+  function refreshDrawer() {
+    return fetch(root + '?sections=cart-drawer')
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        const html = new DOMParser().parseFromString(data['cart-drawer'], 'text/html');
+        const fresh = html.querySelector('.drawer__panel');
+        const current = drawer() && drawer().querySelector('.drawer__panel');
+        if (fresh && current) current.innerHTML = fresh.innerHTML;
+        return fetch(root + 'cart.js');
+      })
+      .then(function (r) { return r.json(); })
+      .then(function (cart) { updateCount(cart.item_count); });
+  }
+
+  document.addEventListener('submit', function (event) {
+    const form = event.target.closest('form[data-ajax-cart]');
+    if (!form || !drawer() || !window.fetch) return;
+    event.preventDefault();
+    const buttons = document.querySelectorAll('[form="' + form.id + '"], #' + form.id + ' [type="submit"]');
+    buttons.forEach(function (b) { b.classList.add('is-loading'); });
+    fetch(root + 'cart/add.js', {
+      method: 'POST',
+      headers: { 'Accept': 'application/json' },
+      body: new FormData(form)
+    })
+      .then(function (r) { return r.json().then(function (body) { return { ok: r.ok, body: body }; }); })
+      .then(function (res) {
+        if (!res.ok) { alert(res.body.description || 'No se ha podido añadir al carrito.'); return; }
+        return refreshDrawer().then(openDrawer);
+      })
+      .catch(function () { form.submit(); })
+      .finally(function () { buttons.forEach(function (b) { b.classList.remove('is-loading'); }); });
+  });
+
+  document.addEventListener('click', function (event) {
+    if (event.target.closest('[data-drawer-close]')) { closeDrawer(); return; }
+
+    const cartLink = event.target.closest('.glass-header__cart');
+    if (cartLink && drawer() && document.body.dataset.template !== 'cart') {
+      event.preventDefault();
+      openDrawer();
+      return;
+    }
+
+    const change = event.target.closest('[data-cart-change]');
+    if (change) {
+      change.disabled = true;
+      fetch(root + 'cart/change.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ line: parseInt(change.dataset.line, 10), quantity: parseInt(change.dataset.quantity, 10) })
+      }).then(refreshDrawer);
+    }
+  });
+
+  document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape') closeDrawer();
+  });
 
   if (!customElements.get('variant-picker')) customElements.define('variant-picker', VariantPicker);
 })();

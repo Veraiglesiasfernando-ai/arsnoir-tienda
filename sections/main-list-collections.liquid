@@ -1,33 +1,50 @@
 <section class="page-width">
-  <div class="collection-hero">
-    <span class="eyebrow">Explorar</span>
-    <h1>Secciones</h1>
-  </div>
+  {% render 'page-head', eyebrow: section.settings.eyebrow, title: section.settings.title, subtitle: section.settings.subtitle, crumbs: true %}
 
-  <div class="collection-grid" style="--cols: 3; padding-bottom: clamp(48px, 8vw, 112px)">
+  <div class="collection-list-art">
+    {%- assign n = 0 -%}
     {%- for collection in collections -%}
       {%- if collection.handle == 'frontpage' or collection.handle == 'mas-vendidos' -%}{%- continue -%}{%- endif -%}
-      <a class="collection-tile" href="{{ collection.url }}">
-        <div class="collection-tile__media">
-          {%- assign img = collection.featured_image -%}
-          {%- if img != blank -%}
-            {{ img | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '400, 600, 900, 1200', sizes: '(min-width: 900px) 33vw, 50vw' }}
-          {%- else -%}
-            <div class="tile-ph" aria-hidden="true"><span>{{ collection.title }}</span></div>
-          {%- endif -%}
+      {%- if collection.products_count == 0 and request.design_mode == false -%}{%- continue -%}{%- endif -%}
+      {%- assign n = n | plus: 1 -%}
+      {%- assign tone_i = n | modulo: 3 -%}
+      <a class="poster poster--{% if tone_i == 1 %}dark{% elsif tone_i == 2 %}light{% else %}accent{% endif %} reveal" href="{{ collection.url }}">
+        <div class="poster__frame">
+          <div class="poster__media">
+            {%- assign img = collection.featured_image -%}
+            {%- if img != blank -%}
+              {{ img | image_url: width: 1000 | image_tag: loading: 'lazy', widths: '400, 600, 800, 1000', sizes: '(min-width: 900px) 30vw, 80vw', alt: collection.title }}
+            {%- else -%}
+              <div class="poster__ph" aria-hidden="true"></div>
+            {%- endif -%}
+          </div>
         </div>
-        <div class="collection-tile__info">
-          <span class="collection-tile__title">{{ collection.title }}</span>
-          <span class="collection-tile__count">{{ collection.products_count }}</span>
-        </div>
+        <span class="poster__info">
+          <span class="poster__meta">
+            <span class="poster__title">{{ collection.title }}</span>
+            <span class="poster__price">{{ collection.products_count }} {% if collection.products_count == 1 %}obra{% else %}obras{% endif %}</span>
+          </span>
+          <span class="poster__plus" aria-hidden="true">&rarr;</span>
+        </span>
       </a>
     {%- endfor -%}
   </div>
+
+  {%- if n == 0 -%}
+    <div class="empty-note">
+      <p class="empty-note__title">Las colecciones llegan muy pronto.</p>
+      <a class="button" href="{{ routes.all_products_collection_url }}">Ver todas las obras</a>
+    </div>
+  {%- endif -%}
 </section>
 
 {% schema %}
 {
-  "name": "Lista de secciones",
-  "settings": []
+  "name": "Lista de colecciones",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Texto pequeño (rojo)", "default": "EXPLORAR" },
+    { "type": "text", "id": "title", "label": "Título", "default": "Colecciones" },
+    { "type": "text", "id": "subtitle", "label": "Subtítulo", "default": "Cada colección, un mundo distinto." }
+  ]
 }
 {% endschema %}

@@ -1,33 +1,38 @@
-<section class="page-width section">
-  <h1>Buscar</h1>
-  <form action="{{ routes.search_url }}" method="get" role="search" class="search-form">
+<section class="page-width">
+  {%- capture search_title -%}{% if search.performed %}«{{ search.terms }}»{% else %}Buscar{% endif %}{%- endcapture -%}
+  {%- capture search_sub -%}{% if search.performed %}{{ search.results_count }} resultados{% endif %}{%- endcapture -%}
+  {% render 'page-head', eyebrow: 'BUSCAR', title: search_title, subtitle: search_sub, crumbs: true %}
+
+  <form action="{{ routes.search_url }}" method="get" role="search" class="search-bar reveal">
     <input type="hidden" name="type" value="product">
     <label for="Search" class="visually-hidden">Buscar</label>
-    <input class="field" id="Search" type="search" name="q" value="{{ search.terms | escape }}" placeholder="Buscar obras, artistas…">
+    {% render 'icon', name: 'search' %}
+    <input id="Search" type="search" name="q" value="{{ search.terms | escape }}" placeholder="Busca una obra, un estilo, un color…" autofocus>
     <button class="button" type="submit">Buscar</button>
   </form>
 
   {%- if search.performed -%}
     {%- paginate search.results by 24 -%}
-      <p class="muted">{{ search.results_count }} resultados para «{{ search.terms }}»</p>
       {%- if search.results_count > 0 -%}
-        <ul class="product-grid" style="margin-top:32px">
+        <ul class="product-grid collection-grid-art">
           {%- for item in search.results -%}
-            <li>
-              {%- if item.object_type == 'product' -%}
-                {% render 'product-card', product: item, index: forloop.index %}
-              {%- else -%}
-                <a href="{{ item.url }}" class="card__title">{{ item.title }}</a>
-              {%- endif -%}
-            </li>
+            {%- if item.object_type == 'product' -%}
+              <li class="reveal">{% render 'product-card', product: item, index: forloop.index %}</li>
+            {%- endif -%}
           {%- endfor -%}
         </ul>
+      {%- else -%}
+        <div class="empty-note">
+          <p class="empty-note__title">Nada por aquí con «{{ search.terms }}».</p>
+          <p class="empty-note__text">Prueba con otra palabra o explora todas las obras.</p>
+          <a class="button" href="{{ routes.all_products_collection_url }}">Ver todas las obras</a>
+        </div>
       {%- endif -%}
       {%- if paginate.pages > 1 -%}
         <nav class="pagination">
-          {%- if paginate.previous -%}<a href="{{ paginate.previous.url }}">&larr; Anterior</a>{%- endif -%}
-          <span>{{ paginate.current_page }} / {{ paginate.pages }}</span>
-          {%- if paginate.next -%}<a href="{{ paginate.next.url }}">Siguiente &rarr;</a>{%- endif -%}
+          {%- if paginate.previous -%}<a class="round-btn" href="{{ paginate.previous.url }}" aria-label="Anterior">&larr;</a>{%- endif -%}
+          <span class="current">{{ paginate.current_page }} / {{ paginate.pages }}</span>
+          {%- if paginate.next -%}<a class="round-btn" href="{{ paginate.next.url }}" aria-label="Siguiente">&rarr;</a>{%- endif -%}
         </nav>
       {%- endif -%}
     {%- endpaginate -%}
