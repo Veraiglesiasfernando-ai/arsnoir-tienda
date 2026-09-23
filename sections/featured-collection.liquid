@@ -13,11 +13,11 @@
     <ul class="product-grid" style="--cols: {{ s.columns }}">
       {%- if collection != blank and collection.products_count > 0 -%}
         {%- for product in collection.products limit: s.limit -%}
-          <li>{% render 'product-card', product: product %}</li>
+          <li>{% render 'product-card', product: product, index: forloop.index %}</li>
         {%- endfor -%}
       {%- else -%}
         {%- for i in (1..s.limit) -%}
-          <li>{% render 'product-card', product: blank, placeholder_index: i, placeholder_price: s.placeholder_price %}</li>
+          <li>{% render 'product-card', product: blank, index: i, placeholder_price: s.placeholder_price %}</li>
         {%- endfor -%}
       {%- endif -%}
     </ul>

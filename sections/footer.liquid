@@ -1,41 +1,54 @@
-<footer class="footer">
+{%- liquid
+  assign s = section.settings
+  assign story_page = pages[s.story_page]
+  if s.story_page == blank
+    assign story_page = pages['la-historia']
+  endif
+-%}
+
+<footer class="site-footer">
   <div class="page-width">
-    <div class="footer__grid">
-      <div>
-        <div class="footer__brand">{{ shop.name | strip | downcase }}</div>
-        {%- if section.settings.about != blank -%}
-          <div class="rte muted" style="max-width:36ch">{{ section.settings.about }}</div>
+    <div class="site-footer__top">
+      <div class="site-footer__story">
+        <p class="eyebrow eyebrow--accent">{{ s.story_eyebrow }}</p>
+        <div class="site-footer__story-text rte">
+          {%- if story_page.content != blank -%}
+            {{ story_page.content }}
+          {%- else -%}
+            {{ s.story_fallback }}
+          {%- endif -%}
+        </div>
+        {%- if story_page != blank -%}
+          <a class="site-footer__more" href="{{ story_page.url }}">Leer la historia &rarr;</a>
         {%- endif -%}
       </div>
 
-      {%- for block in section.blocks -%}
-        {%- assign menu = linklists[block.settings.menu] -%}
-        <div {{ block.shopify_attributes }}>
-          <div class="footer__heading">{{ block.settings.heading | default: menu.title }}</div>
-          <ul>
-            {%- for link in menu.links -%}
-              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
-            {%- endfor -%}
-          </ul>
-        </div>
-      {%- endfor -%}
-
-      {%- if settings.social_instagram != blank or settings.social_pinterest != blank or settings.social_tiktok != blank -%}
-        <div>
-          <div class="footer__heading">Síguenos</div>
-          <ul>
-            {%- if settings.social_instagram != blank -%}<li><a href="{{ settings.social_instagram }}" target="_blank" rel="noopener">Instagram</a></li>{%- endif -%}
-            {%- if settings.social_pinterest != blank -%}<li><a href="{{ settings.social_pinterest }}" target="_blank" rel="noopener">Pinterest</a></li>{%- endif -%}
-            {%- if settings.social_tiktok != blank -%}<li><a href="{{ settings.social_tiktok }}" target="_blank" rel="noopener">TikTok</a></li>{%- endif -%}
-          </ul>
-        </div>
-      {%- endif -%}
+      <div class="site-footer__cols">
+        {%- for block in section.blocks -%}
+          {%- assign menu = linklists[block.settings.menu] -%}
+          <div class="site-footer__col" {{ block.shopify_attributes }}>
+            <p class="site-footer__heading">{{ block.settings.heading | default: menu.title }}</p>
+            <ul>
+              {%- for link in menu.links -%}
+                <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endfor -%}
+      </div>
     </div>
 
-    <div class="footer__bottom">
-      <span>&copy; {{ 'now' | date: '%Y' }} {{ shop.name | strip | downcase }}</span>
-      {%- if section.settings.show_payment_icons -%}
-        <ul class="footer__payments" aria-label="Métodos de pago">
+    <div class="site-footer__wordmark" aria-hidden="true">{{ s.wordmark | default: shop.name }}</div>
+
+    <div class="site-footer__bottom">
+      <span>&copy; {{ 'now' | date: '%Y' }} {{ shop.name | strip }}. Todos los derechos reservados.</span>
+      <div class="site-footer__social">
+        {%- if settings.social_instagram != blank -%}<a href="{{ settings.social_instagram }}" target="_blank" rel="noopener">Instagram</a>{%- endif -%}
+        {%- if settings.social_tiktok != blank -%}<a href="{{ settings.social_tiktok }}" target="_blank" rel="noopener">TikTok</a>{%- endif -%}
+        {%- if settings.social_pinterest != blank -%}<a href="{{ settings.social_pinterest }}" target="_blank" rel="noopener">Pinterest</a>{%- endif -%}
+      </div>
+      {%- if s.show_payment_icons -%}
+        <ul class="site-footer__payments" aria-label="Métodos de pago">
           {%- for type in shop.enabled_payment_types -%}
             <li>{{ type | payment_type_svg_tag }}</li>
           {%- endfor -%}
@@ -50,18 +63,21 @@
   "name": "Pie de página",
   "class": "footer-section",
   "enabled_on": { "groups": ["footer"] },
-  "max_blocks": 3,
+  "max_blocks": 5,
   "settings": [
-    { "type": "richtext", "id": "about", "label": "Texto de marca", "default": "<p>Arte de pared original en ediciones limitadas.</p>" },
+    { "type": "text", "id": "story_eyebrow", "label": "Texto pequeño sobre la historia", "default": "LA HISTORIA" },
+    { "type": "page", "id": "story_page", "label": "Página de la historia", "info": "Su texto se muestra arriba del pie. Por defecto: La Historia." },
+    { "type": "richtext", "id": "story_fallback", "label": "Texto alternativo", "default": "<p>Arte de pared original. Solo en ARSNOIR.</p>" },
+    { "type": "text", "id": "wordmark", "label": "Nombre gigante", "default": "ARSNOIR" },
     { "type": "checkbox", "id": "show_payment_icons", "label": "Mostrar métodos de pago", "default": true }
   ],
   "blocks": [
     {
       "type": "menu",
-      "name": "Menú",
+      "name": "Columna de enlaces",
       "settings": [
         { "type": "text", "id": "heading", "label": "Título" },
-        { "type": "link_list", "id": "menu", "label": "Menú", "default": "footer" }
+        { "type": "link_list", "id": "menu", "label": "Menú" }
       ]
     }
   ]

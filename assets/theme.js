@@ -19,6 +19,17 @@
     input.dispatchEvent(new Event('change', { bubbles: true }));
   });
 
+  /* Horizontal slider arrows ------------------------------------------- */
+  document.addEventListener('click', function (event) {
+    const button = event.target.closest('[data-scroll]');
+    if (!button) return;
+    const slider = document.getElementById(button.dataset.target);
+    if (!slider) return;
+    const item = slider.querySelector('.slider__item');
+    const step = item ? item.getBoundingClientRect().width + 20 : slider.clientWidth * 0.8;
+    slider.scrollBy({ left: step * parseInt(button.dataset.scroll, 10), behavior: 'smooth' });
+  });
+
   /* Sort select auto-submit --------------------------------------------- */
   document.querySelectorAll('[data-autosubmit]').forEach(function (el) {
     el.addEventListener('change', function () { el.form.submit(); });

@@ -5,11 +5,18 @@
     "footer": {
       "type": "footer",
       "blocks": {
-        "menu_1": { "type": "menu", "settings": { "heading": "Tienda", "menu": "main-menu" } },
-        "menu_2": { "type": "menu", "settings": { "heading": "Ayuda", "menu": "footer" } }
+        "tienda": { "type": "menu", "settings": { "heading": "Tienda", "menu": "footer-tienda" } },
+        "ayuda": { "type": "menu", "settings": { "heading": "Ayuda", "menu": "footer-ayuda" } },
+        "arsnoir": { "type": "menu", "settings": { "heading": "ARSNOIR", "menu": "footer-arsnoir" } },
+        "legal": { "type": "menu", "settings": { "heading": "Legal", "menu": "footer-legal" } }
       },
-      "block_order": ["menu_1", "menu_2"],
-      "settings": { "show_payment_icons": true }
+      "block_order": ["tienda", "ayuda", "arsnoir", "legal"],
+      "settings": {
+        "story_eyebrow": "LA HISTORIA",
+        "story_page": "la-historia",
+        "wordmark": "ARSNOIR",
+        "show_payment_icons": true
+      }
     }
   },
   "order": ["footer"]

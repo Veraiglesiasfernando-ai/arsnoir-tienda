@@ -1,0 +1,79 @@
+{%- assign s = section.settings -%}
+
+<section class="welcome">
+  <div class="welcome__glow" aria-hidden="true"></div>
+  <div class="page-width welcome__inner">
+    {%- if s.eyebrow != blank -%}
+      <p class="welcome__eyebrow">{{ s.eyebrow }}</p>
+    {%- endif -%}
+    <h1 class="welcome__title">{{ s.title | default: shop.name }}</h1>
+    {%- if s.subtitle != blank -%}
+      <p class="welcome__subtitle">{{ s.subtitle }}</p>
+    {%- endif -%}
+
+    <div class="welcome__cards">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign b = block.settings
+          assign loading = 'lazy'
+          if b.featured
+            assign loading = 'eager'
+          endif
+        -%}
+        <div class="welcome__card{% if b.featured %} welcome__card--featured{% endif %}" {{ block.shopify_attributes }}>
+          <div class="welcome__hanger" aria-hidden="true"></div>
+          {%- if b.featured -%}
+            {% render 'glass-card', image: b.image, tone: b.tone, label: b.label, button_label: b.button_label, button_url: b.link, loading: loading, sizes: '(min-width: 900px) 36vw, 80vw' %}
+          {%- else -%}
+            {%- if b.link != blank -%}<a href="{{ b.link }}" class="welcome__card-link">{%- endif -%}
+            {% render 'glass-card', image: b.image, tone: b.tone, label: b.label, loading: loading, sizes: '(min-width: 900px) 28vw, 70vw' %}
+            {%- if b.link != blank -%}</a>{%- endif -%}
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Bienvenida",
+  "max_blocks": 3,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Texto pequeño superior", "default": "★ BIENVENIDO A ★" },
+    { "type": "text", "id": "title", "label": "Título gigante", "default": "ARSNOIR" },
+    { "type": "text", "id": "subtitle", "label": "Subtítulo", "default": "Arte que no verás en ningún otro sitio." }
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Carta",
+      "settings": [
+        { "type": "checkbox", "id": "featured", "label": "Carta destacada (más grande, con botón)", "default": false },
+        { "type": "image_picker", "id": "image", "label": "Imagen de la obra", "info": "Opcional. Sin imagen se muestra un hueco de color." },
+        {
+          "type": "select", "id": "tone", "label": "Color del hueco vacío", "default": "light",
+          "options": [
+            { "value": "light", "label": "Gris claro" },
+            { "value": "dark", "label": "Negro" },
+            { "value": "accent", "label": "Rojo" }
+          ]
+        },
+        { "type": "text", "id": "label", "label": "Texto encima", "default": "PRÓXIMAMENTE" },
+        { "type": "text", "id": "button_label", "label": "Texto del botón (solo carta destacada)", "default": "Explorar obra" },
+        { "type": "url", "id": "link", "label": "Enlace" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Bienvenida",
+      "blocks": [
+        { "type": "card", "settings": { "tone": "dark", "label": "PRÓXIMAMENTE" } },
+        { "type": "card", "settings": { "featured": true, "tone": "light", "label": "", "button_label": "Explorar obra" } },
+        { "type": "card", "settings": { "tone": "accent", "label": "PRÓXIMAMENTE" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

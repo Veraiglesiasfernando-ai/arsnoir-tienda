@@ -15,7 +15,7 @@
           {%- for item in search.results -%}
             <li>
               {%- if item.object_type == 'product' -%}
-                {% render 'product-card', product: item %}
+                {% render 'product-card', product: item, index: forloop.index %}
               {%- else -%}
                 <a href="{{ item.url }}" class="card__title">{{ item.title }}</a>
               {%- endif -%}

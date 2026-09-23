@@ -43,7 +43,7 @@
       <ul class="product-grid" style="--cols: {{ section.settings.columns }}">
         {%- for product in collection.products -%}
           {%- assign lazy = true -%}{%- if forloop.index <= 4 -%}{%- assign lazy = false -%}{%- endif -%}
-          <li>{% render 'product-card', product: product, lazy: lazy %}</li>
+          <li>{% render 'product-card', product: product, lazy: lazy, index: forloop.index %}</li>
         {%- endfor -%}
       </ul>
     {%- else -%}

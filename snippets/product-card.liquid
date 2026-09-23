@@ -1,48 +1,36 @@
 {%- comment -%}
-  Product card for grids.
-  - product: product object (blank renders an empty framed placeholder)
-  - lazy: boolean, lazy-load image (default true)
-  - placeholder_index: number used for the placeholder title ("Obra 01")
+  Product card: square glass frame with photo-mount corners.
+  - product: product object (blank renders an empty placeholder)
+  - index: position number, shown as [001]
+  - lazy: boolean (default true)
   - placeholder_price: price text for the placeholder
 {%- endcomment -%}
 {%- liquid
-  assign ratio_class = 'card__media--' | append: settings.card_ratio
   assign load = 'lazy'
   if lazy == false
     assign load = 'eager'
   endif
+  assign idx = index | default: 1
+  assign idx_label = '00' | append: idx | slice: -3, 3
 -%}
 {%- if product != blank -%}
-  <a href="{{ product.url }}" class="card{% if settings.card_frame %} card--framed{% endif %}">
-    <div class="card__media {{ ratio_class }}">
-      {%- if product.featured_media -%}
-        {{ product.featured_media | image_url: width: 900 | image_tag:
-          loading: load,
-          widths: '300, 450, 600, 900',
-          sizes: '(min-width: 1100px) 22vw, (min-width: 750px) 30vw, 45vw',
-          alt: product.featured_media.alt | default: product.title
-        }}
-      {%- else -%}
-        {% render 'frame-placeholder' %}
-      {%- endif -%}
-      {%- unless product.available -%}
-        <span class="card__badge">Agotado</span>
-      {%- endunless -%}
-    </div>
-    <div class="card__info">
-      <h3 class="card__title">{{ product.title }}</h3>
-      <div class="card__price">{% render 'price', product: product, show_from: true %}</div>
+  <a href="{{ product.url }}" class="art-card">
+    {% render 'glass-card', image: product.featured_media.preview_image, tone: 'light', loading: load, sizes: '(min-width: 900px) 24vw, 70vw' %}
+    <div class="art-card__info">
+      <span class="art-card__index">[{{ idx_label }}]</span>
+      <h3 class="art-card__title">{{ product.title }}</h3>
+      <span class="art-card__price">
+        {%- unless product.available -%}Agotado{%- else -%}{% render 'price', product: product, show_from: true %}{%- endunless -%}
+      </span>
     </div>
   </a>
 {%- else -%}
-  {%- assign ph_index = placeholder_index | default: 1 -%}
-  <div class="card">
-    <div class="card__media {{ ratio_class }}">
-      {% render 'frame-placeholder' %}
-    </div>
-    <div class="card__info">
-      <h3 class="card__title">Obra {{ ph_index | prepend: '0' | slice: -2, 2 }}</h3>
-      <div class="card__price">{{ placeholder_price | default: '39,95 €' }}</div>
+  <div class="art-card">
+    {% render 'glass-card', tone: 'light' %}
+    <div class="art-card__info">
+      <span class="art-card__index">[{{ idx_label }}]</span>
+      <h3 class="art-card__title">Obra {{ idx_label }}</h3>
+      <span class="art-card__price">{{ placeholder_price | default: '39,95 €' }}</span>
     </div>
   </div>
 {%- endif -%}

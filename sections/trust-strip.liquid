@@ -1,0 +1,28 @@
+<section class="trust">
+  <ul class="page-width trust__list">
+    {%- for block in section.blocks -%}
+      <li class="trust__item" {{ block.shopify_attributes }}>{{ block.settings.text }}</li>
+    {%- endfor -%}
+  </ul>
+</section>
+
+{% schema %}
+{
+  "name": "Tira de confianza",
+  "max_blocks": 6,
+  "blocks": [
+    { "type": "item", "name": "Elemento", "settings": [ { "type": "text", "id": "text", "label": "Texto", "default": "Arte 100% original" } ] }
+  ],
+  "presets": [
+    {
+      "name": "Tira de confianza",
+      "blocks": [
+        { "type": "item", "settings": { "text": "Arte 100% original" } },
+        { "type": "item", "settings": { "text": "Impreso con Gelato" } },
+        { "type": "item", "settings": { "text": "Envío a toda España" } },
+        { "type": "item", "settings": { "text": "Solo en ARSNOIR" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

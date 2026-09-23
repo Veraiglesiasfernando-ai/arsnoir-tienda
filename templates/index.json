@@ -1,50 +1,54 @@
 {
   "sections": {
-    "hero": {
-      "type": "hero",
+    "welcome": {
+      "type": "hero-welcome",
+      "blocks": {
+        "left": { "type": "card", "settings": { "featured": false, "tone": "dark", "label": "PRÓXIMAMENTE" } },
+        "center": { "type": "card", "settings": { "featured": true, "tone": "light", "label": "", "button_label": "Explorar obra", "link": "shopify://collections/all" } },
+        "right": { "type": "card", "settings": { "featured": false, "tone": "accent", "label": "PRÓXIMAMENTE" } }
+      },
+      "block_order": ["left", "center", "right"],
       "settings": {
-        "heading": "WELCOME OFFER — 40% OFF YOUR FIRST PURCHASE",
-        "button_label": "SHOP NOW",
-        "button_link": "shopify://collections/all",
-        "height": "full",
-        "overlay": 40,
-        "grayscale": true
+        "eyebrow": "★ BIENVENIDO A ★",
+        "title": "ARSNOIR",
+        "subtitle": "Arte que no verás en ningún otro sitio."
       }
     },
-    "bestsellers": {
-      "type": "featured-collection",
+    "marquee": {
+      "type": "marquee",
+      "settings": { "text": "ARTE QUE NO VERÁS EN NINGÚN OTRO SITIO · 100% ORIGINAL · SOLO EN ARSNOIR ·", "speed": 35 }
+    },
+    "trust": {
+      "type": "trust-strip",
+      "blocks": {
+        "t1": { "type": "item", "settings": { "text": "Arte 100% original" } },
+        "t2": { "type": "item", "settings": { "text": "Impreso con Gelato" } },
+        "t3": { "type": "item", "settings": { "text": "Envío a toda España" } },
+        "t4": { "type": "item", "settings": { "text": "Solo en ARSNOIR" } }
+      },
+      "block_order": ["t1", "t2", "t3", "t4"],
+      "settings": {}
+    },
+    "featured": {
+      "type": "featured-slider",
       "settings": {
-        "heading": "Más vendidos",
+        "eyebrow": "LO MÁS PEDIDO",
+        "heading": "Obras destacadas",
+        "subtitle": "Piezas originales que solo encontrarás aquí.",
         "collection": "mas-vendidos",
-        "limit": 4,
-        "columns": 4,
-        "button_label": "Ver más",
-        "placeholder_price": "39,95 €",
-        "border_top": false
+        "limit": 8,
+        "button_label": "VER TODAS",
+        "placeholder_price": "39,95 €"
       }
     },
-    "editions": {
-      "type": "collection-list",
-      "blocks": {
-        "e1": { "type": "collection", "settings": { "collection": "noir", "title": "Noir" } },
-        "e2": { "type": "collection", "settings": { "collection": "cine", "title": "Cine" } },
-        "e3": { "type": "collection", "settings": { "collection": "silencio", "title": "Silencio" } },
-        "e4": { "type": "collection", "settings": { "collection": "ruido", "title": "Ruido" } }
-      },
-      "block_order": ["e1", "e2", "e3", "e4"],
-      "settings": { "heading": "Explorar ediciones", "style": "neutral", "columns": 4, "border_top": true }
-    },
-    "categories": {
-      "type": "collection-list",
-      "blocks": {
-        "k1": { "type": "collection", "settings": { "collection": "tienda-xl", "title": "Tienda XL" } },
-        "k2": { "type": "collection", "settings": { "collection": "bellas-artes", "title": "Bellas Artes" } },
-        "k3": { "type": "collection", "settings": { "collection": "impresiones-en-tela", "title": "Impresiones en Tela" } },
-        "k4": { "type": "collection", "settings": { "collection": "marcos-de-madera", "title": "Marcos de Madera" } }
-      },
-      "block_order": ["k1", "k2", "k3", "k4"],
-      "settings": { "heading": "Comprar por categoría", "style": "framed", "columns": 4, "border_top": true }
+    "join": {
+      "type": "newsletter-dark",
+      "settings": {
+        "heading": "Únete a ARSNOIR",
+        "text": "15% en tu primera compra y acceso primero a cada obra nueva.",
+        "button_label": "UNIRME"
+      }
     }
   },
-  "order": ["hero", "bestsellers", "editions", "categories"]
+  "order": ["welcome", "marquee", "trust", "featured", "join"]
 }

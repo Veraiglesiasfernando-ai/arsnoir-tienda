@@ -1,15 +1,14 @@
 {
   "current": {
-    "color_background": "#FFFFFF",
+    "color_background": "#F4F4F3",
     "color_foreground": "#0A0A0A",
     "color_muted": "#6B6B6B",
-    "color_line": "#E6E6E6",
-    "color_surface": "#F4F4F2",
-    "type_heading_font": "inter_n4",
-    "type_body_font": "inter_n4",
+    "color_line": "#E2E2E0",
+    "color_surface": "#E9E9E7",
     "page_width": 1440,
-    "button_radius": 0,
-    "card_ratio": "portrait",
-    "card_frame": true
+    "button_radius": 100,
+    "card_ratio": "square",
+    "card_frame": true,
+    "color_accent": "#E4231A"
   }
 }

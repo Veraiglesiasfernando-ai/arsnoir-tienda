@@ -1,6 +1,6 @@
-# arsnoir — tema Shopify
+# ARSNOIR — tema Shopify
 
-Tema propio (Online Store 2.0) para vender arte de pared en blanco y negro. Estética de galería: mucho blanco, tipografía limpia, obras sobre paspartú gris claro y sin trucos de dropshipping (sin contadores de tiempo, sin «X personas viendo», sin pop-ups).
+Tema propio (Online Store 2.0) para vender arte de pared original.
 
 ## Instalar el tema
 
@@ -10,16 +10,17 @@ Tema propio (Online Store 2.0) para vender arte de pared en blanco y negro. Est�
 
 Cada cambio que se sube a la rama se sincroniza solo con el tema.
 
-## Contenido de la tienda
+## Home
 
-Todo son huecos vacíos listos para tu propio arte: rectángulos gris claro con marco negro, sin imágenes de terceros, sin nombres de artistas y sin logos de prensa.
+Estética: fondo blanco/gris claro con degradado suave, tipografía Space Grotesk (servida desde `assets/`), negro y un único acento rojo `#E4231A`. Todos los huecos de obra son placeholders vacíos listos para tu arte.
 
-- **Cabecera:** logo «arsnoir» en texto y menú Inicio · Productos · La Historia · Contacto, con iconos de búsqueda, cuenta y carrito.
-- **Portada:** fondo negro a pantalla completa con «WELCOME OFFER — 40% OFF YOUR FIRST PURCHASE» y un botón blanco «SHOP NOW».
-- **Más vendidos:** 4 obras. Mientras no haya productos se muestran «Obra 01…04» a 39,95 €. Botón «VER MÁS».
-- **Explorar ediciones:** Noir, Cine, Silencio y Ruido.
-- **Comprar por categoría:** Tienda XL, Bellas Artes, Impresiones en Tela y Marcos de Madera.
-- **La Historia:** página `/pages/la-historia` con plantilla propia (`page.historia`). El texto se edita en Shopify → Tienda online → Páginas.
+1. **Cabecera de cristal** (sticky, translúcida): OBRAS · MANIFIESTO | ARSNOIR | búsqueda y carrito.
+2. **Bienvenida:** «★ BIENVENIDO A ★», «ARSNOIR» gigante, subtítulo y 3 cartas cuadradas de cristal con esquineras. La del centro es la destacada, con el botón «Explorar obra +»; las laterales dicen «PRÓXIMAMENTE». Cada carta admite su propia imagen desde *Personalizar*.
+3. **Marquesina roja** en bucle.
+4. **Tira de confianza:** Arte 100% original · Impreso con Gelato · Envío a toda España · Solo en ARSNOIR.
+5. **Obras destacadas:** fila deslizable con índice `[001]` en rojo, precio y botón «VER TODAS». Usa la colección «Más vendidos».
+6. **Newsletter negra:** «Únete a ARSNOIR», 15% en la primera compra, botón rojo «UNIRME».
+7. **Footer negro:** el texto de la página «La Historia» y 4 columnas (menús `footer-tienda`, `footer-ayuda`, `footer-arsnoir`, `footer-legal`).
 
 ## Colecciones (automáticas por etiqueta)
 

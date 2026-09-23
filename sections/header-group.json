@@ -2,23 +2,17 @@
   "type": "header",
   "name": "Cabecera",
   "sections": {
-    "announcement": {
-      "type": "announcement-bar",
-      "settings": {
-        "text": ""
-      }
-    },
     "header": {
       "type": "header",
       "settings": {
-        "menu": "main-menu",
+        "logo_text": "ARSNOIR",
         "logo_width": 140,
-        "logo_text": "arsnoir"
+        "link_1_label": "OBRAS",
+        "link_1_url": "shopify://collections/all",
+        "link_2_label": "MANIFIESTO",
+        "link_2_url": "/pages/manifiesto"
       }
     }
   },
-  "order": [
-    "announcement",
-    "header"
-  ]
+  "order": ["header"]
 }

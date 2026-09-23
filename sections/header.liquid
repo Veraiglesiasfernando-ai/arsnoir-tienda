@@ -1,60 +1,40 @@
-{%- assign menu = linklists[section.settings.menu] -%}
+{%- liquid
+  assign s = section.settings
+  assign link_1_url = s.link_1_url | default: routes.all_products_collection_url
+  assign link_2_url = s.link_2_url | default: '/pages/manifiesto'
+-%}
 
-{%- capture fallback_links -%}
-  <li><a href="{{ routes.root_url }}">Inicio</a></li>
-  <li><a href="{{ routes.all_products_collection_url }}">Productos</a></li>
-  <li><a href="/pages/la-historia">La Historia</a></li>
-  <li><a href="/pages/contacto">Contacto</a></li>
-{%- endcapture -%}
-
-<div class="header-wrapper">
-  <header class="header page-width">
-    <div class="header__menu-toggle">
+<div class="glass-header-wrap">
+  <header class="glass-header">
+    <nav class="glass-header__nav" aria-label="Principal">
       <details class="mobile-menu">
         <summary aria-label="Menú">{% render 'icon', name: 'menu' %}</summary>
         <div class="mobile-menu__panel">
           <ul>
-            {%- if menu.links.size > 0 -%}
-              {%- for link in menu.links -%}
-                <li><a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a></li>
-              {%- endfor -%}
-            {%- else -%}
-              {{ fallback_links }}
-            {%- endif -%}
+            {%- if s.link_1_label != blank -%}<li><a href="{{ link_1_url }}">{{ s.link_1_label }}</a></li>{%- endif -%}
+            {%- if s.link_2_label != blank -%}<li><a href="{{ link_2_url }}">{{ s.link_2_label }}</a></li>{%- endif -%}
             <li><a href="{{ routes.search_url }}">Buscar</a></li>
-            <li><a href="{{ routes.account_url }}">Cuenta</a></li>
           </ul>
         </div>
       </details>
-    </div>
-
-    <nav class="header__nav" aria-label="Principal">
-      <ul>
-        {%- if menu.links.size > 0 -%}
-          {%- for link in menu.links -%}
-            <li><a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a></li>
-          {%- endfor -%}
-        {%- else -%}
-          {{ fallback_links }}
-        {%- endif -%}
+      <ul class="glass-header__links">
+        {%- if s.link_1_label != blank -%}<li><a href="{{ link_1_url }}">{{ s.link_1_label }}</a></li>{%- endif -%}
+        {%- if s.link_2_label != blank -%}<li><a href="{{ link_2_url }}">{{ s.link_2_label }}</a></li>{%- endif -%}
       </ul>
     </nav>
 
-    <div class="header__logo">
-      <a href="{{ routes.root_url }}">
-        {%- if section.settings.logo != blank -%}
-          {%- assign logo_style = 'width:' | append: section.settings.logo_width | append: 'px;height:auto;' -%}
-          {{ section.settings.logo | image_url: width: 600 | image_tag: style: logo_style, alt: shop.name }}
-        {%- else -%}
-          {{ section.settings.logo_text | default: shop.name | strip }}
-        {%- endif -%}
-      </a>
-    </div>
+    <a class="glass-header__logo" href="{{ routes.root_url }}">
+      {%- if s.logo != blank -%}
+        {%- assign logo_style = 'width:' | append: s.logo_width | append: 'px;height:auto;' -%}
+        {{ s.logo | image_url: width: 600 | image_tag: style: logo_style, alt: shop.name }}
+      {%- else -%}
+        {{ s.logo_text | default: shop.name | strip }}
+      {%- endif -%}
+    </a>
 
-    <div class="header__icons">
-      <a href="{{ routes.search_url }}" class="hide-mobile" aria-label="Buscar">{% render 'icon', name: 'search' %}</a>
-      <a href="{{ routes.account_url }}" class="hide-mobile" aria-label="Cuenta">{% render 'icon', name: 'account' %}</a>
-      <a href="{{ routes.cart_url }}" aria-label="Carrito, {{ cart.item_count }} artículos" style="display:inline-flex;align-items:center;">
+    <div class="glass-header__icons">
+      <a href="{{ routes.search_url }}" aria-label="Buscar">{% render 'icon', name: 'search' %}</a>
+      <a href="{{ routes.cart_url }}" class="glass-header__cart" aria-label="Carrito, {{ cart.item_count }} artículos">
         {% render 'icon', name: 'bag' %}
         {%- if cart.item_count > 0 -%}<span class="cart-count">{{ cart.item_count }}</span>{%- endif -%}
       </a>
@@ -68,10 +48,14 @@
   "class": "header-section",
   "enabled_on": { "groups": ["header"] },
   "settings": [
-    { "type": "text", "id": "logo_text", "label": "Logo (texto)", "default": "arsnoir" },
+    { "type": "text", "id": "logo_text", "label": "Logo (texto)", "default": "ARSNOIR" },
     { "type": "image_picker", "id": "logo", "label": "Logo (imagen)", "info": "Opcional. Si subes una imagen, sustituye al texto." },
     { "type": "range", "id": "logo_width", "label": "Ancho del logo", "min": 60, "max": 300, "step": 10, "unit": "px", "default": 140 },
-    { "type": "link_list", "id": "menu", "label": "Menú", "default": "main-menu" }
+    { "type": "header", "content": "Enlaces" },
+    { "type": "text", "id": "link_1_label", "label": "Enlace 1", "default": "OBRAS" },
+    { "type": "url", "id": "link_1_url", "label": "Destino enlace 1" },
+    { "type": "text", "id": "link_2_label", "label": "Enlace 2", "default": "MANIFIESTO" },
+    { "type": "url", "id": "link_2_url", "label": "Destino enlace 2" }
   ]
 }
 {% endschema %}

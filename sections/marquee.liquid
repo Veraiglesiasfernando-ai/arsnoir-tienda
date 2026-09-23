@@ -1,0 +1,21 @@
+{%- assign s = section.settings -%}
+<section class="marquee" aria-label="{{ s.text | escape }}">
+  <div class="marquee__track" style="--marquee-speed: {{ s.speed }}s" aria-hidden="true">
+    {%- for i in (1..2) -%}
+      <div class="marquee__group">
+        {%- for j in (1..4) -%}<span>{{ s.text }}</span>{%- endfor -%}
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Marquesina",
+  "settings": [
+    { "type": "text", "id": "text", "label": "Texto", "default": "ARTE QUE NO VERÁS EN NINGÚN OTRO SITIO · 100% ORIGINAL · SOLO EN ARSNOIR ·" },
+    { "type": "range", "id": "speed", "label": "Duración de una vuelta", "min": 10, "max": 80, "step": 5, "unit": "s", "default": 35 }
+  ],
+  "presets": [{ "name": "Marquesina" }]
+}
+{% endschema %}
