@@ -1,0 +1,94 @@
+{%- comment -%}
+  Glass cookie banner wired to Shopify's Customer Privacy API, so the visitor's
+  choice is the real consent Shopify uses for analytics and marketing.
+  Turn off Shopify's own banner (Settings → Customer privacy) to avoid showing two.
+{%- endcomment -%}
+{%- assign s = section.settings -%}
+<div class="cookie" id="CookieBanner" data-cookie-banner{% if request.design_mode and s.preview %} data-preview{% endif %} hidden role="dialog" aria-live="polite" aria-label="{{ s.title | escape }}">
+  <div class="cookie__card">
+    <p class="cookie__title">{{ s.title }}</p>
+    <p class="cookie__text">{{ s.text }}</p>
+    <div class="cookie__actions">
+      <button type="button" class="button button--accent cookie__accept" data-cookie="accept">{{ s.accept_label }}</button>
+      <button type="button" class="button button--outline cookie__reject" data-cookie="reject">{{ s.reject_label }}</button>
+    </div>
+    {%- if s.policy_label != blank -%}
+      <a class="cookie__policy" href="{{ s.policy_link | default: '/policies/privacy-policy' }}">{{ s.policy_label }}</a>
+    {%- endif -%}
+  </div>
+</div>
+
+<script>
+  (function () {
+    var banner = document.getElementById('CookieBanner');
+    if (!banner) return;
+    var KEY = 'arsnoir_cookie_choice';
+
+    function show() {
+      banner.hidden = false;
+      requestAnimationFrame(function () { banner.classList.add('is-visible'); });
+    }
+    function hide() {
+      banner.classList.remove('is-visible');
+      setTimeout(function () { banner.hidden = true; }, 400);
+    }
+    function remember(choice) {
+      try { localStorage.setItem(KEY, choice); } catch (e) {}
+    }
+    function stored() {
+      try { return localStorage.getItem(KEY); } catch (e) { return null; }
+    }
+
+    if (banner.hasAttribute('data-preview')) { show(); }
+
+    function decide(accepted) {
+      var privacy = window.Shopify && window.Shopify.customerPrivacy;
+      var consent = { analytics: accepted, marketing: accepted, preferences: accepted, sale_of_data: accepted };
+      if (privacy && privacy.setTrackingConsent) {
+        privacy.setTrackingConsent(consent, function () {});
+      }
+      remember(accepted ? 'accept' : 'reject');
+      hide();
+    }
+
+    banner.addEventListener('click', function (event) {
+      var btn = event.target.closest('[data-cookie]');
+      if (!btn) return;
+      decide(btn.dataset.cookie === 'accept');
+    });
+
+    function init() {
+      if (banner.hasAttribute('data-preview')) return;
+      var privacy = window.Shopify && window.Shopify.customerPrivacy;
+      if (privacy && typeof privacy.shouldShowBanner === 'function') {
+        if (privacy.shouldShowBanner()) show();
+      } else if (!stored()) {
+        show();
+      }
+    }
+
+    if (window.Shopify && typeof window.Shopify.loadFeatures === 'function') {
+      window.Shopify.loadFeatures([{ name: 'consent-tracking-api', version: '0.1' }], function (error) {
+        init();
+      });
+    } else {
+      init();
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Aviso de cookies",
+  "settings": [
+    { "type": "paragraph", "content": "Usa la API de privacidad de Shopify. Desactiva el aviso de cookies de Shopify en Configuración → Privacidad del cliente para no mostrar dos." },
+    { "type": "checkbox", "id": "preview", "label": "Mostrar siempre en el editor (vista previa)", "default": true },
+    { "type": "text", "id": "title", "label": "Título", "default": "Usamos cookies" },
+    { "type": "textarea", "id": "text", "label": "Texto", "default": "Algunas son necesarias para que la tienda funcione. Otras nos ayudan a mejorar tu experiencia y a entender qué te gusta. Tú decides." },
+    { "type": "text", "id": "accept_label", "label": "Botón aceptar", "default": "Aceptar" },
+    { "type": "text", "id": "reject_label", "label": "Botón rechazar", "default": "Rechazar" },
+    { "type": "text", "id": "policy_label", "label": "Texto del enlace", "default": "Política de privacidad y cookies" },
+    { "type": "url", "id": "policy_link", "label": "Enlace a la política" }
+  ]
+}
+{% endschema %}

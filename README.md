@@ -46,6 +46,10 @@ Ajustes globales en *Configuración del tema → Conversión*: umbral de envío 
 - **Ficha:** barra de compra fija en móvil.
 - **Páginas creadas en Shopify:** Preguntas frecuentes (`page.faq`), Envíos y devoluciones, Guía de tamaños y Política de cookies (borrador sin publicar).
 
+## Aviso de cookies
+
+Tarjeta de cristal redondeada abajo a la derecha, con «Aceptar», «Rechazar» y un enlace a la política. Está conectada a la API de privacidad de Shopify (`consent-tracking-api`), así que la elección del visitante es el consentimiento real que Shopify aplica a analíticas y marketing. Solo aparece a quien tiene que decidir (según la región y si ya eligió). **Desactiva el aviso propio de Shopify** en *Configuración → Privacidad del cliente* para no mostrar dos. Textos editables en *Personalizar → Aviso de cookies*.
+
 ## Tipos de obra (colecciones automáticas)
 
 Etiqueta cada obra con su tipo y aparece sola en su colección y en el menú: `motor`, `sport`, `urban`, `animals`, `abstract`, `art`, `mindset`, `escape`.
