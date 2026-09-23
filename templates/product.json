@@ -22,7 +22,7 @@
         "notes": {
           "type": "notes",
           "settings": {
-            "note_1": "Edición limitada",
+            "note_1": "Pieza exclusiva de ARSNOIR",
             "note_2": "Obra original y exclusiva de arsnoir",
             "note_3": ""
           }
@@ -34,8 +34,8 @@
         "details": {
           "type": "collapsible",
           "settings": {
-            "heading": "Detalles de la obra",
-            "content": "<p>Añade aquí los detalles de la obra: técnica, papel o soporte, número de copias de la edición.</p>",
+            "heading": "Detalles de impresión",
+            "content": "<p>Papel Premium Matte de 200 g/m², acabado mate sin reflejos. Impresión giclée de 12 colores para un color fiel y negros profundos. Papel de origen sostenible y certificado FSC, con tintas al agua.</p>",
             "open": false
           }
         },
@@ -51,12 +51,16 @@
           "type": "collapsible",
           "settings": {
             "heading": "Envío y devoluciones",
-            "content": "<p>Añade aquí tus plazos de envío y tu política de devoluciones.</p>",
+            "content": "<p>Tus piezas se producen bajo demanda y llegan en 4-5 días hábiles, con seguimiento del pedido.</p>",
             "open": false
           }
         },
         "trust": {
           "type": "trust",
+          "settings": {}
+        },
+        "material": {
+          "type": "material",
           "settings": {}
         }
       },
@@ -64,6 +68,7 @@
         "title",
         "price",
         "buy",
+        "material",
         "trust",
         "notes",
         "description",
@@ -100,29 +105,37 @@
         "q1": {
           "type": "question",
           "settings": {
-            "question": "¿Qué tamaño elijo?",
-            "answer": "<p>Mide el hueco: la obra debería ocupar unos 2/3 del ancho del mueble que tiene debajo. Para una pieza protagonista sobre un sofá o un cabecero, elige el tamaño grande.</p>"
+            "question": "¿Cuánto tarda el envío?",
+            "answer": "<p>Tus piezas se producen bajo demanda y llegan en 4-5 días hábiles, con seguimiento del pedido.</p>"
           }
         },
         "q2": {
           "type": "question",
           "settings": {
-            "question": "¿Cuánto tarda el envío?",
-            "answer": "<p>Cada obra se imprime bajo demanda cuando haces el pedido y se envía a toda España con seguimiento. Verás el plazo estimado antes de pagar.</p>"
+            "question": "¿En qué material se imprime?",
+            "answer": "<p>Papel Premium Matte de 200 g/m², acabado mate sin reflejos. Impresión giclée de 12 colores para un color fiel y negros profundos. Papel de origen sostenible y certificado FSC, con tintas al agua.</p>"
           }
         },
         "q3": {
           "type": "question",
           "settings": {
-            "question": "¿Viene con marco?",
-            "answer": "<p>Solo si eliges un formato enmarcado. Si no, llega lista para enmarcar.</p>"
+            "question": "¿Cómo son los marcos?",
+            "answer": "<p>Marco de madera maciza de origen sostenible, con vidrio antirrotura y listo para colgar (kit de colgado incluido).</p>"
+          }
+        },
+        "q4": {
+          "type": "question",
+          "settings": {
+            "question": "¿El arte es exclusivo?",
+            "answer": "<p>Sí. Todas las piezas son originales y exclusivas de ARSNOIR — no se venden en ningún otro sitio.</p>"
           }
         }
       },
       "block_order": [
         "q1",
         "q2",
-        "q3"
+        "q3",
+        "q4"
       ],
       "settings": {
         "eyebrow": "DUDAS",

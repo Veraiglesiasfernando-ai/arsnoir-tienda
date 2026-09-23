@@ -1,68 +1,34 @@
 {
   "sections": {
-    "main": {
-      "type": "main-page",
-      "settings": {
-        "eyebrow": "AYUDA"
-      }
-    },
     "faq": {
       "type": "faq",
       "blocks": {
         "q1": {
           "type": "question",
           "settings": {
-            "question": "¿Qué tamaños hay y cuál elijo?",
-            "answer": "<p>Cada obra está disponible en varios tamaños, que verás en su ficha. Los pequeños funcionan en estanterías y composiciones; los grandes, como pieza protagonista sobre un sofá o un cabecero. Truco: la obra debería ocupar unos 2/3 del ancho del mueble que tiene debajo.</p>"
+            "question": "¿Cuánto tarda el envío?",
+            "answer": "<p>Tus piezas se producen bajo demanda y llegan en 4-5 días hábiles, con seguimiento del pedido.</p>"
           }
         },
         "q2": {
           "type": "question",
           "settings": {
-            "question": "¿Cuánto tarda el envío?",
-            "answer": "<p>Cada obra se imprime bajo demanda cuando haces el pedido y se envía a toda España con seguimiento. Verás el plazo estimado antes de pagar.</p>"
+            "question": "¿En qué material se imprime?",
+            "answer": "<p>Papel Premium Matte de 200 g/m², acabado mate sin reflejos. Impresión giclée de 12 colores para un color fiel y negros profundos. Papel de origen sostenible y certificado FSC, con tintas al agua.</p>"
           }
         },
         "q3": {
           "type": "question",
           "settings": {
-            "question": "¿En qué material se imprime?",
-            "answer": "<p>En papel mate de alta calidad con tintas de larga duración. Si la obra está disponible en otros formatos (lienzo o enmarcada), lo verás en la ficha.</p>"
+            "question": "¿Cómo son los marcos?",
+            "answer": "<p>Marco de madera maciza de origen sostenible, con vidrio antirrotura y listo para colgar (kit de colgado incluido).</p>"
           }
         },
         "q4": {
           "type": "question",
           "settings": {
-            "question": "¿Viene con marco?",
-            "answer": "<p>Solo si eliges un formato enmarcado en la ficha de la obra. Si no, llega lista para enmarcar.</p>"
-          }
-        },
-        "q5": {
-          "type": "question",
-          "settings": {
-            "question": "¿Puedo devolverla?",
-            "answer": "<p>Sí, tienes 14 días desde que la recibes. Y si llega dañada, escríbenos con una foto y la reponemos.</p>"
-          }
-        },
-        "q6": {
-          "type": "question",
-          "settings": {
-            "question": "¿Las obras son originales?",
-            "answer": "<p>Sí. Todas las obras de ARSNOIR son 100% originales y exclusivas: no las vas a encontrar en ningún otro sitio.</p>"
-          }
-        },
-        "q7": {
-          "type": "question",
-          "settings": {
-            "question": "¿Cómo pago? ¿Es seguro?",
-            "answer": "<p>El pago se hace en el checkout seguro de Shopify, cifrado de principio a fin. Verás todos los métodos disponibles antes de pagar.</p>"
-          }
-        },
-        "q8": {
-          "type": "question",
-          "settings": {
-            "question": "¿Puedo cambiar o cancelar mi pedido?",
-            "answer": "<p>Como cada obra se imprime bajo demanda, escríbenos cuanto antes desde Contacto con tu número de pedido y haremos lo posible.</p>"
+            "question": "¿El arte es exclusivo?",
+            "answer": "<p>Sí. Todas las piezas son originales y exclusivas de ARSNOIR — no se venden en ningún otro sitio.</p>"
           }
         }
       },
@@ -70,15 +36,11 @@
         "q1",
         "q2",
         "q3",
-        "q4",
-        "q5",
-        "q6",
-        "q7",
-        "q8"
+        "q4"
       ],
       "settings": {
         "eyebrow": "AYUDA",
-        "heading": "Todo lo que necesitas saber",
+        "heading": "Preguntas frecuentes",
         "text": "¿Tienes otra duda? Escríbenos y te respondemos.",
         "button_label": "Contactar",
         "button_link": "/pages/contacto"
@@ -132,7 +94,6 @@
     }
   },
   "order": [
-    "main",
     "faq",
     "guarantees"
   ]

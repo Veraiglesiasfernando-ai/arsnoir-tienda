@@ -14,7 +14,7 @@ Cada cambio que se sube a la rama se sincroniza solo con el tema.
 
 Estética: fondo blanco/gris claro con degradado suave, tipografía Space Grotesk (servida desde `assets/`), negro y un único acento rojo `#E4231A`. Todos los huecos de obra son placeholders vacíos listos para tu arte.
 
-1. **Cabecera de cristal** (sticky, translúcida): OBRAS · MANIFIESTO | ARSNOIR | búsqueda y carrito.
+1. **Barra negra fija** («Arte exclusivo de ARSNOIR — no lo encontrarás en ningún otro sitio.») y **cabecera de cristal fija** debajo: logo «arsnoir» a la izquierda, tipos (Inicio · Motor · Sport · Urban · Animals · Abstract · Art · Mindset · Escape, menú `main-menu`) en el centro, buscador y carrito a la derecha. En móvil, los tipos van en el menú hamburguesa.
 2. **Bienvenida:** «★ BIENVENIDO A ★», «ARSNOIR» gigante, subtítulo y 3 cartas cuadradas de cristal con esquineras. La del centro es la destacada, con el botón «Explorar obra +»; las laterales dicen «PRÓXIMAMENTE». Cada carta admite su propia imagen desde *Personalizar*.
 3. **Marquesina roja** en bucle.
 4. **Tira de confianza:** Arte 100% original · Impresión de alta calidad · Envío a toda España · Solo en ARSNOIR.
@@ -46,7 +46,15 @@ Ajustes globales en *Configuración del tema → Conversión*: umbral de envío 
 - **Ficha:** barra de compra fija en móvil.
 - **Páginas creadas en Shopify:** Preguntas frecuentes (`page.faq`), Envíos y devoluciones, Guía de tamaños y Política de cookies (borrador sin publicar).
 
-## Colecciones (automáticas por etiqueta)
+## Tipos de obra (colecciones automáticas)
+
+Etiqueta cada obra con su tipo y aparece sola en su colección y en el menú: `motor`, `sport`, `urban`, `animals`, `abstract`, `art`, `mindset`, `escape`.
+
+## Material (ficha de producto)
+
+Bloque «Material» debajo del botón de compra: Papel Premium Matte 200 g/m², acabado mate · giclée 12 colores · certificado FSC y tintas al agua. Marco opcional de madera maciza sostenible, listo para colgar. Editable en *Personalizar → Obra → Material*.
+
+## Colecciones anteriores (automáticas por etiqueta)
 
 Etiqueta cada obra y aparece sola en su colección:
 

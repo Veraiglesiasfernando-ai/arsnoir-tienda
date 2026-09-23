@@ -8,28 +8,12 @@
         "m1": {
           "type": "message",
           "settings": {
-            "text": "Envío gratis en pedidos desde 60 €",
-            "link": "shopify://collections/all"
-          }
-        },
-        "m2": {
-          "type": "message",
-          "settings": {
-            "text": "15% en tu primera compra al unirte a ARSNOIR",
-            "link": "/#Join"
-          }
-        },
-        "m3": {
-          "type": "message",
-          "settings": {
-            "text": "Arte 100% original · Solo en ARSNOIR"
+            "text": "Arte exclusivo de ARSNOIR — no lo encontrarás en ningún otro sitio."
           }
         }
       },
       "block_order": [
-        "m1",
-        "m2",
-        "m3"
+        "m1"
       ],
       "settings": {
         "interval": 4
@@ -38,13 +22,9 @@
     "header": {
       "type": "header",
       "settings": {
-        "logo_text": "ARSNOIR",
+        "logo_text": "arsnoir",
         "logo_width": 140,
-        "link_1_label": "OBRAS",
-        "link_1_url": "shopify://collections/all",
-        "link_2_label": "MANIFIESTO",
-        "link_2_url": "/pages/manifiesto",
-        "mobile_menu": "main-menu"
+        "menu": "main-menu"
       }
     }
   },

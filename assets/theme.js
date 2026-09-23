@@ -58,6 +58,16 @@
     timer = setTimeout(function () { show(1); }, interval);
   });
 
+  /* Keep the sticky header right under the announcement bar, whatever its height */
+  const announce = document.querySelector('.announce');
+  if (announce) {
+    const setAnnounceHeight = function () {
+      document.body.style.setProperty('--announce-h', announce.offsetHeight + 'px');
+    };
+    setAnnounceHeight();
+    if ('ResizeObserver' in window) new ResizeObserver(setAnnounceHeight).observe(announce);
+  }
+
   /* Announcement bar rotation ------------------------------------------ */
   document.querySelectorAll('[data-announce]').forEach(function (bar) {
     const msgs = bar.querySelectorAll('.announce__msg');

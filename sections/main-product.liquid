@@ -131,6 +131,12 @@
               {%- endif -%}
             </div>
 
+          {%- when 'material' -%}
+            <div class="product__material" {{ block.shopify_attributes }}>
+              {%- if block.settings.material != blank -%}<p><strong>Material:</strong> {{ block.settings.material }}</p>{%- endif -%}
+              {%- if block.settings.frame != blank -%}<p><strong>Marco (opcional):</strong> {{ block.settings.frame }}</p>{%- endif -%}
+            </div>
+
           {%- when 'trust' -%}
             <ul class="product__trust" {{ block.shopify_attributes }}>
               <li>{% render 'trust-icon', name: 'print' %}<span>{{ block.settings.line_1 }}</span></li>
@@ -227,6 +233,13 @@
       ]
     },
     {
+      "type": "material", "name": "Material", "limit": 1,
+      "settings": [
+        { "type": "text", "id": "material", "label": "Material", "default": "Papel Premium Matte 200 g/m², acabado mate · giclée 12 colores · certificado FSC y tintas al agua (sostenible)." },
+        { "type": "text", "id": "frame", "label": "Marco (opcional)", "default": "madera maciza sostenible, listo para colgar." }
+      ]
+    },
+    {
       "type": "trust", "name": "Garantías", "limit": 1,
       "settings": [
         { "type": "text", "id": "line_1", "label": "Línea 1", "default": "Impresión profesional de alta calidad" },
@@ -238,7 +251,7 @@
     {
       "type": "notes", "name": "Notas breves", "limit": 1,
       "settings": [
-        { "type": "text", "id": "note_1", "label": "Nota 1", "default": "Edición limitada" },
+        { "type": "text", "id": "note_1", "label": "Nota 1", "default": "Pieza exclusiva de ARSNOIR" },
         { "type": "text", "id": "note_2", "label": "Nota 2", "default": "Obra original y exclusiva" },
         { "type": "text", "id": "note_3", "label": "Nota 3" }
       ]
