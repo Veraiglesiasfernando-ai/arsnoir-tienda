@@ -22,6 +22,20 @@ Estética: fondo blanco/gris claro con degradado suave, tipografía Space Grotes
 6. **Newsletter negra:** «Únete a ARSNOIR», 15% en la primera compra, botón rojo «UNIRME».
 7. **Footer negro:** el texto de la página «La Historia» y 4 columnas (menús `footer-tienda`, `footer-ayuda`, `footer-arsnoir`, `footer-legal`).
 
+## Conversión
+
+Ajustes globales en *Configuración del tema → Conversión*: umbral de envío gratis (por defecto 60 €), nota media y nº de reseñas, días de devolución.
+
+- **Barra de anuncio** (sobre la cabecera): mensajes que rotan. Por defecto: envío gratis desde 60 €, 15% al unirte y «Arte 100% original · Impreso con Gelato».
+- **Obras en tu pared:** 3 habitaciones. Sube tus propios mockups o fotos; sin imagen se muestra una habitación dibujada de ejemplo.
+- **Reseñas:** solo se muestran en la tienda cuando añades reseñas **reales** como bloques. Sin reseñas, la sección solo se ve en el editor, con ejemplos marcados como tal. Las estrellas de la bienvenida aparecen solo si rellenas nota y nº de reseñas. En la ficha, las estrellas salen de los metafields estándar `reviews.rating` / `reviews.rating_count`, que rellenan apps como Judge.me.
+- **Garantías:** envío, devoluciones, impresión con Gelato y pago seguro.
+- **FAQ:** tamaños, envío, materiales, marco y devoluciones, con datos estructurados para Google.
+- **Comunidad / Instagram:** 6 fotos (tuyas o de clientes con permiso).
+- **Ficha de producto:** etiqueta «Recomendado» en el tamaño más grande (o en el que indiques), aviso de envío gratis y lista de garantías bajo el botón.
+- **Carrito:** barra «Te faltan X € para el envío gratis», botón rojo de pago y métodos de pago.
+- **Footer:** «Pago 100% seguro» con los métodos de pago activos.
+
 ## Colecciones (automáticas por etiqueta)
 
 Etiqueta cada obra y aparece sola en su colección:
