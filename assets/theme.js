@@ -58,6 +58,18 @@
     timer = setTimeout(function () { show(1); }, interval);
   });
 
+  /* Announcement bar rotation ------------------------------------------ */
+  document.querySelectorAll('[data-announce]').forEach(function (bar) {
+    const msgs = bar.querySelectorAll('.announce__msg');
+    if (msgs.length < 2) return;
+    let i = 0;
+    setInterval(function () {
+      msgs[i].classList.remove('is-active');
+      i = (i + 1) % msgs.length;
+      msgs[i].classList.add('is-active');
+    }, (parseInt(bar.dataset.interval, 10) || 4) * 1000);
+  });
+
   /* Sort select auto-submit --------------------------------------------- */
   document.querySelectorAll('[data-autosubmit]').forEach(function (el) {
     el.addEventListener('change', function () { el.form.submit(); });

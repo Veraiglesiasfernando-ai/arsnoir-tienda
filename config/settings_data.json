@@ -9,6 +9,8 @@
     "button_radius": 100,
     "card_ratio": "square",
     "card_frame": true,
-    "color_accent": "#E4231A"
+    "color_accent": "#E4231A",
+    "free_shipping_threshold": 60,
+    "returns_days": "14"
   }
 }

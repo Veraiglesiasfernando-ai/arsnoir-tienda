@@ -2,6 +2,7 @@
   <h1>Carrito</h1>
 
   {%- if cart.item_count > 0 -%}
+    {% render 'free-shipping-bar' %}
     <form action="{{ routes.cart_url }}" method="post" class="cart" novalidate>
       <div>
         <ul class="cart-items">
@@ -58,7 +59,11 @@
           </details>
         {%- endif -%}
 
-        <button type="submit" name="checkout" class="button button--full">Finalizar compra</button>
+        <button type="submit" name="checkout" class="button button--full button--accent">Finalizar compra</button>
+        <p class="cart-summary__secure">{% render 'trust-icon', name: 'lock' %} Pago 100% seguro</p>
+        <ul class="cart-summary__payments" aria-label="Métodos de pago">
+          {%- for type in shop.enabled_payment_types -%}<li>{{ type | payment_type_svg_tag }}</li>{%- endfor -%}
+        </ul>
         {%- if additional_checkout_buttons -%}
           <div style="margin-top:12px">{{ content_for_additional_checkout_buttons }}</div>
         {%- endif -%}

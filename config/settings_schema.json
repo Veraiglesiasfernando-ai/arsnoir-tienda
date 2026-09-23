@@ -124,5 +124,51 @@
         "label": "TikTok"
       }
     ]
+  },
+  {
+    "name": "Conversión",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Envío gratis"
+      },
+      {
+        "type": "range",
+        "id": "free_shipping_threshold",
+        "label": "Envío gratis a partir de",
+        "min": 0,
+        "max": 200,
+        "step": 5,
+        "unit": "€",
+        "default": 60,
+        "info": "Debe coincidir con tu tarifa de envío en Configuración → Envíos. 0 = desactivado."
+      },
+      {
+        "type": "header",
+        "content": "Valoración de la tienda"
+      },
+      {
+        "type": "text",
+        "id": "rating_value",
+        "label": "Nota media (ej. 4,9)",
+        "info": "Solo con reseñas reales. Déjalo vacío hasta tenerlas."
+      },
+      {
+        "type": "number",
+        "id": "rating_count",
+        "label": "Número de reseñas",
+        "info": "Solo reseñas reales. Si es 0 o vacío, las estrellas no se muestran."
+      },
+      {
+        "type": "header",
+        "content": "Garantías"
+      },
+      {
+        "type": "text",
+        "id": "returns_days",
+        "label": "Días para devolver",
+        "default": "14"
+      }
+    ]
   }
 ]

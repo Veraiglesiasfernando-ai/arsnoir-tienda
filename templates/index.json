@@ -133,6 +133,189 @@
         "button_label": "Ver obras",
         "button_link": "shopify://collections/all"
       }
+    },
+    "rooms": {
+      "type": "room-mockups",
+      "blocks": {
+        "r1": {
+          "type": "room",
+          "settings": {
+            "room": "Salón"
+          }
+        },
+        "r2": {
+          "type": "room",
+          "settings": {
+            "room": "Dormitorio"
+          }
+        },
+        "r3": {
+          "type": "room",
+          "settings": {
+            "room": "Estudio"
+          }
+        }
+      },
+      "block_order": [
+        "r1",
+        "r2",
+        "r3"
+      ],
+      "settings": {
+        "eyebrow": "EN TU PARED",
+        "heading": "Imagínala en casa",
+        "subtitle": "Así se ven nuestras obras en espacios reales."
+      }
+    },
+    "reviews": {
+      "type": "reviews",
+      "settings": {
+        "eyebrow": "OPINIONES",
+        "heading": "Lo que dicen de sus paredes"
+      }
+    },
+    "guarantees": {
+      "type": "guarantees",
+      "blocks": {
+        "g1": {
+          "type": "item",
+          "settings": {
+            "icon": "truck",
+            "title": "Envío a toda España",
+            "text": "Gratis en pedidos desde [ENVIO_GRATIS] €. Seguimiento en cada pedido."
+          }
+        },
+        "g2": {
+          "type": "item",
+          "settings": {
+            "icon": "return",
+            "title": "[DIAS] días para devolver",
+            "text": "Si no encaja en tu pared, tienes [DIAS] días para devolverla."
+          }
+        },
+        "g3": {
+          "type": "item",
+          "settings": {
+            "icon": "print",
+            "title": "Impreso con Gelato",
+            "text": "Impresión profesional bajo demanda, con papeles y tintas de alta calidad."
+          }
+        },
+        "g4": {
+          "type": "item",
+          "settings": {
+            "icon": "lock",
+            "title": "Pago 100% seguro",
+            "text": "Pagos cifrados y protegidos a través de Shopify."
+          }
+        }
+      },
+      "block_order": [
+        "g1",
+        "g2",
+        "g3",
+        "g4"
+      ],
+      "settings": {
+        "heading": "Compra con total tranquilidad"
+      }
+    },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "q1": {
+          "type": "question",
+          "settings": {
+            "question": "¿Qué tamaños hay y cuál elijo?",
+            "answer": "<p>Cada obra está disponible en varios tamaños, que verás en su ficha. Los pequeños funcionan en estanterías y composiciones; los grandes, como pieza protagonista sobre un sofá o un cabecero. Truco: la obra debería ocupar unos 2/3 del ancho del mueble que tiene debajo.</p>"
+          }
+        },
+        "q2": {
+          "type": "question",
+          "settings": {
+            "question": "¿Cuánto tarda el envío?",
+            "answer": "<p>Cada obra se imprime bajo demanda con Gelato cuando haces el pedido y se envía a toda España con seguimiento. Verás el plazo estimado antes de pagar.</p>"
+          }
+        },
+        "q3": {
+          "type": "question",
+          "settings": {
+            "question": "¿En qué material se imprime?",
+            "answer": "<p>En papel mate de alta calidad con tintas de larga duración. Si la obra está disponible en otros formatos (lienzo o enmarcada), lo verás en la ficha.</p>"
+          }
+        },
+        "q4": {
+          "type": "question",
+          "settings": {
+            "question": "¿Viene con marco?",
+            "answer": "<p>Solo si eliges un formato enmarcado en la ficha de la obra. Si no, llega lista para enmarcar.</p>"
+          }
+        },
+        "q5": {
+          "type": "question",
+          "settings": {
+            "question": "¿Puedo devolverla?",
+            "answer": "<p>Sí, tienes 14 días desde que la recibes. Y si llega dañada, escríbenos con una foto y la reponemos.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4",
+        "q5"
+      ],
+      "settings": {
+        "eyebrow": "FAQ",
+        "heading": "Preguntas frecuentes",
+        "text": "¿Tienes otra duda? Escríbenos y te respondemos.",
+        "button_label": "Contactar",
+        "button_link": "/pages/contacto"
+      }
+    },
+    "community": {
+      "type": "instagram",
+      "blocks": {
+        "i1": {
+          "type": "tile",
+          "settings": {}
+        },
+        "i2": {
+          "type": "tile",
+          "settings": {}
+        },
+        "i3": {
+          "type": "tile",
+          "settings": {}
+        },
+        "i4": {
+          "type": "tile",
+          "settings": {}
+        },
+        "i5": {
+          "type": "tile",
+          "settings": {}
+        },
+        "i6": {
+          "type": "tile",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "i1",
+        "i2",
+        "i3",
+        "i4",
+        "i5",
+        "i6"
+      ],
+      "settings": {
+        "eyebrow": "COMUNIDAD",
+        "heading": "Tu pared, en nuestro feed",
+        "text": "Cuelga tu obra, hazle una foto y etiquétanos con #ARSNOIR.",
+        "handle": "@arsnoir"
+      }
     }
   },
   "order": [
@@ -141,6 +324,11 @@
     "marquee",
     "trust",
     "featured",
+    "rooms",
+    "reviews",
+    "guarantees",
+    "faq",
+    "community",
     "join"
   ]
 }

@@ -1,0 +1,64 @@
+{%- assign s = section.settings -%}
+<section class="section faq">
+  <div class="page-width faq__inner">
+    <div>
+      {%- if s.eyebrow != blank -%}<p class="eyebrow eyebrow--accent">{{ s.eyebrow }}</p>{%- endif -%}
+      <h2 class="featured__title">{{ s.heading }}</h2>
+      {%- if s.text != blank -%}<p class="featured__subtitle">{{ s.text }}</p>{%- endif -%}
+      {%- if s.button_label != blank -%}
+        <a class="button button--outline faq__cta" href="{{ s.button_link | default: '/pages/contacto' }}">{{ s.button_label }}</a>
+      {%- endif -%}
+    </div>
+    <div class="faq__list">
+      {%- for block in section.blocks -%}
+        <details class="faq__item" {{ block.shopify_attributes }}{% if forloop.first %} open{% endif %}>
+          <summary>{{ block.settings.question }}</summary>
+          <div class="faq__answer rte">{{ block.settings.answer }}</div>
+        </details>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{%- if section.blocks.size > 0 -%}
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {%- for block in section.blocks -%}
+      {
+        "@type": "Question",
+        "name": {{ block.settings.question | json }},
+        "acceptedAnswer": { "@type": "Answer", "text": {{ block.settings.answer | strip_html | json }} }
+      }{% unless forloop.last %},{% endunless %}
+      {%- endfor -%}
+    ]
+  }
+</script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Preguntas frecuentes",
+  "max_blocks": 8,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Texto pequeño (rojo)", "default": "FAQ" },
+    { "type": "text", "id": "heading", "label": "Título", "default": "Preguntas frecuentes" },
+    { "type": "text", "id": "text", "label": "Subtítulo", "default": "¿Tienes otra duda? Escríbenos y te respondemos." },
+    { "type": "text", "id": "button_label", "label": "Botón", "default": "Contactar" },
+    { "type": "url", "id": "button_link", "label": "Enlace del botón" }
+  ],
+  "blocks": [
+    {
+      "type": "question",
+      "name": "Pregunta",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Pregunta", "default": "¿Qué tamaños hay?" },
+        { "type": "richtext", "id": "answer", "label": "Respuesta", "default": "<p>Respuesta.</p>" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Preguntas frecuentes", "blocks": [{ "type": "question" }] }]
+}
+{% endschema %}

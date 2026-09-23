@@ -1,0 +1,77 @@
+{%- assign s = section.settings -%}
+<section class="section rooms">
+  <div class="page-width">
+    <div class="featured__head">
+      <div>
+        {%- if s.eyebrow != blank -%}<p class="eyebrow eyebrow--accent">{{ s.eyebrow }}</p>{%- endif -%}
+        <h2 class="featured__title">{{ s.heading }}</h2>
+        {%- if s.subtitle != blank -%}<p class="featured__subtitle">{{ s.subtitle }}</p>{%- endif -%}
+      </div>
+    </div>
+
+    <div class="rooms__grid">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign b = block.settings
+          assign p = b.product
+          assign url = p.url | default: routes.all_products_collection_url
+          assign label = b.caption | default: p.title
+          assign variant = forloop.index0 | modulo: 3
+        -%}
+        <a href="{{ url }}" class="room{% if forloop.first %} room--main{% endif %}" {{ block.shopify_attributes }}>
+          <div class="room__media">
+            {%- if b.image != blank -%}
+              {{ b.image | image_url: width: 1600 | image_tag: loading: 'lazy', widths: '500, 800, 1100, 1600', sizes: '(min-width: 900px) 60vw, 100vw', alt: label }}
+            {%- else -%}
+              <div class="room-ph room-ph--{{ variant }}" aria-hidden="true">
+                <span class="room-ph__wall"></span>
+                <span class="room-ph__art"></span>
+                <span class="room-ph__floor"></span>
+                <span class="room-ph__furniture"></span>
+              </div>
+            {%- endif -%}
+          </div>
+          <span class="room__pill">
+            <span>{{ label | default: 'Ver la obra' }}</span>
+            <span class="poster__plus" aria-hidden="true">+</span>
+          </span>
+          {%- if b.room != blank -%}<span class="room__tag">{{ b.room }}</span>{%- endif -%}
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Obras en tu pared",
+  "max_blocks": 3,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Texto pequeño (rojo)", "default": "EN TU PARED" },
+    { "type": "text", "id": "heading", "label": "Título", "default": "Imagínala en casa" },
+    { "type": "text", "id": "subtitle", "label": "Subtítulo", "default": "Así se ven nuestras obras en espacios reales." }
+  ],
+  "blocks": [
+    {
+      "type": "room",
+      "name": "Habitación",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Foto o mockup de la habitación", "info": "Usa fotos o mockups propios. Sin imagen se muestra una habitación de ejemplo." },
+        { "type": "product", "id": "product", "label": "Obra que aparece" },
+        { "type": "text", "id": "caption", "label": "Texto del botón" },
+        { "type": "text", "id": "room", "label": "Etiqueta de la estancia", "default": "Salón" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Obras en tu pared",
+      "blocks": [
+        { "type": "room", "settings": { "room": "Salón" } },
+        { "type": "room", "settings": { "room": "Dormitorio" } },
+        { "type": "room", "settings": { "room": "Estudio" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

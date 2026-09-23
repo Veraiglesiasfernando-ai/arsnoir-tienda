@@ -3,26 +3,77 @@
     "main": {
       "type": "main-product",
       "blocks": {
-        "title": { "type": "title", "settings": {} },
-        "price": { "type": "price", "settings": {} },
-        "buy": { "type": "buy_buttons", "settings": { "show_dynamic_checkout": false } },
-        "notes": { "type": "notes", "settings": { "note_1": "Edición limitada", "note_2": "Obra original y exclusiva de arsnoir", "note_3": "" } },
-        "description": { "type": "description", "settings": {} },
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "buy": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": false,
+            "highlight_largest": true,
+            "recommended_label": "Recomendado"
+          }
+        },
+        "notes": {
+          "type": "notes",
+          "settings": {
+            "note_1": "Edición limitada",
+            "note_2": "Obra original y exclusiva de arsnoir",
+            "note_3": ""
+          }
+        },
+        "description": {
+          "type": "description",
+          "settings": {}
+        },
         "details": {
           "type": "collapsible",
-          "settings": { "heading": "Detalles de la obra", "content": "<p>Añade aquí los detalles de la obra: técnica, papel o soporte, número de copias de la edición.</p>", "open": false }
+          "settings": {
+            "heading": "Detalles de la obra",
+            "content": "<p>Añade aquí los detalles de la obra: técnica, papel o soporte, número de copias de la edición.</p>",
+            "open": false
+          }
         },
         "sizes": {
           "type": "collapsible",
-          "settings": { "heading": "Tamaños", "content": "<p>Añade aquí las medidas disponibles.</p>", "open": false }
+          "settings": {
+            "heading": "Tamaños",
+            "content": "<p>Elige el tamaño según la pared: los formatos pequeños funcionan en estanterías y composiciones; los grandes, como pieza protagonista sobre un sofá o un cabecero. Mide el hueco y deja al menos 20 cm libres a cada lado.</p>",
+            "open": false
+          }
         },
         "shipping": {
           "type": "collapsible",
-          "settings": { "heading": "Envío y devoluciones", "content": "<p>Añade aquí tus plazos de envío y tu política de devoluciones.</p>", "open": false }
+          "settings": {
+            "heading": "Envío y devoluciones",
+            "content": "<p>Añade aquí tus plazos de envío y tu política de devoluciones.</p>",
+            "open": false
+          }
+        },
+        "trust": {
+          "type": "trust",
+          "settings": {}
         }
       },
-      "block_order": ["title", "price", "buy", "notes", "description", "details", "sizes", "shipping"],
-      "settings": { "lifestyle_from": 2 }
+      "block_order": [
+        "title",
+        "price",
+        "buy",
+        "trust",
+        "notes",
+        "description",
+        "details",
+        "sizes",
+        "shipping"
+      ],
+      "settings": {
+        "lifestyle_from": 2
+      }
     },
     "related": {
       "type": "featured-collection",
@@ -35,7 +86,18 @@
         "placeholder_price": "39,95 €",
         "border_top": true
       }
+    },
+    "reviews": {
+      "type": "reviews",
+      "settings": {
+        "eyebrow": "OPINIONES",
+        "heading": "Lo que dicen de esta obra"
+      }
     }
   },
-  "order": ["main", "related"]
+  "order": [
+    "main",
+    "reviews",
+    "related"
+  ]
 }

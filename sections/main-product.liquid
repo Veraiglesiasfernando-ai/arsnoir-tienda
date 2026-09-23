@@ -43,6 +43,12 @@
 
           {%- when 'title' -%}
             <h1 class="product__title" {{ block.shopify_attributes }}>{{ product.title }}</h1>
+            {%- comment -%} Stars only when a review app has written real ratings to the standard metafields {%- endcomment -%}
+            {%- assign p_rating = product.metafields.reviews.rating.value -%}
+            {%- assign p_count = product.metafields.reviews.rating_count.value | default: 0 -%}
+            {%- if p_rating != blank and p_count > 0 -%}
+              <a href="#Reviews" class="product__rating">{% render 'stars', rating: p_rating.rating, max: p_rating.scale_max, count: p_count %}</a>
+            {%- endif -%}
 
           {%- when 'price' -%}
             <div class="product__price" id="{{ price_id }}" {{ block.shopify_attributes }}>
@@ -65,8 +71,19 @@
               {%- unless product.has_only_default_variant -%}
                 <variant-picker data-form="{{ form_id }}" data-price="{{ price_id }}">
                   {%- for option in product.options_with_values -%}
-                    {%- assign option_index = forloop.index0 -%}
-                    <fieldset class="option">
+                    {%- liquid
+                      assign option_index = forloop.index0
+                      assign option_key = option.name | downcase
+                      assign is_size = false
+                      if option_key contains 'tama' or option_key contains 'size' or option_key contains 'medida'
+                        assign is_size = true
+                      endif
+                      assign recommended = block.settings.recommended_size
+                      if is_size and recommended == blank and block.settings.highlight_largest
+                        assign recommended = option.values | last
+                      endif
+                    -%}
+                    <fieldset class="option{% if is_size %} option--size{% endif %}">
                       <legend>{{ option.name }} <span data-selected-value>{{ option.selected_value }}</span></legend>
                       <div class="option__values">
                         {%- for value in option.values -%}
@@ -76,7 +93,10 @@
                             name="{{ section.id }}-{{ option.name | handle }}"
                             value="{{ value | escape }}"
                             {% if option.selected_value == value %}checked{% endif %}>
-                          <label for="{{ input_id }}">{{ value }}</label>
+                          <label for="{{ input_id }}">
+                            {{- value -}}
+                            {%- if is_size and value == recommended -%}<span class="option__badge">{{ block.settings.recommended_label }}</span>{%- endif -%}
+                          </label>
                         {%- endfor -%}
                       </div>
                     </fieldset>
@@ -105,7 +125,18 @@
                   {{ form | payment_button }}
                 {%- endif -%}
               {%- endform -%}
+              {%- if settings.free_shipping_threshold > 0 -%}
+                <p class="product__ship-hint">Envío gratis en pedidos desde {{ settings.free_shipping_threshold | times: 100 | money_without_trailing_zeros }}</p>
+              {%- endif -%}
             </div>
+
+          {%- when 'trust' -%}
+            <ul class="product__trust" {{ block.shopify_attributes }}>
+              <li>{% render 'trust-icon', name: 'print' %}<span>{{ block.settings.line_1 }}</span></li>
+              <li>{% render 'trust-icon', name: 'truck' %}<span>{{ block.settings.line_2 }}</span></li>
+              <li>{% render 'trust-icon', name: 'return' %}<span>{{ block.settings.line_3 | replace: '[DIAS]', settings.returns_days }}</span></li>
+              <li>{% render 'trust-icon', name: 'lock' %}<span>{{ block.settings.line_4 }}</span></li>
+            </ul>
 
           {%- when 'notes' -%}
             <ul class="product__notes" {{ block.shopify_attributes }}>
@@ -177,7 +208,20 @@
     {
       "type": "buy_buttons", "name": "Opciones y compra", "limit": 1,
       "settings": [
-        { "type": "checkbox", "id": "show_dynamic_checkout", "label": "Mostrar botón de pago rápido", "default": false }
+        { "type": "checkbox", "id": "show_dynamic_checkout", "label": "Mostrar botón de pago rápido", "default": false },
+        { "type": "header", "content": "Tamaño destacado" },
+        { "type": "checkbox", "id": "highlight_largest", "label": "Destacar el tamaño más grande", "default": true, "info": "Se aplica a la opción llamada Tamaño / Medida / Size." },
+        { "type": "text", "id": "recommended_size", "label": "O destacar este tamaño exacto", "info": "Ej.: 50 × 70 cm. Tiene prioridad sobre la opción anterior." },
+        { "type": "text", "id": "recommended_label", "label": "Etiqueta", "default": "Recomendado" }
+      ]
+    },
+    {
+      "type": "trust", "name": "Garantías", "limit": 1,
+      "settings": [
+        { "type": "text", "id": "line_1", "label": "Línea 1", "default": "Impreso con Gelato en alta calidad" },
+        { "type": "text", "id": "line_2", "label": "Línea 2", "default": "Envío a toda España con seguimiento" },
+        { "type": "text", "id": "line_3", "label": "Línea 3", "default": "[DIAS] días para devolver" },
+        { "type": "text", "id": "line_4", "label": "Línea 4", "default": "Pago 100% seguro" }
       ]
     },
     {
