@@ -1070,3 +1070,77 @@ body:has(.announce) { --announce-h: 38px; }
   .template-product .cookie { bottom: 80px; } /* stay above the sticky buy bar */
 }
 @media (prefers-reduced-motion: reduce) { .cookie { transition: none; transform: none; } }
+
+/* ==========================================================================
+   Header v3: clean at the top, glass on scroll · "Productos" dropdown
+   ========================================================================== */
+
+.glass-header {
+  transition: background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease,
+    -webkit-backdrop-filter 0.35s ease, backdrop-filter 0.35s ease, color 0.35s ease;
+}
+html:not(.is-scrolled) .glass-header {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+/* Over the video hero, the clean header uses white type */
+html:not(.is-scrolled) body:has(main > .shopify-section:first-child .vhero) .glass-header { color: #fff; }
+html:not(.is-scrolled) body:has(main > .shopify-section:first-child .vhero) .glass-header__links a[aria-current] { color: #fff; }
+html:not(.is-scrolled) body:has(main > .shopify-section:first-child .vhero) .glass-header__links a:hover { color: #fff; opacity: 0.75; }
+.glass-header__links a[aria-current] { color: inherit; }
+
+/* Dropdown */
+.nav-drop { position: relative; }
+.nav-drop__toggle { display: inline-flex; align-items: center; gap: 6px; }
+.nav-drop__caret { width: 11px; height: 11px; transition: transform 0.25s ease; }
+.nav-drop:hover .nav-drop__caret, .nav-drop:focus-within .nav-drop__caret { transform: rotate(180deg); }
+.nav-drop__panel {
+  position: absolute;
+  top: calc(100% + 14px);
+  left: 50%;
+  min-width: 260px;
+  padding: 14px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.94);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  backdrop-filter: blur(20px) saturate(1.4);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 24px 50px -24px rgba(0, 0, 0, 0.4);
+  color: var(--color-fg);
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, 6px);
+  transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s;
+}
+.nav-drop__panel::before { /* hover bridge between the link and the panel */
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -16px;
+  height: 16px;
+}
+.nav-drop:hover .nav-drop__panel,
+.nav-drop:focus-within .nav-drop__panel { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
+.nav-drop__panel ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 2px 8px; }
+.glass-header .nav-drop__panel a {
+  display: block;
+  padding: 10px 12px;
+  border-radius: 12px;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: var(--color-fg);
+}
+.glass-header .nav-drop__panel a:hover { background: rgba(0, 0, 0, 0.05); color: var(--color-accent); opacity: 1; }
+.glass-header .nav-drop__panel a[aria-current]::after { display: none; }
+.glass-header .nav-drop__panel a[aria-current] { color: var(--color-accent); }
+.glass-header .nav-drop__panel .nav-drop__all { margin-top: 8px; border-top: 1px solid var(--color-line); border-radius: 0 0 12px 12px; font-weight: 600; }
+
+/* Mobile menu: sub-list for Productos */
+.mobile-menu__sub { list-style: none; margin: -6px 0 8px; padding: 0 0 0 14px; display: grid; grid-template-columns: 1fr 1fr; }
+.glass-header .mobile-menu__panel .mobile-menu__sub a { font-size: 16px; font-weight: 500; padding: 8px 0; color: var(--color-muted); }
+.glass-header .mobile-menu__panel { color: var(--color-fg); }

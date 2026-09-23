@@ -11,7 +11,16 @@
         <div class="mobile-menu__panel">
           <ul>
             {%- for link in menu.links -%}
-              <li><a href="{{ link.url }}"{% if link.current or link.child_active %} aria-current="page"{% endif %}>{{ link.title }}</a></li>
+              <li>
+                <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a>
+                {%- if link.links.size > 0 -%}
+                  <ul class="mobile-menu__sub">
+                    {%- for child in link.links -%}
+                      <li><a href="{{ child.url }}"{% if child.current %} aria-current="page"{% endif %}>{{ child.title }}</a></li>
+                    {%- endfor -%}
+                  </ul>
+                {%- endif -%}
+              </li>
             {%- endfor -%}
             <li><a href="{{ routes.search_url }}">Buscar</a></li>
           </ul>
@@ -31,7 +40,24 @@
     <nav class="glass-header__nav" aria-label="Tipos de obra">
       <ul class="glass-header__links">
         {%- for link in menu.links -%}
-          <li><a href="{{ link.url }}"{% if link.current or link.child_active %} aria-current="page"{% endif %}>{{ link.title }}</a></li>
+          {%- if link.links.size > 0 -%}
+            <li class="nav-drop">
+              <a href="{{ link.url }}" class="nav-drop__toggle" aria-haspopup="true"{% if link.current or link.child_active %} aria-current="page"{% endif %}>
+                {{- link.title -}}
+                <svg class="nav-drop__caret" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>
+              </a>
+              <div class="nav-drop__panel">
+                <ul>
+                  {%- for child in link.links -%}
+                    <li><a href="{{ child.url }}"{% if child.current %} aria-current="page"{% endif %}>{{ child.title }}</a></li>
+                  {%- endfor -%}
+                </ul>
+                <a class="nav-drop__all" href="{{ link.url }}">Ver todos los productos &rarr;</a>
+              </div>
+            </li>
+          {%- else -%}
+            <li><a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a></li>
+          {%- endif -%}
         {%- endfor -%}
       </ul>
     </nav>
@@ -55,7 +81,7 @@
     { "type": "text", "id": "logo_text", "label": "Logo (texto)", "default": "arsnoir" },
     { "type": "image_picker", "id": "logo", "label": "Logo (imagen)", "info": "Opcional. Si subes una imagen, sustituye al texto." },
     { "type": "range", "id": "logo_width", "label": "Ancho del logo", "min": 60, "max": 300, "step": 10, "unit": "px", "default": 140 },
-    { "type": "link_list", "id": "menu", "label": "Menú (tipos de obra)", "default": "main-menu", "info": "Se muestra en el centro en escritorio y en el menú hamburguesa en móvil." }
+    { "type": "link_list", "id": "menu", "label": "Menú (tipos de obra)", "default": "main-menu", "info": "Se muestra en el centro en escritorio y en el menú hamburguesa en móvil. Los elementos con subelementos (ej. Productos) se abren como desplegable." }
   ]
 }
 {% endschema %}

@@ -58,6 +58,13 @@
     timer = setTimeout(function () { show(1); }, interval);
   });
 
+  /* Header: clean/transparent at the top, glass once the page scrolls */
+  const setScrolled = function () {
+    document.documentElement.classList.toggle('is-scrolled', window.scrollY > 12);
+  };
+  setScrolled();
+  window.addEventListener('scroll', setScrolled, { passive: true });
+
   /* Keep the sticky header right under the announcement bar, whatever its height */
   const announce = document.querySelector('.announce');
   if (announce) {
