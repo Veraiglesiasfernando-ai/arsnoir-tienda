@@ -43,8 +43,8 @@
       {
         "type": "color",
         "id": "color_accent",
-        "label": "Acento (rojo)",
-        "default": "#E4231A"
+        "label": "Acento",
+        "default": "#0A0A0A"
       }
     ]
   },

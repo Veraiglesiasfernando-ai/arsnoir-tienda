@@ -12,7 +12,7 @@ Cada cambio que se sube a la rama se sincroniza solo con el tema.
 
 ## Home
 
-Estética: fondo blanco/gris claro con degradado suave, tipografía Space Grotesk (servida desde `assets/`), negro y un único acento rojo `#E4231A`. Todos los huecos de obra son placeholders vacíos listos para tu arte.
+Estética: fondo blanco/gris claro con degradado suave, tipografía Space Grotesk (servida desde `assets/`), solo blanco, negro y grises. Todos los huecos de obra son placeholders vacíos listos para tu arte.
 
 1. **Barra negra fija** («Arte exclusivo de ARSNOIR — no lo encontrarás en ningún otro sitio.») y **cabecera de cristal fija** debajo: logo «arsnoir» a la izquierda, menú Inicio · Productos (desplegable con Motor, Sport, Urban, Animals, Abstract, Art, Mindset y Escape; menú `main-menu`) en el centro, buscador y carrito a la derecha. En móvil, todo va en el menú hamburguesa. Arriba del todo la cabecera es transparente (texto blanco sobre el vídeo del hero) y el cristal aparece al hacer scroll.
 2. **Bienvenida:** «★ BIENVENIDO A ★», «ARSNOIR» gigante, subtítulo y 3 cartas cuadradas de cristal con esquineras. La del centro es la destacada, con el botón «Explorar obra +»; las laterales dicen «PRÓXIMAMENTE». Cada carta admite su propia imagen desde *Personalizar*.

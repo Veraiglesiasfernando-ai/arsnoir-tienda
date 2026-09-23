@@ -86,7 +86,7 @@ h1, h2, h3, .h1, .h2 { font-weight: 700; letter-spacing: -0.03em; }
   pointer-events: none;
   background:
     radial-gradient(420px 320px at 20% 75%, rgba(10,10,10,0.12), transparent 70%),
-    radial-gradient(420px 320px at 82% 72%, rgba(228,35,26,0.16), transparent 70%);
+    radial-gradient(420px 320px at 82% 72%, rgba(10,10,10,0.08), transparent 70%);
 }
 .welcome__inner { position: relative; text-align: center; }
 .welcome__eyebrow {
@@ -158,15 +158,15 @@ h1, h2, h3, .h1, .h2 { font-weight: 700; letter-spacing: -0.03em; }
 }
 .poster--dark .poster__ph {
   background:
-    radial-gradient(40% 32% at 50% 58%, rgba(228,35,26,0.55), transparent 70%),
+    radial-gradient(40% 32% at 50% 58%, rgba(255,255,255,0.14), transparent 70%),
     radial-gradient(70% 50% at 50% 15%, #3b3b3b, transparent 70%),
     linear-gradient(180deg, #1c1c1c 0%, #0a0a0a 60%, #262626 100%);
 }
 .poster--accent .poster__ph {
   background:
-    radial-gradient(50% 38% at 50% 60%, #ff6b61, transparent 70%),
-    radial-gradient(70% 50% at 50% 10%, #8a120c, transparent 70%),
-    linear-gradient(180deg, #b3170f 0%, #e4231a 50%, #2a0605 100%);
+    radial-gradient(50% 38% at 50% 60%, #8a8a8a, transparent 70%),
+    radial-gradient(70% 50% at 50% 10%, #2a2a2a, transparent 70%),
+    linear-gradient(180deg, #3a3a3a 0%, #5c5c5c 50%, #111111 100%);
 }
 .poster__tag {
   position: absolute;
@@ -226,7 +226,7 @@ h1, h2, h3, .h1, .h2 { font-weight: 700; letter-spacing: -0.03em; }
 .vhero__shade { position: absolute; inset: 0; background: #000; pointer-events: none; }
 .vhero__ph { position: absolute; inset: 0; }
 .vhero__ph--1 { background: radial-gradient(50% 60% at 30% 50%, #3a3a3a, transparent 70%), radial-gradient(40% 50% at 75% 55%, #1f1f1f, transparent 70%), linear-gradient(90deg, #121212 0%, #0a0a0a 50%, #2a2a2a 100%); }
-.vhero__ph--2 { background: radial-gradient(45% 55% at 70% 50%, rgba(228,35,26,0.5), transparent 70%), linear-gradient(90deg, #0a0a0a, #1a1a1a); }
+.vhero__ph--2 { background: radial-gradient(45% 55% at 70% 50%, rgba(255,255,255,0.14), transparent 70%), linear-gradient(90deg, #0a0a0a, #1a1a1a); }
 .vhero__ph--0 { background: radial-gradient(60% 60% at 50% 40%, #6b6b6b, transparent 70%), linear-gradient(180deg, #2b2b2b, #0a0a0a); }
 .vhero__side {
   position: absolute;
@@ -345,7 +345,7 @@ main > .shopify-section:first-child .vhero { margin-top: -76px; }
 .glass-card__ph { width: 100%; height: 100%; }
 .glass-card--light .glass-card__ph { background: linear-gradient(160deg, #f7f7f6 0%, #dededc 55%, #c9c9c7 100%); }
 .glass-card--dark .glass-card__ph { background: radial-gradient(80% 70% at 50% 60%, #3a3a3a 0%, #151515 60%, #050505 100%); }
-.glass-card--accent .glass-card__ph { background: radial-gradient(80% 70% at 50% 60%, #ff5a4f 0%, #e4231a 45%, #6d0f0a 100%); }
+.glass-card--accent .glass-card__ph { background: radial-gradient(80% 70% at 50% 60%, #8a8a8a 0%, #5c5c5c 45%, #111111 100%); }
 .glass-card__corner {
   position: absolute;
   z-index: 1;
@@ -617,11 +617,11 @@ main > .shopify-section:first-child .vhero { margin-top: -76px; }
 .room-ph__furniture { position: absolute; left: 50%; bottom: 18%; width: 58%; height: 20%; transform: translateX(-50%); border-radius: 18px 18px 6px 6px; }
 .room-ph--0 .room-ph__wall { background: linear-gradient(180deg, #efefed, #e2e2df); }
 .room-ph--0 .room-ph__floor { background: linear-gradient(180deg, #cfc9c1, #bdb6ad); }
-.room-ph--0 .room-ph__art { background: radial-gradient(40% 32% at 50% 58%, rgba(228,35,26,0.55), transparent 70%), linear-gradient(180deg, #1c1c1c, #0a0a0a); }
+.room-ph--0 .room-ph__art { background: radial-gradient(40% 32% at 50% 58%, rgba(255,255,255,0.14), transparent 70%), linear-gradient(180deg, #1c1c1c, #0a0a0a); }
 .room-ph--0 .room-ph__furniture { background: linear-gradient(180deg, #b9b9b6, #9f9f9c); }
 .room-ph--1 .room-ph__wall { background: linear-gradient(180deg, #2a2a2a, #1d1d1d); }
 .room-ph--1 .room-ph__floor { background: linear-gradient(180deg, #3a342f, #2a2521); }
-.room-ph--1 .room-ph__art { width: 22%; background: linear-gradient(180deg, #b3170f, #e4231a 50%, #2a0605); }
+.room-ph--1 .room-ph__art { width: 22%; background: linear-gradient(180deg, #3a3a3a, #5c5c5c 50%, #111111); }
 .room-ph--1 .room-ph__furniture { width: 64%; height: 14%; bottom: 20%; border-radius: 10px; background: linear-gradient(180deg, #e9e9e7, #cfcfcd); }
 .room-ph--2 .room-ph__wall { background: linear-gradient(180deg, #f6f6f4, #ebebe8); }
 .room-ph--2 .room-ph__floor { background: linear-gradient(180deg, #d9d5cf, #c9c4bd); }
@@ -1144,3 +1144,32 @@ html:not(.is-scrolled) body:has(main > .shopify-section:first-child .vhero) .gla
 .mobile-menu__sub { list-style: none; margin: -6px 0 8px; padding: 0 0 0 14px; display: grid; grid-template-columns: 1fr 1fr; }
 .glass-header .mobile-menu__panel .mobile-menu__sub a { font-size: 16px; font-weight: 500; padding: 8px 0; color: var(--color-muted); }
 .glass-header .mobile-menu__panel { color: var(--color-fg); }
+
+/* ==========================================================================
+   Black & white only: accent is black; on dark surfaces use white instead
+   ========================================================================== */
+.join .button--accent { background: #fff; border-color: #fff; color: #0a0a0a; }
+.join .button--accent:hover { background: transparent; color: #fff; }
+.site-footer .eyebrow--accent,
+.site-footer__heading { color: rgba(255,255,255,0.55); }
+.site-footer a:hover, .site-footer__more:hover { color: #fff; opacity: 0.65; }
+.site-footer__secure-label .t-icon { color: #fff; }
+.story--manifesto .story__body p:first-child,
+.story--manifesto .story__body strong { color: #fff; }
+.story--manifesto .story__body p:first-child { opacity: 0.6; }
+.marquee { background: #0a0a0a; }
+.button--accent:hover { background: transparent; color: var(--color-fg); border-color: var(--color-fg); }
+.eyebrow--accent { color: var(--color-muted); }
+.poster .art-card__index, .art-card__index { color: var(--color-muted); }
+.drop-card__tag, .poster__tag, .option__badge { background: #0a0a0a; color: #fff; }
+.drawer__count, .filter__count, .cart-count { background: #0a0a0a; color: #fff; }
+html:not(.is-scrolled) body:has(main > .shopify-section:first-child .vhero) .glass-header .cart-count { background: #fff; color: #0a0a0a; }
+.glass-header__links a[aria-current]::after { background: currentColor; }
+.faq__item[open] summary::after { background: #0a0a0a; border-color: #0a0a0a; color: #fff; }
+.trust__item::before { background: #0a0a0a; }
+.product__ship-hint::before { color: #0a0a0a; }
+.vhero__cta:hover { background: #fff; color: #0a0a0a; }
+.poster:hover .poster__plus, .room:hover .poster__plus, .glass-card__button:hover .glass-card__plus { background: #555; }
+.stars__fill { color: #0a0a0a; }
+.review__verified::before { color: #0a0a0a; }
+::selection { background: #0a0a0a; color: #fff; }
