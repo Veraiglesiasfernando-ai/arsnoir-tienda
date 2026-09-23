@@ -3,30 +3,82 @@
     "welcome": {
       "type": "hero-welcome",
       "blocks": {
-        "left": { "type": "card", "settings": { "featured": false, "tone": "dark", "label": "PRÓXIMAMENTE" } },
-        "center": { "type": "card", "settings": { "featured": true, "tone": "light", "label": "", "button_label": "Explorar obra", "link": "shopify://collections/all" } },
-        "right": { "type": "card", "settings": { "featured": false, "tone": "accent", "label": "PRÓXIMAMENTE" } }
+        "left": {
+          "type": "card",
+          "settings": {
+            "tone": "dark",
+            "placeholder_price": "39,95 €"
+          }
+        },
+        "center": {
+          "type": "card",
+          "settings": {
+            "featured": true,
+            "tone": "light",
+            "tag": "NUEVA",
+            "placeholder_price": "39,95 €"
+          }
+        },
+        "right": {
+          "type": "card",
+          "settings": {
+            "tone": "accent",
+            "placeholder_price": "39,95 €"
+          }
+        }
       },
-      "block_order": ["left", "center", "right"],
+      "block_order": [
+        "left",
+        "center",
+        "right"
+      ],
       "settings": {
-        "eyebrow": "★ BIENVENIDO A ★",
+        "eyebrow": "BIENVENIDO A",
         "title": "ARSNOIR",
         "subtitle": "Arte que no verás en ningún otro sitio."
       }
     },
     "marquee": {
       "type": "marquee",
-      "settings": { "text": "ARTE QUE NO VERÁS EN NINGÚN OTRO SITIO · 100% ORIGINAL · SOLO EN ARSNOIR ·", "speed": 35 }
+      "settings": {
+        "text": "ARTE QUE NO VERÁS EN NINGÚN OTRO SITIO · 100% ORIGINAL · SOLO EN ARSNOIR ·",
+        "speed": 35
+      }
     },
     "trust": {
       "type": "trust-strip",
       "blocks": {
-        "t1": { "type": "item", "settings": { "text": "Arte 100% original" } },
-        "t2": { "type": "item", "settings": { "text": "Impreso con Gelato" } },
-        "t3": { "type": "item", "settings": { "text": "Envío a toda España" } },
-        "t4": { "type": "item", "settings": { "text": "Solo en ARSNOIR" } }
+        "t1": {
+          "type": "item",
+          "settings": {
+            "text": "Arte 100% original"
+          }
+        },
+        "t2": {
+          "type": "item",
+          "settings": {
+            "text": "Impreso con Gelato"
+          }
+        },
+        "t3": {
+          "type": "item",
+          "settings": {
+            "text": "Envío a toda España"
+          }
+        },
+        "t4": {
+          "type": "item",
+          "settings": {
+            "text": "Solo en ARSNOIR"
+          }
+        }
       },
-      "block_order": ["t1", "t2", "t3", "t4"],
+      "block_order": [
+        "t1",
+        "t2",
+        "t3",
+        "t4"
+      ],
       "settings": {}
     },
     "featured": {
@@ -48,7 +100,48 @@
         "text": "15% en tu primera compra y acceso primero a cada obra nueva.",
         "button_label": "UNIRME"
       }
+    },
+    "vhero": {
+      "type": "video-hero",
+      "blocks": {
+        "s1": {
+          "type": "slide",
+          "settings": {}
+        },
+        "s2": {
+          "type": "slide",
+          "settings": {}
+        },
+        "s3": {
+          "type": "slide",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "settings": {
+        "height": "full",
+        "overlay": 15,
+        "interval": 6,
+        "label_left": "(ARSNOIR)",
+        "label_right": "obra nº01",
+        "show_seal": true,
+        "seal_text": "ARTE ORIGINAL · SOLO EN ARSNOIR · ",
+        "seal_center": "A",
+        "button_label": "Ver obras",
+        "button_link": "shopify://collections/all"
+      }
     }
   },
-  "order": ["welcome", "marquee", "trust", "featured", "join"]
+  "order": [
+    "welcome",
+    "vhero",
+    "marquee",
+    "trust",
+    "featured",
+    "join"
+  ]
 }

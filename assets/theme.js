@@ -30,6 +30,34 @@
     slider.scrollBy({ left: step * parseInt(button.dataset.scroll, 10), behavior: 'smooth' });
   });
 
+  /* Video hero slideshow with progress bars ---------------------------- */
+  document.querySelectorAll('[data-vhero]').forEach(function (hero) {
+    const slides = hero.querySelectorAll('.vhero__slide');
+    const bars = hero.querySelectorAll('.vhero__bar');
+    if (slides.length < 2) return;
+    const interval = (parseInt(hero.dataset.interval, 10) || 6) * 1000;
+    hero.style.setProperty('--vhero-interval', interval + 'ms');
+    let current = 0;
+    let timer;
+
+    function show(index) {
+      slides[current].classList.remove('is-active');
+      bars[current].classList.remove('is-active');
+      bars.forEach(function (bar, i) { bar.classList.toggle('is-done', i < index); });
+      current = (index + slides.length) % slides.length;
+      slides[current].classList.add('is-active');
+      void bars[current].offsetWidth; /* restart the CSS progress animation */
+      bars[current].classList.add('is-active');
+      const video = slides[current].querySelector('video');
+      if (video) { video.currentTime = 0; video.play().catch(function () {}); }
+      clearTimeout(timer);
+      timer = setTimeout(function () { show(current + 1); }, interval);
+    }
+
+    bars.forEach(function (bar, i) { bar.addEventListener('click', function () { show(i); }); });
+    timer = setTimeout(function () { show(1); }, interval);
+  });
+
   /* Sort select auto-submit --------------------------------------------- */
   document.querySelectorAll('[data-autosubmit]').forEach(function (el) {
     el.addEventListener('change', function () { el.form.submit(); });

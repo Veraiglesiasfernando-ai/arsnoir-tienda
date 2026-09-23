@@ -1,0 +1,87 @@
+{%- liquid
+  assign s = section.settings
+  assign slide_count = section.blocks.size
+-%}
+
+<section class="vhero vhero--{{ s.height }}" data-vhero data-interval="{{ s.interval }}">
+  <div class="vhero__slides">
+    {%- for block in section.blocks -%}
+      {%- assign b = block.settings -%}
+      <div class="vhero__slide{% if forloop.first %} is-active{% endif %}" {{ block.shopify_attributes }}>
+        {%- if b.video != blank -%}
+          {{ b.video | video_tag: autoplay: true, loop: true, muted: true, playsinline: true, controls: false, preload: 'metadata', image_size: '1920x' }}
+        {%- elsif b.image != blank -%}
+          {{ b.image | image_url: width: 2400 | image_tag: loading: 'eager', widths: '750, 1100, 1500, 1920, 2400', sizes: '100vw' }}
+        {%- else -%}
+          <div class="vhero__ph vhero__ph--{{ forloop.index | modulo: 3 }}" aria-hidden="true"></div>
+        {%- endif -%}
+        <div class="vhero__shade" style="opacity: {{ s.overlay | divided_by: 100.0 }}"></div>
+      </div>
+    {%- else -%}
+      <div class="vhero__slide is-active"><div class="vhero__ph vhero__ph--1" aria-hidden="true"></div></div>
+    {%- endfor -%}
+  </div>
+
+  {%- if s.label_left != blank -%}<span class="vhero__side vhero__side--left">{{ s.label_left }}</span>{%- endif -%}
+  {%- if s.label_right != blank -%}<span class="vhero__side vhero__side--right">{{ s.label_right }}</span>{%- endif -%}
+
+  {%- if s.show_seal -%}
+    <div class="vhero__seal" aria-hidden="true">
+      <svg viewBox="0 0 200 200" class="vhero__seal-ring">
+        <defs><path id="SealPath-{{ section.id }}" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0"/></defs>
+        <text textLength="486" lengthAdjust="spacing"><textPath href="#SealPath-{{ section.id }}" startOffset="0" textLength="486" lengthAdjust="spacing">{{ s.seal_text }}</textPath></text>
+      </svg>
+      <span class="vhero__seal-core">{{ s.seal_center }}</span>
+    </div>
+  {%- endif -%}
+
+  {%- if s.button_label != blank -%}
+    <a class="vhero__cta" href="{{ s.button_link | default: routes.all_products_collection_url }}">{{ s.button_label }}</a>
+  {%- endif -%}
+
+  {%- if slide_count > 1 -%}
+    <div class="vhero__progress">
+      {%- for block in section.blocks -%}
+        <button type="button" class="vhero__bar{% if forloop.first %} is-active{% endif %}" data-slide="{{ forloop.index0 }}" aria-label="Diapositiva {{ forloop.index }}"><span></span></button>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Hero con vídeo",
+  "max_blocks": 5,
+  "settings": [
+    {
+      "type": "select", "id": "height", "label": "Altura", "default": "full",
+      "options": [
+        { "value": "full", "label": "Pantalla completa" },
+        { "value": "large", "label": "Grande" }
+      ]
+    },
+    { "type": "range", "id": "overlay", "label": "Oscurecer fondo", "min": 0, "max": 70, "step": 5, "unit": "%", "default": 15 },
+    { "type": "range", "id": "interval", "label": "Segundos por diapositiva", "min": 3, "max": 15, "step": 1, "unit": "s", "default": 6 },
+    { "type": "text", "id": "label_left", "label": "Etiqueta izquierda", "default": "(ARSNOIR)" },
+    { "type": "text", "id": "label_right", "label": "Etiqueta derecha", "default": "obra nº01" },
+    { "type": "checkbox", "id": "show_seal", "label": "Mostrar sello giratorio", "default": true },
+    { "type": "text", "id": "seal_text", "label": "Texto del sello", "default": "ARTE ORIGINAL · SOLO EN ARSNOIR · " },
+    { "type": "text", "id": "seal_center", "label": "Centro del sello", "default": "A" },
+    { "type": "text", "id": "button_label", "label": "Texto del botón", "default": "Ver obras" },
+    { "type": "url", "id": "button_link", "label": "Enlace del botón" }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Diapositiva",
+      "settings": [
+        { "type": "video", "id": "video", "label": "Vídeo de fondo", "info": "Súbelo en Contenido → Archivos. Se reproduce en bucle y sin sonido." },
+        { "type": "image_picker", "id": "image", "label": "Imagen (si no hay vídeo)" }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "Hero con vídeo", "blocks": [ { "type": "slide" }, { "type": "slide" }, { "type": "slide" } ] }
+  ]
+}
+{% endschema %}

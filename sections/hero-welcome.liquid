@@ -15,21 +15,39 @@
       {%- for block in section.blocks -%}
         {%- liquid
           assign b = block.settings
+          assign p = b.product
+          assign img = b.image | default: p.featured_media.preview_image
+          assign url = b.link | default: p.url | default: routes.all_products_collection_url
+          assign title = b.title | default: p.title
+          assign num = forloop.index | prepend: '0' | slice: -2, 2
+          if title == blank
+            assign title = 'Obra ' | append: num
+          endif
           assign loading = 'lazy'
           if b.featured
             assign loading = 'eager'
           endif
         -%}
-        <div class="welcome__card{% if b.featured %} welcome__card--featured{% endif %}" {{ block.shopify_attributes }}>
-          <div class="welcome__hanger" aria-hidden="true"></div>
-          {%- if b.featured -%}
-            {% render 'glass-card', image: b.image, tone: b.tone, label: b.label, button_label: b.button_label, button_url: b.link, loading: loading, sizes: '(min-width: 900px) 36vw, 80vw' %}
-          {%- else -%}
-            {%- if b.link != blank -%}<a href="{{ b.link }}" class="welcome__card-link">{%- endif -%}
-            {% render 'glass-card', image: b.image, tone: b.tone, label: b.label, loading: loading, sizes: '(min-width: 900px) 28vw, 70vw' %}
-            {%- if b.link != blank -%}</a>{%- endif -%}
-          {%- endif -%}
-        </div>
+        <a href="{{ url }}" class="drop-card drop-card--{{ b.tone }}{% if b.featured %} drop-card--featured{% endif %}" {{ block.shopify_attributes }}>
+          <div class="drop-card__media">
+            {%- if img != blank -%}
+              {{ img | image_url: width: 1200 | image_tag: loading: loading, widths: '400, 600, 900, 1200', sizes: '(min-width: 900px) 32vw, 78vw', alt: title }}
+            {%- else -%}
+              <div class="drop-card__ph" aria-hidden="true"></div>
+            {%- endif -%}
+          </div>
+          <span class="drop-card__hanger" aria-hidden="true"></span>
+          {%- if b.tag != blank -%}<span class="drop-card__tag">{{ b.tag }}</span>{%- endif -%}
+          <span class="drop-card__pill">
+            <span class="drop-card__meta">
+              <span class="drop-card__title">{{ title }}</span>
+              <span class="drop-card__price">
+                {%- if p != blank -%}{% render 'price', product: p, show_from: true %}{%- else -%}{{ b.placeholder_price }}{%- endif -%}
+              </span>
+            </span>
+            <span class="drop-card__plus" aria-hidden="true">+</span>
+          </span>
+        </a>
       {%- endfor -%}
     </div>
   </div>
@@ -40,17 +58,20 @@
   "name": "Bienvenida",
   "max_blocks": 3,
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Texto pequeño superior", "default": "★ BIENVENIDO A ★" },
-    { "type": "text", "id": "title", "label": "Título gigante", "default": "ARSNOIR" },
+    { "type": "text", "id": "eyebrow", "label": "Texto pequeño superior", "default": "BIENVENIDO A" },
+    { "type": "text", "id": "title", "label": "Título", "default": "ARSNOIR" },
     { "type": "text", "id": "subtitle", "label": "Subtítulo", "default": "Arte que no verás en ningún otro sitio." }
   ],
   "blocks": [
     {
       "type": "card",
-      "name": "Carta",
+      "name": "Obra",
       "settings": [
-        { "type": "checkbox", "id": "featured", "label": "Carta destacada (más grande, con botón)", "default": false },
-        { "type": "image_picker", "id": "image", "label": "Imagen de la obra", "info": "Opcional. Sin imagen se muestra un hueco de color." },
+        { "type": "product", "id": "product", "label": "Obra", "info": "Se muestran su imagen, nombre y precio." },
+        { "type": "checkbox", "id": "featured", "label": "Carta destacada (más grande)", "default": false },
+        { "type": "image_picker", "id": "image", "label": "Imagen personalizada", "info": "Opcional. Sustituye a la imagen de la obra." },
+        { "type": "text", "id": "title", "label": "Nombre personalizado" },
+        { "type": "text", "id": "tag", "label": "Etiqueta superior", "info": "Ej.: NUEVA, EDICIÓN LIMITADA" },
         {
           "type": "select", "id": "tone", "label": "Color del hueco vacío", "default": "light",
           "options": [
@@ -59,9 +80,8 @@
             { "value": "accent", "label": "Rojo" }
           ]
         },
-        { "type": "text", "id": "label", "label": "Texto encima", "default": "PRÓXIMAMENTE" },
-        { "type": "text", "id": "button_label", "label": "Texto del botón (solo carta destacada)", "default": "Explorar obra" },
-        { "type": "url", "id": "link", "label": "Enlace" }
+        { "type": "text", "id": "placeholder_price", "label": "Precio de ejemplo (sin obra)", "default": "39,95 €" },
+        { "type": "url", "id": "link", "label": "Enlace personalizado" }
       ]
     }
   ],
@@ -69,9 +89,9 @@
     {
       "name": "Bienvenida",
       "blocks": [
-        { "type": "card", "settings": { "tone": "dark", "label": "PRÓXIMAMENTE" } },
-        { "type": "card", "settings": { "featured": true, "tone": "light", "label": "", "button_label": "Explorar obra" } },
-        { "type": "card", "settings": { "tone": "accent", "label": "PRÓXIMAMENTE" } }
+        { "type": "card", "settings": { "tone": "dark" } },
+        { "type": "card", "settings": { "featured": true, "tone": "light" } },
+        { "type": "card", "settings": { "tone": "accent" } }
       ]
     }
   ]
