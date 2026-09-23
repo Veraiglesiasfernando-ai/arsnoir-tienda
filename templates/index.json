@@ -137,8 +137,8 @@
     }
   },
   "order": [
-    "welcome",
     "vhero",
+    "welcome",
     "marquee",
     "trust",
     "featured",

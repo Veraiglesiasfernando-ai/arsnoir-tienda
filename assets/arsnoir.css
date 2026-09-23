@@ -317,6 +317,10 @@ h1, h2, h3, .h1, .h2 { font-weight: 700; letter-spacing: -0.03em; }
   -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
 }
+/* When the video hero opens the page, slide it under the floating glass header */
+main > .shopify-section:first-child .vhero { margin-top: -76px; }
+@media (max-width: 749px) { main > .shopify-section:first-child .vhero { margin-top: -68px; } }
+
 @keyframes seal-spin { to { transform: rotate(360deg); } }
 .vhero__cta {
   position: absolute;
