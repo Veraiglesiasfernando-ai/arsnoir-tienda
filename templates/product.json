@@ -62,15 +62,30 @@
         "material": {
           "type": "material",
           "settings": {}
+        },
+        "edition": {
+          "type": "edition",
+          "settings": {}
+        },
+        "wall": {
+          "type": "wall_preview",
+          "settings": {}
+        },
+        "compare": {
+          "type": "size_compare",
+          "settings": {}
         }
       },
       "block_order": [
         "title",
         "price",
+        "edition",
         "buy",
         "material",
         "trust",
         "notes",
+        "wall",
+        "compare",
         "description",
         "details",
         "sizes",
@@ -144,12 +159,17 @@
         "button_label": "Contactar",
         "button_link": "/pages/contacto"
       }
+    },
+    "recent": {
+      "type": "recently-viewed",
+      "settings": {}
     }
   },
   "order": [
     "main",
     "reviews",
     "faq",
-    "related"
+    "related",
+    "recent"
   ]
 }

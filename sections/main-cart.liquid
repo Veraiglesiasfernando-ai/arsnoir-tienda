@@ -52,7 +52,9 @@
         <div class="cart-summary__row cart-summary__total"><span>Total</span><span>{{ cart.total_price | money }}</span></div>
         <small>{% if cart.taxes_included %}IVA incluido. {% endif %}{% if settings.free_shipping_threshold == 0 and settings.shipping_message != blank %}{{ settings.shipping_message }}.{% else %}Envío calculado en el pago.{% endif %}</small>
 
-        {%- if section.settings.show_note -%}
+        {%- if settings.cart_gift -%}
+          {% render 'cart-gift', id: 'page' %}
+        {%- elsif section.settings.show_note -%}
           <details class="cart-note">
             <summary>Añadir una nota (p. ej. para regalo)</summary>
             <textarea class="field" name="note" aria-label="Nota del pedido">{{ cart.note }}</textarea>
@@ -69,6 +71,7 @@
         {%- endif -%}
       </aside>
     </form>
+    <div class="cart-page__upsell" data-cart-upsell data-product-id="{{ cart.items.first.product_id }}"></div>
   {%- else -%}
     <div class="empty-note">
       <p class="empty-note__title">Tu carrito está vacío.</p>

@@ -23,6 +23,7 @@
               </li>
             {%- endfor -%}
             <li><a href="{{ routes.search_url }}" data-search-open>Buscar</a></li>
+            <li><a href="{{ s.favorites_page.url | default: '/pages/favoritos' }}">Favoritos</a></li>
             {%- if shop.customer_accounts_enabled -%}
               <li><a href="{{ routes.account_url }}">{% if customer %}Mi cuenta{% else %}Iniciar sesión{% endif %}</a></li>
             {%- endif -%}
@@ -67,6 +68,12 @@
 
     <div class="glass-header__icons">
       <a href="{{ routes.search_url }}" class="glass-header__search" aria-label="Buscar" data-search-open>{% render 'icon', name: 'search' %}</a>
+      {%- if localization.available_countries.size > 1 or localization.available_languages.size > 1 -%}
+        {% render 'localization', id: 'HeaderLocalization' %}
+      {%- endif -%}
+      <a href="{{ s.favorites_page.url | default: '/pages/favoritos' }}" class="glass-header__fav" aria-label="Favoritos">
+        {% render 'icon', name: 'heart' %}<span class="fav-count" data-fav-count hidden></span>
+      </a>
       {%- if shop.customer_accounts_enabled -%}
         <a href="{{ routes.account_url }}" class="glass-header__account" aria-label="{% if customer %}Mi cuenta{% else %}Iniciar sesión{% endif %}">{% render 'icon', name: 'account' %}</a>
       {%- endif -%}
@@ -120,6 +127,7 @@
     { "type": "image_picker", "id": "logo", "label": "Logo (imagen)", "info": "Opcional. Si subes una imagen, sustituye al texto." },
     { "type": "range", "id": "logo_width", "label": "Ancho del logo", "min": 60, "max": 300, "step": 10, "unit": "px", "default": 140 },
     { "type": "link_list", "id": "menu", "label": "Menú", "default": "main-menu", "info": "Se muestra en el centro en escritorio y en el menú hamburguesa en móvil. Los elementos con subelementos se abren como desplegable de cristal." },
+    { "type": "page", "id": "favorites_page", "label": "Página de favoritos", "info": "Página con la plantilla «page.favoritos». Por defecto, /pages/favoritos." },
     { "type": "header", "content": "Buscador" },
     { "type": "text", "id": "search_placeholder", "label": "Texto del buscador", "default": "Busca una obra, un estilo, un color…" },
     { "type": "text", "id": "popular_searches", "label": "Búsquedas populares", "default": "Motor, Urban, Abstract, Minimalista, Blanco y negro, Salón", "info": "Separadas por comas. Se muestran al abrir el buscador." }

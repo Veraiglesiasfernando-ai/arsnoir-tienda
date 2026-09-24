@@ -309,6 +309,41 @@
         "text": "Cuelga tu obra, hazle una foto y etiquétanos con #ARSNOIR.",
         "handle": "@arsnoir"
       }
+    },
+    "packs": {
+      "type": "gallery-packs",
+      "blocks": {
+        "p1": {
+          "type": "pack",
+          "settings": {
+            "title": "Pack Trío",
+            "layout": "trio",
+            "button_label": "Añadir el pack"
+          }
+        },
+        "p2": {
+          "type": "pack",
+          "settings": {
+            "title": "Pack Salón",
+            "layout": "stack",
+            "button_label": "Añadir el pack"
+          }
+        },
+        "p3": {
+          "type": "pack",
+          "settings": {
+            "title": "Pack Dúo",
+            "layout": "duo",
+            "button_label": "Añadir el pack"
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3"
+      ],
+      "settings": {}
     }
   },
   "order": [
@@ -318,6 +353,7 @@
     "trust",
     "featured",
     "rooms",
+    "packs",
     "reviews",
     "guarantees",
     "faq",

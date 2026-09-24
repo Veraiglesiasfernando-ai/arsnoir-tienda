@@ -1,0 +1,15 @@
+{%- comment -%} Visual chip for a frame option value (Sin marco / Negro / Blanco / Madera…). {%- endcomment -%}
+{%- liquid
+  assign v = value | downcase
+  assign kind = 'other'
+  if v contains 'sin' or v contains 'without' or v contains 'none' or v contains 'no '
+    assign kind = 'none'
+  elsif v contains 'negr' or v contains 'black'
+    assign kind = 'black'
+  elsif v contains 'blanc' or v contains 'white'
+    assign kind = 'white'
+  elsif v contains 'madera' or v contains 'roble' or v contains 'wood' or v contains 'natural' or v contains 'nogal' or v contains 'oak'
+    assign kind = 'wood'
+  endif
+-%}
+<span class="swatch swatch--{{ kind }}" data-frame-kind="{{ kind }}" aria-hidden="true"></span>

@@ -1,0 +1,42 @@
+{%- comment -%}
+  "Completa tu pared": product recommendations for the cart. Fetched by theme.js via
+  /recommendations/products?section_id=cart-upsell&product_id=…
+{%- endcomment -%}
+{%- liquid
+  assign in_cart = cart.items | map: 'product_id' | join: ','
+  assign in_cart = ',' | append: in_cart | append: ','
+  assign shown = 0
+-%}
+{%- if recommendations.performed and recommendations.products_count > 0 -%}
+  <div class="upsell">
+    <p class="upsell__title">Completa tu pared</p>
+    <ul class="upsell__list">
+      {%- for p in recommendations.products -%}
+        {%- assign key = ',' | append: p.id | append: ',' -%}
+        {%- if shown < 3 and p.available -%}
+          {%- unless in_cart contains key -%}
+            {%- assign shown = shown | plus: 1 -%}
+            <li class="upsell__item">
+              <a class="upsell__media" href="{{ p.url }}">
+                {%- if p.featured_media -%}{{ p.featured_media | image_url: width: 200 | image_tag: loading: 'lazy', alt: p.title }}{%- endif -%}
+              </a>
+              <div class="upsell__body">
+                <a class="upsell__name" href="{{ p.url }}">{{ p.title }}</a>
+                <span class="upsell__price">{% if p.price_varies %}Desde {% endif %}{{ p.price_min | money }}</span>
+              </div>
+              {%- assign form_id = 'Upsell-' | append: p.id -%}
+              {%- form 'product', p, id: form_id, class: 'upsell__form', data-ajax-cart: 'true' -%}
+                <input type="hidden" name="id" value="{{ p.selected_or_first_available_variant.id }}">
+                <button type="submit" class="upsell__add" aria-label="Añadir {{ p.title | escape }}">+</button>
+              {%- endform -%}
+            </li>
+          {%- endunless -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{ "name": "Completa tu pared" }
+{% endschema %}

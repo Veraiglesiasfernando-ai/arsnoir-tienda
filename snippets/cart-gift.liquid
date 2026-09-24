@@ -1,0 +1,17 @@
+{%- comment -%} "Es un regalo" option: saved as the cart attribute «Regalo» and the order note. Put it inside the cart form. {%- endcomment -%}
+{%- if settings.cart_gift -%}
+  {%- assign is_gift = false -%}
+  {%- if cart.attributes.Regalo == 'Sí' -%}{%- assign is_gift = true -%}{%- endif -%}
+  <div class="gift" data-gift>
+    <input type="hidden" name="attributes[Regalo]" value="">
+    <label class="gift__check">
+      <input type="checkbox" name="attributes[Regalo]" value="Sí" data-gift-toggle{% if is_gift %} checked{% endif %}>
+      {% render 'icon', name: 'gift' %}
+      <span>Es un regalo</span>
+    </label>
+    <div class="gift__more">
+      <label class="visually-hidden" for="GiftNote-{{ id }}">Mensaje</label>
+      <textarea id="GiftNote-{{ id }}" name="note" rows="3" maxlength="300" placeholder="{{ settings.cart_gift_placeholder | escape }}" data-gift-note>{{ cart.note }}</textarea>
+    </div>
+  </div>
+{%- endif -%}

@@ -1,0 +1,56 @@
+{%- comment -%}
+  "Mírala en tu pared": the artwork on a wall at real scale. It follows the
+  selected size and frame (see theme.js → wall-preview).
+{%- endcomment -%}
+{%- liquid
+  assign bs = block.settings
+  assign art = product.featured_media
+-%}
+<wall-preview class="wallp" data-default-size="{{ bs.default_size | escape }}" {{ block.shopify_attributes }}>
+  <div class="wallp__head">
+    <p class="wallp__title">{{ bs.heading }}</p>
+    <div class="wallp__tabs" role="tablist">
+      {%- for i in (1..3) -%}
+        {%- assign label_key = 'room_' | append: i | append: '_label' -%}
+        {%- if bs[label_key] != blank -%}
+          <button type="button" class="wallp__tab" role="tab" data-room="{{ i }}" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}">{{ bs[label_key] }}</button>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+
+  <div class="wallp__stage" data-stage>
+    {%- for i in (1..3) -%}
+      {%- liquid
+        assign label_key = 'room_' | append: i | append: '_label'
+        assign image_key = 'room_' | append: i | append: '_image'
+        assign wall_key = 'room_' | append: i | append: '_wall'
+        assign bottom_key = 'room_' | append: i | append: '_bottom'
+        assign ref_key = 'room_' | append: i | append: '_ref'
+      -%}
+      {%- if bs[label_key] != blank -%}
+        <div class="wallp__room wallp__room--{{ i }}{% if forloop.first %} is-active{% endif %}" data-room-panel="{{ i }}" data-wall="{{ bs[wall_key] }}" data-bottom="{{ bs[bottom_key] }}" data-ref="{{ bs[ref_key] | escape }}">
+          {%- if bs[image_key] != blank -%}
+            {{ bs[image_key] | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '600, 900, 1200, 1400', sizes: '(min-width: 900px) 40vw, 90vw', alt: bs[label_key] }}
+          {%- else -%}
+            <span class="wallp__wall"></span>
+            <span class="wallp__floor"></span>
+            <span class="wallp__furniture" aria-hidden="true"><span></span></span>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+
+    <div class="wallp__art" data-art data-frame="none">
+      <div class="wallp__paper">
+        {%- if art -%}
+          {{ art | image_url: width: 800 | image_tag: loading: 'lazy', widths: '300, 500, 800', sizes: '20vw', alt: product.title }}
+        {%- else -%}
+          <span class="wallp__ph"></span>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
+  <p class="wallp__caption"><strong data-wallp-size></strong> <span data-wallp-ref></span></p>
+</wall-preview>

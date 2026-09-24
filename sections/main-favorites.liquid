@@ -1,0 +1,22 @@
+{%- comment -%} Favourites list: rendered in the browser from the visitor's saved hearts (theme.js). {%- endcomment -%}
+<section class="page-width">
+  {% render 'page-head', eyebrow: section.settings.eyebrow, title: page.title, subtitle: section.settings.subtitle, crumbs: true %}
+  <ul class="product-grid collection-grid-art" data-fav-grid></ul>
+  <div class="empty-note" data-fav-empty hidden>
+    <p class="empty-note__title">{{ section.settings.empty_title }}</p>
+    <p class="empty-note__text">{{ section.settings.empty_text }}</p>
+    <a class="button" href="{{ routes.all_products_collection_url }}">Ver todas las obras</a>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Favoritos",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "TUS FAVORITOS" },
+    { "type": "text", "id": "subtitle", "label": "Subtítulo", "default": "Las obras que has guardado con el corazón. Se guardan en este navegador." },
+    { "type": "text", "id": "empty_title", "label": "Sin favoritos: título", "default": "Aún no has guardado ninguna obra." },
+    { "type": "text", "id": "empty_text", "label": "Sin favoritos: texto", "default": "Pulsa el corazón de cualquier obra para guardarla aquí." }
+  ]
+}
+{% endschema %}

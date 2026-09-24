@@ -158,6 +158,23 @@
       },
       {
         "type": "header",
+        "content": "Carrito"
+      },
+      {
+        "type": "checkbox",
+        "id": "cart_gift",
+        "label": "Opción «Es un regalo»",
+        "default": true,
+        "info": "Casilla en el carrito y el carrito lateral. Se guarda en el pedido como atributo «Regalo» y el mensaje como nota del pedido. Comprueba que tu proveedor de impresión puede incluir el mensaje."
+      },
+      {
+        "type": "text",
+        "id": "cart_gift_placeholder",
+        "label": "Texto de ayuda del mensaje",
+        "default": "Mensaje o nota para el pedido (opcional)"
+      },
+      {
+        "type": "header",
         "content": "Valoración de la tienda"
       },
       {

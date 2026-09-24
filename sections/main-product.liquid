@@ -4,7 +4,7 @@
   assign price_id = 'Price-' | append: section.id
 -%}
 
-<section class="page-width">
+<section class="page-width" data-product-handle="{{ product.handle }}">
   <div class="product">
     <div class="product__gallery">
       {%- for media in product.media -%}
@@ -43,7 +43,10 @@
             <div class="product__vendor" {{ block.shopify_attributes }}>{{ product.vendor }}</div>
 
           {%- when 'title' -%}
-            <h1 class="product__title" {{ block.shopify_attributes }}>{{ product.title }}</h1>
+            <div class="product__title-row" {{ block.shopify_attributes }}>
+              <h1 class="product__title">{{ product.title }}</h1>
+              {% render 'fav-button', handle: product.handle, class: 'fav-btn--inline' %}
+            </div>
             {%- comment -%} Stars only when a review app has written real ratings to the standard metafields {%- endcomment -%}
             {%- assign p_rating = product.metafields.reviews.rating.value -%}
             {%- assign p_count = product.metafields.reviews.rating_count.value | default: 0 -%}
@@ -81,12 +84,16 @@
                       if option_key contains 'tama' or option_key contains 'size' or option_key contains 'medida'
                         assign is_size = true
                       endif
+                      assign is_frame = false
+                      if option_key contains 'marco' or option_key contains 'frame' or option_key contains 'acabado'
+                        assign is_frame = true
+                      endif
                       assign recommended = block.settings.recommended_size
                       if is_size and recommended == blank and block.settings.highlight_largest
                         assign recommended = option.values | last
                       endif
                     -%}
-                    <fieldset class="option{% if is_size %} option--size{% endif %}">
+                    <fieldset class="option{% if is_size %} option--size{% endif %}{% if is_frame %} option--frame{% endif %}" data-option-kind="{% if is_size %}size{% elsif is_frame %}frame{% else %}other{% endif %}">
                       <legend>{{ option.name }} <span data-selected-value>{{ option.selected_value }}</span></legend>
                       <div class="option__values">
                         {%- for value in option.values -%}
@@ -97,6 +104,7 @@
                             value="{{ value | escape }}"
                             {% if option.selected_value == value %}checked{% endif %}>
                           <label for="{{ input_id }}">
+                            {%- if is_frame -%}{%- render 'frame-swatch', value: value -%}{%- endif -%}
                             {{- value -}}
                             {%- if is_size and value == recommended -%}<span class="option__badge">{{ block.settings.recommended_label }}</span>{%- endif -%}
                           </label>
@@ -127,6 +135,9 @@
                 {%- if block.settings.show_dynamic_checkout -%}
                   {{ form | payment_button }}
                 {%- endif -%}
+                {%- if block.settings.show_installments -%}
+                  <div class="product__installments">{{ form | payment_terms }}</div>
+                {%- endif -%}
               {%- endform -%}
               {%- if settings.free_shipping_threshold > 0 -%}
                 <p class="product__ship-hint">Envío gratis en pedidos desde {{ settings.free_shipping_threshold | times: 100 | money_without_trailing_zeros }}</p>
@@ -134,6 +145,37 @@
                 <p class="product__ship-hint">{{ settings.shipping_message }}{% if settings.shipping_details != blank %}<span class="product__ship-sub">{{ settings.shipping_details }}</span>{% endif %}</p>
               {%- endif -%}
             </div>
+
+          {%- when 'edition' -%}
+            {%- liquid
+              assign ed_size = product.metafields.custom.edition_size.value | default: 0
+              assign ed_sold = product.metafields.custom.edition_sold.value | default: 0
+            -%}
+            {%- if ed_size > 0 -%}
+              {%- liquid
+                assign ed_left = ed_size | minus: ed_sold | at_least: 0
+                assign ed_pct = ed_sold | times: 100.0 | divided_by: ed_size | at_most: 100
+                assign ed_next = ed_sold | plus: 1
+              -%}
+              <div class="edition" {{ block.shopify_attributes }}>
+                <div class="edition__head">
+                  <span class="edition__label">Edición limitada</span>
+                  <span class="edition__total">{{ ed_size }} copias en total</span>
+                </div>
+                <div class="edition__bar" role="progressbar" aria-valuemin="0" aria-valuemax="{{ ed_size }}" aria-valuenow="{{ ed_sold }}"><span style="width: {{ ed_pct }}%"></span></div>
+                {%- if ed_left > 0 -%}
+                  <p class="edition__count">Quedan <strong>{{ ed_left }}</strong> de {{ ed_size }}. Tu copia será la <strong>nº {{ ed_next }}/{{ ed_size }}</strong>.</p>
+                {%- else -%}
+                  <p class="edition__count"><strong>Edición agotada.</strong> No se volverá a imprimir.</p>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+
+          {%- when 'wall_preview' -%}
+            {% render 'wall-preview', product: product, block: block %}
+
+          {%- when 'size_compare' -%}
+            {% render 'size-compare', product: product, block: block %}
 
           {%- when 'material' -%}
             <div class="product__material" {{ block.shopify_attributes }}>
@@ -230,10 +272,49 @@
       "type": "buy_buttons", "name": "Opciones y compra", "limit": 1,
       "settings": [
         { "type": "checkbox", "id": "show_dynamic_checkout", "label": "Mostrar botón de pago rápido", "default": false },
+        { "type": "checkbox", "id": "show_installments", "label": "Mostrar pago a plazos", "default": true, "info": "Aparece solo si tienes activado el pago a plazos (Klarna, Shop Pay Installments…) en Configuración → Pagos." },
         { "type": "header", "content": "Tamaño destacado" },
         { "type": "checkbox", "id": "highlight_largest", "label": "Destacar el tamaño más grande", "default": true, "info": "Se aplica a la opción llamada Tamaño / Medida / Size." },
         { "type": "text", "id": "recommended_size", "label": "O destacar este tamaño exacto", "info": "Ej.: 50 × 70 cm. Tiene prioridad sobre la opción anterior." },
         { "type": "text", "id": "recommended_label", "label": "Etiqueta", "default": "Recomendado" }
+      ]
+    },
+    {
+      "type": "edition", "name": "Edición limitada", "limit": 1,
+      "settings": [
+        { "type": "paragraph", "content": "Se muestra solo en obras con los metafields «Edición limitada: nº de copias» (custom.edition_size) y «Edición limitada: copias vendidas» (custom.edition_sold)." }
+      ]
+    },
+    {
+      "type": "wall_preview", "name": "Mírala en tu pared", "limit": 1,
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Título", "default": "Mírala en tu pared" },
+        { "type": "text", "id": "default_size", "label": "Tamaño si la obra no tiene variantes", "default": "50 × 70 cm" },
+        { "type": "header", "content": "Estancia 1" },
+        { "type": "text", "id": "room_1_label", "label": "Nombre", "default": "Salón" },
+        { "type": "image_picker", "id": "room_1_image", "label": "Foto (opcional)", "info": "Foto de una pared real. Sin foto se muestra una estancia dibujada a escala." },
+        { "type": "range", "id": "room_1_wall", "label": "Ancho de la pared en la foto", "min": 150, "max": 600, "step": 10, "unit": "cm", "default": 320 },
+        { "type": "range", "id": "room_1_bottom", "label": "Altura del borde inferior de la obra", "min": 20, "max": 80, "step": 1, "unit": "%", "default": 58 },
+        { "type": "text", "id": "room_1_ref", "label": "Referencia (se lee «a escala junto a …»)", "default": "un sofá de 210 cm" },
+        { "type": "header", "content": "Estancia 2" },
+        { "type": "text", "id": "room_2_label", "label": "Nombre", "default": "Dormitorio" },
+        { "type": "image_picker", "id": "room_2_image", "label": "Foto (opcional)" },
+        { "type": "range", "id": "room_2_wall", "label": "Ancho de la pared en la foto", "min": 150, "max": 600, "step": 10, "unit": "cm", "default": 300 },
+        { "type": "range", "id": "room_2_bottom", "label": "Altura del borde inferior de la obra", "min": 20, "max": 80, "step": 1, "unit": "%", "default": 60 },
+        { "type": "text", "id": "room_2_ref", "label": "Referencia", "default": "una cama de 160 cm" },
+        { "type": "header", "content": "Estancia 3" },
+        { "type": "text", "id": "room_3_label", "label": "Nombre", "default": "Oficina" },
+        { "type": "image_picker", "id": "room_3_image", "label": "Foto (opcional)" },
+        { "type": "range", "id": "room_3_wall", "label": "Ancho de la pared en la foto", "min": 150, "max": 600, "step": 10, "unit": "cm", "default": 260 },
+        { "type": "range", "id": "room_3_bottom", "label": "Altura del borde inferior de la obra", "min": 20, "max": 80, "step": 1, "unit": "%", "default": 60 },
+        { "type": "text", "id": "room_3_ref", "label": "Referencia", "default": "un escritorio de 140 cm" }
+      ]
+    },
+    {
+      "type": "size_compare", "name": "Comparador de tamaños", "limit": 1,
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Título", "default": "Compara los tamaños" },
+        { "type": "text", "id": "note", "label": "Nota", "default": "A escala, junto a una persona de 175 cm. Pulsa un tamaño para elegirlo." }
       ]
     },
     {

@@ -1,0 +1,67 @@
+{%- comment -%}
+  Glass pop-up: email for a first-order discount. Opens after a delay or on
+  exit intent, once every N days; after signing up it shows the code.
+{%- endcomment -%}
+{%- assign s = section.settings -%}
+{%- if s.enabled -%}
+<div class="npop" data-npop data-delay="{{ s.delay }}" data-days="{{ s.days }}"{% if request.design_mode and s.preview %} data-preview{% endif %} hidden>
+  <div class="npop__backdrop" data-npop-close></div>
+  <div class="npop__card{% if s.image != blank %} npop__card--image{% endif %}" role="dialog" aria-modal="true" aria-labelledby="NpopTitle">
+    {%- if s.image != blank -%}
+      <div class="npop__media">{{ s.image | image_url: width: 800 | image_tag: loading: 'lazy', widths: '400, 600, 800', sizes: '320px', alt: '' }}</div>
+    {%- endif -%}
+    <div class="npop__body">
+      <button type="button" class="npop__close" aria-label="Cerrar" data-npop-close>{% render 'icon', name: 'close' %}</button>
+      {%- form 'customer', id: 'NewsletterPopup', class: 'npop__form' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter,popup">
+        {%- if form.posted_successfully? -%}
+          <div class="npop__done" data-npop-success>
+            <p class="npop__eyebrow">{{ s.eyebrow }}</p>
+            <p class="npop__title" id="NpopTitle">{{ s.success_heading }}</p>
+            <p class="npop__text">{{ s.success_text }}</p>
+            {%- if s.code != blank -%}
+              <button type="button" class="npop__code" data-copy="{{ s.code | escape }}">
+                <span>{{ s.code }}</span><small data-copy-label>Copiar</small>
+              </button>
+            {%- endif -%}
+            <a class="button button--accent button--full" href="{{ routes.all_products_collection_url }}">Ver obras</a>
+          </div>
+        {%- else -%}
+          <p class="npop__eyebrow">{{ s.eyebrow }}</p>
+          <p class="npop__title" id="NpopTitle">{{ s.heading }}</p>
+          <p class="npop__text">{{ s.text }}</p>
+          {%- if form.errors -%}<p class="npop__error">{{ form.errors | default_errors }}</p>{%- endif -%}
+          <label class="visually-hidden" for="NpopEmail">Email</label>
+          <input class="npop__field" id="NpopEmail" type="email" name="contact[email]" placeholder="Tu email" autocomplete="email" required>
+          <button class="button button--accent button--full" type="submit">{{ s.button_label }}</button>
+          <button type="button" class="npop__skip" data-npop-close>{{ s.dismiss_label }}</button>
+          {%- if s.legal != blank -%}<p class="npop__legal">{{ s.legal }}</p>{%- endif -%}
+        {%- endif -%}
+      {%- endform -%}
+    </div>
+  </div>
+</div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Pop-up de descuento",
+  "settings": [
+    { "type": "checkbox", "id": "enabled", "label": "Activar", "default": true },
+    { "type": "checkbox", "id": "preview", "label": "Mostrar siempre en el editor", "default": false },
+    { "type": "range", "id": "delay", "label": "Aparece a los", "min": 3, "max": 60, "step": 1, "unit": "s", "default": 8 },
+    { "type": "range", "id": "days", "label": "No volver a mostrar durante", "min": 1, "max": 60, "step": 1, "unit": "d", "default": 14 },
+    { "type": "image_picker", "id": "image", "label": "Imagen (opcional)" },
+    { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "BIENVENIDO A ARSNOIR" },
+    { "type": "text", "id": "heading", "label": "Título", "default": "15% en tu primera obra" },
+    { "type": "text", "id": "text", "label": "Texto", "default": "Únete y recibe acceso primero a cada obra nueva. Arte que no verás en ningún otro sitio." },
+    { "type": "text", "id": "button_label", "label": "Botón", "default": "Quiero mi 15%" },
+    { "type": "text", "id": "dismiss_label", "label": "Texto para cerrar", "default": "No, gracias" },
+    { "type": "text", "id": "legal", "label": "Texto legal", "default": "Puedes darte de baja cuando quieras." },
+    { "type": "header", "content": "Después de suscribirse" },
+    { "type": "text", "id": "success_heading", "label": "Título", "default": "Ya estás dentro." },
+    { "type": "text", "id": "success_text", "label": "Texto", "default": "Usa este código en el pago para tu 15% de descuento:" },
+    { "type": "text", "id": "code", "label": "Código de descuento", "default": "BIENVENIDA15", "info": "Debe existir en Shopify → Descuentos." }
+  ]
+}
+{% endschema %}

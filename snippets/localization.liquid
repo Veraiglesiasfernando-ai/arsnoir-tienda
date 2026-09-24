@@ -1,0 +1,39 @@
+{%- comment -%}
+  Glass country/currency + language picker (Shopify Markets). Shows only when
+  the store sells in more than one country or language.
+{%- endcomment -%}
+<details class="loc" data-loc>
+  <summary class="loc__toggle" aria-label="País e idioma">
+    {% render 'icon', name: 'globe' %}
+    <span class="loc__current">{{ localization.language.iso_code | upcase }} · {{ localization.country.currency.iso_code }}</span>
+  </summary>
+  <div class="loc__panel">
+    {%- form 'localization', id: id, class: 'loc__form' -%}
+      {%- if localization.available_languages.size > 1 -%}
+        <p class="loc__label">Idioma</p>
+        <ul class="loc__list loc__list--langs">
+          {%- for language in localization.available_languages -%}
+            <li>
+              <button type="submit" name="locale_code" value="{{ language.iso_code }}"{% if language.iso_code == localization.language.iso_code %} aria-current="true"{% endif %}>
+                {{ language.endonym_name | capitalize }}
+              </button>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+      {%- if localization.available_countries.size > 1 -%}
+        <p class="loc__label">País / moneda</p>
+        <ul class="loc__list loc__list--countries">
+          {%- for country in localization.available_countries -%}
+            <li>
+              <button type="submit" name="country_code" value="{{ country.iso_code }}"{% if country.iso_code == localization.country.iso_code %} aria-current="true"{% endif %}>
+                <span>{{ country.name }}</span>
+                <span class="loc__cur">{{ country.currency.iso_code }} {{ country.currency.symbol }}</span>
+              </button>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    {%- endform -%}
+  </div>
+</details>

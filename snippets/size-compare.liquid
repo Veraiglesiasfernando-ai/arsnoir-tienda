@@ -1,0 +1,23 @@
+{%- comment -%} Every size of the artwork drawn at scale next to a 175 cm person (theme.js → size-compare). {%- endcomment -%}
+{%- liquid
+  assign size_values = blank
+  for option in product.options_with_values
+    assign k = option.name | downcase
+    if k contains 'tama' or k contains 'size' or k contains 'medida'
+      assign size_values = option.values
+    endif
+  endfor
+-%}
+{%- if size_values != blank and size_values.size > 1 -%}
+  <size-compare class="sizecmp" {{ block.shopify_attributes }}>
+    <p class="sizecmp__title">{{ block.settings.heading }}</p>
+    <div class="sizecmp__stage" data-stage>
+      <svg class="sizecmp__person" data-person viewBox="0 0 40 175" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
+        <circle cx="20" cy="11" r="9"/>
+        <path d="M9 24h22c3 0 5 2 5 5v52c0 2-1.5 3.5-3.5 3.5S29 83 29 81V36h-1v130c0 2.8-2.2 5-5 5s-5-2.2-5-5V101h-2v65c0 2.8-2.2 5-5 5s-5-2.2-5-5V36H5v45c0 2-1.5 3.5-3.5 3.5S-2 83-2 81V29c0-3 2-5 5-5Z" transform="translate(4 0) scale(.82 1)"/>
+      </svg>
+    </div>
+    <script type="application/json" data-sizes>{{ size_values | json }}</script>
+    {%- if block.settings.note != blank -%}<p class="sizecmp__note">{{ block.settings.note }}</p>{%- endif -%}
+  </size-compare>
+{%- endif -%}

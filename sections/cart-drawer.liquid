@@ -35,11 +35,13 @@
             </div>
           </li>
         {%- endfor -%}
+        <li class="drawer__upsell" data-cart-upsell data-product-id="{{ cart.items.first.product_id }}"></li>
       </ul>
       <div class="drawer__foot">
         <div class="drawer__total"><span>Subtotal</span><span>{{ cart.total_price | money }}</span></div>
         <p class="drawer__note">{% if cart.taxes_included %}IVA incluido. {% endif %}{% if settings.free_shipping_threshold == 0 and settings.shipping_message != blank %}{{ settings.shipping_message }}.{% else %}Envío calculado en el pago.{% endif %}</p>
         <form action="{{ routes.cart_url }}" method="post">
+          {% render 'cart-gift', id: 'drawer' %}
           <button type="submit" name="checkout" class="button button--accent button--full">Finalizar compra</button>
         </form>
         <a class="drawer__view" href="{{ routes.cart_url }}">Ver carrito</a>

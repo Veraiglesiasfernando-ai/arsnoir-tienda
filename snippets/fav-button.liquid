@@ -1,0 +1,4 @@
+{%- comment -%} Heart toggle for the favourites list (stored in the visitor's browser). Usage: {% render 'fav-button', handle: product.handle %} {%- endcomment -%}
+<button type="button" class="fav-btn{% if class %} {{ class }}{% endif %}" data-fav="{{ handle }}" aria-pressed="false" aria-label="Guardar en favoritos">
+  {%- render 'icon', name: 'heart' -%}
+</button>

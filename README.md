@@ -38,6 +38,23 @@ Ajustes globales en *Configuración del tema → Conversión*: umbral de envío 
 - **Carrito:** barra «Te faltan X € para el envío gratis», botón rojo de pago y métodos de pago.
 - **Footer:** «Pago 100% seguro» con los métodos de pago activos.
 
+## Ficha de obra
+
+- **Mírala en tu pared:** la obra en un salón, un dormitorio y una oficina, **a escala real**. Cambia sola con el tamaño y el marco elegidos. Sin fotos se muestran estancias dibujadas a escala; si subes fotos de paredes reales (*Personalizar → Obra → Mírala en tu pared*), indica el ancho de la pared en cm para que la escala sea correcta.
+- **Comparador de tamaños:** todos los tamaños dibujados junto a una persona de 175 cm. Pulsando uno se selecciona. Lee los tamaños de la opción *Tamaño* (formatos «50 × 70 cm», «50x70», «A3»…).
+- **Marcos con muestras:** la opción llamada *Marco* se muestra con muestras de color (sin marco, negro, blanco, madera).
+- **Edición limitada:** en una obra, rellena los metafields *Edición limitada: nº de copias* y *copias vendidas*. La ficha muestra «Quedan X de N · tu copia será la nº…» y la tarjeta la etiqueta «ED. LIMITADA».
+- **Pago a plazos:** aparece bajo el botón si activas Klarna o Shop Pay Installments en *Configuración → Pagos*.
+- **Favoritos (corazón)** en cada obra y en la cabecera; la página `/pages/favoritos` los lista. **Vistas recientemente** al final de la ficha. Se guardan en el navegador del visitante.
+
+## Más ventas
+
+- **Pop-up de cristal del 15%:** aparece a los 8 s (o al ir a cerrar la pestaña), una vez cada 14 días, y nunca a la vez que el aviso de cookies. Al suscribirse muestra el código `BIENVENIDA15` con botón de copiar. Se edita en *Personalizar → Pop-up de descuento*.
+- **Completa tu pared:** el carrito lateral y la página del carrito sugieren obras relacionadas (recomendaciones de Shopify), con un botón «+» para añadirlas.
+- **Packs de pared:** sección de la home con 2 o 3 obras colgadas juntas y un botón para añadir el pack entero. Elige las obras en *Personalizar → Packs de pared*. En la tienda solo se ven los packs con obras.
+- **Es un regalo:** casilla en el carrito que guarda el atributo «Regalo» y el mensaje como nota del pedido (*Configuración del tema → Conversión*).
+- **País, moneda e idioma:** selector de cristal en la cabecera, que aparece en cuanto actives más países o idiomas en *Configuración → Mercados / Idiomas*.
+
 ## Navegación y páginas
 
 - **Transiciones entre páginas:** fundido suave sin pantallazo blanco. La cabecera se queda fija entre páginas en Chrome, Edge y Safari 18+. En el resto de navegadores, entrada suave. Además, los elementos aparecen al hacer scroll. Todo se desactiva si el visitante tiene activada la opción del sistema para reducir el movimiento.
