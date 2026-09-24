@@ -16,7 +16,7 @@ Cada cambio que se sube a la rama se sincroniza solo con el tema.
 
 Estética: fondo blanco/gris claro con degradado suave, tipografía Space Grotesk (servida desde `assets/`), solo blanco, negro y grises. Todos los huecos de obra son placeholders vacíos listos para tu arte.
 
-1. **Barra negra fija** («Arte exclusivo de ARSNOIR — no lo encontrarás en ningún otro sitio.») y **cabecera de cristal fija** debajo: logo «arsnoir» a la izquierda, menú Inicio · Productos (desplegable con Motor, Sport, Urban, Animals, Abstract, Art, Mindset y Escape; menú `main-menu`) en el centro, buscador y carrito a la derecha. En móvil, todo va en el menú hamburguesa. Arriba del todo la cabecera es transparente (texto blanco sobre el vídeo del hero) y el cristal aparece al hacer scroll.
+1. **Barra negra fija** (rota entre «Arte exclusivo de ARSNOIR…» y «Envío GRATIS a España y toda Europa…») y **cabecera de cristal fija** debajo: logo «arsnoir» a la izquierda, menú `main-menu` en el centro (Obras · Estilo · Color · Tamaño · Estancia · Temática · Ediciones, cada uno con desplegable de cristal), y buscador, cuenta y carrito a la derecha. El **buscador** se abre en un panel de cristal con búsquedas populares y resultados al escribir (obras, colecciones y sugerencias); también se abre con la tecla `/`. En móvil, todo va en el menú hamburguesa. Arriba del todo la cabecera es transparente (texto blanco sobre el vídeo del hero) y el cristal aparece al hacer scroll.
 2. **Bienvenida:** «★ BIENVENIDO A ★», «ARSNOIR» gigante, subtítulo y 3 cartas cuadradas de cristal con esquineras. La del centro es la destacada, con el botón «Explorar obra +»; las laterales dicen «PRÓXIMAMENTE». Cada carta admite su propia imagen desde *Personalizar*.
 3. **Marquesina roja** en bucle.
 4. **Tira de confianza:** Arte 100% original · Impresión de alta calidad · Envío a toda España · Solo en ARSNOIR.
@@ -51,6 +51,24 @@ Ajustes globales en *Configuración del tema → Conversión*: umbral de envío 
 ## Aviso de cookies
 
 Tarjeta de cristal redondeada abajo a la derecha, con «Aceptar», «Rechazar» y un enlace a la política. Está conectada a la API de privacidad de Shopify (`consent-tracking-api`), así que la elección del visitante es el consentimiento real que Shopify aplica a analíticas y marketing. Solo aparece a quien tiene que decidir (según la región y si ya eligió). **Desactiva el aviso propio de Shopify** en *Configuración → Privacidad del cliente* para no mostrar dos. Textos editables en *Personalizar → Aviso de cookies*.
+
+## Envíos
+
+*Configuración del tema → Conversión*: con el umbral en 0 el envío es siempre gratis, y en la ficha, el carrito y el carrito lateral se muestra «Envío GRATIS a España y toda Europa» y «Entrega en 4-5 días hábiles con seguimiento · Impreso y enviado desde la UE». **Las tarifas reales se configuran en Shopify → Configuración → Envíos y entregas** y deben ser 0 € para España y la UE.
+
+## Menú y etiquetas (colecciones automáticas)
+
+Cada colección se llena sola con las obras que lleven su etiqueta:
+
+| Menú      | Colección (etiqueta) |
+|-----------|----------------------|
+| Obras     | Todas las obras · Novedades (`novedad`) · Más vendidos (automática) |
+| Estilo    | Abstracto (`abstracto`) · Minimalista (`minimalista`) · Líneas (`lineas`) · Fotografía (`fotografia`) · Tipografía (`tipografia`) · Arquitectura (`arquitectura`) |
+| Color     | Blanco y negro (`color-blanco-negro`) · Neutros (`color-neutro`) · Tonos cálidos (`color-calido`) · Tonos fríos (`color-frio`) · Multicolor (`color-multicolor`) |
+| Tamaño    | Guía de tamaños · Formato vertical (`formato-vertical`) · Horizontal (`formato-horizontal`) · Cuadrado (`formato-cuadrado`) · Gran formato XL (`xl`) |
+| Estancia  | Salón (`estancia-salon`) · Dormitorio (`estancia-dormitorio`) · Oficina (`estancia-oficina`) · Cocina (`estancia-cocina`) · Recibidor (`estancia-recibidor`) |
+| Temática  | ver abajo |
+| Ediciones | Noir (`noir`) · Cine (`cine`) · Silencio (`silencio`) · Ruido (`ruido`) · Edición limitada (`edicion-limitada`) |
 
 ## Tipos de obra (colecciones automáticas)
 

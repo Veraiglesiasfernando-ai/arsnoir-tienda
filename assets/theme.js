@@ -316,5 +316,70 @@
     if (event.key === 'Escape') closeDrawer();
   });
 
+  /* Search overlay with predictive results -------------------------------- */
+  const search = document.querySelector('[data-search-overlay]');
+  if (search) {
+    const input = search.querySelector('[data-search-input]');
+    const results = search.querySelector('[data-search-results]');
+    const popular = search.querySelector('[data-search-popular]');
+    let searchFocus = null;
+    let timer = null;
+    let controller = null;
+
+    const openSearch = function () {
+      searchFocus = document.activeElement;
+      document.querySelectorAll('.mobile-menu[open]').forEach(function (d) { d.removeAttribute('open'); });
+      search.hidden = false;
+      requestAnimationFrame(function () { search.classList.add('is-open'); });
+      document.documentElement.classList.add('search-open');
+      input.focus();
+    };
+    const closeSearch = function () {
+      if (search.hidden) return;
+      search.classList.remove('is-open');
+      document.documentElement.classList.remove('search-open');
+      setTimeout(function () { search.hidden = true; }, 250);
+      if (searchFocus) searchFocus.focus();
+    };
+
+    const suggest = function (q) {
+      if (controller) controller.abort();
+      if (!q) { results.innerHTML = ''; popular.hidden = false; return; }
+      controller = new AbortController();
+      const url = search.dataset.suggestUrl + '?q=' + encodeURIComponent(q) +
+        '&section_id=predictive-search&resources[type]=product,collection,query&resources[limit]=6' +
+        '&resources[options][fields]=title,product_type,tag,variants.title';
+      results.classList.add('is-loading');
+      fetch(url, { signal: controller.signal })
+        .then(function (r) { return r.text(); })
+        .then(function (text) {
+          const doc = new DOMParser().parseFromString(text, 'text/html');
+          const section = doc.querySelector('.shopify-section') || doc.body;
+          results.innerHTML = section.innerHTML;
+          popular.hidden = true;
+          results.classList.remove('is-loading');
+        })
+        .catch(function () { results.classList.remove('is-loading'); });
+    };
+
+    input.addEventListener('input', function () {
+      clearTimeout(timer);
+      const q = input.value.trim();
+      timer = setTimeout(function () { suggest(q); }, 220);
+    });
+
+    document.addEventListener('click', function (event) {
+      if (event.target.closest('[data-search-open]')) { event.preventDefault(); openSearch(); return; }
+      if (event.target.closest('[data-search-close]')) closeSearch();
+    });
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') closeSearch();
+      if (event.key === '/' && search.hidden && !event.target.closest('input, textarea, select, [contenteditable]')) {
+        event.preventDefault();
+        openSearch();
+      }
+    });
+  }
+
   if (!customElements.get('variant-picker')) customElements.define('variant-picker', VariantPicker);
 })();

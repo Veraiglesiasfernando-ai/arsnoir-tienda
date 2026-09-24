@@ -50,7 +50,7 @@
           <div class="cart-summary__row muted"><span>{{ discount.title }}</span><span>&minus;{{ discount.total_allocated_amount | money }}</span></div>
         {%- endfor -%}
         <div class="cart-summary__row cart-summary__total"><span>Total</span><span>{{ cart.total_price | money }}</span></div>
-        <small>{% if cart.taxes_included %}IVA incluido. {% endif %}Envío calculado en el pago.</small>
+        <small>{% if cart.taxes_included %}IVA incluido. {% endif %}{% if settings.free_shipping_threshold == 0 and settings.shipping_message != blank %}{{ settings.shipping_message }}.{% else %}Envío calculado en el pago.{% endif %}</small>
 
         {%- if section.settings.show_note -%}
           <details class="cart-note">

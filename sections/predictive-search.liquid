@@ -1,0 +1,58 @@
+{%- comment -%} Rendered by the header search via /search/suggest?section_id=predictive-search {%- endcomment -%}
+{%- if predictive_search.performed -%}
+  {%- assign res = predictive_search.resources -%}
+  {%- assign terms = predictive_search.terms -%}
+  {%- if res.products.size > 0 or res.collections.size > 0 or res.queries.size > 0 -%}
+    <div class="psearch">
+      {%- if res.queries.size > 0 or res.collections.size > 0 -%}
+        <div class="psearch__side">
+          {%- if res.queries.size > 0 -%}
+            <p class="search-overlay__label">Sugerencias</p>
+            <ul class="psearch__list">
+              {%- for q in res.queries -%}
+                <li><a href="{{ q.url }}">{{ q.styled_text }}</a></li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+          {%- if res.collections.size > 0 -%}
+            <p class="search-overlay__label">Colecciones</p>
+            <ul class="psearch__list">
+              {%- for c in res.collections -%}
+                <li><a href="{{ c.url }}">{{ c.title }}</a></li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+      {%- if res.products.size > 0 -%}
+        <div class="psearch__main">
+          <p class="search-overlay__label">Obras</p>
+          <ul class="psearch__grid">
+            {%- for p in res.products -%}
+              <li>
+                <a class="psearch__item" href="{{ p.url }}">
+                  <span class="psearch__img">
+                    {%- if p.featured_image -%}
+                      {{ p.featured_image | image_url: width: 300 | image_tag: loading: 'lazy', alt: p.title }}
+                    {%- endif -%}
+                  </span>
+                  <span class="psearch__title">{{ p.title }}</span>
+                  <span class="psearch__price">{% if p.price_varies %}Desde {% endif %}{{ p.price_min | money }}</span>
+                </a>
+              </li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      {%- endif -%}
+    </div>
+  {%- else -%}
+    <p class="psearch__empty">Nada con «{{ terms }}». Prueba con otra palabra o <a href="{{ routes.all_products_collection_url }}">mira todas las obras</a>.</p>
+  {%- endif -%}
+  <a class="psearch__all" href="{{ routes.search_url }}?type=product&q={{ terms | url_encode }}">Ver todos los resultados de «{{ terms }}» &rarr;</a>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Búsqueda predictiva"
+}
+{% endschema %}

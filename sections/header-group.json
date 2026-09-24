@@ -10,10 +10,17 @@
           "settings": {
             "text": "Arte exclusivo de ARSNOIR — no lo encontrarás en ningún otro sitio."
           }
+        },
+        "m2": {
+          "type": "message",
+          "settings": {
+            "text": "Envío GRATIS a España y toda Europa · Entrega en 4-5 días hábiles"
+          }
         }
       },
       "block_order": [
-        "m1"
+        "m1",
+        "m2"
       ],
       "settings": {
         "interval": 4

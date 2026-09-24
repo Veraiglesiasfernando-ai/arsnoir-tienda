@@ -58,7 +58,9 @@
             {%- if cart.taxes_included or shop.shipping_policy.body != blank -%}
               <div class="product__tax">
                 {%- if cart.taxes_included -%}IVA incluido.{%- endif -%}
-                {%- if shop.shipping_policy.body != blank %} <a href="{{ shop.shipping_policy.url }}" style="text-decoration:underline">Envío</a> calculado en el pago.{%- endif -%}
+                {%- if settings.free_shipping_threshold == 0 and settings.shipping_message != blank -%}
+                  {%- if shop.shipping_policy.body != blank %} <a href="{{ shop.shipping_policy.url }}" style="text-decoration:underline">Envío gratis</a>.{% else %} Envío gratis.{% endif -%}
+                {%- elsif shop.shipping_policy.body != blank %} <a href="{{ shop.shipping_policy.url }}" style="text-decoration:underline">Envío</a> calculado en el pago.{%- endif -%}
               </div>
             {%- endif -%}
 
@@ -128,6 +130,8 @@
               {%- endform -%}
               {%- if settings.free_shipping_threshold > 0 -%}
                 <p class="product__ship-hint">Envío gratis en pedidos desde {{ settings.free_shipping_threshold | times: 100 | money_without_trailing_zeros }}</p>
+              {%- elsif settings.shipping_message != blank -%}
+                <p class="product__ship-hint">{{ settings.shipping_message }}{% if settings.shipping_details != blank %}<span class="product__ship-sub">{{ settings.shipping_details }}</span>{% endif %}</p>
               {%- endif -%}
             </div>
 
@@ -243,7 +247,7 @@
       "type": "trust", "name": "Garantías", "limit": 1,
       "settings": [
         { "type": "text", "id": "line_1", "label": "Línea 1", "default": "Impresión profesional de alta calidad" },
-        { "type": "text", "id": "line_2", "label": "Línea 2", "default": "Envío a toda España con seguimiento" },
+        { "type": "text", "id": "line_2", "label": "Línea 2", "default": "Envío GRATIS a España y Europa con seguimiento" },
         { "type": "text", "id": "line_3", "label": "Línea 3", "default": "[DIAS] días para devolver" },
         { "type": "text", "id": "line_4", "label": "Línea 4", "default": "Pago 100% seguro" }
       ]

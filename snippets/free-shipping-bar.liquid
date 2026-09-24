@@ -22,4 +22,9 @@
       <span style="width: {{ pct }}%"></span>
     </div>
   </div>
+{%- elsif settings.shipping_message != blank -%}
+  <div class="ship-bar ship-bar--done ship-bar--static">
+    <p class="ship-bar__text"><strong>{{ settings.shipping_message }}</strong></p>
+    {%- if settings.shipping_details != blank -%}<p class="ship-bar__sub">{{ settings.shipping_details }}</p>{%- endif -%}
+  </div>
 {%- endif -%}

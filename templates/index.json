@@ -56,13 +56,13 @@
         "t2": {
           "type": "item",
           "settings": {
-            "text": "Impresión de alta calidad"
+            "text": "Impreso y enviado desde la UE"
           }
         },
         "t3": {
           "type": "item",
           "settings": {
-            "text": "Envío a toda España"
+            "text": "Envío GRATIS a España y Europa"
           }
         },
         "t4": {
@@ -182,8 +182,8 @@
           "type": "item",
           "settings": {
             "icon": "truck",
-            "title": "Envío a toda España",
-            "text": "Gratis en pedidos desde [ENVIO_GRATIS] €. Seguimiento en cada pedido."
+            "title": "Envío GRATIS a España y Europa",
+            "text": "Entrega en 4-5 días hábiles con seguimiento. Impreso y enviado desde la UE."
           }
         },
         "g2": {
@@ -228,7 +228,7 @@
           "type": "question",
           "settings": {
             "question": "¿Cuánto tarda el envío?",
-            "answer": "<p>Tus piezas se producen bajo demanda y llegan en 4-5 días hábiles, con seguimiento del pedido.</p>"
+            "answer": "<p><strong>Envío GRATIS a España y toda Europa.</strong> Tus piezas se imprimen bajo demanda y se envían desde la UE: llegan en 4-5 días hábiles, con seguimiento del pedido.</p>"
           }
         },
         "q2": {

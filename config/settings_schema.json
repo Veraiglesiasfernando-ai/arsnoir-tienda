@@ -130,7 +130,20 @@
     "settings": [
       {
         "type": "header",
-        "content": "Envío gratis"
+        "content": "Envío"
+      },
+      {
+        "type": "text",
+        "id": "shipping_message",
+        "label": "Mensaje de envío",
+        "default": "Envío GRATIS a España y toda Europa",
+        "info": "Se muestra en la ficha, el carrito y el carrito lateral cuando el umbral es 0 (envío siempre gratis)."
+      },
+      {
+        "type": "text",
+        "id": "shipping_details",
+        "label": "Detalle del envío",
+        "default": "Entrega en 4-5 días hábiles con seguimiento · Impreso y enviado desde la UE"
       },
       {
         "type": "range",
@@ -141,7 +154,7 @@
         "step": 5,
         "unit": "€",
         "default": 60,
-        "info": "Debe coincidir con tu tarifa de envío en Configuración → Envíos. 0 = desactivado."
+        "info": "Debe coincidir con tu tarifa de envío en Configuración → Envíos. 0 = envío siempre gratis (se muestra el mensaje de envío en lugar de la barra de progreso)."
       },
       {
         "type": "header",
