@@ -4,10 +4,10 @@
 {%- endcomment -%}
 <div class="drawer" id="CartDrawer" data-cart-drawer aria-hidden="true">
   <div class="drawer__overlay" data-drawer-close></div>
-  <aside class="drawer__panel" role="dialog" aria-modal="true" aria-label="Carrito" tabindex="-1">
+  <aside class="drawer__panel" role="dialog" aria-modal="true" aria-label="{{ 'cart.label' | t }}" tabindex="-1">
     <div class="drawer__head">
-      <p class="drawer__title">Tu carrito <span class="drawer__count" data-cart-count-text>{{ cart.item_count }}</span></p>
-      <button type="button" class="drawer__close" data-drawer-close aria-label="Cerrar">{% render 'icon', name: 'close' %}</button>
+      <p class="drawer__title">{{ 'cart.title' | t }} <span class="drawer__count" data-cart-count-text>{{ cart.item_count }}</span></p>
+      <button type="button" class="drawer__close" data-drawer-close aria-label="{{ 'general.close' | t }}">{% render 'icon', name: 'close' %}</button>
     </div>
 
     {%- if cart.item_count > 0 -%}
@@ -25,33 +25,33 @@
               {%- endunless -%}
               <div class="drawer-item__row">
                 <div class="drawer-qty">
-                  <button type="button" data-cart-change data-line="{{ forloop.index }}" data-quantity="{{ item.quantity | minus: 1 }}" aria-label="Menos">&minus;</button>
+                  <button type="button" data-cart-change data-line="{{ forloop.index }}" data-quantity="{{ item.quantity | minus: 1 }}" aria-label="{{ 'cart.less' | t }}">&minus;</button>
                   <span>{{ item.quantity }}</span>
-                  <button type="button" data-cart-change data-line="{{ forloop.index }}" data-quantity="{{ item.quantity | plus: 1 }}" aria-label="Más">+</button>
+                  <button type="button" data-cart-change data-line="{{ forloop.index }}" data-quantity="{{ item.quantity | plus: 1 }}" aria-label="{{ 'cart.more' | t }}">+</button>
                 </div>
                 <span class="drawer-item__price">{{ item.final_line_price | money }}</span>
               </div>
-              <button type="button" class="drawer-item__remove" data-cart-change data-line="{{ forloop.index }}" data-quantity="0">Eliminar</button>
+              <button type="button" class="drawer-item__remove" data-cart-change data-line="{{ forloop.index }}" data-quantity="0">{{ 'cart.remove' | t }}</button>
             </div>
           </li>
         {%- endfor -%}
         <li class="drawer__upsell" data-cart-upsell data-product-id="{{ cart.items.first.product_id }}"></li>
       </ul>
       <div class="drawer__foot">
-        <div class="drawer__total"><span>Subtotal</span><span>{{ cart.total_price | money }}</span></div>
-        <p class="drawer__note">{% if cart.taxes_included %}IVA incluido. {% endif %}{% if settings.free_shipping_threshold == 0 and settings.shipping_message != blank %}{{ settings.shipping_message }}.{% else %}Envío calculado en el pago.{% endif %}</p>
+        <div class="drawer__total"><span>{{ 'cart.subtotal' | t }}</span><span>{{ cart.total_price | money }}</span></div>
+        <p class="drawer__note">{% if cart.taxes_included %}{{ 'cart.taxes_included' | t }} {% endif %}{% if settings.free_shipping_threshold == 0 and settings.shipping_message != blank %}{{ settings.shipping_message }}.{% else %}{{ 'cart.shipping_at_checkout' | t }}{% endif %}</p>
         <form action="{{ routes.cart_url }}" method="post">
           {% render 'cart-gift', id: 'drawer' %}
-          <button type="submit" name="checkout" class="button button--accent button--full">Finalizar compra</button>
+          <button type="submit" name="checkout" class="button button--accent button--full">{{ 'cart.checkout' | t }}</button>
         </form>
-        <a class="drawer__view" href="{{ routes.cart_url }}">Ver carrito</a>
-        <p class="drawer__secure">{% render 'trust-icon', name: 'lock' %} Pago 100% seguro</p>
+        <a class="drawer__view" href="{{ routes.cart_url }}">{{ 'cart.view_cart' | t }}</a>
+        <p class="drawer__secure">{% render 'trust-icon', name: 'lock' %} {{ 'general.secure_payment' | t }}</p>
       </div>
     {%- else -%}
       <div class="drawer__empty">
-        <p class="drawer__empty-title">Tu carrito está vacío.</p>
-        <p class="drawer__empty-text">Arte que no verás en ningún otro sitio te está esperando.</p>
-        <a class="button" href="{{ routes.all_products_collection_url }}">Ver obras</a>
+        <p class="drawer__empty-title">{{ 'cart.empty' | t }}</p>
+        <p class="drawer__empty-text">{{ 'cart.empty_text' | t }}</p>
+        <a class="button" href="{{ routes.all_products_collection_url }}">{{ 'general.see_works' | t }}</a>
       </div>
     {%- endif -%}
   </aside>

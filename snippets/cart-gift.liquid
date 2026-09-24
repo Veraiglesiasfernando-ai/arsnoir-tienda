@@ -7,10 +7,10 @@
     <label class="gift__check">
       <input type="checkbox" name="attributes[Regalo]" value="Sí" data-gift-toggle{% if is_gift %} checked{% endif %}>
       {% render 'icon', name: 'gift' %}
-      <span>Es un regalo</span>
+      <span>{{ 'cart.gift' | t }}</span>
     </label>
     <div class="gift__more">
-      <label class="visually-hidden" for="GiftNote-{{ id }}">Mensaje</label>
+      <label class="visually-hidden" for="GiftNote-{{ id }}">{{ 'cart.gift_message' | t }}</label>
       <textarea id="GiftNote-{{ id }}" name="note" rows="3" maxlength="300" placeholder="{{ settings.cart_gift_placeholder | escape }}" data-gift-note>{{ cart.note }}</textarea>
     </div>
   </div>

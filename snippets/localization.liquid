@@ -3,14 +3,14 @@
   the store sells in more than one country or language.
 {%- endcomment -%}
 <details class="loc" data-loc>
-  <summary class="loc__toggle" aria-label="País e idioma">
+  <summary class="loc__toggle" aria-label="{{ 'general.country_language' | t }}">
     {% render 'icon', name: 'globe' %}
     <span class="loc__current">{{ localization.language.iso_code | upcase }} · {{ localization.country.currency.iso_code }}</span>
   </summary>
   <div class="loc__panel">
     {%- form 'localization', id: id, class: 'loc__form' -%}
       {%- if localization.available_languages.size > 1 -%}
-        <p class="loc__label">Idioma</p>
+        <p class="loc__label">{{ 'general.language' | t }}</p>
         <ul class="loc__list loc__list--langs">
           {%- for language in localization.available_languages -%}
             <li>
@@ -22,7 +22,7 @@
         </ul>
       {%- endif -%}
       {%- if localization.available_countries.size > 1 -%}
-        <p class="loc__label">País / moneda</p>
+        <p class="loc__label">{{ 'general.country_currency' | t }}</p>
         <ul class="loc__list loc__list--countries">
           {%- for country in localization.available_countries -%}
             <li>

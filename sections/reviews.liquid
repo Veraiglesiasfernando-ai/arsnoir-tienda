@@ -39,7 +39,7 @@
         </div>
         <div class="reviews__summary">
           {% render 'stars', rating: avg, count: count %}
-          {%- if show_samples -%}<p class="reviews__notice">Vista previa solo del editor: añade reseñas reales como bloques para mostrarlas en la tienda.</p>{%- endif -%}
+          {%- if show_samples -%}<p class="reviews__notice">{{ 'reviews.editor_notice' | t }}</p>{%- endif -%}
         </div>
       </div>
     </div>
@@ -49,8 +49,8 @@
         {%- for i in (1..3) -%}
           <li class="slider__item review">
             {% render 'stars', rating: 5 %}
-            <p class="review__text">Texto de ejemplo de una reseña. Sustitúyelo por la opinión real de un cliente sobre su obra.</p>
-            <p class="review__author">Nombre del cliente · Ciudad</p>
+            <p class="review__text">{{ 'reviews.sample_text' | t }}</p>
+            <p class="review__author">{{ 'reviews.sample_author' | t }}</p>
           </li>
         {%- endfor -%}
       {%- else -%}
@@ -62,7 +62,7 @@
             <p class="review__text">{{ r.text }}</p>
             <p class="review__author">
               {{ r.author }}{% if r.location != blank %} · {{ r.location }}{% endif %}
-              {%- if r.verified %} <span class="review__verified">Compra verificada</span>{% endif -%}
+              {%- if r.verified %} <span class="review__verified">{{ 'reviews.verified' | t }}</span>{% endif -%}
             </p>
             {%- if r.product != blank -%}<a class="review__product" href="{{ r.product.url }}">{{ r.product.title }} &rarr;</a>{%- endif -%}
           </li>

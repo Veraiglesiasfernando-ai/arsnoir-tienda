@@ -22,7 +22,7 @@
         <span class="poster__info">
           <span class="poster__meta">
             <span class="poster__title">{{ collection.title }}</span>
-            <span class="poster__price">{{ collection.products_count }} {% if collection.products_count == 1 %}obra{% else %}obras{% endif %}</span>
+            <span class="poster__price">{{ 'general.works_count' | t: count: collection.products_count }}</span>
           </span>
           <span class="poster__plus" aria-hidden="true">&rarr;</span>
         </span>
@@ -32,8 +32,8 @@
 
   {%- if n == 0 -%}
     <div class="empty-note">
-      <p class="empty-note__title">Las colecciones llegan muy pronto.</p>
-      <a class="button" href="{{ routes.all_products_collection_url }}">Ver todas las obras</a>
+      <p class="empty-note__title">{{ 'collection.collections_soon' | t }}</p>
+      <a class="button" href="{{ routes.all_products_collection_url }}">{{ 'general.see_all_works' | t }}</a>
     </div>
   {%- endif -%}
 </section>

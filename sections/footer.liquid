@@ -19,7 +19,7 @@
           {%- endif -%}
         </div>
         {%- if story_page != blank -%}
-          <a class="site-footer__more" href="{{ story_page.url }}">Leer la historia &rarr;</a>
+          <a class="site-footer__more" href="{{ story_page.url }}">{{ 'general.read_story' | t }} &rarr;</a>
         {%- endif -%}
       </div>
 
@@ -41,7 +41,7 @@
     <div class="site-footer__wordmark" aria-hidden="true">{{ s.wordmark | default: shop.name }}</div>
 
     <div class="site-footer__bottom">
-      <span>&copy; {{ 'now' | date: '%Y' }} {{ shop.name | strip }}. Todos los derechos reservados.</span>
+      <span>&copy; {{ 'now' | date: '%Y' }} {{ shop.name | strip }}. {{ 'general.all_rights' | t }}</span>
       <div class="site-footer__social">
         {%- if settings.social_instagram != blank -%}<a href="{{ settings.social_instagram }}" target="_blank" rel="noopener">Instagram</a>{%- endif -%}
         {%- if settings.social_tiktok != blank -%}<a href="{{ settings.social_tiktok }}" target="_blank" rel="noopener">TikTok</a>{%- endif -%}
@@ -49,8 +49,8 @@
       </div>
       {%- if s.show_payment_icons -%}
         <div class="site-footer__secure">
-        <span class="site-footer__secure-label">{% render 'trust-icon', name: 'lock' %} Pago 100% seguro</span>
-        <ul class="site-footer__payments" aria-label="Métodos de pago">
+        <span class="site-footer__secure-label">{% render 'trust-icon', name: 'lock' %} {{ 'general.secure_payment' | t }}</span>
+        <ul class="site-footer__payments" aria-label="{{ 'general.payment_methods' | t }}">
           {%- for type in shop.enabled_payment_types -%}
             <li>{{ type | payment_type_svg_tag }}</li>
           {%- endfor -%}

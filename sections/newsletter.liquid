@@ -7,11 +7,11 @@
       {%- form 'customer', class: 'newsletter__form' -%}
         <input type="hidden" name="contact[tags]" value="newsletter">
         {%- if form.posted_successfully? -%}
-          <p class="form-message" style="width:100%">Gracias. Te escribiremos solo cuando haya algo que merezca la pena.</p>
+          <p class="form-message" style="width:100%">{{ 'general.newsletter_success' | t }}</p>
         {%- else -%}
-          <label class="visually-hidden" for="Newsletter-{{ section.id }}">Email</label>
-          <input class="field" id="Newsletter-{{ section.id }}" type="email" name="contact[email]" placeholder="Tu email" autocomplete="email" required>
-          <button class="button" type="submit">Suscribirme</button>
+          <label class="visually-hidden" for="Newsletter-{{ section.id }}">{{ 'general.email' | t }}</label>
+          <input class="field" id="Newsletter-{{ section.id }}" type="email" name="contact[email]" placeholder="{{ 'general.your_email' | t }}" autocomplete="email" required>
+          <button class="button" type="submit">{{ 'general.subscribe' | t }}</button>
         {%- endif -%}
       {%- endform -%}
     </div>

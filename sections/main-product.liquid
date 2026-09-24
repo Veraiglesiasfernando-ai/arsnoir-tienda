@@ -60,10 +60,10 @@
             </div>
             {%- if cart.taxes_included or shop.shipping_policy.body != blank -%}
               <div class="product__tax">
-                {%- if cart.taxes_included -%}IVA incluido.{%- endif -%}
+                {%- if cart.taxes_included -%}{{ 'cart.taxes_included' | t }}{%- endif -%}
                 {%- if settings.free_shipping_threshold == 0 and settings.shipping_message != blank -%}
-                  {%- if shop.shipping_policy.body != blank %} <a href="{{ shop.shipping_policy.url }}" style="text-decoration:underline">Envío gratis</a>.{% else %} Envío gratis.{% endif -%}
-                {%- elsif shop.shipping_policy.body != blank %} <a href="{{ shop.shipping_policy.url }}" style="text-decoration:underline">Envío</a> calculado en el pago.{%- endif -%}
+                  {%- if shop.shipping_policy.body != blank %} <a href="{{ shop.shipping_policy.url }}" style="text-decoration:underline">{{ 'product.free_shipping' | t }}</a>.{% else %} {{ 'product.free_shipping' | t }}.{% endif -%}
+                {%- elsif shop.shipping_policy.body != blank %} <a href="{{ shop.shipping_policy.url }}" style="text-decoration:underline">{{ 'product.shipping' | t }}</a> · {{ 'cart.shipping_at_checkout' | t }}{%- endif -%}
               </div>
             {%- endif -%}
 
@@ -120,16 +120,16 @@
                 <input type="hidden" name="id" value="{{ current_variant.id }}">
                 <div class="product__buy">
                   <div class="qty">
-                    <button type="button" data-qty="-1" aria-label="Menos">&minus;</button>
-                    <input type="number" name="quantity" value="1" min="1" aria-label="Cantidad">
-                    <button type="button" data-qty="1" aria-label="Más">+</button>
+                    <button type="button" data-qty="-1" aria-label="{{ 'cart.less' | t }}">&minus;</button>
+                    <input type="number" name="quantity" value="1" min="1" aria-label="{{ 'cart.quantity' | t }}">
+                    <button type="button" data-qty="1" aria-label="{{ 'cart.more' | t }}">+</button>
                   </div>
                   <button type="submit" class="button button--accent"
-                    data-add-text="Añadir al carrito"
-                    data-sold-out-text="Agotado"
-                    data-unavailable-text="No disponible"
+                    data-add-text="{{ 'product.add_to_cart' | t }}"
+                    data-sold-out-text="{{ 'product.sold_out' | t }}"
+                    data-unavailable-text="{{ 'product.unavailable' | t }}"
                     {% unless current_variant.available %}disabled{% endunless %}>
-                    {%- if current_variant.available -%}Añadir al carrito{%- else -%}Agotado{%- endif -%}
+                    {%- if current_variant.available -%}{{ 'product.add_to_cart' | t }}{%- else -%}{{ 'product.sold_out' | t }}{%- endif -%}
                   </button>
                 </div>
                 {%- if block.settings.show_dynamic_checkout -%}
@@ -140,7 +140,8 @@
                 {%- endif -%}
               {%- endform -%}
               {%- if settings.free_shipping_threshold > 0 -%}
-                <p class="product__ship-hint">Envío gratis en pedidos desde {{ settings.free_shipping_threshold | times: 100 | money_without_trailing_zeros }}</p>
+                {%- assign threshold_money = settings.free_shipping_threshold | times: 100 | money_without_trailing_zeros -%}
+                <p class="product__ship-hint">{{ 'product.free_shipping_from' | t: amount: threshold_money }}</p>
               {%- elsif settings.shipping_message != blank -%}
                 <p class="product__ship-hint">{{ settings.shipping_message }}{% if settings.shipping_details != blank %}<span class="product__ship-sub">{{ settings.shipping_details }}</span>{% endif %}</p>
               {%- endif -%}
@@ -159,14 +160,14 @@
               -%}
               <div class="edition" {{ block.shopify_attributes }}>
                 <div class="edition__head">
-                  <span class="edition__label">Edición limitada</span>
-                  <span class="edition__total">{{ ed_size }} copias en total</span>
+                  <span class="edition__label">{{ 'product.edition_label' | t }}</span>
+                  <span class="edition__total">{{ 'product.edition_total' | t: count: ed_size }}</span>
                 </div>
                 <div class="edition__bar" role="progressbar" aria-valuemin="0" aria-valuemax="{{ ed_size }}" aria-valuenow="{{ ed_sold }}"><span style="width: {{ ed_pct }}%"></span></div>
                 {%- if ed_left > 0 -%}
-                  <p class="edition__count">Quedan <strong>{{ ed_left }}</strong> de {{ ed_size }}. Tu copia será la <strong>nº {{ ed_next }}/{{ ed_size }}</strong>.</p>
+                  <p class="edition__count">{{ 'product.edition_left_html' | t: left: ed_left, total: ed_size, next: ed_next }}</p>
                 {%- else -%}
-                  <p class="edition__count"><strong>Edición agotada.</strong> No se volverá a imprimir.</p>
+                  <p class="edition__count">{{ 'product.edition_sold_out_html' | t }}</p>
                 {%- endif -%}
               </div>
             {%- endif -%}
@@ -179,8 +180,8 @@
 
           {%- when 'material' -%}
             <div class="product__material" {{ block.shopify_attributes }}>
-              {%- if block.settings.material != blank -%}<p><strong>Material:</strong> {{ block.settings.material }}</p>{%- endif -%}
-              {%- if block.settings.frame != blank -%}<p><strong>Marco (opcional):</strong> {{ block.settings.frame }}</p>{%- endif -%}
+              {%- if block.settings.material != blank -%}<p><strong>{{ 'product.material' | t }}</strong> {{ block.settings.material }}</p>{%- endif -%}
+              {%- if block.settings.frame != blank -%}<p><strong>{{ 'product.frame' | t }}</strong> {{ block.settings.frame }}</p>{%- endif -%}
             </div>
 
           {%- when 'trust' -%}
@@ -223,7 +224,7 @@
     <span class="sticky-buy__price">{% render 'price', product: product, variant: current_variant %}</span>
   </div>
   <button type="submit" class="button button--accent" form="{{ form_id }}" tabindex="-1"{% unless current_variant.available %} disabled{% endunless %}>
-    {%- if current_variant.available -%}Añadir{%- else -%}Agotado{%- endif -%}
+    {%- if current_variant.available -%}{{ 'product.add_short' | t }}{%- else -%}{{ 'product.sold_out' | t }}{%- endif -%}
   </button>
 </div>
 

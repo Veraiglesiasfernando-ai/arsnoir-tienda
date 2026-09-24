@@ -11,8 +11,8 @@
         <p class="join__ok">{{ s.success }}</p>
       {%- else -%}
         {%- if form.errors -%}<p class="join__error">{{ form.errors | default_errors }}</p>{%- endif -%}
-        <label class="visually-hidden" for="Join-{{ section.id }}">Email</label>
-        <input class="join__field" id="Join-{{ section.id }}" type="email" name="contact[email]" placeholder="Tu email" autocomplete="email" required>
+        <label class="visually-hidden" for="Join-{{ section.id }}">{{ 'general.email' | t }}</label>
+        <input class="join__field" id="Join-{{ section.id }}" type="email" name="contact[email]" placeholder="{{ 'general.your_email' | t }}" autocomplete="email" required>
         <button class="button button--accent" type="submit">{{ s.button_label }}</button>
       {%- endif -%}
     {%- endform -%}

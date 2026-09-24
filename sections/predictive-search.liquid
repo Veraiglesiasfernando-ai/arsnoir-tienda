@@ -7,7 +7,7 @@
       {%- if res.queries.size > 0 or res.collections.size > 0 -%}
         <div class="psearch__side">
           {%- if res.queries.size > 0 -%}
-            <p class="search-overlay__label">Sugerencias</p>
+            <p class="search-overlay__label">{{ 'search.suggestions' | t }}</p>
             <ul class="psearch__list">
               {%- for q in res.queries -%}
                 <li><a href="{{ q.url }}">{{ q.styled_text }}</a></li>
@@ -15,7 +15,7 @@
             </ul>
           {%- endif -%}
           {%- if res.collections.size > 0 -%}
-            <p class="search-overlay__label">Colecciones</p>
+            <p class="search-overlay__label">{{ 'general.collections' | t }}</p>
             <ul class="psearch__list">
               {%- for c in res.collections -%}
                 <li><a href="{{ c.url }}">{{ c.title }}</a></li>
@@ -26,7 +26,7 @@
       {%- endif -%}
       {%- if res.products.size > 0 -%}
         <div class="psearch__main">
-          <p class="search-overlay__label">Obras</p>
+          <p class="search-overlay__label">{{ 'search.works' | t }}</p>
           <ul class="psearch__grid">
             {%- for p in res.products -%}
               <li>
@@ -37,7 +37,7 @@
                     {%- endif -%}
                   </span>
                   <span class="psearch__title">{{ p.title }}</span>
-                  <span class="psearch__price">{% if p.price_varies %}Desde {% endif %}{{ p.price_min | money }}</span>
+                  <span class="psearch__price">{% if p.price_varies %}{{ 'general.from' | t }} {% endif %}{{ p.price_min | money }}</span>
                 </a>
               </li>
             {%- endfor -%}
@@ -46,9 +46,9 @@
       {%- endif -%}
     </div>
   {%- else -%}
-    <p class="psearch__empty">Nada con «{{ terms }}». Prueba con otra palabra o <a href="{{ routes.all_products_collection_url }}">mira todas las obras</a>.</p>
+    <p class="psearch__empty">{{ 'search.predictive_empty' | t: terms: terms }} <a href="{{ routes.all_products_collection_url }}">{{ 'search.predictive_empty_link' | t }}</a>.</p>
   {%- endif -%}
-  <a class="psearch__all" href="{{ routes.search_url }}?type=product&q={{ terms | url_encode }}">Ver todos los resultados de «{{ terms }}» &rarr;</a>
+  <a class="psearch__all" href="{{ routes.search_url }}?type=product&q={{ terms | url_encode }}">{{ 'search.view_all_results' | t: terms: terms }} &rarr;</a>
 {%- endif -%}
 
 {% schema %}

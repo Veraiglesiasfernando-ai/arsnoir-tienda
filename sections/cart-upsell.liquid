@@ -9,7 +9,7 @@
 -%}
 {%- if recommendations.performed and recommendations.products_count > 0 -%}
   <div class="upsell">
-    <p class="upsell__title">Completa tu pared</p>
+    <p class="upsell__title">{{ 'cart.complete_wall' | t }}</p>
     <ul class="upsell__list">
       {%- for p in recommendations.products -%}
         {%- assign key = ',' | append: p.id | append: ',' -%}
@@ -22,12 +22,12 @@
               </a>
               <div class="upsell__body">
                 <a class="upsell__name" href="{{ p.url }}">{{ p.title }}</a>
-                <span class="upsell__price">{% if p.price_varies %}Desde {% endif %}{{ p.price_min | money }}</span>
+                <span class="upsell__price">{% if p.price_varies %}{{ 'general.from' | t }} {% endif %}{{ p.price_min | money }}</span>
               </div>
               {%- assign form_id = 'Upsell-' | append: p.id -%}
               {%- form 'product', p, id: form_id, class: 'upsell__form', data-ajax-cart: 'true' -%}
                 <input type="hidden" name="id" value="{{ p.selected_or_first_available_variant.id }}">
-                <button type="submit" class="upsell__add" aria-label="Añadir {{ p.title | escape }}">+</button>
+                <button type="submit" class="upsell__add" aria-label="{{ 'cart.add_item' | t: title: p.title }}">+</button>
               {%- endform -%}
             </li>
           {%- endunless -%}

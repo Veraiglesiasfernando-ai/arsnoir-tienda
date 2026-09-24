@@ -10,9 +10,10 @@
   assign num = rating | append: '' | replace: ',', '.' | plus: 0
   assign pct = num | times: 100.0 | divided_by: max
   assign shown = num | round: 1 | append: '' | replace: '.', ','
+  assign reviews_label = 'general.reviews' | t
 -%}
-<span class="stars" role="img" aria-label="{{ shown }} de {{ max }} estrellas">
+<span class="stars" role="img" aria-label="{{ 'general.stars' | t: rating: shown, max: max }}">
   <span class="stars__track" aria-hidden="true">★★★★★<span class="stars__fill" style="width: {{ pct }}%">★★★★★</span></span>
   <span class="stars__value">{{ shown }}</span>
-  {%- if count != blank and count > 0 -%}<span class="stars__count">· {{ count }} {{ label | default: 'reseñas' }}</span>{%- endif -%}
+  {%- if count != blank and count > 0 -%}<span class="stars__count">· {{ count }} {{ label | default: reviews_label }}</span>{%- endif -%}
 </span>

@@ -1,43 +1,45 @@
+{%- assign base = routes.root_url | remove_last: '/' -%}
+{%- assign base = routes.root_url | remove_last: '/' -%}
 <section class="page-width">
   {% render 'page-head', eyebrow: section.settings.eyebrow, title: page.title, subtitle: page.content, crumbs: true %}
 
   <div class="contact reveal">
     {%- form 'contact', class: 'contact__form' -%}
       {%- if form.posted_successfully? -%}
-        <p class="contact__ok">Gracias por escribirnos. Te responderemos lo antes posible.</p>
+        <p class="contact__ok">{{ 'contact.success' | t }}</p>
       {%- elsif form.errors -%}
         <div class="contact__error">{{ form.errors | default_errors }}</div>
       {%- endif -%}
       <div class="contact__row">
         <label class="field-float">
-          <span>Nombre</span>
+          <span>{{ 'contact.name' | t }}</span>
           <input type="text" name="contact[name]" autocomplete="name" value="{{ form.name }}">
         </label>
         <label class="field-float">
-          <span>Email</span>
+          <span>{{ 'general.email' | t }}</span>
           <input type="email" name="contact[email]" autocomplete="email" required value="{{ form.email }}">
         </label>
       </div>
       <label class="field-float">
-        <span>Nº de pedido (opcional)</span>
+        <span>{{ 'contact.order' | t }}</span>
         <input type="text" name="contact[pedido]" value="{{ form.pedido }}">
       </label>
       <label class="field-float">
-        <span>Mensaje</span>
+        <span>{{ 'contact.message' | t }}</span>
         <textarea name="contact[body]" rows="6" required>{{ form.body }}</textarea>
       </label>
-      <button class="button button--accent" type="submit">Enviar mensaje</button>
+      <button class="button button--accent" type="submit">{{ 'contact.send' | t }}</button>
     {%- endform -%}
 
     <aside class="contact__aside">
-      <p class="contact__aside-title">Antes de escribir</p>
+      <p class="contact__aside-title">{{ 'contact.before' | t }}</p>
       <ul>
-        <li><a href="/pages/preguntas-frecuentes">Preguntas frecuentes &rarr;</a></li>
-        <li><a href="/pages/envios-y-devoluciones">Envíos y devoluciones &rarr;</a></li>
-        <li><a href="/pages/guia-de-tamanos">Guía de tamaños &rarr;</a></li>
+        <li><a href="{{ base }}/pages/preguntas-frecuentes">{{ 'contact.faq' | t }} &rarr;</a></li>
+        <li><a href="{{ base }}/pages/envios-y-devoluciones">{{ 'contact.shipping' | t }} &rarr;</a></li>
+        <li><a href="{{ base }}/pages/guia-de-tamanos">{{ 'contact.sizes' | t }} &rarr;</a></li>
       </ul>
       {%- if shop.email != blank -%}
-        <p class="contact__mail">O escríbenos a <a href="mailto:{{ shop.email }}">{{ shop.email }}</a></p>
+        <p class="contact__mail">{{ 'contact.or_write' | t }} <a href="mailto:{{ shop.email }}">{{ shop.email }}</a></p>
       {%- endif -%}
     </aside>
   </div>

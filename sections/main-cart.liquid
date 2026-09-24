@@ -1,5 +1,13 @@
+{%- liquid
+  assign cart_eyebrow = 'cart.eyebrow' | t
+  assign cart_title = 'cart.page_title' | t
+-%}
+{%- liquid
+  assign cart_eyebrow = 'cart.eyebrow' | t
+  assign cart_title = 'cart.page_title' | t
+-%}
 <section class="page-width cart-page">
-  {% render 'page-head', eyebrow: 'TU SELECCIÓN', title: 'Carrito', crumbs: true %}
+  {% render 'page-head', eyebrow: cart_eyebrow, title: cart_title, crumbs: true %}
 
   {%- if cart.item_count > 0 -%}
     {% render 'free-shipping-bar' %}
@@ -30,40 +38,40 @@
                 </div>
                 <div class="cart-item__actions">
                   <div class="qty">
-                    <button type="button" data-qty="-1" aria-label="Menos">&minus;</button>
-                    <input type="number" name="updates[]" value="{{ item.quantity }}" min="0" aria-label="Cantidad de {{ item.product.title | escape }}">
-                    <button type="button" data-qty="1" aria-label="Más">+</button>
+                    <button type="button" data-qty="-1" aria-label="{{ 'cart.less' | t }}">&minus;</button>
+                    <input type="number" name="updates[]" value="{{ item.quantity }}" min="0" aria-label="{{ 'cart.quantity_of' | t: title: item.product.title }}">
+                    <button type="button" data-qty="1" aria-label="{{ 'cart.more' | t }}">+</button>
                   </div>
-                  <a class="cart-item__remove" href="{{ item.url_to_remove }}">Eliminar</a>
+                  <a class="cart-item__remove" href="{{ item.url_to_remove }}">{{ 'cart.remove' | t }}</a>
                 </div>
               </div>
               <div class="cart-item__price">{{ item.final_line_price | money }}</div>
             </li>
           {%- endfor -%}
         </ul>
-        <button type="submit" name="update" class="link-underline" style="background:none;border:0;border-bottom:1px solid;margin-top:24px">Actualizar carrito</button>
+        <button type="submit" name="update" class="link-underline" style="background:none;border:0;border-bottom:1px solid;margin-top:24px">{{ 'cart.update' | t }}</button>
       </div>
 
       <aside class="cart-summary">
-        <div class="cart-summary__row"><span>Subtotal</span><span>{{ cart.items_subtotal_price | money }}</span></div>
+        <div class="cart-summary__row"><span>{{ 'cart.subtotal' | t }}</span><span>{{ cart.items_subtotal_price | money }}</span></div>
         {%- for discount in cart.cart_level_discount_applications -%}
           <div class="cart-summary__row muted"><span>{{ discount.title }}</span><span>&minus;{{ discount.total_allocated_amount | money }}</span></div>
         {%- endfor -%}
-        <div class="cart-summary__row cart-summary__total"><span>Total</span><span>{{ cart.total_price | money }}</span></div>
-        <small>{% if cart.taxes_included %}IVA incluido. {% endif %}{% if settings.free_shipping_threshold == 0 and settings.shipping_message != blank %}{{ settings.shipping_message }}.{% else %}Envío calculado en el pago.{% endif %}</small>
+        <div class="cart-summary__row cart-summary__total"><span>{{ 'cart.total' | t }}</span><span>{{ cart.total_price | money }}</span></div>
+        <small>{% if cart.taxes_included %}{{ 'cart.taxes_included' | t }} {% endif %}{% if settings.free_shipping_threshold == 0 and settings.shipping_message != blank %}{{ settings.shipping_message }}.{% else %}{{ 'cart.shipping_at_checkout' | t }}{% endif %}</small>
 
         {%- if settings.cart_gift -%}
           {% render 'cart-gift', id: 'page' %}
         {%- elsif section.settings.show_note -%}
           <details class="cart-note">
-            <summary>Añadir una nota (p. ej. para regalo)</summary>
-            <textarea class="field" name="note" aria-label="Nota del pedido">{{ cart.note }}</textarea>
+            <summary>{{ 'cart.add_note' | t }}</summary>
+            <textarea class="field" name="note" aria-label="{{ 'cart.note_label' | t }}">{{ cart.note }}</textarea>
           </details>
         {%- endif -%}
 
-        <button type="submit" name="checkout" class="button button--full button--accent">Finalizar compra</button>
-        <p class="cart-summary__secure">{% render 'trust-icon', name: 'lock' %} Pago 100% seguro</p>
-        <ul class="cart-summary__payments" aria-label="Métodos de pago">
+        <button type="submit" name="checkout" class="button button--full button--accent">{{ 'cart.checkout' | t }}</button>
+        <p class="cart-summary__secure">{% render 'trust-icon', name: 'lock' %} {{ 'general.secure_payment' | t }}</p>
+        <ul class="cart-summary__payments" aria-label="{{ 'general.payment_methods' | t }}">
           {%- for type in shop.enabled_payment_types -%}<li>{{ type | payment_type_svg_tag }}</li>{%- endfor -%}
         </ul>
         {%- if additional_checkout_buttons -%}
@@ -74,8 +82,8 @@
     <div class="cart-page__upsell" data-cart-upsell data-product-id="{{ cart.items.first.product_id }}"></div>
   {%- else -%}
     <div class="empty-note">
-      <p class="empty-note__title">Tu carrito está vacío.</p>
-      <a class="button" href="{{ routes.all_products_collection_url }}">Ver obras</a>
+      <p class="empty-note__title">{{ 'cart.empty' | t }}</p>
+      <a class="button" href="{{ routes.all_products_collection_url }}">{{ 'general.see_works' | t }}</a>
     </div>
   {%- endif -%}
 </section>

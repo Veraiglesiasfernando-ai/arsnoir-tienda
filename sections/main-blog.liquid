@@ -1,5 +1,5 @@
 <section class="page-width section">
-  <span class="eyebrow">Diario</span>
+  <span class="eyebrow">{{ 'blog.eyebrow' | t }}</span>
   <h1>{{ blog.title }}</h1>
   {%- paginate blog.articles by 12 -%}
     <div class="collection-grid" style="--cols: 3; margin-top: 48px">
@@ -21,9 +21,9 @@
     </div>
     {%- if paginate.pages > 1 -%}
       <nav class="pagination">
-        {%- if paginate.previous -%}<a href="{{ paginate.previous.url }}">&larr; Anterior</a>{%- endif -%}
+        {%- if paginate.previous -%}<a href="{{ paginate.previous.url }}">&larr; {{ 'general.previous' | t }}</a>{%- endif -%}
         <span>{{ paginate.current_page }} / {{ paginate.pages }}</span>
-        {%- if paginate.next -%}<a href="{{ paginate.next.url }}">Siguiente &rarr;</a>{%- endif -%}
+        {%- if paginate.next -%}<a href="{{ paginate.next.url }}">{{ 'general.next' | t }} &rarr;</a>{%- endif -%}
       </nav>
     {%- endif -%}
   {%- endpaginate -%}

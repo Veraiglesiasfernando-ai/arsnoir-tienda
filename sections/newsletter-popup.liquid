@@ -11,7 +11,7 @@
       <div class="npop__media">{{ s.image | image_url: width: 800 | image_tag: loading: 'lazy', widths: '400, 600, 800', sizes: '320px', alt: '' }}</div>
     {%- endif -%}
     <div class="npop__body">
-      <button type="button" class="npop__close" aria-label="Cerrar" data-npop-close>{% render 'icon', name: 'close' %}</button>
+      <button type="button" class="npop__close" aria-label="{{ 'general.close' | t }}" data-npop-close>{% render 'icon', name: 'close' %}</button>
       {%- form 'customer', id: 'NewsletterPopup', class: 'npop__form' -%}
         <input type="hidden" name="contact[tags]" value="newsletter,popup">
         {%- if form.posted_successfully? -%}
@@ -21,18 +21,18 @@
             <p class="npop__text">{{ s.success_text }}</p>
             {%- if s.code != blank -%}
               <button type="button" class="npop__code" data-copy="{{ s.code | escape }}">
-                <span>{{ s.code }}</span><small data-copy-label>Copiar</small>
+                <span>{{ s.code }}</span><small data-copy-label>{{ 'general.copy' | t }}</small>
               </button>
             {%- endif -%}
-            <a class="button button--accent button--full" href="{{ routes.all_products_collection_url }}">Ver obras</a>
+            <a class="button button--accent button--full" href="{{ routes.all_products_collection_url }}">{{ 'general.see_works' | t }}</a>
           </div>
         {%- else -%}
           <p class="npop__eyebrow">{{ s.eyebrow }}</p>
           <p class="npop__title" id="NpopTitle">{{ s.heading }}</p>
           <p class="npop__text">{{ s.text }}</p>
           {%- if form.errors -%}<p class="npop__error">{{ form.errors | default_errors }}</p>{%- endif -%}
-          <label class="visually-hidden" for="NpopEmail">Email</label>
-          <input class="npop__field" id="NpopEmail" type="email" name="contact[email]" placeholder="Tu email" autocomplete="email" required>
+          <label class="visually-hidden" for="NpopEmail">{{ 'general.email' | t }}</label>
+          <input class="npop__field" id="NpopEmail" type="email" name="contact[email]" placeholder="{{ 'general.your_email' | t }}" autocomplete="email" required>
           <button class="button button--accent button--full" type="submit">{{ s.button_label }}</button>
           <button type="button" class="npop__skip" data-npop-close>{{ s.dismiss_label }}</button>
           {%- if s.legal != blank -%}<p class="npop__legal">{{ s.legal }}</p>{%- endif -%}

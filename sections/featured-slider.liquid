@@ -13,8 +13,8 @@
         {%- if s.subtitle != blank -%}<p class="featured__subtitle">{{ s.subtitle }}</p>{%- endif -%}
       </div>
       <div class="featured__arrows">
-        <button type="button" class="round-btn" data-scroll="-1" data-target="Slider-{{ section.id }}" aria-label="Anterior">&larr;</button>
-        <button type="button" class="round-btn" data-scroll="1" data-target="Slider-{{ section.id }}" aria-label="Siguiente">&rarr;</button>
+        <button type="button" class="round-btn" data-scroll="-1" data-target="Slider-{{ section.id }}" aria-label="{{ 'general.previous' | t }}">&larr;</button>
+        <button type="button" class="round-btn" data-scroll="1" data-target="Slider-{{ section.id }}" aria-label="{{ 'general.next' | t }}">&rarr;</button>
       </div>
     </div>
   </div>

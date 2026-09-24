@@ -11,8 +11,8 @@
   {% render 'page-head', eyebrow: s.eyebrow, title: title, subtitle: collection.description, crumbs: true %}
 
   {%- if s.show_nav -%}
-    <nav class="collection-nav reveal" aria-label="Colecciones">
-      <a href="{{ routes.all_products_collection_url }}"{% if collection.handle == 'all' %} aria-current="page"{% endif %}>Todas</a>
+    <nav class="collection-nav reveal" aria-label="{{ 'general.collections' | t }}">
+      <a href="{{ routes.all_products_collection_url }}"{% if collection.handle == 'all' %} aria-current="page"{% endif %}>{{ 'collection.all' | t }}</a>
       {%- if nav_menu.links.size > 0 -%}
         {%- for link in nav_menu.links -%}
           <a href="{{ link.url }}"{% if link.url == collection.url %} aria-current="page"{% endif %}>{{ link.title }}</a>
@@ -28,7 +28,7 @@
 
   {%- paginate collection.products by s.per_page -%}
     <form class="toolbar reveal" method="get" data-filter-form>
-      <span class="toolbar__count">{{ collection.products_count }} {% if collection.products_count == 1 %}obra{% else %}obras{% endif %}</span>
+      <span class="toolbar__count">{{ 'general.works_count' | t: count: collection.products_count }}</span>
 
       <div class="toolbar__controls">
         {%- for filter in collection.filters -%}
@@ -41,8 +41,8 @@
               {%- case filter.type -%}
                 {%- when 'price_range' -%}
                   <div class="filter__price">
-                    <label>Desde <input type="number" name="{{ filter.min_value.param_name }}" value="{{ filter.min_value.value | divided_by: 100 }}" placeholder="0" min="0"></label>
-                    <label>Hasta <input type="number" name="{{ filter.max_value.param_name }}" value="{{ filter.max_value.value | divided_by: 100 }}" placeholder="{{ filter.range_max | divided_by: 100 }}" min="0"></label>
+                    <label>{{ 'general.from' | t }} <input type="number" name="{{ filter.min_value.param_name }}" value="{{ filter.min_value.value | divided_by: 100 }}" placeholder="0" min="0"></label>
+                    <label>{{ 'general.to' | t }} <input type="number" name="{{ filter.max_value.param_name }}" value="{{ filter.max_value.value | divided_by: 100 }}" placeholder="{{ filter.range_max | divided_by: 100 }}" min="0"></label>
                   </div>
                 {%- else -%}
                   {%- for value in filter.values -%}
@@ -58,7 +58,7 @@
         {%- endfor -%}
 
         {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
-        <label class="visually-hidden" for="SortBy">Ordenar por</label>
+        <label class="visually-hidden" for="SortBy">{{ 'collection.sort_by' | t }}</label>
         <select id="SortBy" class="toolbar__sort" name="sort_by">
           {%- for option in collection.sort_options -%}
             <option value="{{ option.value | escape }}"{% if option.value == sort_by %} selected{% endif %}>{{ option.name | escape }}</option>
@@ -77,11 +77,11 @@
           {%- endfor -%}
           {%- if filter.type == 'price_range' -%}
             {%- if filter.min_value.value != nil or filter.max_value.value != nil -%}
-              <a href="{{ filter.url_to_remove }}" class="active-filters__pill">Precio &times;</a>
+              <a href="{{ filter.url_to_remove }}" class="active-filters__pill">{{ 'collection.price' | t }} &times;</a>
             {%- endif -%}
           {%- endif -%}
         {%- endfor -%}
-        <a href="{{ collection.url }}?sort_by={{ sort_by }}" class="active-filters__clear">Quitar filtros</a>
+        <a href="{{ collection.url }}?sort_by={{ sort_by }}" class="active-filters__clear">{{ 'collection.clear_filters' | t }}</a>
       </div>
     {%- endif -%}
 
@@ -104,15 +104,15 @@
       </ul>
     {%- else -%}
       <div class="empty-note reveal">
-        <p class="empty-note__title">{% if active_count > 0 %}Ninguna obra coincide con estos filtros.{% else %}Muy pronto, nuevas obras aquí.{% endif %}</p>
-        <p class="empty-note__text">{% if active_count > 0 %}Prueba a quitar alguno.{% else %}Únete a ARSNOIR y te avisamos el primero.{% endif %}</p>
-        <a class="button" href="{% if active_count > 0 %}{{ collection.url }}{% else %}{{ routes.root_url }}#Join{% endif %}">{% if active_count > 0 %}Quitar filtros{% else %}Avisarme{% endif %}</a>
+        <p class="empty-note__title">{% if active_count > 0 %}{{ 'collection.empty_filtered' | t }}{% else %}{{ 'collection.empty' | t }}{% endif %}</p>
+        <p class="empty-note__text">{% if active_count > 0 %}{{ 'collection.empty_filtered_hint' | t }}{% else %}{{ 'collection.empty_hint' | t }}{% endif %}</p>
+        <a class="button" href="{% if active_count > 0 %}{{ collection.url }}{% else %}{{ routes.root_url }}#Join{% endif %}">{% if active_count > 0 %}{{ 'collection.clear_filters' | t }}{% else %}{{ 'collection.notify_me' | t }}{% endif %}</a>
       </div>
     {%- endif -%}
 
     {%- if paginate.pages > 1 -%}
-      <nav class="pagination" aria-label="Paginación">
-        {%- if paginate.previous -%}<a class="round-btn" href="{{ paginate.previous.url }}" aria-label="Anterior">&larr;</a>{%- endif -%}
+      <nav class="pagination" aria-label="{{ 'general.pagination' | t }}">
+        {%- if paginate.previous -%}<a class="round-btn" href="{{ paginate.previous.url }}" aria-label="{{ 'general.previous' | t }}">&larr;</a>{%- endif -%}
         {%- for part in paginate.parts -%}
           {%- if part.is_link -%}
             <a href="{{ part.url }}">{{ part.title }}</a>
@@ -122,7 +122,7 @@
             <span>{{ part.title }}</span>
           {%- endif -%}
         {%- endfor -%}
-        {%- if paginate.next -%}<a class="round-btn" href="{{ paginate.next.url }}" aria-label="Siguiente">&rarr;</a>{%- endif -%}
+        {%- if paginate.next -%}<a class="round-btn" href="{{ paginate.next.url }}" aria-label="{{ 'general.next' | t }}">&rarr;</a>{%- endif -%}
       </nav>
     {%- endif -%}
   {%- endpaginate -%}

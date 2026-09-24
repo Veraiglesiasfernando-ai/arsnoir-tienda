@@ -48,7 +48,7 @@
   {%- if slide_count > 1 -%}
     <div class="vhero__progress">
       {%- for block in section.blocks -%}
-        <button type="button" class="vhero__bar{% if forloop.first %} is-active{% endif %}" data-slide="{{ forloop.index0 }}" aria-label="Diapositiva {{ forloop.index }}"><span></span></button>
+        <button type="button" class="vhero__bar{% if forloop.first %} is-active{% endif %}" data-slide="{{ forloop.index0 }}" aria-label="{{ 'general.slide' | t: number: forloop.index }}"><span></span></button>
       {%- endfor -%}
     </div>
   {%- endif -%}

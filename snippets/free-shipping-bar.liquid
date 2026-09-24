@@ -13,9 +13,9 @@
   <div class="ship-bar{% if remaining <= 0 %} ship-bar--done{% endif %}">
     <p class="ship-bar__text">
       {%- if remaining > 0 -%}
-        Te faltan <strong>{{ remaining | money }}</strong> para el <strong>envío gratis</strong>
+        {%- assign remaining_money = remaining | money -%}{{ 'cart.remaining_html' | t: amount: remaining_money }}
       {%- else -%}
-        <strong>¡Tienes envío gratis!</strong>
+        <strong>{{ 'cart.free_shipping_done' | t }}</strong>
       {%- endif -%}
     </p>
     <div class="ship-bar__track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ pct | round }}">

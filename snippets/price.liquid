@@ -15,7 +15,7 @@
 -%}
 <span class="price">
   {%- if show_from and product.price_varies -%}
-    Desde {{ product.price_min | money }}
+    {{ 'general.from' | t }} {{ product.price_min | money }}
   {%- else -%}
     {%- if compare > price -%}<s class="muted">{{ compare | money }}</s>{%- endif -%}
     <span>{{ price | money }}</span>

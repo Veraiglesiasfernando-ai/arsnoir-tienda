@@ -1,14 +1,15 @@
 <section class="page-width">
-  {%- capture search_title -%}{% if search.performed %}«{{ search.terms }}»{% else %}Buscar{% endif %}{%- endcapture -%}
-  {%- capture search_sub -%}{% if search.performed %}{{ search.results_count }} resultados{% endif %}{%- endcapture -%}
-  {% render 'page-head', eyebrow: 'BUSCAR', title: search_title, subtitle: search_sub, crumbs: true %}
+  {%- capture search_title -%}{% if search.performed %}«{{ search.terms }}»{% else %}{{ 'search.title' | t }}{% endif %}{%- endcapture -%}
+  {%- capture search_sub -%}{% if search.performed %}{{ 'search.results' | t: count: search.results_count }}{% endif %}{%- endcapture -%}
+  {%- assign search_eyebrow = 'search.eyebrow' | t -%}
+  {% render 'page-head', eyebrow: search_eyebrow, title: search_title, subtitle: search_sub, crumbs: true %}
 
   <form action="{{ routes.search_url }}" method="get" role="search" class="search-bar reveal">
     <input type="hidden" name="type" value="product">
-    <label for="Search" class="visually-hidden">Buscar</label>
+    <label for="Search" class="visually-hidden">{{ 'search.title' | t }}</label>
     {% render 'icon', name: 'search' %}
-    <input id="Search" type="search" name="q" value="{{ search.terms | escape }}" placeholder="Busca una obra, un estilo, un color…" autofocus>
-    <button class="button" type="submit">Buscar</button>
+    <input id="Search" type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'search.placeholder' | t }}" autofocus>
+    <button class="button" type="submit">{{ 'search.title' | t }}</button>
   </form>
 
   {%- if search.performed -%}
@@ -23,16 +24,16 @@
         </ul>
       {%- else -%}
         <div class="empty-note">
-          <p class="empty-note__title">Nada por aquí con «{{ search.terms }}».</p>
-          <p class="empty-note__text">Prueba con otra palabra o explora todas las obras.</p>
-          <a class="button" href="{{ routes.all_products_collection_url }}">Ver todas las obras</a>
+          <p class="empty-note__title">{{ 'search.no_results' | t: terms: search.terms }}</p>
+          <p class="empty-note__text">{{ 'search.no_results_hint' | t }}</p>
+          <a class="button" href="{{ routes.all_products_collection_url }}">{{ 'general.see_all_works' | t }}</a>
         </div>
       {%- endif -%}
       {%- if paginate.pages > 1 -%}
         <nav class="pagination">
-          {%- if paginate.previous -%}<a class="round-btn" href="{{ paginate.previous.url }}" aria-label="Anterior">&larr;</a>{%- endif -%}
+          {%- if paginate.previous -%}<a class="round-btn" href="{{ paginate.previous.url }}" aria-label="{{ 'general.previous' | t }}">&larr;</a>{%- endif -%}
           <span class="current">{{ paginate.current_page }} / {{ paginate.pages }}</span>
-          {%- if paginate.next -%}<a class="round-btn" href="{{ paginate.next.url }}" aria-label="Siguiente">&rarr;</a>{%- endif -%}
+          {%- if paginate.next -%}<a class="round-btn" href="{{ paginate.next.url }}" aria-label="{{ 'general.next' | t }}">&rarr;</a>{%- endif -%}
         </nav>
       {%- endif -%}
     {%- endpaginate -%}

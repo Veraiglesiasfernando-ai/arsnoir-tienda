@@ -1,10 +1,10 @@
 <section class="page-width notfound">
-  <p class="eyebrow eyebrow--accent">ERROR 404</p>
-  <h1 class="notfound__title">Esta pared está vacía.</h1>
-  <p class="page-head__subtitle">La página que buscas no existe o se ha movido.</p>
+  <p class="eyebrow eyebrow--accent">{{ 'notfound.eyebrow' | t }}</p>
+  <h1 class="notfound__title">{{ 'notfound.title' | t }}</h1>
+  <p class="page-head__subtitle">{{ 'notfound.text' | t }}</p>
   <div class="story__cta">
-    <a class="button" href="{{ routes.all_products_collection_url }}">Ver obras</a>
-    <a class="button button--outline" href="{{ routes.root_url }}">Volver al inicio</a>
+    <a class="button" href="{{ routes.all_products_collection_url }}">{{ 'general.see_works' | t }}</a>
+    <a class="button button--outline" href="{{ routes.root_url }}">{{ 'notfound.home' | t }}</a>
   </div>
 </section>
 

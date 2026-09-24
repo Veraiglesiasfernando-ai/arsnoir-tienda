@@ -1,13 +1,17 @@
 {%- liquid
   assign s = section.settings
   assign menu = linklists[s.menu]
+  assign fav_url = s.favorites_page.url
+  if fav_url == blank
+    assign fav_url = routes.root_url | append: '/pages/favoritos' | replace: '//', '/'
+  endif
 -%}
 
 <div class="glass-header-wrap">
   <header class="glass-header">
     <div class="glass-header__start">
       <details class="mobile-menu">
-        <summary aria-label="Menú">{% render 'icon', name: 'menu' %}</summary>
+        <summary aria-label="{{ 'general.menu' | t }}">{% render 'icon', name: 'menu' %}</summary>
         <div class="mobile-menu__panel">
           <ul>
             {%- for link in menu.links -%}
@@ -22,10 +26,10 @@
                 {%- endif -%}
               </li>
             {%- endfor -%}
-            <li><a href="{{ routes.search_url }}" data-search-open>Buscar</a></li>
-            <li><a href="{{ s.favorites_page.url | default: '/pages/favoritos' }}">Favoritos</a></li>
+            <li><a href="{{ routes.search_url }}" data-search-open>{{ 'general.search' | t }}</a></li>
+            <li><a href="{{ fav_url }}">{{ 'general.favorites' | t }}</a></li>
             {%- if shop.customer_accounts_enabled -%}
-              <li><a href="{{ routes.account_url }}">{% if customer %}Mi cuenta{% else %}Iniciar sesión{% endif %}</a></li>
+              <li><a href="{{ routes.account_url }}">{% if customer %}{{ 'general.my_account' | t }}{% else %}{{ 'general.log_in' | t }}{% endif %}</a></li>
             {%- endif -%}
           </ul>
         </div>
@@ -41,7 +45,7 @@
       </a>
     </div>
 
-    <nav class="glass-header__nav" aria-label="Menú principal">
+    <nav class="glass-header__nav" aria-label="{{ 'general.main_menu' | t }}">
       <ul class="glass-header__links">
         {%- for link in menu.links -%}
           {%- if link.links.size > 0 -%}
@@ -56,7 +60,7 @@
                     <li><a href="{{ child.url }}"{% if child.current %} aria-current="page"{% endif %}>{{ child.title }}</a></li>
                   {%- endfor -%}
                 </ul>
-                <a class="nav-drop__all" href="{{ link.url }}">Ver todo &rarr;</a>
+                <a class="nav-drop__all" href="{{ link.url }}">{{ 'general.view_all' | t }} &rarr;</a>
               </div>
             </li>
           {%- else -%}
@@ -67,17 +71,17 @@
     </nav>
 
     <div class="glass-header__icons">
-      <a href="{{ routes.search_url }}" class="glass-header__search" aria-label="Buscar" data-search-open>{% render 'icon', name: 'search' %}</a>
+      <a href="{{ routes.search_url }}" class="glass-header__search" aria-label="{{ 'general.search' | t }}" data-search-open>{% render 'icon', name: 'search' %}</a>
       {%- if localization.available_countries.size > 1 or localization.available_languages.size > 1 -%}
         {% render 'localization', id: 'HeaderLocalization' %}
       {%- endif -%}
-      <a href="{{ s.favorites_page.url | default: '/pages/favoritos' }}" class="glass-header__fav" aria-label="Favoritos">
+      <a href="{{ fav_url }}" class="glass-header__fav" aria-label="{{ 'general.favorites' | t }}">
         {% render 'icon', name: 'heart' %}<span class="fav-count" data-fav-count hidden></span>
       </a>
       {%- if shop.customer_accounts_enabled -%}
-        <a href="{{ routes.account_url }}" class="glass-header__account" aria-label="{% if customer %}Mi cuenta{% else %}Iniciar sesión{% endif %}">{% render 'icon', name: 'account' %}</a>
+        <a href="{{ routes.account_url }}" class="glass-header__account" aria-label="{% if customer %}{{ 'general.my_account' | t }}{% else %}{{ 'general.log_in' | t }}{% endif %}">{% render 'icon', name: 'account' %}</a>
       {%- endif -%}
-      <a href="{{ routes.cart_url }}" class="glass-header__cart" aria-label="Carrito, {{ cart.item_count }} artículos">
+      <a href="{{ routes.cart_url }}" class="glass-header__cart" aria-label="{{ 'cart.count' | t: count: cart.item_count }}">
         {% render 'icon', name: 'bag' %}
         {%- if cart.item_count > 0 -%}<span class="cart-count">{{ cart.item_count }}</span>{%- endif -%}
       </a>
@@ -90,18 +94,18 @@
 -%}
 <div class="search-overlay" data-search-overlay data-suggest-url="{{ routes.predictive_search_url }}" hidden>
   <div class="search-overlay__backdrop" data-search-close></div>
-  <div class="search-overlay__panel" role="dialog" aria-modal="true" aria-label="Buscar">
+  <div class="search-overlay__panel" role="dialog" aria-modal="true" aria-label="{{ 'general.search' | t }}">
     <form action="{{ routes.search_url }}" method="get" role="search" class="search-overlay__form">
       <input type="hidden" name="type" value="product">
       {% render 'icon', name: 'search' %}
-      <label for="SearchOverlay" class="visually-hidden">Buscar</label>
+      <label for="SearchOverlay" class="visually-hidden">{{ 'general.search' | t }}</label>
       <input id="SearchOverlay" type="search" name="q" placeholder="{{ s.search_placeholder | escape }}" autocomplete="off" data-search-input>
-      <button type="button" class="search-overlay__close" aria-label="Cerrar" data-search-close>{% render 'icon', name: 'close' %}</button>
+      <button type="button" class="search-overlay__close" aria-label="{{ 'general.close' | t }}" data-search-close>{% render 'icon', name: 'close' %}</button>
     </form>
     <div class="search-overlay__body">
       <div class="search-overlay__popular" data-search-popular>
         {%- if popular.size > 0 and s.popular_searches != blank -%}
-          <p class="search-overlay__label">Búsquedas populares</p>
+          <p class="search-overlay__label">{{ 'general.popular_searches' | t }}</p>
           <ul class="search-chips">
             {%- for term in popular -%}
               {%- assign t = term | strip -%}

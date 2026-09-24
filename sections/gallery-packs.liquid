@@ -76,14 +76,14 @@
                       {%- if b[key] != blank -%}{% unless forloop.first %} · {% endunless %}{{ b[key].title }}{%- endif -%}
                     {%- endfor -%}
                   {%- else -%}
-                    Elige las obras del pack en el editor.
+                    {{ 'packs.pick_in_editor' | t }}
                   {%- endif -%}
                 </p>
               </div>
               {%- if count > 0 -%}<span class="pack__price">{{ total | money }}</span>{%- endif -%}
             </div>
             <button type="button" class="button button--accent button--full pack__add" data-pack-add="{{ ids }}"{% if count == 0 or all_available == false %} disabled{% endif %}>
-              {%- if all_available -%}{{ b.button_label }}{%- else -%}Alguna obra está agotada{%- endif -%}
+              {%- if all_available -%}{{ b.button_label }}{%- else -%}{{ 'packs.some_sold_out' | t }}{%- endif -%}
             </button>
           </li>
         {%- endif -%}

@@ -38,9 +38,9 @@
         {%- endif -%}
       </div>
       {%- if product.available == false -%}
-        <span class="poster__tag">AGOTADA</span>
+        <span class="poster__tag">{{ 'cards.sold_out' | t }}</span>
       {%- elsif product.metafields.custom.edition_size.value > 0 -%}
-        <span class="poster__tag">ED. LIMITADA</span>
+        <span class="poster__tag">{{ 'cards.limited' | t }}</span>
       {%- endif -%}
     </div>
     <span class="poster__info">
@@ -58,7 +58,7 @@
     <div class="poster__frame"><div class="poster__media"><div class="poster__ph" aria-hidden="true"></div></div></div>
     <span class="poster__info">
       <span class="poster__meta">
-        <span class="poster__title"><span class="art-card__index">[{{ idx_label }}]</span> Obra {{ idx_label }}</span>
+        <span class="poster__title"><span class="art-card__index">[{{ idx_label }}]</span> {{ 'cards.placeholder' | t: number: idx_label }}</span>
         <span class="poster__price">{{ placeholder_price | default: '39,95 €' }}</span>
       </span>
       <span class="poster__plus" aria-hidden="true">+</span>

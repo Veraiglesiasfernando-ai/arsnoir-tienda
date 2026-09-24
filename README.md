@@ -55,6 +55,16 @@ Ajustes globales en *Configuración del tema → Conversión*: umbral de envío 
 - **Es un regalo:** casilla en el carrito que guarda el atributo «Regalo» y el mensaje como nota del pedido (*Configuración del tema → Conversión*).
 - **País, moneda e idioma:** selector de cristal en la cabecera, que aparece en cuanto actives más países o idiomas en *Configuración → Mercados / Idiomas*.
 
+## Idiomas
+
+Todos los textos fijos del tema (botones, carrito, buscador, ficha, pop-up…) salen de `locales/`: `es.default.json` (español, por defecto) y `en.json` (inglés). Para vender en otros idiomas:
+
+1. *Configuración → Idiomas*: añade y publica el inglés (u otro idioma).
+2. *Configuración → Mercados*: añade el mercado de Europa.
+3. Instala **Translate & Adapt** para traducir productos, páginas, menús y los textos que escribes en *Personalizar*.
+
+El selector de cristal de la cabecera (icono del globo) aparece solo en cuanto hay más de un idioma o país. Para otro idioma, copia `en.json` como `fr.json`, `de.json`…, y tradúcelo (o hazlo desde Translate & Adapt).
+
 ## Navegación y páginas
 
 - **Transiciones entre páginas:** fundido suave sin pantallazo blanco. La cabecera se queda fija entre páginas en Chrome, Edge y Safari 18+. En el resto de navegadores, entrada suave. Además, los elementos aparecen al hacer scroll. Todo se desactiva si el visitante tiene activada la opción del sistema para reducir el movimiento.
