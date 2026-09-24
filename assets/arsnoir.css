@@ -1173,3 +1173,42 @@ html:not(.is-scrolled) body:has(main > .shopify-section:first-child .vhero) .gla
 .stars__fill { color: #0a0a0a; }
 .review__verified::before { color: #0a0a0a; }
 ::selection { background: #0a0a0a; color: #fff; }
+
+/* Video hero: centred stack · seal · big phrase · CTA */
+.vhero__center {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(18px, 2.6vh, 32px);
+  padding: 120px clamp(20px, 5vw, 72px) 110px;
+  text-align: center;
+}
+.vhero__center .vhero__seal {
+  position: relative;
+  top: auto;
+  left: auto;
+  transform: none;
+  width: clamp(92px, 9vw, 130px);
+}
+.vhero__center .vhero__seal-core { font-size: clamp(18px, 1.8vw, 26px); border-width: 1.5px; }
+.vhero__heading {
+  margin: 0;
+  color: #fff;
+  font-size: clamp(2.4rem, 6.4vw, 6.2rem);
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: -0.05em;
+  max-width: 16ch;
+  text-wrap: balance;
+  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.35);
+}
+.vhero__center .vhero__cta { position: static; transform: none; }
+@media (max-width: 749px) {
+  .vhero__center { padding-bottom: 170px; }
+  .vhero__heading { font-size: clamp(2.1rem, 10vw, 3rem); }
+}
+.vhero:has(.vhero__heading) .vhero__side { top: auto; bottom: clamp(20px, 4vh, 36px); transform: none; font-size: clamp(13px, 1.1vw, 16px); }

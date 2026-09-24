@@ -12,6 +12,8 @@ Cada cambio que se sube a la rama se sincroniza solo con el tema.
 
 ## Home
 
+**Hero con vídeo:** la frase «No decores tu espacio. Cambia cómo se siente.» centrada en blanco, con el sello giratorio encima y el botón «Ver obras» debajo. La frase se edita en *Personalizar → Hero con vídeo → Frase principal*.
+
 Estética: fondo blanco/gris claro con degradado suave, tipografía Space Grotesk (servida desde `assets/`), solo blanco, negro y grises. Todos los huecos de obra son placeholders vacíos listos para tu arte.
 
 1. **Barra negra fija** («Arte exclusivo de ARSNOIR — no lo encontrarás en ningún otro sitio.») y **cabecera de cristal fija** debajo: logo «arsnoir» a la izquierda, menú Inicio · Productos (desplegable con Motor, Sport, Urban, Animals, Abstract, Art, Mindset y Escape; menú `main-menu`) en el centro, buscador y carrito a la derecha. En móvil, todo va en el menú hamburguesa. Arriba del todo la cabecera es transparente (texto blanco sobre el vídeo del hero) y el cristal aparece al hacer scroll.

@@ -6,7 +6,7 @@
     {%- if s.eyebrow != blank -%}
       <p class="welcome__eyebrow">{{ s.eyebrow }}</p>
     {%- endif -%}
-    <h1 class="welcome__title">{{ s.title | default: shop.name }}</h1>
+    <h2 class="welcome__title">{{ s.title | default: shop.name }}</h2>
     {%- if s.subtitle != blank -%}
       <p class="welcome__subtitle">{{ s.subtitle }}</p>
     {%- endif -%}

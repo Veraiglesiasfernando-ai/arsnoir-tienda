@@ -25,19 +25,25 @@
   {%- if s.label_left != blank -%}<span class="vhero__side vhero__side--left">{{ s.label_left }}</span>{%- endif -%}
   {%- if s.label_right != blank -%}<span class="vhero__side vhero__side--right">{{ s.label_right }}</span>{%- endif -%}
 
-  {%- if s.show_seal -%}
-    <div class="vhero__seal" aria-hidden="true">
-      <svg viewBox="0 0 200 200" class="vhero__seal-ring">
-        <defs><path id="SealPath-{{ section.id }}" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0"/></defs>
-        <text textLength="486" lengthAdjust="spacing"><textPath href="#SealPath-{{ section.id }}" startOffset="0" textLength="486" lengthAdjust="spacing">{{ s.seal_text }}</textPath></text>
-      </svg>
-      <span class="vhero__seal-core">{{ s.seal_center }}</span>
-    </div>
-  {%- endif -%}
+  <div class="vhero__center">
+    {%- if s.show_seal -%}
+      <div class="vhero__seal" aria-hidden="true">
+        <svg viewBox="0 0 200 200" class="vhero__seal-ring">
+          <defs><path id="SealPath-{{ section.id }}" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0"/></defs>
+          <text textLength="486" lengthAdjust="spacing"><textPath href="#SealPath-{{ section.id }}" startOffset="0" textLength="486" lengthAdjust="spacing">{{ s.seal_text }}</textPath></text>
+        </svg>
+        <span class="vhero__seal-core">{{ s.seal_center }}</span>
+      </div>
+    {%- endif -%}
 
-  {%- if s.button_label != blank -%}
-    <a class="vhero__cta" href="{{ s.button_link | default: routes.all_products_collection_url }}">{{ s.button_label }}</a>
-  {%- endif -%}
+    {%- if s.heading != blank -%}
+      <h1 class="vhero__heading">{{ s.heading | newline_to_br }}</h1>
+    {%- endif -%}
+
+    {%- if s.button_label != blank -%}
+      <a class="vhero__cta" href="{{ s.button_link | default: routes.all_products_collection_url }}">{{ s.button_label }}</a>
+    {%- endif -%}
+  </div>
 
   {%- if slide_count > 1 -%}
     <div class="vhero__progress">
@@ -64,6 +70,7 @@
     { "type": "range", "id": "interval", "label": "Segundos por diapositiva", "min": 3, "max": 15, "step": 1, "unit": "s", "default": 6 },
     { "type": "text", "id": "label_left", "label": "Etiqueta izquierda", "default": "(ARSNOIR)" },
     { "type": "text", "id": "label_right", "label": "Etiqueta derecha", "default": "obra nº01" },
+    { "type": "textarea", "id": "heading", "label": "Frase principal", "default": "No decores tu espacio.\nCambia cómo se siente.", "info": "Cada salto de línea se respeta." },
     { "type": "checkbox", "id": "show_seal", "label": "Mostrar sello giratorio", "default": true },
     { "type": "text", "id": "seal_text", "label": "Texto del sello", "default": "ARTE ORIGINAL · SOLO EN ARSNOIR · " },
     { "type": "text", "id": "seal_center", "label": "Centro del sello", "default": "A" },
