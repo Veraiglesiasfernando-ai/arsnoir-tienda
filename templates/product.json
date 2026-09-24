@@ -74,6 +74,10 @@
         "compare": {
           "type": "size_compare",
           "settings": {}
+        },
+        "delivery": {
+          "type": "delivery",
+          "settings": {}
         }
       },
       "block_order": [
@@ -81,6 +85,7 @@
         "price",
         "edition",
         "buy",
+        "delivery",
         "material",
         "trust",
         "notes",

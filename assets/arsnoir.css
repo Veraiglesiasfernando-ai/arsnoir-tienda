@@ -1721,3 +1721,123 @@ html:not(.is-scrolled) body:has(main > .shopify-section:first-child .vhero) .gla
 .pack__add { margin-top: auto; }
 @media (max-width: 989px) { .packs__grid { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 599px) { .packs__grid { grid-template-columns: 1fr; } }
+
+/* ==========================================================================
+   Q4 season: campaign band · countdown · gift guide · delivery estimate
+   ========================================================================== */
+.q4[hidden], .q4__panel[hidden], .gifts[hidden], [data-q4][hidden] { display: none !important; }
+.q4 { position: relative; overflow: hidden; background: #0a0a0a; color: #fff; padding: clamp(48px, 7vw, 96px) 0; }
+.q4::before {
+  content: "";
+  position: absolute;
+  inset: -40% -10% auto auto;
+  width: 60vw;
+  height: 60vw;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255, 255, 255, 0.12), transparent 70%);
+  pointer-events: none;
+}
+.q4__panel { position: relative; display: grid; grid-template-columns: 1.2fr 1fr; align-items: center; gap: clamp(28px, 5vw, 72px); }
+.q4__eyebrow { margin: 0 0 14px; font-size: 12px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255, 255, 255, 0.6); }
+.q4__title { margin: 0 0 16px; color: #fff; font-size: clamp(2.2rem, 5vw, 4.4rem); font-weight: 700; letter-spacing: -0.05em; line-height: 0.95; text-wrap: balance; }
+.q4__title--xl { font-size: clamp(3.2rem, 10vw, 8.5rem); letter-spacing: -0.06em; }
+.q4__text { margin: 0 0 24px; max-width: 46ch; color: rgba(255, 255, 255, 0.72); line-height: 1.6; }
+.q4__offer { margin: 0 0 24px; font-size: clamp(1.4rem, 3vw, 2.2rem); font-weight: 700; letter-spacing: -0.03em; }
+.q4__actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.q4 .q4__button { background: #fff; border-color: #fff; color: #0a0a0a; }
+.q4 .q4__button:hover { background: transparent; color: #fff; }
+.q4 .q4__button--ghost { background: transparent; border-color: rgba(255, 255, 255, 0.5); color: #fff; }
+.q4 .q4__button--ghost:hover { background: #fff; color: #0a0a0a; }
+.q4__form { display: flex; gap: 10px; max-width: 480px; }
+.q4__field {
+  flex: 1;
+  min-width: 0;
+  height: 52px;
+  padding: 0 20px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.08);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  color: #fff;
+  font: inherit;
+  font-size: 16px;
+}
+.q4__field::placeholder { color: rgba(255, 255, 255, 0.5); }
+.q4__ok { margin: 0; font-weight: 600; }
+.q4__code {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  height: 52px;
+  padding: 0 20px;
+  border: 1.5px dashed rgba(255, 255, 255, 0.6);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  font: inherit;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+}
+.q4__code small { font-size: 11px; font-weight: 600; letter-spacing: 0.04em; color: rgba(255, 255, 255, 0.6); }
+.q4-count__label { margin: 0 0 12px; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255, 255, 255, 0.6); }
+.q4-count__units { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(8px, 1vw, 14px); }
+.q4-count__unit {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  padding: clamp(16px, 2vw, 24px) 8px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+.q4-count__unit strong { font-size: clamp(2rem, 4vw, 3.4rem); font-weight: 700; letter-spacing: -0.04em; line-height: 1; font-variant-numeric: tabular-nums; }
+.q4-count__unit small { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255, 255, 255, 0.55); }
+@media (max-width: 849px) {
+  .q4__panel { grid-template-columns: 1fr; }
+  .q4__form { flex-direction: column; }
+}
+
+/* "Regalos" menu link */
+.glass-header__links .nav-gifts a { display: inline-flex; align-items: center; gap: 7px; }
+.glass-header__links .nav-gifts a::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+
+/* Gift guide */
+.gifts__grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(12px, 1.6vw, 20px); }
+.gift-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 6px;
+  min-height: clamp(180px, 20vw, 260px);
+  padding: clamp(18px, 2vw, 26px);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.62);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 20px 40px -28px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+.gift-tile:hover { transform: translateY(-4px); box-shadow: 0 30px 50px -28px rgba(0, 0, 0, 0.45); }
+.gift-tile--dark { background: #0a0a0a; border-color: #0a0a0a; color: #fff; }
+.gift-tile__kicker { font-size: 11px; font-weight: 600; letter-spacing: 0.16em; opacity: 0.6; }
+.gift-tile__title { font-size: clamp(1.4rem, 2.2vw, 2rem); font-weight: 700; letter-spacing: -0.04em; line-height: 1; }
+.gift-tile__text { font-size: 14px; opacity: 0.7; }
+.gift-tile__plus { position: absolute; top: 18px; right: 18px; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; border: 1px solid currentColor; font-size: 16px; opacity: 0.8; transition: transform 0.3s ease; }
+.gift-tile:hover .gift-tile__plus { transform: translateX(3px); }
+@media (max-width: 989px) { .gifts__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* Delivery estimate */
+.delivery { display: flex; align-items: flex-start; gap: 10px; margin: 14px 0 0; font-size: 14px; }
+.delivery[hidden] { display: none; }
+.delivery .t-icon { flex: none; width: 20px; height: 20px; margin-top: 1px; }
+.delivery__text { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
+.delivery__badge { display: inline-block; padding: 4px 10px; border-radius: 999px; background: #0a0a0a; color: #fff; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+.delivery--compact { margin-top: 10px; font-size: 13px; }
+.cart-page .delivery { margin: -12px 0 24px; }

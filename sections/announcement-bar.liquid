@@ -1,10 +1,21 @@
 {%- assign msgs = section.blocks | where: 'type', 'message' -%}
-{%- if msgs.size > 0 -%}
+{%- liquid
+  assign gift_url = settings.q4_gift_page.url | default: routes.all_products_collection_url
+  assign card_url = settings.q4_gift_card.url | default: gift_url
+-%}
+{%- if msgs.size > 0 or settings.q4_enabled -%}
   <div class="announce" data-announce data-interval="{{ section.settings.interval }}">
     <div class="announce__track">
+      {%- if settings.q4_enabled -%}
+        {%- if settings.q4_msg_prebf != blank -%}<p class="announce__msg announce__msg--q4" data-q4="prebf" data-q4-fill hidden><a href="#Q4">{{ settings.q4_msg_prebf }}<span class="announce__arrow" aria-hidden="true"> &rarr;</span></a></p>{%- endif -%}
+        {%- if settings.q4_msg_bf != blank -%}<p class="announce__msg announce__msg--q4" data-q4="bf" data-q4-fill hidden><a href="{{ routes.all_products_collection_url }}">{% if settings.q4_bf_offer != blank %}{{ settings.q4_bf_offer }} · {% endif %}{{ settings.q4_msg_bf }}<span class="announce__arrow" aria-hidden="true"> &rarr;</span></a></p>{%- endif -%}
+        {%- if settings.q4_msg_xmas != blank -%}<p class="announce__msg announce__msg--q4" data-q4="xmas" data-q4-fill hidden><a href="{{ gift_url }}">{{ settings.q4_msg_xmas }}<span class="announce__arrow" aria-hidden="true"> &rarr;</span></a></p>{%- endif -%}
+        {%- if settings.q4_msg_reyes != blank -%}<p class="announce__msg announce__msg--q4" data-q4="reyes" data-q4-fill hidden><a href="{{ gift_url }}">{{ settings.q4_msg_reyes }}<span class="announce__arrow" aria-hidden="true"> &rarr;</span></a></p>{%- endif -%}
+        {%- if settings.q4_msg_late != blank -%}<p class="announce__msg announce__msg--q4" data-q4="late" data-q4-fill hidden><a href="{{ card_url }}">{{ settings.q4_msg_late }}<span class="announce__arrow" aria-hidden="true"> &rarr;</span></a></p>{%- endif -%}
+      {%- endif -%}
       {%- for block in msgs -%}
         {%- if block.settings.text != blank -%}
-          <p class="announce__msg{% if forloop.first %} is-active{% endif %}" {{ block.shopify_attributes }}>
+          <p class="announce__msg" {{ block.shopify_attributes }}>
             {%- if block.settings.link != blank -%}<a href="{{ block.settings.link }}">{%- endif -%}
             {{ block.settings.text }}
             {%- if block.settings.link != blank -%}<span class="announce__arrow" aria-hidden="true"> &rarr;</span></a>{%- endif -%}

@@ -3,6 +3,126 @@
 (function () {
   const lang = document.documentElement.lang || 'es';
   const S = window.themeStrings || {};
+
+  /* Q4 season: phase by date (early access → Black Friday → Christmas → Reyes → last minute) */
+  const Q = window.q4 || {};
+  const pad = function (n) { return String(n).padStart(2, '0'); };
+  const isoDay = function (d) { return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); };
+  const parseDay = function (s, endOfDay) {
+    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s || '');
+    if (!m) return null;
+    return endOfDay ? new Date(+m[1], m[2] - 1, +m[3], 23, 59, 59) : new Date(+m[1], m[2] - 1, +m[3]);
+  };
+  const q4Phase = (function () {
+    let forced = null;
+    try {
+      const param = new URLSearchParams(location.search).get('q4');
+      if (param === 'auto') sessionStorage.removeItem('q4');
+      else if (param) sessionStorage.setItem('q4', param);
+      forced = sessionStorage.getItem('q4');
+    } catch (e) { /* storage blocked */ }
+    if (!forced && Q.preview && Q.preview !== 'auto') forced = Q.preview;
+    if (forced) return forced;
+    if (!Q.enabled) return 'off';
+    const today = isoDay(new Date());
+    if (!Q.start || today < Q.start) return 'off';
+    if (today < Q.bfStart) return 'prebf';
+    if (today <= Q.bfEnd) return 'bf';
+    if (today <= Q.xmas) return 'xmas';
+    if (today <= Q.reyes) return 'reyes';
+    if (today <= Q.end) return 'late';
+    return 'off';
+  })();
+  document.documentElement.dataset.q4 = q4Phase;
+
+  const longDate = function (s) {
+    const d = parseDay(s);
+    return d ? new Intl.DateTimeFormat(lang, { day: 'numeric', month: 'long' }).format(d) : '';
+  };
+  const tokens = { '[BLACKFRIDAY]': longDate(Q.bfDay), '[FIN_BF]': longDate(Q.bfEnd), '[NAVIDAD]': longDate(Q.xmas), '[REYES]': longDate(Q.reyes) };
+
+  document.querySelectorAll('[data-q4]').forEach(function (el) {
+    const on = el.dataset.q4.split(' ').indexOf(q4Phase) !== -1;
+    if (!on && el.classList.contains('announce__msg')) { el.remove(); return; }
+    el.hidden = !on;
+  });
+  document.querySelectorAll('[data-q4-fill]').forEach(function (el) {
+    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    while (walker.nextNode()) {
+      const node = walker.currentNode;
+      if (node.nodeValue.indexOf('[') === -1) continue;
+      Object.keys(tokens).forEach(function (t) { node.nodeValue = node.nodeValue.split(t).join(tokens[t]); });
+    }
+  });
+  document.querySelectorAll('[data-announce]').forEach(function (bar) {
+    const first = bar.querySelector('.announce__msg');
+    if (first) first.classList.add('is-active');
+  });
+
+  /* Countdowns to the Q4 dates */
+  const countdowns = Array.from(document.querySelectorAll('[data-countdown]')).filter(function (el) { return !el.closest('[hidden]'); });
+  if (countdowns.length) {
+    const tick = function () {
+      countdowns.forEach(function (el) {
+        const target = parseDay(Q[el.dataset.countdown], !el.hasAttribute('data-countdown-start'));
+        if (!target) { el.hidden = true; return; }
+        let left = Math.max(0, Math.floor((target - Date.now()) / 1000));
+        const parts = { d: Math.floor(left / 86400), h: Math.floor(left % 86400 / 3600), m: Math.floor(left % 3600 / 60), s: left % 60 };
+        el.querySelectorAll('[data-unit]').forEach(function (u) { u.textContent = pad(parts[u.dataset.unit]); });
+      });
+    };
+    tick();
+    setInterval(tick, 1000);
+  }
+
+  /* "Recíbelo entre el … y el …" (business days, Spanish national holidays skipped) */
+  const HOLIDAYS = ['01-01', '01-06', '05-01', '08-15', '10-12', '11-01', '12-06', '12-08', '12-25'];
+  const addBusinessDays = function (from, n) {
+    const d = new Date(from.getFullYear(), from.getMonth(), from.getDate());
+    let added = 0;
+    while (added < n) {
+      d.setDate(d.getDate() + 1);
+      const wd = d.getDay();
+      if (wd !== 0 && wd !== 6 && HOLIDAYS.indexOf(pad(d.getMonth() + 1) + '-' + pad(d.getDate())) === -1) added++;
+    }
+    return d;
+  };
+  const shortDate = function (d) { return new Intl.DateTimeFormat(lang, { weekday: 'short', day: 'numeric', month: 'short' }).format(d); };
+  function fillDelivery(root) {
+    (root || document).querySelectorAll('[data-delivery]').forEach(function (box) {
+      if (box.dataset.filled) return;
+      box.dataset.filled = '1';
+      const now = new Date();
+      const min = addBusinessDays(now, Q.deliveryMin || 4);
+      const max = addBusinessDays(now, Math.max(Q.deliveryMax || 5, Q.deliveryMin || 4));
+      box.querySelector('[data-delivery-text]').textContent = (S.delivery || 'Pídelo hoy y recíbelo entre el [MIN] y el [MAX]')
+        .replace('[MIN]', shortDate(min)).replace('[MAX]', shortDate(max));
+      const badge = box.querySelector('[data-delivery-badge]');
+      if (badge && ['bf', 'xmas', 'reyes'].indexOf(q4Phase) !== -1) {
+        const y = max.getMonth() === 0 ? max.getFullYear() - 1 : max.getFullYear();
+        const xmasEve = new Date(y, 11, 24, 23, 59);
+        const reyesEve = new Date(y + 1, 0, 5, 23, 59);
+        const text = max <= xmasEve ? S.beforeXmas : (max <= reyesEve ? S.beforeReyes : '');
+        if (text) { badge.textContent = text; badge.hidden = false; }
+      }
+      box.hidden = false;
+    });
+  }
+  fillDelivery();
+  const cartDrawerEl = document.querySelector('[data-cart-drawer]');
+  if (cartDrawerEl && window.MutationObserver) {
+    new MutationObserver(function () { fillDelivery(cartDrawerEl); }).observe(cartDrawerEl, { childList: true, subtree: true });
+  }
+
+  /* Copy-to-clipboard buttons outside the pop-up (e.g. the Black Friday code) */
+  document.addEventListener('click', function (event) {
+    const copy = event.target.closest('[data-copy]');
+    if (!copy || copy.closest('[data-npop]') || !navigator.clipboard) return;
+    navigator.clipboard.writeText(copy.dataset.copy).then(function () {
+      const l = copy.querySelector('[data-copy-label]');
+      if (l) l.textContent = S.copied || '¡Copiado!';
+    });
+  });
   const currency = (window.Shopify && Shopify.currency && Shopify.currency.active) || 'EUR';
 
   function formatMoney(cents) {

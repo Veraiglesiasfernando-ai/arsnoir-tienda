@@ -11,7 +11,7 @@
     </div>
 
     {%- if cart.item_count > 0 -%}
-      <div class="drawer__ship">{% render 'free-shipping-bar' %}</div>
+      <div class="drawer__ship">{% render 'free-shipping-bar' %}{% render 'delivery-estimate', compact: true %}</div>
       <ul class="drawer__items">
         {%- for item in cart.items -%}
           <li class="drawer-item">

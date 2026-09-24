@@ -174,5 +174,15 @@
     "invalid": "This gift card is no longer valid.",
     "shop": "Go to the store",
     "wallet": "Add to Apple Wallet"
+  },
+  "q4": {
+    "gifts": "Gifts",
+    "days": "days",
+    "hours": "hours",
+    "minutes": "min",
+    "seconds": "sec",
+    "delivery": "Order today, get it between [MIN] and [MAX]",
+    "before_xmas": "Arrives before Christmas",
+    "before_reyes": "Arrives before Epiphany (6 Jan)"
   }
 }

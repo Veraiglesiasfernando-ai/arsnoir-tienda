@@ -172,6 +172,9 @@
               </div>
             {%- endif -%}
 
+          {%- when 'delivery' -%}
+            <div {{ block.shopify_attributes }}>{% render 'delivery-estimate' %}</div>
+
           {%- when 'wall_preview' -%}
             {% render 'wall-preview', product: product, block: block %}
 
@@ -284,6 +287,12 @@
       "type": "edition", "name": "Edición limitada", "limit": 1,
       "settings": [
         { "type": "paragraph", "content": "Se muestra solo en obras con los metafields «Edición limitada: nº de copias» (custom.edition_size) y «Edición limitada: copias vendidas» (custom.edition_sold)." }
+      ]
+    },
+    {
+      "type": "delivery", "name": "Fecha de entrega", "limit": 1,
+      "settings": [
+        { "type": "paragraph", "content": "«Recíbelo entre el … y el …», calculado con el plazo de Configuración del tema → Campaña Q4. En temporada indica si llega antes de Navidad o de Reyes." }
       ]
     },
     {

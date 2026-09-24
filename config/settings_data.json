@@ -13,6 +13,7 @@
     "free_shipping_threshold": 0,
     "returns_days": "14",
     "shipping_message": "Envío GRATIS a España y toda Europa",
-    "shipping_details": "Entrega en 4-5 días hábiles con seguimiento · Impreso y enviado desde la UE"
+    "shipping_details": "Entrega en 4-5 días hábiles con seguimiento · Impreso y enviado desde la UE",
+    "q4_gift_page": "regalos"
   }
 }

@@ -14,6 +14,9 @@
         <summary aria-label="{{ 'general.menu' | t }}">{% render 'icon', name: 'menu' %}</summary>
         <div class="mobile-menu__panel">
           <ul>
+            {%- if settings.q4_enabled and settings.q4_gift_page != blank -%}
+              <li data-q4="prebf bf xmas reyes late" hidden><a href="{{ settings.q4_gift_page.url }}">{{ 'q4.gifts' | t }}</a></li>
+            {%- endif -%}
             {%- for link in menu.links -%}
               <li>
                 <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a>
@@ -47,6 +50,9 @@
 
     <nav class="glass-header__nav" aria-label="{{ 'general.main_menu' | t }}">
       <ul class="glass-header__links">
+        {%- if settings.q4_enabled and settings.q4_gift_page != blank -%}
+          <li class="nav-gifts" data-q4="prebf bf xmas reyes late" hidden><a href="{{ settings.q4_gift_page.url }}"{% if page.id == settings.q4_gift_page.id %} aria-current="page"{% endif %}>{{ 'q4.gifts' | t }}</a></li>
+        {%- endif -%}
         {%- for link in menu.links -%}
           {%- if link.links.size > 0 -%}
             <li class="nav-drop">

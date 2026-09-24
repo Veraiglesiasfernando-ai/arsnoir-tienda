@@ -200,5 +200,199 @@
         "default": "14"
       }
     ]
+  },
+  {
+    "name": "Campaña Q4 (temporada)",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Black Friday, Navidad y Reyes. Cada fase se activa y desactiva sola según las fechas (formato AAAA-MM-DD). Para ver una fase antes de tiempo, añade ?q4=prebf, ?q4=bf, ?q4=xmas, ?q4=reyes o ?q4=late a la URL de la tienda (?q4=auto para volver)."
+      },
+      {
+        "type": "checkbox",
+        "id": "q4_enabled",
+        "label": "Activar campaña",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "q4_preview",
+        "label": "Vista previa en el editor",
+        "default": "auto",
+        "options": [
+          {
+            "value": "auto",
+            "label": "Automática (por fechas)"
+          },
+          {
+            "value": "prebf",
+            "label": "Antes de Black Friday"
+          },
+          {
+            "value": "bf",
+            "label": "Black Friday"
+          },
+          {
+            "value": "xmas",
+            "label": "Navidad"
+          },
+          {
+            "value": "reyes",
+            "label": "Reyes"
+          },
+          {
+            "value": "late",
+            "label": "Última hora (tarjeta regalo)"
+          },
+          {
+            "value": "off",
+            "label": "Sin campaña"
+          }
+        ],
+        "info": "Solo afecta al editor. En la tienda manda siempre la fecha."
+      },
+      {
+        "type": "header",
+        "content": "Fechas"
+      },
+      {
+        "type": "text",
+        "id": "q4_start",
+        "label": "Empieza la temporada (acceso anticipado)",
+        "default": "2026-10-01"
+      },
+      {
+        "type": "text",
+        "id": "q4_bf_start",
+        "label": "Empieza la Black Week",
+        "default": "2026-11-20"
+      },
+      {
+        "type": "text",
+        "id": "q4_bf_day",
+        "label": "Día de Black Friday",
+        "default": "2026-11-27"
+      },
+      {
+        "type": "text",
+        "id": "q4_bf_end",
+        "label": "Último día (Cyber Monday)",
+        "default": "2026-11-30"
+      },
+      {
+        "type": "text",
+        "id": "q4_xmas_deadline",
+        "label": "Último día para recibir antes de Navidad",
+        "default": "2026-12-16",
+        "info": "Con 4-5 días hábiles de entrega, lo pedido este día llega el 23 de diciembre."
+      },
+      {
+        "type": "text",
+        "id": "q4_reyes_deadline",
+        "label": "Último día para recibir antes de Reyes",
+        "default": "2026-12-28"
+      },
+      {
+        "type": "text",
+        "id": "q4_end",
+        "label": "Fin de la temporada",
+        "default": "2027-01-06"
+      },
+      {
+        "type": "header",
+        "content": "Black Friday"
+      },
+      {
+        "type": "text",
+        "id": "q4_bf_offer",
+        "label": "Oferta",
+        "info": "Ej.: «-20% en todas las obras». Vacío = no se anuncia ningún descuento."
+      },
+      {
+        "type": "text",
+        "id": "q4_bf_code",
+        "label": "Código",
+        "info": "Ej.: BLACKFRIDAY. Créalo antes en Shopify → Descuentos."
+      },
+      {
+        "type": "header",
+        "content": "Mensajes de la barra superior"
+      },
+      {
+        "type": "paragraph",
+        "content": "Usa [BLACKFRIDAY], [FIN_BF], [NAVIDAD] y [REYES]: se sustituyen por la fecha correspondiente."
+      },
+      {
+        "type": "text",
+        "id": "q4_msg_prebf",
+        "label": "Antes de Black Friday",
+        "default": "Black Friday llega el [BLACKFRIDAY] · Apúntate y entra antes que nadie"
+      },
+      {
+        "type": "text",
+        "id": "q4_msg_bf",
+        "label": "Black Friday",
+        "default": "BLACK FRIDAY en ARSNOIR · Hasta el [FIN_BF]"
+      },
+      {
+        "type": "text",
+        "id": "q4_msg_xmas",
+        "label": "Navidad",
+        "default": "Pide antes del [NAVIDAD] y llega antes de Navidad"
+      },
+      {
+        "type": "text",
+        "id": "q4_msg_reyes",
+        "label": "Reyes",
+        "default": "¿Para Reyes? Pide antes del [REYES] y llega a tiempo"
+      },
+      {
+        "type": "text",
+        "id": "q4_msg_late",
+        "label": "Última hora",
+        "default": "¿Llegas tarde? La tarjeta regalo llega al instante"
+      },
+      {
+        "type": "header",
+        "content": "Regalos"
+      },
+      {
+        "type": "page",
+        "id": "q4_gift_page",
+        "label": "Página «Guía de regalos»",
+        "info": "Se añade el enlace «Regalos» al menú durante la temporada."
+      },
+      {
+        "type": "product",
+        "id": "q4_gift_card",
+        "label": "Tarjeta regalo",
+        "info": "Crea la tarjeta en Productos → Tarjetas regalo y elígela aquí."
+      },
+      {
+        "type": "header",
+        "content": "Plazo de entrega"
+      },
+      {
+        "type": "range",
+        "id": "delivery_min",
+        "label": "Entrega mínima",
+        "min": 1,
+        "max": 15,
+        "step": 1,
+        "unit": "d",
+        "default": 4
+      },
+      {
+        "type": "range",
+        "id": "delivery_max",
+        "label": "Entrega máxima",
+        "min": 1,
+        "max": 20,
+        "step": 1,
+        "unit": "d",
+        "default": 5,
+        "info": "Días hábiles. Se usa para «Recíbelo entre el … y el …» en la ficha y el carrito."
+      }
+    ]
   }
 ]

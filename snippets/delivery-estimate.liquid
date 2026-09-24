@@ -1,0 +1,8 @@
+{%- comment -%}
+  "Recíbelo entre el … y el …", from today + Theme settings → Campaña Q4 → Plazo de entrega
+  (business days). In Q4 it also says whether it arrives before Christmas or Reyes. Filled by theme.js.
+{%- endcomment -%}
+<div class="delivery{% if compact %} delivery--compact{% endif %}" data-delivery hidden>
+  {% render 'trust-icon', name: 'truck' %}
+  <p class="delivery__text"><span data-delivery-text></span><span class="delivery__badge" data-delivery-badge hidden></span></p>
+</div>

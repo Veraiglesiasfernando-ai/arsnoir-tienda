@@ -1,0 +1,138 @@
+{%- comment -%}
+  Q4 campaign band: one panel per phase (early access, Black Friday, Christmas,
+  Reyes, last minute). theme.js shows the panel for today's phase and runs the
+  countdowns. Dates live in Theme settings → Campaña Q4.
+{%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+  assign gift_url = settings.q4_gift_page.url | default: routes.all_products_collection_url
+  assign card_url = settings.q4_gift_card.url
+-%}
+{%- if settings.q4_enabled -%}
+<section class="q4" id="Q4" data-q4="prebf bf xmas reyes late" hidden>
+  <div class="page-width">
+
+    {%- comment -%} Early access {%- endcomment -%}
+    <div class="q4__panel" data-q4="prebf" data-q4-fill hidden>
+      <div class="q4__copy">
+        <p class="q4__eyebrow">{{ s.prebf_eyebrow }}</p>
+        <h2 class="q4__title">{{ s.prebf_heading }}</h2>
+        <p class="q4__text">{{ s.prebf_text }}</p>
+        {%- form 'customer', id: 'Q4EarlyAccess', class: 'q4__form' -%}
+          <input type="hidden" name="contact[tags]" value="newsletter,black-friday">
+          {%- if form.posted_successfully? -%}
+            <p class="q4__ok">{{ s.prebf_success }}</p>
+          {%- else -%}
+            <label class="visually-hidden" for="Q4Email">{{ 'general.email' | t }}</label>
+            <input class="q4__field" id="Q4Email" type="email" name="contact[email]" placeholder="{{ 'general.your_email' | t }}" autocomplete="email" required>
+            <button class="button q4__button" type="submit">{{ s.prebf_button }}</button>
+          {%- endif -%}
+        {%- endform -%}
+      </div>
+      {% render 'q4-countdown', to: 'bfStart', label: s.prebf_count_label %}
+    </div>
+
+    {%- comment -%} Black Friday {%- endcomment -%}
+    <div class="q4__panel q4__panel--bf" data-q4="bf" data-q4-fill hidden>
+      <div class="q4__copy">
+        <p class="q4__eyebrow">{{ s.bf_eyebrow }}</p>
+        <h2 class="q4__title q4__title--xl">BLACK FRIDAY</h2>
+        {%- if settings.q4_bf_offer != blank -%}
+          <p class="q4__offer">{{ settings.q4_bf_offer }}</p>
+        {%- else -%}
+          <p class="q4__text">{{ s.bf_text }}</p>
+        {%- endif -%}
+        <div class="q4__actions">
+          <a class="button q4__button" href="{{ routes.all_products_collection_url }}">{{ s.bf_button }}</a>
+          {%- if settings.q4_bf_code != blank -%}
+            <button type="button" class="q4__code" data-copy="{{ settings.q4_bf_code | escape }}">
+              <span>{{ settings.q4_bf_code }}</span><small data-copy-label>{{ 'general.copy' | t }}</small>
+            </button>
+          {%- endif -%}
+        </div>
+      </div>
+      {% render 'q4-countdown', to: 'bfEnd', label: s.bf_count_label %}
+    </div>
+
+    {%- comment -%} Christmas {%- endcomment -%}
+    <div class="q4__panel" data-q4="xmas" data-q4-fill hidden>
+      <div class="q4__copy">
+        <p class="q4__eyebrow">{{ s.xmas_eyebrow }}</p>
+        <h2 class="q4__title">{{ s.xmas_heading }}</h2>
+        <p class="q4__text">{{ s.xmas_text }}</p>
+        <div class="q4__actions">
+          <a class="button q4__button" href="{{ gift_url }}">{{ s.gifts_button }}</a>
+          {%- if card_url != blank -%}<a class="button button--outline q4__button--ghost" href="{{ card_url }}">{{ s.card_button }}</a>{%- endif -%}
+        </div>
+      </div>
+      {% render 'q4-countdown', to: 'xmas', label: s.xmas_count_label %}
+    </div>
+
+    {%- comment -%} Reyes {%- endcomment -%}
+    <div class="q4__panel" data-q4="reyes" data-q4-fill hidden>
+      <div class="q4__copy">
+        <p class="q4__eyebrow">{{ s.reyes_eyebrow }}</p>
+        <h2 class="q4__title">{{ s.reyes_heading }}</h2>
+        <p class="q4__text">{{ s.reyes_text }}</p>
+        <div class="q4__actions">
+          <a class="button q4__button" href="{{ gift_url }}">{{ s.gifts_button }}</a>
+          {%- if card_url != blank -%}<a class="button button--outline q4__button--ghost" href="{{ card_url }}">{{ s.card_button }}</a>{%- endif -%}
+        </div>
+      </div>
+      {% render 'q4-countdown', to: 'reyes', label: s.reyes_count_label %}
+    </div>
+
+    {%- comment -%} Last minute: gift card {%- endcomment -%}
+    <div class="q4__panel" data-q4="late" hidden>
+      <div class="q4__copy">
+        <p class="q4__eyebrow">{{ s.late_eyebrow }}</p>
+        <h2 class="q4__title">{{ s.late_heading }}</h2>
+        <p class="q4__text">{{ s.late_text }}</p>
+        <div class="q4__actions">
+          <a class="button q4__button" href="{{ card_url | default: gift_url }}">{{ s.card_button }}</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Campaña Q4",
+  "settings": [
+    { "type": "paragraph", "content": "Fechas, oferta y código en Configuración del tema → Campaña Q4. Puedes usar [BLACKFRIDAY], [FIN_BF], [NAVIDAD] y [REYES] en los textos." },
+    { "type": "header", "content": "Antes de Black Friday" },
+    { "type": "text", "id": "prebf_eyebrow", "label": "Antetítulo", "default": "ACCESO ANTICIPADO" },
+    { "type": "text", "id": "prebf_heading", "label": "Título", "default": "Black Friday llega el [BLACKFRIDAY]." },
+    { "type": "text", "id": "prebf_text", "label": "Texto", "default": "Apúntate y te avisamos antes que a nadie. Las obras son exclusivas: cuando se acaba una edición, no vuelve." },
+    { "type": "text", "id": "prebf_button", "label": "Botón", "default": "Avisadme" },
+    { "type": "text", "id": "prebf_success", "label": "Mensaje al apuntarse", "default": "Estás dentro. Te escribiremos antes de que empiece." },
+    { "type": "text", "id": "prebf_count_label", "label": "Cuenta atrás", "default": "Empieza en" },
+    { "type": "header", "content": "Black Friday" },
+    { "type": "text", "id": "bf_eyebrow", "label": "Antetítulo", "default": "SOLO HASTA EL [FIN_BF]" },
+    { "type": "text", "id": "bf_text", "label": "Texto (si no hay oferta)", "default": "La semana más negra del año, en blanco y negro." },
+    { "type": "text", "id": "bf_button", "label": "Botón", "default": "Ver obras" },
+    { "type": "text", "id": "bf_count_label", "label": "Cuenta atrás", "default": "Termina en" },
+    { "type": "header", "content": "Navidad" },
+    { "type": "text", "id": "xmas_eyebrow", "label": "Antetítulo", "default": "NAVIDAD" },
+    { "type": "text", "id": "xmas_heading", "label": "Título", "default": "Regala arte que no verá en ningún otro sitio." },
+    { "type": "text", "id": "xmas_text", "label": "Texto", "default": "Pide antes del [NAVIDAD] y llega antes de Navidad. Envío gratis a España y toda Europa." },
+    { "type": "text", "id": "xmas_count_label", "label": "Cuenta atrás", "default": "Para recibirlo antes de Navidad" },
+    { "type": "header", "content": "Reyes" },
+    { "type": "text", "id": "reyes_eyebrow", "label": "Antetítulo", "default": "REYES" },
+    { "type": "text", "id": "reyes_heading", "label": "Título", "default": "Todavía llega para Reyes." },
+    { "type": "text", "id": "reyes_text", "label": "Texto", "default": "Pide antes del [REYES] y lo recibes a tiempo. ¿Es para Navidad? La tarjeta regalo llega al instante." },
+    { "type": "text", "id": "reyes_count_label", "label": "Cuenta atrás", "default": "Para recibirlo antes de Reyes" },
+    { "type": "header", "content": "Última hora" },
+    { "type": "text", "id": "late_eyebrow", "label": "Antetítulo", "default": "ÚLTIMA HORA" },
+    { "type": "text", "id": "late_heading", "label": "Título", "default": "¿Llegas tarde? Regala una tarjeta." },
+    { "type": "text", "id": "late_text", "label": "Texto", "default": "Llega al instante por email y que elija su obra cuando quiera." },
+    { "type": "header", "content": "Botones de regalo" },
+    { "type": "text", "id": "gifts_button", "label": "Guía de regalos", "default": "Guía de regalos" },
+    { "type": "text", "id": "card_button", "label": "Tarjeta regalo", "default": "Tarjeta regalo" }
+  ],
+  "presets": [{ "name": "Campaña Q4" }]
+}
+{% endschema %}

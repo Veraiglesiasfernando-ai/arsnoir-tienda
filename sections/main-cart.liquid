@@ -11,6 +11,7 @@
 
   {%- if cart.item_count > 0 -%}
     {% render 'free-shipping-bar' %}
+    {% render 'delivery-estimate' %}
     <form action="{{ routes.cart_url }}" method="post" class="cart" novalidate>
       <div>
         <ul class="cart-items">

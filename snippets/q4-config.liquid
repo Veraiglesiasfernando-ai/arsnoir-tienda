@@ -1,0 +1,22 @@
+{%- comment -%} Q4 campaign settings for theme.js (phases are resolved in the browser, so cached pages stay correct). {%- endcomment -%}
+{%- liquid
+  assign preview = 'auto'
+  if request.design_mode
+    assign preview = settings.q4_preview
+  endif
+-%}
+<script>
+  window.q4 = {
+    enabled: {{ settings.q4_enabled | json }},
+    preview: {{ preview | json }},
+    start: {{ settings.q4_start | strip | json }},
+    bfStart: {{ settings.q4_bf_start | strip | json }},
+    bfDay: {{ settings.q4_bf_day | strip | json }},
+    bfEnd: {{ settings.q4_bf_end | strip | json }},
+    xmas: {{ settings.q4_xmas_deadline | strip | json }},
+    reyes: {{ settings.q4_reyes_deadline | strip | json }},
+    end: {{ settings.q4_end | strip | json }},
+    deliveryMin: {{ settings.delivery_min | default: 4 }},
+    deliveryMax: {{ settings.delivery_max | default: 5 }}
+  };
+</script>

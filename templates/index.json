@@ -344,14 +344,65 @@
         "p3"
       ],
       "settings": {}
+    },
+    "q4": {
+      "type": "q4-campaign",
+      "settings": {}
+    },
+    "gifts": {
+      "type": "gift-guide",
+      "blocks": {
+        "g1": {
+          "type": "price",
+          "settings": {
+            "title": "Menos de 50 €",
+            "min": 0,
+            "max": 50,
+            "tone": "light"
+          }
+        },
+        "g2": {
+          "type": "price",
+          "settings": {
+            "title": "De 50 a 100 €",
+            "min": 50,
+            "max": 100,
+            "tone": "light"
+          }
+        },
+        "g3": {
+          "type": "price",
+          "settings": {
+            "title": "Más de 100 €",
+            "min": 100,
+            "max": 0,
+            "tone": "dark"
+          }
+        },
+        "g4": {
+          "type": "gift_card",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "g1",
+        "g2",
+        "g3",
+        "g4"
+      ],
+      "settings": {
+        "season_only": true
+      }
     }
   },
   "order": [
     "vhero",
+    "q4",
     "welcome",
     "marquee",
     "trust",
     "featured",
+    "gifts",
     "rooms",
     "packs",
     "reviews",

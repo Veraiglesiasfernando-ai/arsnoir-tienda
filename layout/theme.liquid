@@ -54,6 +54,7 @@
     <script>document.documentElement.className = document.documentElement.className.replace('no-js', 'js');</script>
     {{ 'base.css' | asset_url | stylesheet_tag }}
     {{ 'arsnoir.css' | asset_url | stylesheet_tag }}
+    {% render 'q4-config' %}
     <script>
       window.themeStrings = {
         addShort: {{ 'product.add_short' | t | json }},
@@ -66,7 +67,10 @@
         removeFavorite: {{ 'cards.remove_favorite' | t | json }},
         from: {{ 'general.from' | t | json }},
         soldOut: {{ 'cards.sold_out' | t | json }},
-        copied: {{ 'general.copied' | t | json }}
+        copied: {{ 'general.copied' | t | json }},
+        delivery: {{ 'q4.delivery' | t | json }},
+        beforeXmas: {{ 'q4.before_xmas' | t | json }},
+        beforeReyes: {{ 'q4.before_reyes' | t | json }}
       };
     </script>
     <script src="{{ 'theme.js' | asset_url }}" defer></script>

@@ -1,0 +1,192 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "eyebrow": "REGALOS"
+      }
+    },
+    "q4": {
+      "type": "q4-campaign",
+      "settings": {}
+    },
+    "gifts": {
+      "type": "gift-guide",
+      "blocks": {
+        "g1": {
+          "type": "price",
+          "settings": {
+            "title": "Menos de 50 €",
+            "min": 0,
+            "max": 50,
+            "tone": "light"
+          }
+        },
+        "g2": {
+          "type": "price",
+          "settings": {
+            "title": "De 50 a 100 €",
+            "min": 50,
+            "max": 100,
+            "tone": "light"
+          }
+        },
+        "g3": {
+          "type": "price",
+          "settings": {
+            "title": "Más de 100 €",
+            "min": 100,
+            "max": 0,
+            "tone": "dark"
+          }
+        },
+        "g4": {
+          "type": "gift_card",
+          "settings": {}
+        },
+        "c1": {
+          "type": "collection",
+          "settings": {
+            "kicker": "PARA SU",
+            "collection": "salon",
+            "title": "Salón",
+            "tone": "light"
+          }
+        },
+        "c2": {
+          "type": "collection",
+          "settings": {
+            "kicker": "PARA SU",
+            "collection": "dormitorio",
+            "title": "Dormitorio",
+            "tone": "light"
+          }
+        },
+        "c3": {
+          "type": "collection",
+          "settings": {
+            "kicker": "PARA SU",
+            "collection": "oficina",
+            "title": "Oficina",
+            "tone": "light"
+          }
+        },
+        "c4": {
+          "type": "collection",
+          "settings": {
+            "kicker": "PARA QUIEN LO TIENE TODO",
+            "collection": "edicion-limitada",
+            "title": "Edición limitada",
+            "tone": "dark"
+          }
+        }
+      },
+      "block_order": [
+        "g1",
+        "g2",
+        "g3",
+        "g4",
+        "c1",
+        "c2",
+        "c3",
+        "c4"
+      ],
+      "settings": {
+        "season_only": false,
+        "eyebrow": "ELIGE",
+        "heading": "Por presupuesto o por estancia",
+        "subtitle": ""
+      }
+    },
+    "packs": {
+      "type": "gallery-packs",
+      "blocks": {
+        "p1": {
+          "type": "pack",
+          "settings": {
+            "title": "Pack Trío",
+            "layout": "trio",
+            "button_label": "Añadir el pack"
+          }
+        },
+        "p2": {
+          "type": "pack",
+          "settings": {
+            "title": "Pack Dúo",
+            "layout": "duo",
+            "button_label": "Añadir el pack"
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2"
+      ],
+      "settings": {
+        "eyebrow": "REGALA UNA PARED",
+        "heading": "Packs para regalar",
+        "subtitle": "Dos o tres obras que funcionan juntas. Un regalo que no se olvida."
+      }
+    },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "q1": {
+          "type": "question",
+          "settings": {
+            "question": "¿Llegará a tiempo para Navidad?",
+            "answer": "<p>Sí, si lo pides a tiempo. Tardamos 4-5 días hábiles en entregar en España y toda Europa. En la ficha de cada obra verás la fecha estimada de entrega y si llega antes de Navidad o de Reyes.</p>"
+          }
+        },
+        "q2": {
+          "type": "question",
+          "settings": {
+            "question": "¿Y si ya no llega a tiempo?",
+            "answer": "<p>Regala una tarjeta regalo: llega al instante por email y quien la recibe elige su obra cuando quiera.</p>"
+          }
+        },
+        "q3": {
+          "type": "question",
+          "settings": {
+            "question": "¿Puedo añadir un mensaje?",
+            "answer": "<p>Sí. En el carrito marca «Es un regalo» y escribe tu mensaje o una nota para el pedido.</p>"
+          }
+        },
+        "q4": {
+          "type": "question",
+          "settings": {
+            "question": "¿Y si no le gusta?",
+            "answer": "<p>Tiene 14 días desde que recibe la obra para devolverla. Todos los detalles en nuestra política de devoluciones.</p>"
+          }
+        },
+        "q5": {
+          "type": "question",
+          "settings": {
+            "question": "¿Cuánto cuesta el envío?",
+            "answer": "<p>Nada. El envío es gratis a España y a toda Europa, con seguimiento.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4",
+        "q5"
+      ],
+      "settings": {
+        "eyebrow": "DUDAS",
+        "heading": "Regalar en ARSNOIR",
+        "text": "¿Tienes otra duda? Escríbenos y te respondemos.",
+        "button_label": "Contactar"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "q4",
+    "gifts",
+    "packs",
+    "faq"
+  ]
+}

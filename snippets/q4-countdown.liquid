@@ -1,0 +1,10 @@
+{%- comment -%} Countdown to a Q4 date (end of that day). to: bfStart | bfEnd | xmas | reyes — see snippets/q4-config. {%- endcomment -%}
+<div class="q4-count" data-countdown="{{ to }}"{% if to == 'bfStart' %} data-countdown-start{% endif %}>
+  {%- if label != blank -%}<p class="q4-count__label">{{ label }}</p>{%- endif -%}
+  <div class="q4-count__units" role="timer">
+    <span class="q4-count__unit"><strong data-unit="d">00</strong><small>{{ 'q4.days' | t }}</small></span>
+    <span class="q4-count__unit"><strong data-unit="h">00</strong><small>{{ 'q4.hours' | t }}</small></span>
+    <span class="q4-count__unit"><strong data-unit="m">00</strong><small>{{ 'q4.minutes' | t }}</small></span>
+    <span class="q4-count__unit"><strong data-unit="s">00</strong><small>{{ 'q4.seconds' | t }}</small></span>
+  </div>
+</div>

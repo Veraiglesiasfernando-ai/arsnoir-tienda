@@ -55,6 +55,22 @@ Ajustes globales en *Configuración del tema → Conversión*: umbral de envío 
 - **Es un regalo:** casilla en el carrito que guarda el atributo «Regalo» y el mensaje como nota del pedido (*Configuración del tema → Conversión*).
 - **País, moneda e idioma:** selector de cristal en la cabecera, que aparece en cuanto actives más países o idiomas en *Configuración → Mercados / Idiomas*.
 
+## Temporada Q4 (Black Friday, Navidad, Reyes)
+
+Todo en *Configuración del tema → Campaña Q4*. Cada fase se activa sola por fecha:
+
+| Fase | Fechas por defecto | Qué cambia |
+|------|--------------------|-----------|
+| Acceso anticipado | 1 oct – 19 nov | Banda negra en la home con cuenta atrás y lista de espera de Black Friday (clientes etiquetados `black-friday`). |
+| Black Friday | 20 – 30 nov (Black Week + Cyber Monday) | «BLACK FRIDAY» gigante, oferta y código con botón de copiar, cuenta atrás hasta el final. |
+| Navidad | 1 – 16 dic | «Pide antes del 16 de diciembre», cuenta atrás, guía de regalos y tarjeta regalo. |
+| Reyes | 17 – 28 dic | «Todavía llega para Reyes». |
+| Última hora | 29 dic – 6 ene | Tarjeta regalo (llega al instante). |
+
+En temporada también aparece **«Regalos»** en el menú, la **guía de regalos** en la home (por precio y tarjeta regalo) y la página `/pages/regalos`. En la ficha y el carrito, **«Pídelo hoy y recíbelo entre el … y el …»** (días hábiles, sin festivos nacionales) indica si llega antes de Navidad o de Reyes.
+
+Para ver una fase antes de tiempo: añade `?q4=prebf`, `?q4=bf`, `?q4=xmas`, `?q4=reyes` o `?q4=late` a la URL (`?q4=auto` para volver).
+
 ## Idiomas
 
 Todos los textos fijos del tema (botones, carrito, buscador, ficha, pop-up…) salen de `locales/`: `es.default.json` (español, por defecto) y `en.json` (inglés). Para vender en otros idiomas:

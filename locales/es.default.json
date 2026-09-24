@@ -174,5 +174,15 @@
     "invalid": "Esta tarjeta ya no es válida.",
     "shop": "Ir a la tienda",
     "wallet": "Añadir a Apple Wallet"
+  },
+  "q4": {
+    "gifts": "Regalos",
+    "days": "días",
+    "hours": "horas",
+    "minutes": "min",
+    "seconds": "seg",
+    "delivery": "Pídelo hoy y recíbelo entre el [MIN] y el [MAX]",
+    "before_xmas": "Llega antes de Navidad",
+    "before_reyes": "Llega antes de Reyes"
   }
 }
