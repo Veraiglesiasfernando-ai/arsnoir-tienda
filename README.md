@@ -61,7 +61,7 @@ Todo en *Configuración del tema → Campaña Q4*. Cada fase se activa sola por 
 
 | Fase | Fechas por defecto | Qué cambia |
 |------|--------------------|-----------|
-| Acceso anticipado | 1 oct – 19 nov | Banda negra en la home con cuenta atrás y lista de espera de Black Friday (clientes etiquetados `black-friday`). |
+| Acceso anticipado | desactivado (empieza con la Black Week) | Si adelantas «Empieza la temporada», banda negra con cuenta atrás y lista de espera de Black Friday (clientes etiquetados `black-friday`). |
 | Black Friday | 20 – 30 nov (Black Week + Cyber Monday) | «BLACK FRIDAY» gigante, oferta y código con botón de copiar, cuenta atrás hasta el final. |
 | Navidad | 1 – 16 dic | «Pide antes del 16 de diciembre», cuenta atrás, guía de regalos y tarjeta regalo. |
 | Reyes | 17 – 28 dic | «Todavía llega para Reyes». |

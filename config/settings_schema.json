@@ -258,8 +258,9 @@
       {
         "type": "text",
         "id": "q4_start",
-        "label": "Empieza la temporada (acceso anticipado)",
-        "default": "2026-10-01"
+        "label": "Empieza la temporada",
+        "default": "2026-11-20",
+        "info": "Antes de esta fecha la web está normal. Si la pones antes que la Black Week, se muestra el «acceso anticipado» (lista de espera) hasta que empiece."
       },
       {
         "type": "text",
