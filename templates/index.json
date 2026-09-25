@@ -62,7 +62,7 @@
         "t3": {
           "type": "item",
           "settings": {
-            "text": "Envío GRATIS a España y Europa"
+            "text": "Envío a toda España y Europa"
           }
         },
         "t4": {
@@ -182,8 +182,8 @@
           "type": "item",
           "settings": {
             "icon": "truck",
-            "title": "Envío GRATIS a España y Europa",
-            "text": "Entrega en 4-5 días hábiles con seguimiento. Impreso y enviado desde la UE."
+            "title": "Envío a España y toda Europa",
+            "text": "Entrega en 4-5 días hábiles con seguimiento. El coste se calcula en el pago según tu dirección."
           }
         },
         "g2": {
@@ -228,7 +228,7 @@
           "type": "question",
           "settings": {
             "question": "¿Cuánto tarda el envío?",
-            "answer": "<p><strong>Envío GRATIS a España y toda Europa.</strong> Tus piezas se imprimen bajo demanda y se envían desde la UE: llegan en 4-5 días hábiles, con seguimiento del pedido.</p>"
+            "answer": "<p>Enviamos a España y toda Europa. Tus piezas se imprimen bajo demanda y se envían desde la UE: llegan en 4-5 días hábiles, con seguimiento del pedido. El coste de envío depende de tu dirección y lo ves en el pago antes de confirmar.</p>"
           }
         },
         "q2": {

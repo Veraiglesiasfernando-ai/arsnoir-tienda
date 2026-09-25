@@ -97,7 +97,9 @@ Tarjeta de cristal redondeada abajo a la derecha, con «Aceptar», «Rechazar» 
 
 ## Envíos
 
-*Configuración del tema → Conversión*: con el umbral en 0 el envío es siempre gratis, y en la ficha, el carrito y el carrito lateral se muestra «Envío GRATIS a España y toda Europa» y «Entrega en 4-5 días hábiles con seguimiento · Impreso y enviado desde la UE». **Las tarifas reales se configuran en Shopify → Configuración → Envíos y entregas** y deben ser 0 € para España y la UE.
+El cliente paga el envío según su dirección: el coste se calcula en el pago con las tarifas de **Shopify → Configuración → Envíos y entregas** (por zona: España, UE, internacional). La web dice «Envío a España y toda Europa · 4-5 días hábiles con seguimiento» y «Envío calculado en el pago».
+
+Si algún día quieres envío gratis, pon el mensaje en *Configuración del tema → Conversión → Mensaje de envío* (umbral 0) o un umbral (p. ej. 60 €) para mostrar la barra «Te faltan X € para el envío gratis».
 
 ## Menú y etiquetas (colecciones automáticas)
 

@@ -51,7 +51,7 @@
           "type": "collapsible",
           "settings": {
             "heading": "Envío y devoluciones",
-            "content": "<p><strong>Envío GRATIS a España y toda Europa.</strong> Tus piezas se imprimen bajo demanda y se envían desde la UE: llegan en 4-5 días hábiles, con seguimiento del pedido.</p>",
+            "content": "<p>Enviamos a España y toda Europa. Tus piezas se imprimen bajo demanda y se envían desde la UE: llegan en 4-5 días hábiles, con seguimiento del pedido. El coste de envío depende de tu dirección y lo ves en el pago antes de confirmar.</p>",
             "open": false
           }
         },
@@ -126,7 +126,7 @@
           "type": "question",
           "settings": {
             "question": "¿Cuánto tarda el envío?",
-            "answer": "<p><strong>Envío GRATIS a España y toda Europa.</strong> Tus piezas se imprimen bajo demanda y se envían desde la UE: llegan en 4-5 días hábiles, con seguimiento del pedido.</p>"
+            "answer": "<p>Enviamos a España y toda Europa. Tus piezas se imprimen bajo demanda y se envían desde la UE: llegan en 4-5 días hábiles, con seguimiento del pedido. El coste de envío depende de tu dirección y lo ves en el pago antes de confirmar.</p>"
           }
         },
         "q2": {

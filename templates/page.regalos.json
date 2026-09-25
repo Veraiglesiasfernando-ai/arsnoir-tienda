@@ -163,7 +163,7 @@
           "type": "question",
           "settings": {
             "question": "¿Cuánto cuesta el envío?",
-            "answer": "<p>Nada. El envío es gratis a España y a toda Europa, con seguimiento.</p>"
+            "answer": "<p>Depende de tu dirección: el coste exacto aparece en el pago antes de confirmar el pedido. Enviamos a España y toda Europa, con seguimiento.</p>"
           }
         }
       },

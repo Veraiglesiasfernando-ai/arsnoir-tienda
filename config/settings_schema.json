@@ -136,8 +136,7 @@
         "type": "text",
         "id": "shipping_message",
         "label": "Mensaje de envío",
-        "default": "Envío GRATIS a España y toda Europa",
-        "info": "Se muestra en la ficha, el carrito y el carrito lateral cuando el umbral es 0 (envío siempre gratis)."
+        "info": "Solo si el envío es siempre gratis (umbral 0). Ej.: «Envío GRATIS a España y toda Europa». Vacío = el envío se calcula en el pago según la dirección del cliente."
       },
       {
         "type": "text",
@@ -154,7 +153,7 @@
         "step": 5,
         "unit": "€",
         "default": 60,
-        "info": "Debe coincidir con tu tarifa de envío en Configuración → Envíos. 0 = envío siempre gratis (se muestra el mensaje de envío en lugar de la barra de progreso)."
+        "info": "Debe coincidir con tus tarifas de Configuración → Envíos. 0 = sin barra de envío gratis."
       },
       {
         "type": "header",
