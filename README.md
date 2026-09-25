@@ -97,9 +97,12 @@ Tarjeta de cristal redondeada abajo a la derecha, con «Aceptar», «Rechazar» 
 
 ## Envíos
 
-El cliente paga el envío según su dirección: el coste se calcula en el pago con las tarifas de **Shopify → Configuración → Envíos y entregas** (por zona: España, UE, internacional). La web dice «Envío a España y toda Europa · 4-5 días hábiles con seguimiento» y «Envío calculado en el pago».
+**Regla comercial:** pedidos desde 60 € → envío gratis; por debajo, el cliente paga el envío que corresponda a su destino.
 
-Si algún día quieres envío gratis, pon el mensaje en *Configuración del tema → Conversión → Mensaje de envío* (umbral 0) o un umbral (p. ej. 60 €) para mostrar la barra «Te faltan X € para el envío gratis».
+- **La regla real vive en Shopify**, no en el tema (tarifas de *Configuración → Envíos y entregas* o un descuento automático de envío gratis). El checkout es la fuente de verdad.
+- El tema solo lo **comunica**: «Envío gratis desde 60 €» en la barra superior y en la ficha, y en el carrito lateral/página de carrito una barra de progreso («Te faltan X € para conseguir envío gratis» / «Has conseguido ENVÍO GRATIS»).
+- La barra usa `cart.total_price` (después de los descuentos del carrito), en céntimos y sin redondear (59,95 € no llega a 60 €). Se oculta si el carrito está en otra moneda distinta al euro.
+- El umbral se cambia en *Configuración del tema → Conversión → Envío gratis a partir de* y **debe coincidir** con la regla de Shopify.
 
 ## Menú y etiquetas (colecciones automáticas)
 

@@ -1,6 +1,16 @@
-{%- comment -%} Progress towards free shipping, from Configuración del tema → Conversión. {%- endcomment -%}
+{%- comment -%}
+  Progress towards free shipping (Configuración del tema → Conversión → umbral).
+  Only a visual mirror of the real rule configured in Shopify (shipping rates or a
+  free-shipping discount): it never decides the shipping price. Checkout is the source of truth.
+  Uses cart.total_price (after cart discounts), in cents, compared exactly: 59,95 € is below 60 €.
+  Hidden when the cart is in another currency, so the threshold is never compared across currencies.
+{%- endcomment -%}
 {%- liquid
   assign threshold = settings.free_shipping_threshold | times: 100
+  assign same_currency = true
+  if cart.currency.iso_code != shop.currency
+    assign same_currency = false
+  endif
   if threshold > 0
     assign remaining = threshold | minus: cart.total_price
     assign pct = cart.total_price | times: 100.0 | divided_by: threshold
@@ -9,20 +19,21 @@
     endif
   endif
 -%}
-{%- if threshold > 0 -%}
+{%- if threshold > 0 and same_currency -%}
   <div class="ship-bar{% if remaining <= 0 %} ship-bar--done{% endif %}">
     <p class="ship-bar__text">
       {%- if remaining > 0 -%}
-        {%- assign remaining_money = remaining | money -%}{{ 'cart.remaining_html' | t: amount: remaining_money }}
+        {%- assign remaining_money = remaining | money -%}
+        {{ 'cart.remaining_html' | t: amount: remaining_money }}
       {%- else -%}
-        <strong>{{ 'cart.free_shipping_done' | t }}</strong>
+        <span class="ship-bar__check" aria-hidden="true"></span>{{ 'cart.free_shipping_done_html' | t }}
       {%- endif -%}
     </p>
     <div class="ship-bar__track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ pct | round }}">
       <span style="width: {{ pct }}%"></span>
     </div>
   </div>
-{%- elsif settings.shipping_message != blank -%}
+{%- elsif threshold == 0 and settings.shipping_message != blank -%}
   <div class="ship-bar ship-bar--done ship-bar--static">
     <p class="ship-bar__text"><strong>{{ settings.shipping_message }}</strong></p>
     {%- if settings.shipping_details != blank -%}<p class="ship-bar__sub">{{ settings.shipping_details }}</p>{%- endif -%}

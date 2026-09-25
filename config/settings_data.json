@@ -10,7 +10,7 @@
     "card_ratio": "square",
     "card_frame": true,
     "color_accent": "#0A0A0A",
-    "free_shipping_threshold": 0,
+    "free_shipping_threshold": 60,
     "returns_days": "14",
     "shipping_message": "",
     "shipping_details": "Entrega en 4-5 días hábiles con seguimiento · Impreso y enviado desde la UE",

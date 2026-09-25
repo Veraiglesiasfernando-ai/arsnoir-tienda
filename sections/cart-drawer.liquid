@@ -21,7 +21,7 @@
             <div class="drawer-item__body">
               <a class="drawer-item__title" href="{{ item.url }}">{{ item.product.title }}</a>
               {%- unless item.product.has_only_default_variant -%}
-                <p class="drawer-item__variant">{{ item.variant.title }}</p>
+                <p class="drawer-item__variant">{{ item.options_with_values | map: 'value' | join: ' · ' }}</p>
               {%- endunless -%}
               <div class="drawer-item__row">
                 <div class="drawer-qty">

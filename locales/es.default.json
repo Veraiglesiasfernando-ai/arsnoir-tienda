@@ -103,10 +103,10 @@
     "add_item": "Añadir {{ title }}",
     "gift": "Es un regalo",
     "gift_message": "Mensaje",
-    "remaining_html": "Te faltan <strong>{{ amount }}</strong> para el <strong>envío gratis</strong>",
-    "free_shipping_done": "¡Tienes envío gratis!",
+    "remaining_html": "Te faltan <strong>{{ amount }}</strong> para conseguir envío gratis.",
     "add_error": "No se ha podido añadir al carrito.",
-    "pack_error": "No se ha podido añadir el pack."
+    "pack_error": "No se ha podido añadir el pack.",
+    "free_shipping_done_html": "Has conseguido <strong>ENVÍO GRATIS</strong>"
   },
   "product": {
     "add_to_cart": "Añadir al carrito",
@@ -115,7 +115,7 @@
     "unavailable": "No disponible",
     "free_shipping": "Envío gratis",
     "shipping": "Envío",
-    "free_shipping_from": "Envío gratis en pedidos desde {{ amount }}",
+    "free_shipping_from": "Envío gratis desde {{ amount }}",
     "edition_label": "Edición limitada",
     "edition_total": "{{ count }} copias en total",
     "edition_left_html": "Quedan <strong>{{ left }}</strong> de {{ total }}. Tu copia será la <strong>nº {{ next }}/{{ total }}</strong>.",

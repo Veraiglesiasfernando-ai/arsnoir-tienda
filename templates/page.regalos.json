@@ -135,7 +135,7 @@
           "type": "question",
           "settings": {
             "question": "¿Llegará a tiempo para Navidad?",
-            "answer": "<p>Sí, si lo pides a tiempo. Tardamos 4-5 días hábiles en entregar en España y toda Europa. En la ficha de cada obra verás la fecha estimada de entrega y si llega antes de Navidad o de Reyes.</p>"
+            "answer": "<p>Sí, si lo pides a tiempo. Tardamos 4-5 días hábiles en entregar en España y Europa. En la ficha de cada obra verás la fecha estimada de entrega y si llega antes de Navidad o de Reyes.</p>"
           }
         },
         "q2": {
@@ -163,7 +163,7 @@
           "type": "question",
           "settings": {
             "question": "¿Cuánto cuesta el envío?",
-            "answer": "<p>Depende de tu dirección: el coste exacto aparece en el pago antes de confirmar el pedido. Enviamos a España y toda Europa, con seguimiento.</p>"
+            "answer": "<p>Gratis en pedidos desde 60 €. Por debajo, depende de tu dirección: el coste exacto aparece en el pago antes de confirmar el pedido.</p>"
           }
         }
       },

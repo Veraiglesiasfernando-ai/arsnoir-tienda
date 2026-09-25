@@ -136,7 +136,7 @@
         "type": "text",
         "id": "shipping_message",
         "label": "Mensaje de envío",
-        "info": "Solo si el envío es siempre gratis (umbral 0). Ej.: «Envío GRATIS a España y toda Europa». Vacío = el envío se calcula en el pago según la dirección del cliente."
+        "info": "Solo si el envío es siempre gratis (umbral 0). Vacío = el envío se calcula en el pago según la dirección del cliente."
       },
       {
         "type": "text",
@@ -153,7 +153,7 @@
         "step": 5,
         "unit": "€",
         "default": 60,
-        "info": "Debe coincidir con tus tarifas de Configuración → Envíos. 0 = sin barra de envío gratis."
+        "info": "Solo muestra la barra y el aviso «Envío gratis desde…». No decide el envío: debe coincidir con la regla real de Shopify (Configuración → Envíos y entregas o Descuentos → Envío gratis). 0 = sin barra."
       },
       {
         "type": "header",

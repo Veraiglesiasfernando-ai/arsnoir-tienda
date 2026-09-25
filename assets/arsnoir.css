@@ -1841,3 +1841,16 @@ html:not(.is-scrolled) body:has(main > .shopify-section:first-child .vhero) .gla
 .delivery__badge { display: inline-block; padding: 4px 10px; border-radius: 999px; background: #0a0a0a; color: #fff; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
 .delivery--compact { margin-top: 10px; font-size: 13px; }
 .cart-page .delivery { margin: -12px 0 24px; }
+
+/* Free-shipping progress (mirror of the Shopify rule) */
+.ship-bar__text { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.ship-bar__check {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #0a0a0a url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.5 7 11l5-6' fill='none' stroke='%23fff' stroke-width='1.8'/%3E%3C/svg%3E") center / 12px no-repeat;
+}
+.ship-bar--done .ship-bar__track span { background: #0a0a0a; }
+.product__ship-hint { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-fg); }
+.product__ship-hint::before { content: none; }
