@@ -1843,7 +1843,8 @@ html:not(.is-scrolled) body:has(main > .shopify-section:first-child .vhero) .gla
 .cart-page .delivery { margin: -12px 0 24px; }
 
 /* Free-shipping progress (mirror of the Shopify rule) */
-.ship-bar__text { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.ship-bar--done .ship-bar__text { display: flex; align-items: center; gap: 8px; }
+.ship-bar--done .ship-bar__text strong { margin-left: -4px; }
 .ship-bar__check {
   flex: none;
   width: 18px;
