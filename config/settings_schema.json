@@ -410,7 +410,7 @@
       },
       {
         "type": "header",
-        "content": "Obra de regalo (misterio)"
+        "content": "Obra de regalo (la elige el cliente)"
       },
       {
         "type": "checkbox",
@@ -419,10 +419,26 @@
         "default": true
       },
       {
-        "type": "product",
-        "id": "gift_product",
-        "label": "Producto «Obra ARSNOIR misterio»",
-        "info": "Un producto con UNA sola variante: 21 × 29,7 cm sin marco. El carrito la añade y la quita solo; el cliente no la elige."
+        "type": "collection",
+        "id": "gift_collection",
+        "label": "Obras que se pueden elegir de regalo",
+        "info": "El cliente elige de esta colección. Vacío = colección «Obras (sin regalos)». El regalo es siempre el tamaño indicado abajo y sin marco."
+      },
+      {
+        "type": "text",
+        "id": "gift_size",
+        "label": "Tamaño del regalo",
+        "default": "21 × 29,7",
+        "info": "Se busca la variante cuyo tamaño contiene este texto y sin marco."
+      },
+      {
+        "type": "range",
+        "id": "gift_limit",
+        "label": "Obras a mostrar para elegir",
+        "min": 3,
+        "max": 16,
+        "step": 1,
+        "default": 8
       },
       {
         "type": "range",

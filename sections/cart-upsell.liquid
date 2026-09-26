@@ -8,12 +8,11 @@
   assign in_cart = cart.items | map: 'product_id' | join: ','
   assign in_cart = ',' | append: in_cart | append: ','
   assign threshold = settings.free_shipping_threshold | times: 100
-  assign gift_id = settings.gift_product.id | default: 0
   # Current artworks (no gift lines): count and price before discounts, to predict the pack
   assign n_art = 0
   assign orig = 0
   for i in cart.items
-    if i.product_id != gift_id
+    if i.properties['_regalo'] == blank
       assign n_art = n_art | plus: i.quantity
       assign orig = orig | plus: i.original_line_price
     endif
@@ -33,7 +32,7 @@
       {%- for p in recommendations.products -%}
         {%- liquid
           assign key = ',' | append: p.id | append: ','
-          if shown >= max or p.available == false or in_cart contains key or p.id == gift_id
+          if shown >= max or p.available == false or in_cart contains key
             continue
           endif
           assign pick = p.selected_or_first_available_variant

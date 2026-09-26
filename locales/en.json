@@ -123,10 +123,9 @@
     "gift_unlocked_1_html": "You've unlocked <strong>your gift artwork</strong>",
     "gift_next_html": "· <strong>{{ amount }}</strong> more for 2",
     "gift_unlocked_2_html": "You've unlocked <strong>2 gift artworks</strong>",
-    "gift_tier_1": "1 mystery artwork",
-    "gift_tier_2": "2 mystery artworks",
-    "gift_title": "ARSNOIR mystery artwork",
-    "gift_subtitle": "Gift · surprise piece 21 × 29.7 cm",
+    "gift_tier_1": "1 gift artwork",
+    "gift_tier_2": "2 gift artworks",
+    "gift_subtitle": "Your gift",
     "free": "FREE",
     "shipping": "Shipping",
     "secure_checkout": "Secure checkout",
@@ -134,7 +133,13 @@
     "badge_original": "Original art",
     "badge_quality": "12-colour giclée print",
     "exit_error": "We couldn't apply it. Please try again.",
-    "ship_from": "from {{ amount }}"
+    "ship_from": "from {{ amount }}",
+    "gift_pick": "Choose your gift artwork",
+    "gift_pick_n": "Choose your gift artwork · {{ n }} of {{ total }}",
+    "gift_choose": "Choose",
+    "gift_change": "Remove and choose another",
+    "gift_none": "No artworks available as a gift yet.",
+    "gift_code_conflict": "Your discount code can't be combined with the gift artwork."
   },
   "product": {
     "add_to_cart": "Add to cart",

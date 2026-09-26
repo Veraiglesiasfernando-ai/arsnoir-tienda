@@ -2085,3 +2085,23 @@ html:not(.is-scrolled) body:has(main > .shopify-section:first-child .vhero) .gla
 @media (prefers-reduced-motion: reduce) { .cart-exit__backdrop, .cart-exit__card, .gift-tiers__fill { transition: none; } }
 .cart-page__gifts { --cart-accent: #B3001B; margin: 8px 0 16px; }
 .cart-page__gifts .gift-tiers { border: 1px solid rgba(255, 255, 255, 0.9); border-radius: 18px; box-shadow: 0 16px 30px -24px rgba(0, 0, 0, 0.3); }
+
+/* Gift picker in the cart */
+.gift-pick { margin: 14px 0 4px; padding: 14px 14px 12px; border: 1.5px solid var(--cart-accent); border-radius: 18px; background: #fff; }
+.gift-pick__title { display: flex; align-items: center; gap: 8px; margin: 0 0 12px; font-size: 13px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
+.gift-pick__title .icon { width: 18px; height: 18px; color: var(--cart-accent); }
+.gift-pick__list { list-style: none; display: flex; gap: 10px; overflow-x: auto; margin: 0; padding: 0 0 4px; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.gift-pick__list::-webkit-scrollbar { display: none; }
+.gift-pick__card { flex: 0 0 104px; scroll-snap-align: start; }
+.gift-pick__btn { display: flex; flex-direction: column; gap: 5px; width: 100%; padding: 0; border: 0; background: none; font: inherit; color: inherit; text-align: left; cursor: pointer; }
+.gift-pick__media { display: block; aspect-ratio: 4 / 5; overflow: hidden; background: linear-gradient(160deg, #eee, #d9d9d9); outline: 2px solid transparent; outline-offset: 2px; transition: outline-color 0.2s ease; }
+.gift-pick__media img { width: 100%; height: 100%; object-fit: cover; }
+.gift-pick__btn:hover .gift-pick__media { outline-color: var(--cart-accent); }
+.gift-pick__name { font-size: 12px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gift-pick__cta { align-self: flex-start; padding: 4px 10px; border-radius: 999px; background: #0a0a0a; color: #fff; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+.gift-pick__btn:hover .gift-pick__cta { background: var(--cart-accent); }
+.gift-pick__btn.is-loading { opacity: 0.5; }
+.gift-pick__empty, .gift-pick__note { margin: 8px 0; font-size: 12px; color: var(--color-muted); }
+.cartx-item__media { position: relative; }
+.cartx-item__gift-tag { position: absolute; top: 6px; left: 6px; display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--cart-accent); color: #fff; }
+.cartx-item__gift-tag .icon { width: 14px; height: 14px; }

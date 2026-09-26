@@ -51,7 +51,7 @@ Ajustes globales en *Configuración del tema → Conversión*: umbral de envío 
 
 Todo lo que se ve en el carrito son datos reales de Shopify; no hay contadores inventados, stock falso ni temporizadores de «carrito reservado».
 
-- **Barra de regalo escalonada** (80 € → 1 obra misterio, 150 € → 2): se calcula con el total del carrito sin las obras de regalo. El tema añade/quita solo la línea de regalo (el producto «Obra ARSNOIR misterio» elegido en *Configuración del tema → Carrito*); **su precio 0 € lo pone un descuento de Shopify**. Si Shopify no la deja gratis (por ejemplo, porque el cliente usa un código que no combina), la quita y no la vuelve a añadir mientras sigan esos descuentos.
+- **Barra de regalo escalonada** (80 € → 1 obra de regalo, 150 € → 2): se calcula con el total del carrito sin las obras de regalo. Al llegar al tramo aparece en el carrito «Elige tu obra de regalo» con las obras de la colección elegida en *Configuración del tema → Carrito* (tamaño 21 × 29,7 sin marco). La obra elegida entra con la propiedad oculta `_regalo`; **su precio 0 € lo pone un descuento de Shopify** (Compra X y llévate Y). Si baja del tramo o el cliente usa un código que no combina, el tema quita el regalo sobrante.
 - **Obras:** imagen, nombre, tamaño y acabado, cantidad, precio, eliminar, edición limitada y «Enmárcala» con todos los marcos disponibles.
 - **Completa tu pared:** 3 obras sugeridas con «+ Añadir»; primero las que desbloquean el envío gratis.
 - **Descuentos aplicados** (pack, códigos) leídos de `cart.discount_applications`; el pack muestra «✓ Pack de 2 aplicado — ahorras un 15%».

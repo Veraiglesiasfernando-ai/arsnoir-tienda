@@ -1,0 +1,57 @@
+{%- comment -%}
+  "Elige tu obra de regalo": artworks from the gift collection, each offered in the gift size
+  without frame. Picking one adds that variant with the hidden property _regalo (theme.js);
+  the 0 € price comes from the Shopify gift discount.
+  - slot: which gift is being chosen (1 or 2)
+  - total: gifts unlocked
+{%- endcomment -%}
+{%- liquid
+  assign source = settings.gift_collection
+  if source == blank
+    assign source = collections['obras']
+  endif
+  assign size_key = settings.gift_size | default: '21' | downcase | remove: ' '
+  assign shown = 0
+-%}
+<div class="gift-pick">
+  <p class="gift-pick__title">{% render 'icon', name: 'gift' %}{% if total > 1 %}{{ 'cart.gift_pick_n' | t: n: slot, total: total }}{% else %}{{ 'cart.gift_pick' | t }}{% endif %}</p>
+  <ul class="gift-pick__list">
+    {%- for p in source.products -%}
+      {%- if shown >= settings.gift_limit -%}{%- break -%}{%- endif -%}
+      {%- liquid
+        assign gv = false
+        for v in p.variants
+          if v.available == false
+            continue
+          endif
+          assign t = v.title | downcase | remove: ' '
+          assign has_size = false
+          if t contains size_key
+            assign has_size = true
+          endif
+          assign framed = true
+          if t contains 'sin' or t contains 'without' or v.options.size == 1
+            assign framed = false
+          endif
+          if has_size and framed == false
+            assign gv = v
+            break
+          endif
+        endfor
+      -%}
+      {%- if gv -%}
+        {%- assign shown = shown | plus: 1 -%}
+        <li class="gift-pick__card">
+          <button type="button" class="gift-pick__btn" data-gift-pick data-variant="{{ gv.id }}" aria-label="{{ 'cart.gift_choose' | t }}: {{ p.title | escape }}">
+            <span class="gift-pick__media">
+              {%- if p.featured_media -%}{{ p.featured_media | image_url: width: 300 | image_tag: loading: 'lazy', alt: p.title }}{%- endif -%}
+            </span>
+            <span class="gift-pick__name">{{ p.title }}</span>
+            <span class="gift-pick__cta">{{ 'cart.gift_choose' | t }}</span>
+          </button>
+        </li>
+      {%- endif -%}
+    {%- endfor -%}
+  </ul>
+  {%- if shown == 0 -%}<p class="gift-pick__empty">{{ 'cart.gift_none' | t }}</p>{%- endif -%}
+</div>

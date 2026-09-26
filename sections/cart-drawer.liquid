@@ -4,20 +4,18 @@
 
   Everything shown is real Shopify data: the gift line and its 0 € price, the pack and
   welcome-code discounts come from Shopify discounts (cart.discount_applications);
-  the tiers only mirror the thresholds configured in Theme settings. theme.js adds or
-  removes the mystery gift line to match the tier, and drops it if Shopify does not
-  make it free (e.g. a non-combinable code won). No fake timers or stock.
+  the tiers only mirror the thresholds configured in Theme settings. When a tier is
+  reached the customer chooses the gift artwork (gift size, no frame); theme.js removes
+  gifts above the unlocked tier or when a non-combinable code wins. No fake timers or stock.
 {%- endcomment -%}
 {%- liquid
-  assign gift_variant = false
-  if settings.gift_enabled and settings.gift_product != blank
-    assign gift_variant = settings.gift_product.selected_or_first_available_variant
-  endif
+  # Gift lines are real artworks (gift size, no frame) marked with the hidden property _regalo
+  assign gift_on = settings.gift_enabled
 
   assign eligible = 0
   assign gift_qty = 0
   for item in cart.items
-    if gift_variant and item.variant_id == gift_variant.id
+    if gift_on and item.properties['_regalo'] != blank
       assign gift_qty = gift_qty | plus: item.quantity
     else
       assign eligible = eligible | plus: item.final_line_price
@@ -43,8 +41,7 @@
     data-item-count="{{ cart.item_count }}" data-has-code="{{ has_code }}" data-has-discount="{{ has_discount }}">
     <script type="application/json" data-cart-config>
       {
-        "giftVariant": {% if gift_variant %}{{ gift_variant.id }}{% else %}null{% endif %},
-        "giftAvailable": {% if gift_variant and gift_variant.available %}true{% else %}false{% endif %},
+        "giftEnabled": {{ gift_on | json }},
         "tier1": {{ settings.gift_tier1 | times: 100 }},
         "tier2": {{ settings.gift_tier2 | times: 100 }},
         "giftQty": {{ gift_qty }},
@@ -60,7 +57,19 @@
     </div>
 
     {%- if cart.item_count > 0 -%}
-      {%- if gift_variant -%}
+      {%- liquid
+        assign gift_unlocked = 0
+        if gift_on
+          assign t1 = settings.gift_tier1 | times: 100
+          assign t2 = settings.gift_tier2 | times: 100
+          if eligible >= t2
+            assign gift_unlocked = 2
+          elsif eligible >= t1
+            assign gift_unlocked = 1
+          endif
+        endif
+      -%}
+      {%- if gift_on -%}
         {% render 'gift-tiers', eligible: eligible %}
       {%- endif -%}
 
@@ -80,12 +89,20 @@
       {%- endif -%}
 
       <div class="cartx__scroll">
+        {%- if gift_unlocked > gift_qty -%}
+          {%- if has_code -%}
+            <p class="gift-pick__note">{{ 'cart.gift_code_conflict' | t }}</p>
+          {%- else -%}
+            {%- assign slot = gift_qty | plus: 1 -%}
+            {% render 'gift-picker', slot: slot, total: gift_unlocked %}
+          {%- endif -%}
+        {%- endif -%}
         <ul class="cartx__items">
           {%- for item in cart.items -%}
             {%- liquid
               assign line = forloop.index
               assign is_gift = false
-              if gift_variant and item.variant_id == gift_variant.id
+              if gift_on and item.properties['_regalo'] != blank
                 assign is_gift = true
               endif
               assign ed_size = item.product.metafields.custom.edition_size.value | default: 0
@@ -142,24 +159,17 @@
               endif
             -%}
             <li class="cartx-item{% if is_gift %} cartx-item--gift{% endif %}">
-              {%- if is_gift -%}
-                <span class="cartx-item__media cartx-item__media--mystery" aria-hidden="true"><span>?</span></span>
-              {%- else -%}
-                <a class="cartx-item__media" href="{{ item.url }}">
-                  {%- if item.image -%}{{ item.image | image_url: width: 300 | image_tag: loading: 'lazy', alt: item.product.title }}{%- else -%}<span class="cartx-item__ph"></span>{%- endif -%}
-                </a>
-              {%- endif -%}
+              <a class="cartx-item__media" href="{{ item.url }}">
+                {%- if item.image -%}{{ item.image | image_url: width: 300 | image_tag: loading: 'lazy', alt: item.product.title }}{%- else -%}<span class="cartx-item__ph"></span>{%- endif -%}
+                {%- if is_gift -%}<span class="cartx-item__gift-tag">{% render 'icon', name: 'gift' %}</span>{%- endif -%}
+              </a>
               <div class="cartx-item__body">
                 <div class="cartx-item__top">
-                  {%- if is_gift -%}
-                    <p class="cartx-item__title">{{ 'cart.gift_title' | t }}</p>
-                  {%- else -%}
-                    <a class="cartx-item__title" href="{{ item.url }}">{{ item.product.title }}</a>
-                    <button type="button" class="cartx-item__remove" data-cart-change data-line="{{ line }}" data-quantity="0" aria-label="{{ 'cart.remove' | t }}">{% render 'icon', name: 'close' %}</button>
-                  {%- endif -%}
+                  <a class="cartx-item__title" href="{{ item.url }}">{{ item.product.title }}</a>
+                  <button type="button" class="cartx-item__remove" data-cart-change data-line="{{ line }}" data-quantity="0" aria-label="{% if is_gift %}{{ 'cart.gift_change' | t }}{% else %}{{ 'cart.remove' | t }}{% endif %}">{% render 'icon', name: 'close' %}</button>
                 </div>
                 {%- if is_gift -%}
-                  <p class="cartx-item__variant">{{ 'cart.gift_subtitle' | t }}</p>
+                  <p class="cartx-item__variant">{{ 'cart.gift_subtitle' | t }} · {{ item.options_with_values | map: 'value' | join: ' · ' }}</p>
                 {%- elsif item.product.has_only_default_variant == false -%}
                   <p class="cartx-item__variant">{{ item.options_with_values | map: 'value' | join: ' · ' }}</p>
                 {%- endif -%}
@@ -205,7 +215,7 @@
                 assign is_pack = true
               endif
               assign is_gift_discount = false
-              if gift_variant and d.type == 'automatic' and d.title contains 'egalo'
+              if gift_on and d.type == 'automatic' and d.title contains 'egalo'
                 assign is_gift_discount = true
               endif
             -%}
