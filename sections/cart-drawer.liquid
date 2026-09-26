@@ -50,7 +50,7 @@
               assign ed_sold = item.product.metafields.custom.edition_sold.value | default: 0
               assign ed_left = ed_size | minus: ed_sold
 
-              # Frame upgrade: same size, black frame, available.
+              # Frame upgrade: every available framed variant (black, white, wood…) with the same size.
               assign frame_idx = -1
               for opt in item.product.options_with_values
                 assign k = opt.name | downcase
@@ -58,7 +58,8 @@
                   assign frame_idx = forloop.index0
                 endif
               endfor
-              assign upgrade = false
+              assign frames = ''
+              assign frame_count = 0
               if frame_idx >= 0
                 assign current_frame = item.variant.options[frame_idx] | downcase
                 if current_frame contains 'sin' or current_frame contains 'without' or current_frame contains 'no '
@@ -67,9 +68,9 @@
                       continue
                     endif
                     assign v_frame = v.options[frame_idx] | downcase
-                    unless v_frame contains 'negr' or v_frame contains 'black'
+                    if v_frame contains 'sin' or v_frame contains 'without' or v_frame contains 'no '
                       continue
-                    endunless
+                    endif
                     assign same = true
                     for o in v.options
                       if forloop.index0 != frame_idx and o != item.variant.options[forloop.index0]
@@ -77,8 +78,20 @@
                       endif
                     endfor
                     if same
-                      assign upgrade = v
-                      break
+                      assign diff = v.price | minus: item.variant.price | times: item.quantity
+                      assign diff_money = diff | money
+                      assign frame_name = v.options[frame_idx] | remove: 'Marco ' | remove: 'marco ' | remove: 'Frame ' | remove: ' frame' | capitalize
+                      capture swatch
+                        render 'frame-swatch', value: v.options[frame_idx]
+                      endcapture
+                      capture chip
+                        echo '<button type="button" class="cartx-frame" data-frame-upgrade data-key="' | append: item.key | append: '" data-variant="' | append: v.id | append: '" data-quantity="' | append: item.quantity | append: '">'
+                        echo swatch
+                        echo '<span class="cartx-frame__name">' | append: frame_name | append: '</span>'
+                        echo '<span class="cartx-frame__price">+' | append: diff_money | append: '</span></button>'
+                      endcapture
+                      assign frames = frames | append: chip
+                      assign frame_count = frame_count | plus: 1
                     endif
                   endfor
                 endif
@@ -112,14 +125,11 @@
                     {{ item.final_line_price | money }}
                   </span>
                 </div>
-                {%- if upgrade -%}
-                  {%- assign diff = upgrade.price | minus: item.variant.price | times: item.quantity -%}
-                  {%- assign diff_money = diff | money -%}
-                  <button type="button" class="cartx-upgrade" data-frame-upgrade data-key="{{ item.key }}" data-variant="{{ upgrade.id }}" data-quantity="{{ item.quantity }}">
-                    <span class="cartx-upgrade__frame" aria-hidden="true"></span>
-                    <span class="cartx-upgrade__text"><strong>{{ 'cart.add_frame' | t }}</strong><small>{{ 'cart.add_frame_hint' | t }}</small></span>
-                    <span class="cartx-upgrade__price">+{{ diff_money }}</span>
-                  </button>
+                {%- if frame_count > 0 -%}
+                  <div class="cartx-upgrade">
+                    <p class="cartx-upgrade__title"><strong>{{ 'cart.add_frame' | t }}</strong> <span>{{ 'cart.add_frame_hint' | t }}</span></p>
+                    <div class="cartx-upgrade__frames">{{ frames }}</div>
+                  </div>
                 {%- endif -%}
               </div>
             </li>

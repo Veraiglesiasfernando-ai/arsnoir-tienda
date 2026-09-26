@@ -53,7 +53,7 @@ Todo lo que empuja a comprar son datos reales; no hay contadores inventados, sto
 
 - **Barra de envío gratis** y, en «Completa tu pared», primero las obras que cierran lo que falta: el «+ Añadir» mete el tamaño más barato que llega al umbral («Envío gratis con esta»).
 - **Edición limitada:** «quedan N de 100», con los metafields de la obra.
-- **«Añade el marco negro»:** cambia la línea sin marco por la misma medida con marco negro, mostrando la diferencia de precio.
+- **«Enmárcala»:** en una obra sin marco ofrece todos los marcos que existan en esa medida (negro, blanco, madera…), con su muestra de color y la diferencia de precio; un clic cambia la línea.
 - **Campaña Q4:** franja negra con cuenta atrás real (fin de Black Friday, último día para recibir antes de Navidad o Reyes).
 - **Pie fijo:** fecha estimada de entrega, «Ahorras X» (solo si hay descuentos o precio tachado), botón «Finalizar compra · total», métodos de pago y confianza (pago seguro, días para devolver, envío con seguimiento).
 
