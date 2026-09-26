@@ -25,9 +25,13 @@
   endfor
 
   assign has_code = false
+  assign has_discount = false
   for d in cart.discount_applications
     if d.type == 'discount_code'
       assign has_code = true
+    endif
+    if d.total_allocated_amount > 0
+      assign has_discount = true
     endif
   endfor
 
@@ -36,7 +40,7 @@
 <div class="drawer" id="CartDrawer" data-cart-drawer aria-hidden="true" style="--cart-accent: {{ settings.cart_accent | default: '#B3001B' }}">
   <div class="drawer__overlay" data-drawer-close></div>
   <aside class="drawer__panel cartx" role="dialog" aria-modal="true" aria-label="{{ 'cart.label' | t }}" tabindex="-1"
-    data-item-count="{{ cart.item_count }}" data-has-code="{{ has_code }}">
+    data-item-count="{{ cart.item_count }}" data-has-code="{{ has_code }}" data-has-discount="{{ has_discount }}">
     <script type="application/json" data-cart-config>
       {
         "giftVariant": {% if gift_variant %}{{ gift_variant.id }}{% else %}null{% endif %},

@@ -10,6 +10,19 @@
   {% render 'page-head', eyebrow: cart_eyebrow, title: cart_title, crumbs: true %}
 
   {%- if cart.item_count > 0 -%}
+    {%- liquid
+      assign gift_vid = 0
+      if settings.gift_enabled and settings.gift_product != blank
+        assign gift_vid = settings.gift_product.selected_or_first_available_variant.id
+      endif
+      assign eligible = 0
+      for item in cart.items
+        unless item.variant_id == gift_vid
+          assign eligible = eligible | plus: item.final_line_price
+        endunless
+      endfor
+    -%}
+    {%- if gift_vid != 0 -%}<div class="cart-page__gifts">{% render 'gift-tiers', eligible: eligible %}</div>{%- endif -%}
     {% render 'free-shipping-bar' %}
     {% render 'delivery-estimate' %}
     <form action="{{ routes.cart_url }}" method="post" class="cart" novalidate>

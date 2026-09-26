@@ -871,11 +871,12 @@
     const panel = d && d.querySelector('.drawer__panel');
     const c = cartConfig();
     if (!e || !panel || !c || !c.exitEnabled || !c.exitCode) return false;
-    if (!d.classList.contains('is-open') || panel.dataset.itemCount === '0' || panel.dataset.hasCode === 'true') return false;
+    /* Never offer 10% on top of a better deal already applied (pack, gift) or to someone who already said no */
+    if (!d.classList.contains('is-open') || panel.dataset.itemCount === '0' || panel.dataset.hasCode === 'true' || panel.dataset.hasDiscount === 'true') return false;
     try {
       if (localStorage.getItem('arsnoir:cartExit')) return false;
       const np = JSON.parse(localStorage.getItem('arsnoir:npop') || '{}');
-      if (np.subscribed) return false;
+      if (np.subscribed || np.until > Date.now()) return false;
     } catch (err) { /* storage blocked: offer it */ }
     return true;
   }

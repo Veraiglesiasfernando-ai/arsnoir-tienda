@@ -2083,3 +2083,5 @@ html:not(.is-scrolled) body:has(main > .shopify-section:first-child .vhero) .gla
 .cart-exit__ok { margin: 8px 0 0; font-weight: 700; }
 .cart-exit__error { margin: 10px 0 0; font-size: 13px; color: var(--cart-accent, #B3001B); }
 @media (prefers-reduced-motion: reduce) { .cart-exit__backdrop, .cart-exit__card, .gift-tiers__fill { transition: none; } }
+.cart-page__gifts { --cart-accent: #B3001B; margin: 8px 0 16px; }
+.cart-page__gifts .gift-tiers { border: 1px solid rgba(255, 255, 255, 0.9); border-radius: 18px; box-shadow: 0 16px 30px -24px rgba(0, 0, 0, 0.3); }

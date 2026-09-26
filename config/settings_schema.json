@@ -462,6 +462,26 @@
         "default": "Pack de 2 aplicado — ahorras un 15%"
       },
       {
+        "type": "range",
+        "id": "pack_percent",
+        "label": "Descuento del pack",
+        "min": 0,
+        "max": 50,
+        "step": 1,
+        "unit": "%",
+        "default": 15,
+        "info": "El mismo % que el descuento automático de Shopify. Se usa para que «Envío gratis con esta» no prometa algo que el pack deshace. 0 = sin pack."
+      },
+      {
+        "type": "range",
+        "id": "pack_min",
+        "label": "Obras para el pack",
+        "min": 2,
+        "max": 5,
+        "step": 1,
+        "default": 2
+      },
+      {
         "type": "header",
         "content": "Descuento al cerrar el carrito"
       },
