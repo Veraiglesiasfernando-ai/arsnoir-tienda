@@ -991,17 +991,39 @@
     const saved = (function () { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { return {}; } })();
     const cookieOpen = function () { const c = document.querySelector('[data-cookie-banner]'); return c && !c.hidden; };
 
+    /* Smart trigger: only after real interest (page views in this visit) or when leaving;
+       never on the cart, never over the open cart drawer or the cookie banner. */
+    let pv = 1;
+    try { pv = (parseInt(sessionStorage.getItem('arsnoir:pv'), 10) || 0) + 1; sessionStorage.setItem('arsnoir:pv', String(pv)); } catch (e) { /* ignore */ }
+    const busy = function () {
+      const d = document.querySelector('[data-cart-drawer]');
+      const x = document.querySelector('[data-cart-exit]');
+      return cookieOpen() || (d && d.classList.contains('is-open')) || (x && !x.hidden);
+    };
+    const tryOpen = function () { if (busy()) { setTimeout(tryOpen, 1500); } else { openPop(); } };
+
     if (success) {
       store.set(KEY, { subscribed: true });
       openPop();
+      /* Apply the welcome code to the cart straight away (Shopify validates it at checkout) */
+      if (npop.dataset.code) {
+        fetch(root + 'cart/update.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({ discount: npop.dataset.code })
+        }).then(function (r) {
+          if (!r.ok) return fetch(root + 'discount/' + encodeURIComponent(npop.dataset.code) + '?redirect=' + encodeURIComponent(root + 'cart.js'));
+        }).then(function () { if (drawer()) return refreshDrawer(); }).catch(function () {});
+      }
     } else if (npop.hasAttribute('data-preview')) {
       openPop();
     } else if (!saved.subscribed && !(saved.until > Date.now()) && document.body.dataset.template !== 'cart') {
-      const delay = (parseInt(npop.dataset.delay, 10) || 8) * 1000;
-      const tryOpen = function () { if (cookieOpen()) { setTimeout(tryOpen, 1500); } else { openPop(); } };
-      setTimeout(tryOpen, delay);
+      const minPages = parseInt(npop.dataset.minPages, 10) || 2;
+      const delay = (parseInt(npop.dataset.delay, 10) || 6) * 1000;
+      if (pv >= minPages) setTimeout(tryOpen, delay);
+      const armedAt = Date.now() + 3000;
       document.addEventListener('mouseout', function (event) {
-        if (!event.relatedTarget && event.clientY <= 0 && !cookieOpen()) openPop();
+        if (!event.relatedTarget && event.clientY <= 0 && Date.now() > armedAt && !busy()) openPop();
       });
     }
 
