@@ -41,29 +41,33 @@
   };
   const tokens = { '[BLACKFRIDAY]': longDate(Q.bfDay), '[FIN_BF]': longDate(Q.bfEnd), '[NAVIDAD]': longDate(Q.xmas), '[REYES]': longDate(Q.reyes) };
 
-  document.querySelectorAll('[data-q4]').forEach(function (el) {
-    const on = el.dataset.q4.split(' ').indexOf(q4Phase) !== -1;
-    if (!on && el.classList.contains('announce__msg')) { el.remove(); return; }
-    el.hidden = !on;
-  });
-  document.querySelectorAll('[data-q4-fill]').forEach(function (el) {
-    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
-    while (walker.nextNode()) {
-      const node = walker.currentNode;
-      if (node.nodeValue.indexOf('[') === -1) continue;
-      Object.keys(tokens).forEach(function (t) { node.nodeValue = node.nodeValue.split(t).join(tokens[t]); });
-    }
-  });
+  /* Show only today's phase; also runs on the cart drawer after each re-render */
+  function applyQ4(root) {
+    root.querySelectorAll('[data-q4]').forEach(function (el) {
+      const on = el.dataset.q4.split(' ').indexOf(q4Phase) !== -1;
+      if (!on && el.classList.contains('announce__msg')) { el.remove(); return; }
+      el.hidden = !on;
+    });
+    root.querySelectorAll('[data-q4-fill]').forEach(function (el) {
+      const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+      while (walker.nextNode()) {
+        const node = walker.currentNode;
+        if (node.nodeValue.indexOf('[') === -1) continue;
+        Object.keys(tokens).forEach(function (t) { node.nodeValue = node.nodeValue.split(t).join(tokens[t]); });
+      }
+    });
+  }
+  applyQ4(document);
   document.querySelectorAll('[data-announce]').forEach(function (bar) {
     const first = bar.querySelector('.announce__msg');
     if (first) first.classList.add('is-active');
   });
 
-  /* Countdowns to the Q4 dates */
-  const countdowns = Array.from(document.querySelectorAll('[data-countdown]')).filter(function (el) { return !el.closest('[hidden]'); });
-  if (countdowns.length) {
+  /* Countdowns to the Q4 dates (looked up every second, so re-rendered carts keep ticking) */
+  if (q4Phase !== 'off') {
     const tick = function () {
-      countdowns.forEach(function (el) {
+      document.querySelectorAll('[data-countdown]').forEach(function (el) {
+        if (el.closest('[hidden]')) return;
         const target = parseDay(Q[el.dataset.countdown], !el.hasAttribute('data-countdown-start'));
         if (!target) { el.hidden = true; return; }
         let left = Math.max(0, Math.floor((target - Date.now()) / 1000));
@@ -111,7 +115,7 @@
   fillDelivery();
   const cartDrawerEl = document.querySelector('[data-cart-drawer]');
   if (cartDrawerEl && window.MutationObserver) {
-    new MutationObserver(function () { fillDelivery(cartDrawerEl); }).observe(cartDrawerEl, { childList: true, subtree: true });
+    new MutationObserver(function () { applyQ4(cartDrawerEl); fillDelivery(cartDrawerEl); }).observe(cartDrawerEl, { childList: true, subtree: true });
   }
 
   /* Copy-to-clipboard buttons outside the pop-up (e.g. the Black Friday code) */
@@ -775,6 +779,25 @@
   }
   document.addEventListener('change', function (event) { if (event.target.closest('[data-gift]')) saveGift(event.target); });
   document.addEventListener('input', function (event) { if (event.target.matches('[data-gift-note]')) saveGift(event.target); });
+
+  /* Cart: swap an unframed line for the same size with black frame ---------- */
+  document.addEventListener('click', function (event) {
+    const button = event.target.closest('[data-frame-upgrade]');
+    if (!button) return;
+    button.disabled = true;
+    button.classList.add('is-loading');
+    const json = { 'Content-Type': 'application/json', 'Accept': 'application/json' };
+    fetch(root + 'cart/add.js', {
+      method: 'POST', headers: json,
+      body: JSON.stringify({ items: [{ id: parseInt(button.dataset.variant, 10), quantity: parseInt(button.dataset.quantity, 10) || 1 }] })
+    })
+      .then(function (r) {
+        if (!r.ok) throw new Error('add');
+        return fetch(root + 'cart/change.js', { method: 'POST', headers: json, body: JSON.stringify({ id: button.dataset.key, quantity: 0 }) });
+      })
+      .then(refreshDrawer)
+      .catch(function () { button.disabled = false; button.classList.remove('is-loading'); alert(S.addError || 'No se ha podido añadir al carrito.'); });
+  });
 
   /* Wall packs: add every artwork of the pack at once ---------------------- */
   document.addEventListener('click', function (event) {

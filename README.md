@@ -47,6 +47,16 @@ Ajustes globales en *Configuración del tema → Conversión*: umbral de envío 
 - **Pago a plazos:** aparece bajo el botón si activas Klarna o Shop Pay Installments en *Configuración → Pagos*.
 - **Favoritos (corazón)** en cada obra y en la cabecera; la página `/pages/favoritos` los lista. **Vistas recientemente** al final de la ficha. Se guardan en el navegador del visitante.
 
+## Carrito lateral (conversión)
+
+Todo lo que empuja a comprar son datos reales; no hay contadores inventados, stock falso ni «X personas viendo esto».
+
+- **Barra de envío gratis** y, en «Completa tu pared», primero las obras que cierran lo que falta: el «+ Añadir» mete el tamaño más barato que llega al umbral («Envío gratis con esta»).
+- **Edición limitada:** «quedan N de 100», con los metafields de la obra.
+- **«Añade el marco negro»:** cambia la línea sin marco por la misma medida con marco negro, mostrando la diferencia de precio.
+- **Campaña Q4:** franja negra con cuenta atrás real (fin de Black Friday, último día para recibir antes de Navidad o Reyes).
+- **Pie fijo:** fecha estimada de entrega, «Ahorras X» (solo si hay descuentos o precio tachado), botón «Finalizar compra · total», métodos de pago y confianza (pago seguro, días para devolver, envío con seguimiento).
+
 ## Más ventas
 
 - **Pop-up de cristal del 15%:** aparece a los 8 s (o al ir a cerrar la pestaña), una vez cada 14 días, y nunca a la vez que el aviso de cookies. Al suscribirse muestra el código `BIENVENIDA15` con botón de copiar. Se edita en *Personalizar → Pop-up de descuento*.

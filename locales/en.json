@@ -106,7 +106,19 @@
     "remaining_html": "You're <strong>{{ amount }}</strong> away from free shipping.",
     "add_error": "The item couldn't be added to your cart.",
     "pack_error": "The pack couldn't be added to your cart.",
-    "free_shipping_done_html": "You've unlocked <strong>FREE SHIPPING</strong>"
+    "free_shipping_done_html": "You've unlocked <strong>FREE SHIPPING</strong>",
+    "q4_bf": "Black Friday ends in",
+    "q4_xmas": "To get it before Christmas, order within",
+    "q4_reyes": "To get it before 6 January, order within",
+    "edition_left": "Limited edition · {{ left }} of {{ total }} left",
+    "edition_last": "Limited edition · last copy",
+    "add_frame": "Add the black frame",
+    "add_frame_hint": "Solid wood, ready to hang",
+    "unlocks_free": "Free shipping with this one",
+    "you_save": "You save",
+    "trust_secure": "Secure payment",
+    "trust_returns": "{{ days }}-day returns",
+    "trust_tracking": "Tracked shipping"
   },
   "product": {
     "add_to_cart": "Add to cart",
@@ -183,6 +195,7 @@
     "seconds": "sec",
     "delivery": "Order today, get it between [MIN] and [MAX]",
     "before_xmas": "Arrives before Christmas",
-    "before_reyes": "Arrives before Epiphany (6 Jan)"
+    "before_reyes": "Arrives before Epiphany (6 Jan)",
+    "d_short": "d"
   }
 }

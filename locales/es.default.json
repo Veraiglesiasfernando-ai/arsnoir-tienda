@@ -106,7 +106,19 @@
     "remaining_html": "Te faltan <strong>{{ amount }}</strong> para conseguir envío gratis.",
     "add_error": "No se ha podido añadir al carrito.",
     "pack_error": "No se ha podido añadir el pack.",
-    "free_shipping_done_html": "Has conseguido <strong>ENVÍO GRATIS</strong>"
+    "free_shipping_done_html": "Has conseguido <strong>ENVÍO GRATIS</strong>",
+    "q4_bf": "Black Friday termina en",
+    "q4_xmas": "Para recibirlo antes de Navidad, pide en",
+    "q4_reyes": "Para recibirlo antes de Reyes, pide en",
+    "edition_left": "Edición limitada · quedan {{ left }} de {{ total }}",
+    "edition_last": "Edición limitada · última copia",
+    "add_frame": "Añade el marco negro",
+    "add_frame_hint": "Madera maciza, lista para colgar",
+    "unlocks_free": "Envío gratis con esta",
+    "you_save": "Ahorras",
+    "trust_secure": "Pago seguro",
+    "trust_returns": "{{ days }} días para devolver",
+    "trust_tracking": "Envío con seguimiento"
   },
   "product": {
     "add_to_cart": "Añadir al carrito",
@@ -183,6 +195,7 @@
     "seconds": "seg",
     "delivery": "Pídelo hoy y recíbelo entre el [MIN] y el [MAX]",
     "before_xmas": "Llega antes de Navidad",
-    "before_reyes": "Llega antes de Reyes"
+    "before_reyes": "Llega antes de Reyes",
+    "d_short": "d"
   }
 }

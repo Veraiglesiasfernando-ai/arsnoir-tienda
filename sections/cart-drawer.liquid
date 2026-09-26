@@ -1,51 +1,158 @@
 {%- comment -%}
   Slide-in cart. Rendered in the layout and re-rendered through the Section
   Rendering API (?sections=cart-drawer) after every cart change.
+  Every pressure point is real data: free-shipping gap (mirror of the Shopify rule),
+  limited-edition copies left (product metafields), delivery date, Q4 deadlines,
+  compare-at savings. No fake timers, stock or visitor counts.
 {%- endcomment -%}
+{%- liquid
+  assign savings = cart.total_discount
+  for item in cart.items
+    # compare-at savings on top of cart discounts (cart.total_discount already covers line/order discounts)
+    if item.variant.compare_at_price > item.original_price
+      assign line_saving = item.variant.compare_at_price | minus: item.original_price | times: item.quantity
+      assign savings = savings | plus: line_saving
+    endif
+  endfor
+-%}
 <div class="drawer" id="CartDrawer" data-cart-drawer aria-hidden="true">
   <div class="drawer__overlay" data-drawer-close></div>
-  <aside class="drawer__panel" role="dialog" aria-modal="true" aria-label="{{ 'cart.label' | t }}" tabindex="-1">
+  <aside class="drawer__panel cartx" role="dialog" aria-modal="true" aria-label="{{ 'cart.label' | t }}" tabindex="-1">
     <div class="drawer__head">
       <p class="drawer__title">{{ 'cart.title' | t }} <span class="drawer__count" data-cart-count-text>{{ cart.item_count }}</span></p>
       <button type="button" class="drawer__close" data-drawer-close aria-label="{{ 'general.close' | t }}">{% render 'icon', name: 'close' %}</button>
     </div>
 
     {%- if cart.item_count > 0 -%}
-      <div class="drawer__ship">{% render 'free-shipping-bar' %}{% render 'delivery-estimate', compact: true %}</div>
-      <ul class="drawer__items">
-        {%- for item in cart.items -%}
-          <li class="drawer-item">
-            <a class="drawer-item__media" href="{{ item.url }}">
-              {%- if item.image -%}{{ item.image | image_url: width: 200 | image_tag: loading: 'lazy', alt: item.product.title }}{%- endif -%}
-            </a>
-            <div class="drawer-item__body">
-              <a class="drawer-item__title" href="{{ item.url }}">{{ item.product.title }}</a>
-              {%- unless item.product.has_only_default_variant -%}
-                <p class="drawer-item__variant">{{ item.options_with_values | map: 'value' | join: ' · ' }}</p>
-              {%- endunless -%}
-              <div class="drawer-item__row">
-                <div class="drawer-qty">
-                  <button type="button" data-cart-change data-line="{{ forloop.index }}" data-quantity="{{ item.quantity | minus: 1 }}" aria-label="{{ 'cart.less' | t }}">&minus;</button>
-                  <span>{{ item.quantity }}</span>
-                  <button type="button" data-cart-change data-line="{{ forloop.index }}" data-quantity="{{ item.quantity | plus: 1 }}" aria-label="{{ 'cart.more' | t }}">+</button>
+      {%- if settings.q4_enabled -%}
+        <div class="cartx__q4" data-q4="bf" hidden>
+          <span class="cartx__q4-text">{% if settings.q4_bf_offer != blank %}{{ settings.q4_bf_offer }} · {% endif %}{{ 'cart.q4_bf' | t }}</span>
+          {% render 'cart-countdown', to: 'bfEnd' %}
+        </div>
+        <div class="cartx__q4" data-q4="xmas" hidden>
+          <span class="cartx__q4-text">{{ 'cart.q4_xmas' | t }}</span>
+          {% render 'cart-countdown', to: 'xmas' %}
+        </div>
+        <div class="cartx__q4" data-q4="reyes" hidden>
+          <span class="cartx__q4-text">{{ 'cart.q4_reyes' | t }}</span>
+          {% render 'cart-countdown', to: 'reyes' %}
+        </div>
+      {%- endif -%}
+
+      <div class="drawer__ship">{% render 'free-shipping-bar' %}</div>
+
+      <div class="cartx__scroll">
+        <ul class="cartx__items">
+          {%- for item in cart.items -%}
+            {%- liquid
+              assign line = forloop.index
+              assign ed_size = item.product.metafields.custom.edition_size.value | default: 0
+              assign ed_sold = item.product.metafields.custom.edition_sold.value | default: 0
+              assign ed_left = ed_size | minus: ed_sold
+
+              # Frame upgrade: same size, black frame, available.
+              assign frame_idx = -1
+              for opt in item.product.options_with_values
+                assign k = opt.name | downcase
+                if k contains 'marco' or k contains 'acabado' or k contains 'frame'
+                  assign frame_idx = forloop.index0
+                endif
+              endfor
+              assign upgrade = false
+              if frame_idx >= 0
+                assign current_frame = item.variant.options[frame_idx] | downcase
+                if current_frame contains 'sin' or current_frame contains 'without' or current_frame contains 'no '
+                  for v in item.product.variants
+                    if v.available == false
+                      continue
+                    endif
+                    assign v_frame = v.options[frame_idx] | downcase
+                    unless v_frame contains 'negr' or v_frame contains 'black'
+                      continue
+                    endunless
+                    assign same = true
+                    for o in v.options
+                      if forloop.index0 != frame_idx and o != item.variant.options[forloop.index0]
+                        assign same = false
+                      endif
+                    endfor
+                    if same
+                      assign upgrade = v
+                      break
+                    endif
+                  endfor
+                endif
+              endif
+            -%}
+            <li class="cartx-item">
+              <a class="cartx-item__media" href="{{ item.url }}">
+                {%- if item.image -%}{{ item.image | image_url: width: 300 | image_tag: loading: 'lazy', alt: item.product.title }}{%- else -%}<span class="cartx-item__ph"></span>{%- endif -%}
+              </a>
+              <div class="cartx-item__body">
+                <div class="cartx-item__top">
+                  <a class="cartx-item__title" href="{{ item.url }}">{{ item.product.title }}</a>
+                  <button type="button" class="cartx-item__remove" data-cart-change data-line="{{ line }}" data-quantity="0" aria-label="{{ 'cart.remove' | t }}">{% render 'icon', name: 'close' %}</button>
                 </div>
-                <span class="drawer-item__price">{{ item.final_line_price | money }}</span>
+                {%- unless item.product.has_only_default_variant -%}
+                  <p class="cartx-item__variant">{{ item.options_with_values | map: 'value' | join: ' · ' }}</p>
+                {%- endunless -%}
+                {%- if ed_size > 0 and ed_left > 0 -%}
+                  <p class="cartx-item__edition">
+                    {%- if ed_left == 1 -%}{{ 'cart.edition_last' | t }}{%- else -%}{{ 'cart.edition_left' | t: left: ed_left, total: ed_size }}{%- endif -%}
+                  </p>
+                {%- endif -%}
+                <div class="cartx-item__row">
+                  <div class="drawer-qty">
+                    <button type="button" data-cart-change data-line="{{ line }}" data-quantity="{{ item.quantity | minus: 1 }}" aria-label="{{ 'cart.less' | t }}">&minus;</button>
+                    <span>{{ item.quantity }}</span>
+                    <button type="button" data-cart-change data-line="{{ line }}" data-quantity="{{ item.quantity | plus: 1 }}" aria-label="{{ 'cart.more' | t }}">+</button>
+                  </div>
+                  <span class="cartx-item__price">
+                    {%- if item.original_line_price > item.final_line_price -%}<s>{{ item.original_line_price | money }}</s>{%- endif -%}
+                    {{ item.final_line_price | money }}
+                  </span>
+                </div>
+                {%- if upgrade -%}
+                  {%- assign diff = upgrade.price | minus: item.variant.price | times: item.quantity -%}
+                  {%- assign diff_money = diff | money -%}
+                  <button type="button" class="cartx-upgrade" data-frame-upgrade data-key="{{ item.key }}" data-variant="{{ upgrade.id }}" data-quantity="{{ item.quantity }}">
+                    <span class="cartx-upgrade__frame" aria-hidden="true"></span>
+                    <span class="cartx-upgrade__text"><strong>{{ 'cart.add_frame' | t }}</strong><small>{{ 'cart.add_frame_hint' | t }}</small></span>
+                    <span class="cartx-upgrade__price">+{{ diff_money }}</span>
+                  </button>
+                {%- endif -%}
               </div>
-              <button type="button" class="drawer-item__remove" data-cart-change data-line="{{ forloop.index }}" data-quantity="0">{{ 'cart.remove' | t }}</button>
-            </div>
-          </li>
-        {%- endfor -%}
-        <li class="drawer__upsell" data-cart-upsell data-product-id="{{ cart.items.first.product_id }}"></li>
-      </ul>
-      <div class="drawer__foot">
+            </li>
+          {%- endfor -%}
+        </ul>
+        <div class="drawer__upsell" data-cart-upsell data-product-id="{{ cart.items.first.product_id }}"></div>
+      </div>
+
+      <div class="drawer__foot cartx__foot">
+        {% render 'delivery-estimate', compact: true %}
+        {%- if savings > 0 -%}
+          <div class="cartx__row cartx__row--save"><span>{{ 'cart.you_save' | t }}</span><span>&minus;{{ savings | money }}</span></div>
+        {%- endif -%}
         <div class="drawer__total"><span>{{ 'cart.subtotal' | t }}</span><span>{{ cart.total_price | money }}</span></div>
         <p class="drawer__note">{% if cart.taxes_included %}{{ 'cart.taxes_included' | t }} {% endif %}{% if settings.free_shipping_threshold == 0 and settings.shipping_message != blank %}{{ settings.shipping_message }}.{% else %}{{ 'cart.shipping_at_checkout' | t }}{% endif %}</p>
-        <form action="{{ routes.cart_url }}" method="post">
+        <form action="{{ routes.cart_url }}" method="post" class="cartx__form">
           {% render 'cart-gift', id: 'drawer' %}
-          <button type="submit" name="checkout" class="button button--accent button--full">{{ 'cart.checkout' | t }}</button>
+          <button type="submit" name="checkout" class="button button--accent button--full cartx__checkout">
+            {% render 'trust-icon', name: 'lock' %}
+            <span>{{ 'cart.checkout' | t }}</span>
+            <span class="cartx__checkout-total">{{ cart.total_price | money }}</span>
+          </button>
         </form>
-        <a class="drawer__view" href="{{ routes.cart_url }}">{{ 'cart.view_cart' | t }}</a>
-        <p class="drawer__secure">{% render 'trust-icon', name: 'lock' %} {{ 'general.secure_payment' | t }}</p>
+        {%- if shop.enabled_payment_types.size > 0 -%}
+          <ul class="cartx__pay" aria-label="{{ 'general.payment_methods' | t }}">
+            {%- for type in shop.enabled_payment_types limit: 6 -%}<li>{{ type | payment_type_svg_tag }}</li>{%- endfor -%}
+          </ul>
+        {%- endif -%}
+        <ul class="cartx__trust">
+          <li>{% render 'trust-icon', name: 'lock' %}{{ 'cart.trust_secure' | t }}</li>
+          <li>{% render 'trust-icon', name: 'return' %}{{ 'cart.trust_returns' | t: days: settings.returns_days }}</li>
+          <li>{% render 'trust-icon', name: 'truck' %}{{ 'cart.trust_tracking' | t }}</li>
+        </ul>
       </div>
     {%- else -%}
       <div class="drawer__empty">

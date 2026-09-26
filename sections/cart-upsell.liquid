@@ -1,40 +1,75 @@
 {%- comment -%}
   "Completa tu pared": product recommendations for the cart. Fetched by theme.js via
   /recommendations/products?section_id=cart-upsell&product_id=…
+  When the cart is below the free-shipping threshold, artworks with a variant that
+  closes the gap come first, and their "+" adds the cheapest variant that does it.
 {%- endcomment -%}
 {%- liquid
   assign in_cart = cart.items | map: 'product_id' | join: ','
   assign in_cart = ',' | append: in_cart | append: ','
+  assign threshold = settings.free_shipping_threshold | times: 100
+  assign remaining = threshold | minus: cart.total_price
+  if threshold == 0 or cart.currency.iso_code != shop.currency
+    assign remaining = 0
+  endif
   assign shown = 0
+  assign max = 4
 -%}
 {%- if recommendations.performed and recommendations.products_count > 0 -%}
-  <div class="upsell">
-    <p class="upsell__title">{{ 'cart.complete_wall' | t }}</p>
-    <ul class="upsell__list">
+  {%- capture cards -%}
+    {%- for pass in (1..2) -%}
       {%- for p in recommendations.products -%}
-        {%- assign key = ',' | append: p.id | append: ',' -%}
-        {%- if shown < 3 and p.available -%}
-          {%- unless in_cart contains key -%}
-            {%- assign shown = shown | plus: 1 -%}
-            <li class="upsell__item">
-              <a class="upsell__media" href="{{ p.url }}">
-                {%- if p.featured_media -%}{{ p.featured_media | image_url: width: 200 | image_tag: loading: 'lazy', alt: p.title }}{%- endif -%}
-              </a>
-              <div class="upsell__body">
-                <a class="upsell__name" href="{{ p.url }}">{{ p.title }}</a>
-                <span class="upsell__price">{% if p.price_varies %}{{ 'general.from' | t }} {% endif %}{{ p.price_min | money }}</span>
-              </div>
-              {%- assign form_id = 'Upsell-' | append: p.id -%}
-              {%- form 'product', p, id: form_id, class: 'upsell__form', data-ajax-cart: 'true' -%}
-                <input type="hidden" name="id" value="{{ p.selected_or_first_available_variant.id }}">
-                <button type="submit" class="upsell__add" aria-label="{{ 'cart.add_item' | t: title: p.title }}">+</button>
-              {%- endform -%}
-            </li>
-          {%- endunless -%}
-        {%- endif -%}
+        {%- liquid
+          assign key = ',' | append: p.id | append: ','
+          if shown >= max or p.available == false or in_cart contains key
+            continue
+          endif
+          assign pick = p.selected_or_first_available_variant
+          assign unlocks = false
+          if remaining > 0
+            assign best = false
+            for v in p.variants
+              if v.available and v.price >= remaining
+                if best == false or v.price < best.price
+                  assign best = v
+                endif
+              endif
+            endfor
+            if best
+              assign pick = best
+              assign unlocks = true
+            endif
+          endif
+          if pass == 1 and unlocks == false
+            continue
+          endif
+          if pass == 2 and unlocks
+            continue
+          endif
+          assign shown = shown | plus: 1
+          assign form_id = 'Upsell-' | append: p.id
+        -%}
+        <li class="upsell__card">
+          <a class="upsell__media" href="{{ p.url }}">
+            {%- if p.featured_media -%}{{ p.featured_media | image_url: width: 300 | image_tag: loading: 'lazy', alt: p.title }}{%- endif -%}
+            {%- if unlocks -%}<span class="upsell__badge">{{ 'cart.unlocks_free' | t }}</span>{%- endif -%}
+          </a>
+          <a class="upsell__name" href="{{ p.url }}">{{ p.title }}</a>
+          <span class="upsell__meta">{% unless p.has_only_default_variant %}{{ pick.title | replace: ' / ', ' · ' }} · {% endunless %}{{ pick.price | money }}</span>
+          {%- form 'product', p, id: form_id, class: 'upsell__form', data-ajax-cart: 'true' -%}
+            <input type="hidden" name="id" value="{{ pick.id }}">
+            <button type="submit" class="upsell__add">+ {{ 'cart.add' | t }}</button>
+          {%- endform -%}
+        </li>
       {%- endfor -%}
-    </ul>
-  </div>
+    {%- endfor -%}
+  {%- endcapture -%}
+  {%- if shown > 0 -%}
+    <div class="upsell">
+      <p class="upsell__title">{{ 'cart.complete_wall' | t }}</p>
+      <ul class="upsell__list">{{ cards }}</ul>
+    </div>
+  {%- endif -%}
 {%- endif -%}
 
 {% schema %}
