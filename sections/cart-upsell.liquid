@@ -13,7 +13,8 @@
     assign remaining = 0
   endif
   assign shown = 0
-  assign max = 4
+  assign max = 3
+  assign gift_id = settings.gift_product.id | default: 0
 -%}
 {%- if recommendations.performed and recommendations.products_count > 0 -%}
   {%- capture cards -%}
@@ -21,7 +22,7 @@
       {%- for p in recommendations.products -%}
         {%- liquid
           assign key = ',' | append: p.id | append: ','
-          if shown >= max or p.available == false or in_cart contains key
+          if shown >= max or p.available == false or in_cart contains key or p.id == gift_id
             continue
           endif
           assign pick = p.selected_or_first_available_variant

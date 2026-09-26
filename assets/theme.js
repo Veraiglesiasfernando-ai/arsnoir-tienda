@@ -360,7 +360,13 @@
     return true;
   }
 
+  /* Closing the cart with items and no code yet: offer the welcome discount once */
   function closeDrawer() {
+    if (shouldOfferExit()) { openExit(); return; }
+    closeDrawerNow();
+  }
+
+  function closeDrawerNow() {
     const d = drawer();
     if (!d) return;
     d.classList.remove('is-open');
@@ -382,7 +388,7 @@
     });
   }
 
-  function refreshDrawer() {
+  function refreshDrawer(skipGiftSync) {
     return fetch(root + '?sections=cart-drawer')
       .then(function (r) { return r.json(); })
       .then(function (data) {
@@ -393,7 +399,56 @@
         return fetch(root + 'cart.js');
       })
       .then(function (r) { return r.json(); })
-      .then(function (cart) { updateCount(cart.item_count); });
+      .then(function (cart) {
+        updateCount(cart.item_count);
+        if (skipGiftSync) return;
+        return syncGift(cart).then(function (changed) { if (changed) return refreshDrawer(true); });
+      });
+  }
+
+  /* Mystery gift: keep the gift line in step with the tier. Prices stay Shopify's:
+     if Shopify does not make the gift free (e.g. a code that doesn't combine won),
+     the line is removed and not re-added while those discounts stay the same. */
+  function cartConfig() {
+    const el = document.querySelector('[data-cart-config]');
+    try { return el ? JSON.parse(el.textContent) : null; } catch (e) { return null; }
+  }
+  let giftBusy = false;
+  function syncGift(cart) {
+    const c = cartConfig();
+    if (!c || !c.giftVariant || giftBusy) return Promise.resolve(false);
+    const isGift = function (i) { return i.variant_id === c.giftVariant; };
+    const gifts = cart.items.filter(isGift);
+    const others = cart.items.filter(function (i) { return !isGift(i); });
+    const eligible = others.reduce(function (sum, i) { return sum + i.final_line_price; }, 0);
+    const key = (cart.cart_level_discount_applications || []).map(function (d) { return d.title; }).join('|') + '#' +
+      others.map(function (i) { return (i.line_level_discount_allocations || []).map(function (a) { return a.discount_application.title; }).join(','); }).join(';');
+    let blocked = null;
+    try { blocked = sessionStorage.getItem('arsnoir:giftBlocked'); } catch (e) { /* ignore */ }
+    let want = !c.giftAvailable || others.length === 0 ? 0 : eligible >= c.tier2 ? 2 : eligible >= c.tier1 ? 1 : 0;
+    if (gifts.some(function (i) { return i.final_line_price > 0; })) {
+      try { sessionStorage.setItem('arsnoir:giftBlocked', key); } catch (e) { /* ignore */ }
+      want = 0;
+    } else if (blocked !== null && blocked === key) {
+      want = 0;
+    }
+    const have = gifts.reduce(function (sum, i) { return sum + i.quantity; }, 0);
+    if (want === have && gifts.length <= 1) return Promise.resolve(false);
+
+    giftBusy = true;
+    const json = { 'Content-Type': 'application/json', 'Accept': 'application/json' };
+    const change = function (id, quantity) {
+      return fetch(root + 'cart/change.js', { method: 'POST', headers: json, body: JSON.stringify({ id: id, quantity: quantity }) });
+    };
+    let chain = Promise.resolve();
+    gifts.slice(want > 0 ? 1 : 0).forEach(function (g) { chain = chain.then(function () { return change(g.key, 0); }); });
+    if (want > 0) {
+      chain = chain.then(function () {
+        if (gifts.length) return change(gifts[0].key, want);
+        return fetch(root + 'cart/add.js', { method: 'POST', headers: json, body: JSON.stringify({ items: [{ id: c.giftVariant, quantity: want, properties: { _regalo: 'ARSNOIR misterio' } }] }) });
+      });
+    }
+    return chain.then(function () { return true; }, function () { return false; }).finally(function () { giftBusy = false; });
   }
 
   document.addEventListener('submit', function (event) {
@@ -779,6 +834,101 @@
   }
   document.addEventListener('change', function (event) { if (event.target.closest('[data-gift]')) saveGift(event.target); });
   document.addEventListener('input', function (event) { if (event.target.matches('[data-gift-note]')) saveGift(event.target); });
+
+  /* On load: bring the gift line up to date (e.g. after a discount change at checkout) */
+  if (drawer() && cartConfig() && (cartConfig() || {}).giftVariant) {
+    fetch(root + 'cart.js').then(function (r) { return r.json(); }).then(function (cart) {
+      return syncGift(cart).then(function (changed) { if (changed) return refreshDrawer(true); });
+    }).catch(function () {});
+  }
+
+  /* Shipping in the cart: Shopify's cheapest real rate for the visitor's country */
+  function fillShipping(container) {
+    (container || document).querySelectorAll('[data-ship-estimate]').forEach(function (el) {
+      if (el.dataset.done || !el.dataset.country) return;
+      el.dataset.done = '1';
+      fetch(root + 'cart/shipping_rates.json?shipping_address%5Bcountry%5D=' + encodeURIComponent(el.dataset.country))
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (data) {
+          const rates = data && data.shipping_rates;
+          if (!rates || !rates.length) return;
+          const min = Math.min.apply(null, rates.map(function (r) { return Math.round(parseFloat(r.price) * 100); }));
+          el.textContent = min === 0 ? (S.free || 'GRATIS') : (S.shipFrom || 'desde [AMOUNT]').replace('[AMOUNT]', formatMoney(min));
+        })
+        .catch(function () { /* keep "se calcula en el pago" */ });
+    });
+  }
+  fillShipping();
+  if (cartDrawerEl && window.MutationObserver) {
+    new MutationObserver(function () { fillShipping(cartDrawerEl); }).observe(cartDrawerEl, { childList: true, subtree: true });
+  }
+
+  /* Welcome discount when closing the cart ---------------------------------- */
+  function exitEl() { return document.querySelector('[data-cart-exit]'); }
+  function shouldOfferExit() {
+    const e = exitEl();
+    const d = drawer();
+    const panel = d && d.querySelector('.drawer__panel');
+    const c = cartConfig();
+    if (!e || !panel || !c || !c.exitEnabled || !c.exitCode) return false;
+    if (!d.classList.contains('is-open') || panel.dataset.itemCount === '0' || panel.dataset.hasCode === 'true') return false;
+    try {
+      if (localStorage.getItem('arsnoir:cartExit')) return false;
+      const np = JSON.parse(localStorage.getItem('arsnoir:npop') || '{}');
+      if (np.subscribed) return false;
+    } catch (err) { /* storage blocked: offer it */ }
+    return true;
+  }
+  function openExit() {
+    const e = exitEl();
+    try { localStorage.setItem('arsnoir:cartExit', String(Date.now())); } catch (err) { /* ignore */ }
+    e.hidden = false;
+    requestAnimationFrame(function () { e.classList.add('is-open'); });
+    const field = e.querySelector('input[type="email"]');
+    if (field) setTimeout(function () { field.focus({ preventScroll: true }); }, 250);
+  }
+  function closeExit(alsoDrawer) {
+    const e = exitEl();
+    if (!e || e.hidden) return;
+    e.classList.remove('is-open');
+    setTimeout(function () { e.hidden = true; }, 250);
+    if (alsoDrawer) closeDrawerNow();
+  }
+  document.addEventListener('click', function (event) {
+    if (event.target.closest('[data-cart-exit-decline], [data-cart-exit-close]')) closeExit(true);
+  });
+  document.addEventListener('keydown', function (event) {
+    const e = exitEl();
+    if (event.key === 'Escape' && e && !e.hidden) { event.stopImmediatePropagation(); closeExit(true); }
+  }, true);
+  document.addEventListener('submit', function (event) {
+    const form = event.target.closest('#CartExitForm');
+    if (!form) return;
+    event.preventDefault();
+    const e = exitEl();
+    const c = cartConfig();
+    const button = form.querySelector('[type="submit"]');
+    button.classList.add('is-loading');
+    const json = { 'Content-Type': 'application/json', 'Accept': 'application/json' };
+    fetch(form.action, { method: 'POST', body: new FormData(form) })
+      .then(function () {
+        return fetch(root + 'cart/update.js', { method: 'POST', headers: json, body: JSON.stringify({ discount: c.exitCode }) });
+      })
+      .then(function (r) {
+        if (!r.ok) return fetch(root + 'discount/' + encodeURIComponent(c.exitCode) + '?redirect=' + encodeURIComponent(root + 'cart.js'));
+        return r;
+      })
+      .then(function () {
+        try { localStorage.setItem('arsnoir:npop', JSON.stringify({ subscribed: true })); } catch (err) { /* ignore */ }
+        e.querySelector('[data-cart-exit-form]').hidden = true;
+        e.querySelector('[data-cart-exit-decline]').hidden = true;
+        e.querySelector('[data-cart-exit-ok]').hidden = false;
+        return refreshDrawer();
+      })
+      .then(function () { setTimeout(function () { closeExit(false); }, 1600); })
+      .catch(function () { e.querySelector('[data-cart-exit-error]').hidden = false; })
+      .finally(function () { button.classList.remove('is-loading'); });
+  });
 
   /* Cart: swap an unframed line for the same size with black frame ---------- */
   document.addEventListener('click', function (event) {

@@ -394,5 +394,120 @@
         "info": "Días hábiles. Se usa para «Recíbelo entre el … y el …» en la ficha y el carrito."
       }
     ]
+  },
+  {
+    "name": "Carrito: regalo, pack y bienvenida",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "El carrito solo refleja las reglas reales de Shopify: el regalo gratis, el pack y el código de bienvenida deben existir en Shopify → Descuentos. Aquí van los mismos umbrales para que la barra coincida."
+      },
+      {
+        "type": "color",
+        "id": "cart_accent",
+        "label": "Color de acento del carrito",
+        "default": "#B3001B"
+      },
+      {
+        "type": "header",
+        "content": "Obra de regalo (misterio)"
+      },
+      {
+        "type": "checkbox",
+        "id": "gift_enabled",
+        "label": "Activar obra de regalo",
+        "default": true
+      },
+      {
+        "type": "product",
+        "id": "gift_product",
+        "label": "Producto «Obra ARSNOIR misterio»",
+        "info": "Un producto con UNA sola variante: 21 × 29,7 cm sin marco. El carrito la añade y la quita solo; el cliente no la elige."
+      },
+      {
+        "type": "range",
+        "id": "gift_tier1",
+        "label": "1 obra de regalo desde",
+        "min": 20,
+        "max": 300,
+        "step": 5,
+        "unit": "€",
+        "default": 80
+      },
+      {
+        "type": "range",
+        "id": "gift_tier2",
+        "label": "2 obras de regalo desde",
+        "min": 40,
+        "max": 500,
+        "step": 5,
+        "unit": "€",
+        "default": 150
+      },
+      {
+        "type": "header",
+        "content": "Pack"
+      },
+      {
+        "type": "text",
+        "id": "pack_discount_title",
+        "label": "Nombre del descuento automático del pack",
+        "default": "Pack de 2",
+        "info": "Cuando Shopify aplica un descuento con este nombre, el carrito muestra «✓ Pack de 2 aplicado»."
+      },
+      {
+        "type": "text",
+        "id": "pack_message",
+        "label": "Mensaje del pack",
+        "default": "Pack de 2 aplicado — ahorras un 15%"
+      },
+      {
+        "type": "header",
+        "content": "Descuento al cerrar el carrito"
+      },
+      {
+        "type": "checkbox",
+        "id": "exit_enabled",
+        "label": "Mostrar al cerrar el carrito sin comprar",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "exit_code",
+        "label": "Código de descuento",
+        "default": "BIENVENIDA10",
+        "info": "Debe existir en Shopify → Descuentos."
+      },
+      {
+        "type": "text",
+        "id": "exit_heading",
+        "label": "Titular",
+        "default": "10% DTO EN TU PRIMER PEDIDO"
+      },
+      {
+        "type": "text",
+        "id": "exit_text",
+        "label": "Texto",
+        "default": "Déjanos tu email y lo aplicamos ahora mismo a tu carrito."
+      },
+      {
+        "type": "text",
+        "id": "exit_button",
+        "label": "Botón",
+        "default": "Quiero mi descuento"
+      },
+      {
+        "type": "text",
+        "id": "exit_decline",
+        "label": "Texto para cerrar",
+        "default": "No, quiero pagar el precio completo"
+      },
+      {
+        "type": "text",
+        "id": "exit_success",
+        "label": "Mensaje al aplicarlo",
+        "default": "Hecho. Tu 10% ya está aplicado."
+      }
+    ]
   }
 ]

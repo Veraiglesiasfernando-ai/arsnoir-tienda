@@ -49,13 +49,15 @@ Ajustes globales en *Configuración del tema → Conversión*: umbral de envío 
 
 ## Carrito lateral (conversión)
 
-Todo lo que empuja a comprar son datos reales; no hay contadores inventados, stock falso ni «X personas viendo esto».
+Todo lo que se ve en el carrito son datos reales de Shopify; no hay contadores inventados, stock falso ni temporizadores de «carrito reservado».
 
-- **Barra de envío gratis** y, en «Completa tu pared», primero las obras que cierran lo que falta: el «+ Añadir» mete el tamaño más barato que llega al umbral («Envío gratis con esta»).
-- **Edición limitada:** «quedan N de 100», con los metafields de la obra.
-- **«Enmárcala»:** en una obra sin marco ofrece todos los marcos que existan en esa medida (negro, blanco, madera…), con su muestra de color y la diferencia de precio; un clic cambia la línea.
-- **Campaña Q4:** franja negra con cuenta atrás real (fin de Black Friday, último día para recibir antes de Navidad o Reyes).
-- **Pie fijo:** fecha estimada de entrega, «Ahorras X» (solo si hay descuentos o precio tachado), botón «Finalizar compra · total», métodos de pago y confianza (pago seguro, días para devolver, envío con seguimiento).
+- **Barra de regalo escalonada** (80 € → 1 obra misterio, 150 € → 2): se calcula con el total del carrito sin las obras de regalo. El tema añade/quita solo la línea de regalo (el producto «Obra ARSNOIR misterio» elegido en *Configuración del tema → Carrito*); **su precio 0 € lo pone un descuento de Shopify**. Si Shopify no la deja gratis (por ejemplo, porque el cliente usa un código que no combina), la quita y no la vuelve a añadir mientras sigan esos descuentos.
+- **Obras:** imagen, nombre, tamaño y acabado, cantidad, precio, eliminar, edición limitada y «Enmárcala» con todos los marcos disponibles.
+- **Completa tu pared:** 3 obras sugeridas con «+ Añadir»; primero las que desbloquean el envío gratis.
+- **Descuentos aplicados** (pack, códigos) leídos de `cart.discount_applications`; el pack muestra «✓ Pack de 2 aplicado — ahorras un 15%».
+- **Envío:** «GRATIS» desde el umbral de *Conversión*; por debajo, la tarifa más barata real de Shopify para el país del visitante («desde X €») o «se calcula en el pago».
+- **Pago seguro · importe**, y 3 sellos (valoración solo si hay reseñas reales, impresión, devoluciones).
+- **Pop-up al cerrar el carrito** (una vez por visitante, si no tiene ya un código ni está suscrito): pide el email, lo suscribe y aplica el código de *Configuración del tema → Carrito* al carrito.
 
 ## Más ventas
 

@@ -1,0 +1,44 @@
+{%- comment -%}
+  Tiered gift bar (Theme settings → Carrito: regalo, pack y bienvenida).
+  eligible: cart total without the gift lines, in cents (real cart data).
+  Mirrors the Shopify gift discounts; the gift line itself is added/removed by theme.js.
+{%- endcomment -%}
+{%- liquid
+  assign t1 = settings.gift_tier1 | times: 100
+  assign t2 = settings.gift_tier2 | times: 100
+  assign pct = eligible | times: 100.0 | divided_by: t2
+  if pct > 100
+    assign pct = 100
+  endif
+  assign m1 = t1 | times: 100.0 | divided_by: t2
+  assign reached = 0
+  if eligible >= t1
+    assign reached = 1
+  endif
+  if eligible >= t2
+    assign reached = 2
+  endif
+-%}
+<div class="gift-tiers{% if reached > 0 %} gift-tiers--on{% endif %}">
+  <p class="gift-tiers__text">
+    {%- case reached -%}
+      {%- when 0 -%}
+        {%- assign left = t1 | minus: eligible | money -%}
+        {{ 'cart.gift_left_html' | t: amount: left }}
+      {%- when 1 -%}
+        {%- assign left = t2 | minus: eligible | money -%}
+        <span class="cartx-check" aria-hidden="true"></span>{{ 'cart.gift_unlocked_1_html' | t }} <span class="gift-tiers__next">{{ 'cart.gift_next_html' | t: amount: left }}</span>
+      {%- else -%}
+        <span class="cartx-check" aria-hidden="true"></span>{{ 'cart.gift_unlocked_2_html' | t }}
+    {%- endcase -%}
+  </p>
+  <div class="gift-tiers__track" role="progressbar" aria-valuemin="0" aria-valuemax="{{ t2 }}" aria-valuenow="{{ eligible }}">
+    <span class="gift-tiers__fill" style="width: {{ pct }}%"></span>
+    <span class="gift-tiers__stop{% if reached >= 1 %} is-on{% endif %}" style="left: {{ m1 }}%">{% render 'icon', name: 'gift' %}</span>
+    <span class="gift-tiers__stop{% if reached >= 2 %} is-on{% endif %}" style="left: 100%">{% render 'icon', name: 'gift' %}</span>
+  </div>
+  <div class="gift-tiers__labels">
+    <span style="left: {{ m1 }}%"><strong>{{ settings.gift_tier1 }} €</strong>{{ 'cart.gift_tier_1' | t }}</span>
+    <span style="left: 100%"><strong>{{ settings.gift_tier2 }} €</strong>{{ 'cart.gift_tier_2' | t }}</span>
+  </div>
+</div>
