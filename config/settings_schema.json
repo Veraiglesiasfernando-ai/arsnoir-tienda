@@ -505,13 +505,12 @@
         "type": "checkbox",
         "id": "exit_enabled",
         "label": "Mostrar al cerrar el carrito sin comprar",
-        "default": true
+        "default": false
       },
       {
         "type": "text",
         "id": "exit_code",
         "label": "Código de descuento",
-        "default": "BIENVENIDA10",
         "info": "Debe existir en Shopify → Descuentos."
       },
       {

@@ -57,11 +57,11 @@ Todo lo que se ve en el carrito son datos reales de Shopify; no hay contadores i
 - **Descuentos aplicados** (pack, códigos) leídos de `cart.discount_applications`; el pack muestra «✓ Pack de 2 aplicado — ahorras un 15%».
 - **Envío:** «GRATIS» desde el umbral de *Conversión*; por debajo, la tarifa más barata real de Shopify para el país del visitante («desde X €») o «se calcula en el pago».
 - **Pago seguro · importe**, y 3 sellos (valoración solo si hay reseñas reales, impresión, devoluciones).
-- **Pop-up al cerrar el carrito** (una vez por visitante, si no tiene ya un código ni está suscrito): pide el email, lo suscribe y aplica el código de *Configuración del tema → Carrito* al carrito.
+- **Pop-up al cerrar el carrito:** apagado (la tienda no usa descuento de bienvenida). Si algún día se activa en *Configuración del tema → Carrito*, pide el email y aplica el código indicado ahí.
 
 ## Más ventas
 
-- **Pop-up de bienvenida (10%, `BIENVENIDA10`):** una sola oferta en toda la tienda. Aparece solo con interés real (desde la 2.ª página vista de la visita, o al ir a salir en ordenador), nunca en el carrito ni encima del carrito o del aviso de cookies, y como mucho una vez cada 14 días. Al suscribirse, el código se aplica solo al carrito. Es el mismo código que ofrece el carrito al cerrarlo.
+- **Pop-up de novedades (sin descuento):** «Sé el primero en enterarte»: obras nuevas, ediciones limitadas y ofertas antes que nadie. Aparece solo con interés real (desde la 2.ª página vista de la visita, o al ir a salir en ordenador), nunca en el carrito ni encima del carrito o del aviso de cookies, y como mucho una vez cada 14 días. Los emails entran en Clientes con la etiqueta `newsletter`. Admite un código opcional, vacío por defecto.
 - **Completa tu pared:** el carrito lateral y la página del carrito sugieren obras relacionadas (recomendaciones de Shopify), con un botón «+» para añadirlas.
 - **Packs de pared:** sección de la home con 2 o 3 obras colgadas juntas y un botón para añadir el pack entero. Elige las obras en *Personalizar → Packs de pared*. En la tienda solo se ven los packs con obras.
 - **Es un regalo:** casilla en el carrito que guarda el atributo «Regalo» y el mensaje como nota del pedido (*Configuración del tema → Conversión*).
