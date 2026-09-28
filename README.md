@@ -21,14 +21,14 @@ Estética: fondo blanco/gris claro con degradado suave, tipografía Space Grotes
 3. **Marquesina roja** en bucle.
 4. **Tira de confianza:** Arte 100% original · Impresión de alta calidad · Envío a toda España · Solo en ARSNOIR.
 5. **Obras destacadas:** fila deslizable con índice `[001]` en rojo, precio y botón «VER TODAS». Usa la colección «Más vendidos».
-6. **Newsletter negra:** «Únete a ARSNOIR», 15% en la primera compra, botón rojo «UNIRME».
+6. **Newsletter negra:** «Únete a ARSNOIR», 10% en la primera pieza con ARSNOIR10, botón rojo «UNIRME».
 7. **Footer negro:** el texto de la página «La Historia» y 4 columnas (menús `footer-tienda`, `footer-ayuda`, `footer-arsnoir`, `footer-legal`).
 
 ## Conversión
 
 Ajustes globales en *Configuración del tema → Conversión*: umbral de envío gratis (por defecto 60 €), nota media y nº de reseñas, días de devolución.
 
-- **Barra de anuncio** (sobre la cabecera): mensajes que rotan. Por defecto: envío gratis desde 60 €, 15% al unirte y «Arte 100% original · Solo en ARSNOIR».
+- **Barra de anuncio** (sobre la cabecera): mensajes que rotan. Por defecto: envío gratis desde 60 € y entrega en 4-5 días hábiles.
 - **Obras en tu pared:** 3 habitaciones. Sube tus propios mockups o fotos; sin imagen se muestra una habitación dibujada de ejemplo.
 - **Reseñas:** solo se muestran en la tienda cuando añades reseñas **reales** como bloques. Sin reseñas, la sección solo se ve en el editor, con ejemplos marcados como tal. Las estrellas de la bienvenida aparecen solo si rellenas nota y nº de reseñas. En la ficha, las estrellas salen de los metafields estándar `reviews.rating` / `reviews.rating_count`, que rellenan apps como Judge.me.
 - **Garantías:** envío, devoluciones, impresión de alta calidad y pago seguro.
@@ -51,17 +51,17 @@ Ajustes globales en *Configuración del tema → Conversión*: umbral de envío 
 
 Todo lo que se ve en el carrito son datos reales de Shopify; no hay contadores inventados, stock falso ni temporizadores de «carrito reservado».
 
-- **Barra de regalo escalonada** (80 € → 1 obra de regalo, 150 € → 2): se calcula con el total del carrito sin las obras de regalo. Al llegar al tramo aparece en el carrito «Elige tu obra de regalo» con las obras de la colección elegida en *Configuración del tema → Carrito* (tamaño 21 × 29,7 sin marco). La obra elegida entra con la propiedad oculta `_regalo`; **su precio 0 € lo pone un descuento de Shopify** (Compra X y llévate Y). Si baja del tramo o el cliente usa un código que no combina, el tema quita el regalo sobrante.
+- **Barra de regalo escalonada** (80 € → 1 lámina A4 sin marco de regalo, 140 € → 2 en total): se calcula con el total del carrito sin las láminas de regalo. Al llegar al tramo aparece en el carrito «Elige tu lámina A4 de regalo» con las obras de la colección elegida en *Configuración del tema → Carrito* (tamaño 21 × 29,7 sin marco). La obra elegida entra con la propiedad oculta `_regalo`; **su precio 0 € lo pone un descuento de Shopify** (Compra X y llévate Y). Si baja del tramo o el cliente usa un código que no combina, el tema quita el regalo sobrante.
 - **Obras:** imagen, nombre, tamaño y acabado, cantidad, precio, eliminar, edición limitada y «Enmárcala» con todos los marcos disponibles.
 - **Completa tu pared:** 3 obras sugeridas con «+ Añadir»; primero las que desbloquean el envío gratis.
 - **Descuentos aplicados** (pack, códigos) leídos de `cart.discount_applications`; el pack muestra «✓ Pack de 2 aplicado — ahorras un 15%».
 - **Envío:** «GRATIS» desde el umbral de *Conversión*; por debajo, la tarifa más barata real de Shopify para el país del visitante («desde X €») o «se calcula en el pago».
 - **Pago seguro · importe**, y 3 sellos (valoración solo si hay reseñas reales, impresión, devoluciones).
-- **Pop-up al cerrar el carrito:** apagado (la tienda no usa descuento de bienvenida). Si algún día se activa en *Configuración del tema → Carrito*, pide el email y aplica el código indicado ahí.
+- **Pop-up al cerrar el carrito:** apagado (el 10% ya se ofrece en el pop-up de entrada). Si algún día se activa en *Configuración del tema → Carrito*, pide el email y aplica el código indicado ahí (por defecto ARSNOIR10).
 
 ## Más ventas
 
-- **Pop-up de novedades (sin descuento):** «Sé el primero en enterarte»: obras nuevas, ediciones limitadas y ofertas antes que nadie. Aparece solo con interés real (desde la 2.ª página vista de la visita, o al ir a salir en ordenador), nunca en el carrito ni encima del carrito o del aviso de cookies, y como mucho una vez cada 14 días. Los emails entran en Clientes con la etiqueta `newsletter`. Admite un código opcional, vacío por defecto.
+- **Pop-up 10% primera pieza:** «10% EN TU PRIMERA PIEZA» → email → «Tu código: ARSNOIR10. Úsalo en tu primera pieza.» Aparece a los 4 s de entrar en la web (o al ir a salir en ordenador), nunca en el carrito ni encima del carrito o del aviso de cookies, y como mucho una vez cada 14 días. Al suscribirse el código se aplica solo al carrito, salvo que ya lleve una lámina de regalo (no se combinan). Los emails entran en Clientes con la etiqueta `newsletter`. Configuración de descuentos en Shopify: ver [PROMOCIONES.md](PROMOCIONES.md).
 - **Completa tu pared:** el carrito lateral y la página del carrito sugieren obras relacionadas (recomendaciones de Shopify), con un botón «+» para añadirlas.
 - **Packs de pared:** sección de la home con 2 o 3 obras colgadas juntas y un botón para añadir el pack entero. Elige las obras en *Personalizar → Packs de pared*. En la tienda solo se ven los packs con obras.
 - **Es un regalo:** casilla en el carrito que guarda el atributo «Regalo» y el mensaje como nota del pedido (*Configuración del tema → Conversión*).

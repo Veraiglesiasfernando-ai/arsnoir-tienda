@@ -415,7 +415,7 @@
       {
         "type": "checkbox",
         "id": "gift_enabled",
-        "label": "Activar obra de regalo",
+        "label": "Activar lámina de regalo",
         "default": true
       },
       {
@@ -458,7 +458,7 @@
         "max": 500,
         "step": 5,
         "unit": "€",
-        "default": 150
+        "default": 140
       },
       {
         "type": "header",
@@ -511,6 +511,7 @@
         "type": "text",
         "id": "exit_code",
         "label": "Código de descuento",
+        "default": "ARSNOIR10",
         "info": "Debe existir en Shopify → Descuentos."
       },
       {

@@ -616,8 +616,8 @@
     const saved = (function () { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { return {}; } })();
     const cookieOpen = function () { const c = document.querySelector('[data-cookie-banner]'); return c && !c.hidden; };
 
-    /* Smart trigger: only after real interest (page views in this visit) or when leaving;
-       never on the cart, never over the open cart drawer or the cookie banner. */
+    /* Trigger: from the Nth page view of the visit (1 = on entering) after a short delay, or when
+       leaving; never on the cart, never over the open cart drawer or the cookie banner. */
     let pv = 1;
     try { pv = (parseInt(sessionStorage.getItem('arsnoir:pv'), 10) || 0) + 1; sessionStorage.setItem('arsnoir:pv', String(pv)); } catch (e) { /* ignore */ }
     const busy = function () {
@@ -630,13 +630,19 @@
     if (success) {
       store.set(KEY, { subscribed: true });
       openPop();
-      /* Apply the welcome code to the cart straight away (Shopify validates it at checkout) */
+      /* Apply the welcome code to the cart straight away (Shopify validates it at checkout),
+         unless the cart already holds a gift print: code and gift don't combine, so the
+         customer keeps the gift and can still enter the code at checkout if they prefer. */
       if (npop.dataset.code) {
-        fetch(root + 'cart/update.js', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: JSON.stringify({ discount: npop.dataset.code })
+        fetch(root + 'cart.js').then(function (r) { return r.json(); }).then(function (cart) {
+          if (cart.items.some(function (i) { return i.properties && i.properties._regalo; })) return 'skip';
+          return fetch(root + 'cart/update.js', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify({ discount: npop.dataset.code })
+          });
         }).then(function (r) {
+          if (r === 'skip') return;
           if (!r.ok) return fetch(root + 'discount/' + encodeURIComponent(npop.dataset.code) + '?redirect=' + encodeURIComponent(root + 'cart.js'));
         }).then(function () { if (drawer()) return refreshDrawer(); }).catch(function () {});
       }

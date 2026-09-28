@@ -1,7 +1,8 @@
 {%- comment -%}
-  Glass pop-up: email sign-up for new works, limited editions and offers first.
-  Opens after a delay or on exit intent, once every N days. An optional discount
-  code (empty by default) is shown and applied after signing up.
+  Glass pop-up: email sign-up in exchange for the first-purchase code (ARSNOIR10).
+  Opens a few seconds after entering the site (or on exit intent), once every N days.
+  The code is shown and applied to the cart after signing up, unless the cart already
+  holds a gift artwork (the code and the gift don't combine).
 {%- endcomment -%}
 {%- assign s = section.settings -%}
 {%- if s.enabled -%}
@@ -46,24 +47,24 @@
 
 {% schema %}
 {
-  "name": "Pop-up de novedades",
+  "name": "Pop-up 10% primera compra",
   "settings": [
     { "type": "checkbox", "id": "enabled", "label": "Activar", "default": true },
     { "type": "checkbox", "id": "preview", "label": "Mostrar siempre en el editor", "default": false },
-    { "type": "range", "id": "min_pages", "label": "Aparece a partir de la página nº", "min": 1, "max": 5, "step": 1, "default": 2, "info": "Solo a quien ya está mirando obras. En ordenador también aparece si alguien va a salir de la web." },
-    { "type": "range", "id": "delay", "label": "Segundos en esa página antes de aparecer", "min": 2, "max": 60, "step": 1, "unit": "s", "default": 6 },
+    { "type": "range", "id": "min_pages", "label": "Aparece a partir de la página nº", "min": 1, "max": 5, "step": 1, "default": 1, "info": "1 = al entrar en la web. En ordenador también aparece si alguien va a salir de la web." },
+    { "type": "range", "id": "delay", "label": "Segundos en esa página antes de aparecer", "min": 2, "max": 60, "step": 1, "unit": "s", "default": 4 },
     { "type": "range", "id": "days", "label": "No volver a mostrar durante", "min": 1, "max": 60, "step": 1, "unit": "d", "default": 14 },
     { "type": "image_picker", "id": "image", "label": "Imagen (opcional)" },
-    { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "ÚNETE A ARSNOIR" },
-    { "type": "text", "id": "heading", "label": "Título", "default": "Sé el primero en enterarte" },
-    { "type": "text", "id": "text", "label": "Texto", "default": "Obras nuevas, ediciones limitadas y ofertas antes que nadie. Arte que no verás en ningún otro sitio." },
-    { "type": "text", "id": "button_label", "label": "Botón", "default": "Quiero enterarme" },
+    { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "BIENVENIDA ARSNOIR" },
+    { "type": "text", "id": "heading", "label": "Título", "default": "10% EN TU PRIMERA PIEZA" },
+    { "type": "text", "id": "text", "label": "Texto", "default": "Déjanos tu email y llévate un 10% en tu primera obra ARSNOIR." },
+    { "type": "text", "id": "button_label", "label": "Botón", "default": "QUIERO MI 10%" },
     { "type": "text", "id": "dismiss_label", "label": "Texto para cerrar", "default": "Ahora no" },
     { "type": "text", "id": "legal", "label": "Texto legal", "default": "Puedes darte de baja cuando quieras." },
     { "type": "header", "content": "Después de suscribirse" },
-    { "type": "text", "id": "success_heading", "label": "Título", "default": "Ya estás dentro." },
-    { "type": "text", "id": "success_text", "label": "Texto", "default": "Te avisaremos antes que a nadie cuando salga algo nuevo." },
-    { "type": "text", "id": "code", "label": "Código de descuento (opcional)", "info": "Vacío = sin descuento. Si lo rellenas, debe existir en Shopify → Descuentos, y se enseña y aplica al suscribirse." }
+    { "type": "text", "id": "success_heading", "label": "Título", "default": "Tu código: ARSNOIR10." },
+    { "type": "text", "id": "success_text", "label": "Texto", "default": "Úsalo en tu primera pieza." },
+    { "type": "text", "id": "code", "label": "Código de descuento", "default": "ARSNOIR10", "info": "Debe existir en Shopify → Descuentos (10 %, un uso por cliente, sin combinar con la obra de regalo). Se enseña y se aplica al carrito al suscribirse. Vacío = sin descuento." }
   ]
 }
 {% endschema %}
