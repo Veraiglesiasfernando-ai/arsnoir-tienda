@@ -71,6 +71,8 @@
       -%}
       {%- if gift_on -%}
         {% render 'gift-tiers', eligible: eligible %}
+      {%- else -%}
+        <div class="cartx__ship">{% render 'free-shipping-bar' %}</div>
       {%- endif -%}
 
       {%- if settings.q4_enabled -%}

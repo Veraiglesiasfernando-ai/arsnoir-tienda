@@ -178,7 +178,19 @@ Revisado con Shopify Theme Check: 0 errores.
 
 ## Promociones activas (Shopify)
 
-- Envío gratis desde 60 € (descuento automático de envío; se junta con todo).
-- `ARSNOIR10`: 10 %, un uso por cliente; solo se junta con el envío gratis.
-- Regalo 1 obra A4 sin marco desde 80 €, 2 desde 140 € (descuentos automáticos «Compra X y llévate Y»; se crean cuando existan las variantes 21 × 29,7 sin marco). No se juntan con `ARSNOIR10`.
-- Pack de 2 −15 %: en pausa (para campañas). Si se reactiva, poner su % en *Configuración del tema → Carrito → Descuento del pack*.
+- Envío gratis desde 80 € (descuento automático de envío; se junta con todo). Por debajo, el cliente paga el envío de Gelato.
+- `WELCOME10`: 10 % en el primer pedido, un uso por cliente; solo se junta con el envío gratis.
+- En pausa hasta confirmar márgenes: obra de regalo por gasto (*Configuración del tema → Carrito → Activar obra de regalo*), pack de 2, mini print, 2+2.
+
+## Tamaños y precios (PVP con IVA)
+
+Selector: 1) Tamaño · 2) Acabado (Sin marco / Marco negro / Marco blanco / Marco madera). El color del marco no cambia el precio. Los enmarcados son listos para colgar.
+
+| Tamaño | Medida | Sin marco | Con marco |
+| --- | --- | ---: | ---: |
+| A4 | 21 × 29,7 cm | 24,95 € | 69,95 € |
+| A3 | 29,7 × 42 cm | 42,95 € | 94,95 € |
+| A2 | 42 × 59,4 cm | 59,95 € | 139,95 € |
+| 50×70 | 50 × 70 cm | 69,95 € | 179,95 € |
+| A1 | 59,4 × 84,1 cm | 84,95 € | 219,95 € |
+| XL | 60 × 90 cm | 94,95 € | 239,95 € |

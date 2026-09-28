@@ -152,7 +152,7 @@
         "max": 200,
         "step": 5,
         "unit": "€",
-        "default": 60,
+        "default": 80,
         "info": "Solo muestra la barra y el aviso «Envío gratis desde…». No decide el envío: debe coincidir con la regla real de Shopify (Configuración → Envíos y entregas o Descuentos → Envío gratis). 0 = sin barra."
       },
       {
@@ -416,7 +416,7 @@
         "type": "checkbox",
         "id": "gift_enabled",
         "label": "Activar obra de regalo",
-        "default": true
+        "default": false
       },
       {
         "type": "collection",
