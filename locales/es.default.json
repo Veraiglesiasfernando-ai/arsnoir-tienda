@@ -139,7 +139,8 @@
     "gift_choose": "Elegir",
     "gift_change": "Quitar y elegir otra",
     "gift_none": "Todavía no hay obras disponibles para regalo.",
-    "gift_code_conflict": "Tu código de descuento no se combina con la obra de regalo."
+    "gift_code_conflict": "Tu código de descuento no se junta con las obras de regalo. Elige uno de los dos.",
+    "gift_swap": "Prefiero mi obra de regalo"
   },
   "product": {
     "add_to_cart": "Añadir al carrito",

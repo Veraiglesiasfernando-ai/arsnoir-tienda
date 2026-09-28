@@ -458,7 +458,7 @@
         "max": 500,
         "step": 5,
         "unit": "€",
-        "default": 150
+        "default": 140
       },
       {
         "type": "header",
@@ -485,7 +485,7 @@
         "max": 50,
         "step": 1,
         "unit": "%",
-        "default": 15,
+        "default": 0,
         "info": "El mismo % que el descuento automático de Shopify. Se usa para que «Envío gratis con esta» no prometa algo que el pack deshace. 0 = sin pack."
       },
       {

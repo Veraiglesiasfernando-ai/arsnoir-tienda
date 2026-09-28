@@ -51,7 +51,7 @@ Ajustes globales en *Configuración del tema → Conversión*: umbral de envío 
 
 Todo lo que se ve en el carrito son datos reales de Shopify; no hay contadores inventados, stock falso ni temporizadores de «carrito reservado».
 
-- **Barra de regalo escalonada** (80 € → 1 obra de regalo, 150 € → 2): se calcula con el total del carrito sin las obras de regalo. Al llegar al tramo aparece en el carrito «Elige tu obra de regalo» con las obras de la colección elegida en *Configuración del tema → Carrito* (tamaño 21 × 29,7 sin marco). La obra elegida entra con la propiedad oculta `_regalo`; **su precio 0 € lo pone un descuento de Shopify** (Compra X y llévate Y). Si baja del tramo o el cliente usa un código que no combina, el tema quita el regalo sobrante.
+- **Barra de regalo escalonada** (80 € → 1 obra de regalo, 140 € → 2): se calcula con el total del carrito sin las obras de regalo. Al llegar al tramo aparece en el carrito «Elige tu obra de regalo» con las obras de la colección elegida en *Configuración del tema → Carrito* (tamaño 21 × 29,7 sin marco). La obra elegida entra con la propiedad oculta `_regalo`; **su precio 0 € lo pone un descuento de Shopify** (Compra X y llévate Y). Si baja del tramo o el cliente usa un código que no combina, el tema quita el regalo sobrante.
 - **Obras:** imagen, nombre, tamaño y acabado, cantidad, precio, eliminar, edición limitada y «Enmárcala» con todos los marcos disponibles.
 - **Completa tu pared:** 3 obras sugeridas con «+ Añadir»; primero las que desbloquean el envío gratis.
 - **Descuentos aplicados** (pack, códigos) leídos de `cart.discount_applications`; el pack muestra «✓ Pack de 2 aplicado — ahorras un 15%».
@@ -61,7 +61,7 @@ Todo lo que se ve en el carrito son datos reales de Shopify; no hay contadores i
 
 ## Más ventas
 
-- **Pop-up de novedades (sin descuento):** «Sé el primero en enterarte»: obras nuevas, ediciones limitadas y ofertas antes que nadie. Aparece solo con interés real (desde la 2.ª página vista de la visita, o al ir a salir en ordenador), nunca en el carrito ni encima del carrito o del aviso de cookies, y como mucho una vez cada 14 días. Los emails entran en Clientes con la etiqueta `newsletter`. Admite un código opcional, vacío por defecto.
+- **Pop-up de bienvenida (10%, `ARSNOIR10`):** «10% EN TU PRIMERA PIEZA». Aparece al entrar (a los 4 s, o al ir a salir en ordenador), nunca en el carrito ni encima del carrito o del aviso de cookies, y como mucho una vez cada 14 días. Al suscribirse enseña el código y lo aplica al carrito. El código es de un uso por cliente y **no se junta con las obras de regalo** (sí con el envío gratis); si el carrito llega al tramo de regalo con el código puesto, el carrito ofrece «Prefiero mi obra de regalo», que quita el código.
 - **Completa tu pared:** el carrito lateral y la página del carrito sugieren obras relacionadas (recomendaciones de Shopify), con un botón «+» para añadirlas.
 - **Packs de pared:** sección de la home con 2 o 3 obras colgadas juntas y un botón para añadir el pack entero. Elige las obras en *Personalizar → Packs de pared*. En la tienda solo se ven los packs con obras.
 - **Es un regalo:** casilla en el carrito que guarda el atributo «Regalo» y el mensaje como nota del pedido (*Configuración del tema → Conversión*).
@@ -174,3 +174,11 @@ config/     ajustes del tema (colores, tipografía, diseño)
 ```
 
 Revisado con Shopify Theme Check: 0 errores.
+
+
+## Promociones activas (Shopify)
+
+- Envío gratis desde 60 € (descuento automático de envío; se junta con todo).
+- `ARSNOIR10`: 10 %, un uso por cliente; solo se junta con el envío gratis.
+- Regalo 1 obra A4 sin marco desde 80 €, 2 desde 140 € (descuentos automáticos «Compra X y llévate Y»; se crean cuando existan las variantes 21 × 29,7 sin marco). No se juntan con `ARSNOIR10`.
+- Pack de 2 −15 %: en pausa (para campañas). Si se reactiva, poner su % en *Configuración del tema → Carrito → Descuento del pack*.

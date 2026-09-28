@@ -2105,3 +2105,8 @@ html:not(.is-scrolled) body:has(main > .shopify-section:first-child .vhero) .gla
 .cartx-item__media { position: relative; }
 .cartx-item__gift-tag { position: absolute; top: 6px; left: 6px; display: grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--cart-accent); color: #fff; }
 .cartx-item__gift-tag .icon { width: 14px; height: 14px; }
+
+.gift-pick--swap { display: flex; flex-direction: column; gap: 8px; }
+.gift-pick--swap .gift-pick__note { margin: 0; color: inherit; }
+.gift-pick__swap { border: 0; cursor: pointer; font: inherit; font-size: 10px; font-weight: 700; }
+.gift-pick__swap:hover { background: var(--cart-accent); }

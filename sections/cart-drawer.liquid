@@ -91,7 +91,10 @@
       <div class="cartx__scroll">
         {%- if gift_unlocked > gift_qty -%}
           {%- if has_code -%}
-            <p class="gift-pick__note">{{ 'cart.gift_code_conflict' | t }}</p>
+            <div class="gift-pick gift-pick--swap">
+              <p class="gift-pick__note">{{ 'cart.gift_code_conflict' | t }}</p>
+              <button type="button" class="gift-pick__cta gift-pick__swap" data-gift-swap>{{ 'cart.gift_swap' | t }}</button>
+            </div>
           {%- else -%}
             {%- assign slot = gift_qty | plus: 1 -%}
             {% render 'gift-picker', slot: slot, total: gift_unlocked %}

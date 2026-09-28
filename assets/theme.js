@@ -459,6 +459,20 @@
       .catch(function () { document.querySelectorAll('[data-gift-pick]').forEach(function (b) { b.disabled = false; }); });
   });
 
+  /* Code vs gift: they don't combine, so let the customer swap the code for the gift */
+  document.addEventListener('click', function (event) {
+    const swap = event.target.closest('[data-gift-swap]');
+    if (!swap) return;
+    swap.disabled = true;
+    fetch(root + 'cart/update.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ discount: '' })
+    })
+      .then(function () { return refreshDrawer(); })
+      .catch(function () { swap.disabled = false; });
+  });
+
   /* On load: bring the gift line up to date (e.g. after a discount change at checkout) */
   if (drawer() && (cartConfig() || {}).giftEnabled) {
     fetch(root + 'cart.js').then(function (r) { return r.json(); }).then(function (cart) {
