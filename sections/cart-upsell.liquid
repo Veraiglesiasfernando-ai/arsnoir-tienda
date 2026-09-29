@@ -20,7 +20,7 @@
   assign pack_pct = settings.pack_percent | default: 0
   assign pack_min = settings.pack_min | default: 2
   assign check_ship = true
-  if threshold == 0 or cart.currency.iso_code != shop.currency or cart.total_price >= threshold
+  if threshold == 0 or cart.currency.iso_code != shop.currency or cart.original_total_price >= threshold
     assign check_ship = false
   endif
   assign shown = 0

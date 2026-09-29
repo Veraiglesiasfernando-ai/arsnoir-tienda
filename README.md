@@ -178,7 +178,7 @@ Revisado con Shopify Theme Check: 0 errores.
 
 ## Promociones activas (Shopify)
 
-- Envío gratis desde 80 € (descuento automático de envío; se junta con todo). Por debajo, el cliente paga el envío de Gelato.
+- Envío: 4,95 € fijo en la UE (tarifa «EU Flat Rate» de los perfiles de Gelato de pósters y enmarcados). Gratis desde 80 € **antes de descuentos**: la web cuenta 80 € sobre el subtotal sin descuentos y la regla real de Shopify está en 72 € (80 € − 10 %), porque Shopify mira el total ya descontado. Así WELCOME10 nunca quita el envío gratis. Si algún día hay un descuento mayor del 10 %, bajar esa regla en proporción.
 - `WELCOME10`: 10 % en el primer pedido, un uso por cliente; solo se junta con el envío gratis.
 - En pausa hasta confirmar márgenes: obra de regalo por gasto (*Configuración del tema → Carrito → Activar obra de regalo*), pack de 2, mini print, 2+2.
 

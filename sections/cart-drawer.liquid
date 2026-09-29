@@ -235,7 +235,7 @@
         <div class="cartx__row cartx__row--sub"><span>{{ 'cart.subtotal' | t }}</span><span>{{ cart.total_price | money }}</span></div>
         <div class="cartx__row cartx__row--ship">
           <span>{{ 'cart.shipping' | t }}</span>
-          {%- if ship_threshold > 0 and eligible >= ship_threshold -%}
+          {%- if ship_threshold > 0 and cart.original_total_price >= ship_threshold -%}
             <strong class="cartx-free">{{ 'cart.free' | t }}</strong>
           {%- else -%}
             <span data-ship-estimate data-country="{{ localization.country.iso_code }}">{{ 'cart.shipping_at_checkout' | t }}</span>

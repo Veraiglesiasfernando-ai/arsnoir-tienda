@@ -2,7 +2,8 @@
   Progress towards free shipping (Configuración del tema → Conversión → umbral).
   Only a visual mirror of the real rule configured in Shopify (shipping rates or a
   free-shipping discount): it never decides the shipping price. Checkout is the source of truth.
-  Uses cart.total_price (after cart discounts), in cents, compared exactly: 59,95 € is below 60 €.
+  Uses cart.original_total_price (before discounts), in cents, compared exactly: 79,95 € is below 80 €.
+  The real Shopify rule is set lower (80 € minus the welcome code %) so a code never takes free shipping away.
   Hidden when the cart is in another currency, so the threshold is never compared across currencies.
 {%- endcomment -%}
 {%- liquid
@@ -12,8 +13,8 @@
     assign same_currency = false
   endif
   if threshold > 0
-    assign remaining = threshold | minus: cart.total_price
-    assign pct = cart.total_price | times: 100.0 | divided_by: threshold
+    assign remaining = threshold | minus: cart.original_total_price
+    assign pct = cart.original_total_price | times: 100.0 | divided_by: threshold
     if pct > 100
       assign pct = 100
     endif
