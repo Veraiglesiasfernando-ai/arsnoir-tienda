@@ -7,7 +7,7 @@
           "type": "question",
           "settings": {
             "question": "¿Cuánto tarda el envío?",
-            "answer": "<p>Enviamos a España y Europa. Tus piezas se imprimen bajo demanda y se envían desde la UE: llegan en 4-5 días hábiles, con seguimiento del pedido. Envío 4,95 € en pedidos de menos de 80 €; desde 80 €, gratis.</p>"
+            "answer": "<p>Enviamos a toda España. Tus piezas se imprimen bajo demanda y se envían desde la UE: llegan en 4-5 días hábiles, con seguimiento del pedido. Envío 4,95 € en pedidos de menos de 80 €; desde 80 €, gratis.</p>"
           }
         },
         "q2": {
@@ -53,8 +53,8 @@
           "type": "item",
           "settings": {
             "icon": "truck",
-            "title": "Envío a España y Europa",
-            "text": "Entrega en 4-5 días hábiles con seguimiento. El coste se calcula en el pago según tu dirección."
+            "title": "Envío a toda España",
+            "text": "Entrega en 4-5 días hábiles con seguimiento. Envío 4,95 €, gratis desde 80 €."
           }
         },
         "g2": {

@@ -2138,3 +2138,24 @@ html:not(.is-scrolled) body:has(main > .shopify-section:first-child .vhero) .gla
 .cguard__check--ok { background: #eef6ee; color: #1f5a2a; }
 .cguard-locked { opacity: 0.4; pointer-events: none; filter: grayscale(1); transition: opacity 0.2s ease; }
 .glass-header__links > li > a { display: inline-flex; align-items: center; }
+
+/* Mobile polish ------------------------------------------------------------ */
+@media (max-width: 749px) {
+  /* Hero: labels under the progress bars instead of on top of them */
+  .vhero:has(.vhero__heading) .vhero__side { bottom: 18px; font-size: 12px; }
+  .vhero__progress { bottom: 50px; width: calc(100% - 40px); }
+  /* Newsletter: full-width field and button */
+  .join__form { flex-direction: column; }
+  .join__field, .join__form .button { width: 100%; }
+}
+@media (max-width: 599px) {
+  /* Guarantees: one per row, icon beside the text */
+  .guarantees__grid { grid-template-columns: 1fr; gap: 10px; }
+  .guarantee { display: grid; grid-template-columns: 44px 1fr; column-gap: 16px; align-items: start; padding: 18px; }
+  .guarantee__icon { width: 44px; height: 44px; margin: 0; grid-row: span 2; }
+  .guarantee__title { font-size: 16px; }
+}
+@media (max-width: 749px) {
+  .sizecmp__stage span { font-size: 10px; }
+}
+.wallp + .sizecmp, .wallp ~ .sizecmp { margin-top: 40px; }

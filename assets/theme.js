@@ -739,7 +739,7 @@
         el.style.width = (b.w / W) * 100 + '%';
         el.style.height = (b.h / H) * 100 + '%';
         el.style.bottom = (Math.max(0, CENTER - b.h / 2) / H) * 100 + '%';
-        el.innerHTML = '<span>' + b.label.replace(/\s*cm\s*$/i, '') + '</span>';
+        el.innerHTML = '<span>' + (b.label.indexOf('·') > -1 ? b.label.split('·')[0].trim() : b.label.replace(/\s*cm\s*$/i, '')) + '</span>';
         el.setAttribute('aria-label', (S.chooseSize || 'Elegir [size]').replace('[size]', b.label));
         this.stage.appendChild(el);
       });
