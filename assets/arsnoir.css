@@ -2159,3 +2159,70 @@ html:not(.is-scrolled) body:has(main > .shopify-section:first-child .vhero) .gla
   .sizecmp__stage span { font-size: 10px; }
 }
 .wallp + .sizecmp, .wallp ~ .sizecmp { margin-top: 40px; }
+
+/* Buy box in steps (size dropdown + finish tiles) ------------------------- */
+.vsteps { display: block; margin: 8px 0 18px; padding: 20px; border-radius: 20px; background: rgba(255,255,255,0.7); border: 1px solid rgba(255,255,255,0.95); box-shadow: 0 16px 30px -26px rgba(0,0,0,0.35); }
+.vstep { position: relative; margin: 0 0 22px; }
+.vstep:last-of-type { margin-bottom: 0; }
+.vstep .vstep__head { display: flex; align-items: center; gap: 10px; margin: 0 0 12px; padding: 0; font-size: 16px; font-weight: 700; letter-spacing: 0; text-transform: none; color: var(--color-fg); }
+.vstep__num { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; background: #e6e6e4; font-size: 12px; font-weight: 700; flex: none; }
+.vstep .vstep__head .vstep__value { margin-left: 0; font-size: 13px; font-weight: 400; color: var(--color-muted); }
+.vstep__help { position: absolute; top: 2px; right: 0; font-size: 13px; text-decoration: underline; text-underline-offset: 3px; }
+/* Size dropdown */
+.vsel { position: relative; }
+.vsel__current { display: flex; align-items: center; gap: 12px; min-height: 52px; padding: 0 16px; border: 1.5px solid var(--color-fg); border-radius: 12px; background: #fff; cursor: pointer; list-style: none; font-size: 15px; }
+.vsel__current::-webkit-details-marker { display: none; }
+.vsel__current > span:first-child { flex: 1; }
+.vsel__price { font-size: 14px; color: var(--color-muted); }
+.vsel__caret { width: 14px; height: 14px; transition: transform 0.2s ease; }
+.vsel[open] .vsel__caret { transform: rotate(180deg); }
+.vsel__list.option__values { position: absolute; z-index: 5; left: 0; right: 0; top: calc(100% + 6px); display: block; padding: 6px; border-radius: 14px; background: #fff; border: 1px solid var(--color-line); box-shadow: 0 24px 40px -20px rgba(0,0,0,0.35); }
+.vsel__list.option__values label.vsel__row { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 46px; padding: 0 12px; border: 0; border-radius: 10px; background: none; color: var(--color-fg); font-size: 15px; text-transform: none; letter-spacing: 0; }
+.vsel__row > span:first-child { flex: 1; text-align: left; }
+.vsel__rowprice { font-size: 14px; color: var(--color-muted); }
+.vsel__list.option__values label.vsel__row:hover { background: #f3f3f1; }
+.vsel__list.option__values input:checked + label.vsel__row { background: #0a0a0a; color: #fff; }
+.vsel__list.option__values input:checked + label.vsel__row .vsel__rowprice { color: rgba(255,255,255,0.7); }
+.vsel__row .option__badge { position: static; transform: none; }
+/* Finish tiles */
+.ftiles.option__values { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.ftiles.option__values label.ftile { position: relative; display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 0; border: 0; border-radius: 0; background: none; color: var(--color-muted); font-size: 13px; text-transform: none; letter-spacing: 0; }
+.ftile__img { display: block; width: 100%; aspect-ratio: 5 / 4; border-radius: 10px; border: 2px solid transparent; outline: 1px solid var(--color-line); position: relative; overflow: hidden; background: #f6f6f4; transition: border-color 0.15s; }
+.ftile__img .swatch { display: none; }
+/* A frame corner seen from the front */
+.ftile__img::before { content: ""; position: absolute; left: 22%; top: 22%; right: -10%; bottom: -10%; border-radius: 2px; }
+.ftile__img::after { content: ""; position: absolute; left: calc(22% + 10px); top: calc(22% + 10px); right: -10%; bottom: -10%; background: #fbfbfa; }
+.ftile__img--none::before { background: #fbfbfa; box-shadow: -3px -3px 10px rgba(0,0,0,0.12); }
+.ftile__img--none::after { display: none; }
+.ftile__img--black::before { background: #151515; }
+.ftile__img--white::before { background: #fff; box-shadow: -2px -2px 8px rgba(0,0,0,0.14); }
+.ftile__img--white::after { box-shadow: inset 2px 2px 4px rgba(0,0,0,0.08); }
+.ftile__img--wood::before { background: linear-gradient(135deg, #d4b187, #a97f52 55%, #c49c6c); }
+.ftile__img--other::before { background: #cfcfcd; }
+.ftiles.option__values input:checked + label.ftile { background: none; color: var(--color-fg); font-weight: 700; }
+.ftiles.option__values input:checked + label .ftile__img { border-color: #0a0a0a; }
+.ftiles.option__values input:focus-visible + label .ftile__img { outline: 2px solid #0a0a0a; }
+.ftile__badge.option__badge { position: absolute; z-index: 1; top: -8px; left: 50%; transform: translateX(-50%); white-space: nowrap; }
+@media (max-width: 749px) {
+  .vsteps { padding: 16px; }
+  .ftiles.option__values { gap: 8px; }
+  .ftiles.option__values label.ftile { font-size: 12px; }
+}
+/* Add to cart carries the price; trust row as icons */
+.product__buy .button { flex: 1; }
+.product__trust { grid-template-columns: repeat(4, minmax(0, 1fr)); text-align: center; border-top: 0; padding-top: 6px; }
+.product__trust li { flex-direction: column; gap: 8px; font-size: 12px; line-height: 1.35; }
+.product__trust .t-icon { width: 26px; height: 26px; }
+@media (max-width: 749px) { .product__trust { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 12px; } }
+.vsel--static > summary { display: none; }
+.vstep .vstep__head span.vstep__num, .vstep .vstep__head span.vstep__title { color: var(--color-fg); margin-left: 0; font-size: inherit; letter-spacing: 0; }
+.vstep .vstep__head span.vstep__num { font-size: 12px; }
+.ftiles.option__values label.ftile { overflow: visible; }
+.ftile__badge.option__badge { font-size: 8px; padding: 3px 6px; letter-spacing: 0.06em; }
+@media (max-width: 749px) {
+  .product__buy .qty { display: none; }
+  .product__buy .button { width: 100%; white-space: nowrap; }
+}
+.ftile__badge.option__badge { width: max-content; max-width: none; overflow: visible; text-overflow: clip; }
+@media (max-width: 749px) { .product__buy { grid-template-columns: 1fr; } }
+.ftile__name { text-align: center; line-height: 1.3; }

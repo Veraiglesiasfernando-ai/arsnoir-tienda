@@ -245,6 +245,8 @@
       });
 
       this.markAvailability();
+      this.updateRowPrices(selected);
+      this.querySelectorAll('[data-vsel][open]').forEach(function (d) { d.removeAttribute('open'); });
 
       const button = this.form.querySelector('[type="submit"]');
       const priceEl = document.getElementById(this.dataset.price);
@@ -257,7 +259,8 @@
 
       this.form.querySelector('input[name="id"]').value = variant.id;
       button.disabled = !variant.available;
-      button.textContent = variant.available ? button.dataset.addText : button.dataset.soldOutText;
+      button.textContent = variant.available ? button.dataset.addText + ('withPrice' in button.dataset ? ' · ' + formatMoney(variant.price) : '') : button.dataset.soldOutText;
+      this.querySelectorAll('[data-atc-price-mirror]').forEach(function (el) { el.textContent = formatMoney(variant.price); });
 
       if (priceEl) {
         let html = '';
@@ -288,6 +291,18 @@
           }
         }
       }
+    }
+
+    /* Size rows show the price of that size with the finish currently chosen */
+    updateRowPrices(selected) {
+      const variants = this.variants;
+      this.querySelectorAll('[data-row-price]').forEach(function (el) {
+        const index = parseInt(el.dataset.optionIndex, 10);
+        const wanted = selected.slice();
+        wanted[index] = el.dataset.value;
+        const v = variants.find(function (x) { return x.options.every(function (o, i) { return o === wanted[i]; }); });
+        el.textContent = v ? formatMoney(v.price) : '';
+      });
     }
 
     /* Grey out option values that don't combine with the current selection */

@@ -161,7 +161,11 @@
     "cguard_low": "Your image is [W] × [H] px: at [SIZE] it would be [PPI] dpi and look pixelated. Upload a larger image or choose a smaller size.",
     "cguard_mid": "Your image would be [PPI] dpi at [SIZE]. It can be printed, but 300 dpi will look sharper.",
     "cguard_ok": "Good resolution for [SIZE] ([PPI] dpi).",
-    "cguard_rights_value": "Confirmed by the customer"
+    "cguard_rights_value": "Confirmed by the customer",
+    "step_size": "Choose your size",
+    "step_finish": "Choose your finish",
+    "size_guide": "Size guide",
+    "about_frames": "About frames"
   },
   "collection": {
     "all": "All",

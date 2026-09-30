@@ -75,7 +75,12 @@
           {%- when 'buy_buttons' -%}
             <div {{ block.shopify_attributes }}>
               {%- unless product.has_only_default_variant -%}
-                <variant-picker data-form="{{ form_id }}" data-price="{{ price_id }}">
+                {%- liquid
+                  assign size_help = block.settings.size_help.url | default: pages['guia-de-tamanos'].url
+                  assign frame_help = block.settings.frame_help.url
+                  assign selected_opts = current_variant.options
+                -%}
+                <variant-picker class="vsteps" data-form="{{ form_id }}" data-price="{{ price_id }}">
                   {%- for option in product.options_with_values -%}
                     {%- liquid
                       assign option_index = forloop.index0
@@ -92,24 +97,76 @@
                       if is_size and recommended == blank and block.settings.highlight_largest
                         assign recommended = option.values | last
                       endif
+                      if is_frame
+                        assign recommended = block.settings.recommended_frame
+                      endif
+                      assign step_title = option.name
+                      if is_size
+                        assign step_title = 'product.step_size' | t
+                      elsif is_frame
+                        assign step_title = 'product.step_finish' | t
+                      endif
                     -%}
-                    <fieldset class="option{% if is_size %} option--size{% endif %}{% if is_frame %} option--frame{% endif %}" data-option-kind="{% if is_size %}size{% elsif is_frame %}frame{% else %}other{% endif %}">
-                      <legend>{{ option.name }} <span data-selected-value>{{ option.selected_value }}</span></legend>
-                      <div class="option__values">
+                    <fieldset class="option vstep{% if is_size %} option--size{% endif %}{% if is_frame %} option--frame{% endif %}" data-option-kind="{% if is_size %}size{% elsif is_frame %}frame{% else %}other{% endif %}">
+                      <legend class="vstep__head">
+                        <span class="vstep__num">{{ forloop.index }}</span>
+                        <span class="vstep__title">{{ step_title }}</span>
+                        {%- unless is_size -%}<span class="vstep__value" data-selected-value>{{ option.selected_value }}</span>{%- endunless -%}
+                      </legend>
+                      {%- if is_size and size_help != blank -%}<a class="vstep__help" href="{{ size_help }}">{{ 'product.size_guide' | t }}</a>{%- endif -%}
+                      {%- if is_frame and frame_help != blank -%}<a class="vstep__help" href="{{ frame_help }}">{{ 'product.about_frames' | t }}</a>{%- endif -%}
+
+                      <details class="vsel{% unless is_size %} vsel--static{% endunless %}"{% if is_size %} data-vsel{% else %} open{% endif %}>
+                        <summary class="vsel__current"{% unless is_size %} tabindex="-1" aria-hidden="true"{% endunless %}>
+                          <span data-selected-value>{{ option.selected_value }}</span>
+                          <span class="vsel__price" data-atc-price-mirror>{{ current_variant.price | money }}</span>
+                          <svg class="vsel__caret" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+                        </summary>
+                        <div class="option__values{% if is_size %} vsel__list{% elsif is_frame %} ftiles{% endif %}">
                         {%- for value in option.values -%}
-                          {%- assign input_id = section.id | append: '-' | append: option_index | append: '-' | append: forloop.index0 -%}
+                          {%- liquid
+                            assign input_id = section.id | append: '-' | append: option_index | append: '-' | append: forloop.index0
+                            # Price of this value combined with the other options currently selected
+                            assign row_price = ''
+                            for v in product.variants
+                              if v.options[option_index] == value
+                                assign match = true
+                                for o in v.options
+                                  if forloop.index0 != option_index and o != selected_opts[forloop.index0]
+                                    assign match = false
+                                  endif
+                                endfor
+                                if match
+                                  assign row_price = v.price | money
+                                endif
+                              endif
+                            endfor
+                          -%}
                           <input type="radio"
                             id="{{ input_id }}"
                             name="{{ section.id }}-{{ option.name | handle }}"
                             value="{{ value | escape }}"
                             {% if option.selected_value == value %}checked{% endif %}>
-                          <label for="{{ input_id }}">
-                            {%- if is_frame -%}{%- render 'frame-swatch', value: value -%}{%- endif -%}
-                            {{- value -}}
-                            {%- if is_size and value == recommended -%}<span class="option__badge">{{ block.settings.recommended_label }}</span>{%- endif -%}
-                          </label>
+                          {%- if is_size -%}
+                            <label for="{{ input_id }}" class="vsel__row">
+                              <span>{{ value }}</span>
+                              {%- if value == recommended -%}<span class="option__badge">{{ block.settings.recommended_label }}</span>{%- endif -%}
+                              <span class="vsel__rowprice" data-row-price data-option-index="{{ option_index }}" data-value="{{ value | escape }}">{{ row_price }}</span>
+                            </label>
+                          {%- elsif is_frame -%}
+                            {%- capture swatch -%}{%- render 'frame-swatch', value: value -%}{%- endcapture -%}
+                            {%- assign kind = swatch | split: 'data-frame-kind="' | last | split: '"' | first -%}
+                            <label for="{{ input_id }}" class="ftile">
+                              {%- if value == recommended -%}<span class="option__badge ftile__badge">{{ block.settings.recommended_label }}</span>{%- endif -%}
+                              <span class="ftile__img ftile__img--{{ kind }}">{{ swatch }}</span>
+                              <span class="ftile__name">{{ value }}</span>
+                            </label>
+                          {%- else -%}
+                            <label for="{{ input_id }}">{{ value }}</label>
+                          {%- endif -%}
                         {%- endfor -%}
-                      </div>
+                        </div>
+                      </details>
                     </fieldset>
                   {%- endfor -%}
                   <script type="application/json">{{ product.variants | json }}</script>
@@ -126,10 +183,11 @@
                   </div>
                   <button type="submit" class="button button--accent"
                     data-add-text="{{ 'product.add_to_cart' | t }}"
+                    data-with-price
                     data-sold-out-text="{{ 'product.sold_out' | t }}"
                     data-unavailable-text="{{ 'product.unavailable' | t }}"
                     {% unless current_variant.available %}disabled{% endunless %}>
-                    {%- if current_variant.available -%}{{ 'product.add_to_cart' | t }}{%- else -%}{{ 'product.sold_out' | t }}{%- endif -%}
+                    {%- if current_variant.available -%}{{ 'product.add_to_cart' | t }} · {{ current_variant.price | money }}{%- else -%}{{ 'product.sold_out' | t }}{%- endif -%}
                   </button>
                 </div>
                 {%- if block.settings.show_dynamic_checkout -%}
@@ -294,7 +352,10 @@
         { "type": "header", "content": "Tamaño destacado" },
         { "type": "checkbox", "id": "highlight_largest", "label": "Destacar el tamaño más grande", "default": true, "info": "Se aplica a la opción llamada Tamaño / Medida / Size." },
         { "type": "text", "id": "recommended_size", "label": "O destacar este tamaño exacto", "info": "Ej.: 50 × 70 cm. Tiene prioridad sobre la opción anterior." },
-        { "type": "text", "id": "recommended_label", "label": "Etiqueta", "default": "Recomendado" }
+        { "type": "text", "id": "recommended_label", "label": "Etiqueta", "default": "Recomendado" },
+        { "type": "text", "id": "recommended_frame", "label": "Acabado destacado", "default": "Marco negro", "info": "Nombre exacto del acabado que lleva la etiqueta. Vacío = ninguno." },
+        { "type": "page", "id": "size_help", "label": "Página «Guía de tamaños»", "info": "Vacío = página con identificador guia-de-tamanos." },
+        { "type": "page", "id": "frame_help", "label": "Página «Sobre los marcos» (opcional)" }
       ]
     },
     {
