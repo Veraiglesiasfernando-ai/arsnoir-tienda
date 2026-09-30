@@ -1006,14 +1006,17 @@ body:has(.announce) { --announce-h: 38px; }
 @media (min-width: 860px) {
   .glass-header .mobile-menu { display: none; }
 }
-/* Medium screens (laptops, editor preview): the menu gets its own row inside the glass bar */
+/* Medium screens (laptops, editor preview): keep the single row by tightening the menu */
 @media (min-width: 860px) and (max-width: 1399px) {
-  .glass-header { grid-template-columns: 1fr auto; grid-template-areas: "start icons" "nav nav"; padding-bottom: 8px; }
-  .glass-header__start { grid-area: start; }
-  .glass-header__icons { grid-area: icons; }
-  .glass-header__nav { grid-area: nav; margin-top: -6px; }
-  .glass-header__links { gap: clamp(16px, 2vw, 26px); }
-  .glass-header__links a { font-size: 12px; }
+  .glass-header { gap: 16px; padding: 0 20px; }
+  .glass-header__logo { font-size: 20px; }
+  .glass-header__icons { gap: 14px; }
+  .glass-header__icons .icon { width: 20px; height: 20px; }
+  .glass-header__links { gap: clamp(10px, 1.3vw, 22px); }
+  .glass-header__links a { font-size: 11px; letter-spacing: 0.04em; }
+}
+@media (min-width: 860px) and (max-width: 1199px) {
+  .nav-drop__caret { display: none; }
 }
 .glass-header .mobile-menu__panel { max-height: calc(100svh - 140px); overflow-y: auto; }
 
