@@ -1,0 +1,77 @@
+{%- comment -%}
+  "Personalízalo": the customer uploads their own image, printed as is.
+  Inputs live outside the product form and join it through form="…", so the file,
+  the rights checkbox and the resolution note travel as line item properties.
+  - native upload on: file input (properties[Imagen]) + resolution check at the chosen size.
+  - native upload off: only the notice and the rights checkbox, for an app editor (e.g. Gelato's).
+  Render: {% render 'custom-upload', block: block, form_id: form_id %}
+{%- endcomment -%}
+{%- liquid
+  assign b = block.settings
+  assign uid = 'Upload-' | append: block.id
+  assign max_mb = b.max_mb | default: 20
+-%}
+<custom-upload class="upload" id="{{ uid }}"
+  data-form="{{ form_id }}"
+  data-good="{{ b.good_ppi }}"
+  data-min="{{ b.min_ppi }}"
+  data-mode="{{ b.low_mode }}"
+  data-max-mb="{{ max_mb }}"
+  data-default-size="{{ b.default_size | escape }}"
+  data-msg-good="{{ b.msg_good | escape }}"
+  data-msg-ok="{{ b.msg_ok | escape }}"
+  data-msg-low="{{ b.msg_low | escape }}"
+  data-msg-block="{{ b.msg_block | escape }}"
+  data-msg-crop="{{ b.msg_crop | escape }}"
+  data-msg-need="{{ b.msg_need | escape }}"
+  data-msg-type="{{ b.msg_type | escape }}"
+  data-msg-weight="{{ b.msg_weight | escape }}"
+  {{ block.shopify_attributes }}>
+
+  {%- if b.heading != blank -%}<p class="upload__heading">{{ b.heading }}</p>{%- endif -%}
+
+  <div class="upload__notice" role="note">
+    {% render 'icon', name: 'info' %}
+    <div>{{ b.notice }}</div>
+  </div>
+
+  {%- if b.native_upload -%}
+    <label class="upload__drop" for="{{ uid }}-file" data-upload-drop>
+      <input type="file" id="{{ uid }}-file" class="upload__file"
+        name="properties[Imagen]"
+        form="{{ form_id }}"
+        accept="image/jpeg,image/png"
+        required
+        data-upload-file>
+      <span class="upload__empty" data-upload-empty>
+        <strong>{{ b.button_label }}</strong>
+        <span>{{ 'product.upload_hint' | t: mb: max_mb }}</span>
+      </span>
+      <span class="upload__preview" data-upload-preview hidden>
+        <img alt="" data-upload-img>
+        <span class="upload__file-meta">
+          <strong data-upload-name></strong>
+          <span data-upload-px></span>
+          <span class="upload__change">{{ 'product.upload_change' | t }}</span>
+        </span>
+      </span>
+    </label>
+
+    <p class="upload__status" data-upload-status aria-live="polite" hidden></p>
+    <p class="upload__need" data-upload-need hidden></p>
+
+    <label class="upload__check upload__check--warn" data-upload-ack hidden>
+      <input type="checkbox" name="properties[Aviso de baja resolución]" value="Aceptado por el cliente" form="{{ form_id }}" disabled data-upload-ack-input>
+      <span>{{ b.low_ack }}</span>
+    </label>
+
+    <input type="hidden" name="properties[_Resolución]" form="{{ form_id }}" value="" data-upload-res disabled>
+  {%- endif -%}
+
+  <label class="upload__check">
+    <input type="checkbox" name="properties[Derechos de la imagen]" value="Confirmados por el cliente" form="{{ form_id }}" required>
+    <span>{{ b.rights_label }}</span>
+  </label>
+
+  {%- if b.quality_note != blank -%}<p class="upload__note">{{ b.quality_note }}</p>{%- endif -%}
+</custom-upload>

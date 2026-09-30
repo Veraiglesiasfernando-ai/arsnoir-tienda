@@ -1,0 +1,155 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "upload": {
+          "type": "custom_upload",
+          "settings": {
+            "heading": "Tu imagen",
+            "notice": "<p>Para que tu pieza imprima con calidad, sube una imagen en alta resolución. Recomendado: mínimo 300 ppp al tamaño elegido. Imágenes de baja calidad pueden salir pixeladas.</p>",
+            "native_upload": true,
+            "button_label": "Sube tu imagen",
+            "good_ppi": 300,
+            "min_ppi": 150,
+            "low_mode": "ack",
+            "rights_label": "Confirmo que tengo los derechos para imprimir esta imagen.",
+            "quality_note": "Imprimimos tu imagen tal cual la subes, sin retocarla: el resultado depende de su calidad y resolución. Una imagen de baja resolución no se considera defecto de impresión."
+          }
+        },
+        "buy": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": false,
+            "highlight_largest": false,
+            "recommended_label": "Recomendado"
+          }
+        },
+        "delivery": {
+          "type": "delivery",
+          "settings": {}
+        },
+        "material": {
+          "type": "material",
+          "settings": {}
+        },
+        "trust": {
+          "type": "trust",
+          "settings": {
+            "line_1": "Impresión profesional de alta calidad",
+            "line_2": "Envío a España y Europa con seguimiento",
+            "line_3": "Impreso a medida con tu imagen",
+            "line_4": "Pago 100% seguro"
+          }
+        },
+        "description": {
+          "type": "description",
+          "settings": {}
+        },
+        "details": {
+          "type": "collapsible",
+          "settings": {
+            "heading": "Detalles de impresión",
+            "content": "<p>Papel Premium Matte de 200 g/m², acabado mate sin reflejos. Impresión giclée de 12 colores. Papel de origen sostenible y certificado FSC, con tintas al agua. Imprimimos tu imagen tal cual: no la retocamos ni la transformamos.</p>",
+            "open": false
+          }
+        },
+        "sizes": {
+          "type": "collapsible",
+          "settings": {
+            "heading": "Qué imagen subir",
+            "content": "<p>JPG o PNG, lo más grande posible. Para imprimir a 300 ppp necesitas aproximadamente:</p><ul><li>A4 (21 × 29,7 cm): 2480 × 3508 px</li><li>A3 (29,7 × 42 cm): 3508 × 4961 px</li><li>A2 (42 × 59,4 cm): 4961 × 7016 px</li><li>50 × 70 cm: 5906 × 8268 px</li><li>A1 (59,4 × 84,1 cm): 7016 × 9933 px</li><li>XL 60 × 90 cm: 7087 × 10630 px</li></ul><p>Por debajo de 150 ppp la imagen puede verse pixelada. Si la proporción de tu imagen no coincide con la del formato, se ajustará y puede recortarse por los bordes.</p>",
+            "open": false
+          }
+        },
+        "shipping": {
+          "type": "collapsible",
+          "settings": {
+            "heading": "Envío y devoluciones",
+            "content": "<p>Enviamos a España y Europa. Tu pieza se imprime bajo demanda y se envía desde la UE: llega en 4-5 días hábiles, con seguimiento. Envío 4,95 € en pedidos de menos de 80 €; gratis desde 80 €. Precios con IVA incluido.</p><p>Al ser un producto hecho con tu imagen, no admite devolución por desistimiento. Si llega dañado o con un defecto de impresión, lo reponemos.</p>",
+            "open": false
+          }
+        }
+      },
+      "block_order": [
+        "title",
+        "price",
+        "upload",
+        "buy",
+        "delivery",
+        "material",
+        "trust",
+        "description",
+        "details",
+        "sizes",
+        "shipping"
+      ],
+      "settings": {
+        "lifestyle_from": 2
+      }
+    },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "q1": {
+          "type": "question",
+          "settings": {
+            "question": "¿Qué resolución necesita mi imagen?",
+            "answer": "<p>Lo ideal son 300 ppp al tamaño elegido; a partir de 150 ppp se imprime bien, con algo menos de nitidez de cerca. Al subirla te decimos cuántos ppp tiene para el tamaño que elijas y cuántos píxeles harían falta.</p>"
+          }
+        },
+        "q2": {
+          "type": "question",
+          "settings": {
+            "question": "¿Retocáis o cambiáis mi imagen?",
+            "answer": "<p>No. Se imprime tal cual la subes. El resultado depende de la calidad de tu imagen.</p>"
+          }
+        },
+        "q3": {
+          "type": "question",
+          "settings": {
+            "question": "¿Puedo imprimir cualquier imagen?",
+            "answer": "<p>Solo imágenes de las que tengas los derechos: tus fotos, o imágenes con licencia o permiso de su autor. Al comprar lo confirmas con la casilla de derechos.</p>"
+          }
+        },
+        "q4": {
+          "type": "question",
+          "settings": {
+            "question": "¿Puedo devolverlo?",
+            "answer": "<p>Al ser una pieza hecha con tu imagen, no admite devolución por desistimiento. Si llega dañada o con un defecto de impresión, la reponemos.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4"
+      ],
+      "settings": {
+        "eyebrow": "DUDAS",
+        "heading": "Antes de subir tu imagen",
+        "text": "¿Otra pregunta? Escríbenos.",
+        "button_label": "Contactar",
+        "button_link": "/pages/contacto"
+      }
+    },
+    "recent": {
+      "type": "recently-viewed",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main",
+    "faq",
+    "recent"
+  ]
+}

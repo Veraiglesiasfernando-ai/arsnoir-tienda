@@ -157,7 +157,11 @@
     "material": "Material:",
     "frame": "Frame (optional):",
     "choose_size": "Choose {{ size }}",
-    "scale_with": "to scale next to"
+    "scale_with": "to scale next to",
+    "upload_hint": "JPG or PNG · up to {{ mb }} MB",
+    "upload_change": "Change image",
+    "your_image": "Your image",
+    "view_image": "View image"
   },
   "collection": {
     "all": "All",

@@ -15,6 +15,9 @@
     "shipping_message": "",
     "shipping_details": "Entrega en 4-5 días hábiles con seguimiento · Impreso y enviado desde la UE",
     "q4_gift_page": "regalos",
-    "q4_start": "2026-11-20"
+    "q4_start": "2026-11-20",
+    "custom_collection": "personalizalo",
+    "custom_label": "Personalízalo",
+    "custom_tag": "personalizalo"
   }
 }

@@ -41,7 +41,11 @@
                   {%- endunless -%}
                   {%- for property in item.properties -%}
                     {%- unless property.last == blank or property.first contains '_' -%}
-                      <div>{{ property.first }}: {{ property.last }}</div>
+                      {%- if property.last contains '/uploads/' -%}
+                        <div class="cart-prop-image">{{ property.first }}: <a href="{{ property.last }}" target="_blank" rel="noopener"><img src="{{ property.last }}" alt="{{ 'product.your_image' | t }}" loading="lazy" width="36" height="36"></a></div>
+                      {%- else -%}
+                        <div>{{ property.first }}: {{ property.last }}</div>
+                      {%- endif -%}
                     {%- endunless -%}
                   {%- endfor -%}
                   <div>{{ item.final_price | money }}</div>

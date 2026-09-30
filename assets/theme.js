@@ -612,6 +612,147 @@
     return swatch ? swatch.dataset.frameKind : 'none';
   }
 
+  /* "Personalízalo": the customer's own image, checked against the chosen size -- */
+  class CustomUpload extends HTMLElement {
+    connectedCallback() {
+      this.file = this.querySelector('[data-upload-file]');
+      if (!this.file) return;
+      this.status = this.querySelector('[data-upload-status]');
+      this.need = this.querySelector('[data-upload-need]');
+      this.ack = this.querySelector('[data-upload-ack]');
+      this.ackInput = this.querySelector('[data-upload-ack-input]');
+      this.res = this.querySelector('[data-upload-res]');
+      this.px = null;
+      this.file.addEventListener('change', this.onFile.bind(this));
+      this.onPick = (event) => { if (event.target.closest('variant-picker')) this.check(); };
+      document.addEventListener('change', this.onPick);
+      this.check();
+    }
+
+    disconnectedCallback() {
+      if (this.onPick) document.removeEventListener('change', this.onPick);
+      if (this.url) URL.revokeObjectURL(this.url);
+    }
+
+    msg(key, vars) {
+      let text = this.dataset['msg' + key] || '';
+      Object.keys(vars || {}).forEach(function (k) { text = text.split('[' + k + ']').join(vars[k]); });
+      return text;
+    }
+
+    onFile() {
+      const f = this.file.files && this.file.files[0];
+      const preview = this.querySelector('[data-upload-preview]');
+      const empty = this.querySelector('[data-upload-empty]');
+      this.px = null;
+      if (this.url) { URL.revokeObjectURL(this.url); this.url = null; }
+      this.file.setCustomValidity('');
+      this.ackInput.checked = false;
+      this.res.disabled = true;
+      preview.hidden = true;
+      empty.hidden = false;
+      if (!f) { this.check(); return; }
+
+      const maxMb = parseFloat(this.dataset.maxMb) || 20;
+      if (!/^image\/(jpeg|png)$/.test(f.type)) return this.fail(this.msg('Type'));
+      if (f.size > maxMb * 1024 * 1024) return this.fail(this.msg('Weight', { MB: maxMb }));
+
+      this.url = URL.createObjectURL(f);
+      const img = this.querySelector('[data-upload-img]');
+      img.onload = () => {
+        this.px = [img.naturalWidth, img.naturalHeight];
+        this.querySelector('[data-upload-name]').textContent = f.name;
+        this.querySelector('[data-upload-px]').textContent = this.px[0] + ' × ' + this.px[1] + ' px';
+        preview.hidden = false;
+        empty.hidden = true;
+        this.check();
+      };
+      img.onerror = () => this.fail(this.msg('Type'));
+      img.src = this.url;
+    }
+
+    fail(text) {
+      this.px = null;
+      this.file.setCustomValidity(text);
+      this.show(text, 'error');
+      this.need.hidden = true;
+      this.setAck(false);
+      this.file.reportValidity();
+    }
+
+    show(text, level) {
+      this.status.textContent = text;
+      this.status.dataset.level = level || '';
+      this.status.hidden = !text;
+    }
+
+    setAck(on) {
+      this.ack.hidden = !on;
+      this.ackInput.disabled = !on;
+      this.ackInput.required = on;
+      if (!on) this.ackInput.checked = false;
+    }
+
+    check() {
+      const label = selectedOf('size') || this.dataset.defaultSize;
+      const size = parseSize(label);
+      const good = parseInt(this.dataset.good, 10) || 300;
+      const min = parseInt(this.dataset.min, 10) || 150;
+      const sizeName = label ? String(label).trim() : '';
+
+      if (size) {
+        const w = Math.round(size[0] / 2.54 * good);
+        const h = Math.round(size[1] / 2.54 * good);
+        this.need.textContent = this.msg('Need', { SIZE: sizeName, GOOD: good, W: w, H: h });
+        this.need.hidden = false;
+      } else {
+        this.need.hidden = true;
+      }
+
+      if (!this.px) {
+        if (!this.file.validationMessage || !this.file.files.length) { this.show(''); this.file.setCustomValidity(''); }
+        this.setAck(false);
+        this.res.disabled = true;
+        return;
+      }
+
+      this.file.setCustomValidity('');
+      this.res.disabled = false;
+      this.res.value = this.px[0] + ' × ' + this.px[1] + ' px';
+      if (!size) { this.show(''); this.setAck(false); return; }
+
+      /* Long side against long side: the print takes the image's orientation */
+      const imgLong = Math.max(this.px[0], this.px[1]);
+      const imgShort = Math.min(this.px[0], this.px[1]);
+      const cmLong = Math.max(size[0], size[1]);
+      const cmShort = Math.min(size[0], size[1]);
+      /* The image fills the format, so the side that gets stretched most sets the resolution */
+      const ppi = Math.round(Math.min(imgLong / (cmLong / 2.54), imgShort / (cmShort / 2.54)));
+      const vars = { SIZE: sizeName, PPI: ppi };
+      this.res.value += ' · ~' + ppi + ' ppp a ' + sizeName;
+
+      const ratioGap = Math.abs(imgLong / imgShort - cmLong / cmShort) / (cmLong / cmShort);
+      const crop = ratioGap > 0.05 ? ' ' + this.msg('Crop') : '';
+
+      if (ppi >= good) {
+        this.show(this.msg('Good', vars) + crop, 'good');
+        this.setAck(false);
+      } else if (ppi >= min) {
+        this.show(this.msg('Ok', vars) + crop, 'ok');
+        this.setAck(false);
+      } else if (this.dataset.mode === 'block') {
+        const text = this.msg('Block', vars);
+        this.file.setCustomValidity(text);
+        this.show(text, 'error');
+        this.setAck(false);
+      } else {
+        this.show(this.msg('Low', vars) + crop, 'low');
+        this.setAck(true);
+      }
+    }
+  }
+  if (!customElements.get('custom-upload')) customElements.define('custom-upload', CustomUpload);
+
   /* "Mírala en tu pared" --------------------------------------------------- */
   class WallPreview extends HTMLElement {
     connectedCallback() {
@@ -959,9 +1100,11 @@
     button.disabled = true;
     button.classList.add('is-loading');
     const json = { 'Content-Type': 'application/json', 'Accept': 'application/json' };
+    let props = {};
+    try { props = JSON.parse(button.dataset.properties || '{}') || {}; } catch (e) { props = {}; }
     fetch(root + 'cart/add.js', {
       method: 'POST', headers: json,
-      body: JSON.stringify({ items: [{ id: parseInt(button.dataset.variant, 10), quantity: parseInt(button.dataset.quantity, 10) || 1 }] })
+      body: JSON.stringify({ items: [{ id: parseInt(button.dataset.variant, 10), quantity: parseInt(button.dataset.quantity, 10) || 1, properties: props }] })
     })
       .then(function (r) {
         if (!r.ok) throw new Error('add');

@@ -22,6 +22,7 @@
   <ul class="slider" id="Slider-{{ section.id }}">
     {%- if collection != blank and collection.products_count > 0 -%}
       {%- for product in collection.products limit: s.limit -%}
+        {%- if settings.custom_tag != blank and product.tags contains settings.custom_tag -%}{%- continue -%}{%- endif -%}
         <li class="slider__item">{% render 'product-card', product: product, index: forloop.index %}</li>
       {%- endfor -%}
     {%- else -%}

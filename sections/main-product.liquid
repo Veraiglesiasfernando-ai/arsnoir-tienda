@@ -172,6 +172,9 @@
               </div>
             {%- endif -%}
 
+          {%- when 'custom_upload' -%}
+            {% render 'custom-upload', block: block, form_id: form_id %}
+
           {%- when 'delivery' -%}
             <div {{ block.shopify_attributes }}>{% render 'delivery-estimate' %}</div>
 
@@ -287,6 +290,40 @@
       "type": "edition", "name": "Edición limitada", "limit": 1,
       "settings": [
         { "type": "paragraph", "content": "Se muestra solo en obras con los metafields «Edición limitada: nº de copias» (custom.edition_size) y «Edición limitada: copias vendidas» (custom.edition_sold)." }
+      ]
+    },
+    {
+      "type": "custom_upload", "name": "Personalízalo: tu imagen", "limit": 1,
+      "settings": [
+        { "type": "paragraph", "content": "Solo para el producto personalizado (plantilla product.personalizalo). Colócalo encima de «Opciones y compra». La imagen, la casilla de derechos y la resolución se guardan en el pedido." },
+        { "type": "text", "id": "heading", "label": "Título", "default": "Tu imagen" },
+        { "type": "richtext", "id": "notice", "label": "Aviso de resolución (antes de subir)", "default": "<p>Para que tu pieza imprima con calidad, sube una imagen en alta resolución. Recomendado: mínimo 300 ppp al tamaño elegido. Imágenes de baja calidad pueden salir pixeladas.</p>" },
+        { "type": "checkbox", "id": "native_upload", "label": "Subida de imagen del tema", "default": true, "info": "Desactívalo si usas el editor de personalización de Gelato (bloque de app): entonces aquí solo quedan el aviso, la casilla de derechos y la nota." },
+        { "type": "text", "id": "button_label", "label": "Texto del botón de subida", "default": "Sube tu imagen" },
+        { "type": "range", "id": "max_mb", "label": "Peso máximo", "min": 5, "max": 20, "step": 1, "unit": "MB", "default": 20 },
+        { "type": "text", "id": "default_size", "label": "Tamaño si el producto no tiene variantes", "default": "50 × 70 cm" },
+        { "type": "header", "content": "Comprobación de resolución" },
+        { "type": "range", "id": "good_ppi", "label": "Calidad óptima desde", "min": 150, "max": 300, "step": 10, "unit": "ppp", "default": 300 },
+        { "type": "range", "id": "min_ppi", "label": "Mínimo aceptable", "min": 60, "max": 250, "step": 10, "unit": "ppp", "default": 150 },
+        {
+          "type": "select", "id": "low_mode", "label": "Por debajo del mínimo", "default": "ack",
+          "options": [
+            { "value": "ack", "label": "Advertir: exige aceptar el aviso" },
+            { "value": "block", "label": "Bloquear: no deja añadir al carrito" }
+          ]
+        },
+        { "type": "text", "id": "msg_good", "label": "Mensaje: calidad óptima", "default": "Resolución perfecta para [SIZE]: unos [PPI] ppp." },
+        { "type": "text", "id": "msg_ok", "label": "Mensaje: aceptable", "default": "Resolución justa para [SIZE] (unos [PPI] ppp). Se imprimirá bien, con algo menos de nitidez de cerca. Para el mejor resultado, elige un tamaño menor o sube una imagen más grande." },
+        { "type": "text", "id": "msg_low", "label": "Mensaje: baja", "default": "Resolución baja para [SIZE] (unos [PPI] ppp): es probable que salga pixelada. Elige un tamaño menor o sube una imagen más grande." },
+        { "type": "text", "id": "msg_block", "label": "Mensaje: bloqueada", "default": "Esta imagen es demasiado pequeña para [SIZE] (unos [PPI] ppp). Elige un tamaño menor o sube una imagen más grande." },
+        { "type": "text", "id": "msg_need", "label": "Píxeles recomendados", "default": "Para [SIZE] a [GOOD] ppp: [W] × [H] px." },
+        { "type": "text", "id": "msg_crop", "label": "Aviso de proporción", "default": "Tu imagen no tiene la misma proporción que el formato: se ajustará y puede recortarse por los bordes." },
+        { "type": "text", "id": "msg_type", "label": "Error: formato", "default": "No podemos leer este archivo. Sube una imagen JPG o PNG." },
+        { "type": "text", "id": "msg_weight", "label": "Error: peso", "default": "La imagen pesa más de [MB] MB. Expórtala en JPG de alta calidad y vuelve a subirla." },
+        { "type": "text", "id": "low_ack", "label": "Casilla de aceptación (baja resolución)", "default": "Entiendo que mi imagen tiene baja resolución y que puede salir pixelada." },
+        { "type": "header", "content": "Derechos y calidad" },
+        { "type": "text", "id": "rights_label", "label": "Casilla de derechos (obligatoria)", "default": "Confirmo que tengo los derechos para imprimir esta imagen." },
+        { "type": "textarea", "id": "quality_note", "label": "Nota de resultado", "default": "Imprimimos tu imagen tal cual la subes, sin retocarla: el resultado depende de su calidad y resolución. Una imagen de baja resolución no se considera defecto de impresión." }
       ]
     },
     {

@@ -113,6 +113,8 @@
               assign ed_size = item.product.metafields.custom.edition_size.value | default: 0
               assign ed_sold = item.product.metafields.custom.edition_sold.value | default: 0
               assign ed_left = ed_size | minus: ed_sold
+              # Frame upgrade re-adds the line: keep its properties (the customer's image, rights…)
+              assign props_json = item.properties | json | escape
 
               # Frame choice: every available framed variant (black, white, wood…) with the same size.
               assign frames = ''
@@ -151,7 +153,7 @@
                         render 'frame-swatch', value: v.options[frame_idx]
                       endcapture
                       capture chip
-                        echo '<button type="button" class="cartx-frame" data-frame-upgrade data-key="' | append: item.key | append: '" data-variant="' | append: v.id | append: '" data-quantity="' | append: item.quantity | append: '">'
+                        echo '<button type="button" class="cartx-frame" data-frame-upgrade data-key="' | append: item.key | append: '" data-variant="' | append: v.id | append: '" data-quantity="' | append: item.quantity | append: '" data-properties="' | append: props_json | append: '">'
                         echo swatch
                         echo '<span class="cartx-frame__name">' | append: frame_name | append: '</span>'
                         echo '<span class="cartx-frame__price">+' | append: diff_money | append: '</span></button>'
@@ -177,6 +179,9 @@
                   <p class="cartx-item__variant">{{ 'cart.gift_subtitle' | t }} · {{ item.options_with_values | map: 'value' | join: ' · ' }}</p>
                 {%- elsif item.product.has_only_default_variant == false -%}
                   <p class="cartx-item__variant">{{ item.options_with_values | map: 'value' | join: ' · ' }}</p>
+                {%- endif -%}
+                {%- if item.properties['Imagen'] != blank -%}
+                  <p class="cartx-item__upload">{{ 'product.your_image' | t }}: <a href="{{ item.properties['Imagen'] }}" target="_blank" rel="noopener">{{ 'product.view_image' | t }}</a></p>
                 {%- endif -%}
                 {%- if is_gift == false and ed_size > 0 and ed_left > 0 -%}
                   <p class="cartx-item__edition">

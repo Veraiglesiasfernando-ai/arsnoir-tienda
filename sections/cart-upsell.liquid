@@ -35,6 +35,9 @@
           if shown >= max or p.available == false or in_cart contains key
             continue
           endif
+          if settings.custom_tag != blank and p.tags contains settings.custom_tag
+            continue
+          endif
           assign pick = p.selected_or_first_available_variant
           assign unlocks = false
           if check_ship

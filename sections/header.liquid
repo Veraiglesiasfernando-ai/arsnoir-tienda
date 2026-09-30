@@ -1,6 +1,18 @@
 {%- liquid
   assign s = section.settings
   assign menu = linklists[s.menu]
+  # "Personalízalo": own link after the author menu, unless the menu already has it
+  assign custom_c = settings.custom_collection
+  assign show_custom = false
+  if settings.custom_in_header and custom_c != blank
+    assign show_custom = true
+    for link in menu.links
+      if link.url == custom_c.url
+        assign show_custom = false
+      endif
+    endfor
+  endif
+  assign custom_label = settings.custom_label | default: custom_c.title
   assign fav_url = s.favorites_page.url
   if fav_url == blank
     assign fav_url = routes.root_url | append: '/pages/favoritos' | replace: '//', '/'
@@ -29,6 +41,9 @@
                 {%- endif -%}
               </li>
             {%- endfor -%}
+            {%- if show_custom -%}
+              <li class="nav-custom"><a href="{{ custom_c.url }}"{% if collection.id == custom_c.id or product.tags contains settings.custom_tag %} aria-current="page"{% endif %}>{{ custom_label }}</a></li>
+            {%- endif -%}
             <li><a href="{{ routes.search_url }}" data-search-open>{{ 'general.search' | t }}</a></li>
             <li><a href="{{ fav_url }}">{{ 'general.favorites' | t }}</a></li>
             {%- if shop.customer_accounts_enabled -%}
@@ -73,6 +88,9 @@
             <li><a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a></li>
           {%- endif -%}
         {%- endfor -%}
+        {%- if show_custom -%}
+          <li class="nav-custom"><a href="{{ custom_c.url }}"{% if collection.id == custom_c.id or product.tags contains settings.custom_tag %} aria-current="page"{% endif %}>{{ custom_label }}</a></li>
+        {%- endif -%}
       </ul>
     </nav>
 

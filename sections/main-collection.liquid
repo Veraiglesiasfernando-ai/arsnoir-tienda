@@ -19,7 +19,7 @@
         {%- endfor -%}
       {%- else -%}
         {%- for c in collections -%}
-          {%- if c.handle == 'frontpage' or c.handle == 'all' or c.handle == 'mas-vendidos' or c.products_count == 0 -%}{%- continue -%}{%- endif -%}
+          {%- if c.handle == 'frontpage' or c.handle == 'all' or c.handle == 'mas-vendidos' or c.products_count == 0 or c.id == settings.custom_collection.id -%}{%- continue -%}{%- endif -%}
           <a href="{{ c.url }}"{% if c.handle == collection.handle %} aria-current="page"{% endif %}>{{ c.title }}</a>
         {%- endfor -%}
       {%- endif -%}
@@ -88,6 +88,8 @@
     {%- if collection.products.size > 0 -%}
       <ul class="product-grid collection-grid-art" style="--cols: {{ s.columns }}">
         {%- for product in collection.products -%}
+          {%- comment -%} The custom-image product only lists in its own collection {%- endcomment -%}
+          {%- if settings.custom_tag != blank and product.tags contains settings.custom_tag and collection.id != settings.custom_collection.id -%}{%- continue -%}{%- endif -%}
           {%- liquid
             assign lazy = true
             if forloop.index <= 4

@@ -544,5 +544,39 @@
         "default": "Hecho. Tu 10% ya está aplicado."
       }
     ]
+  },
+  {
+    "name": "Personalízalo",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Producto en el que el cliente sube su propia imagen. Va aparte del catálogo de autor: enlace propio en la cabecera y fuera de las obras de la home, sugerencias y listados."
+      },
+      {
+        "type": "collection",
+        "id": "custom_collection",
+        "label": "Colección Personalízalo",
+        "info": "Crea la colección (p. ej. «Personalízalo», handle personalizalo) y elígela aquí. Sin colección, no se muestra el enlace."
+      },
+      {
+        "type": "checkbox",
+        "id": "custom_in_header",
+        "label": "Enlace en la cabecera",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "custom_label",
+        "label": "Texto del enlace",
+        "default": "Personalízalo"
+      },
+      {
+        "type": "text",
+        "id": "custom_tag",
+        "label": "Etiqueta del producto personalizado",
+        "default": "personalizalo",
+        "info": "Los productos con esta etiqueta no salen en las obras destacadas, «También te puede gustar», «Completa tu pared» ni en las colecciones de autor."
+      }
+    ]
   }
 ]

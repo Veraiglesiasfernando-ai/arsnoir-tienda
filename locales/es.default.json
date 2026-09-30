@@ -157,7 +157,11 @@
     "material": "Material:",
     "frame": "Marco (opcional):",
     "choose_size": "Elegir {{ size }}",
-    "scale_with": "a escala junto a"
+    "scale_with": "a escala junto a",
+    "upload_hint": "JPG o PNG · hasta {{ mb }} MB",
+    "upload_change": "Cambiar imagen",
+    "your_image": "Tu imagen",
+    "view_image": "Ver imagen"
   },
   "collection": {
     "all": "Todas",

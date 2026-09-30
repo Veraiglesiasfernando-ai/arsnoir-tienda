@@ -194,3 +194,33 @@ Selector: 1) Tamaño · 2) Acabado (Sin marco / Marco negro / Marco blanco / Mar
 | 50×70 | 50 × 70 cm | 69,95 € | 179,95 € |
 | A1 | 59,4 × 84,1 cm | 84,95 € | 219,95 € |
 | XL | 60 × 90 cm | 94,95 € | 239,95 € |
+
+## Personalízalo (el cliente sube su imagen)
+
+Producto secundario, aparte del catálogo de autor: el cliente sube su propia foto, elige tamaño y acabado, y se imprime **tal cual** (no se transforma al estilo ARSNOIR).
+
+**Qué hace el tema**
+
+- **Enlace «Personalízalo» en la cabecera**, al final del menú (escritorio y móvil). Sale solo cuando eliges la colección en *Configuración del tema → Personalízalo*. Si ya lo pones tú en el menú, no se duplica.
+- **Separado del catálogo:** los productos con la etiqueta `personalizalo` no aparecen en las obras destacadas de la home, «También te puede gustar», «Completa tu pared» ni en las colecciones de autor (solo en su colección). La colección tampoco sale en la navegación entre colecciones.
+- **Plantilla de ficha `product.personalizalo`** con el bloque **«Personalízalo: tu imagen»** encima del selector:
+  - **Aviso de resolución** antes de subir («…mínimo 300 ppp al tamaño elegido…»).
+  - **Subida** JPG/PNG (hasta 20 MB), con vista previa.
+  - **Comprobación de resolución** con el tamaño elegido (se recalcula al cambiar de tamaño): ≥ 300 ppp «perfecta»; 150–299 «justa»; < 150 «baja» → para añadir al carrito el cliente tiene que marcar «Entiendo que mi imagen tiene baja resolución…». En el bloque se puede cambiar a **bloquear** (no deja añadir). Indica los píxeles necesarios para ese tamaño y avisa si la proporción no coincide (puede recortarse).
+  - **Casilla obligatoria de derechos:** «Confirmo que tengo los derechos para imprimir esta imagen.»
+  - **Nota de resultado:** se imprime tal cual; la baja resolución no es defecto de impresión.
+  - Todo queda en el pedido como propiedades: `Imagen` (enlace al archivo), `Derechos de la imagen: Confirmados por el cliente`, `Aviso de baja resolución: Aceptado por el cliente` (si aplica) y `_Resolución` (px y ppp; oculta al cliente).
+- **Carrito:** muestra «Tu imagen: Ver imagen». Cambiar a enmarcado desde el carrito conserva la imagen.
+- **Plantilla de colección `collection.personalizalo`:** listado + «Cómo funciona».
+- Envío, `WELCOME10` e IVA: las mismas reglas que el resto de la tienda (no hay nada distinto en el tema).
+
+**Qué hay que hacer en Shopify / Gelato**
+
+1. **Producto en Gelato:** crea el producto personalizable (póster + póster enmarcado) con los 6 tamaños (A4, A3, A2, 50×70, A1, XL 60×90) y los 4 acabados (sin marco / marco negro / blanco / madera), con **los mismos PVP** que el catálogo (tabla de arriba). Opciones llamadas *Tamaño* y *Acabado* (o *Marco*), como las obras, para que el selector y la comprobación de resolución las reconozcan. Mismo perfil de envío (EU Flat Rate 4,95 €).
+2. **En Shopify:** al producto ponle la etiqueta `personalizalo` y la plantilla `product.personalizalo`. Crea la colección **Personalízalo** (handle `personalizalo`), con la plantilla `collection.personalizalo`, y elígela en *Configuración del tema → Personalízalo*.
+3. **Quítalo de las colecciones de autor** automáticas («Todas las obras», «Más vendidos»…): añade la condición *Etiqueta no es igual a `personalizalo`*. El tema ya lo oculta, pero así también cuadran los contadores y los filtros.
+4. **Comprueba** que `WELCOME10` y el envío gratis no están limitados a otras colecciones.
+5. **Cómo llega la imagen a Gelato** — elige una:
+   - **Editor de personalización de Gelato** (si está disponible en tu cuenta): actívalo en el producto, añade su bloque de app en *Personalizar → plantilla product.personalizalo*, encima de «Opciones y compra», y en el bloque «Personalízalo: tu imagen» **desactiva «Subida de imagen del tema»**. Se quedan el aviso, la casilla de derechos y la nota; Gelato recibe el diseño con el pedido.
+   - **Subida del tema** (la que viene activada): la imagen llega al pedido como enlace en `Imagen`, pero **Gelato no la usa sola**. Desactiva el envío automático a Gelato para este producto y, en cada pedido, descarga la imagen del pedido y crea el pedido en Gelato con ella. Si no, Gelato imprimiría la imagen genérica del producto.
+6. Haz un **pedido de prueba** antes de enlazarlo en el menú.

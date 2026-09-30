@@ -2113,3 +2113,54 @@ html:not(.is-scrolled) body:has(main > .shopify-section:first-child .vhero) .gla
 .cartx__ship { padding: 14px 22px 16px; border-bottom: 1px solid var(--color-line); background: rgba(255, 255, 255, 0.6); }
 .cartx__ship .ship-bar { margin: 0; padding: 0; background: none; border: 0; box-shadow: none; }
 .cartx__ship .ship-bar__track span { background: var(--cart-accent); }
+
+/* Personalízalo: the customer's own image */
+.upload {
+  display: block;
+  margin: 4px 0 20px;
+  padding: 18px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 16px 30px -24px rgba(0, 0, 0, 0.3);
+}
+.upload__heading { margin: 0 0 10px; font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+.upload__notice { display: flex; gap: 10px; margin: 0 0 14px; font-size: 13px; line-height: 1.5; }
+.upload__notice .icon { flex: none; width: 18px; height: 18px; margin-top: 1px; }
+.upload__notice p { margin: 0; }
+.upload__drop {
+  position: relative;
+  display: block;
+  padding: 18px;
+  border: 1.5px dashed rgba(0, 0, 0, 0.25);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+.upload__drop:hover, .upload__drop:focus-within { border-color: var(--color-fg); }
+/* Hidden visually but still focusable and able to show the browser's "required" bubble */
+.upload__file { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+.upload__empty { display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; font-size: 13px; color: var(--color-muted); }
+.upload__empty strong { font-size: 14px; color: var(--color-fg); }
+.upload__empty strong::before { content: "+ "; }
+.upload__preview { display: flex; align-items: center; gap: 14px; }
+.upload__preview[hidden], .upload__empty[hidden] { display: none; }
+.upload__preview img { width: 72px; height: 72px; object-fit: contain; background: #fff; border: 4px solid #0a0a0a; flex: none; }
+.upload__file-meta { display: flex; flex-direction: column; gap: 2px; min-width: 0; font-size: 13px; color: var(--color-muted); }
+.upload__file-meta strong { color: var(--color-fg); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.upload__change { text-decoration: underline; }
+.upload__status { margin: 12px 0 0; padding: 10px 12px; border-radius: 10px; font-size: 13px; line-height: 1.45; background: #f1f1ef; }
+.upload__status[data-level="good"] { background: #eaf4ec; color: #1f5130; }
+.upload__status[data-level="ok"] { background: #fbf4e2; color: #6b4d09; }
+.upload__status[data-level="low"], .upload__status[data-level="error"] { background: #fbeaea; color: #8a1c1c; }
+.upload__need { margin: 8px 0 0; font-size: 12px; color: var(--color-muted); }
+.upload__check { display: flex; align-items: flex-start; gap: 10px; margin: 14px 0 0; font-size: 13px; line-height: 1.45; cursor: pointer; }
+.upload__check[hidden] { display: none; }
+.upload__check input { flex: none; width: 18px; height: 18px; margin: 0; accent-color: #0a0a0a; }
+.upload__check--warn { color: #8a1c1c; }
+.upload__note { margin: 12px 0 0; font-size: 12px; line-height: 1.5; color: var(--color-muted); }
+.cart-prop-image { display: inline-flex; align-items: center; gap: 8px; }
+.cart-prop-image img { width: 36px; height: 36px; object-fit: cover; border: 2px solid #0a0a0a; }
+.cartx-item__upload { margin: 2px 0 0; font-size: 12px; color: var(--color-muted); }
+.cartx-item__upload a { text-decoration: underline; }

@@ -1,0 +1,30 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-collection",
+      "settings": {
+        "eyebrow": "PERSONALÍZALO",
+        "all_title": "Todas las obras",
+        "per_page": 24,
+        "columns": 4,
+        "show_nav": false
+      }
+    },
+    "how": {
+      "type": "rich-text",
+      "settings": {
+        "eyebrow": "CÓMO FUNCIONA",
+        "heading": "Tu imagen, impresa como una pieza ARSNOIR",
+        "text": "<p>Sube tu foto, elige tamaño (A4, A3, A2, 50 × 70, A1 o XL 60 × 90) y acabado (sin marco o con marco negro, blanco o madera). La imprimimos tal cual, en el mismo papel y con los mismos marcos que nuestras obras.</p><p>Sube la imagen en alta resolución: mínimo recomendado 300 ppp al tamaño elegido. El resultado depende de la calidad de la imagen que subas.</p>",
+        "button_label": "Ver obras de autor",
+        "button_link": "shopify://collections/all",
+        "center": true,
+        "border_top": true
+      }
+    }
+  },
+  "order": [
+    "main",
+    "how"
+  ]
+}
