@@ -157,7 +157,11 @@
     "material": "Material:",
     "frame": "Marco (opcional):",
     "choose_size": "Elegir {{ size }}",
-    "scale_with": "a escala junto a"
+    "scale_with": "a escala junto a",
+    "cguard_low": "Tu imagen mide [W] × [H] px: a [SIZE] quedaría a [PPI] ppp y saldría pixelada. Sube una imagen más grande o elige un tamaño menor.",
+    "cguard_mid": "Tu imagen quedaría a [PPI] ppp a [SIZE]. Se puede imprimir, pero con 300 ppp saldrá más nítida.",
+    "cguard_ok": "Buena resolución para [SIZE] ([PPI] ppp).",
+    "cguard_rights_value": "Confirmados por el cliente"
   },
   "collection": {
     "all": "Todas",

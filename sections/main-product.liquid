@@ -147,6 +147,20 @@
               {%- endif -%}
             </div>
 
+          {%- when 'custom_guard' -%}
+            {%- comment -%} Personalízalo: quality notice + required image-rights checkbox (recorded as a line item property). {%- endcomment -%}
+            <div class="cguard" data-cguard data-min-ppi="{{ block.settings.min_ppi }}" data-good-ppi="300"
+              data-low-text="{{ 'product.cguard_low' | t | escape }}" data-mid-text="{{ 'product.cguard_mid' | t | escape }}" data-ok-text="{{ 'product.cguard_ok' | t | escape }}" {{ block.shopify_attributes }}>
+              {%- if block.settings.heading != blank -%}<p class="cguard__title">{{ block.settings.heading }}</p>{%- endif -%}
+              {%- if block.settings.notice != blank -%}<p class="cguard__notice">{{ block.settings.notice }}</p>{%- endif -%}
+              <p class="cguard__check" data-cguard-result hidden></p>
+              <label class="cguard__rights">
+                <input type="checkbox" name="properties[Derechos de imagen]" value="{{ 'product.cguard_rights_value' | t }}" form="{{ form_id }}" required data-cguard-rights>
+                <span>{{ block.settings.rights_label }}</span>
+              </label>
+              {%- if block.settings.note != blank -%}<p class="cguard__note">{{ block.settings.note }}</p>{%- endif -%}
+            </div>
+
           {%- when 'edition' -%}
             {%- liquid
               assign ed_size = product.metafields.custom.edition_size.value | default: 0
@@ -281,6 +295,17 @@
         { "type": "checkbox", "id": "highlight_largest", "label": "Destacar el tamaño más grande", "default": true, "info": "Se aplica a la opción llamada Tamaño / Medida / Size." },
         { "type": "text", "id": "recommended_size", "label": "O destacar este tamaño exacto", "info": "Ej.: 50 × 70 cm. Tiene prioridad sobre la opción anterior." },
         { "type": "text", "id": "recommended_label", "label": "Etiqueta", "default": "Recomendado" }
+      ]
+    },
+    {
+      "type": "custom_guard", "name": "Personalízalo: avisos y derechos", "limit": 1,
+      "settings": [
+        { "type": "paragraph", "content": "Para el producto «Sube tu imagen». La casilla de derechos es obligatoria: sin marcarla no se puede añadir al carrito (tampoco desde los bloques de apps de esta ficha, como el de Gelato), y queda guardada en el pedido." },
+        { "type": "text", "id": "heading", "label": "Título", "default": "Antes de subir tu imagen" },
+        { "type": "textarea", "id": "notice", "label": "Aviso de resolución", "default": "Para que tu pieza imprima con calidad, sube una imagen en alta resolución. Recomendado: mínimo 300 ppp al tamaño elegido. Imágenes de baja calidad pueden salir pixeladas." },
+        { "type": "text", "id": "rights_label", "label": "Casilla de derechos", "default": "Confirmo que tengo los derechos para imprimir esta imagen." },
+        { "type": "textarea", "id": "note", "label": "Nota de calidad", "default": "Imprimimos tu imagen tal cual la subes: el resultado depende de su calidad. No retocamos ni cambiamos el estilo." },
+        { "type": "range", "id": "min_ppi", "label": "Avisar de pixelado por debajo de", "min": 100, "max": 300, "step": 10, "unit": "ppp", "default": 150, "info": "Solo cuando la imagen se sube en esta ficha y el navegador puede leer su tamaño." }
       ]
     },
     {

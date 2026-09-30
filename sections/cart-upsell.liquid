@@ -32,7 +32,7 @@
       {%- for p in recommendations.products -%}
         {%- liquid
           assign key = ',' | append: p.id | append: ','
-          if shown >= max or p.available == false or in_cart contains key
+          if shown >= max or p.available == false or in_cart contains key or p.type == 'Personalizado'
             continue
           endif
           assign pick = p.selected_or_first_available_variant

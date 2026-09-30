@@ -89,6 +89,10 @@
       <ul class="product-grid collection-grid-art" style="--cols: {{ s.columns }}">
         {%- for product in collection.products -%}
           {%- liquid
+            # «Personalízalo» lives in its own collection, never in the author catalogue
+            if collection.handle == 'all' and product.type == 'Personalizado'
+              continue
+            endif
             assign lazy = true
             if forloop.index <= 4
               assign lazy = false

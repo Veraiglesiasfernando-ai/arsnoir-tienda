@@ -163,7 +163,7 @@
           "type": "question",
           "settings": {
             "question": "¿Cuánto cuesta el envío?",
-            "answer": "<p>Gratis en pedidos desde 60 €. Por debajo, depende de tu dirección: el coste exacto aparece en el pago antes de confirmar el pedido.</p>"
+            "answer": "<p>Gratis en pedidos desde 80 €. Por debajo, 4,95 €.</p>"
           }
         }
       },

@@ -612,6 +612,54 @@
     return swatch ? swatch.dataset.frameKind : 'none';
   }
 
+  /* Personalízalo: rights checkbox gates the buy button (native `required`) and any app
+     block of the product (e.g. Gelato's upload), plus a resolution check for uploads -- */
+  document.querySelectorAll('[data-cguard]').forEach(function (guard) {
+    const rights = guard.querySelector('[data-cguard-rights]');
+    const scope = guard.closest('section, .shopify-section') || document;
+    const apps = function () {
+      return Array.prototype.filter.call(scope.querySelectorAll('[id^="shopify-block-"]'), function (el) { return !el.contains(guard); });
+    };
+    const sync = function () {
+      apps().forEach(function (el) {
+        el.classList.toggle('cguard-locked', !rights.checked);
+        if (!rights.checked) el.setAttribute('inert', ''); else el.removeAttribute('inert');
+      });
+    };
+    rights.addEventListener('change', sync);
+    sync();
+    setTimeout(sync, 1500); /* app blocks that render late */
+
+    const result = guard.querySelector('[data-cguard-result]');
+    const minPpi = parseInt(guard.dataset.minPpi, 10) || 150;
+    const goodPpi = parseInt(guard.dataset.goodPpi, 10) || 300;
+    let last = null;
+    const check = function () {
+      if (!last) return;
+      const label = selectedOf('size');
+      const size = label && parseSize(label);
+      if (!size) { result.hidden = true; return; }
+      const longPx = Math.max(last.w, last.h);
+      const shortPx = Math.min(last.w, last.h);
+      const ppi = Math.floor(Math.min(longPx / (Math.max(size[0], size[1]) / 2.54), shortPx / (Math.min(size[0], size[1]) / 2.54)));
+      const key = ppi < minPpi ? 'low' : ppi < goodPpi ? 'mid' : 'ok';
+      result.textContent = guard.dataset[key + 'Text'].replace('[W]', last.w).replace('[H]', last.h).replace('[SIZE]', label).replace('[PPI]', ppi);
+      result.className = 'cguard__check cguard__check--' + key;
+      result.hidden = false;
+    };
+    scope.addEventListener('change', function (event) {
+      const input = event.target;
+      if (input.matches && input.matches('input[type="file"]') && input.files && input.files[0] && /^image\//.test(input.files[0].type)) {
+        const url = URL.createObjectURL(input.files[0]);
+        const img = new Image();
+        img.onload = function () { last = { w: img.naturalWidth, h: img.naturalHeight }; URL.revokeObjectURL(url); check(); };
+        img.src = url;
+      } else if (input.closest && input.closest('fieldset[data-option-kind="size"]')) {
+        check();
+      }
+    });
+  });
+
   /* "Mírala en tu pared" --------------------------------------------------- */
   class WallPreview extends HTMLElement {
     connectedCallback() {

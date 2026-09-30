@@ -15,16 +15,8 @@
           "type": "buy_buttons",
           "settings": {
             "show_dynamic_checkout": false,
-            "highlight_largest": true,
+            "highlight_largest": false,
             "recommended_label": "Recomendado"
-          }
-        },
-        "notes": {
-          "type": "notes",
-          "settings": {
-            "note_1": "Pieza exclusiva de ARSNOIR",
-            "note_2": "Obra original y exclusiva de arsnoir",
-            "note_3": ""
           }
         },
         "description": {
@@ -34,8 +26,8 @@
         "details": {
           "type": "collapsible",
           "settings": {
-            "heading": "Detalles de impresión",
-            "content": "<p>Papel Premium Matte de 200 g/m², acabado mate sin reflejos. Impresión giclée de 12 colores para un color fiel y negros profundos. Papel de origen sostenible y certificado FSC, con tintas al agua.</p>",
+            "heading": "Cómo preparar tu imagen",
+            "content": "<p>Sube una foto o imagen en JPG o PNG, lo más grande que tengas (sin capturas de pantalla ni imágenes de WhatsApp, que pierden calidad). Recomendado: 300 ppp al tamaño elegido; por ejemplo, para A3 unos 3.500 × 4.960 px. Se imprime tal cual: sin retoques ni cambios de estilo.</p><p>Papel Premium Matte de 200 g/m², impresión giclée de 12 colores. Marcos negro, blanco o madera natural, listos para colgar, al mismo precio.</p>",
             "open": false
           }
         },
@@ -59,18 +51,6 @@
           "type": "trust",
           "settings": {}
         },
-        "material": {
-          "type": "material",
-          "settings": {}
-        },
-        "edition": {
-          "type": "edition",
-          "settings": {}
-        },
-        "wall": {
-          "type": "wall_preview",
-          "settings": {}
-        },
         "compare": {
           "type": "size_compare",
           "settings": {}
@@ -78,22 +58,32 @@
         "delivery": {
           "type": "delivery",
           "settings": {}
+        },
+        "guard": {
+          "type": "custom_guard",
+          "settings": {}
+        },
+        "rights": {
+          "type": "collapsible",
+          "settings": {
+            "heading": "Derechos de la imagen",
+            "content": "<p>Solo imprimimos imágenes que te pertenecen o que tienes permiso para imprimir. Al marcar la casilla lo confirmas y queda registrado en tu pedido. No imprimimos contenido protegido por derechos de autor de terceros, marcas ni imágenes ilegales u ofensivas; si recibimos una así, cancelamos el pedido y te devolvemos el dinero.</p>",
+            "open": false
+          }
         }
       },
       "block_order": [
         "title",
         "price",
-        "edition",
+        "description",
+        "guard",
         "buy",
         "delivery",
-        "material",
         "trust",
-        "notes",
-        "wall",
         "compare",
-        "description",
         "details",
         "sizes",
+        "rights",
         "shipping"
       ],
       "settings": {
@@ -103,20 +93,13 @@
     "related": {
       "type": "featured-slider",
       "settings": {
-        "eyebrow": "SIGUE MIRANDO",
-        "heading": "También te puede gustar",
-        "subtitle": "Más obras originales de ARSNOIR.",
+        "eyebrow": "ARSNOIR",
+        "heading": "¿Prefieres una obra de autor?",
+        "subtitle": "Piezas originales y exclusivas de ARSNOIR.",
         "collection": "mas-vendidos",
         "limit": 8,
         "button_label": "VER TODAS",
         "placeholder_price": "24,95 €"
-      }
-    },
-    "reviews": {
-      "type": "reviews",
-      "settings": {
-        "eyebrow": "OPINIONES",
-        "heading": "Lo que dicen de esta obra"
       }
     },
     "faq": {
@@ -164,17 +147,11 @@
         "button_label": "Contactar",
         "button_link": "/pages/contacto"
       }
-    },
-    "recent": {
-      "type": "recently-viewed",
-      "settings": {}
     }
   },
   "order": [
     "main",
-    "reviews",
     "faq",
-    "related",
-    "recent"
+    "related"
   ]
 }
