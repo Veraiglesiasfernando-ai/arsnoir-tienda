@@ -198,7 +198,7 @@ Selector: 1) Tamaño · 2) Acabado (Sin marco / Marco negro / Marco blanco / Mar
 ## Personalízalo (el cliente sube su imagen)
 
 - Colección propia `personalizalo` (automática: productos de **tipo** `Personalizado`), enlazada al final del menú. «Todas las obras» (`/collections/all`), «Más vendidos», «Obras» y las sugerencias del carrito no muestran estos productos.
-- Plantilla de producto **product.personalizalo**: título, precio, descripción, bloque «Personalízalo: avisos y derechos», compra, entrega, comparador de tamaños y desplegables (cómo preparar la imagen, derechos, envío).
+- Plantilla de producto **product.personalizalo**: título, precio, descripción, bloque «Personalízalo: avisos», compra, entrega, comparador de tamaños y desplegables (cómo preparar la imagen, derechos, envío).
 - La subida y la impresión son de **Gelato** (su personalización / bloque de app). Añade el bloque de la app de Gelato a esta plantilla en *Personalizar*.
 - Casilla «Confirmo que tengo los derechos para imprimir esta imagen» **obligatoria**: sin marcarla no se puede añadir al carrito y los bloques de apps de la ficha quedan bloqueados. Se guarda en el pedido como «Derechos de imagen: Confirmados por el cliente».
 - Aviso de resolución (300 ppp recomendado). Si la imagen se sube con un campo de archivo de la propia ficha, se calcula su resolución al tamaño elegido y avisa por debajo de 150 ppp.
