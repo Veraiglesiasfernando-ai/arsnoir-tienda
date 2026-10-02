@@ -165,7 +165,11 @@
     "step_size": "Choose your size",
     "step_finish": "Choose your finish",
     "size_guide": "Size guide",
-    "about_frames": "About frames"
+    "about_frames": "About frames",
+    "upload_cta": "Upload your image",
+    "upload_change": "Change image",
+    "upload_hint": "JPG or PNG, as large as possible",
+    "upload_meta": "[NAME] · [W] × [H] px"
   },
   "collection": {
     "all": "All",

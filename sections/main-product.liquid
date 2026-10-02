@@ -211,6 +211,22 @@
               data-low-text="{{ 'product.cguard_low' | t | escape }}" data-mid-text="{{ 'product.cguard_mid' | t | escape }}" data-ok-text="{{ 'product.cguard_ok' | t | escape }}" {{ block.shopify_attributes }}>
               {%- if block.settings.heading != blank -%}<p class="cguard__title">{{ block.settings.heading }}</p>{%- endif -%}
               {%- if block.settings.notice != blank -%}<p class="cguard__notice">{{ block.settings.notice }}</p>{%- endif -%}
+              {%- if block.settings.upload -%}
+                <div class="cupload" data-change-text="{{ 'product.upload_change' | t | escape }}" data-meta-text="{{ 'product.upload_meta' | t | escape }}">
+                  <label class="cupload__drop" for="Upload-{{ section.id }}">
+                    <input class="cupload__input" id="Upload-{{ section.id }}" type="file" name="properties[Imagen]" form="{{ form_id }}" accept="image/jpeg,image/png" required data-cupload>
+                    <span class="cupload__icon" aria-hidden="true">+</span>
+                    <span class="cupload__label" data-cupload-label>{{ 'product.upload_cta' | t }}</span>
+                    <span class="cupload__hint">{{ 'product.upload_hint' | t }}</span>
+                  </label>
+                  <div class="cupload__preview" data-cupload-preview hidden>
+                    <div class="cupload__wall">
+                      <div class="cupload__frame" data-cupload-frame><img alt="" width="600" height="800" data-cupload-img></div>
+                    </div>
+                    <p class="cupload__meta" data-cupload-meta></p>
+                  </div>
+                </div>
+              {%- endif -%}
               <p class="cguard__check" data-cguard-result hidden></p>
               <label class="cguard__rights">
                 <input type="checkbox" name="properties[Derechos de imagen]" value="{{ 'product.cguard_rights_value' | t }}" form="{{ form_id }}" required data-cguard-rights>
@@ -366,6 +382,7 @@
         { "type": "textarea", "id": "notice", "label": "Aviso de resolución", "default": "Para que tu pieza imprima con calidad, sube una imagen en alta resolución. Recomendado: mínimo 300 ppp al tamaño elegido. Imágenes de baja calidad pueden salir pixeladas." },
         { "type": "text", "id": "rights_label", "label": "Casilla de derechos", "default": "Confirmo que tengo los derechos para imprimir esta imagen." },
         { "type": "textarea", "id": "note", "label": "Nota de calidad", "default": "Imprimimos tu imagen tal cual la subes: el resultado depende de su calidad. No retocamos ni cambiamos el estilo." },
+        { "type": "checkbox", "id": "upload", "label": "Subida de imagen del tema", "default": true, "info": "Campo para subir la imagen (se guarda en el pedido) con vista previa. Desactívalo si usas el bloque de subida de Gelato." },
         { "type": "range", "id": "min_ppi", "label": "Avisar de pixelado por debajo de", "min": 100, "max": 300, "step": 10, "unit": "ppp", "default": 150, "info": "Solo cuando la imagen se sube en esta ficha y el navegador puede leer su tamaño." }
       ]
     },

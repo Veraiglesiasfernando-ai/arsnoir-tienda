@@ -165,7 +165,11 @@
     "step_size": "Elige tu tamaño",
     "step_finish": "Elige tu acabado",
     "size_guide": "Guía de tamaños",
-    "about_frames": "Sobre los marcos"
+    "about_frames": "Sobre los marcos",
+    "upload_cta": "Sube tu imagen",
+    "upload_change": "Cambiar imagen",
+    "upload_hint": "JPG o PNG, en la mayor resolución posible",
+    "upload_meta": "[NAME] · [W] × [H] px"
   },
   "collection": {
     "all": "Todas",

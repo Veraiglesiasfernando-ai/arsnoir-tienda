@@ -662,15 +662,40 @@
       result.className = 'cguard__check cguard__check--' + key;
       result.hidden = false;
     };
+    /* Live preview: the uploaded image at the chosen size's proportions, in the chosen frame */
+    const up = guard.querySelector('.cupload');
+    let shownUrl = null;
+    const preview = function (file, url) {
+      if (!up) return;
+      const box = up.querySelector('[data-cupload-preview]');
+      const frame = up.querySelector('[data-cupload-frame]');
+      if (url) {
+        if (shownUrl) URL.revokeObjectURL(shownUrl);
+        shownUrl = url;
+        up.querySelector('[data-cupload-img]').src = url;
+        up.querySelector('[data-cupload-label]').textContent = up.dataset.changeText;
+        up.querySelector('[data-cupload-meta]').textContent = up.dataset.metaText.replace('[NAME]', file.name).replace('[W]', last.w).replace('[H]', last.h);
+        box.hidden = false;
+      }
+      if (!shownUrl) return;
+      const size = parseSize(selectedOf('size') || '') || [21, 29.7];
+      const landscape = last && last.w > last.h;
+      const w = landscape ? Math.max(size[0], size[1]) : Math.min(size[0], size[1]);
+      const h = landscape ? Math.min(size[0], size[1]) : Math.max(size[0], size[1]);
+      frame.style.aspectRatio = w + ' / ' + h;
+      frame.dataset.kind = frameKind(selectedOf('frame'));
+    };
     scope.addEventListener('change', function (event) {
       const input = event.target;
       if (input.matches && input.matches('input[type="file"]') && input.files && input.files[0] && /^image\//.test(input.files[0].type)) {
-        const url = URL.createObjectURL(input.files[0]);
+        const file = input.files[0];
+        const url = URL.createObjectURL(file);
         const img = new Image();
-        img.onload = function () { last = { w: img.naturalWidth, h: img.naturalHeight }; URL.revokeObjectURL(url); check(); };
+        img.onload = function () { last = { w: img.naturalWidth, h: img.naturalHeight }; check(); preview(file, url); };
         img.src = url;
-      } else if (input.closest && input.closest('fieldset[data-option-kind="size"]')) {
+      } else if (input.closest && input.closest('fieldset[data-option-kind]')) {
         check();
+        preview();
       }
     });
   });

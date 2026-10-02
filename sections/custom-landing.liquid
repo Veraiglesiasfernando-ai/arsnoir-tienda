@@ -1,0 +1,175 @@
+{%- comment -%}
+  Personalízalo landing (collection.personalizalo): hero, how it works, prices per size,
+  how to prepare the image (pixels needed per size) and the rights note.
+  Prices come from the product (first in the collection, or the one picked here); without a
+  product they come from the "Precios" text setting.
+{%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+  assign p = s.product
+  if p == blank and collection.products_count > 0
+    assign p = collection.products.first
+  endif
+  assign cta_url = p.url | default: '#Precios'
+  # Size option index and frame option index of the product
+  assign size_i = -1
+  assign frame_i = -1
+  for o in p.options_with_values
+    assign k = o.name | downcase
+    if k contains 'tama' or k contains 'size' or k contains 'medida'
+      assign size_i = forloop.index0
+    elsif k contains 'marco' or k contains 'frame' or k contains 'acabado'
+      assign frame_i = forloop.index0
+    endif
+  endfor
+-%}
+<section class="clanding">
+  <div class="page-width">
+    <header class="clanding__hero reveal">
+      <p class="eyebrow">{{ s.eyebrow }}</p>
+      <h1 class="clanding__title">{{ s.heading }}</h1>
+      {%- if s.text != blank -%}<p class="clanding__text">{{ s.text }}</p>{%- endif -%}
+      <div class="clanding__actions">
+        <a class="button button--accent clanding__cta" href="{{ cta_url }}">{{ s.button_label }}</a>
+        <a class="clanding__link" href="#ComoFunciona">{{ s.how_label }} &darr;</a>
+      </div>
+      <ul class="clanding__chips">
+        <li>{{ s.chip_1 }}</li><li>{{ s.chip_2 }}</li><li>{{ s.chip_3 }}</li>
+      </ul>
+    </header>
+
+    <div class="clanding__steps" id="ComoFunciona">
+      {%- for i in (1..3) -%}
+        {%- liquid
+          assign t_key = 'step_' | append: i | append: '_title'
+          assign x_key = 'step_' | append: i | append: '_text'
+        -%}
+        <div class="clanding__step reveal">
+          <span class="clanding__num">{{ i }}</span>
+          <p class="clanding__step-title">{{ s[t_key] }}</p>
+          <p class="clanding__step-text">{{ s[x_key] }}</p>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    <div class="clanding__grid">
+      <div class="clanding__card reveal" id="Precios">
+        <p class="clanding__h">{{ s.prices_heading }}</p>
+        <table class="clanding__table">
+          <thead><tr><th>{{ s.col_size }}</th><th>{{ s.col_unframed }}</th><th>{{ s.col_framed }}</th></tr></thead>
+          <tbody>
+            {%- if p != blank and size_i >= 0 -%}
+              {%- for size in p.options_with_values[size_i].values -%}
+                {%- liquid
+                  assign un = 0
+                  assign fr = 0
+                  for v in p.variants
+                    if v.options[size_i] == size
+                      assign fk = ''
+                      if frame_i >= 0
+                        assign fk = v.options[frame_i] | downcase
+                      endif
+                      if frame_i < 0 or fk contains 'sin' or fk contains 'without'
+                        if un == 0 or v.price < un
+                          assign un = v.price
+                        endif
+                      else
+                        if fr == 0 or v.price < fr
+                          assign fr = v.price
+                        endif
+                      endif
+                    endif
+                  endfor
+                -%}
+                <tr><td>{{ size }}</td><td>{% if un > 0 %}{{ un | money }}{% else %}—{% endif %}</td><td>{% if fr > 0 %}{{ fr | money }}{% else %}—{% endif %}</td></tr>
+              {%- endfor -%}
+            {%- else -%}
+              {%- assign rows = s.prices | newline_to_br | split: '<br />' -%}
+              {%- for row in rows -%}
+                {%- assign c = row | strip | split: '|' -%}
+                {%- if c.size > 2 -%}<tr><td>{{ c[0] | strip }}</td><td>{{ c[1] | strip }}</td><td>{{ c[2] | strip }}</td></tr>{%- endif -%}
+              {%- endfor -%}
+            {%- endif -%}
+          </tbody>
+        </table>
+        <p class="clanding__small">{{ s.prices_note }}</p>
+      </div>
+
+      <div class="clanding__card reveal">
+        <p class="clanding__h">{{ s.quality_heading }}</p>
+        <p class="clanding__small">{{ s.quality_text }}</p>
+        <table class="clanding__table clanding__table--px">
+          <thead><tr><th>{{ s.col_size }}</th><th>{{ s.col_best }}</th><th>{{ s.col_min }}</th></tr></thead>
+          <tbody>
+            {%- assign px_rows = s.pixels | newline_to_br | split: '<br />' -%}
+            {%- for row in px_rows -%}
+              {%- assign c = row | strip | split: '|' -%}
+              {%- if c.size > 2 -%}<tr><td>{{ c[0] | strip }}</td><td>{{ c[1] | strip }}</td><td>{{ c[2] | strip }}</td></tr>{%- endif -%}
+            {%- endfor -%}
+          </tbody>
+        </table>
+        <ul class="clanding__tips">
+          {%- if s.tip_1 != blank -%}<li>{{ s.tip_1 }}</li>{%- endif -%}
+          {%- if s.tip_2 != blank -%}<li>{{ s.tip_2 }}</li>{%- endif -%}
+          {%- if s.tip_3 != blank -%}<li>{{ s.tip_3 }}</li>{%- endif -%}
+        </ul>
+      </div>
+    </div>
+
+    <div class="clanding__rights reveal">
+      <p class="clanding__h">{{ s.rights_heading }}</p>
+      <p>{{ s.rights_text }}</p>
+    </div>
+
+    <div class="clanding__end reveal">
+      <a class="button button--accent clanding__cta" href="{{ cta_url }}">{{ s.button_label }}</a>
+      {%- if s.author_label != blank -%}<a class="clanding__link" href="{{ routes.all_products_collection_url }}">{{ s.author_label }} &rarr;</a>{%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Personalízalo",
+  "settings": [
+    { "type": "product", "id": "product", "label": "Producto «Sube tu imagen»", "info": "Vacío = el primero de la colección." },
+    { "type": "header", "content": "Portada" },
+    { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "PERSONALÍZALO" },
+    { "type": "text", "id": "heading", "label": "Título", "default": "Tu imagen, impresa como una obra." },
+    { "type": "textarea", "id": "text", "label": "Texto", "default": "Sube tu foto o tu diseño, elige tamaño y acabado, y la imprimimos en el mismo papel y con los mismos marcos que nuestras obras de autor." },
+    { "type": "text", "id": "button_label", "label": "Botón", "default": "Sube tu imagen" },
+    { "type": "text", "id": "how_label", "label": "Enlace", "default": "Cómo funciona" },
+    { "type": "text", "id": "chip_1", "label": "Dato 1", "default": "6 tamaños, de A4 a 60 × 90 cm" },
+    { "type": "text", "id": "chip_2", "label": "Dato 2", "default": "Sin marco o marco negro, blanco o madera" },
+    { "type": "text", "id": "chip_3", "label": "Dato 3", "default": "Envío 4,95 €, gratis desde 80 €" },
+    { "type": "header", "content": "Cómo funciona" },
+    { "type": "text", "id": "step_1_title", "label": "Paso 1", "default": "Sube tu imagen" },
+    { "type": "text", "id": "step_1_text", "label": "Texto 1", "default": "JPG o PNG, lo más grande que tengas. Te avisamos si se va a ver pixelada." },
+    { "type": "text", "id": "step_2_title", "label": "Paso 2", "default": "Elige tamaño y acabado" },
+    { "type": "text", "id": "step_2_text", "label": "Texto 2", "default": "Seis tamaños. Sin marco o con marco negro, blanco o madera, listo para colgar." },
+    { "type": "text", "id": "step_3_title", "label": "Paso 3", "default": "La imprimimos y te llega" },
+    { "type": "text", "id": "step_3_text", "label": "Texto 3", "default": "Papel Premium Matte de 200 g/m² e impresión giclée. Entrega en 4-5 días hábiles con seguimiento." },
+    { "type": "header", "content": "Precios" },
+    { "type": "text", "id": "prices_heading", "label": "Título", "default": "Precios" },
+    { "type": "text", "id": "col_size", "label": "Columna tamaño", "default": "Tamaño" },
+    { "type": "text", "id": "col_unframed", "label": "Columna sin marco", "default": "Sin marco" },
+    { "type": "text", "id": "col_framed", "label": "Columna con marco", "default": "Con marco" },
+    { "type": "textarea", "id": "prices", "label": "Precios (si aún no hay producto)", "default": "A4 · 21 × 29,7 cm | 24,95 € | 69,95 €\nA3 · 29,7 × 42 cm | 42,95 € | 94,95 €\nA2 · 42 × 59,4 cm | 59,95 € | 139,95 €\n50 × 70 cm | 69,95 € | 179,95 €\nA1 · 59,4 × 84,1 cm | 84,95 € | 219,95 €\nXL · 60 × 90 cm | 94,95 € | 239,95 €", "info": "Una fila por tamaño: tamaño | sin marco | con marco. Con producto, los precios se leen de él." },
+    { "type": "text", "id": "prices_note", "label": "Nota", "default": "IVA incluido. Mismo precio para marco negro, blanco o madera." },
+    { "type": "header", "content": "Calidad de la imagen" },
+    { "type": "text", "id": "quality_heading", "label": "Título", "default": "¿Mi imagen es suficiente?" },
+    { "type": "textarea", "id": "quality_text", "label": "Texto", "default": "Lo que importa son los píxeles de la imagen. Para que se vea nítida, comprueba que tu archivo llega a estas medidas (lado corto × lado largo)." },
+    { "type": "text", "id": "col_best", "label": "Columna ideal", "default": "Ideal (300 ppp)" },
+    { "type": "text", "id": "col_min", "label": "Columna mínimo", "default": "Mínimo (150 ppp)" },
+    { "type": "textarea", "id": "pixels", "label": "Píxeles por tamaño", "default": "A4 | 2480 × 3508 px | 1240 × 1754 px\nA3 | 3508 × 4961 px | 1754 × 2480 px\nA2 | 4961 × 7016 px | 2480 × 3508 px\n50 × 70 | 5906 × 8268 px | 2953 × 4134 px\nA1 | 7016 × 9933 px | 3508 × 4967 px\nXL 60 × 90 | 7087 × 10630 px | 3543 × 5315 px" },
+    { "type": "text", "id": "tip_1", "label": "Consejo 1", "default": "Usa el archivo original: las fotos enviadas por WhatsApp o redes pierden calidad." },
+    { "type": "text", "id": "tip_2", "label": "Consejo 2", "default": "Las capturas de pantalla solo sirven para A4." },
+    { "type": "text", "id": "tip_3", "label": "Consejo 3", "default": "Imprimimos la imagen tal cual: sin retoques ni cambios de estilo." },
+    { "type": "header", "content": "Derechos y final" },
+    { "type": "text", "id": "rights_heading", "label": "Título derechos", "default": "Solo imágenes que sean tuyas" },
+    { "type": "textarea", "id": "rights_text", "label": "Texto derechos", "default": "Sube fotos propias o imágenes que tengas permiso para imprimir. No imprimimos contenido protegido de terceros, marcas ni imágenes ofensivas. Las piezas personalizadas no admiten devolución salvo que lleguen dañadas o con un defecto de impresión." },
+    { "type": "text", "id": "author_label", "label": "Enlace a obras de autor", "default": "O descubre nuestras obras de autor" }
+  ],
+  "presets": [{ "name": "Personalízalo" }]
+}
+{% endschema %}
