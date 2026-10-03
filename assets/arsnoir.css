@@ -2368,3 +2368,16 @@ p.clanding__rights { max-width: 720px; margin: 18px auto 0; padding: 0; backgrou
   .ctpl__tabs::-webkit-scrollbar { display: none; }
   .ctpl__tab { flex: none; }
 }
+/* Ilustraciones: light, like the rest of the site */
+.ctpl { background: transparent; color: var(--color-fg); }
+.ctpl .eyebrow { color: var(--color-muted); }
+.ctpl__text, .ctpl__tagline, .ctpl__cat { color: var(--color-muted); }
+.ctpl__media { background: #e9e9e7; box-shadow: 0 16px 30px -24px rgba(0,0,0,0.35); }
+.ctpl__ph { background: radial-gradient(90% 70% at 50% 35%, #f6f6f4, #dcdcda); }
+.ctpl__cta { background: #0a0a0a; color: #fff; }
+.ctpl__card:hover .ctpl__cta { background: #333; }
+.ctpl__card:focus-visible { outline-color: #0a0a0a; }
+.ctpl__tab { border-color: rgba(0,0,0,0.18); color: var(--color-fg); }
+.ctpl__tab:hover { border-color: #0a0a0a; }
+.ctpl__tab.is-active { background: #0a0a0a; color: #fff; border-color: #0a0a0a; }
+.ctpl__tab:focus-visible { outline-color: #0a0a0a; }
