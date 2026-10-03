@@ -1132,7 +1132,7 @@
       }
     } else if (npop.hasAttribute('data-preview')) {
       openPop();
-    } else if (!saved.subscribed && !(saved.until > Date.now()) && document.body.dataset.template !== 'cart') {
+    } else if (!npop.hasAttribute('data-quiet') && !saved.subscribed && !(saved.until > Date.now()) && document.body.dataset.template !== 'cart') {
       const minPages = parseInt(npop.dataset.minPages, 10) || 2;
       const delay = (parseInt(npop.dataset.delay, 10) || 6) * 1000;
       if (pv >= minPages) setTimeout(tryOpen, delay);

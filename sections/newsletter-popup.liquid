@@ -5,7 +5,7 @@
 {%- endcomment -%}
 {%- assign s = section.settings -%}
 {%- if s.enabled -%}
-<div class="npop" data-npop data-delay="{{ s.delay }}" data-days="{{ s.days }}" data-min-pages="{{ s.min_pages }}" data-code="{{ s.code | escape }}"{% if request.design_mode and s.preview %} data-preview{% endif %} hidden>
+<div class="npop" data-npop data-delay="{{ s.delay }}" data-days="{{ s.days }}" data-min-pages="{{ s.min_pages }}" data-code="{{ s.code | escape }}"{% if request.design_mode and s.preview %} data-preview{% endif %}{% if request.design_mode or template.suffix == 'personalizalo' or template.suffix == 'ilustracion' %} data-quiet{% endif %} hidden>
   <div class="npop__backdrop" data-npop-close></div>
   <div class="npop__card{% if s.image != blank %} npop__card--image{% endif %}" role="dialog" aria-modal="true" aria-labelledby="NpopTitle">
     {%- if s.image != blank -%}
@@ -50,8 +50,8 @@
   "settings": [
     { "type": "checkbox", "id": "enabled", "label": "Activar", "default": true },
     { "type": "checkbox", "id": "preview", "label": "Mostrar siempre en el editor", "default": false },
-    { "type": "range", "id": "min_pages", "label": "Aparece a partir de la página nº", "min": 1, "max": 5, "step": 1, "default": 1, "info": "Solo a quien ya está mirando obras. En ordenador también aparece si alguien va a salir de la web." },
-    { "type": "range", "id": "delay", "label": "Segundos en esa página antes de aparecer", "min": 2, "max": 60, "step": 1, "unit": "s", "default": 4 },
+    { "type": "range", "id": "min_pages", "label": "Aparece a partir de la página nº", "min": 1, "max": 5, "step": 1, "default": 2, "info": "Solo a quien ya está mirando obras. Nunca sale en el editor del tema ni en Personalízalo. En ordenador también aparece si alguien va a salir de la web." },
+    { "type": "range", "id": "delay", "label": "Segundos en esa página antes de aparecer", "min": 2, "max": 60, "step": 1, "unit": "s", "default": 15 },
     { "type": "range", "id": "days", "label": "No volver a mostrar durante", "min": 1, "max": 60, "step": 1, "unit": "d", "default": 14 },
     { "type": "image_picker", "id": "image", "label": "Imagen (opcional)" },
     { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "BIENVENIDO A ARSNOIR" },
