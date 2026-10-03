@@ -1,0 +1,78 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "buy": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": false,
+            "highlight_largest": false,
+            "recommended_label": "Recomendado"
+          }
+        },
+        "returns_notice": {
+          "type": "notice",
+          "settings": {
+            "text": "Producto personalizado: no admite devolución por desistimiento, salvo defecto."
+          }
+        },
+        "photo_help": {
+          "type": "collapsible",
+          "settings": {
+            "heading": "¿Qué foto funciona mejor?",
+            "content": "<p>[PEGAR AQUÍ LA GUÍA]</p>",
+            "open": false
+          }
+        },
+        "shipping": {
+          "type": "collapsible",
+          "settings": {
+            "heading": "Envío y devoluciones",
+            "content": "<p>Se imprime bajo demanda y llega en 4-5 días hábiles con seguimiento. Envío 4,95 €; gratis desde 80 €.</p><p>Al hacerse con tu imagen, no admite devolución salvo que llegue dañada o con un defecto de impresión.</p>",
+            "open": false
+          }
+        },
+        "intro": {
+          "type": "notice",
+          "settings": {
+            "text": "Sube tu foto en el editor y mírala convertida en esta ilustración antes de comprar."
+          }
+        },
+        "guard": {
+          "type": "custom_guard",
+          "settings": {
+            "heading": "",
+            "notice": "",
+            "note": "",
+            "upload": false
+          }
+        }
+      },
+      "block_order": [
+        "title",
+        "price",
+        "intro",
+        "guard",
+        "buy",
+        "returns_notice",
+        "photo_help",
+        "shipping"
+      ],
+      "settings": {
+        "lifestyle_from": 2
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

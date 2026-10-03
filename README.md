@@ -212,3 +212,9 @@ Selector: 1) Tamaño · 2) Acabado (Sin marco / Marco negro / Marco blanco / Mar
 - Los productos-plantilla llevan la etiqueta **`plantilla`**: en ellos no aparece la subida del tema (solo el editor de Gelato o de la app) ni el enlace «¿Prefieres una plantilla?».
 - Ficha `product.personalizalo`: enlace a plantillas bajo el título, aviso «Producto personalizado: no admite devolución por desistimiento, salvo defecto» (pendiente de confirmar con gestoría) y desplegable «¿Tu foto es pequeña? Cómo mejorarla» (texto pendiente).
 - El tema ya no bloquea los bloques de apps hasta marcar la casilla de derechos: el editor de Gelato funciona libre. La casilla sigue siendo obligatoria en el botón de compra del tema.
+
+### Personalízalo: ilustraciones (foto → ilustración)
+
+- La cuadrícula «Ilustraciones» (sección `custom-templates`) muestra cada estilo con su ilustración de ejemplo y, opcional, la foto original en pequeño («Antes»). Sin enlace, la tarjeta no se ve en la tienda.
+- Cada estilo es un producto con la plantilla **product.ilustracion** y la etiqueta `plantilla`: la conversión la hace la app de foto → ilustración (añade su bloque en *Personalizar → Productos → ilustracion*). El tema no muestra su propia subida ahí; solo la casilla de derechos, tamaño/acabado, aviso y guía.
+- Pendiente: nombre de la app, imágenes, enlaces y comprobar si el botón de compra de la app respeta la casilla de derechos.
