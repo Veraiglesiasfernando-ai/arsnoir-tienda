@@ -86,7 +86,6 @@
         "edition",
         "buy",
         "delivery",
-        "material",
         "trust",
         "notes",
         "wall",
@@ -168,10 +167,39 @@
     "recent": {
       "type": "recently-viewed",
       "settings": {}
+    },
+    "features": {
+      "type": "product-features",
+      "blocks": {
+        "paper": {
+          "type": "feature",
+          "settings": {
+            "heading": "Calidad de impresión",
+            "text": "Impresión giclée de 12 colores sobre papel premium mate, para que cada obra se vea como en el estudio.",
+            "items": "Papel Premium Matte de 200 g/m²\nGiclée de 12 colores: color fiel y negros profundos\nAcabado mate, sin reflejos\nPapel certificado FSC y tintas al agua",
+            "image_right": false
+          }
+        },
+        "frames": {
+          "type": "feature",
+          "settings": {
+            "heading": "Marcos listos para colgar",
+            "text": "Elige el marco que mejor encaja con tu pared. Llega montado y listo para colgar.",
+            "items": "Negro, blanco o madera natural\nMismo precio en los tres colores\nListo para colgar al recibirlo",
+            "image_right": true
+          }
+        }
+      },
+      "block_order": [
+        "paper",
+        "frames"
+      ],
+      "settings": {}
     }
   },
   "order": [
     "main",
+    "features",
     "reviews",
     "faq",
     "related",

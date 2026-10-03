@@ -1,0 +1,61 @@
+{%- comment -%}
+  Product page: material / frame features. Each block = a photo with a round close-up,
+  a heading, a short text and a checklist. Alternates sides.
+{%- endcomment -%}
+<section class="pfeat">
+  <div class="page-width">
+    {%- for block in section.blocks -%}
+      {%- assign b = block.settings -%}
+      {%- assign items = b.items | newline_to_br | split: '<br />' -%}
+      <div class="pfeat__row{% if b.image_right %} pfeat__row--right{% endif %} reveal" {{ block.shopify_attributes }}>
+        <div class="pfeat__media">
+          <div class="pfeat__photo">
+            {%- if b.image != blank -%}
+              {{ b.image | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '600, 900, 1200, 1400', sizes: '(min-width: 990px) 50vw, 100vw', alt: b.image.alt | default: b.heading }}
+            {%- else -%}
+              <span class="pfeat__ph" aria-hidden="true"></span>
+            {%- endif -%}
+          </div>
+          {%- if b.zoom != blank -%}
+            <div class="pfeat__zoom">{{ b.zoom | image_url: width: 500 | image_tag: loading: 'lazy', alt: '' }}</div>
+          {%- endif -%}
+        </div>
+        <div class="pfeat__copy">
+          <h2 class="pfeat__title">{{ b.heading }}</h2>
+          {%- if b.text != blank -%}<p class="pfeat__text">{{ b.text }}</p>{%- endif -%}
+          <ul class="pfeat__list">
+            {%- for item in items -%}
+              {%- assign t = item | strip -%}
+              {%- if t != blank -%}
+                <li><span class="pfeat__check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></span>{{ t }}</li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Calidad y marcos",
+  "max_blocks": 4,
+  "settings": [],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Bloque",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Foto" },
+        { "type": "image_picker", "id": "zoom", "label": "Detalle redondo (opcional)", "info": "Primer plano del papel o de la esquina del marco." },
+        { "type": "checkbox", "id": "image_right", "label": "Foto a la derecha", "default": false },
+        { "type": "text", "id": "heading", "label": "Título", "default": "Calidad de impresión" },
+        { "type": "textarea", "id": "text", "label": "Texto" },
+        { "type": "textarea", "id": "items", "label": "Lista (una línea por punto)" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Calidad y marcos" }]
+}
+{% endschema %}
