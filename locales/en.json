@@ -168,8 +168,9 @@
     "about_frames": "About frames",
     "upload_cta": "Upload your image",
     "upload_change": "Change image",
-    "upload_hint": "JPG or PNG, as large as possible",
-    "upload_meta": "[NAME] · [W] × [H] px"
+    "upload_hint": "JPG or PNG · 300 dpi recommended",
+    "upload_meta": "[NAME] · [W] × [H] px",
+    "upload_step": "Upload your image"
   },
   "collection": {
     "all": "All",

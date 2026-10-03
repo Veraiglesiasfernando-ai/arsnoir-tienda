@@ -19,10 +19,6 @@
             "recommended_label": "Recomendado"
           }
         },
-        "description": {
-          "type": "description",
-          "settings": {}
-        },
         "details": {
           "type": "collapsible",
           "settings": {
@@ -31,127 +27,38 @@
             "open": false
           }
         },
-        "sizes": {
-          "type": "collapsible",
-          "settings": {
-            "heading": "Tamaños",
-            "content": "<p>Elige el tamaño según la pared: los formatos pequeños funcionan en estanterías y composiciones; los grandes, como pieza protagonista sobre un sofá o un cabecero. Mide el hueco y deja al menos 20 cm libres a cada lado.</p>",
-            "open": false
-          }
-        },
         "shipping": {
           "type": "collapsible",
           "settings": {
             "heading": "Envío y devoluciones",
-            "content": "<p>Imprimimos cada pieza bajo demanda y la enviamos desde la UE, con seguimiento: llega en 4-5 días hábiles. Envío 4,95 € en pedidos de menos de 80 €; desde 80 €, gratis.</p>",
+            "content": "<p>Se imprime bajo demanda y llega en 4-5 días hábiles con seguimiento. Envío 4,95 €; gratis desde 80 €.</p><p>Al hacerse con tu imagen, no admite devolución salvo que llegue dañada o con un defecto de impresión.</p>",
             "open": false
           }
         },
-        "trust": {
-          "type": "trust",
-          "settings": {}
-        },
-        "compare": {
-          "type": "size_compare",
-          "settings": {}
-        },
-        "delivery": {
-          "type": "delivery",
-          "settings": {}
-        },
         "guard": {
           "type": "custom_guard",
-          "settings": {}
-        },
-        "rights": {
-          "type": "collapsible",
           "settings": {
-            "heading": "Derechos de la imagen",
-            "content": "<p>Solo imprimimos imágenes que te pertenecen o que tienes permiso para imprimir. Al marcar la casilla lo confirmas y queda registrado en tu pedido. No imprimimos contenido protegido por derechos de autor de terceros, marcas ni imágenes ilegales u ofensivas; si recibimos una así, cancelamos el pedido y te devolvemos el dinero.</p>",
-            "open": false
+            "heading": "",
+            "notice": "",
+            "note": "",
+            "upload": true
           }
         }
       },
       "block_order": [
         "title",
         "price",
-        "description",
         "guard",
         "buy",
-        "delivery",
-        "trust",
-        "compare",
         "details",
-        "sizes",
-        "rights",
         "shipping"
       ],
       "settings": {
         "lifestyle_from": 2
       }
-    },
-    "related": {
-      "type": "featured-slider",
-      "settings": {
-        "eyebrow": "ARSNOIR",
-        "heading": "¿Prefieres una obra de autor?",
-        "subtitle": "Piezas originales y exclusivas de ARSNOIR.",
-        "collection": "mas-vendidos",
-        "limit": 8,
-        "button_label": "VER TODAS",
-        "placeholder_price": "24,95 €"
-      }
-    },
-    "faq": {
-      "type": "faq",
-      "blocks": {
-        "q1": {
-          "type": "question",
-          "settings": {
-            "question": "¿Cuánto tarda el envío?",
-            "answer": "<p>Enviamos a toda España. Tus piezas se imprimen bajo demanda y se envían desde la UE: llegan en 4-5 días hábiles, con seguimiento del pedido. Envío 4,95 € en pedidos de menos de 80 €; desde 80 €, gratis.</p>"
-          }
-        },
-        "q2": {
-          "type": "question",
-          "settings": {
-            "question": "¿En qué material se imprime?",
-            "answer": "<p>Papel Premium Matte de 200 g/m², acabado mate sin reflejos. Impresión giclée de 12 colores para un color fiel y negros profundos. Papel de origen sostenible y certificado FSC, con tintas al agua.</p>"
-          }
-        },
-        "q3": {
-          "type": "question",
-          "settings": {
-            "question": "¿Cómo son los marcos?",
-            "answer": "<p>Marco de madera maciza de origen sostenible, con vidrio antirrotura y listo para colgar (kit de colgado incluido).</p>"
-          }
-        },
-        "q4": {
-          "type": "question",
-          "settings": {
-            "question": "¿El arte es exclusivo?",
-            "answer": "<p>Sí. Todas las piezas son originales y exclusivas de ARSNOIR — no se venden en ningún otro sitio.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "q1",
-        "q2",
-        "q3",
-        "q4"
-      ],
-      "settings": {
-        "eyebrow": "DUDAS",
-        "heading": "Antes de comprar",
-        "text": "¿Otra pregunta? Escríbenos.",
-        "button_label": "Contactar",
-        "button_link": "/pages/contacto"
-      }
     }
   },
   "order": [
-    "main",
-    "faq",
-    "related"
+    "main"
   ]
 }

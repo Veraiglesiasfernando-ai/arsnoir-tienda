@@ -2275,3 +2275,39 @@ html:not(.is-scrolled) body:has(main > .shopify-section:first-child .vhero) .gla
   .clanding__step, .clanding__card, .clanding__rights { padding: 20px; }
   .clanding__table--px th, .clanding__table--px td { font-size: 12px; padding-left: 4px; padding-right: 4px; }
 }
+
+/* Personalízalo, lighter ---------------------------------------------------- */
+.clanding__hero { margin-bottom: clamp(28px, 5vw, 48px); }
+.clanding__from { margin: 18px 0 0; font-size: 13px; color: var(--color-muted); }
+.clanding__steps { max-width: 900px; margin: 0 auto clamp(28px, 5vw, 48px); gap: clamp(16px, 3vw, 40px); }
+.clanding__step { padding: 0; background: none; border: 0; box-shadow: none; text-align: center; }
+.clanding__step-title { margin: 12px 0 4px; font-size: 16px; }
+.clanding__step-text { font-size: 14px; }
+.clanding__more { max-width: 720px; margin: 0 auto; border-top: 1px solid var(--color-line); }
+.clanding__fold { border-bottom: 1px solid var(--color-line); }
+.clanding__fold > summary.clanding__h { display: flex; justify-content: space-between; align-items: center; margin: 0; padding: 18px 0; font-size: 15px; cursor: pointer; list-style: none; }
+.clanding__fold > summary::-webkit-details-marker { display: none; }
+.clanding__fold > summary::after { content: "+"; font-size: 20px; font-weight: 400; }
+.clanding__fold[open] > summary::after { content: "−"; }
+.clanding__fold > :not(summary) { margin-bottom: 14px; }
+p.clanding__rights { max-width: 720px; margin: 18px auto 0; padding: 0; background: none; border: 0; box-shadow: none; text-align: center; font-size: 13px; color: var(--color-muted); }
+.clanding__end { margin-top: clamp(28px, 4vw, 40px); }
+@media (max-width: 849px) {
+  .clanding__steps { grid-template-columns: 1fr; gap: 18px; }
+  .clanding__step { display: grid; grid-template-columns: 30px 1fr; column-gap: 14px; text-align: left; }
+  .clanding__num { grid-row: span 2; }
+  .clanding__step-title { margin: 3px 0 2px; }
+}
+/* Product: upload as step 1, same card as the size/finish steps */
+.cguard { margin: 8px 0 10px; padding: 20px; border-radius: 20px; background: rgba(255,255,255,0.7); }
+.cguard + * .vsteps, .cguard ~ div .vsteps { margin-top: 0; }
+.cguard__head { margin: 0 0 12px; }
+.cupload__drop { flex-direction: row; justify-content: center; gap: 12px; padding: 16px; }
+.cupload__drop .cupload__hint { display: none; }
+.cupload__drop::after { content: none; }
+.cupload__wall { height: 200px; }
+.cguard__rights { font-size: 13px; font-weight: 500; margin-top: 12px; }
+@media (max-width: 749px) { .cguard { padding: 16px; } }
+.cupload__hint--below { margin: 6px 0 0; text-align: center; }
+.cguard__head { display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 700; color: var(--color-fg); }
+.cguard__head .vstep__num { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; background: #e6e6e4; font-size: 12px; font-weight: 700; flex: none; }

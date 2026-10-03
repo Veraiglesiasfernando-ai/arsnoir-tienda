@@ -1,18 +1,6 @@
 {
   "sections": {
-    "landing": { "type": "custom-landing", "settings": {} },
-    "faq": {
-      "type": "faq",
-      "blocks": {
-        "q1": { "type": "question", "settings": { "question": "¿Qué tipo de imagen puedo subir?", "answer": "<p>Fotos o diseños en JPG o PNG. Cuanto más grande sea el archivo, mejor se verá impreso. Al subirla te decimos si tiene resolución suficiente para el tamaño que elijas.</p>" } },
-        "q2": { "type": "question", "settings": { "question": "¿Retocáis la imagen?", "answer": "<p>No. La imprimimos tal cual la subes, sin retoques, recortes creativos ni cambios de estilo.</p>" } },
-        "q3": { "type": "question", "settings": { "question": "¿Cuánto tarda y cuánto cuesta el envío?", "answer": "<p>Entrega en 4-5 días hábiles con seguimiento. Envío 4,95 € en pedidos de menos de 80 €; desde 80 €, gratis.</p>" } },
-        "q4": { "type": "question", "settings": { "question": "¿Puedo devolverla?", "answer": "<p>Al hacerse con tu imagen, las piezas personalizadas no admiten desistimiento. Si llegan dañadas o con un defecto de impresión, te enviamos otra o te devolvemos el dinero.</p>" } },
-        "q5": { "type": "question", "settings": { "question": "¿Puedo usar WELCOME10?", "answer": "<p>Sí, el 10% de bienvenida vale también aquí en tu primer pedido.</p>" } }
-      },
-      "block_order": ["q1", "q2", "q3", "q4", "q5"],
-      "settings": { "eyebrow": "PERSONALÍZALO", "heading": "Preguntas frecuentes" }
-    }
+    "landing": { "type": "custom-landing", "settings": {} }
   },
-  "order": ["landing", "faq"]
+  "order": ["landing"]
 }

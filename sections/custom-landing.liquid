@@ -33,9 +33,7 @@
         <a class="button button--accent clanding__cta" href="{{ cta_url }}">{{ s.button_label }}</a>
         <a class="clanding__link" href="#ComoFunciona">{{ s.how_label }} &darr;</a>
       </div>
-      <ul class="clanding__chips">
-        <li>{{ s.chip_1 }}</li><li>{{ s.chip_2 }}</li><li>{{ s.chip_3 }}</li>
-      </ul>
+      {%- if s.chip_1 != blank -%}<p class="clanding__from">{{ s.chip_1 }}</p>{%- endif -%}
     </header>
 
     <div class="clanding__steps" id="ComoFunciona">
@@ -52,9 +50,9 @@
       {%- endfor -%}
     </div>
 
-    <div class="clanding__grid">
-      <div class="clanding__card reveal" id="Precios">
-        <p class="clanding__h">{{ s.prices_heading }}</p>
+    <div class="clanding__more">
+      <details class="clanding__fold" id="Precios">
+        <summary class="clanding__h">{{ s.prices_heading }}</summary>
         <table class="clanding__table">
           <thead><tr><th>{{ s.col_size }}</th><th>{{ s.col_unframed }}</th><th>{{ s.col_framed }}</th></tr></thead>
           <tbody>
@@ -93,10 +91,10 @@
           </tbody>
         </table>
         <p class="clanding__small">{{ s.prices_note }}</p>
-      </div>
+      </details>
 
-      <div class="clanding__card reveal">
-        <p class="clanding__h">{{ s.quality_heading }}</p>
+      <details class="clanding__fold">
+        <summary class="clanding__h">{{ s.quality_heading }}</summary>
         <p class="clanding__small">{{ s.quality_text }}</p>
         <table class="clanding__table clanding__table--px">
           <thead><tr><th>{{ s.col_size }}</th><th>{{ s.col_best }}</th><th>{{ s.col_min }}</th></tr></thead>
@@ -113,13 +111,10 @@
           {%- if s.tip_2 != blank -%}<li>{{ s.tip_2 }}</li>{%- endif -%}
           {%- if s.tip_3 != blank -%}<li>{{ s.tip_3 }}</li>{%- endif -%}
         </ul>
-      </div>
+      </details>
     </div>
 
-    <div class="clanding__rights reveal">
-      <p class="clanding__h">{{ s.rights_heading }}</p>
-      <p>{{ s.rights_text }}</p>
-    </div>
+    {%- if s.rights_text != blank -%}<p class="clanding__rights">{{ s.rights_text }}</p>{%- endif -%}
 
     <div class="clanding__end reveal">
       <a class="button button--accent clanding__cta" href="{{ cta_url }}">{{ s.button_label }}</a>
@@ -136,28 +131,26 @@
     { "type": "header", "content": "Portada" },
     { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "PERSONALÍZALO" },
     { "type": "text", "id": "heading", "label": "Título", "default": "Tu imagen, impresa como una obra." },
-    { "type": "textarea", "id": "text", "label": "Texto", "default": "Sube tu foto o tu diseño, elige tamaño y acabado, y la imprimimos en el mismo papel y con los mismos marcos que nuestras obras de autor." },
+    { "type": "textarea", "id": "text", "label": "Texto", "default": "Sube tu foto, elige tamaño y marco. Nosotros la imprimimos." },
     { "type": "text", "id": "button_label", "label": "Botón", "default": "Sube tu imagen" },
     { "type": "text", "id": "how_label", "label": "Enlace", "default": "Cómo funciona" },
-    { "type": "text", "id": "chip_1", "label": "Dato 1", "default": "6 tamaños, de A4 a 60 × 90 cm" },
-    { "type": "text", "id": "chip_2", "label": "Dato 2", "default": "Sin marco o marco negro, blanco o madera" },
-    { "type": "text", "id": "chip_3", "label": "Dato 3", "default": "Envío 4,95 €, gratis desde 80 €" },
+    { "type": "text", "id": "chip_1", "label": "Precio desde", "default": "Desde 24,95 € · envío gratis desde 80 €" },
     { "type": "header", "content": "Cómo funciona" },
     { "type": "text", "id": "step_1_title", "label": "Paso 1", "default": "Sube tu imagen" },
-    { "type": "text", "id": "step_1_text", "label": "Texto 1", "default": "JPG o PNG, lo más grande que tengas. Te avisamos si se va a ver pixelada." },
+    { "type": "text", "id": "step_1_text", "label": "Texto 1", "default": "JPG o PNG, lo más grande que tengas." },
     { "type": "text", "id": "step_2_title", "label": "Paso 2", "default": "Elige tamaño y acabado" },
-    { "type": "text", "id": "step_2_text", "label": "Texto 2", "default": "Seis tamaños. Sin marco o con marco negro, blanco o madera, listo para colgar." },
+    { "type": "text", "id": "step_2_text", "label": "Texto 2", "default": "De A4 a 60 × 90 cm, con o sin marco." },
     { "type": "text", "id": "step_3_title", "label": "Paso 3", "default": "La imprimimos y te llega" },
-    { "type": "text", "id": "step_3_text", "label": "Texto 3", "default": "Papel Premium Matte de 200 g/m² e impresión giclée. Entrega en 4-5 días hábiles con seguimiento." },
+    { "type": "text", "id": "step_3_text", "label": "Texto 3", "default": "En 4-5 días hábiles, con seguimiento." },
     { "type": "header", "content": "Precios" },
-    { "type": "text", "id": "prices_heading", "label": "Título", "default": "Precios" },
+    { "type": "text", "id": "prices_heading", "label": "Título", "default": "Ver precios" },
     { "type": "text", "id": "col_size", "label": "Columna tamaño", "default": "Tamaño" },
     { "type": "text", "id": "col_unframed", "label": "Columna sin marco", "default": "Sin marco" },
     { "type": "text", "id": "col_framed", "label": "Columna con marco", "default": "Con marco" },
     { "type": "textarea", "id": "prices", "label": "Precios (si aún no hay producto)", "default": "A4 · 21 × 29,7 cm | 24,95 € | 69,95 €\nA3 · 29,7 × 42 cm | 42,95 € | 94,95 €\nA2 · 42 × 59,4 cm | 59,95 € | 139,95 €\n50 × 70 cm | 69,95 € | 179,95 €\nA1 · 59,4 × 84,1 cm | 84,95 € | 219,95 €\nXL · 60 × 90 cm | 94,95 € | 239,95 €", "info": "Una fila por tamaño: tamaño | sin marco | con marco. Con producto, los precios se leen de él." },
     { "type": "text", "id": "prices_note", "label": "Nota", "default": "IVA incluido. Mismo precio para marco negro, blanco o madera." },
     { "type": "header", "content": "Calidad de la imagen" },
-    { "type": "text", "id": "quality_heading", "label": "Título", "default": "¿Mi imagen es suficiente?" },
+    { "type": "text", "id": "quality_heading", "label": "Título", "default": "¿Mi imagen tiene calidad suficiente?" },
     { "type": "textarea", "id": "quality_text", "label": "Texto", "default": "Lo que importa son los píxeles de la imagen. Para que se vea nítida, comprueba que tu archivo llega a estas medidas (lado corto × lado largo)." },
     { "type": "text", "id": "col_best", "label": "Columna ideal", "default": "Ideal (300 ppp)" },
     { "type": "text", "id": "col_min", "label": "Columna mínimo", "default": "Mínimo (150 ppp)" },
@@ -166,8 +159,7 @@
     { "type": "text", "id": "tip_2", "label": "Consejo 2", "default": "Las capturas de pantalla solo sirven para A4." },
     { "type": "text", "id": "tip_3", "label": "Consejo 3", "default": "Imprimimos la imagen tal cual: sin retoques ni cambios de estilo." },
     { "type": "header", "content": "Derechos y final" },
-    { "type": "text", "id": "rights_heading", "label": "Título derechos", "default": "Solo imágenes que sean tuyas" },
-    { "type": "textarea", "id": "rights_text", "label": "Texto derechos", "default": "Sube fotos propias o imágenes que tengas permiso para imprimir. No imprimimos contenido protegido de terceros, marcas ni imágenes ofensivas. Las piezas personalizadas no admiten devolución salvo que lleguen dañadas o con un defecto de impresión." },
+    { "type": "textarea", "id": "rights_text", "label": "Texto derechos", "default": "Solo imágenes tuyas o que tengas permiso para imprimir." },
     { "type": "text", "id": "author_label", "label": "Enlace a obras de autor", "default": "O descubre nuestras obras de autor" }
   ],
   "presets": [{ "name": "Personalízalo" }]

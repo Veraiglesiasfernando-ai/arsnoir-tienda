@@ -79,6 +79,13 @@
                   assign size_help = block.settings.size_help.url | default: pages['guia-de-tamanos'].url
                   assign frame_help = block.settings.frame_help.url
                   assign selected_opts = current_variant.options
+                  # With the theme's image upload, "Sube tu imagen" is step 1
+                  assign step_offset = 0
+                  for b in section.blocks
+                    if b.type == 'custom_guard' and b.settings.upload
+                      assign step_offset = 1
+                    endif
+                  endfor
                 -%}
                 <variant-picker class="vsteps" data-form="{{ form_id }}" data-price="{{ price_id }}">
                   {%- for option in product.options_with_values -%}
@@ -109,7 +116,7 @@
                     -%}
                     <fieldset class="option vstep{% if is_size %} option--size{% endif %}{% if is_frame %} option--frame{% endif %}" data-option-kind="{% if is_size %}size{% elsif is_frame %}frame{% else %}other{% endif %}">
                       <legend class="vstep__head">
-                        <span class="vstep__num">{{ forloop.index }}</span>
+                        <span class="vstep__num">{{ forloop.index | plus: step_offset }}</span>
                         <span class="vstep__title">{{ step_title }}</span>
                         {%- unless is_size -%}<span class="vstep__value" data-selected-value>{{ option.selected_value }}</span>{%- endunless -%}
                       </legend>
@@ -209,7 +216,9 @@
             {%- comment -%} Personalízalo: quality notice + required image-rights checkbox (recorded as a line item property). {%- endcomment -%}
             <div class="cguard" data-cguard data-min-ppi="{{ block.settings.min_ppi }}" data-good-ppi="300"
               data-low-text="{{ 'product.cguard_low' | t | escape }}" data-mid-text="{{ 'product.cguard_mid' | t | escape }}" data-ok-text="{{ 'product.cguard_ok' | t | escape }}" {{ block.shopify_attributes }}>
-              {%- if block.settings.heading != blank -%}<p class="cguard__title">{{ block.settings.heading }}</p>{%- endif -%}
+              {%- if block.settings.upload -%}
+                <p class="vstep__head cguard__head"><span class="vstep__num">1</span><span class="vstep__title">{{ 'product.upload_step' | t }}</span></p>
+              {%- elsif block.settings.heading != blank -%}<p class="cguard__title">{{ block.settings.heading }}</p>{%- endif -%}
               {%- if block.settings.notice != blank -%}<p class="cguard__notice">{{ block.settings.notice }}</p>{%- endif -%}
               {%- if block.settings.upload -%}
                 <div class="cupload" data-change-text="{{ 'product.upload_change' | t | escape }}" data-meta-text="{{ 'product.upload_meta' | t | escape }}">
@@ -217,8 +226,8 @@
                     <input class="cupload__input" id="Upload-{{ section.id }}" type="file" name="properties[Imagen]" form="{{ form_id }}" accept="image/jpeg,image/png" required data-cupload>
                     <span class="cupload__icon" aria-hidden="true">+</span>
                     <span class="cupload__label" data-cupload-label>{{ 'product.upload_cta' | t }}</span>
-                    <span class="cupload__hint">{{ 'product.upload_hint' | t }}</span>
                   </label>
+                  <p class="cupload__hint cupload__hint--below">{{ 'product.upload_hint' | t }}</p>
                   <div class="cupload__preview" data-cupload-preview hidden>
                     <div class="cupload__wall">
                       <div class="cupload__frame" data-cupload-frame><img alt="" width="600" height="800" data-cupload-img></div>
