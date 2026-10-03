@@ -7,44 +7,68 @@
     "templates": {
       "type": "custom-templates",
       "blocks": {
-        "e1": {
+        "mas1": {
           "type": "template",
           "settings": {
+            "category": "Mascotas",
             "name": "Estilo 1",
             "tagline": "",
             "link": ""
           }
         },
-        "e2": {
+        "mas2": {
           "type": "template",
           "settings": {
+            "category": "Mascotas",
             "name": "Estilo 2",
             "tagline": "",
             "link": ""
           }
         },
-        "e3": {
+        "amo1": {
           "type": "template",
           "settings": {
-            "name": "Estilo 3",
+            "category": "Amor",
+            "name": "Estilo 1",
             "tagline": "",
             "link": ""
           }
         },
-        "e4": {
+        "amo2": {
           "type": "template",
           "settings": {
-            "name": "Estilo 4",
+            "category": "Amor",
+            "name": "Estilo 2",
+            "tagline": "",
+            "link": ""
+          }
+        },
+        "fam1": {
+          "type": "template",
+          "settings": {
+            "category": "Familia",
+            "name": "Estilo 1",
+            "tagline": "",
+            "link": ""
+          }
+        },
+        "fam2": {
+          "type": "template",
+          "settings": {
+            "category": "Familia",
+            "name": "Estilo 2",
             "tagline": "",
             "link": ""
           }
         }
       },
       "block_order": [
-        "e1",
-        "e2",
-        "e3",
-        "e4"
+        "mas1",
+        "mas2",
+        "amo1",
+        "amo2",
+        "fam1",
+        "fam2"
       ],
       "settings": {}
     }

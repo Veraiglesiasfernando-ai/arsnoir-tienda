@@ -21,11 +21,41 @@
       <h2 class="ctpl__title">{{ s.heading }}</h2>
       {%- if s.text != blank -%}<p class="ctpl__text">{{ s.text }}</p>{%- endif -%}
     </div>
+    {%- liquid
+      # Theme tabs (Mascotas, Amor…) built from the blocks' "Tema" field, in order of appearance
+      assign cats = ''
+      for block in section.blocks
+        if block.settings.link == blank and request.design_mode == false
+          continue
+        endif
+        assign c = block.settings.category | strip
+        if c != blank
+          assign key = '|' | append: c | append: '|'
+          assign check = '|' | append: cats | append: '|'
+          unless check contains key
+            if cats == ''
+              assign cats = c
+            else
+              assign cats = cats | append: '|' | append: c
+            endif
+          endunless
+        endif
+      endfor
+      assign cat_list = cats | split: '|'
+    -%}
+    {%- if cat_list.size > 1 -%}
+      <div class="ctpl__tabs" role="tablist" aria-label="{{ s.heading | escape }}" data-ctpl-tabs>
+        <button type="button" class="ctpl__tab is-active" role="tab" aria-selected="true" data-cat="">{{ s.all_label }}</button>
+        {%- for c in cat_list -%}
+          <button type="button" class="ctpl__tab" role="tab" aria-selected="false" data-cat="{{ c | handleize }}">{{ c }}</button>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
     <ul class="ctpl__grid">
       {%- for block in section.blocks -%}
         {%- assign b = block.settings -%}
         {%- if b.link == blank and request.design_mode == false -%}{%- continue -%}{%- endif -%}
-        <li class="ctpl__item reveal" {{ block.shopify_attributes }}>
+        <li class="ctpl__item reveal" data-cat="{{ b.category | strip | handleize }}" {{ block.shopify_attributes }}>
           <a class="ctpl__card" href="{{ b.link | default: '#' }}">
             <span class="ctpl__media">
               {%- if b.image != blank -%}
@@ -41,6 +71,7 @@
               {%- endif -%}
               {%- if b.link == blank -%}<span class="ctpl__draft">{{ s.no_link_label }}</span>{%- endif -%}
             </span>
+            {%- if b.category != blank -%}<span class="ctpl__cat">{{ b.category }}</span>{%- endif -%}
             <span class="ctpl__name">{{ b.name }}</span>
             {%- if b.tagline != blank -%}<span class="ctpl__tagline">{{ b.tagline }}</span>{%- endif -%}
             <span class="ctpl__cta">{{ s.button_label }}</span>
@@ -55,12 +86,13 @@
 {% schema %}
 {
   "name": "Ilustraciones",
-  "max_blocks": 8,
+  "max_blocks": 30,
   "settings": [
     { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "ILUSTRACIONES" },
     { "type": "text", "id": "heading", "label": "Título", "default": "Tu foto, convertida en ilustración" },
     { "type": "text", "id": "text", "label": "Texto", "default": "Elige un estilo, sube tu foto y mírala convertida al momento." },
     { "type": "text", "id": "button_label", "label": "Botón", "default": "Elegir estilo" },
+    { "type": "text", "id": "all_label", "label": "Pestaña «todas»", "default": "Todas" },
     { "type": "text", "id": "before_label", "label": "Etiqueta de la foto original", "default": "Antes" },
     { "type": "text", "id": "no_link_label", "label": "Aviso sin enlace (solo en el editor)", "default": "Falta el enlace: oculta en la tienda" }
   ],
@@ -69,7 +101,8 @@
       "type": "template",
       "name": "Estilo",
       "settings": [
-        { "type": "text", "id": "name", "label": "Nombre", "default": "Cartel" },
+        { "type": "text", "id": "category", "label": "Tema", "default": "Mascotas", "info": "Mascotas, Amor, Familia… Los estilos con el mismo tema se agrupan en una pestaña." },
+        { "type": "text", "id": "name", "label": "Nombre", "default": "Estilo" },
         { "type": "text", "id": "tagline", "label": "Frase corta" },
         { "type": "image_picker", "id": "image", "label": "Ilustración de ejemplo" },
         { "type": "image_picker", "id": "before", "label": "Foto original del ejemplo (opcional)", "info": "Se ve pequeña en una esquina como «Antes»." },

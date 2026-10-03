@@ -627,6 +627,23 @@
     return swatch ? swatch.dataset.frameKind : 'none';
   }
 
+  /* Personalízalo: theme tabs (Mascotas, Amor…) filter the illustration styles */
+  document.querySelectorAll('[data-ctpl-tabs]').forEach(function (tabs) {
+    const grid = tabs.parentElement.querySelector('.ctpl__grid');
+    tabs.addEventListener('click', function (event) {
+      const tab = event.target.closest('[data-cat]');
+      if (!tab) return;
+      tabs.querySelectorAll('[data-cat]').forEach(function (t) {
+        const on = t === tab;
+        t.classList.toggle('is-active', on);
+        t.setAttribute('aria-selected', String(on));
+      });
+      grid.querySelectorAll('.ctpl__item').forEach(function (item) {
+        item.hidden = !!tab.dataset.cat && item.dataset.cat !== tab.dataset.cat;
+      });
+    });
+  });
+
   /* Personalízalo: the rights checkbox is required by the theme's buy form (native `required`).
      App blocks (e.g. Gelato's editor) are left untouched so their own editor keeps working.
      Plus a resolution check and preview for the theme's own upload -- */

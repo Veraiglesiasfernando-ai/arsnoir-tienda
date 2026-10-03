@@ -215,6 +215,6 @@ Selector: 1) Tamaño · 2) Acabado (Sin marco / Marco negro / Marco blanco / Mar
 
 ### Personalízalo: ilustraciones (foto → ilustración)
 
-- La cuadrícula «Ilustraciones» (sección `custom-templates`) muestra cada estilo con su ilustración de ejemplo y, opcional, la foto original en pequeño («Antes»). Sin enlace, la tarjeta no se ve en la tienda.
+- La cuadrícula «Ilustraciones» (sección `custom-templates`) agrupa los estilos por **Tema** (Mascotas, Amor, Familia…: pestañas que filtran) y muestra cada estilo con su ilustración de ejemplo y, opcional, la foto original en pequeño («Antes»). Sin enlace, la tarjeta no se ve en la tienda.
 - Cada estilo es un producto con la plantilla **product.ilustracion** y la etiqueta `plantilla`: la conversión la hace la app de foto → ilustración (añade su bloque en *Personalizar → Productos → ilustracion*). El tema no muestra su propia subida ahí; solo la casilla de derechos, tamaño/acabado, aviso y guía.
 - Pendiente: nombre de la app, imágenes, enlaces y comprobar si el botón de compra de la app respeta la casilla de derechos.
