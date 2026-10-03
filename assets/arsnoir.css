@@ -2311,3 +2311,44 @@ p.clanding__rights { max-width: 720px; margin: 18px auto 0; padding: 0; backgrou
 .cupload__hint--below { margin: 6px 0 0; text-align: center; }
 .cguard__head { display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 700; color: var(--color-fg); }
 .cguard__head .vstep__num { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; background: #e6e6e4; font-size: 12px; font-weight: 700; flex: none; }
+
+/* Personalízalo: two paths + template grid -------------------------------- */
+.cpaths { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; max-width: 900px; margin: 0 auto clamp(32px, 5vw, 56px); }
+.cpath { position: relative; display: flex; flex-direction: column; gap: 6px; min-height: 168px; padding: 24px; border-radius: 22px; background: rgba(255,255,255,0.75); border: 1px solid rgba(255,255,255,0.95); box-shadow: 0 18px 34px -26px rgba(0,0,0,0.4); transition: transform 0.2s ease, box-shadow 0.2s ease; }
+.cpath:hover { transform: translateY(-2px); box-shadow: 0 24px 40px -24px rgba(0,0,0,0.45); }
+.cpath:focus-visible { outline: 2px solid #0a0a0a; outline-offset: 3px; }
+.cpath--dark { background: radial-gradient(120% 120% at 20% 0%, #2a2a2a, #0a0a0a 60%); color: #fff; border-color: #0a0a0a; }
+.cpath__icon { display: inline-flex; width: 40px; height: 40px; margin-bottom: 8px; }
+.cpath__icon svg { width: 100%; height: 100%; }
+.cpath__title { font-size: 22px; font-weight: 700; letter-spacing: -0.03em; }
+.cpath__text { font-size: 14px; line-height: 1.45; opacity: 0.7; max-width: 30ch; }
+.cpath__go { position: absolute; right: 22px; bottom: 20px; font-size: 22px; }
+.ctpl { padding: clamp(40px, 7vw, 88px) 0; background: #0a0a0a; color: #fff; scroll-margin-top: 110px; }
+.ctpl__head { max-width: 640px; margin: 0 auto clamp(24px, 4vw, 40px); text-align: center; }
+.ctpl .eyebrow { color: rgba(255,255,255,0.55); }
+.ctpl__title { margin: 8px 0 10px; font-size: clamp(2rem, 4.6vw, 3.4rem); line-height: 1; letter-spacing: -0.04em; }
+.ctpl__text { margin: 0; font-size: 15px; color: rgba(255,255,255,0.65); }
+.ctpl__grid { list-style: none; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(12px, 2vw, 22px); margin: 0; padding: 0; }
+.ctpl__card { display: flex; flex-direction: column; gap: 4px; height: 100%; color: inherit; }
+.ctpl__media { position: relative; display: block; aspect-ratio: 4 / 5; overflow: hidden; border-radius: 14px; background: #1a1a1a; margin-bottom: 10px; }
+.ctpl__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+.ctpl__card:hover .ctpl__media img { transform: scale(1.03); }
+.ctpl__ph { position: absolute; inset: 0; display: flex; align-items: flex-end; padding: 16px; background: radial-gradient(90% 70% at 50% 35%, #3a3a3a, #121212); }
+.ctpl__ph span { font-size: 28px; font-weight: 700; letter-spacing: -0.03em; opacity: 0.35; }
+.ctpl__draft { position: absolute; left: 10px; top: 10px; padding: 4px 8px; border-radius: 999px; background: #B3001B; font-size: 10px; font-weight: 700; }
+.ctpl__name { font-size: 18px; font-weight: 700; }
+.ctpl__tagline { font-size: 13px; line-height: 1.4; color: rgba(255,255,255,0.6); flex: 1; }
+.ctpl__cta { align-self: flex-start; margin-top: 10px; padding: 10px 16px; border-radius: 999px; background: #fff; color: #0a0a0a; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; transition: background 0.2s; }
+.ctpl__card:hover .ctpl__cta { background: #d9d9d6; }
+.ctpl__card:focus-visible { outline: 2px solid #fff; outline-offset: 4px; border-radius: 14px; }
+@media (max-width: 849px) {
+  .cpaths { grid-template-columns: 1fr; }
+  .cpath { min-height: 0; padding: 20px 52px 20px 20px; }
+  .ctpl__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ctpl__cta { align-self: stretch; text-align: center; }
+}
+/* Product: template link + short notice */
+.ptpl-link { margin: -4px 0 14px; font-size: 14px; color: var(--color-muted); }
+.ptpl-link a { color: var(--color-fg); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+.pnotice { display: flex; gap: 8px; align-items: flex-start; margin: 4px 0 14px; font-size: 13px; line-height: 1.45; color: var(--color-muted); }
+.pnotice svg { width: 16px; height: 16px; flex: none; margin-top: 1px; }

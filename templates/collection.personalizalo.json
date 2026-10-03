@@ -1,6 +1,56 @@
 {
   "sections": {
-    "landing": { "type": "custom-landing", "settings": {} }
+    "landing": {
+      "type": "custom-landing",
+      "settings": {}
+    },
+    "templates": {
+      "type": "custom-templates",
+      "blocks": {
+        "cartel": {
+          "type": "template",
+          "settings": {
+            "name": "Cartel",
+            "tagline": "Tu foto como un cartel de exposición.",
+            "link": ""
+          }
+        },
+        "arco": {
+          "type": "template",
+          "settings": {
+            "name": "Arco",
+            "tagline": "Tu foto enmarcada en un arco limpio.",
+            "link": ""
+          }
+        },
+        "cine": {
+          "type": "template",
+          "settings": {
+            "name": "Cine",
+            "tagline": "Tu foto como el póster de tu película.",
+            "link": ""
+          }
+        },
+        "noir": {
+          "type": "template",
+          "settings": {
+            "name": "Noir",
+            "tagline": "Blanco y negro con firma ARSNOIR.",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "cartel",
+        "arco",
+        "cine",
+        "noir"
+      ],
+      "settings": {}
+    }
   },
-  "order": ["landing"]
+  "order": [
+    "landing",
+    "templates"
+  ]
 }

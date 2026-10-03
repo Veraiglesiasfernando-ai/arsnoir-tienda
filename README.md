@@ -204,3 +204,11 @@ Selector: 1) Tamaño · 2) Acabado (Sin marco / Marco negro / Marco blanco / Mar
 - Casilla «Confirmo que tengo los derechos para imprimir esta imagen» **obligatoria**: sin marcarla no se puede añadir al carrito y los bloques de apps de la ficha quedan bloqueados. Se guarda en el pedido como «Derechos de imagen: Confirmados por el cliente».
 - Aviso de resolución (300 ppp recomendado). Si la imagen se sube con un campo de archivo de la propia ficha, se calcula su resolución al tamaño elegido y avisa por debajo de 150 ppp.
 - Mismos tamaños, acabados, precios, envío y WELCOME10 que el catálogo.
+
+### Personalízalo: dos caminos (sube tu foto / plantillas)
+
+- La página de Personalízalo abre con dos tarjetas: **Sube tu foto** (ficha del producto en blanco, por defecto `tu-imagen-impresa`) y **Usa una plantilla** (baja a la cuadrícula `#Plantillas`).
+- Cuadrícula **Plantillas** (sección `custom-templates`): Cartel, Arco, Cine y Noir con imagen, nombre, frase y «Elegir plantilla». Enlace e imagen se ponen en *Personalizar → Personalízalo → Plantillas*. Sin enlace la tarjeta no se ve en la tienda.
+- Los productos-plantilla llevan la etiqueta **`plantilla`**: en ellos no aparece la subida del tema (solo el editor de Gelato o de la app) ni el enlace «¿Prefieres una plantilla?».
+- Ficha `product.personalizalo`: enlace a plantillas bajo el título, aviso «Producto personalizado: no admite devolución por desistimiento, salvo defecto» (pendiente de confirmar con gestoría) y desplegable «¿Tu foto es pequeña? Cómo mejorarla» (texto pendiente).
+- El tema ya no bloquea los bloques de apps hasta marcar la casilla de derechos: el editor de Gelato funciona libre. La casilla sigue siendo obligatoria en el botón de compra del tema.

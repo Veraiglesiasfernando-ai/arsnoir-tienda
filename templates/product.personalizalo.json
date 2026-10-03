@@ -43,13 +43,34 @@
             "note": "",
             "upload": true
           }
+        },
+        "tpl_link": {
+          "type": "template_link",
+          "settings": {}
+        },
+        "photo_help": {
+          "type": "collapsible",
+          "settings": {
+            "heading": "¿Tu foto es pequeña? Cómo mejorarla",
+            "content": "<p>[PEGAR AQUÍ LA GUÍA]</p>",
+            "open": false
+          }
+        },
+        "returns_notice": {
+          "type": "notice",
+          "settings": {
+            "text": "Producto personalizado: no admite devolución por desistimiento, salvo defecto."
+          }
         }
       },
       "block_order": [
         "title",
+        "tpl_link",
         "price",
         "guard",
         "buy",
+        "returns_notice",
+        "photo_help",
         "details",
         "shipping"
       ],

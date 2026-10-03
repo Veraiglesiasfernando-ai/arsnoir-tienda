@@ -1,0 +1,73 @@
+{%- comment -%}
+  Personalízalo: grid of ready-made designs (Cartel, Arco, Cine, Noir…). Each block links to its
+  product page, where the personalization editor (Gelato / app) lives. A block without a link
+  is hidden on the live store; in the editor it shows as a placeholder.
+{%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+  assign shown = 0
+  for block in section.blocks
+    if block.settings.link != blank or request.design_mode
+      assign shown = shown | plus: 1
+    endif
+  endfor
+-%}
+{%- if shown > 0 -%}
+<section class="ctpl" id="Plantillas">
+  <div class="page-width">
+    <div class="ctpl__head">
+      {%- if s.eyebrow != blank -%}<p class="eyebrow">{{ s.eyebrow }}</p>{%- endif -%}
+      <h2 class="ctpl__title">{{ s.heading }}</h2>
+      {%- if s.text != blank -%}<p class="ctpl__text">{{ s.text }}</p>{%- endif -%}
+    </div>
+    <ul class="ctpl__grid">
+      {%- for block in section.blocks -%}
+        {%- assign b = block.settings -%}
+        {%- if b.link == blank and request.design_mode == false -%}{%- continue -%}{%- endif -%}
+        <li class="ctpl__item reveal" {{ block.shopify_attributes }}>
+          <a class="ctpl__card" href="{{ b.link | default: '#' }}">
+            <span class="ctpl__media">
+              {%- if b.image != blank -%}
+                {{ b.image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '360, 540, 720, 900', sizes: '(min-width: 990px) 25vw, 50vw', alt: b.image.alt | default: b.name }}
+              {%- else -%}
+                <span class="ctpl__ph" aria-hidden="true"></span>
+              {%- endif -%}
+              {%- if b.link == blank -%}<span class="ctpl__draft">{{ s.no_link_label }}</span>{%- endif -%}
+            </span>
+            <span class="ctpl__name">{{ b.name }}</span>
+            {%- if b.tagline != blank -%}<span class="ctpl__tagline">{{ b.tagline }}</span>{%- endif -%}
+            <span class="ctpl__cta">{{ s.button_label }}</span>
+          </a>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Plantillas",
+  "max_blocks": 8,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "PLANTILLAS" },
+    { "type": "text", "id": "heading", "label": "Título", "default": "Elige un diseño y pon tu foto" },
+    { "type": "text", "id": "text", "label": "Texto", "default": "Añade tu foto y tu nombre en el editor de cada plantilla." },
+    { "type": "text", "id": "button_label", "label": "Botón", "default": "Elegir plantilla" },
+    { "type": "text", "id": "no_link_label", "label": "Aviso sin enlace (solo en el editor)", "default": "Falta el enlace: oculta en la tienda" }
+  ],
+  "blocks": [
+    {
+      "type": "template",
+      "name": "Plantilla",
+      "settings": [
+        { "type": "text", "id": "name", "label": "Nombre", "default": "Cartel" },
+        { "type": "text", "id": "tagline", "label": "Frase corta" },
+        { "type": "image_picker", "id": "image", "label": "Imagen" },
+        { "type": "url", "id": "link", "label": "Enlace a la ficha", "info": "Sin enlace, la tarjeta no se muestra en la tienda." }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Plantillas" }]
+}
+{% endschema %}

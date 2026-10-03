@@ -80,9 +80,13 @@
                   assign frame_help = block.settings.frame_help.url
                   assign selected_opts = current_variant.options
                   # With the theme's image upload, "Sube tu imagen" is step 1
+                  assign is_template = false
+                  if product.tags contains 'plantilla'
+                    assign is_template = true
+                  endif
                   assign step_offset = 0
                   for b in section.blocks
-                    if b.type == 'custom_guard' and b.settings.upload
+                    if b.type == 'custom_guard' and b.settings.upload and is_template == false
                       assign step_offset = 1
                     endif
                   endfor
@@ -216,11 +220,13 @@
             {%- comment -%} Personalízalo: quality notice + required image-rights checkbox (recorded as a line item property). {%- endcomment -%}
             <div class="cguard" data-cguard data-min-ppi="{{ block.settings.min_ppi }}" data-good-ppi="300"
               data-low-text="{{ 'product.cguard_low' | t | escape }}" data-mid-text="{{ 'product.cguard_mid' | t | escape }}" data-ok-text="{{ 'product.cguard_ok' | t | escape }}" {{ block.shopify_attributes }}>
-              {%- if block.settings.upload -%}
+              {%- assign show_upload = block.settings.upload -%}
+              {%- if product.tags contains 'plantilla' -%}{%- assign show_upload = false -%}{%- endif -%}
+              {%- if show_upload -%}
                 <p class="vstep__head cguard__head"><span class="vstep__num">1</span><span class="vstep__title">{{ 'product.upload_step' | t }}</span></p>
               {%- elsif block.settings.heading != blank -%}<p class="cguard__title">{{ block.settings.heading }}</p>{%- endif -%}
               {%- if block.settings.notice != blank -%}<p class="cguard__notice">{{ block.settings.notice }}</p>{%- endif -%}
-              {%- if block.settings.upload -%}
+              {%- if show_upload -%}
                 <div class="cupload" data-change-text="{{ 'product.upload_change' | t | escape }}" data-meta-text="{{ 'product.upload_meta' | t | escape }}">
                   <label class="cupload__drop" for="Upload-{{ section.id }}">
                     <input class="cupload__input" id="Upload-{{ section.id }}" type="file" name="properties[Imagen]" form="{{ form_id }}" accept="image/jpeg,image/png" required data-cupload>
@@ -243,6 +249,17 @@
               </label>
               {%- if block.settings.note != blank -%}<p class="cguard__note">{{ block.settings.note }}</p>{%- endif -%}
             </div>
+
+          {%- when 'template_link' -%}
+            {%- unless product.tags contains 'plantilla' -%}
+              {%- assign tl = block.settings.link | default: '/collections/personalizalo#Plantillas' -%}
+              <p class="ptpl-link" {{ block.shopify_attributes }}>{{ block.settings.text }} <a href="{{ tl }}">{{ block.settings.link_label }}</a></p>
+            {%- endunless -%}
+
+          {%- when 'notice' -%}
+            {%- if block.settings.text != blank -%}
+              <p class="pnotice" {{ block.shopify_attributes }}><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 8v5m0 3v.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>{{ block.settings.text }}</span></p>
+            {%- endif -%}
 
           {%- when 'edition' -%}
             {%- liquid
@@ -384,6 +401,20 @@
       ]
     },
     {
+      "type": "template_link", "name": "Enlace a plantillas", "limit": 1,
+      "settings": [
+        { "type": "text", "id": "text", "label": "Texto", "default": "¿Prefieres una plantilla?" },
+        { "type": "text", "id": "link_label", "label": "Enlace", "default": "Míralas aquí" },
+        { "type": "url", "id": "link", "label": "Destino", "info": "Vacío = cuadrícula de plantillas de Personalízalo. No se muestra en productos con la etiqueta «plantilla»." }
+      ]
+    },
+    {
+      "type": "notice", "name": "Aviso breve",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Texto" }
+      ]
+    },
+    {
       "type": "custom_guard", "name": "Personalízalo: avisos", "limit": 1,
       "settings": [
         { "type": "paragraph", "content": "Para el producto «Sube tu imagen». La casilla de derechos es obligatoria: sin marcarla no se puede añadir al carrito (tampoco desde los bloques de apps de esta ficha, como el de Gelato), y queda guardada en el pedido." },
@@ -391,7 +422,7 @@
         { "type": "textarea", "id": "notice", "label": "Aviso de resolución", "default": "Para que tu pieza imprima con calidad, sube una imagen en alta resolución. Recomendado: mínimo 300 ppp al tamaño elegido. Imágenes de baja calidad pueden salir pixeladas." },
         { "type": "text", "id": "rights_label", "label": "Casilla de derechos", "default": "Confirmo que tengo los derechos para imprimir esta imagen." },
         { "type": "textarea", "id": "note", "label": "Nota de calidad", "default": "Imprimimos tu imagen tal cual la subes: el resultado depende de su calidad. No retocamos ni cambiamos el estilo." },
-        { "type": "checkbox", "id": "upload", "label": "Subida de imagen del tema", "default": true, "info": "Campo para subir la imagen (se guarda en el pedido) con vista previa. Desactívalo si usas el bloque de subida de Gelato." },
+        { "type": "checkbox", "id": "upload", "label": "Subida de imagen del tema", "default": true, "info": "Campo para subir la imagen (se guarda en el pedido) con vista previa. Desactívalo si usas el editor de Gelato o de una app. Nunca aparece en productos con la etiqueta «plantilla»." },
         { "type": "range", "id": "min_ppi", "label": "Avisar de pixelado por debajo de", "min": 100, "max": 300, "step": 10, "unit": "ppp", "default": 150, "info": "Solo cuando la imagen se sube en esta ficha y el navegador puede leer su tamaño." }
       ]
     },

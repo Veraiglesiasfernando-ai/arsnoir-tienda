@@ -627,23 +627,11 @@
     return swatch ? swatch.dataset.frameKind : 'none';
   }
 
-  /* Personalízalo: rights checkbox gates the buy button (native `required`) and any app
-     block of the product (e.g. Gelato's upload), plus a resolution check for uploads -- */
+  /* Personalízalo: the rights checkbox is required by the theme's buy form (native `required`).
+     App blocks (e.g. Gelato's editor) are left untouched so their own editor keeps working.
+     Plus a resolution check and preview for the theme's own upload -- */
   document.querySelectorAll('[data-cguard]').forEach(function (guard) {
-    const rights = guard.querySelector('[data-cguard-rights]');
     const scope = guard.closest('section, .shopify-section') || document;
-    const apps = function () {
-      return Array.prototype.filter.call(scope.querySelectorAll('[id^="shopify-block-"]'), function (el) { return !el.contains(guard); });
-    };
-    const sync = function () {
-      apps().forEach(function (el) {
-        el.classList.toggle('cguard-locked', !rights.checked);
-        if (!rights.checked) el.setAttribute('inert', ''); else el.removeAttribute('inert');
-      });
-    };
-    rights.addEventListener('change', sync);
-    sync();
-    setTimeout(sync, 1500); /* app blocks that render late */
 
     const result = guard.querySelector('[data-cguard-result]');
     const minPpi = parseInt(guard.dataset.minPpi, 10) || 150;
