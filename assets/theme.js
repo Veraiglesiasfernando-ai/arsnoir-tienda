@@ -786,8 +786,9 @@
     }
     disconnectedCallback() { document.removeEventListener('change', this.onChange); }
     update() {
-      if (!this.room) return;
-      const label = selectedOf('size') || this.dataset.defaultSize;
+      if (!this.room || !this.art) return;
+      const checked = document.querySelector('fieldset[data-option-kind="size"] input:checked');
+      const label = (checked && (checked.dataset.display || checked.value)) || this.dataset.defaultSize;
       const size = parseSize(label) || [50, 70];
       const wall = parseFloat(this.room.dataset.wall) || 300;
       const wallHeight = wall * 0.75; /* stage is 4:3 */
@@ -810,7 +811,10 @@
       this.stage = this.querySelector('[data-stage]');
       this.person = this.querySelector('[data-person]');
       const values = JSON.parse(this.querySelector('[data-sizes]').textContent);
-      this.sizes = values.map((v) => ({ label: v, size: parseSize(v) })).filter((s) => s.size);
+      const labelsEl = this.querySelector('[data-labels]');
+      const labels = labelsEl ? JSON.parse(labelsEl.textContent) : [];
+      this.sizes = values.map((v, i) => ({ label: v, display: labels[i] || v, size: parseSize(labels[i] || v) || parseSize(v) })).filter((s) => s.size)
+        .sort((a, b) => a.size[0] * a.size[1] - b.size[0] * b.size[1]);
       if (this.sizes.length < 2) { this.hidden = true; return; }
       this.render();
       this.onChange = (event) => { if (event.target.closest('variant-picker')) this.mark(); };
@@ -828,7 +832,7 @@
       const H = 200, PERSON_H = 175, PERSON_W = 42, GAP = 18, CENTER = 145;
       let x = PERSON_W + GAP * 1.4;
       const boxes = this.sizes.map((s) => {
-        const b = { label: s.label, w: s.size[0], h: s.size[1], x: x };
+        const b = { label: s.label, display: s.display, w: s.size[0], h: s.size[1], x: x };
         x += s.size[0] + GAP;
         return b;
       });
@@ -845,8 +849,8 @@
         el.style.width = (b.w / W) * 100 + '%';
         el.style.height = (b.h / H) * 100 + '%';
         el.style.bottom = (Math.max(0, CENTER - b.h / 2) / H) * 100 + '%';
-        el.innerHTML = '<span>' + (b.label.indexOf('·') > -1 ? b.label.split('·')[0].trim() : b.label.replace(/\s*cm\s*$/i, '')) + '</span>';
-        el.setAttribute('aria-label', (S.chooseSize || 'Elegir [size]').replace('[size]', b.label));
+        el.innerHTML = '<span>' + (b.display.indexOf('·') > -1 ? b.display.split('·')[0].trim() : b.display.replace(/\s*cm\s*$/i, '')) + '</span>';
+        el.setAttribute('aria-label', (S.chooseSize || 'Elegir [size]').replace('[size]', b.display));
         this.stage.appendChild(el);
       });
       this.mark();

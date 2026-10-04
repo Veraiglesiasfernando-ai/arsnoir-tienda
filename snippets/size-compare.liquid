@@ -17,7 +17,9 @@
         <path d="M9 24h22c3 0 5 2 5 5v52c0 2-1.5 3.5-3.5 3.5S29 83 29 81V36h-1v130c0 2.8-2.2 5-5 5s-5-2.2-5-5V101h-2v65c0 2.8-2.2 5-5 5s-5-2.2-5-5V36H5v45c0 2-1.5 3.5-3.5 3.5S-2 83-2 81V29c0-3 2-5 5-5Z" transform="translate(4 0) scale(.82 1)"/>
       </svg>
     </div>
+    {%- capture size_labels -%}{%- for v in size_values -%}{%- render 'option-label', value: v, kind: 'size' -%}{%- unless forloop.last -%}|{%- endunless -%}{%- endfor -%}{%- endcapture -%}
     <script type="application/json" data-sizes>{{ size_values | json }}</script>
+    <script type="application/json" data-labels>{{ size_labels | split: '|' | json }}</script>
     {%- if block.settings.note != blank -%}<p class="sizecmp__note">{{ block.settings.note }}</p>{%- endif -%}
   </size-compare>
 {%- endif -%}

@@ -2472,3 +2472,6 @@ button.ftile.is-unavailable { opacity: 0.45; }
 .poster__frame:has(.poster__media img) .poster__media img { object-fit: contain; }
 /* Product gallery: photos bring their own frame and shadow */
 .product__media:not(.product__media--lifestyle) img { box-shadow: none; }
+/* "Mírala en tu pared" with the artwork's own room photos */
+.wallp--photos .wallp__stage { aspect-ratio: 4 / 5; }
+.wallp--photos { margin-bottom: 40px; }

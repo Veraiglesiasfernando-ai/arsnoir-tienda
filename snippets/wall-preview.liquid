@@ -5,7 +5,61 @@
 {%- liquid
   assign bs = block.settings
   assign art = product.featured_media
+  assign room_keys = 'salón,dormitorio,estudio' | split: ','
+  assign room_labels = 'Salón,Dormitorio,Estudio' | split: ','
+  assign room_photos = 0
+  for key in room_keys
+    assign needle = 'en un ' | append: key
+    for m in product.media
+      assign alt = m.alt | downcase
+      if alt contains needle
+        assign room_photos = room_photos | plus: 1
+        break
+      endif
+    endfor
+  endfor
 -%}
+{%- if room_photos > 0 -%}
+{%- comment -%} The artwork's own room photos (alt «… en un salón / dormitorio / estudio»). {%- endcomment -%}
+<wall-preview class="wallp wallp--photos" data-photos {{ block.shopify_attributes }}>
+  <div class="wallp__head">
+    <p class="wallp__title">{{ bs.heading }}</p>
+    <div class="wallp__tabs" role="tablist">
+      {%- assign n = 0 -%}
+      {%- for key in room_keys -%}
+        {%- assign ri = forloop.index -%}
+        {%- assign rlabel = room_labels[forloop.index0] -%}
+        {%- assign needle = 'en un ' | append: key -%}
+        {%- for m in product.media -%}
+          {%- assign alt = m.alt | downcase -%}
+          {%- if alt contains needle -%}
+            {%- assign n = n | plus: 1 -%}
+            <button type="button" class="wallp__tab" role="tab" data-room="{{ ri }}" aria-selected="{% if n == 1 %}true{% else %}false{% endif %}">{{ rlabel }}</button>
+            {%- break -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endfor -%}
+    </div>
+  </div>
+  <div class="wallp__stage" data-stage>
+    {%- assign n = 0 -%}
+    {%- for key in room_keys -%}
+      {%- assign ri = forloop.index -%}
+      {%- assign needle = 'en un ' | append: key -%}
+      {%- for m in product.media -%}
+        {%- assign alt = m.alt | downcase -%}
+        {%- if alt contains needle -%}
+          {%- assign n = n | plus: 1 -%}
+          <div class="wallp__room{% if n == 1 %} is-active{% endif %}" data-room-panel="{{ ri }}">
+            {{ m | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '600, 900, 1200, 1400', sizes: '(min-width: 900px) 40vw, 90vw', alt: m.alt }}
+          </div>
+          {%- break -%}
+        {%- endif -%}
+      {%- endfor -%}
+    {%- endfor -%}
+  </div>
+</wall-preview>
+{%- else -%}
 <wall-preview class="wallp" data-default-size="{{ bs.default_size | escape }}" {{ block.shopify_attributes }}>
   <div class="wallp__head">
     <p class="wallp__title">{{ bs.heading }}</p>
@@ -54,3 +108,4 @@
 
   <p class="wallp__caption"><strong data-wallp-size></strong> <span data-wallp-ref></span></p>
 </wall-preview>
+{%- endif -%}
