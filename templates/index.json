@@ -140,18 +140,23 @@
         "r1": {
           "type": "room",
           "settings": {
+            "image": "shopify://shop_images/arsnoir-room-salon.jpg",
             "room": "Salón"
           }
         },
         "r2": {
           "type": "room",
           "settings": {
+            "image": "shopify://shop_images/arsnoir-room-dormitorio.jpg",
+            "product": "blue-corner-1",
             "room": "Dormitorio"
           }
         },
         "r3": {
           "type": "room",
           "settings": {
+            "image": "shopify://shop_images/arsnoir-room-estudio.jpg",
+            "product": "perro-amarillo",
             "room": "Estudio"
           }
         }
