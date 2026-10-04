@@ -91,6 +91,25 @@
                     endif
                   endfor
                 -%}
+                {%- liquid
+                  # Gelato products come with Size / Product / Style: Product + Style are shown
+                  # together as one "finish" step (Sin marco, Marco negro, Lienzo…)
+                  assign product_i = -1
+                  assign style_i = -1
+                  for o in product.options_with_values
+                    assign k = o.name | downcase
+                    if k == 'product' or k == 'producto' or k == 'material'
+                      assign product_i = forloop.index0
+                    elsif k == 'style' or k == 'estilo'
+                      assign style_i = forloop.index0
+                    endif
+                  endfor
+                  assign merged = false
+                  if product_i >= 0 and style_i >= 0
+                    assign merged = true
+                  endif
+                  assign step_n = step_offset
+                -%}
                 <variant-picker class="vsteps" data-form="{{ form_id }}" data-price="{{ price_id }}">
                   {%- for option in product.options_with_values -%}
                     {%- liquid
@@ -104,10 +123,14 @@
                       if option_key contains 'marco' or option_key contains 'frame' or option_key contains 'acabado'
                         assign is_frame = true
                       endif
-                      assign recommended = block.settings.recommended_size
-                      if is_size and recommended == blank and block.settings.highlight_largest
-                        assign recommended = option.values | last
+                      assign is_hidden = false
+                      if merged and option_index == product_i or merged and option_index == style_i
+                        assign is_hidden = true
                       endif
+                      if merged and option_index == style_i
+                        assign is_frame = true
+                      endif
+                      assign recommended = block.settings.recommended_size
                       if is_frame
                         assign recommended = block.settings.recommended_frame
                       endif
@@ -117,19 +140,36 @@
                       elsif is_frame
                         assign step_title = 'product.step_finish' | t
                       endif
+                      unless is_hidden
+                        assign step_n = step_n | plus: 1
+                      endunless
+                      assign label_kind = ''
+                      if is_size
+                        assign label_kind = 'size'
+                      endif
                     -%}
-                    <fieldset class="option vstep{% if is_size %} option--size{% endif %}{% if is_frame %} option--frame{% endif %}" data-option-kind="{% if is_size %}size{% elsif is_frame %}frame{% else %}other{% endif %}">
+                    {%- if is_size and recommended == blank and block.settings.highlight_largest -%}
+                      {%- assign best = 0 -%}
+                      {%- for value in option.values -%}
+                        {%- capture r -%}{% render 'option-label', value: value, kind: 'rank' %}{%- endcapture -%}
+                        {%- assign r = r | plus: 0 -%}
+                        {%- if r < 20 and r > best -%}{%- assign best = r -%}{%- assign recommended = value -%}{%- endif -%}
+                      {%- endfor -%}
+                      {%- if best == 0 -%}{%- assign recommended = option.values | last -%}{%- endif -%}
+                    {%- endif -%}
+                    {%- capture selected_label -%}{% render 'option-label', value: option.selected_value, kind: label_kind %}{%- endcapture -%}
+                    <fieldset class="option vstep{% if is_size %} option--size{% endif %}{% if is_frame %} option--frame{% endif %}{% if is_hidden %} vstep--merged{% endif %}" data-option-kind="{% if is_size %}size{% elsif is_frame %}frame{% else %}other{% endif %}"{% if is_hidden %} hidden{% endif %}>
                       <legend class="vstep__head">
-                        <span class="vstep__num">{{ forloop.index | plus: step_offset }}</span>
+                        <span class="vstep__num">{{ step_n }}</span>
                         <span class="vstep__title">{{ step_title }}</span>
-                        {%- unless is_size -%}<span class="vstep__value" data-selected-value>{{ option.selected_value }}</span>{%- endunless -%}
+                        {%- unless is_size -%}<span class="vstep__value" data-selected-value>{{ selected_label }}</span>{%- endunless -%}
                       </legend>
                       {%- if is_size and size_help != blank -%}<a class="vstep__help" href="{{ size_help }}">{{ 'product.size_guide' | t }}</a>{%- endif -%}
-                      {%- if is_frame and frame_help != blank -%}<a class="vstep__help" href="{{ frame_help }}">{{ 'product.about_frames' | t }}</a>{%- endif -%}
+                      {%- if is_frame and frame_help != blank and is_hidden == false -%}<a class="vstep__help" href="{{ frame_help }}">{{ 'product.about_frames' | t }}</a>{%- endif -%}
 
                       <details class="vsel{% unless is_size %} vsel--static{% endunless %}"{% if is_size %} data-vsel{% else %} open{% endif %}>
                         <summary class="vsel__current"{% unless is_size %} tabindex="-1" aria-hidden="true"{% endunless %}>
-                          <span data-selected-value>{{ option.selected_value }}</span>
+                          <span data-selected-value>{{ selected_label }}</span>
                           <span class="vsel__price" data-atc-price-mirror>{{ current_variant.price | money }}</span>
                           <svg class="vsel__caret" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
                         </summary>
@@ -153,14 +193,18 @@
                               endif
                             endfor
                           -%}
+                          {%- capture display -%}{% render 'option-label', value: value, kind: label_kind %}{%- endcapture -%}
+                          {%- capture rank -%}{%- if is_size -%}{% render 'option-label', value: value, kind: 'rank' %}{%- else -%}{{ forloop.index }}{%- endif -%}{%- endcapture -%}
                           <input type="radio"
                             id="{{ input_id }}"
                             name="{{ section.id }}-{{ option.name | handle }}"
                             value="{{ value | escape }}"
+                            data-display="{{ display | escape }}"
+                            style="order: {{ rank }}"
                             {% if option.selected_value == value %}checked{% endif %}>
                           {%- if is_size -%}
-                            <label for="{{ input_id }}" class="vsel__row">
-                              <span>{{ value }}</span>
+                            <label for="{{ input_id }}" class="vsel__row" style="order: {{ rank }}">
+                              <span>{{ display }}</span>
                               {%- if value == recommended -%}<span class="option__badge">{{ block.settings.recommended_label }}</span>{%- endif -%}
                               <span class="vsel__rowprice" data-row-price data-option-index="{{ option_index }}" data-value="{{ value | escape }}">{{ row_price }}</span>
                             </label>
@@ -170,15 +214,88 @@
                             <label for="{{ input_id }}" class="ftile">
                               {%- if value == recommended -%}<span class="option__badge ftile__badge">{{ block.settings.recommended_label }}</span>{%- endif -%}
                               <span class="ftile__img ftile__img--{{ kind }}">{{ swatch }}</span>
-                              <span class="ftile__name">{{ value }}</span>
+                              <span class="ftile__name">{{ display }}</span>
                             </label>
                           {%- else -%}
-                            <label for="{{ input_id }}">{{ value }}</label>
+                            <label for="{{ input_id }}">{{ display }}</label>
                           {%- endif -%}
                         {%- endfor -%}
                         </div>
                       </details>
                     </fieldset>
+
+                    {%- comment -%} Combined finish step, right after the size {%- endcomment -%}
+                    {%- if merged and is_size -%}
+                      {%- liquid
+                        assign step_n = step_n | plus: 1
+                        assign pairs = ''
+                        for v in product.variants
+                          assign pair = v.options[product_i] | append: '§' | append: v.options[style_i]
+                          assign check = '¦' | append: pairs | append: '¦'
+                          assign key = '¦' | append: pair | append: '¦'
+                          unless check contains key
+                            if pairs == ''
+                              assign pairs = pair
+                            else
+                              assign pairs = pairs | append: '¦' | append: pair
+                            endif
+                          endunless
+                        endfor
+                        assign pair_list = pairs | split: '¦'
+                        assign cur_p = current_variant.options[product_i]
+                        assign cur_s = current_variant.options[style_i]
+                      -%}
+                      {%- capture cur_label -%}{% render 'option-label', value: cur_p, kind: 'finish', style: cur_s %}{%- endcapture -%}
+                      <div class="option vstep option--frame vstep--finish" data-finish-step data-p-index="{{ product_i }}" data-s-index="{{ style_i }}">
+                        <p class="vstep__head">
+                          <span class="vstep__num">{{ step_n }}</span>
+                          <span class="vstep__title">{{ 'product.step_finish' | t }}</span>
+                          <span class="vstep__value" data-finish-value>{{ cur_label }}</span>
+                        </p>
+                        {%- if frame_help != blank -%}<a class="vstep__help" href="{{ frame_help }}">{{ 'product.about_frames' | t }}</a>{%- endif -%}
+                        <div class="option__values ftiles" role="radiogroup" aria-label="{{ 'product.step_finish' | t | escape }}">
+                          {%- for pair in pair_list -%}
+                            {%- liquid
+                              assign pp = pair | split: '§' | first
+                              assign ps = pair | split: '§' | last
+                              assign pl = pp | downcase
+                              assign kind = 'none'
+                              assign sl = ps | downcase
+                              if sl contains 'black'
+                                assign kind = 'black'
+                              elsif sl contains 'white'
+                                assign kind = 'white'
+                              elsif sl contains 'wood'
+                                assign kind = 'wood'
+                              elsif pl contains 'canvas'
+                                assign kind = 'canvas'
+                              endif
+                              assign order = 1
+                              case kind
+                                when 'black'
+                                  assign order = 2
+                                when 'white'
+                                  assign order = 3
+                                when 'wood'
+                                  assign order = 4
+                                when 'canvas'
+                                  assign order = 5
+                              endcase
+                              if pl contains 'canvas' and kind != 'canvas'
+                                assign order = order | plus: 4
+                                assign kind = kind | append: ' ftile__img--canvasframe'
+                              endif
+                            -%}
+                            {%- capture pair_label -%}{% render 'option-label', value: pp, kind: 'finish', style: ps %}{%- endcapture -%}
+                            <button type="button" style="order: {{ order }}" class="ftile{% if pp == cur_p and ps == cur_s %} is-active{% endif %}" role="radio" aria-checked="{% if pp == cur_p and ps == cur_s %}true{% else %}false{% endif %}" data-p="{{ pp | escape }}" data-s="{{ ps | escape }}" data-label="{{ pair_label | escape }}">
+                              {%- if pair_label == block.settings.recommended_frame -%}<span class="option__badge ftile__badge">{{ block.settings.recommended_label }}</span>{%- endif -%}
+                              <span class="ftile__img ftile__img--{{ kind }}"></span>
+                              <span class="ftile__name">{{ pair_label }}</span>
+                            </button>
+                          {%- endfor -%}
+                        </div>
+                      </div>
+                    {%- endif -%}
                   {%- endfor -%}
                   <script type="application/json">{{ product.variants | json }}</script>
                 </variant-picker>

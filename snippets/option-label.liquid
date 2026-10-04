@@ -1,0 +1,90 @@
+{%- comment -%}
+  Spanish display label for variant option values that come from Gelato in English.
+  Only the text shown changes; the real option values stay as they are.
+  - value: the option value
+  - kind: 'size' | 'finish' (product + style pair) | anything else (returned as is)
+  - style: for kind 'finish', the style value (e.g. "Black frame", "-", "Thick")
+{%- endcomment -%}
+{%- liquid
+  assign v = value | strip
+  assign low = v | downcase | replace: ' ', ''
+  case kind
+    when 'size'
+      if low contains '21x29.7' or low contains '21x29,7'
+        echo 'A4 · 21 × 29,7 cm'
+      elsif low contains '29.7x42' or low contains '29,7x42'
+        echo 'A3 · 29,7 × 42 cm'
+      elsif low contains '42x59.4' or low contains '42x59,4'
+        echo 'A2 · 42 × 59,4 cm'
+      elsif low contains '59.4x84.1' or low contains '59,4x84,1'
+        echo 'A1 · 59,4 × 84,1 cm'
+      elsif low contains '60x90'
+        echo 'XL · 60 × 90 cm'
+      elsif low contains '50x70'
+        echo '50 × 70 cm'
+      elsif low contains '20x25'
+        echo '20 × 25 cm'
+      elsif low contains '30x40'
+        echo '30 × 40 cm'
+      elsif low contains '45x60'
+        echo '45 × 60 cm'
+      elsif low contains '60x80'
+        echo '60 × 80 cm'
+      else
+        echo v
+      endif
+    when 'finish'
+      assign p = low
+      assign st = style | strip | downcase
+      assign frame = ''
+      if st contains 'black' or st contains 'negr'
+        assign frame = 'negro'
+      elsif st contains 'white' or st contains 'blanc'
+        assign frame = 'blanco'
+      elsif st contains 'wood' or st contains 'madera' or st contains 'natural'
+        assign frame = 'madera'
+      endif
+      if p contains 'canvas' or p contains 'lienzo'
+        if frame != ''
+          echo 'Lienzo · marco ' | append: frame
+        elsif st contains 'slim'
+          echo 'Lienzo fino'
+        elsif st contains 'thick'
+          echo 'Lienzo grueso'
+        else
+          echo 'Lienzo'
+        endif
+      elsif frame != ''
+        echo 'Marco ' | append: frame
+      else
+        echo 'Sin marco'
+      endif
+    when 'rank'
+      # Sort key for sizes, small to large
+      if low contains '20x25'
+        echo 1
+      elsif low contains '21x29'
+        echo 2
+      elsif low contains '29.7x42' or low contains '29,7x42'
+        echo 3
+      elsif low contains '30x40'
+        echo 4
+      elsif low contains '42x59'
+        echo 5
+      elsif low contains '45x60'
+        echo 6
+      elsif low contains '50x70'
+        echo 7
+      elsif low contains '59.4x84' or low contains '59,4x84'
+        echo 8
+      elsif low contains '60x80'
+        echo 9
+      elsif low contains '60x90'
+        echo 10
+      else
+        echo 20
+      endif
+    else
+      echo v
+  endcase
+-%}

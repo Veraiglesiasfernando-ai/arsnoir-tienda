@@ -224,6 +224,65 @@
       this.form = document.getElementById(this.dataset.form);
       this.addEventListener('change', this.onChange.bind(this));
       this.markAvailability();
+      /* Gelato's Product + Style options shown as one "finish" step */
+      this.finish = this.querySelector('[data-finish-step]');
+      if (this.finish) {
+        this.finish.addEventListener('click', (event) => {
+          const tile = event.target.closest('.ftile[data-p]');
+          if (!tile || tile.disabled) return;
+          const pI = parseInt(this.finish.dataset.pIndex, 10);
+          const sI = parseInt(this.finish.dataset.sIndex, 10);
+          this.pick(pI, tile.dataset.p);
+          this.pick(sI, tile.dataset.s);
+          /* Finish not made in the chosen size: jump to the closest size that has it */
+          const selected = this.selectedOptions();
+          const same = this.variants.some(function (v) { return v.options.every(function (o, i) { return o === selected[i]; }); });
+          if (!same) {
+            const sizeSet = this.querySelector('fieldset[data-option-kind="size"]');
+            const sizeI = Array.prototype.indexOf.call(this.querySelectorAll('fieldset'), sizeSet);
+            const ranked = Array.from(sizeSet ? sizeSet.querySelectorAll('input') : []).sort(function (a, b) {
+              return (parseInt(a.style.order, 10) || 0) - (parseInt(b.style.order, 10) || 0);
+            });
+            const fit = ranked.find((input) => this.variants.some(function (v) {
+              return v.options[pI] === tile.dataset.p && v.options[sI] === tile.dataset.s && v.options[sizeI] === input.value;
+            }));
+            if (fit) this.pick(sizeI, fit.value);
+          }
+          this.onChange();
+        });
+        this.syncFinish(this.selectedOptions());
+      }
+    }
+
+    pick(index, value) {
+      const fieldset = this.querySelectorAll('fieldset')[index];
+      if (!fieldset) return;
+      fieldset.querySelectorAll('input').forEach(function (input) { input.checked = input.value === value; });
+    }
+
+    syncFinish(selected) {
+      if (!this.finish) return;
+      const pI = parseInt(this.finish.dataset.pIndex, 10);
+      const sI = parseInt(this.finish.dataset.sIndex, 10);
+      const variants = this.variants;
+      let label = '';
+      this.finish.querySelectorAll('.ftile[data-p]').forEach(function (tile) {
+        const on = tile.dataset.p === selected[pI] && tile.dataset.s === selected[sI];
+        tile.classList.toggle('is-active', on);
+        tile.setAttribute('aria-checked', String(on));
+        if (on) label = tile.dataset.label;
+        /* Not offered in the chosen size */
+        const exists = variants.some(function (v) {
+          return v.options.every(function (o, i) {
+            if (i === pI) return o === tile.dataset.p;
+            if (i === sI) return o === tile.dataset.s;
+            return o === selected[i];
+          });
+        });
+        tile.classList.toggle('is-unavailable', !exists);
+      });
+      const value = this.finish.querySelector('[data-finish-value]');
+      if (value) value.textContent = label;
     }
 
     selectedOptions() {
@@ -240,11 +299,13 @@
       });
 
       this.querySelectorAll('fieldset').forEach(function (fieldset, i) {
-        const label = fieldset.querySelector('[data-selected-value]');
-        if (label) label.textContent = selected[i] || '';
+        const checked = fieldset.querySelector('input:checked');
+        const text = checked ? (checked.dataset.display || checked.value) : '';
+        fieldset.querySelectorAll('[data-selected-value]').forEach(function (label) { label.textContent = text || selected[i] || ''; });
       });
 
       this.markAvailability();
+      this.syncFinish(selected);
       this.updateRowPrices(selected);
       this.querySelectorAll('[data-vsel][open]').forEach(function (d) { d.removeAttribute('open'); });
 

@@ -2423,3 +2423,18 @@ p.clanding__rights { max-width: 720px; margin: 18px auto 0; padding: 0; backgrou
 /* Announcement bar in orange so the offer stands out */
 .announce { background: #FF5A1F; color: #0a0a0a; font-weight: 700; }
 .announce a, .announce__msg a:hover { color: #0a0a0a; }
+/* Gelato products: sorted size list, merged finish step */
+.vsel__list.option__values { display: flex; flex-direction: column; }
+.vstep--merged[hidden] { display: none; }
+.vstep--finish { position: relative; margin: 0 0 22px; }
+.vstep--finish .vstep__head { display: flex; align-items: center; gap: 10px; margin: 0 0 12px; font-size: 16px; font-weight: 700; }
+.vstep--finish .vstep__head .vstep__value { font-size: 13px; font-weight: 400; color: var(--color-muted); }
+.vstep--finish:last-child { margin-bottom: 0; }
+button.ftile { position: relative; display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 0; border: 0; background: none; font: inherit; font-size: 13px; color: var(--color-muted); cursor: pointer; text-align: center; }
+button.ftile.is-active { color: var(--color-fg); font-weight: 700; }
+button.ftile.is-active .ftile__img { border-color: #0a0a0a; }
+button.ftile:focus-visible .ftile__img { outline: 2px solid #0a0a0a; }
+button.ftile.is-unavailable { opacity: 0.45; }
+.ftile__img--canvas::before { background: #fbfbfa; box-shadow: 6px 6px 0 #d4d4d1, -2px -2px 8px rgba(0,0,0,0.1); }
+.ftile__img--canvas::after { display: none; }
+.ftile__img--canvasframe::after { left: calc(22% + 6px); top: calc(22% + 6px); }
