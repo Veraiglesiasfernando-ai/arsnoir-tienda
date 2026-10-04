@@ -188,12 +188,21 @@ Selector: 1) Tamaño · 2) Acabado (Sin marco / Marco negro / Marco blanco / Mar
 
 | Tamaño | Medida | Sin marco | Con marco |
 | --- | --- | ---: | ---: |
-| A4 | 21 × 29,7 cm | 24,95 € | 69,95 € |
-| A3 | 29,7 × 42 cm | 42,95 € | 94,95 € |
-| A2 | 42 × 59,4 cm | 59,95 € | 139,95 € |
-| 50×70 | 50 × 70 cm | 69,95 € | 179,95 € |
-| A1 | 59,4 × 84,1 cm | 84,95 € | 219,95 € |
-| XL | 60 × 90 cm | 94,95 € | 239,95 € |
+| A4 | 21 × 29,7 cm | 24,95 € | 54,95 € |
+| A3 | 29,7 × 42 cm | 39,95 € | 69,95 € |
+| A2 | 42 × 59,4 cm | 49,95 € | 109,95 € |
+| 50×70 | 50 × 70 cm | 59,95 € | 124,95 € |
+| A1 | 59,4 × 84,1 cm | 69,95 € | 139,95 € |
+| XL | 60 × 90 cm | 80,95 € | 149,95 € |
+
+Lienzo (canvas), según `ARSNOIR_PRECIOS_FINALES_v8`:
+
+| Tamaño | Lienzo sin marco (bastidor grueso 4 cm) | Lienzo con marco |
+| --- | ---: | ---: |
+| 20 × 25 cm | 54,95 € | 89,95 € |
+| 30 × 40 cm | 84,95 € [CONFIRMAR] | 124,95 € |
+| 45 × 60 cm | 109,95 € | 159,95 € |
+| 60 × 80 cm | 139,95 € | 209,95 € |
 
 ## Personalízalo (el cliente sube su imagen)
 
