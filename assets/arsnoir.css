@@ -2438,3 +2438,28 @@ button.ftile.is-unavailable { opacity: 0.45; }
 .ftile__img--canvas::before { background: #fbfbfa; box-shadow: 6px 6px 0 #d4d4d1, -2px -2px 8px rgba(0,0,0,0.1); }
 .ftile__img--canvas::after { display: none; }
 .ftile__img--canvasframe::after { left: calc(22% + 6px); top: calc(22% + 6px); }
+
+/* Hero with photos: text bottom-left so the framed work in the photo stays visible */
+.vhero__slide::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0) 45%, rgba(0,0,0,0.55) 100%); pointer-events: none; }
+.vhero__center { justify-content: flex-end; align-items: flex-start; text-align: left; padding: 120px clamp(20px, 5vw, 72px) clamp(84px, 12vh, 124px); gap: clamp(16px, 2.2vh, 24px); }
+.vhero__heading { font-size: clamp(2.2rem, 4.4vw, 4.4rem); max-width: 22ch; }
+.vhero:has(.vhero__heading) .vhero__side--left { display: none; }
+.vhero__progress { left: auto; right: clamp(20px, 5vw, 72px); transform: none; width: min(320px, 40vw); }
+.vhero:has(.vhero__heading) .vhero__side--right { bottom: calc(clamp(24px, 4vh, 40px) + 26px); }
+@media (max-width: 749px) {
+  .vhero__center { padding-bottom: 76px; }
+  .vhero__heading { font-size: clamp(2rem, 9vw, 2.6rem); }
+  .vhero__progress { left: 20px; right: 20px; width: auto; bottom: 34px; }
+  .vhero:has(.vhero__heading) .vhero__side--right { display: none; }
+}
+
+/* Rooms: three equal portrait tiles so each framed work shows whole */
+.rooms__grid { grid-template-columns: repeat(3, 1fr); grid-template-rows: none; }
+.room, .room--main { grid-row: auto; min-height: 0; aspect-ratio: 4 / 5; }
+@media (max-width: 749px) {
+  .rooms__grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 12px; margin-inline: -16px; padding: 0 16px 4px; scroll-padding-inline: 16px; scrollbar-width: none; }
+  .rooms__grid::-webkit-scrollbar { display: none; }
+  .room, .room--main { flex: 0 0 82%; min-height: 0; scroll-snap-align: center; }
+}
+.vhero:has(.vhero__slide.is-active[data-text="top"]) .vhero__center { justify-content: flex-start; padding-top: clamp(110px, 16vh, 150px); }
+.vhero__slide[data-text="top"]::after { background: linear-gradient(0deg, rgba(0,0,0,0) 50%, rgba(0,0,0,0.5) 100%); }

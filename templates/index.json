@@ -112,7 +112,8 @@
         "s2": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/arsnoir-hero-coche.jpg"
+            "image": "shopify://shop_images/arsnoir-hero-coche.jpg",
+            "text_position": "top"
           }
         }
       },
@@ -126,7 +127,7 @@
         "interval": 6,
         "label_left": "(ARSNOIR)",
         "label_right": "obra nº01",
-        "show_seal": true,
+        "show_seal": false,
         "seal_text": "ARTE ORIGINAL · SOLO EN ARSNOIR · ",
         "seal_center": "A",
         "button_label": "Ver obras",

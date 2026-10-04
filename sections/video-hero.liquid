@@ -7,7 +7,7 @@
   <div class="vhero__slides">
     {%- for block in section.blocks -%}
       {%- assign b = block.settings -%}
-      <div class="vhero__slide{% if forloop.first %} is-active{% endif %}" {{ block.shopify_attributes }}>
+      <div class="vhero__slide{% if forloop.first %} is-active{% endif %}" data-text="{{ b.text_position | default: 'bottom' }}" {{ block.shopify_attributes }}>
         {%- if b.video != blank -%}
           {{ b.video | video_tag: autoplay: true, loop: true, muted: true, playsinline: true, controls: false, preload: 'metadata', image_size: '1920x' }}
         {%- elsif b.image != blank -%}
@@ -83,7 +83,15 @@
       "name": "Diapositiva",
       "settings": [
         { "type": "video", "id": "video", "label": "Vídeo de fondo", "info": "Súbelo en Contenido → Archivos. Se reproduce en bucle y sin sonido." },
-        { "type": "image_picker", "id": "image", "label": "Imagen (si no hay vídeo)" }
+        { "type": "image_picker", "id": "image", "label": "Imagen (si no hay vídeo)" },
+        {
+          "type": "select", "id": "text_position", "label": "Texto encima de esta imagen", "default": "bottom",
+          "info": "Ponlo donde no tape la obra de la foto.",
+          "options": [
+            { "value": "bottom", "label": "Abajo" },
+            { "value": "top", "label": "Arriba" }
+          ]
+        }
       ]
     }
   ],
