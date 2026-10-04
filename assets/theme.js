@@ -248,7 +248,8 @@
             }));
             if (fit) this.pick(sizeI, fit.value);
           }
-          this.onChange();
+          /* Bubble a change so other blocks (wall preview…) follow the finish */
+          this.dispatchEvent(new Event('change', { bubbles: true }));
         });
         this.syncFinish(this.selectedOptions());
       }
@@ -780,9 +781,33 @@
         this.room = this.querySelector('.wallp__room.is-active');
         this.update();
       });
-      this.onChange = (event) => { if (event.target.closest('variant-picker')) this.update(); };
+      this.onChange = (event) => { if (event.target.closest('variant-picker')) { this.update(); this.updatePhotos(); } };
       document.addEventListener('change', this.onChange);
       this.update();
+      this.updatePhotos();
+    }
+    /* Room photos: swap to the photo with the chosen frame colour */
+    updatePhotos() {
+      if (!this.hasAttribute('data-photos')) return;
+      const value = (selectedOf('frame') || '').toLowerCase();
+      let kind = 'none';
+      if (/black|negr/.test(value)) kind = 'black';
+      else if (/white|blanc/.test(value)) kind = 'white';
+      else if (/wood|madera|natural/.test(value)) kind = 'wood';
+      if (!document.querySelector('fieldset[data-option-kind="frame"]')) kind = 'black';
+      this.querySelectorAll('img[data-black]').forEach((img) => {
+        if (!img.dataset.blackSrcset) img.dataset.blackSrcset = img.getAttribute('srcset') || '';
+        const url = kind === 'black' ? '' : img.dataset[kind];
+        if (!url) {
+          img.onerror = null;
+          if (img.dataset.blackSrcset) img.setAttribute('srcset', img.dataset.blackSrcset);
+          img.src = img.dataset.black;
+          return;
+        }
+        img.onerror = () => { img.onerror = null; img.setAttribute('srcset', img.dataset.blackSrcset); img.src = img.dataset.black; };
+        img.removeAttribute('srcset');
+        img.src = url;
+      });
     }
     disconnectedCallback() { document.removeEventListener('change', this.onChange); }
     update() {

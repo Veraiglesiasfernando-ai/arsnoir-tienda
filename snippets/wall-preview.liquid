@@ -50,8 +50,16 @@
         {%- assign alt = m.alt | downcase -%}
         {%- if alt contains needle -%}
           {%- assign n = n | plus: 1 -%}
+          {%- liquid
+            assign slug = key | replace: 'ó', 'o'
+            assign base = product.handle | append: '-' | append: slug
+            assign black_src = m | image_url: width: 1200
+            assign white_src = base | append: '-white.jpg' | file_url
+            assign wood_src = base | append: '-wood.jpg' | file_url
+            assign none_src = base | append: '-none.jpg' | file_url
+          -%}
           <div class="wallp__room{% if n == 1 %} is-active{% endif %}" data-room-panel="{{ ri }}">
-            {{ m | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '600, 900, 1200, 1400', sizes: '(min-width: 900px) 40vw, 90vw', alt: m.alt }}
+            {{ m | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '600, 900, 1200, 1400', sizes: '(min-width: 900px) 40vw, 90vw', alt: m.alt, data-black: black_src, data-white: white_src, data-wood: wood_src, data-none: none_src }}
           </div>
           {%- break -%}
         {%- endif -%}
