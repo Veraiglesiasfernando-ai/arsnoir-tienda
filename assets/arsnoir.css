@@ -2463,3 +2463,10 @@ button.ftile.is-unavailable { opacity: 0.45; }
 }
 .vhero:has(.vhero__slide.is-active[data-text="top"]) .vhero__center { justify-content: flex-start; padding-top: clamp(110px, 16vh, 150px); }
 .vhero__slide[data-text="top"]::after { background: linear-gradient(0deg, rgba(0,0,0,0) 50%, rgba(0,0,0,0.5) 100%); }
+
+/* Cards with a real photo: no grey box or card shadow behind the framed work */
+.poster__frame:has(.poster__media img),
+.poster:hover .poster__frame:has(.poster__media img),
+.slider__item .poster__frame:has(.poster__media img),
+.product-grid .poster__frame:has(.poster__media img) { background: transparent; box-shadow: none; }
+.poster__frame:has(.poster__media img) .poster__media img { object-fit: contain; }
