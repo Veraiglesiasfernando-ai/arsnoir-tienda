@@ -108,10 +108,17 @@
           "settings": {
             "image": "shopify://shop_images/arsnoir-hero-salon.jpg"
           }
+        },
+        "s2": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/arsnoir-hero-coche.jpg"
+          }
         }
       },
       "block_order": [
-        "s1"
+        "s1",
+        "s2"
       ],
       "settings": {
         "height": "full",
