@@ -105,21 +105,13 @@
       "blocks": {
         "s1": {
           "type": "slide",
-          "settings": {}
-        },
-        "s2": {
-          "type": "slide",
-          "settings": {}
-        },
-        "s3": {
-          "type": "slide",
-          "settings": {}
+          "settings": {
+            "image": "shopify://shop_images/arsnoir-hero-salon.jpg"
+          }
         }
       },
       "block_order": [
-        "s1",
-        "s2",
-        "s3"
+        "s1"
       ],
       "settings": {
         "height": "full",
