@@ -689,6 +689,36 @@
     return swatch ? swatch.dataset.frameKind : 'none';
   }
 
+  /* Photos that exist per frame colour (img[data-black|white|wood|none]): show the chosen one */
+  function swapFrameImages(scope) {
+    const value = (selectedOf('frame') || '').toLowerCase();
+    let kind = 'none';
+    if (/black|negr/.test(value)) kind = 'black';
+    else if (/white|blanc/.test(value)) kind = 'white';
+    else if (/wood|madera|natural/.test(value)) kind = 'wood';
+    if (!document.querySelector('fieldset[data-option-kind="frame"]')) kind = 'black';
+    scope.querySelectorAll('img[data-black]').forEach(function (img) {
+      if (img.dataset.blackSrcset === undefined) img.dataset.blackSrcset = img.getAttribute('srcset') || '';
+      const back = function () {
+        img.onerror = null;
+        if (img.dataset.blackSrcset) img.setAttribute('srcset', img.dataset.blackSrcset);
+        img.src = img.dataset.black;
+      };
+      const url = kind === 'black' ? '' : img.dataset[kind];
+      if (!url) { back(); return; }
+      img.onerror = back;
+      img.removeAttribute('srcset');
+      img.src = url;
+    });
+  }
+  document.querySelectorAll('.product__gallery').forEach(function (gallery) {
+    if (!gallery.querySelector('img[data-black]')) return;
+    document.addEventListener('change', function (event) {
+      if (event.target.closest('variant-picker')) swapFrameImages(gallery);
+    });
+    swapFrameImages(gallery);
+  });
+
   /* Personalízalo: theme tabs (Mascotas, Amor…) filter the illustration styles */
   document.querySelectorAll('[data-ctpl-tabs]').forEach(function (tabs) {
     const grid = tabs.parentElement.querySelector('.ctpl__grid');
@@ -788,26 +818,7 @@
     }
     /* Room photos: swap to the photo with the chosen frame colour */
     updatePhotos() {
-      if (!this.hasAttribute('data-photos')) return;
-      const value = (selectedOf('frame') || '').toLowerCase();
-      let kind = 'none';
-      if (/black|negr/.test(value)) kind = 'black';
-      else if (/white|blanc/.test(value)) kind = 'white';
-      else if (/wood|madera|natural/.test(value)) kind = 'wood';
-      if (!document.querySelector('fieldset[data-option-kind="frame"]')) kind = 'black';
-      this.querySelectorAll('img[data-black]').forEach((img) => {
-        if (!img.dataset.blackSrcset) img.dataset.blackSrcset = img.getAttribute('srcset') || '';
-        const url = kind === 'black' ? '' : img.dataset[kind];
-        if (!url) {
-          img.onerror = null;
-          if (img.dataset.blackSrcset) img.setAttribute('srcset', img.dataset.blackSrcset);
-          img.src = img.dataset.black;
-          return;
-        }
-        img.onerror = () => { img.onerror = null; img.setAttribute('srcset', img.dataset.blackSrcset); img.src = img.dataset.black; };
-        img.removeAttribute('srcset');
-        img.src = url;
-      });
+      if (this.hasAttribute('data-photos')) swapFrameImages(this);
     }
     disconnectedCallback() { document.removeEventListener('change', this.onChange); }
     update() {

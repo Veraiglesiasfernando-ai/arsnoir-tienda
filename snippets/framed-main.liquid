@@ -1,0 +1,35 @@
+{%- comment -%}
+  First gallery image. When it is the «… con marco negro» photo, it carries the
+  white / wood / no-frame versions (Shopify Files: <handle>-marco-<kind>.webp)
+  so theme.js can swap it when the frame changes.
+{%- endcomment -%}
+{%- liquid
+  assign alt_l = media.alt | downcase
+  assign base = product.handle | append: '-marco-'
+  assign alt_text = media.alt | default: product.title
+-%}
+{%- if alt_l contains 'con marco negro' -%}
+  {%- liquid
+    assign black_src = media | image_url: width: 1600
+    assign white_src = base | append: 'white.webp' | file_url
+    assign wood_src = base | append: 'wood.webp' | file_url
+    assign none_src = base | append: 'none.webp' | file_url
+  -%}
+  {{ media | image_url: width: 1600 | image_tag:
+    loading: load,
+    widths: '500, 800, 1100, 1400, 1600',
+    sizes: '(min-width: 900px) 55vw, 90vw',
+    alt: alt_text,
+    data-black: black_src,
+    data-white: white_src,
+    data-wood: wood_src,
+    data-none: none_src
+  }}
+{%- else -%}
+  {{ media | image_url: width: 1600 | image_tag:
+    loading: load,
+    widths: '500, 800, 1100, 1400, 1600',
+    sizes: '(min-width: 900px) 55vw, 90vw',
+    alt: alt_text
+  }}
+{%- endif -%}
