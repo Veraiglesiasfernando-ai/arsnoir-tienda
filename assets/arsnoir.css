@@ -2475,3 +2475,5 @@ button.ftile.is-unavailable { opacity: 0.45; }
 /* "Mírala en tu pared" with the artwork's own room photos */
 .wallp--photos .wallp__stage { aspect-ratio: 4 / 5; }
 .wallp--photos { margin-bottom: 40px; }
+/* Scrolled header: near-solid so page text never shows through the menu */
+html.is-scrolled .glass-header { background: rgba(255, 255, 255, 0.95); }
