@@ -22,9 +22,9 @@
         "notes": {
           "type": "notes",
           "settings": {
-            "note_1": "Pieza exclusiva de ARSNOIR",
-            "note_2": "Obra original y exclusiva de arsnoir",
-            "note_3": ""
+            "note_1": "Obra original. Solo la encontrarás en ARSNOIR.",
+            "note_2": "Impresa para ti y lista para colgar.",
+            "note_3": "Envío gratis desde 80 € a España y toda Europa."
           }
         },
         "description": {
@@ -81,13 +81,13 @@
         }
       },
       "block_order": [
-        "title",
-        "price",
-        "edition",
-        "buy",
-        "delivery",
-        "trust",
-        "notes",
+          "title",
+          "price",
+          "notes",
+          "edition",
+          "buy",
+          "delivery",
+          "trust",
         "wall",
         "compare",
         "description",
@@ -102,9 +102,9 @@
     "related": {
       "type": "featured-slider",
       "settings": {
-        "eyebrow": "SIGUE MIRANDO",
-        "heading": "También te puede gustar",
-        "subtitle": "Más obras originales de ARSNOIR.",
+        "eyebrow": "TERMINA TU PARED",
+        "heading": "Combínala con estas",
+        "subtitle": "Una obra decora. Dos o tres crean un espacio.",
         "collection": "mas-vendidos",
         "limit": 8,
         "button_label": "VER TODAS",

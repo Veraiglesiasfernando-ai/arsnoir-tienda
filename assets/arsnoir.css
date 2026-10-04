@@ -2479,3 +2479,9 @@ button.ftile.is-unavailable { opacity: 0.45; }
 html.is-scrolled .glass-header { background: rgba(255, 255, 255, 0.95); }
 .upsell__sub { margin: 0 0 12px; font-size: 14px; font-weight: 500; color: var(--color-fg); }
 .cartx .upsell__title { margin: 0 0 4px; }
+
+/* Product hook lines above the buy button */
+.product__notes { margin: 14px 0 20px; font-size: 14px; color: var(--color-fg); }
+.product__notes li { display: flex; gap: 10px; align-items: baseline; padding: 3px 0; }
+.product__notes li::before { content: ""; flex: 0 0 auto; width: 6px; height: 6px; border-radius: 50%; background: #FF5A1F; transform: translateY(-2px); }
+.product__notes li:first-child { font-weight: 700; }
