@@ -57,14 +57,22 @@
       decide(btn.dataset.cookie === 'accept');
     });
 
+    /* Shown once: on the visitor's first page. A choice is remembered for good;
+       without a choice it is not shown again in the same visit (no choice = no
+       analytics/marketing cookies). */
+    function seenThisVisit() {
+      try { return sessionStorage.getItem(KEY + '_seen') === '1'; } catch (e) { return false; }
+    }
+    function markSeen() {
+      try { sessionStorage.setItem(KEY + '_seen', '1'); } catch (e) {}
+    }
     function init() {
       if (banner.hasAttribute('data-preview')) return;
+      if (stored() || seenThisVisit()) return;
       var privacy = window.Shopify && window.Shopify.customerPrivacy;
-      if (privacy && typeof privacy.shouldShowBanner === 'function') {
-        if (privacy.shouldShowBanner()) show();
-      } else if (!stored()) {
-        show();
-      }
+      if (privacy && typeof privacy.shouldShowBanner === 'function' && !privacy.shouldShowBanner()) return;
+      markSeen();
+      show();
     }
 
     if (window.Shopify && typeof window.Shopify.loadFeatures === 'function') {
@@ -82,7 +90,7 @@
   "name": "Aviso de cookies",
   "settings": [
     { "type": "paragraph", "content": "Usa la API de privacidad de Shopify. Desactiva el aviso de cookies de Shopify en Configuración → Privacidad del cliente para no mostrar dos." },
-    { "type": "checkbox", "id": "preview", "label": "Mostrar siempre en el editor (vista previa)", "default": true },
+    { "type": "checkbox", "id": "preview", "label": "Mostrar siempre en el editor (vista previa)", "default": false },
     { "type": "text", "id": "title", "label": "Título", "default": "Usamos cookies" },
     { "type": "textarea", "id": "text", "label": "Texto", "default": "Algunas son necesarias para que la tienda funcione. Otras nos ayudan a mejorar tu experiencia y a entender qué te gusta. Tú decides." },
     { "type": "text", "id": "accept_label", "label": "Botón aceptar", "default": "Aceptar" },
