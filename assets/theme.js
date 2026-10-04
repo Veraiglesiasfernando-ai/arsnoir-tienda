@@ -553,7 +553,11 @@
     const form = event.target.closest('form[data-ajax-cart]');
     if (!form || !drawer() || !window.fetch) return;
     event.preventDefault();
-    const buttons = document.querySelectorAll('[form="' + form.id + '"], #' + form.id + ' [type="submit"]');
+    /* getAttribute: form.id would return the variant <input name="id"> inside the form */
+    const formId = form.getAttribute('id') || '';
+    const buttons = formId
+      ? document.querySelectorAll('[form="' + formId + '"], #' + CSS.escape(formId) + ' [type="submit"]')
+      : form.querySelectorAll('[type="submit"]');
     buttons.forEach(function (b) { b.classList.add('is-loading'); });
     fetch(root + 'cart/add.js', {
       method: 'POST',
