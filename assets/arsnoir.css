@@ -2420,3 +2420,6 @@ p.clanding__rights { max-width: 720px; margin: 18px auto 0; padding: 0; backgrou
   .pfeat__media { margin-bottom: 18px; }
 }
 .product__gallery { align-content: start; align-self: start; }
+/* Announcement bar in orange so the offer stands out */
+.announce { background: #FF5A1F; color: #0a0a0a; font-weight: 700; }
+.announce a, .announce__msg a:hover { color: #0a0a0a; }
