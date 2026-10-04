@@ -99,6 +99,7 @@
     "add_note": "Add a note (e.g. for a gift)",
     "note_label": "Order note",
     "complete_wall": "Complete your wall",
+    "complete_wall_sub": "One piece decorates. Two or three make a space.",
     "add": "Add",
     "add_item": "Add {{ title }}",
     "gift": "It's a gift",
