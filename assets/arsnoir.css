@@ -2470,3 +2470,5 @@ button.ftile.is-unavailable { opacity: 0.45; }
 .slider__item .poster__frame:has(.poster__media img),
 .product-grid .poster__frame:has(.poster__media img) { background: transparent; box-shadow: none; }
 .poster__frame:has(.poster__media img) .poster__media img { object-fit: contain; }
+/* Product gallery: photos bring their own frame and shadow */
+.product__media:not(.product__media--lifestyle) img { box-shadow: none; }
