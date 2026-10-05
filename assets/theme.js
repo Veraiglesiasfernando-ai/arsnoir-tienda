@@ -723,6 +723,27 @@
     swapFrameImages(gallery);
   });
 
+  /* Product page "Calidad y marcos": show the frame or the canvas block for the chosen finish,
+     and the frame photo in the chosen colour */
+  document.querySelectorAll('[data-pfeat]').forEach(function (feat) {
+    const update = function () {
+      const picker = document.querySelector('variant-picker');
+      let canvas = false;
+      if (picker) picker.querySelectorAll('input:checked').forEach(function (input) {
+        if (/canvas|lienzo/i.test(input.value)) canvas = true;
+      });
+      feat.querySelectorAll('[data-show-with]').forEach(function (row) {
+        const w = row.dataset.showWith;
+        row.hidden = (w === 'canvas' && !canvas) || (w === 'poster' && canvas);
+      });
+      swapFrameImages(feat);
+    };
+    document.addEventListener('change', function (event) {
+      if (event.target.closest('variant-picker')) update();
+    });
+    if (feat.querySelector('img[data-black]')) swapFrameImages(feat);
+  });
+
   /* Personalízalo: theme tabs (Mascotas, Amor…) filter the illustration styles */
   document.querySelectorAll('[data-ctpl-tabs]').forEach(function (tabs) {
     const grid = tabs.parentElement.querySelector('.ctpl__grid');

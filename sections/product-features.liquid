@@ -1,23 +1,61 @@
 {%- comment -%}
   Product page: material / frame features. Each block = a photo with a round close-up,
   a heading, a short text and a checklist. Alternates sides.
+  "Mostrar con": a block can show only for paper/framed posters or only for canvas;
+  the page switches them when the customer changes the finish (theme.js).
+  Frame photos can have a white and a wood version: they swap with the chosen frame colour.
 {%- endcomment -%}
-<section class="pfeat">
+{%- liquid
+  assign has_canvas = false
+  for o in product.options_with_values
+    for v in o.values
+      assign vd = v | downcase
+      if vd contains 'canvas' or vd contains 'lienzo'
+        assign has_canvas = true
+      endif
+    endfor
+  endfor
+  assign is_canvas = false
+  for o in product.selected_or_first_available_variant.options
+    assign vd = o | downcase
+    if vd contains 'canvas' or vd contains 'lienzo'
+      assign is_canvas = true
+    endif
+  endfor
+-%}
+<section class="pfeat" data-pfeat>
   <div class="page-width">
     {%- for block in section.blocks -%}
       {%- assign b = block.settings -%}
+      {%- assign show_with = b.show_with | default: 'all' -%}
+      {%- if show_with == 'canvas' and has_canvas == false and request.design_mode == false -%}{%- continue -%}{%- endif -%}
+      {%- assign hide = false -%}
+      {%- if show_with == 'canvas' and is_canvas == false -%}{%- assign hide = true -%}{%- endif -%}
+      {%- if show_with == 'poster' and is_canvas -%}{%- assign hide = true -%}{%- endif -%}
       {%- assign items = b.items | newline_to_br | split: '<br />' -%}
-      <div class="pfeat__row{% if b.image_right %} pfeat__row--right{% endif %} reveal" {{ block.shopify_attributes }}>
+      {%- assign alt_text = b.image.alt | default: b.heading -%}
+      <div class="pfeat__row{% if b.image_right %} pfeat__row--right{% endif %} reveal" data-show-with="{{ show_with }}"{% if hide %} hidden{% endif %} {{ block.shopify_attributes }}>
         <div class="pfeat__media">
           <div class="pfeat__photo">
             {%- if b.image != blank -%}
-              {{ b.image | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '600, 900, 1200, 1400', sizes: '(min-width: 990px) 50vw, 100vw', alt: b.image.alt | default: b.heading }}
+              {%- capture swap -%}{% if b.image_white != blank or b.image_wood != blank %}data-black="{{ b.image | image_url: width: 1400 }}"{% if b.image_white != blank %} data-white="{{ b.image_white | image_url: width: 1400 }}"{% endif %}{% if b.image_wood != blank %} data-wood="{{ b.image_wood | image_url: width: 1400 }}"{% endif %}{% endif %}{%- endcapture -%}
+              {%- if swap != blank -%}
+                <img src="{{ b.image | image_url: width: 1400 }}" {{ swap }} alt="{{ alt_text | escape }}" width="1400" height="{{ 1400 | divided_by: b.image.aspect_ratio | round }}" loading="lazy">
+              {%- else -%}
+                {{ b.image | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '600, 900, 1200, 1400', sizes: '(min-width: 990px) 50vw, 100vw', alt: alt_text }}
+              {%- endif -%}
             {%- else -%}
               <span class="pfeat__ph" aria-hidden="true"></span>
             {%- endif -%}
           </div>
           {%- if b.zoom != blank -%}
-            <div class="pfeat__zoom">{{ b.zoom | image_url: width: 500 | image_tag: loading: 'lazy', alt: '' }}</div>
+            <div class="pfeat__zoom">
+              {%- if b.zoom_white != blank or b.zoom_wood != blank -%}
+                <img src="{{ b.zoom | image_url: width: 600 }}" data-black="{{ b.zoom | image_url: width: 600 }}"{% if b.zoom_white != blank %} data-white="{{ b.zoom_white | image_url: width: 600 }}"{% endif %}{% if b.zoom_wood != blank %} data-wood="{{ b.zoom_wood | image_url: width: 600 }}"{% endif %} alt="" width="600" height="600" loading="lazy">
+              {%- else -%}
+                {{ b.zoom | image_url: width: 600 | image_tag: loading: 'lazy', alt: '' }}
+              {%- endif -%}
+            </div>
           {%- endif -%}
         </div>
         <div class="pfeat__copy">
@@ -40,7 +78,7 @@
 {% schema %}
 {
   "name": "Calidad y marcos",
-  "max_blocks": 4,
+  "max_blocks": 6,
   "settings": [],
   "blocks": [
     {
@@ -49,6 +87,18 @@
       "settings": [
         { "type": "image_picker", "id": "image", "label": "Foto" },
         { "type": "image_picker", "id": "zoom", "label": "Detalle redondo (opcional)", "info": "Primer plano del papel o de la esquina del marco." },
+        { "type": "image_picker", "id": "image_white", "label": "Foto con marco blanco (opcional)", "info": "Se cambia sola si el cliente elige marco blanco." },
+        { "type": "image_picker", "id": "image_wood", "label": "Foto con marco de madera (opcional)" },
+        { "type": "image_picker", "id": "zoom_white", "label": "Detalle con marco blanco (opcional)" },
+        { "type": "image_picker", "id": "zoom_wood", "label": "Detalle con marco de madera (opcional)" },
+        {
+          "type": "select", "id": "show_with", "label": "Mostrar con", "default": "all",
+          "options": [
+            { "value": "all", "label": "Siempre" },
+            { "value": "poster", "label": "Póster y póster con marco" },
+            { "value": "canvas", "label": "Lienzo" }
+          ]
+        },
         { "type": "checkbox", "id": "image_right", "label": "Foto a la derecha", "default": false },
         { "type": "text", "id": "heading", "label": "Título", "default": "Calidad de impresión" },
         { "type": "textarea", "id": "text", "label": "Texto" },

@@ -81,13 +81,13 @@
         }
       },
       "block_order": [
-          "title",
-          "price",
-          "notes",
-          "edition",
-          "buy",
-          "delivery",
-          "trust",
+        "title",
+        "price",
+        "notes",
+        "edition",
+        "buy",
+        "delivery",
+        "trust",
         "wall",
         "compare",
         "description",
@@ -171,28 +171,49 @@
     "features": {
       "type": "product-features",
       "blocks": {
+        "frames": {
+          "type": "feature",
+          "settings": {
+            "image": "shopify://shop_images/arsnoir-marco-black.webp",
+            "image_white": "shopify://shop_images/arsnoir-marco-white.webp",
+            "image_wood": "shopify://shop_images/arsnoir-marco-wood.webp",
+            "zoom": "shopify://shop_images/arsnoir-marco-black-detalle.webp",
+            "zoom_white": "shopify://shop_images/arsnoir-marco-white-detalle.webp",
+            "zoom_wood": "shopify://shop_images/arsnoir-marco-wood-detalle.webp",
+            "show_with": "poster",
+            "image_right": false,
+            "heading": "Marcos de madera, listos para colgar",
+            "text": "Un marco fino y actual que deja hablar a la obra. Llega montado: lo sacas de la caja y lo cuelgas.",
+            "items": "Madera de pino maciza, perfil fino\nPlexiglás irrompible que protege la impresión\nKit de colgado incluido\nEn negro, blanco o madera natural"
+          }
+        },
+        "canvas": {
+          "type": "feature",
+          "settings": {
+            "image": "shopify://shop_images/arsnoir-lienzo.webp",
+            "zoom": "shopify://shop_images/arsnoir-lienzo-detalle.webp",
+            "show_with": "canvas",
+            "image_right": false,
+            "heading": "Lienzo sobre bastidor de madera",
+            "text": "La obra impresa sobre tela de lienzo y tensada en un bastidor de madera. Sin cristal ni reflejos: textura de cuadro de verdad.",
+            "items": "Tela de lienzo de algodón y poliéster\nBastidor de madera de origen sostenible (FSC)\nSin cristal: cero reflejos\nCantos limpios, no necesita marco"
+          }
+        },
         "paper": {
           "type": "feature",
           "settings": {
             "heading": "Calidad de impresión",
             "text": "Impresión giclée de 12 colores sobre papel premium mate, para que cada obra se vea como en el estudio.",
             "items": "Papel Premium Matte de 200 g/m²\nGiclée de 12 colores: color fiel y negros profundos\nAcabado mate, sin reflejos\nPapel certificado FSC y tintas al agua",
-            "image_right": false
-          }
-        },
-        "frames": {
-          "type": "feature",
-          "settings": {
-            "heading": "Marcos listos para colgar",
-            "text": "Elige el marco que mejor encaja con tu pared. Llega montado y listo para colgar.",
-            "items": "Negro, blanco o madera natural\nMismo precio en los tres colores\nListo para colgar al recibirlo",
-            "image_right": true
+            "image_right": true,
+            "show_with": "poster"
           }
         }
       },
       "block_order": [
-        "paper",
-        "frames"
+        "frames",
+        "canvas",
+        "paper"
       ],
       "settings": {}
     }
