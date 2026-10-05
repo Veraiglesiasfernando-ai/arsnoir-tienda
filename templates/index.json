@@ -7,7 +7,8 @@
           "type": "card",
           "settings": {
             "tone": "dark",
-            "placeholder_price": "24,95 €"
+            "placeholder_price": "24,95 €",
+            "product": "salvaje"
           }
         },
         "center": {
@@ -15,14 +16,16 @@
           "settings": {
             "featured": true,
             "tone": "light",
-            "placeholder_price": "24,95 €"
+            "placeholder_price": "24,95 €",
+            "product": "blue-corner-1"
           }
         },
         "right": {
           "type": "card",
           "settings": {
             "tone": "accent",
-            "placeholder_price": "24,95 €"
+            "placeholder_price": "24,95 €",
+            "product": "legend"
           }
         }
       },
