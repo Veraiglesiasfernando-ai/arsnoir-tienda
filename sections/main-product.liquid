@@ -7,8 +7,31 @@
 <section class="page-width" data-product-handle="{{ product.handle }}">
   <div class="product">
     <div class="product__gallery">
+      {%- liquid
+        # Gelato attaches one near-identical mockup per variant (alt = a UUID). When the product
+        # has our own photos ("… con marco negro"), show only ours; otherwise just a few of Gelato's.
+        assign own_photos = false
+        if product.media.first.alt contains ' con marco '
+          assign own_photos = true
+        endif
+        assign gelato_shown = 0
+      -%}
       {%- for media in product.media -%}
         {%- liquid
+          assign alt_parts = media.alt | split: '-'
+          assign is_gelato = false
+          if media.alt.size == 36 and alt_parts.size == 5
+            assign is_gelato = true
+          endif
+          if is_gelato
+            if own_photos
+              continue
+            endif
+            assign gelato_shown = gelato_shown | plus: 1
+            if gelato_shown > 6
+              continue
+            endif
+          endif
           assign is_lifestyle = false
           if section.settings.lifestyle_from > 0 and forloop.index >= section.settings.lifestyle_from
             assign is_lifestyle = true
