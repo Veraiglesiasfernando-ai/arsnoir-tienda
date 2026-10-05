@@ -91,6 +91,7 @@
       "block_order": [
         "title",
         "price",
+        "description",
         "notes",
         "edition",
         "buy",
@@ -99,7 +100,6 @@
         "complete_wall",
         "wall",
         "compare",
-        "description",
         "details",
         "sizes",
         "shipping"
