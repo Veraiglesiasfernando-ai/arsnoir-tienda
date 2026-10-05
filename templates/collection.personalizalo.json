@@ -13,60 +13,62 @@
           "type": "template",
           "settings": {
             "category": "Mascotas",
-            "name": "Estilo 1",
-            "tagline": "",
-            "link": ""
+            "name": "Óleo vintage",
+            "tagline": "Pinceladas de óleo y fondo de rayas.",
+            "image": "shopify://shop_images/estilo-mascotas-oleo.jpg"
           }
         },
         "mas2": {
           "type": "template",
           "settings": {
             "category": "Mascotas",
-            "name": "Estilo 2",
-            "tagline": "",
-            "link": ""
+            "name": "En su rincón",
+            "tagline": "Tu mascota en su sitio favorito de casa.",
+            "image": "shopify://shop_images/estilo-mascotas-en-casa.jpg"
+          }
+        },
+        "mas3": {
+          "type": "template",
+          "settings": {
+            "category": "Mascotas",
+            "name": "Retrato con nombre",
+            "tagline": "Su retrato con su nombre arriba.",
+            "image": "shopify://shop_images/estilo-mascotas-nombre.jpg"
           }
         },
         "amo1": {
           "type": "template",
           "settings": {
             "category": "Amor",
-            "name": "Estilo 1",
-            "tagline": "",
-            "link": ""
+            "name": "Estilo 1"
           }
         },
         "amo2": {
           "type": "template",
           "settings": {
             "category": "Amor",
-            "name": "Estilo 2",
-            "tagline": "",
-            "link": ""
+            "name": "Estilo 2"
           }
         },
         "fam1": {
           "type": "template",
           "settings": {
             "category": "Familia",
-            "name": "Estilo 1",
-            "tagline": "",
-            "link": ""
+            "name": "Estilo 1"
           }
         },
         "fam2": {
           "type": "template",
           "settings": {
             "category": "Familia",
-            "name": "Estilo 2",
-            "tagline": "",
-            "link": ""
+            "name": "Estilo 2"
           }
         }
       },
       "block_order": [
         "mas1",
         "mas2",
+        "mas3",
         "amo1",
         "amo2",
         "fam1",

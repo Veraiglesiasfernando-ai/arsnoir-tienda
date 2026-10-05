@@ -2499,8 +2499,8 @@ html.is-scrolled .glass-header { background: rgba(255, 255, 255, 0.95); }
 .clanding__media img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 22px; }
 .clanding__media figcaption { margin-top: 10px; font-size: 13px; color: var(--color-muted); }
 .clanding__media--mobile { display: none; }
-.cpath.is-soon { cursor: default; opacity: 0.92; }
-.cpath.is-soon:hover { transform: none; }
+.cpath.is-soon { opacity: 0.96; }
+
 .cpath__soon { position: absolute; top: 18px; right: 18px; padding: 5px 10px; border-radius: 999px; background: #FF5A1F; color: #0a0a0a; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
 @media (max-width: 899px) {
   .clanding__top--media { display: block; }
@@ -2542,3 +2542,6 @@ html.is-scrolled .glass-header { background: rgba(255, 255, 255, 0.95); }
 @media (max-width: 899px) {
   .clanding__media--mobile img { aspect-ratio: auto; height: auto; }
 }
+/* Illustration styles shown as examples until the app is live */
+.ctpl__soon { position: absolute; top: 12px; left: 12px; z-index: 2; padding: 5px 10px; border-radius: 999px; background: #FF5A1F; color: #0a0a0a; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+.ctpl__card.is-soon { cursor: default; }

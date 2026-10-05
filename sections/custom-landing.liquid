@@ -58,7 +58,7 @@
           {%- if s.illustrations_ready -%}
             <a class="cpath cpath--dark" href="#Plantillas">{{ ill_inner }}<span class="cpath__go" aria-hidden="true">&darr;</span></a>
           {%- else -%}
-            <div class="cpath cpath--dark is-soon" aria-disabled="true">{{ ill_inner }}<span class="cpath__soon">{{ s.soon_label }}</span></div>
+            <a class="cpath cpath--dark is-soon" href="#Plantillas">{{ ill_inner }}<span class="cpath__soon">{{ s.soon_label }}</span><span class="cpath__go" aria-hidden="true">&darr;</span></a>
           {%- endif -%}
         </div>
 
@@ -178,7 +178,7 @@
     { "type": "text", "id": "path_template_text", "label": "Tarjeta 2: texto", "default": "Elige un estilo y tu foto se transforma en esa ilustración." },
     { "type": "image_picker", "id": "image", "label": "Foto grande", "info": "Una foto o mockup con una imagen impresa en una pared." },
     { "type": "text", "id": "image_caption", "label": "Pie de foto", "default": "Así queda una foto en tu pared." },
-    { "type": "checkbox", "id": "illustrations_ready", "label": "Ilustraciones listas", "default": false, "info": "Actívalo cuando la app de ilustraciones y los estilos estén publicados. Mientras, la tarjeta sale como «Muy pronto»." },
+    { "type": "checkbox", "id": "illustrations_ready", "label": "Ilustraciones listas", "default": false, "info": "Actívalo cuando la app de ilustraciones y los estilos estén publicados. Mientras, la tarjeta lleva la etiqueta «Muy pronto» y baja a ver los ejemplos." },
     { "type": "text", "id": "soon_label", "label": "Texto «Muy pronto»", "default": "Muy pronto" },
     { "type": "text", "id": "chip_1", "label": "Precio desde", "default": "Desde 24,95 € · envío gratis desde 80 €" },
     { "type": "header", "content": "Cómo funciona" },
