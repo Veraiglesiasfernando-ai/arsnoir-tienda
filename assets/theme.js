@@ -252,6 +252,17 @@
           this.dispatchEvent(new Event('change', { bubbles: true }));
         });
         this.syncFinish(this.selectedOptions());
+        /* Opened without a chosen variant (Gelato's first one is "Sin marco"): start on the
+           black frame, which is what the product photos show */
+        if (!/[?&]variant=/.test(window.location.search)) {
+          const black = Array.prototype.find.call(this.finish.querySelectorAll('.ftile[data-p]'), function (t) {
+            return /framed poster/i.test(t.dataset.p) && /black/i.test(t.dataset.s);
+          });
+          if (black && !black.classList.contains('is-active')) {
+            black.disabled = false; /* not made in the first size: the click handler moves to a size that has it */
+            black.click();
+          }
+        }
       }
     }
 
