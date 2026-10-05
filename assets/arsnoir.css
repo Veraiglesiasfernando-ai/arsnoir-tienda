@@ -2512,15 +2512,13 @@ html.is-scrolled .glass-header { background: rgba(255, 255, 255, 0.95); }
   .clanding__top--media .clanding__from { text-align: center; }
 }
 
-/* Mobile hero: the whole photo, uncropped, with the text underneath */
+/* Mobile hero: full screen, the whole photo in the middle, the same photo blurred behind */
+.vhero__fill { display: none; }
 @media (max-width: 749px) {
-  .vhero--full, .vhero--large { height: auto; min-height: 0; }
-  .vhero { padding-top: 68px; }
-  .vhero__slides { position: relative; inset: auto; aspect-ratio: 5 / 4; }
-  .vhero__slide img, .vhero__slide video { object-fit: contain; }
-  .vhero__slide::after { display: none; }
-  .vhero__center,
-  .vhero:has(.vhero__slide.is-active[data-text="top"]) .vhero__center { position: relative; inset: auto; padding: 22px 20px 64px; justify-content: flex-start; }
+  .vhero__slide .vhero__fill { display: block; position: absolute; inset: -40px; width: calc(100% + 80px); height: calc(100% + 80px); object-fit: cover; filter: blur(28px) brightness(0.55); transform: scale(1.1); }
+  .vhero__slide img:not(.vhero__fill) { position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-62%); width: 100%; height: auto; max-height: 70%; object-fit: contain; }
+  .vhero__slide::after { background: linear-gradient(180deg, rgba(0,0,0,0) 55%, rgba(0,0,0,0.6) 100%); }
+  .vhero:has(.vhero__slide.is-active[data-text="top"]) .vhero__center { justify-content: flex-end; padding-top: 120px; }
 }
 /* Personalízalo: whole photo on mobile */
 @media (max-width: 899px) {
