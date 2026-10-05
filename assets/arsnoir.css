@@ -2513,7 +2513,6 @@ html.is-scrolled .glass-header { background: rgba(255, 255, 255, 0.95); }
 }
 
 /* Mobile hero: the photo edge to edge at its own height (no crop, no bands), text right below */
-.vhero__fill { display: none; }
 @media (max-width: 749px) {
   .vhero--full, .vhero--large { height: auto; min-height: 0; }
   .vhero__slides { position: relative; inset: auto; }
@@ -2521,7 +2520,7 @@ html.is-scrolled .glass-header { background: rgba(255, 255, 255, 0.95); }
   .vhero__slide.is-active { display: block; animation: vhero-fade 0.6s ease; }
   .vhero__slide img, .vhero__slide video { display: block; width: 100%; height: auto; aspect-ratio: 2000 / 1116; object-fit: cover; object-position: 50% 86%; }
   .vhero { background: transparent; }
-  .vhero__shade, .vhero__slide img.vhero__fill { display: none; }
+  .vhero__shade { display: none; }
   .vhero__slide::after { display: block; background: linear-gradient(180deg, rgba(0,0,0,0) 35%, rgba(0,0,0,0.65) 100%); }
   .vhero__center,
   .vhero:has(.vhero__slide.is-active[data-text="top"]) .vhero__center { position: absolute; inset: 0; padding: 16px 16px 30px; justify-content: flex-end; gap: 10px; }

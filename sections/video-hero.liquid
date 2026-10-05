@@ -11,7 +11,6 @@
         {%- if b.video != blank -%}
           {{ b.video | video_tag: autoplay: true, loop: true, muted: true, playsinline: true, controls: false, preload: 'metadata', image_size: '1920x' }}
         {%- elsif b.image != blank -%}
-          {{ b.image | image_url: width: 400 | image_tag: loading: 'eager', class: 'vhero__fill', alt: '' }}
           {{ b.image | image_url: width: 2400 | image_tag: loading: 'eager', widths: '750, 1100, 1500, 1920, 2400', sizes: '100vw' }}
         {%- else -%}
           <div class="vhero__ph vhero__ph--{{ forloop.index | modulo: 3 }}" aria-hidden="true"></div>
