@@ -2511,3 +2511,18 @@ html.is-scrolled .glass-header { background: rgba(255, 255, 255, 0.95); }
   .clanding__media--mobile img { aspect-ratio: 4 / 4.2; }
   .clanding__top--media .clanding__from { text-align: center; }
 }
+
+/* Mobile hero: the whole photo, uncropped, with the text underneath */
+@media (max-width: 749px) {
+  .vhero--full, .vhero--large { height: auto; min-height: 0; }
+  .vhero { padding-top: 68px; }
+  .vhero__slides { position: relative; inset: auto; aspect-ratio: 5 / 4; }
+  .vhero__slide img, .vhero__slide video { object-fit: contain; }
+  .vhero__slide::after { display: none; }
+  .vhero__center,
+  .vhero:has(.vhero__slide.is-active[data-text="top"]) .vhero__center { position: relative; inset: auto; padding: 22px 20px 64px; justify-content: flex-start; }
+}
+/* Personalízalo: whole photo on mobile */
+@media (max-width: 899px) {
+  .clanding__media--mobile img { aspect-ratio: auto; height: auto; }
+}
