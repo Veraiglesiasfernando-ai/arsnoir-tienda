@@ -2485,3 +2485,29 @@ html.is-scrolled .glass-header { background: rgba(255, 255, 255, 0.95); }
 .product__notes li { display: flex; gap: 10px; align-items: baseline; padding: 3px 0; }
 .product__notes li::before { content: ""; flex: 0 0 auto; width: 6px; height: 6px; border-radius: 50%; background: #FF5A1F; transform: translateY(-2px); }
 .product__notes li:first-child { font-weight: 700; }
+
+/* Personalízalo landing v2: text + paths on the left, big photo on the right */
+.clanding__top { max-width: 1180px; margin: 0 auto clamp(40px, 6vw, 72px); }
+.clanding__top--media { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: clamp(28px, 4vw, 64px); align-items: center; }
+.clanding__top--media .clanding__hero { text-align: left; max-width: none; margin: 0 0 28px; }
+.clanding__top--media .clanding__title { font-size: clamp(2.6rem, 5vw, 4.4rem); }
+.clanding__top--media .clanding__text { margin-left: 0; }
+.clanding__top--media .cpaths { grid-template-columns: 1fr; max-width: none; margin: 0; gap: 12px; }
+.clanding__top--media .cpath { min-height: 0; padding: 20px 56px 20px 22px; }
+.clanding__top--media .clanding__from { text-align: left; }
+.clanding__media { margin: 0; position: relative; }
+.clanding__media img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 22px; }
+.clanding__media figcaption { margin-top: 10px; font-size: 13px; color: var(--color-muted); }
+.clanding__media--mobile { display: none; }
+.cpath.is-soon { cursor: default; opacity: 0.92; }
+.cpath.is-soon:hover { transform: none; }
+.cpath__soon { position: absolute; top: 18px; right: 18px; padding: 5px 10px; border-radius: 999px; background: #FF5A1F; color: #0a0a0a; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+@media (max-width: 899px) {
+  .clanding__top--media { display: block; }
+  .clanding__top--media .clanding__hero { text-align: center; margin-bottom: 20px; }
+  .clanding__top--media .clanding__text { margin-left: auto; }
+  .clanding__media--desktop { display: none; }
+  .clanding__media--mobile { display: block; margin: 0 0 18px; }
+  .clanding__media--mobile img { aspect-ratio: 4 / 4.2; }
+  .clanding__top--media .clanding__from { text-align: center; }
+}

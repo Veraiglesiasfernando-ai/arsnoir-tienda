@@ -28,27 +28,49 @@
 -%}
 <section class="clanding">
   <div class="page-width">
-    <header class="clanding__hero reveal">
-      <p class="eyebrow">{{ s.eyebrow }}</p>
-      <h1 class="clanding__title">{{ s.heading }}</h1>
-      {%- if s.text != blank -%}<p class="clanding__text">{{ s.text }}</p>{%- endif -%}
-      {%- if s.chip_1 != blank -%}<p class="clanding__from">{{ s.chip_1 }}</p>{%- endif -%}
-    </header>
+    <div class="clanding__top{% if s.image != blank %} clanding__top--media{% endif %}">
+      <div class="clanding__lead">
+        <header class="clanding__hero reveal">
+          <p class="eyebrow">{{ s.eyebrow }}</p>
+          <h1 class="clanding__title">{{ s.heading }}</h1>
+          {%- if s.text != blank -%}<p class="clanding__text">{{ s.text }}</p>{%- endif -%}
+        </header>
 
-    {%- comment -%} Two ways in: blank product (upload) or the template grid below {%- endcomment -%}
-    <div class="cpaths">
-      <a class="cpath" href="{{ cta_url }}">
-        <span class="cpath__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 16V4m0 0-4.5 4.5M12 4l4.5 4.5M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        <span class="cpath__title">{{ s.path_upload_title }}</span>
-        <span class="cpath__text">{{ s.path_upload_text }}</span>
-        <span class="cpath__go" aria-hidden="true">&rarr;</span>
-      </a>
-      <a class="cpath cpath--dark" href="#Plantillas">
-        <span class="cpath__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="7" height="9" rx="1" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="13" y="3" width="7" height="5" rx="1" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="13" y="10" width="7" height="11" rx="1" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="4" y="14" width="7" height="7" rx="1" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></span>
-        <span class="cpath__title">{{ s.path_template_title }}</span>
-        <span class="cpath__text">{{ s.path_template_text }}</span>
-        <span class="cpath__go" aria-hidden="true">&darr;</span>
-      </a>
+        {%- if s.image != blank -%}
+          <figure class="clanding__media clanding__media--mobile">
+            {{ s.image | image_url: width: 1200 | image_tag: loading: 'eager', widths: '600, 900, 1200', sizes: '100vw', alt: s.image_caption | default: s.heading }}
+          </figure>
+        {%- endif -%}
+
+        {%- comment -%} Two ways in: blank product (upload) or the illustration styles below {%- endcomment -%}
+        <div class="cpaths">
+          <a class="cpath" href="{{ cta_url }}">
+            <span class="cpath__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 16V4m0 0-4.5 4.5M12 4l4.5 4.5M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+            <span class="cpath__title">{{ s.path_upload_title }}</span>
+            <span class="cpath__text">{{ s.path_upload_text }}</span>
+            <span class="cpath__go" aria-hidden="true">&rarr;</span>
+          </a>
+          {%- capture ill_inner -%}
+            <span class="cpath__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="7" height="9" rx="1" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="13" y="3" width="7" height="5" rx="1" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="13" y="10" width="7" height="11" rx="1" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="4" y="14" width="7" height="7" rx="1" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></span>
+            <span class="cpath__title">{{ s.path_template_title }}</span>
+            <span class="cpath__text">{{ s.path_template_text }}</span>
+          {%- endcapture -%}
+          {%- if s.illustrations_ready -%}
+            <a class="cpath cpath--dark" href="#Plantillas">{{ ill_inner }}<span class="cpath__go" aria-hidden="true">&darr;</span></a>
+          {%- else -%}
+            <div class="cpath cpath--dark is-soon" aria-disabled="true">{{ ill_inner }}<span class="cpath__soon">{{ s.soon_label }}</span></div>
+          {%- endif -%}
+        </div>
+
+        {%- if s.chip_1 != blank -%}<p class="clanding__from">{{ s.chip_1 }}</p>{%- endif -%}
+      </div>
+
+      {%- if s.image != blank -%}
+        <figure class="clanding__media clanding__media--desktop reveal">
+          {{ s.image | image_url: width: 1600 | image_tag: loading: 'eager', widths: '800, 1200, 1600', sizes: '45vw', alt: s.image_caption | default: s.heading }}
+          {%- if s.image_caption != blank -%}<figcaption>{{ s.image_caption }}</figcaption>{%- endif -%}
+        </figure>
+      {%- endif -%}
     </div>
 
     <div class="clanding__steps" id="ComoFunciona">
@@ -154,6 +176,10 @@
     { "type": "text", "id": "path_upload_text", "label": "Tarjeta 1: texto", "default": "Tu imagen, tal cual, en el tamaño y marco que elijas." },
     { "type": "text", "id": "path_template_title", "label": "Tarjeta 2: título", "default": "Conviértela en ilustración" },
     { "type": "text", "id": "path_template_text", "label": "Tarjeta 2: texto", "default": "Elige un estilo y tu foto se transforma en esa ilustración." },
+    { "type": "image_picker", "id": "image", "label": "Foto grande", "info": "Una foto o mockup con una imagen impresa en una pared." },
+    { "type": "text", "id": "image_caption", "label": "Pie de foto", "default": "Así queda una foto en tu pared." },
+    { "type": "checkbox", "id": "illustrations_ready", "label": "Ilustraciones listas", "default": false, "info": "Actívalo cuando la app de ilustraciones y los estilos estén publicados. Mientras, la tarjeta sale como «Muy pronto»." },
+    { "type": "text", "id": "soon_label", "label": "Texto «Muy pronto»", "default": "Muy pronto" },
     { "type": "text", "id": "chip_1", "label": "Precio desde", "default": "Desde 24,95 € · envío gratis desde 80 €" },
     { "type": "header", "content": "Cómo funciona" },
     { "type": "text", "id": "step_1_title", "label": "Paso 1", "default": "Sube tu imagen" },

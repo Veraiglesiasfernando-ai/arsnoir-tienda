@@ -2,7 +2,9 @@
   "sections": {
     "landing": {
       "type": "custom-landing",
-      "settings": {}
+      "settings": {
+        "image": "shopify://shop_images/arsnoir-hero-salon.jpg"
+      }
     },
     "templates": {
       "type": "custom-templates",
