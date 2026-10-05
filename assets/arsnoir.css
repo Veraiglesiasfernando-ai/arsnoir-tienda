@@ -2519,7 +2519,7 @@ html.is-scrolled .glass-header { background: rgba(255, 255, 255, 0.95); }
   .vhero__slides { position: relative; inset: auto; }
   .vhero__slide { position: relative; inset: auto; display: none; opacity: 1; }
   .vhero__slide.is-active { display: block; animation: vhero-fade 0.6s ease; }
-  .vhero__slide img, .vhero__slide video { display: block; width: 100%; height: auto; object-fit: initial; }
+  .vhero__slide img, .vhero__slide video { display: block; width: 100%; height: auto; aspect-ratio: 2000 / 1116; object-fit: cover; object-position: 50% 86%; }
   .vhero { background: transparent; }
   .vhero__shade, .vhero__slide img.vhero__fill { display: none; }
   .vhero__slide::after { display: block; background: linear-gradient(180deg, rgba(0,0,0,0) 35%, rgba(0,0,0,0.65) 100%); }
