@@ -29,7 +29,10 @@
         },
         "description": {
           "type": "description",
-          "settings": {}
+          "settings": {
+            "heading": "Descripción",
+            "open": true
+          }
         },
         "details": {
           "type": "collapsible",
@@ -91,7 +94,6 @@
       "block_order": [
         "title",
         "price",
-        "description",
         "notes",
         "edition",
         "buy",
@@ -100,6 +102,7 @@
         "complete_wall",
         "wall",
         "compare",
+        "description",
         "details",
         "sizes",
         "shipping"

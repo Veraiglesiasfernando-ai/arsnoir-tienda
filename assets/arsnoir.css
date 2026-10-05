@@ -2585,7 +2585,6 @@ html.is-scrolled .glass-header { background: rgba(255, 255, 255, 0.95); }
   .cwall__name { font-size: 14px; }
 }
 
-/* Product description right under the price */
-.product__description { margin: 4px 0 18px; font-size: 16px; line-height: 1.6; color: #3a3a3a; max-width: 52ch; }
-.product__description p { margin: 0 0 10px; }
-.product__description p:last-child { margin-bottom: 0; }
+/* Product description: first of the accordions (Descripción, Detalles, Tamaños, Envío) */
+.product__desc-acc .accordion__content { font-size: 15px; line-height: 1.6; }
+.product__desc-acc .accordion__content p { margin: 0 0 10px; }
