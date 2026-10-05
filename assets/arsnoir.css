@@ -2520,9 +2520,14 @@ html.is-scrolled .glass-header { background: rgba(255, 255, 255, 0.95); }
   .vhero__slide { position: relative; inset: auto; display: none; opacity: 1; }
   .vhero__slide.is-active { display: block; animation: vhero-fade 0.6s ease; }
   .vhero__slide img, .vhero__slide video { display: block; width: 100%; height: auto; object-fit: initial; }
-  .vhero__slide::after, .vhero__shade, .vhero__slide img.vhero__fill { display: none; }
+  .vhero { background: transparent; }
+  .vhero__shade, .vhero__slide img.vhero__fill { display: none; }
+  .vhero__slide::after { display: block; background: linear-gradient(180deg, rgba(0,0,0,0) 35%, rgba(0,0,0,0.65) 100%); }
   .vhero__center,
-  .vhero:has(.vhero__slide.is-active[data-text="top"]) .vhero__center { position: relative; inset: auto; padding: 24px 20px 64px; justify-content: flex-start; }
+  .vhero:has(.vhero__slide.is-active[data-text="top"]) .vhero__center { position: absolute; inset: 0; padding: 16px 16px 30px; justify-content: flex-end; gap: 10px; }
+  .vhero__heading { font-size: clamp(1.35rem, 6.2vw, 1.7rem); max-width: 20ch; }
+  .vhero__cta { min-height: 0; padding: 9px 18px; font-size: 13px; }
+  .vhero__progress { bottom: 12px; left: 16px; right: 16px; }
 }
 @keyframes vhero-fade { from { opacity: 0; } to { opacity: 1; } }
 @media (max-width: 749px) {
