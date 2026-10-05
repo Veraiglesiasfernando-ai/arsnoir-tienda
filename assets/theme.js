@@ -559,12 +559,30 @@
       ? document.querySelectorAll('[form="' + formId + '"], #' + CSS.escape(formId) + ' [type="submit"]')
       : form.querySelectorAll('[type="submit"]');
     buttons.forEach(function (b) { b.classList.add('is-loading'); });
-    fetch(root + 'cart/add.js', {
-      method: 'POST',
-      headers: { 'Accept': 'application/json' },
-      body: new FormData(form)
-    })
-      .then(function (r) { return r.json().then(function (body) { return { ok: r.ok, body: body }; }); })
+    /* "Completa tu pared": works ticked under the button go in with this one */
+    const extra = [];
+    document.querySelectorAll('[data-cwall] [data-cwall-pick]:checked').forEach(function (pick) {
+      const v = pick.closest('.cwall__item').querySelector('[data-cwall-variant]');
+      if (v && v.value) extra.push({ id: parseInt(v.value, 10), quantity: 1 });
+    });
+    const post = function (body, json) {
+      return fetch(root + 'cart/add.js', {
+        method: 'POST',
+        headers: json ? { 'Content-Type': 'application/json', 'Accept': 'application/json' } : { 'Accept': 'application/json' },
+        body: body
+      }).then(function (r) { return r.json().then(function (b) { return { ok: r.ok, body: b }; }); });
+    };
+    post(new FormData(form))
+      .then(function (res) {
+        if (!res.ok || !extra.length) return res;
+        return post(JSON.stringify({ items: extra }), true).then(function (more) {
+          if (more.ok) document.querySelectorAll('[data-cwall-pick]:checked').forEach(function (pick) {
+            pick.checked = false;
+            pick.dispatchEvent(new Event('change', { bubbles: true }));
+          });
+          return more;
+        });
+      })
       .then(function (res) {
         if (!res.ok) { alert(res.body.description || S.addError || 'No se ha podido añadir al carrito.'); return; }
         return refreshDrawer().then(openDrawer);
@@ -742,6 +760,63 @@
       if (event.target.closest('variant-picker')) update();
     });
     if (feat.querySelector('img[data-black]')) swapFrameImages(feat);
+  });
+
+  /* "Completa tu pared" under the buy button: pages of 3, prices, total, and each work's
+     size / finish follows the one chosen for the main work when it exists */
+  document.querySelectorAll('[data-cwall]').forEach(function (box) {
+    const items = Array.prototype.slice.call(box.querySelectorAll('.cwall__item'));
+    const pages = items.reduce(function (n, it) { return Math.max(n, parseInt(it.dataset.page, 10) + 1); }, 1);
+    const prev = box.querySelector('[data-cwall-prev]');
+    const next = box.querySelector('[data-cwall-next]');
+    const total = box.querySelector('[data-cwall-total]');
+    let page = 0;
+    const show = function (n) {
+      page = Math.max(0, Math.min(pages - 1, n));
+      items.forEach(function (it) { it.hidden = parseInt(it.dataset.page, 10) !== page; });
+      if (prev) prev.disabled = page === 0;
+      if (next) next.disabled = page === pages - 1;
+    };
+    if (prev) prev.addEventListener('click', function () { show(page - 1); });
+    if (next) next.addEventListener('click', function () { show(page + 1); });
+
+    const priceOf = function (item) {
+      const v = item.querySelector('[data-cwall-variant]');
+      const opt = v.tagName === 'SELECT' ? v.options[v.selectedIndex] : v;
+      return { price: parseInt(opt.dataset.price, 10) || 0, compare: parseInt(opt.dataset.compare, 10) || 0 };
+    };
+    const refresh = function () {
+      let sum = 0, n = 0;
+      items.forEach(function (item) {
+        const pr = priceOf(item);
+        item.querySelector('[data-cwall-price]').textContent = formatMoney(pr.price);
+        const s = item.querySelector('[data-cwall-compare]');
+        s.hidden = !(pr.compare > pr.price);
+        if (pr.compare > pr.price) s.textContent = formatMoney(pr.compare);
+        const on = item.querySelector('[data-cwall-pick]').checked;
+        item.classList.toggle('is-on', on);
+        if (on) { sum += pr.price; n += 1; }
+      });
+      total.hidden = n === 0;
+      if (n) total.textContent = (n === 1 ? (S.cwallOne || '+1 obra con esta') : (S.cwallMany || '+[N] obras con esta').replace('[N]', n)) + ' · +' + formatMoney(sum);
+    };
+    box.addEventListener('change', refresh);
+
+    const picker = document.querySelector('variant-picker');
+    if (picker) picker.addEventListener('change', function () {
+      setTimeout(function () {
+        const id = picker.form && picker.form.querySelector('[name="id"]');
+        const main = id && picker.variants.find(function (v) { return String(v.id) === id.value; });
+        if (!main) return;
+        box.querySelectorAll('select[data-cwall-variant]').forEach(function (sel) {
+          const match = Array.prototype.find.call(sel.options, function (o) { return o.dataset.key === main.title && !o.disabled; });
+          if (match) sel.value = match.value;
+        });
+        refresh();
+      }, 0);
+    });
+    show(0);
+    refresh();
   });
 
   /* Personalízalo: theme tabs (Mascotas, Amor…) filter the illustration styles */

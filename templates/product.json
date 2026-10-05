@@ -78,6 +78,14 @@
         "delivery": {
           "type": "delivery",
           "settings": {}
+        },
+        "complete_wall": {
+          "type": "complete_wall",
+          "settings": {
+            "heading": "Completa tu pared",
+            "text": "Obras del mismo estilo. Márcalas y se añaden con esta.",
+            "limit": 6
+          }
         }
       },
       "block_order": [
@@ -88,6 +96,7 @@
         "buy",
         "delivery",
         "trust",
+        "complete_wall",
         "wall",
         "compare",
         "description",

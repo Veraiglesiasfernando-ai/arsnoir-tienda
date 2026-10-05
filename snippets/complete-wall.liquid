@@ -1,0 +1,131 @@
+{%- comment -%}
+  "Completa tu pared": other works of the same style under the buy button.
+  The customer ticks the ones they want; they go to the cart together with this work
+  (theme.js, form[data-ajax-cart] submit). Each one keeps its own size / finish picker,
+  which follows the size and finish chosen for the main work when that combination exists.
+  - product, block
+{%- endcomment -%}
+{%- liquid
+  assign skip_handles = 'frontpage,mas-vendidos,obras,novedades,personalizalo,edicion-limitada,tienda-xl,all'
+  assign skip_handles = skip_handles | split: ','
+  assign style = nil
+  for c in product.collections
+    if skip_handles contains c.handle
+      continue
+    endif
+    if c.products_count > 1
+      assign style = c
+      break
+    endif
+  endfor
+
+  assign picked = ''
+  assign count = 0
+  assign max = block.settings.limit | default: 6
+  if style
+    for p in style.products limit: 30
+      if p.id == product.id or p.featured_media == blank or p.available == false
+        continue
+      endif
+      if p.type == 'Personalizado' or p.type == 'Regalo'
+        continue
+      endif
+      assign picked = picked | append: p.handle | append: ','
+      assign count = count | plus: 1
+      if count >= max
+        break
+      endif
+    endfor
+  endif
+  if count < 3
+    for p in collections['obras'].products limit: 30
+      assign key = p.handle | append: ','
+      if p.id == product.id or p.featured_media == blank or p.available == false or picked contains key
+        continue
+      endif
+      assign picked = picked | append: key
+      assign count = count | plus: 1
+      if count >= max
+        break
+      endif
+    endfor
+  endif
+  assign handles = picked | split: ','
+  assign cur = product.selected_or_first_available_variant
+  assign per_page = 3
+-%}
+{%- if handles.size > 0 -%}
+  <div class="cwall" data-cwall {{ block.shopify_attributes }}>
+    <div class="cwall__head">
+      <div>
+        <p class="cwall__title">{{ block.settings.heading }}</p>
+        {%- if block.settings.text != blank -%}<p class="cwall__sub">{{ block.settings.text }}</p>{%- endif -%}
+      </div>
+      {%- if handles.size > per_page -%}
+        <div class="cwall__nav">
+          <button type="button" class="cwall__arrow" data-cwall-prev aria-label="{{ 'general.previous' | t }}" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></button>
+          <button type="button" class="cwall__arrow" data-cwall-next aria-label="{{ 'general.next' | t }}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></button>
+        </div>
+      {%- endif -%}
+    </div>
+    <ul class="cwall__list">
+      {%- for h in handles -%}
+        {%- assign p = all_products[h] -%}
+        {%- liquid
+          assign page = forloop.index0 | divided_by: per_page
+          assign chosen = p.selected_or_first_available_variant
+          for v in p.variants
+            if v.available and v.title == cur.title
+              assign chosen = v
+              break
+            endif
+          endfor
+          assign row_id = 'cwall-' | append: p.id
+        -%}
+        <li class="cwall__item" data-page="{{ page }}"{% if page > 0 %} hidden{% endif %}>
+          <label class="cwall__check" for="{{ row_id }}">
+            <input type="checkbox" id="{{ row_id }}" data-cwall-pick>
+            <span class="cwall__box" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="2"/></svg></span>
+            <span class="visually-hidden">{{ 'product.add_to_cart' | t }}: {{ p.title }}</span>
+          </label>
+          <a class="cwall__img" href="{{ p.url }}">
+            {{ p.featured_media | image_url: width: 240 | image_tag: loading: 'lazy', alt: p.title, width: 120, height: 150 }}
+          </a>
+          <div class="cwall__info">
+            <a class="cwall__name" href="{{ p.url }}">{{ p.title | strip }}</a>
+            {%- if p.has_only_default_variant -%}
+              <input type="hidden" data-cwall-variant value="{{ chosen.id }}" data-price="{{ chosen.price }}">
+            {%- else -%}
+              <div class="cwall__select">
+                <select data-cwall-variant aria-label="{{ p.title | escape }}">
+                  {%- for v in p.variants -%}
+                    {%- liquid
+                      if v.options.size == 3
+                        capture size_l
+                          render 'option-label', value: v.options[0], kind: 'size'
+                        endcapture
+                        capture fin_l
+                          render 'option-label', value: v.options[1], kind: 'finish', style: v.options[2]
+                        endcapture
+                        assign label = size_l | append: ' · ' | append: fin_l
+                      else
+                        assign label = v.title
+                      endif
+                    -%}
+                    <option value="{{ v.id }}" data-price="{{ v.price }}" data-compare="{{ v.compare_at_price | default: 0 }}" data-key="{{ v.title | escape }}"{% if v.id == chosen.id %} selected{% endif %}{% unless v.available %} disabled{% endunless %}>{{ label }}</option>
+                  {%- endfor -%}
+                </select>
+                <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+              </div>
+            {%- endif -%}
+            <p class="cwall__price">
+              <span data-cwall-price>{{ chosen.price | money }}</span>
+              <s data-cwall-compare{% unless chosen.compare_at_price > chosen.price %} hidden{% endunless %}>{{ chosen.compare_at_price | money }}</s>
+            </p>
+          </div>
+        </li>
+      {%- endfor -%}
+    </ul>
+    <p class="cwall__total" data-cwall-total hidden></p>
+  </div>
+{%- endif -%}

@@ -443,6 +443,9 @@
               {%- if block.settings.frame != blank -%}<p><strong>{{ 'product.frame' | t }}</strong> {{ block.settings.frame }}</p>{%- endif -%}
             </div>
 
+          {%- when 'complete_wall' -%}
+            {% render 'complete-wall', product: product, block: block %}
+
           {%- when 'trust' -%}
             <ul class="product__trust" {{ block.shopify_attributes }}>
               <li>{% render 'trust-icon', name: 'print' %}<span>{{ block.settings.line_1 }}</span></li>
@@ -540,6 +543,15 @@
         { "type": "text", "id": "recommended_frame", "label": "Acabado destacado", "default": "Marco negro", "info": "Nombre exacto del acabado que lleva la etiqueta. Vacío = ninguno." },
         { "type": "page", "id": "size_help", "label": "Página «Guía de tamaños»", "info": "Vacío = página con identificador guia-de-tamanos." },
         { "type": "page", "id": "frame_help", "label": "Página «Sobre los marcos» (opcional)" }
+      ]
+    },
+    {
+      "type": "complete_wall", "name": "Completa tu pared", "limit": 1,
+      "settings": [
+        { "type": "paragraph", "content": "Obras de la misma colección (Motor, Animals, Art…) para añadir de una vez con esta. Se marcan con un clic y van al carrito juntas." },
+        { "type": "text", "id": "heading", "label": "Título", "default": "Completa tu pared" },
+        { "type": "text", "id": "text", "label": "Texto", "default": "Obras del mismo estilo. Márcalas y se añaden con esta." },
+        { "type": "range", "id": "limit", "label": "Número de obras", "min": 3, "max": 9, "step": 3, "default": 6 }
       ]
     },
     {
