@@ -1,6 +1,6 @@
 {%- comment -%}
   First gallery image. When it is the «… con marco negro» photo, it carries the
-  white / wood / no-frame versions (Shopify Files: <handle>-marco-<kind>.webp)
+  white / wood / no-frame / canvas versions (Shopify Files: <handle>-marco-<kind>.webp)
   so theme.js can swap it when the frame changes.
 {%- endcomment -%}
 {%- liquid
@@ -14,6 +14,7 @@
     assign white_src = base | append: 'white.webp' | file_url
     assign wood_src = base | append: 'wood.webp' | file_url
     assign none_src = base | append: 'none.webp' | file_url
+    assign canvas_src = base | append: 'canvas.webp' | file_url
   -%}
   {{ media | image_url: width: 1600 | image_tag:
     loading: load,
@@ -23,7 +24,8 @@
     data-black: black_src,
     data-white: white_src,
     data-wood: wood_src,
-    data-none: none_src
+    data-none: none_src,
+    data-canvas: canvas_src
   }}
 {%- else -%}
   {{ media | image_url: width: 1600 | image_tag:

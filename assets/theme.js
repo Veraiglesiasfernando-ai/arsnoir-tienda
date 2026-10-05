@@ -730,6 +730,12 @@
     else if (/white|blanc/.test(value)) kind = 'white';
     else if (/wood|madera|natural/.test(value)) kind = 'wood';
     if (!document.querySelector('fieldset[data-option-kind="frame"]')) kind = 'black';
+    /* Canvas without a frame: the canvas photos (framed canvas keeps the frame colour) */
+    if (kind === 'none') {
+      const picker = document.querySelector('variant-picker');
+      const canvas = picker && Array.prototype.some.call(picker.querySelectorAll('input:checked'), function (i) { return /canvas|lienzo/i.test(i.value); });
+      if (canvas) kind = 'canvas';
+    }
     scope.querySelectorAll('img[data-black]').forEach(function (img) {
       if (img.dataset.blackSrcset === undefined) img.dataset.blackSrcset = img.getAttribute('srcset') || '';
       const back = function () {
