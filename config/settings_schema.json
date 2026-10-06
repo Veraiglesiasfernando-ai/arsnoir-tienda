@@ -142,7 +142,7 @@
         "type": "text",
         "id": "shipping_details",
         "label": "Detalle del envío",
-        "default": "Entrega en 3-5 días hábiles en la Península, con seguimiento · Impreso cerca de ti, en Europa"
+        "default": "Entrega en 3-5 días hábiles en la Península, con seguimiento · Impreso en Europa"
       },
       {
         "type": "range",

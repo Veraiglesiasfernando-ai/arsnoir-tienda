@@ -16,10 +16,17 @@
           "settings": {
             "text": "ENVÍOS A ESPAÑA Y TODA EUROPA CON SEGUIMIENTO"
           }
+        },
+        "m3": {
+          "type": "message",
+          "settings": {
+            "text": "IMPRESO EN EUROPA, BAJO PEDIDO"
+          }
         }
       },
       "block_order": [
         "m1",
+        "m3",
         "m2"
       ],
       "settings": {

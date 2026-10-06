@@ -23,7 +23,7 @@
           "type": "notes",
           "settings": {
             "note_1": "Obra original. Solo la encontrarás en ARSNOIR.",
-            "note_2": "Impresa bajo pedido, solo para ti.",
+            "note_2": "Impresa bajo pedido en Europa, solo para ti.",
             "note_3": "Envío gratis desde 80 € a España y toda Europa."
           }
         },
@@ -60,7 +60,9 @@
         },
         "trust": {
           "type": "trust",
-          "settings": {}
+          "settings": {
+            "line_1": "Impreso en Europa, calidad profesional"
+          }
         },
         "material": {
           "type": "material",
@@ -216,7 +218,7 @@
           "type": "feature",
           "settings": {
             "heading": "Calidad de impresión",
-            "text": "Cada lámina se imprime solo cuando la pides: giclée de 12 colores sobre papel mate premium. Las A4 viajan en plano con cartón rígido; las más grandes, enrolladas con papel protector en tubo de cartón.",
+            "text": "Cada lámina se imprime en Europa solo cuando la pides: giclée de 12 colores sobre papel mate premium. Las A4 viajan en plano con cartón rígido; las más grandes, enrolladas con papel protector en tubo de cartón.",
             "items": "Papel Premium Matte de 200 g/m²\nGiclée de 12 colores: color fiel y negros profundos\nAcabado mate, sin reflejos\nPapel certificado FSC y tintas al agua",
             "image_right": true,
             "show_with": "poster",
