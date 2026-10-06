@@ -37,7 +37,10 @@
       <div class="pfeat__row{% if b.image_right %} pfeat__row--right{% endif %} reveal" data-show-with="{{ show_with }}"{% if hide %} hidden{% endif %} {{ block.shopify_attributes }}>
         <div class="pfeat__media">
           <div class="pfeat__photo">
-            {%- if b.image != blank -%}
+            {%- if b.video_url != blank -%}
+              {%- assign vposter = b.video_poster | default: b.image -%}
+              <video class="pfeat__video" src="{{ b.video_url }}" autoplay muted loop playsinline preload="metadata"{% if vposter != blank %} poster="{{ vposter | image_url: width: 1200 }}"{% endif %} aria-label="{{ alt_text | escape }}"></video>
+            {%- elsif b.image != blank -%}
               {%- capture swap -%}{% if b.image_white != blank or b.image_wood != blank %}data-black="{{ b.image | image_url: width: 1400 }}"{% if b.image_white != blank %} data-white="{{ b.image_white | image_url: width: 1400 }}"{% endif %}{% if b.image_wood != blank %} data-wood="{{ b.image_wood | image_url: width: 1400 }}"{% endif %}{% endif %}{%- endcapture -%}
               {%- if swap != blank -%}
                 <img src="{{ b.image | image_url: width: 1400 }}" {{ swap }} alt="{{ alt_text | escape }}" width="1400" height="{{ 1400 | divided_by: b.image.aspect_ratio | round }}" loading="lazy">
@@ -48,7 +51,7 @@
               <span class="pfeat__ph" aria-hidden="true"></span>
             {%- endif -%}
           </div>
-          {%- if b.zoom != blank -%}
+          {%- if b.zoom != blank and b.video_url == blank -%}
             <div class="pfeat__zoom">
               {%- if b.zoom_white != blank or b.zoom_wood != blank -%}
                 <img src="{{ b.zoom | image_url: width: 600 }}" data-black="{{ b.zoom | image_url: width: 600 }}"{% if b.zoom_white != blank %} data-white="{{ b.zoom_white | image_url: width: 600 }}"{% endif %}{% if b.zoom_wood != blank %} data-wood="{{ b.zoom_wood | image_url: width: 600 }}"{% endif %} alt="" width="600" height="600" loading="lazy">
@@ -87,6 +90,8 @@
       "settings": [
         { "type": "image_picker", "id": "image", "label": "Foto" },
         { "type": "image_picker", "id": "zoom", "label": "Detalle redondo (opcional)", "info": "Primer plano del papel o de la esquina del marco." },
+        { "type": "text", "id": "video_url", "label": "Vídeo en bucle (enlace .mp4, opcional)", "info": "Si lo pones, sustituye a la foto: se reproduce solo, sin sonido. Súbelo en Contenido → Archivos y pega aquí su enlace." },
+        { "type": "image_picker", "id": "video_poster", "label": "Imagen mientras carga el vídeo (opcional)" },
         { "type": "image_picker", "id": "image_white", "label": "Foto con marco blanco (opcional)", "info": "Se cambia sola si el cliente elige marco blanco." },
         { "type": "image_picker", "id": "image_wood", "label": "Foto con marco de madera (opcional)" },
         { "type": "image_picker", "id": "zoom_white", "label": "Detalle con marco blanco (opcional)" },
