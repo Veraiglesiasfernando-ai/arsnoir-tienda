@@ -216,10 +216,12 @@
           "type": "feature",
           "settings": {
             "heading": "Calidad de impresión",
-            "text": "Impresión giclée de 12 colores sobre papel premium mate, para que cada obra se vea como en el estudio.",
+            "text": "Cada lámina se imprime solo cuando la pides: giclée de 12 colores sobre papel mate premium. Las A4 viajan en plano con cartón rígido; las más grandes, enrolladas con papel protector en tubo de cartón.",
             "items": "Papel Premium Matte de 200 g/m²\nGiclée de 12 colores: color fiel y negros profundos\nAcabado mate, sin reflejos\nPapel certificado FSC y tintas al agua",
             "image_right": true,
-            "show_with": "poster"
+            "show_with": "poster",
+            "video_url": "https://cdn.shopify.com/videos/c/vp/6906cadac161402f8fbb39ea80c464d8/6906cadac161402f8fbb39ea80c464d8.HD-1080p-2.5Mbps-96592279.mp4",
+            "video_poster": "shopify://shop_images/arsnoir-impresion-poster.jpg"
           }
         }
       },
