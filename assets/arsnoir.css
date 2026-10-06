@@ -2590,3 +2590,8 @@ html.is-scrolled .glass-header { background: rgba(255, 255, 255, 0.95); }
 .product__desc-acc .accordion__content p { margin: 0 0 10px; }
 .pfeat__video { display: block; width: 100%; height: 100%; object-fit: cover; background: #f3f3f1; }
 .pfeat__photo:has(.pfeat__video) { aspect-ratio: 4 / 5; }
+
+/* Frame video under the gallery photos */
+.product__media--video { aspect-ratio: 4 / 5; overflow: hidden; background: #f3f3f1; }
+.product__media--video video { display: block; width: 100%; height: 100%; object-fit: cover; }
+@media (min-width: 750px) { .product__gallery > .product__media--video { grid-column: 1 / -1; } }

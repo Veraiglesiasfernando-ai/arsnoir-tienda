@@ -171,7 +171,8 @@
     "upload_change": "Change image",
     "upload_hint": "JPG or PNG · 300 dpi recommended",
     "upload_meta": "[NAME] · [W] × [H] px",
-    "upload_step": "Upload your image"
+    "upload_step": "Upload your image",
+    "frame_video": "How the frame is made"
   },
   "collection": {
     "all": "All",

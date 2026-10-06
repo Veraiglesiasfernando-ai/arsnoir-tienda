@@ -100,7 +100,6 @@
         "delivery",
         "trust",
         "complete_wall",
-        "wall",
         "compare",
         "description",
         "details",
@@ -108,7 +107,9 @@
         "shipping"
       ],
       "settings": {
-        "lifestyle_from": 2
+        "lifestyle_from": 2,
+        "gallery_video": "https://cdn.shopify.com/videos/c/vp/7ba2dfa3eab44ad2b9af6dfcff4dcd2a/7ba2dfa3eab44ad2b9af6dfcff4dcd2a.HD-1080p-2.5Mbps-96575530.mp4",
+        "gallery_video_poster": "shopify://shop_images/arsnoir-marco-negro-poster.jpg"
       }
     },
     "related": {
@@ -196,9 +197,7 @@
             "image_right": false,
             "heading": "Marcos de madera, con todo para colgar",
             "text": "Un marco fino y actual que deja hablar a la obra. Así es por dentro: cada pieza protege tu lámina y la trasera trae todo para colgarla.",
-            "items": "Madera de pino, perfil fino\nPlexiglás irrompible que protege la impresión\nTres colgadores dentados: vertical u horizontal\nEn negro, blanco o madera natural",
-            "video_url": "https://cdn.shopify.com/videos/c/vp/7ba2dfa3eab44ad2b9af6dfcff4dcd2a/7ba2dfa3eab44ad2b9af6dfcff4dcd2a.HD-1080p-2.5Mbps-96575530.mp4",
-            "video_poster": "shopify://shop_images/arsnoir-marco-negro-poster.jpg"
+            "items": "Madera de pino, perfil fino\nPlexiglás irrompible que protege la impresión\nTres colgadores dentados: vertical u horizontal\nEn negro, blanco o madera natural"
           }
         },
         "canvas": {

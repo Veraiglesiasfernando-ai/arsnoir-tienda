@@ -58,6 +58,12 @@
       {%- else -%}
         <div class="product__media">{% render 'frame-placeholder' %}</div>
       {%- endfor -%}
+      {%- if section.settings.gallery_video != blank -%}
+        {%- comment -%} Looping "how the frame is made" video under the photos (fills the column on desktop) {%- endcomment -%}
+        <div class="product__media product__media--video">
+          <video src="{{ section.settings.gallery_video }}" autoplay muted loop playsinline preload="metadata"{% if section.settings.gallery_video_poster != blank %} poster="{{ section.settings.gallery_video_poster | image_url: width: 1200 }}"{% endif %} aria-label="{{ 'product.frame_video' | t }}"></video>
+        </div>
+      {%- endif -%}
     </div>
 
     <div class="product__info">
@@ -525,6 +531,11 @@
 {
   "name": "Obra",
   "settings": [
+    {
+      "type": "text", "id": "gallery_video", "label": "Vídeo bajo las fotos (enlace .mp4, opcional)",
+      "info": "Se reproduce solo, sin sonido y en bucle debajo de la galería. Súbelo en Contenido → Archivos y pega aquí su enlace."
+    },
+    { "type": "image_picker", "id": "gallery_video_poster", "label": "Imagen mientras carga el vídeo" },
     {
       "type": "range", "id": "lifestyle_from", "label": "Fotos ambientadas a partir de la imagen nº", "min": 0, "max": 6, "step": 1, "default": 2,
       "info": "Las primeras imágenes se muestran sobre paspartú gris; a partir de este número, a sangre (fotos de la obra en una pared). 0 = todas con paspartú."

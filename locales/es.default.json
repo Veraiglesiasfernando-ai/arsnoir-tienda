@@ -171,7 +171,8 @@
     "upload_change": "Cambiar imagen",
     "upload_hint": "JPG o PNG · recomendado 300 ppp",
     "upload_meta": "[NAME] · [W] × [H] px",
-    "upload_step": "Sube tu imagen"
+    "upload_step": "Sube tu imagen",
+    "frame_video": "Cómo es el marco por dentro"
   },
   "collection": {
     "all": "Todas",
