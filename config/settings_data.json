@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "current": {
     "color_background": "#F4F4F3",
@@ -13,7 +22,9 @@
     "free_shipping_threshold": 80,
     "returns_days": "14",
     "shipping_message": "",
-    "shipping_details": "Entrega en 4-5 días hábiles con seguimiento · Impreso y enviado desde la UE",
+    "delivery_min": 3,
+    "delivery_max": 5,
+    "shipping_details": "Entrega en 3-5 días hábiles en la Península, con seguimiento · Impreso cerca de ti, en Europa",
     "q4_gift_page": "regalos",
     "q4_start": "2026-11-20"
   }

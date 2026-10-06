@@ -4,7 +4,7 @@
     "guarantees": {
       "type": "guarantees",
       "blocks": {
-        "g1": { "type": "item", "settings": { "icon": "truck", "title": "Envío a España y Europa", "text": "Con seguimiento: 4-5 días hábiles en España. Envío 4,95 €, gratis desde 80 €." } },
+        "g1": { "type": "item", "settings": { "icon": "truck", "title": "Envío a España y Europa", "text": "Con seguimiento: 3-5 días hábiles en la Península. Envío 4,95 €, gratis desde 80 €." } },
         "g2": { "type": "item", "settings": { "icon": "return", "title": "[DIAS] días para devolver", "text": "Si no encaja en tu pared, tienes [DIAS] días para devolverla." } },
         "g3": { "type": "item", "settings": { "icon": "print", "title": "Impresión de alta calidad", "text": "Cada obra se imprime para ti con papeles y tintas profesionales." } },
         "g4": { "type": "item", "settings": { "icon": "lock", "title": "Pago 100% seguro", "text": "Pagos cifrados y protegidos a través de Shopify." } }

@@ -59,7 +59,7 @@
         "t2": {
           "type": "item",
           "settings": {
-            "text": "Impreso y enviado desde la UE"
+            "text": "Impreso cerca de ti, en Europa"
           }
         },
         "t3": {
@@ -191,7 +191,7 @@
           "settings": {
             "icon": "truck",
             "title": "Envío a España y Europa",
-            "text": "Con seguimiento: 4-5 días hábiles en España. Envío 4,95 €, gratis desde 80 €."
+            "text": "Con seguimiento: 3-5 días hábiles en la Península. Envío 4,95 €, gratis desde 80 €."
           }
         },
         "g2": {
@@ -236,7 +236,7 @@
           "type": "question",
           "settings": {
             "question": "¿Cuánto tarda el envío?",
-            "answer": "<p>Enviamos a España y toda Europa. Se imprimen y se envían desde la UE, con seguimiento: en España llegan en 4-5 días hábiles y al resto de Europa algo más. Envío 4,95 € en pedidos de menos de 80 €; desde 80 €, gratis.</p>"
+            "answer": "<p>Enviamos a España y toda Europa, con seguimiento. Cada obra se imprime cuando la pides, en el centro de producción más cercano a ti. En la Península llega en 3-5 días hábiles; a Baleares, Canarias, Ceuta y Melilla puede tardar algo más, y al resto de Europa, normalmente entre 4 y 8 días hábiles según el país. Envío 4,95 € en pedidos de menos de 80 €; desde 80 €, gratis.</p>"
           }
         },
         "q2": {

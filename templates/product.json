@@ -54,7 +54,7 @@
           "type": "collapsible",
           "settings": {
             "heading": "Envío y devoluciones",
-            "content": "<p>Imprimimos cada pieza para ti y la enviamos desde la UE, con seguimiento: en España llega en 4-5 días hábiles. Envío 4,95 € en pedidos de menos de 80 €; desde 80 €, gratis.</p>",
+            "content": "<p>Cada pieza se imprime cuando la pides, en el centro de producción más cercano a ti, y se envía con seguimiento: en la Península llega en 3-5 días hábiles; a las islas, Ceuta, Melilla y el resto de Europa puede tardar algo más. Envío 4,95 € en pedidos de menos de 80 €; desde 80 €, gratis.</p>",
             "open": false
           }
         },
@@ -138,7 +138,7 @@
           "type": "question",
           "settings": {
             "question": "¿Cuánto tarda el envío?",
-            "answer": "<p>Enviamos a España y toda Europa. Se imprimen y se envían desde la UE, con seguimiento: en España llegan en 4-5 días hábiles y al resto de Europa algo más. Envío 4,95 € en pedidos de menos de 80 €; desde 80 €, gratis.</p>"
+            "answer": "<p>Enviamos a España y toda Europa, con seguimiento. Cada obra se imprime cuando la pides, en el centro de producción más cercano a ti. En la Península llega en 3-5 días hábiles; a Baleares, Canarias, Ceuta y Melilla puede tardar algo más, y al resto de Europa, normalmente entre 4 y 8 días hábiles según el país. Envío 4,95 € en pedidos de menos de 80 €; desde 80 €, gratis.</p>"
           }
         },
         "q2": {
