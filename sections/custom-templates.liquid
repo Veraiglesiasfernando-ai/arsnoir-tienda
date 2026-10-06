@@ -21,6 +21,11 @@
       <h2 class="ctpl__title">{{ s.heading }}</h2>
       {%- if s.text != blank -%}<p class="ctpl__text">{{ s.text }}</p>{%- endif -%}
     </div>
+    {%- if s.video_url != blank -%}
+      <div class="ctpl__video">
+        <video src="{{ s.video_url }}" autoplay muted loop playsinline preload="metadata"{% if s.video_poster != blank %} poster="{{ s.video_poster | image_url: width: 900 }}"{% endif %} aria-label="{{ s.heading | escape }}"></video>
+      </div>
+    {%- endif -%}
     {%- liquid
       # Theme tabs (Mascotas, Amor…) built from the blocks' "Tema" field, in order of appearance
       assign cats = ''
@@ -96,6 +101,8 @@
     { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "ILUSTRACIONES" },
     { "type": "text", "id": "heading", "label": "Título", "default": "Tu foto, convertida en ilustración" },
     { "type": "text", "id": "text", "label": "Texto", "default": "Elige un estilo, sube tu foto y mírala convertida al momento." },
+    { "type": "text", "id": "video_url", "label": "Vídeo «cómo funciona» (URL .mp4)", "info": "Archivo de Contenido → Archivos. Se ve encima de los estilos, en bucle y sin sonido." },
+    { "type": "image_picker", "id": "video_poster", "label": "Imagen del vídeo mientras carga" },
     { "type": "text", "id": "button_label", "label": "Botón", "default": "Elegir estilo" },
     { "type": "text", "id": "all_label", "label": "Pestaña «todas»", "default": "Todas" },
     { "type": "text", "id": "before_label", "label": "Etiqueta de la foto original", "default": "Antes" },
