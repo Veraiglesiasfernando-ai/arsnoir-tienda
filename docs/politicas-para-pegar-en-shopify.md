@@ -9,9 +9,10 @@ Así salen enlazadas en el pie del pago (checkout), que es donde Shopify y los m
 
 **Envíos**
 
-- Enviamos a España y toda Europa, desde la UE y siempre con seguimiento.
+- Enviamos a España y toda Europa, con seguimiento.
 - Envío gratis en pedidos desde 80 € (importe de los productos antes de descuentos). En pedidos de menos de 80 €, el envío cuesta 4,95 €. El importe que se aplica es siempre el que aparece en el pago.
-- Cada obra se imprime cuando haces el pedido. Plazo orientativo de entrega: 4-5 días hábiles en España; al resto de Europa puede tardar algo más.
+- Cada obra se imprime cuando haces el pedido, en el centro de producción más cercano a ti.
+- Plazos orientativos desde el pedido (impresión + envío): Península, 3-5 días hábiles; Baleares, Canarias, Ceuta y Melilla, algo más; resto de Europa, normalmente entre 4 y 8 días hábiles según el país.
 - En cuanto sale tu pedido te enviamos el número de seguimiento por email.
 
 **Cómo llega tu pedido**
@@ -73,3 +74,16 @@ Email: arsnoiir@gmail.com
 
 Ya está creada por Shopify. Un detalle: en el apartado *Contacto* pone «llámenos al ,» sin número.
 Pon un teléfono en Configuración → Información de la tienda, o borra esa frase en la política.
+
+---
+
+## Cómo funciona Gelato por detrás (para ti, no para la web)
+
+Datos de las páginas oficiales de Gelato (consultadas el 6 de octubre de 2026):
+
+- **Producción:** pósters, 1-4 días. Se imprime en el centro más cercano al cliente (más del 85 % de los pedidos se producen en el mismo país donde se entregan; en España hay producción local).
+- **Envío en España:** 2-3 días. Gelato **garantiza la entrega en 5 días hábiles** en la España peninsular (no incluye Baleares, Canarias, Ceuta ni Melilla). Si se pasa de 5 días hábiles te devuelve el 20 % del pedido; si se pasa de 10, el 100 %. Esa garantía es para ti como vendedor: reclámala en Gelato.
+- **Dañados o mal impresos:** tienes que reportarlo en Gelato en los **30 días** siguientes a que el cliente lo reciba (pedido → «Report a problem»), con fotos del producto y del embalaje. Gelato reimprime gratis o devuelve el dinero.
+- **Devoluciones por arrepentimiento:** Gelato **no las acepta** ni da dirección de devolución. Pero la ley española sí da al cliente 14 días para desistir de tus obras de catálogo (elegir tamaño o marco no las convierte en «personalizadas»). Por eso la política dice que la dirección de devolución «te la indicamos por email»: las devoluciones te llegan a ti.
+- **Seguimiento:** depende del método de envío que tengas en Gelato. Comprueba en Gelato → Configuración → Envíos que el método que usas tiene seguimiento; si no, avísame y quito «con seguimiento» de la web.
+- **Etiqueta con tu marca en el paquete:** solo con Gelato+ y, por ahora, no disponible para envíos en España.
