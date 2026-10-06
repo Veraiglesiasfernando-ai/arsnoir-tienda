@@ -74,7 +74,10 @@
         "fam1",
         "fam2"
       ],
-      "settings": {}
+      "settings": {
+        "video_url": "https://cdn.shopify.com/videos/c/vp/7d847033e0fb4430bb1a624fcd45ac7b/7d847033e0fb4430bb1a624fcd45ac7b.HD-1080p-2.5Mbps-96622642.mp4",
+        "video_poster": "shopify://shop_images/arsnoir-personalizalo-poster.jpg"
+      }
     }
   },
   "order": [
