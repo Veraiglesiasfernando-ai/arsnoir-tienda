@@ -2589,3 +2589,4 @@ html.is-scrolled .glass-header { background: rgba(255, 255, 255, 0.95); }
 .product__desc-acc .accordion__content { font-size: 15px; line-height: 1.6; }
 .product__desc-acc .accordion__content p { margin: 0 0 10px; }
 .pfeat__video { display: block; width: 100%; height: 100%; object-fit: cover; background: #f3f3f1; }
+.pfeat__photo:has(.pfeat__video) { aspect-ratio: 4 / 5; }

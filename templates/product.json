@@ -23,7 +23,7 @@
           "type": "notes",
           "settings": {
             "note_1": "Obra original. Solo la encontrarás en ARSNOIR.",
-            "note_2": "Impresa para ti y lista para colgar.",
+            "note_2": "Impresa bajo pedido, solo para ti.",
             "note_3": "Envío gratis desde 80 € a España y toda Europa."
           }
         },
@@ -151,7 +151,7 @@
           "type": "question",
           "settings": {
             "question": "¿Cómo son los marcos?",
-            "answer": "<p>Marco de madera maciza de origen sostenible, con vidrio antirrotura y listo para colgar (kit de colgado incluido).</p>"
+            "answer": "<p>Marcos de madera en negro, blanco o natural, con plexiglás irrompible delante y trasera rígida. Incluyen kit para colgar: tres colgadores dentados para ponerlo en vertical u horizontal (los clavos o tornillos no van incluidos).</p>"
           }
         },
         "q4": {
@@ -194,11 +194,11 @@
             "zoom_wood": "shopify://shop_images/arsnoir-marco-wood-detalle.webp",
             "show_with": "poster",
             "image_right": false,
-            "heading": "Marcos de madera, listos para colgar",
-            "text": "Un marco fino y actual que deja hablar a la obra. Llega montado: lo sacas de la caja y lo cuelgas.",
-            "items": "Madera de pino maciza, perfil fino\nPlexiglás irrompible que protege la impresión\nKit de colgado incluido\nEn negro, blanco o madera natural",
-            "video_url": "https://cdn.shopify.com/videos/c/vp/553d48aef7594f609763227617ec6228/553d48aef7594f609763227617ec6228.HD-720p-1.6Mbps-96573994.mp4",
-            "video_poster": "shopify://shop_images/arsnoir-marco-madera-poster.jpg"
+            "heading": "Marcos de madera, con todo para colgar",
+            "text": "Un marco fino y actual que deja hablar a la obra. Así es por dentro: cada pieza protege tu lámina y la trasera trae todo para colgarla.",
+            "items": "Madera de pino, perfil fino\nPlexiglás irrompible que protege la impresión\nTres colgadores dentados: vertical u horizontal\nEn negro, blanco o madera natural",
+            "video_url": "https://cdn.shopify.com/videos/c/vp/7ba2dfa3eab44ad2b9af6dfcff4dcd2a/7ba2dfa3eab44ad2b9af6dfcff4dcd2a.HD-1080p-2.5Mbps-96575530.mp4",
+            "video_poster": "shopify://shop_images/arsnoir-marco-negro-poster.jpg"
           }
         },
         "canvas": {
