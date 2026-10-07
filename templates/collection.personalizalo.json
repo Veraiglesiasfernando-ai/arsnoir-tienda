@@ -3,7 +3,9 @@
     "landing": {
       "type": "custom-landing",
       "settings": {
-        "image": "shopify://shop_images/arsnoir-hero-salon.jpg"
+        "image": "shopify://shop_images/arsnoir-hero-salon.jpg",
+        "video_url": "https://cdn.shopify.com/videos/c/vp/cdbcdea598f046918d3faa001397298b/cdbcdea598f046918d3faa001397298b.HD-1080p-2.5Mbps-96691745.mp4",
+        "video_poster": "shopify://shop_images/arsnoir-personalizalo-poster.jpg"
       }
     },
     "templates": {
@@ -74,10 +76,7 @@
         "fam1",
         "fam2"
       ],
-      "settings": {
-        "video_url": "https://cdn.shopify.com/videos/c/vp/cdbcdea598f046918d3faa001397298b/cdbcdea598f046918d3faa001397298b.HD-1080p-2.5Mbps-96691745.mp4",
-        "video_poster": "shopify://shop_images/arsnoir-personalizalo-poster.jpg"
-      }
+      "settings": {}
     }
   },
   "order": [

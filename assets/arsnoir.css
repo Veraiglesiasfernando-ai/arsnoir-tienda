@@ -2497,7 +2497,8 @@ html.is-scrolled .glass-header { background: rgba(255, 255, 255, 0.95); }
 .clanding__top--media .cpath { min-height: 0; padding: 20px 56px 20px 22px; }
 .clanding__top--media .clanding__from { text-align: left; }
 .clanding__media { margin: 0; position: relative; }
-.clanding__media img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 22px; }
+.clanding__media img, .clanding__media video { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 22px; }
+.clanding__media video { background: #e9e8e3; }
 .clanding__media figcaption { margin-top: 10px; font-size: 13px; color: var(--color-muted); }
 .clanding__media--mobile { display: none; }
 .cpath.is-soon { opacity: 0.96; }

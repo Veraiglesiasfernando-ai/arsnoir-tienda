@@ -28,7 +28,16 @@
 -%}
 <section class="clanding">
   <div class="page-width">
-    <div class="clanding__top{% if s.image != blank %} clanding__top--media{% endif %}">
+    {%- liquid
+      assign has_media = false
+      if s.image != blank or s.video_url != blank
+        assign has_media = true
+      endif
+    -%}
+    {%- capture landing_video -%}
+      <video src="{{ s.video_url }}" autoplay muted loop playsinline preload="metadata"{% if s.video_poster != blank %} poster="{{ s.video_poster | image_url: width: 1200 }}"{% endif %} aria-label="{{ s.heading | escape }}"></video>
+    {%- endcapture -%}
+    <div class="clanding__top{% if has_media %} clanding__top--media{% endif %}">
       <div class="clanding__lead">
         <header class="clanding__hero reveal">
           <p class="eyebrow">{{ s.eyebrow }}</p>
@@ -36,7 +45,9 @@
           {%- if s.text != blank -%}<p class="clanding__text">{{ s.text }}</p>{%- endif -%}
         </header>
 
-        {%- if s.image != blank -%}
+        {%- if s.video_url != blank -%}
+          <figure class="clanding__media clanding__media--mobile">{{ landing_video }}</figure>
+        {%- elsif s.image != blank -%}
           <figure class="clanding__media clanding__media--mobile">
             {{ s.image | image_url: width: 1200 | image_tag: loading: 'eager', widths: '600, 900, 1200', sizes: '100vw', alt: s.image_caption | default: s.heading }}
           </figure>
@@ -65,7 +76,9 @@
         {%- if s.chip_1 != blank -%}<p class="clanding__from">{{ s.chip_1 }}</p>{%- endif -%}
       </div>
 
-      {%- if s.image != blank -%}
+      {%- if s.video_url != blank -%}
+        <figure class="clanding__media clanding__media--desktop reveal">{{ landing_video }}</figure>
+      {%- elsif s.image != blank -%}
         <figure class="clanding__media clanding__media--desktop reveal">
           {{ s.image | image_url: width: 1600 | image_tag: loading: 'eager', widths: '800, 1200, 1600', sizes: '45vw', alt: s.image_caption | default: s.heading }}
           {%- if s.image_caption != blank -%}<figcaption>{{ s.image_caption }}</figcaption>{%- endif -%}
@@ -178,6 +191,8 @@
     { "type": "text", "id": "path_template_text", "label": "Tarjeta 2: texto", "default": "Elige un estilo y tu foto se transforma en esa ilustración." },
     { "type": "image_picker", "id": "image", "label": "Foto grande", "info": "Una foto o mockup con una imagen impresa en una pared." },
     { "type": "text", "id": "image_caption", "label": "Pie de foto", "default": "Así queda una foto en tu pared." },
+    { "type": "text", "id": "video_url", "label": "Vídeo en lugar de la foto (URL .mp4)", "info": "Contenido → Archivos. Si lo pones, sustituye a la foto grande: en bucle y sin sonido." },
+    { "type": "image_picker", "id": "video_poster", "label": "Imagen del vídeo mientras carga" },
     { "type": "checkbox", "id": "illustrations_ready", "label": "Ilustraciones listas", "default": false, "info": "Actívalo cuando la app de ilustraciones y los estilos estén publicados. Mientras, la tarjeta lleva la etiqueta «Muy pronto» y baja a ver los ejemplos." },
     { "type": "text", "id": "soon_label", "label": "Texto «Muy pronto»", "default": "Muy pronto" },
     { "type": "text", "id": "chip_1", "label": "Precio desde", "default": "Desde 24,95 € · envío gratis desde 80 €" },
