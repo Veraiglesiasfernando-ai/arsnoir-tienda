@@ -77,10 +77,65 @@
         "fam2"
       ],
       "settings": {}
+    },
+    "materials": {
+      "type": "materials",
+      "blocks": {
+        "poster": {
+          "type": "material",
+          "settings": {
+            "image": "shopify://shop_images/arsnoir-material-poster.jpg",
+            "title": "Póster",
+            "text": "Papel mate de 200 g/m² con impresión giclée de 12 colores.",
+            "price": "Desde 24,95 €"
+          }
+        },
+        "poster_marco": {
+          "type": "material",
+          "settings": {
+            "image": "shopify://shop_images/arsnoir-material-poster-con-marco.jpg",
+            "title": "Póster con marco",
+            "text": "Marco de madera en negro, blanco o natural, con plexiglás y kit para colgar.",
+            "price": "Desde 54,95 €"
+          }
+        },
+        "lienzo": {
+          "type": "material",
+          "settings": {
+            "image": "shopify://shop_images/arsnoir-material-lienzo.jpg",
+            "title": "Lienzo",
+            "text": "Tela de lienzo tensada sobre bastidor de madera. Sin cristal ni reflejos.",
+            "price": "Desde 54,95 €"
+          }
+        },
+        "lienzo_marco": {
+          "type": "material",
+          "settings": {
+            "image": "shopify://shop_images/arsnoir-material-lienzo-con-marco.jpg",
+            "title": "Lienzo con marco",
+            "text": "El lienzo dentro de un marco de madera, en negro o natural.",
+            "price": "Desde 89,95 €"
+          }
+        }
+      },
+      "block_order": [
+        "poster",
+        "poster_marco",
+        "lienzo",
+        "lienzo_marco"
+      ],
+      "settings": {
+        "eyebrow": "MATERIALES",
+        "heading": "Elige cómo la quieres",
+        "text": "Póster o lienzo, con o sin marco. En cada obra ves los formatos disponibles.",
+        "button_label": "Ver las obras",
+        "button_link": "shopify://collections/obras"
+      }
     }
   },
   "order": [
     "landing",
+    "materials",
     "templates"
   ]
 }
