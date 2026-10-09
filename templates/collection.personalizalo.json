@@ -2,14 +2,24 @@
   "sections": {
     "landing": {
       "type": "custom-landing",
+      "blocks": {
+        "familia": {
+          "type": "video",
+          "settings": {
+            "label": "Familia",
+            "video_url": "https://cdn.shopify.com/videos/c/vp/6d3b5d85d5f844f9a68464f4d8ff5653/6d3b5d85d5f844f9a68464f4d8ff5653.HD-1080p-2.5Mbps-96704805.mp4",
+            "poster": "shopify://shop_images/arsnoir-personalizalo-familia-poster.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "familia"
+      ],
       "settings": {
         "image": "shopify://shop_images/arsnoir-hero-salon.jpg",
         "video_url": "https://cdn.shopify.com/videos/c/vp/aae22092647445af8a6e61b259feb2b3/aae22092647445af8a6e61b259feb2b3.HD-1080p-2.5Mbps-96693252.mp4",
         "video_poster": "shopify://shop_images/arsnoir-personalizalo-poster.jpg",
-        "video_label": "Mascotas",
-        "video_2_url": "https://cdn.shopify.com/videos/c/vp/6d3b5d85d5f844f9a68464f4d8ff5653/6d3b5d85d5f844f9a68464f4d8ff5653.HD-1080p-2.5Mbps-96704805.mp4",
-        "video_2_poster": "shopify://shop_images/arsnoir-personalizalo-familia-poster.jpg",
-        "video_2_label": "Familia"
+        "video_label": "Mascotas"
       }
     },
     "templates": {

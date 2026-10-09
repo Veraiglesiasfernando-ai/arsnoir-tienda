@@ -35,14 +35,21 @@
       endif
     -%}
     {%- capture landing_video -%}
-      {%- if s.video_2_url != blank -%}
+      {%- liquid
+        assign more_videos = section.blocks | where: 'type', 'video'
+      -%}
+      {%- if more_videos.size > 0 -%}
         <div class="clanding__vids" data-vswitch>
           <div class="clanding__vtabs" role="tablist">
             <button type="button" class="clanding__vtab is-active" role="tab" aria-selected="true" data-vtab="0">{{ s.video_label }}</button>
-            <button type="button" class="clanding__vtab" role="tab" aria-selected="false" data-vtab="1">{{ s.video_2_label }}</button>
+            {%- for b in more_videos -%}
+              <button type="button" class="clanding__vtab" role="tab" aria-selected="false" data-vtab="{{ forloop.index }}" {{ b.shopify_attributes }}>{{ b.settings.label }}</button>
+            {%- endfor -%}
           </div>
           <video data-vpane="0" src="{{ s.video_url }}" autoplay muted loop playsinline preload="metadata"{% if s.video_poster != blank %} poster="{{ s.video_poster | image_url: width: 1200 }}"{% endif %} aria-label="{{ s.video_label | escape }}"></video>
-          <video data-vpane="1" src="{{ s.video_2_url }}" muted loop playsinline preload="none"{% if s.video_2_poster != blank %} poster="{{ s.video_2_poster | image_url: width: 1200 }}"{% endif %} aria-label="{{ s.video_2_label | escape }}" hidden></video>
+          {%- for b in more_videos -%}
+            <video data-vpane="{{ forloop.index }}" src="{{ b.settings.video_url }}" muted loop playsinline preload="none"{% if b.settings.poster != blank %} poster="{{ b.settings.poster | image_url: width: 1200 }}"{% endif %} aria-label="{{ b.settings.label | escape }}" hidden></video>
+          {%- endfor -%}
         </div>
       {%- else -%}
         <video src="{{ s.video_url }}" autoplay muted loop playsinline preload="metadata"{% if s.video_poster != blank %} poster="{{ s.video_poster | image_url: width: 1200 }}"{% endif %} aria-label="{{ s.heading | escape }}"></video>
@@ -194,7 +201,6 @@
     { "type": "text", "id": "heading", "label": "Título", "default": "Tu imagen, impresa como una obra." },
     { "type": "textarea", "id": "text", "label": "Texto", "default": "Imprime tu foto tal cual o conviértela en ilustración." },
     { "type": "text", "id": "button_label", "label": "Botón", "default": "Sube tu imagen" },
-    { "type": "text", "id": "how_label", "label": "Enlace", "default": "Cómo funciona" },
     { "type": "header", "content": "Dos caminos" },
     { "type": "text", "id": "path_upload_title", "label": "Tarjeta 1: título", "default": "Sube tu foto" },
     { "type": "text", "id": "path_upload_text", "label": "Tarjeta 1: texto", "default": "Tu imagen, tal cual, en el tamaño y marco que elijas." },
@@ -204,10 +210,7 @@
     { "type": "text", "id": "image_caption", "label": "Pie de foto", "default": "Así queda una foto en tu pared." },
     { "type": "text", "id": "video_url", "label": "Vídeo en lugar de la foto (URL .mp4)", "info": "Contenido → Archivos. Si lo pones, sustituye a la foto grande: en bucle y sin sonido." },
     { "type": "image_picker", "id": "video_poster", "label": "Imagen del vídeo mientras carga" },
-    { "type": "text", "id": "video_label", "label": "Pestaña del vídeo 1", "default": "Mascotas" },
-    { "type": "text", "id": "video_2_url", "label": "Vídeo 2 (URL .mp4)", "info": "Si lo pones, salen dos pestañas encima del vídeo para cambiar entre uno y otro." },
-    { "type": "image_picker", "id": "video_2_poster", "label": "Imagen del vídeo 2 mientras carga" },
-    { "type": "text", "id": "video_2_label", "label": "Pestaña del vídeo 2", "default": "Familia" },
+    { "type": "text", "id": "video_label", "label": "Pestaña del vídeo", "default": "Mascotas", "info": "Solo se ve si añades bloques «Otro vídeo»." },
     { "type": "checkbox", "id": "illustrations_ready", "label": "Ilustraciones listas", "default": false, "info": "Actívalo cuando la app de ilustraciones y los estilos estén publicados. Mientras, la tarjeta lleva la etiqueta «Muy pronto» y baja a ver los ejemplos." },
     { "type": "text", "id": "soon_label", "label": "Texto «Muy pronto»", "default": "Muy pronto" },
     { "type": "text", "id": "chip_1", "label": "Precio desde", "default": "Desde 24,95 € · envío gratis desde 80 €" },
@@ -238,6 +241,18 @@
     { "type": "textarea", "id": "rights_text", "label": "Texto derechos", "default": "Solo imágenes tuyas o que tengas permiso para imprimir." },
     { "type": "text", "id": "author_label", "label": "Enlace a obras de autor", "default": "O descubre nuestras obras de autor" }
   ],
+  "blocks": [
+    {
+      "type": "video",
+      "name": "Otro vídeo",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Pestaña", "default": "Familia" },
+        { "type": "text", "id": "video_url", "label": "Vídeo (URL .mp4)" },
+        { "type": "image_picker", "id": "poster", "label": "Imagen mientras carga" }
+      ]
+    }
+  ],
+  "max_blocks": 3,
   "presets": [{ "name": "Personalízalo" }]
 }
 {% endschema %}
