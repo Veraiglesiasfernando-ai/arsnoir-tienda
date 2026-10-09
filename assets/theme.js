@@ -853,6 +853,30 @@
     });
   });
 
+  /* Personalízalo: tabs above the hero video switch between the example videos */
+  document.querySelectorAll('[data-vswitch]').forEach(function (box) {
+    box.addEventListener('click', function (event) {
+      const tab = event.target.closest('[data-vtab]');
+      if (!tab) return;
+      box.querySelectorAll('[data-vtab]').forEach(function (t) {
+        const on = t === tab;
+        t.classList.toggle('is-active', on);
+        t.setAttribute('aria-selected', String(on));
+      });
+      box.querySelectorAll('[data-vpane]').forEach(function (video) {
+        const on = video.dataset.vpane === tab.dataset.vtab;
+        video.hidden = !on;
+        if (on) {
+          video.currentTime = 0;
+          const play = video.play();
+          if (play && play.catch) play.catch(function () {});
+        } else {
+          video.pause();
+        }
+      });
+    });
+  });
+
   /* Personalízalo: the rights checkbox is required by the theme's buy form (native `required`).
      App blocks (e.g. Gelato's editor) are left untouched so their own editor keeps working.
      Plus a resolution check and preview for the theme's own upload -- */

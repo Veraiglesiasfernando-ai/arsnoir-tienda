@@ -2499,6 +2499,12 @@ html.is-scrolled .glass-header { background: rgba(255, 255, 255, 0.95); }
 .clanding__media { margin: 0; position: relative; }
 .clanding__media img, .clanding__media video { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 22px; }
 .clanding__media video { background: #e9e8e3; }
+.clanding__media video[hidden] { display: none; }
+.clanding__vids { position: relative; }
+.clanding__vtabs { display: flex; width: max-content; margin: 0 auto 12px; gap: 4px; padding: 4px; border-radius: 999px; background: #fff; box-shadow: 0 6px 18px -10px rgba(0,0,0,0.3); }
+.clanding__vtab { padding: 8px 16px; border: 0; border-radius: 999px; background: none; color: #0a0a0a; font: inherit; font-size: 13px; font-weight: 700; letter-spacing: 0.02em; cursor: pointer; transition: background 0.2s, color 0.2s; }
+.clanding__vtab.is-active { background: #0a0a0a; color: #fff; }
+.clanding__vtab:focus-visible { outline: 2px solid #0a0a0a; outline-offset: 2px; }
 .clanding__media figcaption { margin-top: 10px; font-size: 13px; color: var(--color-muted); }
 .clanding__media--mobile { display: none; }
 .cpath.is-soon { opacity: 0.96; }

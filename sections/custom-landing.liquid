@@ -35,7 +35,18 @@
       endif
     -%}
     {%- capture landing_video -%}
-      <video src="{{ s.video_url }}" autoplay muted loop playsinline preload="metadata"{% if s.video_poster != blank %} poster="{{ s.video_poster | image_url: width: 1200 }}"{% endif %} aria-label="{{ s.heading | escape }}"></video>
+      {%- if s.video_2_url != blank -%}
+        <div class="clanding__vids" data-vswitch>
+          <div class="clanding__vtabs" role="tablist">
+            <button type="button" class="clanding__vtab is-active" role="tab" aria-selected="true" data-vtab="0">{{ s.video_label }}</button>
+            <button type="button" class="clanding__vtab" role="tab" aria-selected="false" data-vtab="1">{{ s.video_2_label }}</button>
+          </div>
+          <video data-vpane="0" src="{{ s.video_url }}" autoplay muted loop playsinline preload="metadata"{% if s.video_poster != blank %} poster="{{ s.video_poster | image_url: width: 1200 }}"{% endif %} aria-label="{{ s.video_label | escape }}"></video>
+          <video data-vpane="1" src="{{ s.video_2_url }}" muted loop playsinline preload="none"{% if s.video_2_poster != blank %} poster="{{ s.video_2_poster | image_url: width: 1200 }}"{% endif %} aria-label="{{ s.video_2_label | escape }}" hidden></video>
+        </div>
+      {%- else -%}
+        <video src="{{ s.video_url }}" autoplay muted loop playsinline preload="metadata"{% if s.video_poster != blank %} poster="{{ s.video_poster | image_url: width: 1200 }}"{% endif %} aria-label="{{ s.heading | escape }}"></video>
+      {%- endif -%}
     {%- endcapture -%}
     <div class="clanding__top{% if has_media %} clanding__top--media{% endif %}">
       <div class="clanding__lead">
@@ -193,6 +204,10 @@
     { "type": "text", "id": "image_caption", "label": "Pie de foto", "default": "Así queda una foto en tu pared." },
     { "type": "text", "id": "video_url", "label": "Vídeo en lugar de la foto (URL .mp4)", "info": "Contenido → Archivos. Si lo pones, sustituye a la foto grande: en bucle y sin sonido." },
     { "type": "image_picker", "id": "video_poster", "label": "Imagen del vídeo mientras carga" },
+    { "type": "text", "id": "video_label", "label": "Pestaña del vídeo 1", "default": "Mascotas" },
+    { "type": "text", "id": "video_2_url", "label": "Vídeo 2 (URL .mp4)", "info": "Si lo pones, salen dos pestañas encima del vídeo para cambiar entre uno y otro." },
+    { "type": "image_picker", "id": "video_2_poster", "label": "Imagen del vídeo 2 mientras carga" },
+    { "type": "text", "id": "video_2_label", "label": "Pestaña del vídeo 2", "default": "Familia" },
     { "type": "checkbox", "id": "illustrations_ready", "label": "Ilustraciones listas", "default": false, "info": "Actívalo cuando la app de ilustraciones y los estilos estén publicados. Mientras, la tarjeta lleva la etiqueta «Muy pronto» y baja a ver los ejemplos." },
     { "type": "text", "id": "soon_label", "label": "Texto «Muy pronto»", "default": "Muy pronto" },
     { "type": "text", "id": "chip_1", "label": "Precio desde", "default": "Desde 24,95 € · envío gratis desde 80 €" },
