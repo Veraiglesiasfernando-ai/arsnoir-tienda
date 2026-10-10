@@ -52,7 +52,7 @@ Mientras no pongas la URL del intermediario, la ficha dice «Muy pronto» y no d
 
 ## 3. Shopify
 
-1. Tienda online → Personalizar → plantilla de producto **ilustracion** → bloque **«Personalízalo: editor de plantilla»**. Pega la URL del Worker en «URL del intermediario». Haz lo mismo en **ilustracion-familia**.
+1. Tienda online → Personalizar → plantilla de producto **ilustracion** → bloque **«Editor de plantilla»**. Pega la URL del Worker en «URL del intermediario». Haz lo mismo en **ilustracion-familia**.
 2. Prueba con tu propia foto en la vista previa del tema.
 3. Cuando funcione:
    - Pasa los productos «Retrato con nombre» y «Acuarela en casa» a **Activo**.
