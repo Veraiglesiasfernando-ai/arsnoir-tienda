@@ -1,5 +1,6 @@
 {%- comment -%}
-  Personalízalo landing (collection.personalizalo): hero, how it works, prices per size,
+  Personalízalo landing (collection.personalizalo): full-screen intro with the two ways in, an
+  explainer with video for each (upload your photo / illustration templates), prices per size,
   how to prepare the image (pixels needed per size) and the rights note.
   Prices come from the product (first in the collection, or the one picked here); without a
   product they come from the "Precios" text setting.
@@ -28,13 +29,7 @@
 -%}
 <section class="clanding">
   <div class="page-width">
-    {%- liquid
-      assign has_media = false
-      if s.image != blank or s.video_url != blank
-        assign has_media = true
-      endif
-    -%}
-    {%- capture landing_video -%}
+    {%- capture template_video -%}
       {%- liquid
         assign more_videos = section.blocks | where: 'type', 'video'
       -%}
@@ -52,70 +47,71 @@
           {%- endfor -%}
         </div>
       {%- else -%}
-        <video src="{{ s.video_url }}" autoplay muted loop playsinline preload="metadata"{% if s.video_poster != blank %} poster="{{ s.video_poster | image_url: width: 1200 }}"{% endif %} aria-label="{{ s.heading | escape }}"></video>
+        <video src="{{ s.video_url }}" autoplay muted loop playsinline preload="metadata"{% if s.video_poster != blank %} poster="{{ s.video_poster | image_url: width: 1200 }}"{% endif %} aria-label="{{ s.path_template_title | escape }}"></video>
       {%- endif -%}
     {%- endcapture -%}
-    <div class="clanding__top{% if has_media %} clanding__top--media{% endif %}">
-      <div class="clanding__lead">
-        <header class="clanding__hero reveal">
-          <p class="eyebrow">{{ s.eyebrow }}</p>
-          <h1 class="clanding__title">{{ s.heading }}</h1>
-          {%- if s.text != blank -%}<p class="clanding__text">{{ s.text }}</p>{%- endif -%}
-        </header>
 
-        {%- if s.video_url != blank -%}
-          <figure class="clanding__media clanding__media--mobile">{{ landing_video }}</figure>
-        {%- elsif s.image != blank -%}
-          <figure class="clanding__media clanding__media--mobile">
-            {{ s.image | image_url: width: 1200 | image_tag: loading: 'eager', widths: '600, 900, 1200', sizes: '100vw', alt: s.image_caption | default: s.heading }}
-          </figure>
-        {%- endif -%}
-
-        {%- comment -%} Two ways in: blank product (upload) or the illustration styles below {%- endcomment -%}
-        <div class="cpaths">
-          <a class="cpath" href="{{ cta_url }}">
-            <span class="cpath__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 16V4m0 0-4.5 4.5M12 4l4.5 4.5M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-            <span class="cpath__title">{{ s.path_upload_title }}</span>
-            <span class="cpath__text">{{ s.path_upload_text }}</span>
-            <span class="cpath__go" aria-hidden="true">&rarr;</span>
-          </a>
-          {%- capture ill_inner -%}
-            <span class="cpath__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="7" height="9" rx="1" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="13" y="3" width="7" height="5" rx="1" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="13" y="10" width="7" height="11" rx="1" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="4" y="14" width="7" height="7" rx="1" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></span>
-            <span class="cpath__title">{{ s.path_template_title }}</span>
-            <span class="cpath__text">{{ s.path_template_text }}</span>
-          {%- endcapture -%}
-          {%- if s.illustrations_ready -%}
-            <a class="cpath cpath--dark" href="#Plantillas">{{ ill_inner }}<span class="cpath__go" aria-hidden="true">&darr;</span></a>
-          {%- else -%}
-            <a class="cpath cpath--dark is-soon" href="#Plantillas">{{ ill_inner }}<span class="cpath__soon">{{ s.soon_label }}</span><span class="cpath__go" aria-hidden="true">&darr;</span></a>
-          {%- endif -%}
-        </div>
-
-        {%- if s.chip_1 != blank -%}<p class="clanding__from">{{ s.chip_1 }}</p>{%- endif -%}
+    {%- comment -%} Full-screen intro with the two ways in; each card scrolls to its own explainer below {%- endcomment -%}
+    <div class="clanding__intro">
+      <header class="clanding__hero reveal">
+        <p class="eyebrow">{{ s.eyebrow }}</p>
+        <h1 class="clanding__title">{{ s.heading }}</h1>
+        {%- if s.text != blank -%}<p class="clanding__text">{{ s.text }}</p>{%- endif -%}
+      </header>
+      <div class="cpaths">
+        <a class="cpath" href="#SubeTuFoto">
+          <span class="cpath__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 16V4m0 0-4.5 4.5M12 4l4.5 4.5M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <span class="cpath__title">{{ s.path_upload_title }}</span>
+          <span class="cpath__text">{{ s.path_upload_text }}</span>
+          <span class="cpath__go" aria-hidden="true">&darr;</span>
+        </a>
+        <a class="cpath cpath--dark{% unless s.illustrations_ready %} is-soon{% endunless %}" href="#Ilustracion">
+          <span class="cpath__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="7" height="9" rx="1" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="13" y="3" width="7" height="5" rx="1" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="13" y="10" width="7" height="11" rx="1" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="4" y="14" width="7" height="7" rx="1" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></span>
+          <span class="cpath__title">{{ s.path_template_title }}</span>
+          <span class="cpath__text">{{ s.path_template_text }}</span>
+          {%- unless s.illustrations_ready -%}<span class="cpath__soon">{{ s.soon_label }}</span>{%- endunless -%}
+          <span class="cpath__go" aria-hidden="true">&darr;</span>
+        </a>
       </div>
+      {%- if s.chip_1 != blank -%}<p class="clanding__from">{{ s.chip_1 }}</p>{%- endif -%}
+    </div>
 
-      {%- if s.video_url != blank -%}
-        <figure class="clanding__media clanding__media--desktop reveal">{{ landing_video }}</figure>
-      {%- elsif s.image != blank -%}
-        <figure class="clanding__media clanding__media--desktop reveal">
-          {{ s.image | image_url: width: 1600 | image_tag: loading: 'eager', widths: '800, 1200, 1600', sizes: '45vw', alt: s.image_caption | default: s.heading }}
-          {%- if s.image_caption != blank -%}<figcaption>{{ s.image_caption }}</figcaption>{%- endif -%}
+    {%- comment -%} 1. Upload your photo: steps + video {%- endcomment -%}
+    <div class="cexp" id="SubeTuFoto">
+      <div class="cexp__text reveal">
+        <p class="eyebrow">01</p>
+        <h2 class="cexp__title">{{ s.path_upload_title }}</h2>
+        <p class="cexp__lead">{{ s.path_upload_text }}</p>
+        <ol class="cexp__steps">
+          {%- for i in (1..3) -%}
+            {%- liquid
+              assign t_key = 'step_' | append: i | append: '_title'
+              assign x_key = 'step_' | append: i | append: '_text'
+            -%}
+            <li><span class="clanding__num">{{ i }}</span><span><strong>{{ s[t_key] }}</strong>{{ s[x_key] }}</span></li>
+          {%- endfor -%}
+        </ol>
+        <a class="button button--accent cexp__btn" href="{{ cta_url }}">{{ s.button_label }}</a>
+      </div>
+      {%- if s.upload_video_url != blank -%}
+        <figure class="clanding__media cexp__media reveal">
+          <video src="{{ s.upload_video_url }}" autoplay muted loop playsinline preload="metadata"{% if s.upload_video_poster != blank %} poster="{{ s.upload_video_poster | image_url: width: 1200 }}"{% endif %} aria-label="{{ s.path_upload_title | escape }}"></video>
         </figure>
       {%- endif -%}
     </div>
 
-    <div class="clanding__steps" id="ComoFunciona">
-      {%- for i in (1..3) -%}
-        {%- liquid
-          assign t_key = 'step_' | append: i | append: '_title'
-          assign x_key = 'step_' | append: i | append: '_text'
-        -%}
-        <div class="clanding__step reveal">
-          <span class="clanding__num">{{ i }}</span>
-          <p class="clanding__step-title">{{ s[t_key] }}</p>
-          <p class="clanding__step-text">{{ s[x_key] }}</p>
-        </div>
-      {%- endfor -%}
+    {%- comment -%} 2. Turn it into an illustration: template videos (tabs) + link to the styles {%- endcomment -%}
+    <div class="cexp cexp--rev" id="Ilustracion">
+      <div class="cexp__text reveal">
+        <p class="eyebrow">02</p>
+        <h2 class="cexp__title">{{ s.path_template_title }}</h2>
+        <p class="cexp__lead">{{ s.path_template_text }}</p>
+        {%- unless s.illustrations_ready -%}<p class="cexp__soon">{{ s.soon_label }}</p>{%- endunless -%}
+        {%- if s.template_button != blank -%}<a class="button cexp__btn" href="#Plantillas">{{ s.template_button }}</a>{%- endif -%}
+      </div>
+      {%- if s.video_url != blank -%}
+        <figure class="clanding__media cexp__media reveal">{{ template_video }}</figure>
+      {%- endif -%}
     </div>
 
     <div class="clanding__more">
@@ -206,13 +202,15 @@
     { "type": "text", "id": "path_upload_text", "label": "Tarjeta 1: texto", "default": "Tu imagen, tal cual, en el tamaño y marco que elijas." },
     { "type": "text", "id": "path_template_title", "label": "Tarjeta 2: título", "default": "Conviértela en ilustración" },
     { "type": "text", "id": "path_template_text", "label": "Tarjeta 2: texto", "default": "Elige un estilo y tu foto se transforma en esa ilustración." },
-    { "type": "image_picker", "id": "image", "label": "Foto grande", "info": "Una foto o mockup con una imagen impresa en una pared." },
-    { "type": "text", "id": "image_caption", "label": "Pie de foto", "default": "Así queda una foto en tu pared." },
-    { "type": "text", "id": "video_url", "label": "Vídeo en lugar de la foto (URL .mp4)", "info": "Contenido → Archivos. Si lo pones, sustituye a la foto grande: en bucle y sin sonido." },
-    { "type": "image_picker", "id": "video_poster", "label": "Imagen del vídeo mientras carga" },
+    { "type": "header", "content": "Vídeos" },
+    { "type": "text", "id": "upload_video_url", "label": "Vídeo «Sube tu foto» (URL .mp4)", "info": "Contenido → Archivos. En bucle y sin sonido." },
+    { "type": "image_picker", "id": "upload_video_poster", "label": "Imagen del vídeo «Sube tu foto» mientras carga" },
+    { "type": "text", "id": "video_url", "label": "Vídeo de las plantillas (URL .mp4)" },
+    { "type": "image_picker", "id": "video_poster", "label": "Imagen del vídeo de las plantillas mientras carga" },
     { "type": "text", "id": "video_label", "label": "Pestaña del vídeo", "default": "Mascotas", "info": "Solo se ve si añades bloques «Otro vídeo»." },
     { "type": "checkbox", "id": "illustrations_ready", "label": "Ilustraciones listas", "default": false, "info": "Actívalo cuando la app de ilustraciones y los estilos estén publicados. Mientras, la tarjeta lleva la etiqueta «Muy pronto» y baja a ver los ejemplos." },
     { "type": "text", "id": "soon_label", "label": "Texto «Muy pronto»", "default": "Muy pronto" },
+    { "type": "text", "id": "template_button", "label": "Botón de las plantillas", "default": "Ver los estilos" },
     { "type": "text", "id": "chip_1", "label": "Precio desde", "default": "Desde 24,95 € · envío gratis desde 80 €" },
     { "type": "header", "content": "Cómo funciona" },
     { "type": "text", "id": "step_1_title", "label": "Paso 1", "default": "Sube tu imagen" },

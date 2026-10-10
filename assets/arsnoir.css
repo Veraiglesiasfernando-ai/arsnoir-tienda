@@ -2621,3 +2621,27 @@ html.is-scrolled .glass-header { background: rgba(255, 255, 255, 0.95); }
   .mats__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .mats__btn { width: 100%; }
 }
+
+/* Personalízalo: full-screen intro + one explainer (text + video) per way in */
+.clanding__intro { min-height: calc(100svh - 150px); display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: clamp(16px, 3vw, 40px) 0 clamp(40px, 6vw, 72px); }
+.clanding__intro .clanding__hero { margin-bottom: clamp(28px, 4vw, 44px); max-width: 900px; }
+.clanding__intro .clanding__title { font-size: clamp(2.8rem, 8vw, 6.4rem); }
+.clanding__intro .cpaths { width: 100%; margin-bottom: 0; text-align: left; }
+.cexp { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(28px, 5vw, 80px); align-items: center; max-width: 1100px; margin: 0 auto clamp(64px, 9vw, 120px); scroll-margin-top: 110px; }
+.cexp--rev .cexp__text { order: 2; }
+.cexp__title { margin: 8px 0 12px; font-size: clamp(2rem, 4.4vw, 3.4rem); line-height: 1; letter-spacing: -0.04em; }
+.cexp__lead { margin: 0; max-width: 44ch; font-size: 16px; line-height: 1.55; color: var(--color-muted); }
+.cexp__steps { list-style: none; margin: 26px 0 0; padding: 0; display: grid; gap: 16px; }
+.cexp__steps li { display: grid; grid-template-columns: 30px 1fr; gap: 14px; align-items: start; font-size: 14px; line-height: 1.5; color: var(--color-muted); }
+.cexp__steps strong { display: block; margin: 4px 0 2px; font-size: 16px; color: var(--color-fg); }
+.cexp__btn { margin-top: 28px; }
+.cexp__soon { display: inline-block; margin: 18px 0 0; padding: 5px 10px; border-radius: 999px; background: #FF5A1F; color: #0a0a0a; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+.cexp__soon + .cexp__btn { display: flex; width: max-content; }
+.cexp__media { width: 100%; max-width: 520px; justify-self: center; }
+@media (max-width: 749px) {
+  .clanding__intro { min-height: calc(100svh - 120px); }
+  .cexp { grid-template-columns: 1fr; gap: 24px; }
+  .cexp--rev .cexp__text { order: 0; }
+  .cexp__btn { width: 100%; }
+  .cexp__soon + .cexp__btn { width: 100%; justify-content: center; }
+}
