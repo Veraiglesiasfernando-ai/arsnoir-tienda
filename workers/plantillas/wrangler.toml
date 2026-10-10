@@ -1,0 +1,22 @@
+# Cloudflare Worker for the Personalízalo templates (see docs/plantillas-replicate.md).
+name = "arsnoir-plantillas"
+main = "worker.js"
+compatibility_date = "2026-10-01"
+
+[vars]
+ALLOWED_ORIGINS = "https://arsnoir.com,https://www.arsnoir.com"  # [CONFIRMAR] your store domains, incl. xxxx.myshopify.com
+MODEL = "google/nano-banana"
+DAILY_LIMIT = "6"
+# PUBLIC_BASE = "https://plantillas.arsnoir.com"  # public URL of the R2 bucket below
+
+# Permanent copies of the previews (the link saved in each order)
+# [[r2_buckets]]
+# binding = "PREVIEWS"
+# bucket_name = "arsnoir-plantillas"
+
+# Daily limit per visitor
+# [[kv_namespaces]]
+# binding = "LIMITS"
+# id = "<id of the KV namespace>"
+
+# The Replicate token is a secret: wrangler secret put REPLICATE_API_TOKEN

@@ -1,0 +1,54 @@
+{%- comment -%}
+  Personalízalo · template editor: the customer uploads a photo (and a name when the template has
+  one), the illustration is made on Replicate through the ARSNOIR worker, and the preview link is
+  saved in the order (properties). Without a preview the work can't be added to the cart.
+  - block, form_id, product, section_id
+{%- endcomment -%}
+{%- assign b = block.settings -%}
+<div class="tstudio" data-tstudio
+  data-endpoint="{{ b.endpoint | strip }}"
+  data-template="{{ b.template_id | strip }}"
+  data-needs-name="{{ b.needs_name }}"
+  data-max="{{ b.max_previews }}"
+  data-key="tstudio-{{ product.id }}"
+  data-t-working="{{ b.working_text | escape }}"
+  data-t-error="{{ b.error_text | escape }}"
+  data-t-limit="{{ b.limit_text | escape }}"
+  data-t-left="{{ b.left_text | escape }}"
+  data-t-missing="{{ b.missing_text | escape }}"
+  {{ block.shopify_attributes }}>
+  {%- if b.endpoint == blank -%}
+    <p class="tstudio__soon">{{ b.soon_text }}</p>
+  {%- else -%}
+    <p class="vstep__head"><span class="vstep__num">1</span><span class="vstep__title">{{ b.photo_label }}</span></p>
+    <label class="tstudio__drop" for="TStudio-{{ section_id }}">
+      <input class="tstudio__file" id="TStudio-{{ section_id }}" type="file" accept="image/jpeg,image/png,image/webp" data-tstudio-file>
+      <img class="tstudio__thumb" alt="" width="128" height="160" data-tstudio-thumb hidden>
+      <span class="tstudio__drop-text" data-tstudio-drop-text>{{ b.photo_cta }}</span>
+    </label>
+    {%- if b.photo_hint != blank -%}<p class="tstudio__hint">{{ b.photo_hint }}</p>{%- endif -%}
+
+    {%- if b.needs_name -%}
+      <p class="vstep__head"><span class="vstep__num">2</span><span class="vstep__title">{{ b.name_label }}</span></p>
+      <input class="tstudio__name" type="text" maxlength="16" autocomplete="off" placeholder="{{ b.name_placeholder | escape }}" data-tstudio-name>
+    {%- endif -%}
+
+    <button type="button" class="button tstudio__go" data-tstudio-go disabled>{{ b.button_label }}</button>
+    <p class="tstudio__status" role="status" aria-live="polite" data-tstudio-status></p>
+
+    <figure class="tstudio__result" data-tstudio-result hidden>
+      <img alt="{{ b.result_alt | escape }}" width="720" height="900" data-tstudio-img>
+      <figcaption>{{ b.result_note }}</figcaption>
+    </figure>
+
+    <label class="cguard__rights">
+      <input type="checkbox" name="properties[Derechos de imagen]" value="Sí" form="{{ form_id }}" required>
+      <span>{{ b.rights_label }}</span>
+    </label>
+
+    <input type="hidden" name="properties[_Ilustración]" form="{{ form_id }}" data-tstudio-url>
+    <input type="hidden" name="properties[Plantilla]" value="{{ b.template_name | escape }}" form="{{ form_id }}">
+    {%- if b.needs_name -%}<input type="hidden" name="properties[Nombre]" form="{{ form_id }}" data-tstudio-name-prop>{%- endif -%}
+  {%- endif -%}
+</div>
+<script src="{{ 'template-studio.js' | asset_url }}" defer></script>

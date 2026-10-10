@@ -304,11 +304,25 @@
       });
     }
 
-    onChange() {
-      const selected = this.selectedOptions();
-      const variant = this.variants.find(function (v) {
+    onChange(event) {
+      let selected = this.selectedOptions();
+      let variant = this.variants.find(function (v) {
         return v.options.every(function (option, i) { return option === selected[i]; });
       });
+      /* A finish (e.g. Lienzo) not made in the chosen size: jump to the first size that has it */
+      const sizeSet = this.querySelector('fieldset[data-option-kind="size"]');
+      const changedSet = event && event.target && event.target.closest ? event.target.closest('fieldset') : null;
+      if (!variant && sizeSet && changedSet && changedSet !== sizeSet) {
+        const sizeI = Array.prototype.indexOf.call(this.querySelectorAll('fieldset'), sizeSet);
+        const fit = this.variants.find(function (v) {
+          return v.options.every(function (o, i) { return i === sizeI || o === selected[i]; });
+        });
+        if (fit) {
+          this.pick(sizeI, fit.options[sizeI]);
+          selected = this.selectedOptions();
+          variant = fit;
+        }
+      }
 
       this.querySelectorAll('fieldset').forEach(function (fieldset, i) {
         const checked = fieldset.querySelector('input:checked');

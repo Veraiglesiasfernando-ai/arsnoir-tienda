@@ -2640,3 +2640,20 @@ html.is-scrolled .glass-header { background: rgba(255, 255, 255, 0.95); }
 .cquality__icon svg { width: 100%; height: 100%; }
 .cquality__text p { margin: 0; font-size: 15px; line-height: 1.55; color: rgba(255,255,255,0.8); }
 .cquality__text strong { color: #fff; }
+
+/* Personalízalo · template editor */
+.tstudio { display: grid; gap: 12px; margin: 6px 0 18px; }
+.tstudio__soon { margin: 0; padding: 14px 16px; border-radius: 14px; background: #f1f0ec; font-size: 14px; color: var(--color-muted); }
+.tstudio__drop { position: relative; display: flex; align-items: center; justify-content: center; min-height: 120px; padding: 12px; border: 2px dashed #c9c7bf; border-radius: 16px; cursor: pointer; text-align: center; font-size: 14px; font-weight: 600; transition: border-color 0.2s; }
+.tstudio__drop:hover, .tstudio__drop:focus-within { border-color: #0a0a0a; }
+.tstudio__file { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.tstudio__thumb { max-height: 160px; width: auto; border-radius: 10px; }
+.tstudio__hint { margin: -4px 0 0; font-size: 12px; color: var(--color-muted); }
+.tstudio__name { height: 48px; padding: 0 14px; border: 1px solid var(--color-line); border-radius: 12px; font: inherit; font-size: 16px; letter-spacing: 0.06em; text-transform: uppercase; }
+.tstudio__go { width: 100%; }
+.tstudio__status { margin: 0; min-height: 1em; font-size: 13px; color: var(--color-muted); }
+.tstudio__status:empty { display: none; }
+.tstudio__result { margin: 0; }
+.tstudio__result img { display: block; width: 100%; max-width: 360px; border-radius: 12px; box-shadow: 0 16px 30px -20px rgba(0,0,0,0.4); }
+.tstudio__result figcaption { margin-top: 8px; font-size: 12px; color: var(--color-muted); }
+.tstudio__thumb, .tstudio__result img { height: auto; }

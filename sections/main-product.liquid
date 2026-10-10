@@ -125,6 +125,12 @@
                     if b.type == 'custom_guard' and b.settings.upload and is_template == false
                       assign step_offset = 1
                     endif
+                    if b.type == 'template_studio' and b.settings.endpoint != blank
+                      assign step_offset = 1
+                      if b.settings.needs_name
+                        assign step_offset = 2
+                      endif
+                    endif
                   endfor
                 -%}
                 {%- liquid
@@ -403,6 +409,9 @@
               {%- if block.settings.note != blank -%}<p class="cguard__note">{{ block.settings.note }}</p>{%- endif -%}
             </div>
 
+          {%- when 'template_studio' -%}
+            {%- render 'template-studio', block: block, form_id: form_id, product: product, section_id: section.id -%}
+
           {%- when 'template_link' -%}
             {%- unless product.tags contains 'plantilla' -%}
               {%- assign tl = block.settings.link | default: '/collections/personalizalo#Plantillas' -%}
@@ -601,6 +610,32 @@
         { "type": "textarea", "id": "note", "label": "Nota de calidad", "default": "No cambiamos el estilo de tu imagen. Si tiene poca resolución, la revisamos y la mejoramos antes de imprimir para que llegue perfecta." },
         { "type": "checkbox", "id": "upload", "label": "Subida de imagen del tema", "default": true, "info": "Campo para subir la imagen (se guarda en el pedido) con vista previa. Desactívalo si usas el editor de Gelato o de una app. Nunca aparece en productos con la etiqueta «plantilla»." },
         { "type": "range", "id": "min_ppi", "label": "Avisar de pixelado por debajo de", "min": 100, "max": 300, "step": 10, "unit": "ppp", "default": 150, "info": "Solo cuando la imagen se sube en esta ficha y el navegador puede leer su tamaño." }
+      ]
+    },
+    {
+      "type": "template_studio", "name": "Personalízalo: editor de plantilla", "limit": 1,
+      "settings": [
+        { "type": "paragraph", "content": "El cliente sube su foto (y el nombre, si la plantilla lo lleva) y ve su ilustración antes de comprar. Sin vista previa no se puede añadir al carrito. La ilustración se guarda en el pedido como «_Ilustración». Ver docs/plantillas-replicate.md." },
+        { "type": "text", "id": "endpoint", "label": "URL del intermediario (Cloudflare Worker)", "info": "Vacío = sale el aviso «Muy pronto» y no se puede comprar." },
+        { "type": "text", "id": "template_id", "label": "Plantilla (id)", "default": "retrato-nombre", "info": "Tiene que existir en workers/plantillas/templates.js." },
+        { "type": "text", "id": "template_name", "label": "Nombre de la plantilla (sale en el pedido)", "default": "Retrato con nombre" },
+        { "type": "checkbox", "id": "needs_name", "label": "Lleva nombre", "default": true },
+        { "type": "range", "id": "max_previews", "label": "Vistas previas por cliente", "min": 1, "max": 10, "step": 1, "default": 3 },
+        { "type": "text", "id": "photo_label", "label": "Paso 1", "default": "Sube tu foto" },
+        { "type": "text", "id": "photo_cta", "label": "Texto del recuadro", "default": "Elige una foto" },
+        { "type": "text", "id": "photo_hint", "label": "Consejo", "default": "Una foto nítida, de frente y con buena luz." },
+        { "type": "text", "id": "name_label", "label": "Paso 2", "default": "Escribe su nombre" },
+        { "type": "text", "id": "name_placeholder", "label": "Ejemplo de nombre", "default": "LINA" },
+        { "type": "text", "id": "button_label", "label": "Botón", "default": "Ver mi ilustración" },
+        { "type": "text", "id": "working_text", "label": "Mientras se crea", "default": "Creando tu ilustración… puede tardar hasta un minuto." },
+        { "type": "text", "id": "left_text", "label": "Intentos que quedan", "default": "¿No te convence? Puedes probar otra vez ([N] más)." },
+        { "type": "text", "id": "limit_text", "label": "Sin intentos", "default": "Has usado todas las vistas previas. Escríbenos y te ayudamos." },
+        { "type": "text", "id": "error_text", "label": "Error", "default": "No hemos podido crear la ilustración. Prueba con otra foto o inténtalo en un momento." },
+        { "type": "text", "id": "missing_text", "label": "Falta la vista previa", "default": "Primero crea tu ilustración con tu foto." },
+        { "type": "text", "id": "result_alt", "label": "Texto alternativo de la vista previa", "default": "Vista previa de tu ilustración" },
+        { "type": "text", "id": "result_note", "label": "Nota bajo la vista previa", "default": "Vista previa. Antes de imprimir la revisamos y la preparamos en alta calidad." },
+        { "type": "text", "id": "rights_label", "label": "Casilla de derechos", "default": "Confirmo que tengo derecho a usar esta foto." },
+        { "type": "text", "id": "soon_text", "label": "Aviso si no hay intermediario", "default": "Muy pronto podrás crear aquí tu ilustración." }
       ]
     },
     {

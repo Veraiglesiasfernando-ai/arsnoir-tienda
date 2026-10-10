@@ -29,7 +29,7 @@
           "type": "collapsible",
           "settings": {
             "heading": "¿Qué foto funciona mejor?",
-            "content": "<p>Una foto nítida, de frente o de tres cuartos, con buena luz y con la cara bien visible. Mejor una sola mascota por foto y sin filtros.</p><p>Antes de imprimir revisamos cada ilustración y la preparamos en alta calidad para el tamaño que elijas.</p>",
+            "content": "<p>Una foto nítida y con buena luz, con las caras bien visibles. Puede ser de la familia, de pareja o con amigos; también con mascotas.</p><p>Antes de imprimir revisamos cada ilustración y la preparamos en alta calidad para el tamaño que elijas.</p>",
             "open": false
           }
         },
@@ -44,16 +44,16 @@
         "intro": {
           "type": "notice",
           "settings": {
-            "text": "Sube la foto de tu mascota, escribe su nombre y mira tu ilustración antes de comprar."
+            "text": "Sube tu foto y mírala pintada en acuarela antes de comprar."
           }
         },
         "studio": {
           "type": "template_studio",
           "settings": {
             "endpoint": "",
-            "template_id": "retrato-nombre",
-            "template_name": "Retrato con nombre",
-            "needs_name": true,
+            "template_id": "acuarela-familia",
+            "template_name": "Acuarela en casa",
+            "needs_name": false,
             "max_previews": 3
           }
         }
