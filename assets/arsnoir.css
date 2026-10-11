@@ -1659,6 +1659,13 @@ html:not(.is-scrolled) body:has(main > .shopify-section:first-child .vhero) .gla
   .npop { align-items: end; }
   .npop__card--image { grid-template-columns: 1fr; }
   .npop__media { min-height: 160px; }
+  /* Mobile: the whole photo, at its own proportions, above the form */
+  .npop__card--image .npop__media { min-height: 0; }
+  .npop__card--image .npop__media img { position: static; display: block; height: auto; }
+  .npop__card--image .npop__body { padding: 20px 22px 18px; }
+  .npop__card--image .npop__title { font-size: 1.75rem; margin-bottom: 8px; }
+  .npop__card--image .npop__text { margin-bottom: 14px; font-size: 14px; }
+  .npop__card--image .npop__close { background: rgba(255, 255, 255, 0.85); }
 }
 @media (prefers-reduced-motion: reduce) { .npop__backdrop, .npop__card { transition: none; } }
 
