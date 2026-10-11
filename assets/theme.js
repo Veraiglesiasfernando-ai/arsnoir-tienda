@@ -867,6 +867,18 @@
     });
   });
 
+  /* Product accordions: a video inside only loads and plays while its accordion is open */
+  document.addEventListener('toggle', function (event) {
+    const video = event.target.querySelector && event.target.querySelector('.accordion__video');
+    if (!video) return;
+    if (event.target.open) {
+      const play = video.play();
+      if (play && play.catch) play.catch(function () {});
+    } else {
+      video.pause();
+    }
+  }, true);
+
   /* Personalízalo: tabs above the hero video switch between the example videos */
   document.querySelectorAll('[data-vswitch]').forEach(function (box) {
     box.addEventListener('click', function (event) {

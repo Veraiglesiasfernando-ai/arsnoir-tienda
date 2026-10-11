@@ -899,6 +899,7 @@ html { scroll-behavior: smooth; }
 .product__price { font-size: 20px; font-weight: 600; }
 .product__info .crumbs { margin-bottom: 14px; }
 .product .accordion { border-top-color: var(--color-line); }
+.accordion__video { display: block; width: 100%; max-width: 420px; aspect-ratio: 4 / 5; height: auto; margin: 4px 0 18px; border-radius: 6px; background: var(--color-surface); }
 .button.is-loading { opacity: 0.6; pointer-events: none; }
 
 .sticky-buy {
