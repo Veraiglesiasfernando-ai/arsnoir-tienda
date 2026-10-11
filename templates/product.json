@@ -217,20 +217,33 @@
         "paper": {
           "type": "feature",
           "settings": {
-            "heading": "Impresión y envío",
-            "text": "Cada lámina se imprime en Europa solo cuando la pides: giclée de 12 colores sobre papel mate premium. Sin marco, las A4 viajan en plano con cartón rígido y las más grandes, enrolladas en tubo de cartón. Con marco, en caja plana con funda de cartón.",
+            "heading": "Calidad de impresión",
+            "text": "Cada lámina se imprime en Europa solo cuando la pides: giclée de 12 colores sobre papel mate premium. Las A4 viajan en plano con cartón rígido; las más grandes, enrolladas con papel protector en tubo de cartón.",
             "items": "Papel Premium Matte de 200 g/m²\nGiclée de 12 colores: color fiel y negros profundos\nAcabado mate, sin reflejos\nPapel certificado FSC y tintas al agua",
             "image_right": true,
             "show_with": "poster",
-            "video_url": "https://cdn.shopify.com/videos/c/vp/639413a9dfa44f9ba0670ac93f5c983e/639413a9dfa44f9ba0670ac93f5c983e.HD-1080p-2.5Mbps-97089517.mp4",
-            "video_poster": "shopify://shop_images/arsnoir-asi-llega-poster.jpg"
+            "video_url": "https://cdn.shopify.com/videos/c/vp/9b7eecdda40044c59f6700c025248458/9b7eecdda40044c59f6700c025248458.HD-1080p-2.5Mbps-96595824.mp4",
+            "video_poster": "shopify://shop_images/arsnoir-impresion-v2-poster.jpg"
+          }
+        },
+        "llega": {
+          "type": "feature",
+          "settings": {
+            "heading": "Así llega con marco",
+            "text": "Tu obra enmarcada viaja en una caja plana de cartón rígido, con una funda por dentro que sujeta el marco para que llegue perfecta.",
+            "items": "Caja plana de cartón rígido\nSe abre por la tira, sin cúter ni tijeras\nFunda interior que sujeta el marco\nEnvío con seguimiento",
+            "image_right": false,
+            "show_with": "poster",
+            "video_url": "https://cdn.shopify.com/videos/c/vp/9c356c31e191416eae3719678f3bf053/9c356c31e191416eae3719678f3bf053.HD-1080p-2.5Mbps-97089859.mp4",
+            "video_poster": "shopify://shop_images/arsnoir-llega-con-marco-poster.jpg"
           }
         }
       },
       "block_order": [
         "frames",
         "canvas",
-        "paper"
+        "paper",
+        "llega"
       ],
       "settings": {}
     }
