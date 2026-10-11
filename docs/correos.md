@@ -6,44 +6,67 @@ Dónde se cambian:
 
 Lo que está entre `{{ }}` lo rellena Shopify solo (nombre, número de pedido…). Cópialo tal cual.
 
+Firma común para todos:
+> El equipo de ARSNOIR
+> arsnoir.com
+
 ---
 
 ## 1. Confirmación de pedido
 
-**Asunto:** `Tu pedido {{ order.name }} está confirmado`
+**Asunto:** `Confirmación de tu pedido {{ order.name }}`
 
 **Texto:**
-> Gracias, {{ customer.first_name }}.
-> Hemos recibido tu pedido. Cada obra se imprime bajo pedido, solo para ti. Cuando salga hacia tu casa te mandamos el número de seguimiento.
+> Hola, {{ customer.first_name }}:
+>
+> Gracias por confiar en ARSNOIR. Hemos recibido tu pedido correctamente y ya estamos preparándolo.
+>
+> Cada obra se imprime bajo pedido, de forma exclusiva para ti, con papel y acabados de calidad de galería. En cuanto tu pedido salga de nuestro taller, te enviaremos un correo con el número de seguimiento.
+>
+> A continuación encontrarás el resumen de tu compra.
 
 ## 2. Pedido enviado
 
-**Asunto:** `Tu obra ya va de camino`
+**Asunto:** `Tu pedido {{ order.name }} ha sido enviado`
 
 **Texto:**
-> {{ customer.first_name }}, tu pedido {{ order.name }} ya está en camino.
-> Abajo tienes el enlace de seguimiento. Si llega con marco, viene en una caja plana: se abre por la tira, sin cúter ni tijeras.
+> Hola, {{ customer.first_name }}:
+>
+> Tu pedido ya está en camino. Puedes consultar su estado en cualquier momento con el enlace de seguimiento que encontrarás más abajo.
+>
+> Las obras enmarcadas viajan en una caja plana de cartón rígido, con una funda interior que protege el marco. Para abrirla, basta con tirar de la tira de apertura: no necesitas cúter ni tijeras.
+>
+> Esperamos que la disfrutes.
 
 ## 3. Carrito abandonado
 
-**Asunto:** `Tu obra sigue esperándote`
+**Asunto:** `Tu selección te espera`
 
 **Texto:**
-> Has dejado una obra en el carrito. La hemos guardado para que la termines cuando quieras.
-> Envío gratis a partir de 80 €.
+> Hola:
+>
+> Hemos guardado la obra que dejaste en tu carrito para que puedas finalizar tu compra cuando lo desees.
+>
+> Todas nuestras obras se imprimen bajo pedido. El envío es gratuito a partir de 80 €.
 
-**Botón:** `Volver al carrito`
+**Botón:** `Finalizar compra`
 
 ## 4. Bienvenida a la newsletter
 
-**Asunto:** `Bienvenido a ARSNOIR: tu 10 %`
+**Asunto:** `Bienvenido a ARSNOIR`
 
 **Texto:**
-> Gracias por unirte.
-> Aquí tienes tu código de bienvenida para tu primera compra: **WELCOME10** (10 % de descuento).
-> Póster o lienzo, con o sin marco. Envío gratis a partir de 80 €.
+> Hola:
+>
+> Gracias por suscribirte. A partir de ahora serás de los primeros en conocer nuestras nuevas obras y colecciones.
+>
+> Como bienvenida, te ofrecemos un 10 % de descuento en tu primera compra con el código:
+>
+> **WELCOME10**
+>
+> Póster o lienzo, con o sin marco. Envío gratuito a partir de 80 €.
 
-**Botón:** `Ver las obras` → enlace a la colección Obras.
+**Botón:** `Descubrir las obras` → enlace a la colección Obras.
 
 ---
 
