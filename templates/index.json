@@ -100,7 +100,8 @@
       "settings": {
         "heading": "Únete a ARSNOIR",
         "text": "10% en tu primera compra y acceso primero a cada obra nueva.",
-        "button_label": "UNIRME"
+        "button_label": "UNIRME",
+        "success": "Ya estás dentro. Tu código de bienvenida: WELCOME10 (10% en tu primera compra)."
       }
     },
     "vhero": {
@@ -316,7 +317,8 @@
         "heading": "Tu pared, en nuestro feed",
         "text": "Cuelga tu obra, hazle una foto y etiquétanos con #ARSNOIR.",
         "handle": "@arsnoir"
-      }
+      },
+      "disabled": true
     },
     "packs": {
       "type": "gallery-packs",
