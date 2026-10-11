@@ -217,13 +217,13 @@
         "paper": {
           "type": "feature",
           "settings": {
-            "heading": "Calidad de impresión",
-            "text": "Cada lámina se imprime en Europa solo cuando la pides: giclée de 12 colores sobre papel mate premium. Las A4 viajan en plano con cartón rígido; las más grandes, enrolladas con papel protector en tubo de cartón.",
+            "heading": "Impresión y envío",
+            "text": "Cada lámina se imprime en Europa solo cuando la pides: giclée de 12 colores sobre papel mate premium. Sin marco, las A4 viajan en plano con cartón rígido y las más grandes, enrolladas en tubo de cartón. Con marco, en caja plana con funda de cartón.",
             "items": "Papel Premium Matte de 200 g/m²\nGiclée de 12 colores: color fiel y negros profundos\nAcabado mate, sin reflejos\nPapel certificado FSC y tintas al agua",
             "image_right": true,
             "show_with": "poster",
-            "video_url": "https://cdn.shopify.com/videos/c/vp/9b7eecdda40044c59f6700c025248458/9b7eecdda40044c59f6700c025248458.HD-1080p-2.5Mbps-96595824.mp4",
-            "video_poster": "shopify://shop_images/arsnoir-impresion-v2-poster.jpg"
+            "video_url": "https://cdn.shopify.com/videos/c/vp/639413a9dfa44f9ba0670ac93f5c983e/639413a9dfa44f9ba0670ac93f5c983e.HD-1080p-2.5Mbps-97089517.mp4",
+            "video_poster": "shopify://shop_images/arsnoir-asi-llega-poster.jpg"
           }
         }
       },
