@@ -3,7 +3,9 @@
   <div class="page-width">
     <div class="image-text{% if s.reverse %} image-text--reverse{% endif %}">
       <div class="image-text__media{% if s.grayscale %} hero__media--grayscale{% endif %}">
-        {%- if s.image != blank -%}
+        {%- if s.video_url != blank -%}
+          <video src="{{ s.video_url }}" autoplay muted loop playsinline preload="metadata"{% if s.image != blank %} poster="{{ s.image | image_url: width: 1100 }}"{% endif %} aria-label="{{ s.heading | escape }}"></video>
+        {%- elsif s.image != blank -%}
           {{ s.image | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '500, 800, 1100, 1400', sizes: '(min-width: 750px) 50vw, 100vw' }}
         {%- else -%}
           <div class="tile-ph" aria-hidden="true"></div>
@@ -25,7 +27,8 @@
 {
   "name": "Imagen con texto",
   "settings": [
-    { "type": "image_picker", "id": "image", "label": "Imagen" },
+    { "type": "image_picker", "id": "image", "label": "Imagen", "info": "Con vídeo, es la portada mientras carga." },
+    { "type": "text", "id": "video_url", "label": "Vídeo en lugar de la imagen (URL .mp4)", "info": "Opcional. Archivo de Contenido → Archivos. En bucle y sin sonido." },
     { "type": "checkbox", "id": "grayscale", "label": "Imagen en blanco y negro", "default": true },
     { "type": "checkbox", "id": "reverse", "label": "Imagen a la derecha", "default": false },
     { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "El proceso" },

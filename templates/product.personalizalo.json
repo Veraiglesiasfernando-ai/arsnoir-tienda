@@ -48,20 +48,18 @@
           "type": "template_link",
           "settings": {}
         },
-        "photo_help": {
-          "type": "collapsible",
-          "settings": {
-            "heading": "¿Tu foto es pequeña? Cómo mejorarla",
-            "content": "<p>La impresión sale tan bien como la foto que subas. Para que quede perfecta:</p><ul><li><strong>Sube la foto original</strong>, la de la galería de tu móvil o tu cámara. Si está en Google Fotos o iCloud, descárgala en tamaño original.</li><li><strong>Evita capturas de pantalla y fotos reenviadas</strong> por WhatsApp o redes: se comprimen y pierden calidad. Si te la pasaron por WhatsApp, pide que te la envíen como documento.</li><li><strong>Súbela tal cual</strong>, sin recortes ni filtros.</li></ul><p><strong>¿Solo la tienes pequeña?</strong> Súbela igual. Al subirla te avisamos si se queda corta para el tamaño elegido, y antes de imprimir la revisamos y la mejoramos para que llegue perfecta.</p>",
-            "video_url": "https://cdn.shopify.com/videos/c/vp/e9326a8cba534d1da231f882fab5d76a/e9326a8cba534d1da231f882fab5d76a.HD-720p-1.6Mbps-97117824.mp4",
-            "video_poster": "shopify://shop_images/arsnoir-mejora-tu-foto-poster.jpg",
-            "open": false
-          }
-        },
         "returns_notice": {
           "type": "notice",
           "settings": {
             "text": "Producto personalizado: no admite devolución por desistimiento, salvo defecto."
+          }
+        },
+        "guide": {
+          "type": "text_link",
+          "settings": {
+            "text": "¿Tu foto es pequeña o la tienes de WhatsApp?",
+            "link_label": "Ver guía",
+            "link": "/pages/guia-foto"
           }
         }
       },
@@ -70,9 +68,9 @@
         "tpl_link",
         "price",
         "guard",
+        "guide",
         "buy",
         "returns_notice",
-        "photo_help",
         "details",
         "shipping"
       ],

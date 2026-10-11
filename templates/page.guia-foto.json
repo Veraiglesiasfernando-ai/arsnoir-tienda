@@ -1,0 +1,29 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "eyebrow": "GUÍA"
+      }
+    },
+    "video": {
+      "type": "image-with-text",
+      "settings": {
+        "image": "shopify://shop_images/arsnoir-mejora-tu-foto-poster.jpg",
+        "video_url": "https://cdn.shopify.com/videos/c/vp/e9326a8cba534d1da231f882fab5d76a/e9326a8cba534d1da231f882fab5d76a.HD-1080p-2.5Mbps-97117824.mp4",
+        "grayscale": false,
+        "reverse": false,
+        "eyebrow": "En 4 pasos",
+        "heading": "Así consigues una impresión perfecta",
+        "text": "<ol><li><strong>Evita capturas y fotos de WhatsApp.</strong> Al enviarse se comprimen y pierden calidad. Si te la pasaron por WhatsApp, pide que te la envíen como documento.</li><li><strong>Busca la foto original</strong>, la de la galería de tu móvil o de tu cámara. Si está en Google Fotos o iCloud, descárgala en tamaño original.</li><li><strong>Súbela tal cual</strong>, sin recortes ni filtros.</li><li><strong>¿Solo la tienes pequeña? Súbela igual.</strong> Al subirla te avisamos si se queda corta para el tamaño elegido, y antes de imprimir la revisamos y la mejoramos para que llegue perfecta.</li></ol>",
+        "button_label": "Sube tu foto",
+        "button_link": "/products/tu-imagen-impresa",
+        "border_top": false
+      }
+    }
+  },
+  "order": [
+    "main",
+    "video"
+  ]
+}
