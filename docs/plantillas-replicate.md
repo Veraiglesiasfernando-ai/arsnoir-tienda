@@ -11,7 +11,7 @@ Cómo funciona:
    - `Plantilla`.
    - `Nombre`.
    - `Derechos de imagen`.
-6. **Tú** descargas la ilustración y la amplías a alta calidad (Replicate o Upscayl). Luego haces el pedido a mano en Gelato con la dirección del cliente.
+6. **Tú** descargas la ilustración y la amplías a alta calidad con Topaz Gigapixel (ver `docs/ampliar-imagenes.md`). Luego haces el pedido a mano en Gelato con la dirección del cliente.
 
 Productos ya creados en Shopify, **en borrador** y **sin conectar a Gelato**, con los precios v8:
 
