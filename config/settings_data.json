@@ -26,6 +26,28 @@
     "delivery_max": 10,
     "shipping_details": "Entrega en 4-10 días hábiles en la Península, con seguimiento · Impreso en Europa",
     "q4_gift_page": "regalos",
-    "q4_start": "2026-11-20"
+    "q4_start": "2026-11-20",
+    "sections": {
+      "newsletter-popup": {
+        "type": "newsletter-popup",
+        "settings": {
+          "enabled": true,
+          "preview": false,
+          "min_pages": 1,
+          "delay": 4,
+          "days": 14,
+          "eyebrow": "BIENVENIDO A ARSNOIR",
+          "heading": "10% EN TU PRIMERA PIEZA",
+          "text": "Déjanos tu email y llévate un 10% en tu primera obra ARSNOIR.",
+          "button_label": "QUIERO MI 10%",
+          "dismiss_label": "No, gracias",
+          "legal": "Puedes darte de baja cuando quieras.",
+          "success_heading": "Tu código: WELCOME10",
+          "success_text": "Úsalo en tu primera pieza. Ya lo hemos aplicado a tu carrito.",
+          "code": "WELCOME10",
+          "image": "shopify://shop_images/arsnoir-bienvenida.jpg"
+        }
+      }
+    }
   }
 }
