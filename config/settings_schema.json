@@ -142,7 +142,7 @@
         "type": "text",
         "id": "shipping_details",
         "label": "Detalle del envío",
-        "default": "Entrega en 3-5 días hábiles en la Península, con seguimiento · Impreso en Europa"
+        "default": "Entrega en 4-10 días hábiles en la Península, con seguimiento · Impreso en Europa"
       },
       {
         "type": "range",
@@ -283,14 +283,14 @@
         "type": "text",
         "id": "q4_xmas_deadline",
         "label": "Último día para recibir antes de Navidad",
-        "default": "2026-12-16",
-        "info": "Con 3-5 días hábiles de entrega, lo pedido este día llega el 23 de diciembre."
+        "default": "2026-12-09",
+        "info": "Con hasta 10 días hábiles de entrega, lo pedido este día llega como tarde el 23 de diciembre."
       },
       {
         "type": "text",
         "id": "q4_reyes_deadline",
         "label": "Último día para recibir antes de Reyes",
-        "default": "2026-12-28"
+        "default": "2026-12-17"
       },
       {
         "type": "text",

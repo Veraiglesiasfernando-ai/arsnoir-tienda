@@ -22,9 +22,9 @@
     "free_shipping_threshold": 80,
     "returns_days": "14",
     "shipping_message": "",
-    "delivery_min": 3,
-    "delivery_max": 5,
-    "shipping_details": "Entrega en 3-5 días hábiles en la Península, con seguimiento · Impreso en Europa",
+    "delivery_min": 4,
+    "delivery_max": 10,
+    "shipping_details": "Entrega en 4-10 días hábiles en la Península, con seguimiento · Impreso en Europa",
     "q4_gift_page": "regalos",
     "q4_start": "2026-11-20"
   }
