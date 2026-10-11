@@ -21,7 +21,7 @@ Firma común para todos:
 >
 > Gracias por confiar en ARSNOIR. Hemos recibido tu pedido correctamente y ya estamos preparándolo.
 >
-> Cada obra se imprime bajo pedido, de forma exclusiva para ti, con papel y acabados de calidad de galería. En cuanto tu pedido salga de nuestro taller, te enviaremos un correo con el número de seguimiento.
+> Cada obra se imprime bajo pedido, de forma exclusiva para ti. En cuanto tu pedido salga hacia tu dirección, te enviaremos un correo con el número de seguimiento.
 >
 > A continuación encontrarás el resumen de tu compra.
 
