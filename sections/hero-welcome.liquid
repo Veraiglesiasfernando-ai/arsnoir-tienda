@@ -55,6 +55,39 @@
         </a>
       {%- endfor -%}
     </div>
+
+    {%- comment -%} Personalízalo: two quick ways in, right under the works {%- endcomment -%}
+    {%- if s.pz_show -%}
+      {%- liquid
+        assign pz_p = all_products['tu-imagen-impresa']
+        assign pz_photo_url = s.pz_photo_link | default: pz_p.url | default: '/products/tu-imagen-impresa'
+        assign pz_tpl_url = s.pz_tpl_link | default: '/collections/personalizalo#Plantillas'
+      -%}
+      <div class="welcome__pz">
+        <a class="wpz reveal" href="{{ pz_photo_url }}">
+          <span class="wpz__media">
+            {%- if s.pz_photo_image != blank -%}{{ s.pz_photo_image | image_url: width: 400 | image_tag: loading: 'lazy', widths: '200, 300, 400', sizes: '140px', alt: s.pz_photo_title }}{%- endif -%}
+          </span>
+          <span class="wpz__body">
+            <span class="wpz__tag">{{ s.pz_tag }}</span>
+            <span class="wpz__title">{{ s.pz_photo_title }}</span>
+            <span class="wpz__text">{{ s.pz_photo_text }}{% if pz_p != blank %} {{ 'general.from' | t }} {{ pz_p.price_min | money }}.{% endif %}</span>
+            <span class="wpz__go">{{ s.pz_photo_go }} <span aria-hidden="true">&rarr;</span></span>
+          </span>
+        </a>
+        <a class="wpz reveal" href="{{ pz_tpl_url }}">
+          <span class="wpz__media">
+            {%- if s.pz_tpl_image != blank -%}{{ s.pz_tpl_image | image_url: width: 400 | image_tag: loading: 'lazy', widths: '200, 300, 400', sizes: '140px', alt: s.pz_tpl_title }}{%- endif -%}
+          </span>
+          <span class="wpz__body">
+            <span class="wpz__tag">{{ s.pz_tag }}{% if s.pz_tpl_soon %} <span class="wpz__soon">· {{ s.pz_soon_label }}</span>{% endif %}</span>
+            <span class="wpz__title">{{ s.pz_tpl_title }}</span>
+            <span class="wpz__text">{{ s.pz_tpl_text }}</span>
+            <span class="wpz__go">{{ s.pz_tpl_go }} <span aria-hidden="true">&rarr;</span></span>
+          </span>
+        </a>
+      </div>
+    {%- endif -%}
   </div>
 </section>
 
@@ -65,7 +98,22 @@
   "settings": [
     { "type": "text", "id": "eyebrow", "label": "Texto pequeño superior", "default": "BIENVENIDO A" },
     { "type": "text", "id": "title", "label": "Título", "default": "ARSNOIR" },
-    { "type": "text", "id": "subtitle", "label": "Subtítulo", "default": "Arte que no verás en ningún otro sitio." }
+    { "type": "text", "id": "subtitle", "label": "Subtítulo", "default": "Arte que no verás en ningún otro sitio." },
+    { "type": "header", "content": "Personalízalo (debajo de las obras)" },
+    { "type": "checkbox", "id": "pz_show", "label": "Mostrar las dos tarjetas de Personalízalo", "default": true },
+    { "type": "text", "id": "pz_tag", "label": "Etiqueta", "default": "Personalízalo" },
+    { "type": "image_picker", "id": "pz_photo_image", "label": "«Con tu foto»: imagen" },
+    { "type": "text", "id": "pz_photo_title", "label": "«Con tu foto»: título", "default": "Tu foto, en un cuadro" },
+    { "type": "text", "id": "pz_photo_text", "label": "«Con tu foto»: texto", "default": "Sube tu foto y la imprimimos en el tamaño y marco que elijas." },
+    { "type": "text", "id": "pz_photo_go", "label": "«Con tu foto»: enlace", "default": "Subir mi foto" },
+    { "type": "url", "id": "pz_photo_link", "label": "«Con tu foto»: destino", "info": "Vacío = la ficha «Tu imagen, impresa»." },
+    { "type": "image_picker", "id": "pz_tpl_image", "label": "«Con plantilla»: imagen" },
+    { "type": "text", "id": "pz_tpl_title", "label": "«Con plantilla»: título", "default": "Tu foto, en ilustración" },
+    { "type": "text", "id": "pz_tpl_text", "label": "«Con plantilla»: texto", "default": "Elige una plantilla y tu foto se convierte en ilustración." },
+    { "type": "text", "id": "pz_tpl_go", "label": "«Con plantilla»: enlace", "default": "Ver plantillas" },
+    { "type": "url", "id": "pz_tpl_link", "label": "«Con plantilla»: destino", "info": "Vacío = las plantillas de Personalízalo." },
+    { "type": "checkbox", "id": "pz_tpl_soon", "label": "Plantillas aún no a la venta", "default": true, "info": "Añade «Muy pronto» a la tarjeta de plantillas." },
+    { "type": "text", "id": "pz_soon_label", "label": "Texto «Muy pronto»", "default": "Muy pronto" }
   ],
   "blocks": [
     {

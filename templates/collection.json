@@ -7,9 +7,7 @@
         "all_title": "Todas las obras",
         "per_page": 24,
         "columns": 4,
-        "show_nav": true,
-        "pz_photo_image": "shopify://shop_images/arsnoir-tile-tu-foto.jpg",
-        "pz_tpl_image": "shopify://shop_images/estilo-mascotas-nombre.jpg"
+        "show_nav": true
       }
     },
     "guarantees": {

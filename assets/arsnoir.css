@@ -2717,8 +2717,20 @@ html.is-scrolled .glass-header { background: rgba(255, 255, 255, 0.95); }
 .ctpl__tab.is-active { background: none; color: var(--color-fg); border-color: #0a0a0a; }
 .ctpl__cta { border-radius: 0; }
 .ctpl__before { border-radius: 0; }
-/* Personalízalo tiles inside the artwork grid */
-.product-grid .pz-card .poster__frame:has(.poster__media img) { background: #ecebe8; }
-.pz-card .poster__frame:has(.poster__media img) .poster__media img { object-fit: cover; width: 100%; height: 100%; }
-.pz-card .poster__tag { border-radius: 0; background: #fff; color: #0a0a0a; }
-.pz-card .poster__price { text-decoration: underline; text-underline-offset: 3px; }
+/* Bienvenida: two Personalízalo cards under the three works */
+.welcome__pz { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; max-width: 980px; margin: clamp(40px, 6vw, 72px) auto 0; }
+.wpz { display: grid; grid-template-columns: 128px minmax(0, 1fr); gap: 20px; align-items: center; padding: 12px; background: #fff; border: 1px solid rgba(0,0,0,0.08); color: var(--color-fg); text-align: left; transition: border-color 0.2s; }
+.wpz:hover { border-color: #0a0a0a; }
+.wpz:focus-visible { outline: 2px solid #0a0a0a; outline-offset: 3px; }
+.wpz__media { display: block; aspect-ratio: 4 / 5; overflow: hidden; background: #ecebe8; }
+.wpz__media img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.wpz__body { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; padding-right: 8px; }
+.wpz__tag { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-muted); }
+.wpz__soon { color: #d7261e; }
+.wpz__title { font-size: clamp(18px, 1.8vw, 22px); font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; }
+.wpz__text { font-size: 14px; line-height: 1.45; color: var(--color-muted); }
+.wpz__go { margin-top: 4px; padding-bottom: 2px; border-bottom: 1px solid currentColor; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+@media (max-width: 749px) {
+  .welcome__pz { grid-template-columns: 1fr; gap: 12px; }
+  .wpz { grid-template-columns: 96px minmax(0, 1fr); gap: 16px; }
+}

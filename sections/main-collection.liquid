@@ -85,20 +85,6 @@
       </div>
     {%- endif -%}
 
-    {%- liquid
-      assign show_pz = false
-      if s.pz_show and paginate.current_page == 1 and collection.handle != 'personalizalo'
-        assign show_pz = true
-      endif
-      assign pz_photo_url = s.pz_photo_link | default: '/products/tu-imagen-impresa'
-      assign pz_tpl_url = s.pz_tpl_link | default: '/collections/personalizalo#Plantillas'
-      assign pz_p = all_products['tu-imagen-impresa']
-      assign pz_from = s.pz_photo_line
-      if pz_p != blank
-        assign pz_price = pz_p.price_min | money
-        assign pz_from = 'general.from' | t | append: ' ' | append: pz_price
-      endif
-    -%}
     {%- if collection.products.size > 0 -%}
       <ul class="product-grid collection-grid-art" style="--cols: {{ s.columns }}">
         {%- for product in collection.products -%}
@@ -114,15 +100,6 @@
             assign idx = paginate.current_offset | plus: forloop.index
           -%}
           <li class="reveal">{% render 'product-card', product: product, lazy: lazy, index: idx %}</li>
-          {%- comment -%} Personalízalo tiles inside the grid, first page of the author catalogue only {%- endcomment -%}
-          {%- if show_pz -%}
-            {%- if forloop.index == s.pz_photo_pos or forloop.last and forloop.index < s.pz_photo_pos -%}
-              <li class="reveal">{% render 'pz-card', image: s.pz_photo_image, title: s.pz_photo_title, line: pz_from, url: pz_photo_url, tag: s.pz_tag, lazy: lazy %}</li>
-            {%- endif -%}
-            {%- if forloop.index == s.pz_tpl_pos or forloop.last and forloop.index < s.pz_tpl_pos -%}
-              <li class="reveal">{% render 'pz-card', image: s.pz_tpl_image, title: s.pz_tpl_title, line: s.pz_tpl_line, url: pz_tpl_url, tag: s.pz_tag, lazy: true %}</li>
-            {%- endif -%}
-          {%- endif -%}
         {%- endfor -%}
       </ul>
     {%- elsif request.design_mode -%}
@@ -164,19 +141,6 @@
     { "type": "range", "id": "per_page", "label": "Obras por página", "min": 8, "max": 48, "step": 4, "default": 24 },
     { "type": "range", "id": "columns", "label": "Columnas en escritorio", "min": 2, "max": 5, "step": 1, "default": 4 },
     { "type": "checkbox", "id": "show_nav", "label": "Mostrar navegación entre colecciones", "default": true },
-    { "type": "header", "content": "Personalízalo en la cuadrícula" },
-    { "type": "checkbox", "id": "pz_show", "label": "Mostrar las dos tarjetas de Personalízalo", "default": true, "info": "Solo en la primera página, nunca en la colección Personalízalo." },
-    { "type": "text", "id": "pz_tag", "label": "Etiqueta", "default": "Personalízalo" },
-    { "type": "range", "id": "pz_photo_pos", "label": "«Con tu foto»: después de la obra nº", "min": 1, "max": 24, "step": 1, "default": 3 },
-    { "type": "image_picker", "id": "pz_photo_image", "label": "«Con tu foto»: imagen" },
-    { "type": "text", "id": "pz_photo_title", "label": "«Con tu foto»: título", "default": "Tu foto, en un cuadro" },
-    { "type": "text", "id": "pz_photo_line", "label": "«Con tu foto»: línea inferior", "default": "Sube tu foto", "info": "Si existe el producto «tu-imagen-impresa», se muestra su precio desde." },
-    { "type": "url", "id": "pz_photo_link", "label": "«Con tu foto»: enlace", "info": "Vacío = /products/tu-imagen-impresa" },
-    { "type": "range", "id": "pz_tpl_pos", "label": "«Con plantilla»: después de la obra nº", "min": 1, "max": 24, "step": 1, "default": 9 },
-    { "type": "image_picker", "id": "pz_tpl_image", "label": "«Con plantilla»: imagen" },
-    { "type": "text", "id": "pz_tpl_title", "label": "«Con plantilla»: título", "default": "Tu foto, en ilustración" },
-    { "type": "text", "id": "pz_tpl_line", "label": "«Con plantilla»: línea inferior", "default": "Ver plantillas" },
-    { "type": "url", "id": "pz_tpl_link", "label": "«Con plantilla»: enlace", "info": "Vacío = /collections/personalizalo#Plantillas" },
     { "type": "link_list", "id": "sections_menu", "label": "Menú de colecciones", "info": "Opcional. Si lo dejas vacío se listan las colecciones con obras." }
   ]
 }
