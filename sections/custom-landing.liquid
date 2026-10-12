@@ -1,6 +1,6 @@
 {%- comment -%}
   Personalízalo landing (collection.personalizalo): intro, the two ways in side by side (upload your
-  photo / illustration templates) each with its how-it-works video below, steps, prices per size,
+  photo / illustration templates) as two media tiles with a caption, steps, prices per size,
   how to prepare the image (pixels needed per size) and the rights note.
   Prices come from the product (first in the collection, or the one picked here); without a
   product they come from the "Precios" text setting.
@@ -51,61 +51,60 @@
       {%- endif -%}
     {%- endcapture -%}
 
-    {%- comment -%} Intro, then the two ways in side by side, each with its how-it-works video under the card {%- endcomment -%}
-    <header class="clanding__hero reveal">
+    {%- comment -%} Intro, the two ways in as big media tiles, then the three steps {%- endcomment -%}
+    <header class="pz-hero reveal">
       <p class="eyebrow">{{ s.eyebrow }}</p>
-      <h1 class="clanding__title">{{ s.heading }}</h1>
-      {%- if s.text != blank -%}<p class="clanding__text">{{ s.text }}</p>{%- endif -%}
+      <h1 class="pz-hero__title">{{ s.heading }}</h1>
+      {%- if s.text != blank -%}<p class="pz-hero__text">{{ s.text }}</p>{%- endif -%}
     </header>
-    <div class="cways">
-      <div class="cway" id="SubeTuFoto">
-        <a class="cpath" href="{{ cta_url }}">
-          <span class="cpath__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 16V4m0 0-4.5 4.5M12 4l4.5 4.5M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-          <span class="cpath__title">{{ s.path_upload_title }}</span>
-          <span class="cpath__text">{{ s.path_upload_text }}</span>
-          <span class="cpath__go" aria-hidden="true">&rarr;</span>
+
+    <div class="pz-ways">
+      <div class="pz-way" id="SubeTuFoto">
+        <a class="pz-way__media" href="{{ cta_url }}" tabindex="-1" aria-hidden="true">
+          {%- if s.upload_video_url != blank -%}
+            <video src="{{ s.upload_video_url }}" autoplay muted loop playsinline preload="metadata"{% if s.upload_video_poster != blank %} poster="{{ s.upload_video_poster | image_url: width: 1200 }}"{% endif %}></video>
+          {%- elsif s.upload_video_poster != blank -%}
+            {{ s.upload_video_poster | image_url: width: 1200 | image_tag: loading: 'lazy', alt: '' }}
+          {%- endif -%}
         </a>
-        {%- if s.upload_video_url != blank -%}
-          <figure class="clanding__media cway__media">
-            <video src="{{ s.upload_video_url }}" autoplay muted loop playsinline preload="metadata"{% if s.upload_video_poster != blank %} poster="{{ s.upload_video_poster | image_url: width: 1200 }}"{% endif %} aria-label="{{ s.path_upload_title | escape }}"></video>
-          </figure>
-        {%- endif -%}
+        <div class="pz-way__cap">
+          <span class="pz-way__n">01</span>
+          <h2 class="pz-way__title"><a href="{{ cta_url }}">{{ s.path_upload_title }}</a></h2>
+          <p class="pz-way__text">{{ s.path_upload_text }}</p>
+          <a class="pz-way__go" href="{{ cta_url }}">{{ s.button_label }} <span aria-hidden="true">&rarr;</span></a>
+        </div>
       </div>
-      <div class="cway" id="Ilustracion">
-        <a class="cpath cpath--dark{% unless s.illustrations_ready %} is-soon{% endunless %}" href="#Plantillas">
-          <span class="cpath__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="7" height="9" rx="1" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="13" y="3" width="7" height="5" rx="1" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="13" y="10" width="7" height="11" rx="1" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="4" y="14" width="7" height="7" rx="1" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></span>
-          <span class="cpath__title">{{ s.path_template_title }}</span>
-          <span class="cpath__text">{{ s.path_template_text }}</span>
-          {%- unless s.illustrations_ready -%}<span class="cpath__soon">{{ s.soon_label }}</span>{%- endunless -%}
-          <span class="cpath__go" aria-hidden="true">&darr;</span>
-        </a>
-        {%- if s.video_url != blank -%}
-          <figure class="clanding__media cway__media">{{ template_video }}</figure>
-        {%- endif -%}
+      <div class="pz-way" id="Ilustracion">
+        <div class="pz-way__media">
+          {%- if s.video_url != blank -%}{{ template_video }}{%- endif -%}
+        </div>
+        <div class="pz-way__cap">
+          <span class="pz-way__n">02{% unless s.illustrations_ready %} <span class="pz-way__soon">· {{ s.soon_label }}</span>{% endunless %}</span>
+          <h2 class="pz-way__title"><a href="#Plantillas">{{ s.path_template_title }}</a></h2>
+          <p class="pz-way__text">{{ s.path_template_text }}</p>
+          <a class="pz-way__go" href="#Plantillas">Ver plantillas <span aria-hidden="true">&darr;</span></a>
+        </div>
       </div>
     </div>
-    {%- if s.chip_1 != blank -%}<p class="clanding__from">{{ s.chip_1 }}</p>{%- endif -%}
+    {%- if s.chip_1 != blank -%}<p class="pz-from">{{ s.chip_1 }}</p>{%- endif -%}
 
-    {%- if s.quality_promise != blank -%}
-      <div class="cquality reveal">
-        <span class="cquality__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8L3.5 9.2l5.9-.9z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
-        <div class="cquality__text">{{ s.quality_promise }}</div>
-      </div>
-    {%- endif -%}
-
-    <div class="clanding__steps" id="ComoFunciona">
+    <ol class="pz-steps" id="ComoFunciona">
       {%- for i in (1..3) -%}
         {%- liquid
           assign t_key = 'step_' | append: i | append: '_title'
           assign x_key = 'step_' | append: i | append: '_text'
         -%}
-        <div class="clanding__step reveal">
-          <span class="clanding__num">{{ i }}</span>
-          <p class="clanding__step-title">{{ s[t_key] }}</p>
-          <p class="clanding__step-text">{{ s[x_key] }}</p>
-        </div>
+        <li class="pz-step reveal">
+          <span class="pz-step__n">0{{ i }}</span>
+          <p class="pz-step__title">{{ s[t_key] }}</p>
+          <p class="pz-step__text">{{ s[x_key] }}</p>
+        </li>
       {%- endfor -%}
-    </div>
+    </ol>
+
+    {%- if s.quality_promise != blank -%}
+      <div class="pz-note reveal">{{ s.quality_promise }}</div>
+    {%- endif -%}
 
     <div class="clanding__more">
       <details class="clanding__fold" id="Precios">
@@ -174,7 +173,7 @@
     {%- if s.rights_text != blank -%}<p class="clanding__rights">{{ s.rights_text }}</p>{%- endif -%}
 
     <div class="clanding__end reveal">
-      <a class="button button--accent clanding__cta" href="{{ cta_url }}">{{ s.button_label }}</a>
+      <a class="button clanding__cta pz-cta" href="{{ cta_url }}">{{ s.button_label }}</a>
       {%- if s.author_label != blank -%}<a class="clanding__link" href="{{ routes.all_products_collection_url }}">{{ s.author_label }} &rarr;</a>{%- endif -%}
     </div>
   </div>

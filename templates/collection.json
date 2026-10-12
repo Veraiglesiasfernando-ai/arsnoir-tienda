@@ -1,17 +1,66 @@
 {
   "sections": {
-    "main": { "type": "main-collection", "settings": { "eyebrow": "OBRAS", "all_title": "Todas las obras", "per_page": 24, "columns": 4, "show_nav": true } },
+    "main": {
+      "type": "main-collection",
+      "settings": {
+        "eyebrow": "OBRAS",
+        "all_title": "Todas las obras",
+        "per_page": 24,
+        "columns": 4,
+        "show_nav": true,
+        "pz_photo_image": "shopify://shop_images/arsnoir-tile-tu-foto.jpg",
+        "pz_tpl_image": "shopify://shop_images/estilo-mascotas-nombre.jpg"
+      }
+    },
     "guarantees": {
       "type": "guarantees",
       "blocks": {
-        "g1": { "type": "item", "settings": { "icon": "truck", "title": "Envío a España y Europa", "text": "Con seguimiento: 4-10 días hábiles en la Península. Envío 4,95 €, gratis desde 80 €." } },
-        "g2": { "type": "item", "settings": { "icon": "return", "title": "[DIAS] días para devolver", "text": "Si no encaja en tu pared, tienes [DIAS] días para devolverla." } },
-        "g3": { "type": "item", "settings": { "icon": "print", "title": "Impresión de alta calidad", "text": "Cada obra se imprime para ti con papeles y tintas profesionales." } },
-        "g4": { "type": "item", "settings": { "icon": "lock", "title": "Pago 100% seguro", "text": "Pagos cifrados y protegidos a través de Shopify." } }
+        "g1": {
+          "type": "item",
+          "settings": {
+            "icon": "truck",
+            "title": "Envío a España y Europa",
+            "text": "Con seguimiento: 4-10 días hábiles en la Península. Envío 4,95 €, gratis desde 80 €."
+          }
+        },
+        "g2": {
+          "type": "item",
+          "settings": {
+            "icon": "return",
+            "title": "[DIAS] días para devolver",
+            "text": "Si no encaja en tu pared, tienes [DIAS] días para devolverla."
+          }
+        },
+        "g3": {
+          "type": "item",
+          "settings": {
+            "icon": "print",
+            "title": "Impresión de alta calidad",
+            "text": "Cada obra se imprime para ti con papeles y tintas profesionales."
+          }
+        },
+        "g4": {
+          "type": "item",
+          "settings": {
+            "icon": "lock",
+            "title": "Pago 100% seguro",
+            "text": "Pagos cifrados y protegidos a través de Shopify."
+          }
+        }
       },
-      "block_order": ["g1", "g2", "g3", "g4"],
-      "settings": { "heading": "Compra con total tranquilidad" }
+      "block_order": [
+        "g1",
+        "g2",
+        "g3",
+        "g4"
+      ],
+      "settings": {
+        "heading": "Compra con total tranquilidad"
+      }
     }
   },
-  "order": ["main", "guarantees"]
+  "order": [
+    "main",
+    "guarantees"
+  ]
 }
