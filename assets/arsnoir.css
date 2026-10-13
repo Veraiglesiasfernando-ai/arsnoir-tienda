@@ -2860,3 +2860,5 @@ html.sguide-lock { overflow: hidden; }
   .pzall__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (prefers-reduced-motion: reduce) { .pzall__spin { animation-duration: 2s; } }
+
+.gift-tiers__note { margin: 10px 0 0; font-size: 11px; line-height: 1.45; color: var(--color-muted); }
