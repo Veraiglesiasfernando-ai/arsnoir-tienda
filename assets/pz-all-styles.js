@@ -1,0 +1,128 @@
+/* Personalízalo · «Pruébala en todos los estilos» (sections/pz-all-styles.liquid).
+   One photo → one preview per style through the ARSNOIR worker. «Elegir este» hands the preview
+   to the product page (sessionStorage «arsnoir-pz-handoff», read by template-studio.js). */
+(function () {
+  const box = document.querySelector('[data-pzall]');
+  if (!box || box.dataset.ready) return;
+  box.dataset.ready = '1';
+  const d = box.dataset;
+  const endpoint = (d.endpoint || '').replace(/\/$/, '');
+  const fileInput = box.querySelector('[data-pzall-file]');
+  const thumb = box.querySelector('[data-pzall-thumb]');
+  const dropText = box.querySelector('[data-pzall-drop-text]');
+  const nameInput = box.querySelector('[data-pzall-name]');
+  const go = box.querySelector('[data-pzall-go]');
+  const status = box.querySelector('[data-pzall-status]');
+  const items = Array.from(box.querySelectorAll('.pzall__item'));
+  const max = parseInt(d.max, 10) || 2;
+  const KEY = 'arsnoir-pzall-runs';
+  let photo = null;
+  let busy = false;
+
+  const say = function (t) { status.textContent = t || ''; };
+  const runs = function () { try { return parseInt(localStorage.getItem(KEY) || '0', 10); } catch (e) { return 0; } };
+  const addRun = function () { try { localStorage.setItem(KEY, String(runs() + 1)); } catch (e) {} };
+  const ready = function () { go.disabled = busy || !photo || runs() >= max; };
+  const wait = function (ms) { return new Promise(function (r) { setTimeout(r, ms); }); };
+
+  /* Same resize as the product editor: max 1536 px JPEG */
+  fileInput.addEventListener('change', function () {
+    const file = fileInput.files && fileInput.files[0];
+    photo = null;
+    if (!file) return ready();
+    const img = new Image();
+    img.onload = function () {
+      const k = Math.min(1, 1536 / Math.max(img.naturalWidth, img.naturalHeight));
+      const c = document.createElement('canvas');
+      c.width = Math.round(img.naturalWidth * k);
+      c.height = Math.round(img.naturalHeight * k);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      photo = c.toDataURL('image/jpeg', 0.9);
+      thumb.src = photo;
+      thumb.hidden = false;
+      if (dropText) dropText.hidden = true;
+      URL.revokeObjectURL(img.src);
+      ready();
+    };
+    img.onerror = function () { say(d.tError); };
+    img.src = URL.createObjectURL(file);
+  });
+
+  /* Start one preview; Replicate throttles small accounts, so retry a few times on «throttled» */
+  const start = function (template, name, tries) {
+    return fetch(endpoint + '/preview', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ template: template, name: name, image: photo })
+    })
+      .then(function (r) { return r.json().then(function (b) { return { ok: r.ok, status: r.status, body: b }; }); })
+      .then(function (res) {
+        if (res.ok && res.body.id) return res.body.id;
+        const throttled = res.body && /throttl/i.test(String(res.body.detail || ''));
+        if ((throttled || res.status === 429) && tries < 6) return wait(11000).then(function () { return start(template, name, tries + 1); });
+        throw new Error('failed');
+      });
+  };
+  const poll = function (id, tries) {
+    return fetch(endpoint + '/preview/' + encodeURIComponent(id))
+      .then(function (r) { return r.json(); })
+      .then(function (res) {
+        if (res.status === 'succeeded' && res.url) return res.url;
+        if (res.status === 'failed' || res.status === 'canceled' || res.error || tries > 60) throw new Error('failed');
+        return wait(2500).then(function () { return poll(id, tries + 1); });
+      });
+  };
+
+  const run = function (item, name) {
+    const img = item.querySelector('[data-pzall-img]');
+    const spin = item.querySelector('[data-pzall-spin]');
+    const note = item.querySelector('[data-pzall-note]');
+    const pick = item.querySelector('[data-pzall-pick]');
+    const template = item.dataset.template;
+    if (item.dataset.needsName === 'true' && !name) {
+      note.textContent = d.tName;
+      return Promise.resolve();
+    }
+    note.textContent = '';
+    spin.hidden = false;
+    item.classList.add('is-working');
+    return start(template, name, 0)
+      .then(function (id) { return poll(id, 0); })
+      .then(function (url) {
+        img.onload = function () { item.classList.add('is-done'); };
+        img.src = url;
+        img.hidden = false;
+        pick.hidden = false;
+        pick.onclick = function () {
+          try {
+            sessionStorage.setItem('arsnoir-pz-handoff', JSON.stringify({
+              template: template, url: url, name: item.dataset.needsName === 'true' ? name : '', at: Date.now()
+            }));
+          } catch (e) {}
+        };
+      })
+      .catch(function () { note.textContent = d.tError; })
+      .finally(function () { spin.hidden = true; item.classList.remove('is-working'); });
+  };
+
+  go.addEventListener('click', function () {
+    if (go.disabled) return;
+    busy = true;
+    ready();
+    addRun();
+    say(d.tWorking);
+    const name = nameInput.value.trim();
+    /* One after another: steady with Replicate's limits, and each card fills in as it's ready */
+    items.reduce(function (chain, item) {
+      return chain.then(function () { return run(item, name); });
+    }, Promise.resolve()).then(function () {
+      busy = false;
+      say(runs() >= max ? d.tLimit : '');
+      ready();
+      box.querySelector('[data-pzall-grid]').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  if (runs() >= max) say(d.tLimit);
+  ready();
+})();

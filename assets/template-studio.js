@@ -182,6 +182,20 @@
       .finally(function () { go.classList.remove('is-loading'); ready(); });
   });
 
+  /* Preview chosen in «Pruébala en todos los estilos» (pz-all-styles.js): use it as this one's */
+  try {
+    const hand = JSON.parse(sessionStorage.getItem('arsnoir-pz-handoff') || 'null');
+    if (hand && hand.template === d.template && hand.url && Date.now() - hand.at < 50 * 60 * 1000) {
+      sessionStorage.removeItem('arsnoir-pz-handoff');
+      urlInput.value = hand.url;
+      if (nameInput && hand.name) nameInput.value = hand.name;
+      if (nameProp) nameProp.value = (hand.name || '').toUpperCase();
+      resultImg.src = hand.url;
+      result.hidden = false;
+      showLive(hand.url);
+    }
+  } catch (e) {}
+
   if (used() >= max) say(d.tLimit);
   ready();
 })();

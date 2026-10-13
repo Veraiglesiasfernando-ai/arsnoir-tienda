@@ -1,0 +1,102 @@
+{%- comment -%}
+  Personalízalo · «Pruébala en todos los estilos»: one photo (and an optional name) → the pet in
+  every style at once, through the ARSNOIR worker (docs/plantillas-replicate.md). Choosing a style
+  opens its product with that preview already made (template-studio.js picks it up).
+  Blocks = styles: worker template id + product. Styles with a name are only made when a name is written.
+{%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+  assign endpoint = s.endpoint | strip
+-%}
+{%- if endpoint != blank and section.blocks.size > 0 -%}
+<section class="pzall" id="TodosLosEstilos">
+  <div class="page-width">
+    <div class="pzall__head">
+      {%- if s.eyebrow != blank -%}<p class="eyebrow">{{ s.eyebrow }}</p>{%- endif -%}
+      <h2 class="pzall__title">{{ s.heading }}</h2>
+      {%- if s.text != blank -%}<p class="pzall__text">{{ s.text }}</p>{%- endif -%}
+    </div>
+
+    <div class="pzall__box" data-pzall
+      data-endpoint="{{ endpoint }}"
+      data-max="{{ s.max_runs }}"
+      data-t-working="{{ s.working_text | escape }}"
+      data-t-error="{{ s.error_text | escape }}"
+      data-t-limit="{{ s.limit_text | escape }}"
+      data-t-name="{{ s.needs_name_text | escape }}">
+      <div class="pzall__form">
+        <label class="pzall__drop" for="PzAllFile-{{ section.id }}">
+          <input class="pzall__file" id="PzAllFile-{{ section.id }}" type="file" accept="image/jpeg,image/png,image/webp" data-pzall-file>
+          <img class="pzall__thumb" alt="" width="96" height="120" data-pzall-thumb hidden>
+          <span data-pzall-drop-text>{{ s.photo_cta }}</span>
+        </label>
+        <div class="pzall__side">
+          <label class="pzall__label" for="PzAllName-{{ section.id }}">{{ s.name_label }}</label>
+          <input class="pzall__name" id="PzAllName-{{ section.id }}" type="text" maxlength="16" autocomplete="off" placeholder="{{ s.name_placeholder | escape }}" data-pzall-name>
+          <button type="button" class="button pzall__go" data-pzall-go disabled>{{ s.button_label }}</button>
+          <p class="pzall__status" role="status" aria-live="polite" data-pzall-status></p>
+        </div>
+      </div>
+
+      <ul class="pzall__grid" data-pzall-grid>
+        {%- for block in section.blocks -%}
+          {%- assign b = block.settings -%}
+          {%- assign p = b.product -%}
+          <li class="pzall__item" data-template="{{ b.template_id | strip }}" data-needs-name="{{ b.needs_name }}" data-url="{{ p.url }}" {{ block.shopify_attributes }}>
+            <div class="pzall__media">
+              {%- if p.featured_media -%}
+                {{ p.featured_media | image_url: width: 600 | image_tag: loading: 'lazy', widths: '300, 450, 600', sizes: '(min-width: 990px) 18vw, 45vw', alt: p.title, class: 'pzall__example' }}
+              {%- endif -%}
+              <img class="pzall__result" alt="{{ b.title | default: p.title | escape }}" width="600" height="750" data-pzall-img hidden>
+              <span class="pzall__spin" aria-hidden="true" hidden data-pzall-spin></span>
+            </div>
+            <p class="pzall__name-s">{{ b.title | default: p.title }}</p>
+            <p class="pzall__note" data-pzall-note></p>
+            <a class="pzall__pick" href="{{ p.url }}" data-pzall-pick hidden>{{ s.pick_label }}</a>
+          </li>
+        {%- endfor -%}
+      </ul>
+      {%- if s.note != blank -%}<p class="pzall__foot">{{ s.note }}</p>{%- endif -%}
+    </div>
+  </div>
+</section>
+<script src="{{ 'pz-all-styles.js' | asset_url }}" defer></script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Todos los estilos",
+  "tag": "div",
+  "settings": [
+    { "type": "paragraph", "content": "El cliente sube una foto y ve su mascota en todos los estilos a la vez. Cada estilo es un bloque. Sin URL del intermediario la sección no se muestra." },
+    { "type": "text", "id": "endpoint", "label": "URL del intermediario (Cloudflare Worker)" },
+    { "type": "range", "id": "max_runs", "label": "Veces por cliente", "min": 1, "max": 5, "step": 1, "default": 2, "info": "Cada vez crea una vista previa por estilo." },
+    { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "Pruébala en todos los estilos" },
+    { "type": "text", "id": "heading", "label": "Título", "default": "Una foto, todos los estilos" },
+    { "type": "textarea", "id": "text", "label": "Texto", "default": "Sube una foto de tu mascota y mírala en todos nuestros estilos a la vez. Elige el que más te guste." },
+    { "type": "text", "id": "photo_cta", "label": "Recuadro de la foto", "default": "Sube su foto" },
+    { "type": "text", "id": "name_label", "label": "Nombre", "default": "Su nombre (opcional)" },
+    { "type": "text", "id": "name_placeholder", "label": "Ejemplo de nombre", "default": "LINA" },
+    { "type": "text", "id": "button_label", "label": "Botón", "default": "Verla en todos los estilos" },
+    { "type": "text", "id": "working_text", "label": "Mientras se crean", "default": "Creando tus ilustraciones… cada una tarda unos segundos." },
+    { "type": "text", "id": "error_text", "label": "Error en un estilo", "default": "No ha salido. Prueba otra foto." },
+    { "type": "text", "id": "needs_name_text", "label": "Estilo que necesita nombre", "default": "Escribe un nombre para ver este estilo." },
+    { "type": "text", "id": "limit_text", "label": "Sin intentos", "default": "Ya has probado todos los estilos. Elige el tuyo o escríbenos y te ayudamos." },
+    { "type": "text", "id": "pick_label", "label": "Elegir estilo", "default": "Elegir este" },
+    { "type": "text", "id": "note", "label": "Nota", "default": "Son vistas previas. Antes de imprimir revisamos cada ilustración y la preparamos en alta calidad." }
+  ],
+  "blocks": [
+    {
+      "type": "style",
+      "name": "Estilo",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Producto" },
+        { "type": "text", "id": "template_id", "label": "Plantilla (id)", "info": "La misma que en el «Editor de plantilla» del producto." },
+        { "type": "text", "id": "title", "label": "Nombre (vacío = el del producto)" },
+        { "type": "checkbox", "id": "needs_name", "label": "Lleva nombre", "default": false }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Todos los estilos" }]
+}
+{% endschema %}

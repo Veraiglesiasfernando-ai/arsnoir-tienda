@@ -122,10 +122,67 @@
         "fam2"
       ],
       "settings": {}
+    },
+    "allstyles": {
+      "type": "pz-all-styles",
+      "blocks": {
+        "s1": {
+          "type": "style",
+          "settings": {
+            "product": "oleo-vintage",
+            "template_id": "oleo-vintage",
+            "needs_name": false
+          }
+        },
+        "s2": {
+          "type": "style",
+          "settings": {
+            "product": "en-su-rincon",
+            "template_id": "en-su-rincon",
+            "needs_name": false
+          }
+        },
+        "s3": {
+          "type": "style",
+          "settings": {
+            "product": "retrato-con-nombre",
+            "template_id": "retrato-nombre",
+            "needs_name": true
+          }
+        },
+        "s4": {
+          "type": "style",
+          "settings": {
+            "product": "retrato-con-sudadera",
+            "template_id": "retrato-sudadera",
+            "needs_name": true
+          }
+        },
+        "s5": {
+          "type": "style",
+          "settings": {
+            "product": "ilustracion-plana",
+            "template_id": "ilustracion-plana",
+            "needs_name": false
+          }
+        }
+      },
+      "block_order": [
+        "s1",
+        "s2",
+        "s3",
+        "s4",
+        "s5"
+      ],
+      "settings": {
+        "endpoint": "https://arsnoir-plantillas.veraiglesiasfernando.workers.dev",
+        "max_runs": 2
+      }
     }
   },
   "order": [
     "landing",
+    "allstyles",
     "templates"
   ]
 }
