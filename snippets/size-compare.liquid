@@ -1,4 +1,10 @@
-{%- comment -%} Every size of the artwork drawn at scale next to a 175 cm person (theme.js → size-compare). {%- endcomment -%}
+{%- comment -%}
+  Size guide: two buttons under the variant steps.
+  - «Guía de tamaños» opens a sheet with the artwork drawn to scale over a 200 cm sofa,
+    the sizes made in the chosen finish (with their price) and the finishes.
+  - «Verlo en mi pared» opens the camera (or a photo of the wall) with the framed artwork
+    on top, to drag and resize. theme.js → size-compare.
+{%- endcomment -%}
 {%- liquid
   assign size_values = blank
   for option in product.options_with_values
@@ -7,19 +13,81 @@
       assign size_values = option.values
     endif
   endfor
+  assign base = product.handle | append: '-marco-'
+  assign fallback = product.featured_media | image_url: width: 1200
 -%}
 {%- if size_values != blank and size_values.size > 1 -%}
-  <size-compare class="sizecmp" {{ block.shopify_attributes }}>
-    <p class="sizecmp__title">{{ block.settings.heading }}</p>
-    <div class="sizecmp__stage" data-stage>
-      <svg class="sizecmp__person" data-person viewBox="0 0 40 175" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
-        <circle cx="20" cy="11" r="9"/>
-        <path d="M9 24h22c3 0 5 2 5 5v52c0 2-1.5 3.5-3.5 3.5S29 83 29 81V36h-1v130c0 2.8-2.2 5-5 5s-5-2.2-5-5V101h-2v65c0 2.8-2.2 5-5 5s-5-2.2-5-5V36H5v45c0 2-1.5 3.5-3.5 3.5S-2 83-2 81V29c0-3 2-5 5-5Z" transform="translate(4 0) scale(.82 1)"/>
-      </svg>
-    </div>
+  <size-compare class="sguide-row" {{ block.shopify_attributes }}
+    data-none="{{ base | append: 'none.webp' | file_url }}"
+    data-white="{{ base | append: 'white.webp' | file_url }}"
+    data-wood="{{ base | append: 'wood.webp' | file_url }}"
+    data-canvas="{{ base | append: 'canvas.webp' | file_url }}"
+    data-black="{{ product.handle | append: '-marco.png' | file_url }}"
+    data-fallback="{{ fallback }}">
+    <button type="button" class="sguide-btn" data-guide-open>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h18v8H3zM7 8v3M11 8v4M15 8v3M19 8v4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+      <span>{{ block.settings.heading }}</span>
+    </button>
+    <button type="button" class="sguide-btn" data-ar-open>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8V5h3M17 5h3v3M20 16v3h-3M7 19H4v-3" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="8" width="6" height="8" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+      <span>{{ block.settings.ar_label }}</span>
+    </button>
+
     {%- capture size_labels -%}{%- for v in size_values -%}{%- render 'option-label', value: v, kind: 'size' -%}{%- unless forloop.last -%}|{%- endunless -%}{%- endfor -%}{%- endcapture -%}
     <script type="application/json" data-sizes>{{ size_values | json }}</script>
     <script type="application/json" data-labels>{{ size_labels | split: '|' | json }}</script>
-    {%- if block.settings.note != blank -%}<p class="sizecmp__note">{{ block.settings.note }}</p>{%- endif -%}
+
+    <dialog class="sguide" data-guide aria-labelledby="SizeGuideTitle-{{ block.id }}">
+      <div class="sguide__head">
+        <p class="sguide__title" id="SizeGuideTitle-{{ block.id }}">{{ block.settings.heading }}</p>
+        <button type="button" class="sguide__close" data-guide-close aria-label="{{ 'general.close' | t }}">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.6"/></svg>
+        </button>
+      </div>
+      <div class="sguide__stage" data-stage>
+        <div class="sguide__art" data-art><img alt="" data-art-img width="1200" height="1500"></div>
+        <div class="sguide__dim sguide__dim--w" data-dim-w><span></span></div>
+        <div class="sguide__dim sguide__dim--h" data-dim-h><span></span></div>
+        <svg class="sguide__sofa" data-sofa viewBox="0 0 200 90" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M18 88V42c0-12 6-18 18-18h128c12 0 18 6 18 18v46" fill="none" stroke="currentColor" stroke-width="1.2" vector-effect="non-scaling-stroke"/>
+          <path d="M28 88V44c0-6 4-10 10-10h52c6 0 10 4 10 10v44M100 88V44c0-6 4-10 10-10h52c6 0 10 4 10 10v44" fill="none" stroke="currentColor" stroke-width="1.2" vector-effect="non-scaling-stroke"/>
+          <path d="M2 88V64c0-8 5-12 12-12h4c7 0 10 4 10 12v24M198 88V64c0-8-5-12-12-12h-4c-7 0-10 4-10 12v24" fill="none" stroke="currentColor" stroke-width="1.2" vector-effect="non-scaling-stroke"/>
+        </svg>
+        <div class="sguide__floor" data-floor><span>{{ block.settings.sofa_label }}</span></div>
+      </div>
+      <div class="sguide__sizes" role="radiogroup" aria-label="{{ 'product.step_size' | t | escape }}" data-size-list></div>
+      <div class="sguide__finishes" data-finish-list></div>
+      <div class="sguide__sum">
+        <div><p class="sguide__big" data-sum-size></p><p class="sguide__sub" data-sum-sub></p></div>
+        <div class="sguide__sum-r"><p class="sguide__big" data-sum-price></p><p class="sguide__sub" data-sum-finish></p></div>
+      </div>
+      <button type="button" class="sguide__cta" data-guide-choose></button>
+      <button type="button" class="sguide__arlink" data-ar-open>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8V5h3M17 5h3v3M20 16v3h-3M7 19H4v-3" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="8" width="6" height="8" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+        <span>{{ block.settings.ar_label }}</span>
+      </button>
+    </dialog>
+
+    <div class="sguide-ar" data-ar hidden role="dialog" aria-modal="true" aria-label="{{ block.settings.ar_label | escape }}">
+      <video class="sguide-ar__video" data-ar-video playsinline muted autoplay></video>
+      <img class="sguide-ar__photo" data-ar-photo alt="" width="1200" height="1600" hidden>
+      <img class="sguide-ar__art" data-ar-art alt="" width="1200" height="1500" draggable="false">
+      <div class="sguide-ar__top">
+        <button type="button" class="sguide-ar__btn" data-ar-close aria-label="{{ 'general.close' | t }}">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8"/></svg>
+        </button>
+        <p class="sguide-ar__hint" data-ar-hint>{{ block.settings.ar_hint }}</p>
+      </div>
+      <p class="sguide-ar__msg" data-ar-msg hidden>{{ block.settings.ar_no_camera }}</p>
+      <div class="sguide-ar__bar">
+        <label class="sguide-ar__pill">
+          <input type="file" accept="image/*" data-ar-file hidden>
+          <span>{{ block.settings.ar_photo_label }}</span>
+        </label>
+        <input class="sguide-ar__range" type="range" min="10" max="90" value="38" data-ar-range aria-label="{{ block.settings.ar_size_label | escape }}">
+        <button type="button" class="sguide-ar__shot" data-ar-shot aria-label="{{ block.settings.ar_shot_label | escape }}"></button>
+      </div>
+      <canvas data-ar-canvas hidden></canvas>
+    </div>
   </size-compare>
 {%- endif -%}

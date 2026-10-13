@@ -2734,3 +2734,76 @@ html.is-scrolled .glass-header { background: rgba(255, 255, 255, 0.95); }
   .welcome__pz { grid-template-columns: 1fr; gap: 12px; }
   .wpz { grid-template-columns: 96px minmax(0, 1fr); gap: 16px; }
 }
+
+/* Size guide + «Verlo en mi pared» (snippets/size-compare) ------------------ */
+.sguide-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin: 14px 0 18px; }
+.sguide-btn { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 10px; border: 1px solid rgba(0,0,0,0.14); background: #fff; color: var(--color-fg); font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; transition: border-color 0.2s; }
+.sguide-btn:hover { border-color: #0a0a0a; }
+.sguide-btn svg, .sguide__arlink svg { width: 18px; height: 18px; flex: none; }
+.sguide { width: min(560px, calc(100vw - 32px)); max-height: 92vh; padding: 0 0 20px; border: 0; background: #fff; color: var(--color-fg); overflow: auto; }
+.sguide::backdrop { background: rgba(10,10,10,0.5); }
+.sguide__head { position: relative; padding: 18px 56px; border-bottom: 1px solid rgba(0,0,0,0.08); text-align: center; }
+.sguide__title { margin: 0; font-size: 17px; font-weight: 700; }
+.sguide__close { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; padding: 8px; border: 0; background: none; color: var(--color-fg); cursor: pointer; }
+.sguide__stage { position: relative; aspect-ratio: 4 / 3; margin: 20px 20px 0; overflow: hidden; background: #f7f6f3; }
+.sguide__art { position: absolute; box-sizing: border-box; overflow: hidden; border: 0 solid transparent; background: #e2e1dd; box-shadow: 0 6px 14px -4px rgba(0,0,0,0.3); transition: all 0.3s ease; }
+.sguide__art[data-kind="black"] { border-color: #141414; }
+.sguide__art[data-kind="white"] { border-color: #f4f3ef; outline: 1px solid rgba(0,0,0,0.1); }
+.sguide__art[data-kind="wood"] { border-color: #b98d5e; }
+.sguide__art[data-kind="canvas"] { box-shadow: 3px 3px 0 #cfcac0, 0 8px 16px -4px rgba(0,0,0,0.3); }
+.sguide__art img { position: absolute; left: -16.667%; top: -16.667%; width: 133.333%; height: 133.333%; object-fit: cover; }
+.sguide__art img.is-fallback { left: 0; top: 0; width: 100%; height: 100%; }
+.sguide__dim { position: absolute; color: #d7261e; transition: all 0.3s ease; }
+.sguide__dim--w { height: 1px; background: currentColor; }
+.sguide__dim--w::before, .sguide__dim--w::after { content: ""; position: absolute; top: -4px; width: 1px; height: 9px; background: currentColor; }
+.sguide__dim--w::before { left: 0; } .sguide__dim--w::after { right: 0; }
+.sguide__dim--w span { position: absolute; left: 50%; bottom: 6px; transform: translateX(-50%); white-space: nowrap; font-size: 13px; font-weight: 700; }
+.sguide__dim--h { width: 1px; background: currentColor; }
+.sguide__dim--h::before, .sguide__dim--h::after { content: ""; position: absolute; left: -4px; width: 9px; height: 1px; background: currentColor; }
+.sguide__dim--h::before { top: 0; } .sguide__dim--h::after { bottom: 0; }
+.sguide__dim--h span { position: absolute; left: 8px; top: 50%; transform: translateY(-50%); white-space: nowrap; font-size: 13px; font-weight: 700; }
+.sguide__sofa { position: absolute; color: #8f8e8a; transition: all 0.3s ease; }
+.sguide__floor { position: absolute; bottom: 8px; height: 1px; background: #b5b4b0; }
+.sguide__floor span { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); padding: 0 8px; background: #f7f6f3; white-space: nowrap; font-size: 11px; color: var(--color-muted); }
+.sguide__sizes { display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 8px; padding: 16px 20px 0; }
+.sguide__size { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 10px 6px; border: 1px solid rgba(0,0,0,0.14); background: #fff; color: var(--color-fg); font: inherit; cursor: pointer; }
+.sguide__size:hover { border-color: #0a0a0a; }
+.sguide__size-n { font-size: 15px; font-weight: 700; }
+.sguide__size-p { font-size: 12px; color: var(--color-muted); }
+.sguide__size.is-active { background: #0a0a0a; border-color: #0a0a0a; color: #fff; }
+.sguide__size.is-active .sguide__size-p { color: rgba(255,255,255,0.7); }
+.sguide__finishes { display: flex; flex-wrap: wrap; gap: 6px; padding: 12px 20px 0; }
+.sguide__fin { padding: 9px 14px; border: 1px solid rgba(0,0,0,0.14); background: #fff; color: var(--color-fg); font: inherit; font-size: 13px; cursor: pointer; }
+.sguide__fin:hover { border-color: #0a0a0a; }
+.sguide__fin.is-active { background: #0a0a0a; border-color: #0a0a0a; color: #fff; }
+.sguide__fin.is-soft { opacity: 0.55; }
+.sguide__sum { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; padding: 20px 20px 0; }
+.sguide__sum p { margin: 0; }
+.sguide__big { font-size: 24px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; }
+.sguide__sub { margin-top: 4px !important; font-size: 13px; color: var(--color-muted); }
+.sguide__sum-r { text-align: right; }
+.sguide__cta { display: block; width: calc(100% - 40px); margin: 16px 20px 0; padding: 16px; border: 0; background: #0a0a0a; color: #fff; font: inherit; font-size: 15px; font-weight: 700; cursor: pointer; }
+.sguide__cta:hover { background: #2b2b2b; }
+.sguide__arlink { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 14px auto 0; padding: 4px 0 2px; border: 0; border-bottom: 1px solid currentColor; background: none; color: var(--color-fg); font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; }
+html.sguide-lock { overflow: hidden; }
+.sguide-ar { position: fixed; inset: 0; z-index: 1000; overflow: hidden; background: #111; touch-action: none; }
+.sguide-ar[hidden] { display: none; }
+.sguide-ar__video, .sguide-ar__photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.sguide-ar__video[hidden], .sguide-ar__photo[hidden] { display: none; }
+.sguide-ar__art { position: absolute; z-index: 2; height: auto; cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none; }
+.sguide-ar__top { position: absolute; z-index: 3; top: 0; left: 0; right: 0; display: flex; align-items: center; gap: 12px; padding: calc(12px + env(safe-area-inset-top)) 14px 24px; background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0)); }
+.sguide-ar__btn { flex: none; width: 40px; height: 40px; padding: 9px; border: 0; background: rgba(0,0,0,0.55); color: #fff; cursor: pointer; }
+.sguide-ar__hint { margin: 0; font-size: 13px; line-height: 1.4; color: #fff; }
+.sguide-ar__msg { position: absolute; z-index: 1; left: 24px; right: 24px; top: 30%; margin: 0; text-align: center; font-size: 15px; line-height: 1.5; color: #fff; }
+.sguide-ar__bar { position: absolute; z-index: 3; left: 0; right: 0; bottom: 0; display: flex; align-items: center; gap: 14px; padding: 28px 16px calc(18px + env(safe-area-inset-bottom)); background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.6)); }
+.sguide-ar__pill { flex: none; padding: 10px 14px; background: rgba(255,255,255,0.92); color: #0a0a0a; font-size: 13px; font-weight: 600; cursor: pointer; }
+.sguide-ar__range { flex: 1; min-width: 0; accent-color: #fff; }
+.sguide-ar__shot { flex: none; width: 58px; height: 58px; border: 4px solid rgba(255,255,255,0.55); border-radius: 50%; background: #fff; background-clip: padding-box; cursor: pointer; }
+@media (max-width: 749px) {
+  .sguide { width: 100vw; max-width: 100vw; max-height: 94vh; margin: auto 0 0; }
+  .sguide__stage { margin: 16px 16px 0; }
+  .sguide__sizes { grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 14px 16px 0; }
+  .sguide__finishes, .sguide__sum { padding-left: 16px; padding-right: 16px; }
+  .sguide__cta { width: calc(100% - 32px); margin: 14px 16px 0; }
+  .sguide__big { font-size: 21px; }
+}

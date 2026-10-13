@@ -1008,59 +1008,292 @@
   }
   if (!customElements.get('wall-preview')) customElements.define('wall-preview', WallPreview);
 
-  /* Size comparator -------------------------------------------------------- */
+  /* Size guide + «Verlo en mi pared» ------------------------------------------ */
+  const euro = new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' });
   class SizeCompare extends HTMLElement {
     connectedCallback() {
-      this.stage = this.querySelector('[data-stage]');
-      this.person = this.querySelector('[data-person]');
+      this.picker = document.querySelector('variant-picker');
       const values = JSON.parse(this.querySelector('[data-sizes]').textContent);
       const labelsEl = this.querySelector('[data-labels]');
       const labels = labelsEl ? JSON.parse(labelsEl.textContent) : [];
-      this.sizes = values.map((v, i) => ({ label: v, display: labels[i] || v, size: parseSize(labels[i] || v) || parseSize(v) })).filter((s) => s.size)
-        .sort((a, b) => a.size[0] * a.size[1] - b.size[0] * b.size[1]);
-      if (this.sizes.length < 2) { this.hidden = true; return; }
-      this.render();
-      this.onChange = (event) => { if (event.target.closest('variant-picker')) this.mark(); };
+      this.sizes = values.map((v, i) => ({ value: v, display: labels[i] || v, size: parseSize(labels[i] || v) || parseSize(v) }))
+        .filter((s) => s.size).sort((a, b) => a.size[0] * a.size[1] - b.size[0] * b.size[1]);
+      if (this.sizes.length < 2 || !this.picker) { this.hidden = true; return; }
+      this.guide = this.querySelector('[data-guide]');
+      this.ar = this.querySelector('[data-ar]');
+      this.querySelector('[data-guide-open]').addEventListener('click', () => this.openGuide());
+      this.querySelectorAll('[data-ar-open]').forEach((b) => b.addEventListener('click', () => this.openAr()));
+      this.querySelector('[data-guide-close]').addEventListener('click', () => this.guide.close());
+      this.querySelector('[data-guide-choose]').addEventListener('click', () => this.guide.close());
+      this.guide.addEventListener('click', (e) => { if (e.target === this.guide) this.guide.close(); });
+      this.onChange = (event) => { if (event.target.closest('variant-picker')) this.refresh(); };
       document.addEventListener('change', this.onChange);
-      this.addEventListener('click', (event) => {
-        const box = event.target.closest('[data-size]');
-        if (!box) return;
-        const input = Array.from(document.querySelectorAll('fieldset[data-option-kind="size"] input'))
-          .find((i) => i.value === box.dataset.size);
-        if (input) input.click();
-      });
+      this.onResize = () => { if (this.guide.open) this.drawStage(); };
+      window.addEventListener('resize', this.onResize);
+      this.setupAr();
     }
-    disconnectedCallback() { if (this.onChange) document.removeEventListener('change', this.onChange); }
-    render() {
-      const H = 200, PERSON_H = 175, PERSON_W = 42, GAP = 18, CENTER = 145;
-      let x = PERSON_W + GAP * 1.4;
-      const boxes = this.sizes.map((s) => {
-        const b = { label: s.label, display: s.display, w: s.size[0], h: s.size[1], x: x };
-        x += s.size[0] + GAP;
-        return b;
-      });
-      const W = x - GAP + 6;
-      this.stage.style.aspectRatio = W + ' / ' + H;
-      this.person.style.width = (PERSON_W / W) * 100 + '%';
-      this.person.style.height = (PERSON_H / H) * 100 + '%';
-      boxes.forEach((b) => {
-        const el = document.createElement('button');
-        el.type = 'button';
-        el.className = 'sizecmp__box';
-        el.dataset.size = b.label;
-        el.style.left = (b.x / W) * 100 + '%';
-        el.style.width = (b.w / W) * 100 + '%';
-        el.style.height = (b.h / H) * 100 + '%';
-        el.style.bottom = (Math.max(0, CENTER - b.h / 2) / H) * 100 + '%';
-        el.innerHTML = '<span>' + (b.display.indexOf('·') > -1 ? b.display.split('·')[0].trim() : b.display.replace(/\s*cm\s*$/i, '')) + '</span>';
-        el.setAttribute('aria-label', (S.chooseSize || 'Elegir [size]').replace('[size]', b.display));
-        this.stage.appendChild(el);
-      });
-      this.mark();
+    disconnectedCallback() {
+      if (this.onChange) document.removeEventListener('change', this.onChange);
+      if (this.onResize) window.removeEventListener('resize', this.onResize);
+      this.stopCamera();
     }
-    mark() {
-      const current = selectedOf('size');
-      this.querySelectorAll('[data-size]').forEach((b) => b.classList.toggle('is-active', b.dataset.size === current));
+    /* Picker state ---------------------------------------------------------- */
+    fieldsets() { return Array.from(this.picker.querySelectorAll('fieldset')); }
+    sizeIndex() { return this.fieldsets().findIndex((f) => f.dataset.optionKind === 'size'); }
+    selected() { return this.fieldsets().map((f) => { const c = f.querySelector('input:checked'); return c ? c.value : null; }); }
+    variantFor(options) { return this.picker.variants.find((v) => v.options.every((o, i) => o === options[i])); }
+    kind() {
+      const checked = Array.from(this.picker.querySelectorAll('input:checked')).map((i) => i.value.toLowerCase()).join(' ');
+      const frame = (selectedOf('frame') || '').toLowerCase();
+      let k = 'none';
+      if (/black|negr/.test(frame)) k = 'black';
+      else if (/white|blanc/.test(frame)) k = 'white';
+      else if (/wood|madera|natural/.test(frame)) k = 'wood';
+      if (!document.querySelector('fieldset[data-option-kind="frame"]')) k = /sin marco|without|unframed/.test(checked) ? 'none' : 'black';
+      if (k === 'none' && /canvas|lienzo/.test(checked)) k = 'canvas';
+      return k;
+    }
+    finishLabel() {
+      const tile = this.picker.querySelector('[data-finish-step] .ftile.is-active');
+      if (tile) return tile.dataset.label || '';
+      const f = this.picker.querySelector('fieldset[data-option-kind="frame"] input:checked');
+      return f ? (f.dataset.display || f.value) : '';
+    }
+    current() {
+      const sel = this.selected();
+      const si = this.sizeIndex();
+      return this.sizes.find((s) => s.value === sel[si]) || this.sizes[0];
+    }
+    /* Guide ------------------------------------------------------------------ */
+    openGuide() {
+      this.refresh();
+      if (typeof this.guide.showModal === 'function') this.guide.showModal(); else this.guide.setAttribute('open', '');
+      requestAnimationFrame(() => this.drawStage());
+    }
+    refresh() {
+      if (!this.guide) return;
+      const sel = this.selected();
+      const si = this.sizeIndex();
+      const cur = this.current();
+      /* Sizes made in the chosen finish, with their price */
+      const list = this.querySelector('[data-size-list]');
+      list.innerHTML = '';
+      this.sizes.forEach((s) => {
+        const opts = sel.slice(); opts[si] = s.value;
+        const v = this.variantFor(opts);
+        if (!v) return;
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'sguide__size' + (s === cur ? ' is-active' : '');
+        b.setAttribute('role', 'radio');
+        b.setAttribute('aria-checked', String(s === cur));
+        const short = s.display.indexOf('·') > -1 ? s.display.split('·')[0].trim() : s.display.replace(/\s*cm\s*$/i, '');
+        b.innerHTML = '<span class="sguide__size-n"></span><span class="sguide__size-p"></span>';
+        b.firstChild.textContent = short;
+        b.lastChild.textContent = euro.format(v.price / 100);
+        b.addEventListener('click', () => {
+          const input = Array.from(this.picker.querySelectorAll('fieldset[data-option-kind="size"] input')).find((i) => i.value === s.value);
+          if (input) input.click();
+        });
+        list.appendChild(b);
+      });
+      const n = list.children.length;
+      const cols = window.matchMedia('(max-width: 749px)').matches ? (n <= 4 ? n : 3) : Math.min(n, 6);
+      list.style.gridTemplateColumns = 'repeat(' + Math.max(cols, 1) + ', minmax(0, 1fr))';
+      /* Finishes: mirror the product's own finish tiles (or frame choices) */
+      const fl = this.querySelector('[data-finish-list]');
+      fl.innerHTML = '';
+      const tiles = Array.from(this.picker.querySelectorAll('[data-finish-step] .ftile[data-p]'));
+      const frameInputs = tiles.length ? [] : Array.from(this.picker.querySelectorAll('fieldset[data-option-kind="frame"] input'));
+      tiles.concat(frameInputs).forEach((src) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        const on = src.matches('input') ? src.checked : src.classList.contains('is-active');
+        b.className = 'sguide__fin' + (on ? ' is-active' : '') + (src.classList && src.classList.contains('is-unavailable') ? ' is-soft' : '');
+        b.textContent = src.dataset.label || src.dataset.display || src.value;
+        b.addEventListener('click', () => src.click());
+        fl.appendChild(b);
+      });
+      fl.hidden = !fl.children.length;
+      /* Summary + button */
+      const v = this.variantFor(sel);
+      const parts = cur.display.split('·');
+      this.querySelector('[data-sum-size]').textContent = (parts[1] || parts[0]).trim();
+      this.querySelector('[data-sum-sub]').textContent = parts[1] ? parts[0].trim() : '';
+      this.querySelector('[data-sum-price]').textContent = v ? euro.format(v.price / 100) : '';
+      this.querySelector('[data-sum-finish]').textContent = this.finishLabel();
+      const short = parts[1] ? parts[0].trim() : parts[0].replace(/\s*cm\s*$/i, '').trim();
+      this.querySelector('[data-guide-choose]').textContent = (S.chooseSize || 'Elegir [size]').replace('[size]', short);
+      if (this.guide.open) this.drawStage();
+      if (this.ar && !this.ar.hidden) this.setArImage();
+    }
+    drawStage() {
+      const stage = this.querySelector('[data-stage]');
+      const W = stage.clientWidth, H = stage.clientHeight;
+      if (!W) return;
+      const WALL = 300, ppc = W / WALL; /* stage = 300 × 225 cm of wall */
+      const cur = this.current();
+      const kind = this.kind();
+      const fw = kind === 'black' || kind === 'white' || kind === 'wood' ? 2.5 : 0;
+      const w = (cur.size[0] + fw * 2) * ppc, h = (cur.size[1] + fw * 2) * ppc;
+      const sofaW = 200 * ppc, sofaH = 90 * ppc;
+      const base = 26; /* room under the sofa for its measure */
+      const bottom = Math.max(base + 4, Math.min(H - h - 40, base + sofaH + 25 * ppc));
+      const left = (W - w) / 2;
+      const art = this.querySelector('[data-art]');
+      Object.assign(art.style, { width: w + 'px', height: h + 'px', left: left + 'px', bottom: bottom + 'px', borderWidth: Math.max(1, fw * ppc) + 'px' });
+      art.dataset.kind = kind;
+      const img = this.querySelector('[data-art-img]');
+      const src = this.dataset.none;
+      if (img.dataset.src !== src) {
+        img.dataset.src = src;
+        img.onerror = () => { img.onerror = null; img.classList.add('is-fallback'); img.src = this.dataset.fallback; };
+        img.src = src;
+      }
+      const sofa = this.querySelector('[data-sofa]');
+      Object.assign(sofa.style, { width: sofaW + 'px', height: sofaH + 'px', left: (W - sofaW) / 2 + 'px', bottom: base + 'px' });
+      const floor = this.querySelector('[data-floor]');
+      Object.assign(floor.style, { width: sofaW + 'px', left: (W - sofaW) / 2 + 'px' });
+      const cm = (n) => (Math.round(n * 10) / 10).toString().replace('.', ',') + ' cm';
+      const dw = this.querySelector('[data-dim-w]');
+      Object.assign(dw.style, { width: w + 'px', left: left + 'px', bottom: bottom + h + 10 + 'px' });
+      dw.firstChild.textContent = cm(cur.size[0]);
+      const dh = this.querySelector('[data-dim-h]');
+      Object.assign(dh.style, { height: h + 'px', left: left + w + 12 + 'px', bottom: bottom + 'px' });
+      dh.firstChild.textContent = cm(cur.size[1]);
+    }
+    /* «Verlo en mi pared» ---------------------------------------------------- */
+    setupAr() {
+      const ar = this.ar;
+      this.arArt = ar.querySelector('[data-ar-art]');
+      this.video = ar.querySelector('[data-ar-video]');
+      this.photo = ar.querySelector('[data-ar-photo]');
+      const range = ar.querySelector('[data-ar-range]');
+      this.pos = { x: 0.5, y: 0.42 };
+      const place = () => {
+        const r = ar.getBoundingClientRect();
+        const width = (range.value / 100) * r.width;
+        this.arArt.style.width = width + 'px';
+        this.arArt.style.left = this.pos.x * r.width - width / 2 + 'px';
+        this.arArt.style.top = this.pos.y * r.height - (width * 1.25) / 2 + 'px';
+      };
+      this.placeAr = place;
+      range.addEventListener('input', place);
+      ar.querySelector('[data-ar-close]').addEventListener('click', () => this.closeAr());
+      ar.addEventListener('keydown', (e) => { if (e.key === 'Escape') this.closeAr(); });
+      ar.querySelector('[data-ar-file]').addEventListener('change', (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (!file) return;
+        this.stopCamera();
+        this.photo.src = URL.createObjectURL(file);
+        this.photo.hidden = false;
+        this.video.hidden = true;
+        ar.querySelector('[data-ar-msg]').hidden = true;
+      });
+      /* Drag with one finger, resize with two */
+      const pts = new Map();
+      let start = null;
+      this.arArt.addEventListener('pointerdown', (e) => {
+        this.arArt.setPointerCapture(e.pointerId);
+        pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+        start = { pos: Object.assign({}, this.pos), size: +range.value, pts: new Map(pts) };
+      });
+      this.arArt.addEventListener('pointermove', (e) => {
+        if (!pts.has(e.pointerId) || !start) return;
+        pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+        const r = ar.getBoundingClientRect();
+        const ids = Array.from(pts.keys());
+        if (ids.length === 1 && start.pts.has(ids[0])) {
+          const a = start.pts.get(ids[0]), b = pts.get(ids[0]);
+          this.pos.x = Math.min(0.95, Math.max(0.05, start.pos.x + (b.x - a.x) / r.width));
+          this.pos.y = Math.min(0.95, Math.max(0.05, start.pos.y + (b.y - a.y) / r.height));
+        } else if (ids.length >= 2 && start.pts.has(ids[0]) && start.pts.has(ids[1])) {
+          const d = (m) => Math.hypot(m.get(ids[0]).x - m.get(ids[1]).x, m.get(ids[0]).y - m.get(ids[1]).y);
+          range.value = Math.min(90, Math.max(10, start.size * (d(pts) / (d(start.pts) || 1))));
+        }
+        place();
+      });
+      const end = (e) => { pts.delete(e.pointerId); start = { pos: Object.assign({}, this.pos), size: +range.value, pts: new Map(pts) }; };
+      this.arArt.addEventListener('pointerup', end);
+      this.arArt.addEventListener('pointercancel', end);
+      ar.querySelector('[data-ar-shot]').addEventListener('click', () => this.shot());
+      window.addEventListener('resize', () => { if (!ar.hidden) place(); });
+    }
+    setArImage() {
+      const k = this.kind();
+      const src = this.dataset[k] || this.dataset.none;
+      if (this.arArt.dataset.src === src) return;
+      this.arArt.dataset.src = src;
+      /* CORS so «Guardar foto» can draw it; without it the image still shows */
+      this.arArt.crossOrigin = 'anonymous';
+      this.arArt.onerror = () => {
+        if (this.arArt.crossOrigin) { this.arArt.removeAttribute('crossorigin'); this.arArt.src = src; return; }
+        this.arArt.onerror = null;
+        this.arArt.src = this.dataset.fallback;
+      };
+      this.arArt.src = src;
+    }
+    async openAr() {
+      if (this.guide.open) this.guide.close();
+      this.ar.hidden = false;
+      document.documentElement.classList.add('sguide-lock');
+      this.setArImage();
+      this.placeAr();
+      this.ar.querySelector('[data-ar-close]').focus();
+      const msg = this.ar.querySelector('[data-ar-msg]');
+      if (!this.photo.hidden) return;
+      try {
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) throw new Error('no camera');
+        this.stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: 'environment' } }, audio: false });
+        this.video.srcObject = this.stream;
+        this.video.hidden = false;
+        msg.hidden = true;
+      } catch (err) {
+        this.video.hidden = true;
+        msg.hidden = false;
+      }
+    }
+    stopCamera() {
+      if (this.stream) { this.stream.getTracks().forEach((t) => t.stop()); this.stream = null; }
+      if (this.video) this.video.srcObject = null;
+    }
+    closeAr() {
+      this.stopCamera();
+      this.ar.hidden = true;
+      document.documentElement.classList.remove('sguide-lock');
+    }
+    shot() {
+      const r = this.ar.getBoundingClientRect();
+      const c = this.ar.querySelector('[data-ar-canvas]');
+      const scale = Math.min(2, window.devicePixelRatio || 1);
+      c.width = r.width * scale; c.height = r.height * scale;
+      const ctx = c.getContext('2d');
+      ctx.scale(scale, scale);
+      ctx.fillStyle = '#111'; ctx.fillRect(0, 0, r.width, r.height);
+      const bg = !this.photo.hidden ? this.photo : (!this.video.hidden ? this.video : null);
+      if (bg) {
+        const bw = bg.videoWidth || bg.naturalWidth, bh = bg.videoHeight || bg.naturalHeight;
+        if (bw && bh) {
+          const k = Math.max(r.width / bw, r.height / bh);
+          ctx.drawImage(bg, (r.width - bw * k) / 2, (r.height - bh * k) / 2, bw * k, bh * k);
+        }
+      }
+      const a = this.arArt.getBoundingClientRect();
+      try { ctx.drawImage(this.arArt, a.left - r.left, a.top - r.top, a.width, a.height); } catch (e) { /* image not drawable */ }
+      try {
+        c.toBlob((blob) => {
+          if (!blob) return;
+          const file = new File([blob], 'arsnoir-en-mi-pared.jpg', { type: 'image/jpeg' });
+          if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            navigator.share({ files: [file] }).catch(() => {});
+          } else {
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = file.name;
+            link.click();
+          }
+        }, 'image/jpeg', 0.9);
+      } catch (e) { /* tainted canvas: nothing to save */ }
     }
   }
   if (!customElements.get('size-compare')) customElements.define('size-compare', SizeCompare);
