@@ -14,19 +14,19 @@
     "color_muted": "#6B6B6B",
     "color_line": "#E2E2E0",
     "color_surface": "#E9E9E7",
+    "color_accent": "#0A0A0A",
     "page_width": 1440,
     "button_radius": 100,
     "card_ratio": "square",
     "card_frame": true,
-    "color_accent": "#0A0A0A",
+    "shipping_message": "",
+    "shipping_details": "Entrega en 4-10 días hábiles en la Península, con seguimiento · Impreso en Europa",
     "free_shipping_threshold": 80,
     "returns_days": "14",
-    "shipping_message": "",
+    "q4_start": "2026-11-20",
+    "q4_gift_page": "regalos",
     "delivery_min": 4,
     "delivery_max": 10,
-    "shipping_details": "Entrega en 4-10 días hábiles en la Península, con seguimiento · Impreso en Europa",
-    "q4_gift_page": "regalos",
-    "q4_start": "2026-11-20",
     "sections": {
       "newsletter-popup": {
         "type": "newsletter-popup",
@@ -36,6 +36,7 @@
           "min_pages": 1,
           "delay": 4,
           "days": 14,
+          "image": "shopify://shop_images/arsnoir-bienvenida.jpg",
           "eyebrow": "BIENVENIDO A ARSNOIR",
           "heading": "10% EN TU PRIMERA PIEZA",
           "text": "Déjanos tu email y llévate un 10% en tu primera obra ARSNOIR.",
@@ -44,8 +45,44 @@
           "legal": "Puedes darte de baja cuando quieras.",
           "success_heading": "Tu código: WELCOME10",
           "success_text": "Úsalo en tu primera pieza. Ya lo hemos aplicado a tu carrito.",
-          "code": "WELCOME10",
-          "image": "shopify://shop_images/arsnoir-bienvenida.jpg"
+          "code": "WELCOME10"
+        }
+      },
+      "cart-drawer": {
+        "type": "cart-drawer",
+        "settings": {}
+      },
+      "cookie-banner": {
+        "type": "cookie-banner",
+        "settings": {
+          "preview": false,
+          "title": "Usamos cookies",
+          "text": "Algunas son necesarias para que la tienda funcione. Otras nos ayudan a mejorar tu experiencia y a entender qué te gusta. Tú decides.",
+          "accept_label": "Aceptar",
+          "reject_label": "Rechazar",
+          "policy_label": "Política de privacidad y cookies",
+          "policy_link": ""
+        }
+      }
+    },
+    "content_for_index": [],
+    "blocks": {
+      "13851756539466573627": {
+        "type": "shopify://apps/gelato-print-on-demand/blocks/product-personalizer/9f8f1130-ec83-4e2f-a417-5e69fb8f6e45",
+        "disabled": false,
+        "settings": {
+          "hidden-selector": "",
+          "in-page-personalization-preview-selector": "",
+          "cart-edit-selector": "",
+          "cart-item-info-selector": "",
+          "personalized-cart-preview-selector": "",
+          "dropdown-selectors-desktop": "None",
+          "dropdown-selectors-mobile": "None",
+          "show-personalize-tab": true,
+          "hide-preview-button": false,
+          "hide-preview-scroll-bar": false,
+          "zoom-in-preview": false,
+          "enable-manual-save-draft": false
         }
       }
     }
