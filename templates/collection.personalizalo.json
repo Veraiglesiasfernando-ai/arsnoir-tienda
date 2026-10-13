@@ -21,7 +21,8 @@
         "video_label": "Mascotas",
         "upload_video_url": "https://cdn.shopify.com/videos/c/vp/e7e11dddbc57469588d4a48ffb80449c/e7e11dddbc57469588d4a48ffb80449c.HD-1080p-2.5Mbps-97018482.mp4",
         "upload_video_poster": "shopify://shop_images/arsnoir-sube-tu-foto-salon-poster.jpg",
-        "quality_promise": "<p><strong>Calidad ARSNOIR.</strong> Trabajamos con la máxima calidad: si subes una imagen con poca resolución, la revisamos y la mejoramos antes de imprimir para que llegue perfecta. <a href=\"/pages/guia-foto\">Ver guía para mejorar tu foto</a></p>"
+        "quality_promise": "<p><strong>Calidad ARSNOIR.</strong> Trabajamos con la máxima calidad: si subes una imagen con poca resolución, la revisamos y la mejoramos antes de imprimir para que llegue perfecta. <a href=\"/pages/guia-foto\">Ver guía para mejorar tu foto</a></p>",
+        "illustrations_ready": true
       }
     },
     "templates": {
@@ -33,7 +34,8 @@
             "category": "Mascotas",
             "name": "Óleo vintage",
             "tagline": "Pinceladas de óleo y fondo de rayas.",
-            "image": "shopify://shop_images/estilo-mascotas-oleo.jpg"
+            "image": "shopify://shop_images/estilo-mascotas-oleo.jpg",
+            "link": "shopify://products/oleo-vintage"
           }
         },
         "mas2": {
@@ -42,7 +44,8 @@
             "category": "Mascotas",
             "name": "En su rincón",
             "tagline": "Tu mascota en su sitio favorito de casa.",
-            "image": "shopify://shop_images/estilo-mascotas-en-casa.jpg"
+            "image": "shopify://shop_images/estilo-mascotas-en-casa.jpg",
+            "link": "shopify://products/en-su-rincon"
           }
         },
         "mas3": {
@@ -51,7 +54,8 @@
             "category": "Mascotas",
             "name": "Retrato con nombre",
             "tagline": "Su retrato con su nombre arriba.",
-            "image": "shopify://shop_images/estilo-mascotas-nombre.jpg"
+            "image": "shopify://shop_images/estilo-mascotas-nombre.jpg",
+            "link": "shopify://products/retrato-con-nombre"
           }
         },
         "amo1": {
@@ -81,12 +85,23 @@
             "category": "Familia",
             "name": "Estilo 2"
           }
+        },
+        "mas4": {
+          "type": "template",
+          "settings": {
+            "category": "Mascotas",
+            "name": "Retrato con sudadera",
+            "tagline": "Con su sudadera, fondo de color y su nombre.",
+            "image": "shopify://shop_images/plantilla-retrato-nombre.jpg",
+            "link": "shopify://products/retrato-con-sudadera"
+          }
         }
       },
       "block_order": [
         "mas1",
         "mas2",
         "mas3",
+        "mas4",
         "amo1",
         "amo2",
         "fam1",
