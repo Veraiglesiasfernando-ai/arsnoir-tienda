@@ -4,7 +4,7 @@ main = "worker.js"
 compatibility_date = "2026-10-01"
 
 [vars]
-ALLOWED_ORIGINS = "https://arsnoir.com,https://www.arsnoir.com"  # [CONFIRMAR] your store domains, incl. xxxx.myshopify.com
+ALLOWED_ORIGINS = "https://arsnoir.com,https://www.arsnoir.com,https://rprhr0-pu.myshopify.com"
 MODEL = "google/nano-banana"
 DAILY_LIMIT = "6"
 # PUBLIC_BASE = "https://plantillas.arsnoir.com"  # public URL of the R2 bucket below

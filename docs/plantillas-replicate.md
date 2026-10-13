@@ -40,7 +40,7 @@ Mientras no pongas la URL del intermediario, la ficha dice «Muy pronto» y no d
    npx wrangler login
    npx wrangler secret put REPLICATE_API_TOKEN     # pega aquí el token de Replicate
    ```
-3. Edita `wrangler.toml`. En `ALLOWED_ORIGINS` pon los dominios de tu tienda, separados por comas: tu dominio y el `xxxx.myshopify.com`.
+3. `ALLOWED_ORIGINS` en `wrangler.toml` ya tiene tus dominios: `arsnoir.com`, `www.arsnoir.com` y `rprhr0-pu.myshopify.com`. Si añades otro dominio, ponlo ahí.
 4. **Copias permanentes (recomendado).** Los enlaces de Replicate caducan en más o menos 1 hora y el pedido necesita uno que dure:
    - `npx wrangler r2 bucket create arsnoir-plantillas`
    - En Cloudflare → R2 → el bucket → Settings → activa el acceso público (r2.dev o un subdominio tuyo).
