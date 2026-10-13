@@ -373,7 +373,7 @@
               {%- endform -%}
               {%- if settings.free_shipping_threshold > 0 -%}
                 {%- assign threshold_money = settings.free_shipping_threshold | times: 100 | money_without_trailing_zeros -%}
-                <p class="product__ship-hint">{{ 'product.free_shipping_from' | t: amount: threshold_money }}</p>
+                <p class="product__ship-hint">{{ 'product.free_shipping_from' | t: amount: threshold_money }}{%- if settings.gift_enabled -%}{%- assign gift_money = settings.gift_tier1 | times: 100 | money_without_trailing_zeros %} · {{ 'product.gift_from' | t: amount: gift_money }}{%- endif -%}</p>
               {%- elsif settings.shipping_message != blank -%}
                 <p class="product__ship-hint">{{ settings.shipping_message }}{% if settings.shipping_details != blank %}<span class="product__ship-sub">{{ settings.shipping_details }}</span>{% endif %}</p>
               {%- endif -%}

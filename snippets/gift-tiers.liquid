@@ -4,12 +4,17 @@
   Mirrors the Shopify gift discounts; the gift line itself is added/removed by theme.js.
 {%- endcomment -%}
 {%- liquid
+  assign t0 = settings.free_shipping_threshold | times: 100
   assign t1 = settings.gift_tier1 | times: 100
   assign t2 = settings.gift_tier2 | times: 100
+  if t0 >= t1
+    assign t0 = 0
+  endif
   assign pct = eligible | times: 100.0 | divided_by: t2
   if pct > 100
     assign pct = 100
   endif
+  assign m0 = t0 | times: 100.0 | divided_by: t2
   assign m1 = t1 | times: 100.0 | divided_by: t2
   assign reached = 0
   if eligible >= t1
@@ -23,8 +28,13 @@
   <p class="gift-tiers__text">
     {%- case reached -%}
       {%- when 0 -%}
-        {%- assign left = t1 | minus: eligible | money -%}
-        {{ 'cart.gift_left_html' | t: amount: left }}
+        {%- if t0 > 0 and eligible < t0 -%}
+          {%- assign left = t0 | minus: eligible | money -%}
+          {{ 'cart.remaining_html' | t: amount: left }}
+        {%- else -%}
+          {%- assign left = t1 | minus: eligible | money -%}
+          {%- if t0 > 0 -%}<span class="cartx-check" aria-hidden="true"></span>{{ 'cart.gift_ship_ok' | t }} · {% endif -%}{{ 'cart.gift_left_html' | t: amount: left }}
+        {%- endif -%}
       {%- when 1 -%}
         {%- assign left = t2 | minus: eligible | money -%}
         <span class="cartx-check" aria-hidden="true"></span>{{ 'cart.gift_unlocked_1_html' | t }} <span class="gift-tiers__next">{{ 'cart.gift_next_html' | t: amount: left }}</span>
@@ -34,10 +44,12 @@
   </p>
   <div class="gift-tiers__track" role="progressbar" aria-valuemin="0" aria-valuemax="{{ t2 }}" aria-valuenow="{{ eligible }}">
     <span class="gift-tiers__fill" style="width: {{ pct }}%"></span>
+    {%- if t0 > 0 -%}<span class="gift-tiers__stop{% if eligible >= t0 %} is-on{% endif %}" style="left: {{ m0 }}%">{% render 'icon', name: 'truck' %}</span>{%- endif -%}
     <span class="gift-tiers__stop{% if reached >= 1 %} is-on{% endif %}" style="left: {{ m1 }}%">{% render 'icon', name: 'gift' %}</span>
     <span class="gift-tiers__stop{% if reached >= 2 %} is-on{% endif %}" style="left: 100%">{% render 'icon', name: 'gift' %}</span>
   </div>
   <div class="gift-tiers__labels">
+    {%- if t0 > 0 -%}<span style="left: {{ m0 }}%"><strong>{{ settings.free_shipping_threshold }} €</strong>{{ 'cart.gift_ship_ok' | t }}</span>{%- endif -%}
     <span style="left: {{ m1 }}%"><strong>{{ settings.gift_tier1 }} €</strong>{{ 'cart.gift_tier_1' | t }}</span>
     <span style="left: 100%"><strong>{{ settings.gift_tier2 }} €</strong>{{ 'cart.gift_tier_2' | t }}</span>
   </div>
