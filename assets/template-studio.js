@@ -63,15 +63,18 @@
     else if (/madera|wood|natural/.test(f)) kind = 'wood';
     const s = sizeOf(sizeText);
     const w = Math.min(s[0], s[1]), h = Math.max(s[0], s[1]);
-    const WALL = 120; /* cm of wall across the picture */
+    /* Close-up wall (≈80 cm across): sizes still read bigger or smaller, the art stays large */
+    const WALL = 80;
     const wall = live.querySelector('.tlive__wall');
     const frame = live.querySelector('.tlive__frame');
     const fw = kind === 'none' ? 0 : 2.5;
-    const px = (wall.clientWidth || 600) / WALL;
+    const fwW = w + fw * 2, fwH = h + fw * 2;
+    const fit = Math.min(1, (0.84 * WALL) / fwW, (0.84 * WALL * 1.25) / fwH);
+    const px = ((wall.clientWidth || 600) / WALL) * fit;
     frame.dataset.kind = kind;
     frame.classList.toggle('is-canvas', /lienzo|canvas/.test(f));
-    frame.style.width = Math.min(86, ((w + fw * 2) / WALL) * 100) + '%';
-    frame.style.aspectRatio = (w + fw * 2) + ' / ' + (h + fw * 2);
+    frame.style.width = (fwW / WALL) * fit * 100 + '%';
+    frame.style.aspectRatio = fwW + ' / ' + fwH;
     frame.style.borderWidth = fw ? Math.max(2, fw * px) + 'px' : '0';
     live.querySelector('.tlive__cap').textContent = [sizeText, finText].filter(Boolean).join(' · ');
   };
