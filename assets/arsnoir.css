@@ -2811,7 +2811,7 @@ html.sguide-lock { overflow: hidden; }
 /* Personalízalo · the customer's illustration on a wall, first in the gallery (template-studio.js) */
 .tlive { position: relative; }
 .tlive[hidden] { display: none; }
-.tlive__wall { position: relative; display: flex; align-items: center; justify-content: center; aspect-ratio: 1 / 1; background: linear-gradient(180deg, #ecebe8 0%, #e4e2de 100%); overflow: hidden; }
+.tlive__wall { position: relative; display: flex; align-items: center; justify-content: center; aspect-ratio: 4 / 5; background: var(--color-surface); overflow: hidden; }
 .tlive__frame { position: relative; box-sizing: border-box; border: 0 solid transparent; background: #fff; box-shadow: 0 22px 34px -18px rgba(0,0,0,0.45), 0 2px 6px rgba(0,0,0,0.08); transition: width 0.35s ease, aspect-ratio 0.35s ease, border-color 0.25s ease, border-width 0.25s ease; }
 .tlive__frame img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; max-height: none; object-fit: cover; box-shadow: none; }
 .tlive__frame[data-kind="black"] { border-color: #151515; }
@@ -2820,4 +2820,4 @@ html.sguide-lock { overflow: hidden; }
 .tlive__frame.is-canvas[data-kind="none"] { box-shadow: 4px 6px 0 -1px rgba(0,0,0,0.18), 0 24px 34px -18px rgba(0,0,0,0.5); }
 .tlive__cap { position: absolute; left: 0; right: 0; bottom: 14px; margin: 0; text-align: center; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-muted); }
 @media (prefers-reduced-motion: reduce) { .tlive__frame { transition: none; } }
-.product__gallery > .product__media.tlive { display: block; padding: 0; background: none; aspect-ratio: auto !important; }
+.product__gallery > .product__media.tlive { display: block; padding: 0; aspect-ratio: auto !important; }

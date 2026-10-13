@@ -45,16 +45,6 @@
             assign load = 'eager'
           endif
         -%}
-        {%- if media.media_type == 'image' and product.tags contains 'plantilla' -%}
-          {%- comment -%} Illustration templates: each example hangs framed on a wall, like the artworks (template-studio.js follows size and finish) {%- endcomment -%}
-          <div class="product__media tlive tlive--example{% unless forloop.first %} product__media--lifestyle{% endunless %}" data-media-id="{{ media.id }}">
-            <div class="tlive__wall"><div class="tlive__frame" data-kind="black">
-              {{ media | image_url: width: 1100 | image_tag: loading: load, widths: '400, 700, 1100', sizes: '(min-width: 900px) 30vw, 60vw', alt: media.alt | default: product.title }}
-            </div></div>
-            <p class="tlive__cap"></p>
-          </div>
-          {%- continue -%}
-        {%- endif -%}
         <div class="product__media{% if is_lifestyle %} product__media--lifestyle{% endif %}" data-media-id="{{ media.id }}">
           {%- if media.media_type == 'image' and forloop.first -%}
             {% render 'framed-main', media: media, product: product, load: load %}

@@ -64,11 +64,11 @@
     else if (/madera|wood|natural/.test(f)) kind = 'wood';
     const s = sizeOf(sizeText);
     const w = Math.min(s[0], s[1]), h = Math.max(s[0], s[1]);
-    /* About a metre of wall across: sizes read bigger or smaller, like on the artworks */
-    const WALL = 100;
+    /* ~75 cm across, like the framed photo of the artworks: sizes still read bigger or smaller */
+    const WALL = 75;
     const fw = kind === 'none' ? 0 : 2.5;
     const fwW = w + fw * 2, fwH = h + fw * 2;
-    const fit = Math.min(1, (0.8 * WALL) / fwW, (0.84 * WALL) / fwH); /* square wall */
+    const fit = Math.min(1, (0.78 * WALL) / fwW, (0.78 * WALL * 1.25) / fwH); /* 4:5 */
     const cap = [sizeText, finText].filter(Boolean).join(' · ');
     gallery.querySelectorAll('.tlive:not([hidden])').forEach(function (el) {
       const wall = el.querySelector('.tlive__wall');
