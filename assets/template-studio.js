@@ -43,11 +43,64 @@
   const addUse = function () {
     try { localStorage.setItem(d.key, String(used() + 1)); } catch (e) {}
   };
+  /* The illustration on a wall, first in the gallery: follows the chosen size and finish */
+  const gallery = document.querySelector('.product__gallery');
+  let live = null;
+  const sizeOf = function (text) {
+    const m = String(text || '').replace(/,/g, '.').match(/(\d+(?:\.\d+)?)\s*[x×]\s*(\d+(?:\.\d+)?)/);
+    return m ? [parseFloat(m[1]), parseFloat(m[2])] : [21, 29.7];
+  };
+  const syncLive = function () {
+    if (!live || live.hidden) return;
+    const sizeIn = document.querySelector('fieldset[data-option-kind="size"] input:checked');
+    const finIn = document.querySelector('fieldset[data-option-kind="frame"] input:checked');
+    const sizeText = sizeIn ? (sizeIn.dataset.display || sizeIn.value) : '';
+    const finText = finIn ? (finIn.dataset.display || finIn.value) : '';
+    const f = finText.toLowerCase();
+    let kind = 'none';
+    if (/negr|black/.test(f)) kind = 'black';
+    else if (/blanc|white/.test(f)) kind = 'white';
+    else if (/madera|wood|natural/.test(f)) kind = 'wood';
+    const s = sizeOf(sizeText);
+    const w = Math.min(s[0], s[1]), h = Math.max(s[0], s[1]);
+    const WALL = 120; /* cm of wall across the picture */
+    const wall = live.querySelector('.tlive__wall');
+    const frame = live.querySelector('.tlive__frame');
+    const fw = kind === 'none' ? 0 : 2.5;
+    const px = (wall.clientWidth || 600) / WALL;
+    frame.dataset.kind = kind;
+    frame.classList.toggle('is-canvas', /lienzo|canvas/.test(f));
+    frame.style.width = Math.min(86, ((w + fw * 2) / WALL) * 100) + '%';
+    frame.style.aspectRatio = (w + fw * 2) + ' / ' + (h + fw * 2);
+    frame.style.borderWidth = fw ? Math.max(2, fw * px) + 'px' : '0';
+    live.querySelector('.tlive__cap').textContent = [sizeText, finText].filter(Boolean).join(' · ');
+  };
+  const showLive = function (url) {
+    if (!gallery) return;
+    if (!live) {
+      live = document.createElement('div');
+      live.className = 'product__media tlive';
+      live.innerHTML = '<div class="tlive__wall"><div class="tlive__frame"><img alt="" width="720" height="900"></div></div><p class="tlive__cap"></p>';
+      gallery.insertBefore(live, gallery.firstChild);
+    }
+    const img = live.querySelector('img');
+    img.alt = resultImg.alt;
+    img.src = url;
+    live.hidden = false;
+    syncLive();
+    gallery.scrollTo({ left: 0, top: 0, behavior: 'smooth' });
+  };
+  document.addEventListener('change', function (event) {
+    if (event.target.closest && event.target.closest('variant-picker')) requestAnimationFrame(syncLive);
+  });
+  window.addEventListener('resize', syncLive);
+
   /* A new photo or name invalidates the previous preview */
   const reset = function () {
     urlInput.value = '';
     if (nameProp) nameProp.value = '';
     result.hidden = true;
+    if (live) live.hidden = true;
   };
   const ready = function () {
     go.disabled = !photo || (needsName && !nameInput.value.trim()) || used() >= max;
@@ -112,6 +165,7 @@
         if (nameProp) nameProp.value = name.toUpperCase();
         resultImg.src = url;
         result.hidden = false;
+        showLive(url);
         const left = max - used();
         say(left > 0 ? (d.tLeft || '').replace('[N]', left) : '');
       })

@@ -240,8 +240,14 @@
           if (!same) {
             const sizeSet = this.querySelector('fieldset[data-option-kind="size"]');
             const sizeI = Array.prototype.indexOf.call(this.querySelectorAll('fieldset'), sizeSet);
+            /* Closest size by area to the one chosen */
+            const area = function (input) {
+              const s = input && parseSize(input.dataset.display || input.value);
+              return s ? s[0] * s[1] : 0;
+            };
+            const want = area(sizeSet && sizeSet.querySelector('input:checked'));
             const ranked = Array.from(sizeSet ? sizeSet.querySelectorAll('input') : []).sort(function (a, b) {
-              return (parseInt(a.style.order, 10) || 0) - (parseInt(b.style.order, 10) || 0);
+              return Math.abs(area(a) - want) - Math.abs(area(b) - want);
             });
             const fit = ranked.find((input) => this.variants.some(function (v) {
               return v.options[pI] === tile.dataset.p && v.options[sI] === tile.dataset.s && v.options[sizeI] === input.value;
@@ -283,13 +289,9 @@
         tile.classList.toggle('is-active', on);
         tile.setAttribute('aria-checked', String(on));
         if (on) label = tile.dataset.label;
-        /* Not offered in the chosen size */
+        /* Only greyed when it isn't made at all: a finish made in other sizes moves the size on click */
         const exists = variants.some(function (v) {
-          return v.options.every(function (o, i) {
-            if (i === pI) return o === tile.dataset.p;
-            if (i === sI) return o === tile.dataset.s;
-            return o === selected[i];
-          });
+          return v.options[pI] === tile.dataset.p && v.options[sI] === tile.dataset.s;
         });
         tile.classList.toggle('is-unavailable', !exists);
       });
@@ -314,9 +316,18 @@
       const changedSet = event && event.target && event.target.closest ? event.target.closest('fieldset') : null;
       if (!variant && sizeSet && changedSet && changedSet !== sizeSet) {
         const sizeI = Array.prototype.indexOf.call(this.querySelectorAll('fieldset'), sizeSet);
-        const fit = this.variants.find(function (v) {
+        /* The closest size by area (50×70 → 45×60 in canvas), not just the first one */
+        const area = function (value) {
+          const input = Array.prototype.find.call(sizeSet.querySelectorAll('input'), function (i) { return i.value === value; });
+          const s = parseSize((input && input.dataset.display) || value);
+          return s ? s[0] * s[1] : 0;
+        };
+        const want = area(selected[sizeI]);
+        const fit = this.variants.filter(function (v) {
           return v.options.every(function (o, i) { return i === sizeI || o === selected[i]; });
-        });
+        }).sort(function (a, b) {
+          return Math.abs(area(a.options[sizeI]) - want) - Math.abs(area(b.options[sizeI]) - want);
+        })[0];
         if (fit) {
           this.pick(sizeI, fit.options[sizeI]);
           selected = this.selectedOptions();
@@ -397,11 +408,13 @@
       const selected = this.selectedOptions();
       const variants = this.variants;
       this.querySelectorAll('fieldset').forEach(function (fieldset, index) {
+        /* A finish only made in other sizes stays clickable and unstruck: choosing it moves the size */
+        const isFrame = fieldset.dataset.optionKind === 'frame';
         fieldset.querySelectorAll('input').forEach(function (input) {
           const exists = variants.some(function (v) {
-            return v.available && v.options[index] === input.value && v.options.every(function (o, i) {
+            return v.available && v.options[index] === input.value && (isFrame || v.options.every(function (o, i) {
               return i === index || selected[i] === null || i > index || o === selected[i];
-            });
+            }));
           });
           input.classList.toggle('is-unavailable', !exists);
         });
