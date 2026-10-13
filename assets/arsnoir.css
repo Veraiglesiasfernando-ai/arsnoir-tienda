@@ -2862,3 +2862,5 @@ html.sguide-lock { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) { .pzall__spin { animation-duration: 2s; } }
 
 .gift-tiers__note { margin: 10px 0 0; font-size: 11px; line-height: 1.45; color: var(--color-muted); }
+.gift-tiers__labels { height: 44px; }
+.gift-tiers__labels span { width: 78px; white-space: normal; line-height: 1.25; }
