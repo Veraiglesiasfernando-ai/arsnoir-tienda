@@ -9,21 +9,18 @@
   assign s = section.settings
   assign p = s.product
   if p == blank
-    assign p = all_products['tu-imagen-impresa']
+    assign p = all_products['tu-foto-en-un-cuadro']
   endif
   if p == blank and collection.products_count > 0
     assign p = collection.products.first
   endif
   assign cta_url = p.url | default: '#Precios'
-  # Size option index and frame option index of the product
+  # Size option index of the product
   assign size_i = -1
-  assign frame_i = -1
   for o in p.options_with_values
     assign k = o.name | downcase
     if k contains 'tama' or k contains 'size' or k contains 'medida'
       assign size_i = forloop.index0
-    elsif k contains 'marco' or k contains 'frame' or k contains 'acabado'
-      assign frame_i = forloop.index0
     endif
   endfor
 -%}
@@ -119,23 +116,26 @@
                   assign fr = 0
                   for v in p.variants
                     if v.options[size_i] == size
-                      assign fk = ''
-                      if frame_i >= 0
-                        assign fk = v.options[frame_i] | downcase
+                      # Finish read from the variant title: works with «Sin marco / Marco negro» and with
+                      # Gelato's «Premium Matte Paper Poster / Wooden Framed Poster / Canvas»
+                      assign vt = v.title | downcase
+                      if vt contains 'canvas' or vt contains 'lienzo'
+                        continue
                       endif
-                      if frame_i < 0 or fk contains 'sin' or fk contains 'without'
-                        if un == 0 or v.price < un
-                          assign un = v.price
-                        endif
-                      else
+                      if vt contains 'framed' or vt contains 'marco negro' or vt contains 'marco blanco' or vt contains 'marco madera'
                         if fr == 0 or v.price < fr
                           assign fr = v.price
+                        endif
+                      else
+                        if un == 0 or v.price < un
+                          assign un = v.price
                         endif
                       endif
                     endif
                   endfor
                 -%}
-                <tr><td>{{ size }}</td><td>{% if un > 0 %}{{ un | money }}{% else %}—{% endif %}</td><td>{% if fr > 0 %}{{ fr | money }}{% else %}—{% endif %}</td></tr>
+                {%- if un == 0 and fr == 0 -%}{%- continue -%}{%- endif -%}
+                <tr><td>{% render 'option-label', value: size, kind: 'size' %}</td><td>{% if un > 0 %}{{ un | money }}{% else %}—{% endif %}</td><td>{% if fr > 0 %}{{ fr | money }}{% else %}—{% endif %}</td></tr>
               {%- endfor -%}
             {%- else -%}
               {%- assign rows = s.prices | newline_to_br | split: '<br />' -%}
