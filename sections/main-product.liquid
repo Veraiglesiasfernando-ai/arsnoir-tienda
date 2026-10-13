@@ -8,7 +8,7 @@
   <div class="product">
     <div class="product__gallery">
       {%- liquid
-        # Gelato attaches one near-identical mockup per variant (alt = a UUID). When the product
+        # Gelato attaches one near-identical mockup per variant (alt = a UUID, or «…: vista N»). When the product
         # has our own photos ("… con marco negro"), show only ours; otherwise just a few of Gelato's.
         assign own_photos = false
         if product.media.first.alt contains ' con marco '
@@ -21,6 +21,10 @@
           assign alt_parts = media.alt | split: '-'
           assign is_gelato = false
           if media.alt.size == 36 and alt_parts.size == 5
+            assign is_gelato = true
+          endif
+          # Same mockups after their alt text was written for Google («…, cuadro de ARSNOIR: vista 3»)
+          if media.alt contains 'cuadro de ARSNOIR: vista'
             assign is_gelato = true
           endif
           if is_gelato
