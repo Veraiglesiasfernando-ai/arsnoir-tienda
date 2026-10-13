@@ -50,7 +50,7 @@
         "studio": {
           "type": "template_studio",
           "settings": {
-            "endpoint": "",
+            "endpoint": "https://arsnoir-plantillas.veraiglesiasfernando.workers.dev",
             "template_id": "retrato-nombre",
             "template_name": "Retrato con nombre",
             "needs_name": true,
