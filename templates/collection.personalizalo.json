@@ -76,7 +76,10 @@
           "type": "template",
           "settings": {
             "category": "Familia",
-            "name": "Estilo 1"
+            "name": "Acuarela en casa",
+            "tagline": "Tu foto en acuarela, luz cálida y trazo suave.",
+            "image": "shopify://shop_images/plantilla-acuarela-familia.jpg",
+            "link": "shopify://products/acuarela-en-casa"
           }
         },
         "fam2": {
