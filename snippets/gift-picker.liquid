@@ -10,7 +10,7 @@
   if source == blank
     assign source = collections['obras']
   endif
-  assign size_key = settings.gift_size | default: '21' | downcase | remove: ' '
+  assign size_key = settings.gift_size | default: '21' | downcase | remove: ' ' | replace: '×', 'x' | replace: ',', '.'
   assign shown = 0
 -%}
 <div class="gift-pick">
@@ -24,13 +24,17 @@
           if v.available == false
             continue
           endif
-          assign t = v.title | downcase | remove: ' '
+          # Gelato titles («21x29.7 cm / … / Premium Matte Paper Poster / -») and ours («A4 · 21×29,7 cm / Sin marco»)
+          assign t = v.title | downcase | remove: ' ' | replace: '×', 'x' | replace: ',', '.'
           assign has_size = false
           if t contains size_key
             assign has_size = true
           endif
-          assign framed = true
-          if t contains 'sin' or t contains 'without' or v.options.size == 1
+          assign framed = false
+          if t contains 'frame' or t contains 'marco' or t contains 'canvas' or t contains 'lienzo'
+            assign framed = true
+          endif
+          if t contains 'sinmarco' or t contains 'without' or t contains 'unframed'
             assign framed = false
           endif
           if has_size and framed == false
