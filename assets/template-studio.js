@@ -50,8 +50,9 @@
     const m = String(text || '').replace(/,/g, '.').match(/(\d+(?:\.\d+)?)\s*[x×]\s*(\d+(?:\.\d+)?)/);
     return m ? [parseFloat(m[1]), parseFloat(m[2])] : [21, 29.7];
   };
+  /* Every framed picture in the gallery (examples + the customer's illustration) follows size and finish */
   const syncLive = function () {
-    if (!live || live.hidden) return;
+    if (!gallery) return;
     const sizeIn = document.querySelector('fieldset[data-option-kind="size"] input:checked');
     const finIn = document.querySelector('fieldset[data-option-kind="frame"] input:checked');
     const sizeText = sizeIn ? (sizeIn.dataset.display || sizeIn.value) : '';
@@ -63,20 +64,24 @@
     else if (/madera|wood|natural/.test(f)) kind = 'wood';
     const s = sizeOf(sizeText);
     const w = Math.min(s[0], s[1]), h = Math.max(s[0], s[1]);
-    /* Close-up wall (≈80 cm across): sizes still read bigger or smaller, the art stays large */
-    const WALL = 80;
-    const wall = live.querySelector('.tlive__wall');
-    const frame = live.querySelector('.tlive__frame');
+    /* About a metre of wall across: sizes read bigger or smaller, like on the artworks */
+    const WALL = 100;
     const fw = kind === 'none' ? 0 : 2.5;
     const fwW = w + fw * 2, fwH = h + fw * 2;
-    const fit = Math.min(1, (0.84 * WALL) / fwW, (0.84 * WALL * 1.25) / fwH);
-    const px = ((wall.clientWidth || 600) / WALL) * fit;
-    frame.dataset.kind = kind;
-    frame.classList.toggle('is-canvas', /lienzo|canvas/.test(f));
-    frame.style.width = (fwW / WALL) * fit * 100 + '%';
-    frame.style.aspectRatio = fwW + ' / ' + fwH;
-    frame.style.borderWidth = fw ? Math.max(2, fw * px) + 'px' : '0';
-    live.querySelector('.tlive__cap').textContent = [sizeText, finText].filter(Boolean).join(' · ');
+    const fit = Math.min(1, (0.8 * WALL) / fwW, (0.84 * WALL) / fwH); /* square wall */
+    const cap = [sizeText, finText].filter(Boolean).join(' · ');
+    gallery.querySelectorAll('.tlive:not([hidden])').forEach(function (el) {
+      const wall = el.querySelector('.tlive__wall');
+      const frame = el.querySelector('.tlive__frame');
+      const px = ((wall.clientWidth || 600) / WALL) * fit;
+      frame.dataset.kind = kind;
+      frame.classList.toggle('is-canvas', /lienzo|canvas/.test(f));
+      frame.style.width = (fwW / WALL) * fit * 100 + '%';
+      frame.style.aspectRatio = fwW + ' / ' + fwH;
+      frame.style.borderWidth = fw ? Math.max(1, fw * px) + 'px' : '0';
+      const c = el.querySelector('.tlive__cap');
+      if (c) c.textContent = el === live ? cap : '';
+    });
   };
   const showLive = function (url) {
     if (!gallery) return;
@@ -97,6 +102,7 @@
     if (event.target.closest && event.target.closest('variant-picker')) requestAnimationFrame(syncLive);
   });
   window.addEventListener('resize', syncLive);
+  syncLive();
 
   /* A new photo or name invalidates the previous preview */
   const reset = function () {
