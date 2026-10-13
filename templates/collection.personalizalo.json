@@ -34,7 +34,7 @@
             "category": "Mascotas",
             "name": "Óleo vintage",
             "tagline": "Pinceladas de óleo y fondo de rayas.",
-            "image": "shopify://shop_images/estilo-mascotas-oleo.jpg",
+            "image": "shopify://shop_images/pz-card-oleo-vintage.jpg",
             "link": "shopify://products/oleo-vintage"
           }
         },
@@ -44,7 +44,7 @@
             "category": "Mascotas",
             "name": "En su rincón",
             "tagline": "Tu mascota en su sitio favorito de casa.",
-            "image": "shopify://shop_images/estilo-mascotas-en-casa.jpg",
+            "image": "shopify://shop_images/pz-card-en-su-rincon.jpg",
             "link": "shopify://products/en-su-rincon"
           }
         },
@@ -54,7 +54,7 @@
             "category": "Mascotas",
             "name": "Retrato con nombre",
             "tagline": "Su retrato con su nombre arriba.",
-            "image": "shopify://shop_images/estilo-mascotas-nombre.jpg",
+            "image": "shopify://shop_images/pz-card-retrato-con-nombre.jpg",
             "link": "shopify://products/retrato-con-nombre"
           }
         },
@@ -78,7 +78,7 @@
             "category": "Familia",
             "name": "Acuarela en casa",
             "tagline": "Tu foto en acuarela, luz cálida y trazo suave.",
-            "image": "shopify://shop_images/plantilla-acuarela-familia.jpg",
+            "image": "shopify://shop_images/pz-card-acuarela-en-casa.jpg",
             "link": "shopify://products/acuarela-en-casa"
           }
         },
@@ -94,8 +94,8 @@
           "settings": {
             "category": "Mascotas",
             "name": "Retrato con sudadera",
-            "tagline": "Con su sudadera, fondo de color y su nombre.",
-            "image": "shopify://shop_images/plantilla-retrato-nombre.jpg",
+            "tagline": "Con su sudadera rosa y su nombre arriba.",
+            "image": "shopify://shop_images/pz-card-retrato-con-sudadera.jpg",
             "link": "shopify://products/retrato-con-sudadera"
           }
         },
@@ -105,7 +105,7 @@
             "category": "Mascotas",
             "name": "Ilustración plana",
             "tagline": "Trazo limpio, tonos planos y contorno blanco.",
-            "image": "shopify://shop_images/estilo-mascotas-plana.jpg",
+            "image": "shopify://shop_images/pz-card-ilustracion-plana.jpg",
             "link": "shopify://products/ilustracion-plana"
           }
         }
