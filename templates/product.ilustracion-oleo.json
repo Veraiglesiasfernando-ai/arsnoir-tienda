@@ -1,0 +1,79 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "buy": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": false,
+            "highlight_largest": false,
+            "recommended_label": "Recomendado"
+          }
+        },
+        "returns_notice": {
+          "type": "notice",
+          "settings": {
+            "text": "Producto personalizado: no admite devolución por desistimiento, salvo defecto."
+          }
+        },
+        "photo_help": {
+          "type": "collapsible",
+          "settings": {
+            "heading": "¿Qué foto funciona mejor?",
+            "content": "<p>Una foto nítida, de frente o de tres cuartos, con buena luz y con la cara bien visible. Mejor una sola mascota por foto y sin filtros.</p><p>Antes de imprimir revisamos cada ilustración y la preparamos en alta calidad para el tamaño que elijas.</p>",
+            "open": false
+          }
+        },
+        "shipping": {
+          "type": "collapsible",
+          "settings": {
+            "heading": "Envío y devoluciones",
+            "content": "<p>Se imprime para ti y llega con seguimiento: 4-10 días hábiles en la Península. Envío 4,95 €; gratis desde 80 €.</p><p>Al hacerse con tu imagen, no admite devolución salvo que llegue dañada o con un defecto de impresión.</p>",
+            "open": false
+          }
+        },
+        "intro": {
+          "type": "notice",
+          "settings": {
+            "text": "Sube la foto de tu mascota y mira tu óleo vintage antes de comprar."
+          }
+        },
+        "studio": {
+          "type": "template_studio",
+          "settings": {
+            "endpoint": "https://arsnoir-plantillas.veraiglesiasfernando.workers.dev",
+            "template_id": "oleo-vintage",
+            "template_name": "Óleo vintage",
+            "needs_name": false,
+            "max_previews": 3
+          }
+        }
+      },
+      "block_order": [
+        "title",
+        "price",
+        "intro",
+        "studio",
+        "buy",
+        "returns_notice",
+        "photo_help",
+        "shipping"
+      ],
+      "settings": {
+        "lifestyle_from": 2
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
