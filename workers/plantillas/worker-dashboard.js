@@ -56,6 +56,18 @@ const TEMPLATES = {
       'It must be the very same individual animal as in the first image, instantly recognisable to its owner: same breed or mix, head and muzzle shape, ear shape, size and position, fur length, colours, every marking and eye colour. ' +
       'No text, no logos, no border. Vertical 4:5.'
   },
+  'ilustracion-plana': {
+    needsName: false,
+    aspectRatio: '3:4',
+    reference: 'https://cdn.shopify.com/s/files/1/1020/8903/2064/files/estilo-mascotas-plana.jpg',
+    prompt:
+      'The first image is the customer\'s photo: it is the subject. The second image is only a style reference: never copy its animal, people, breed or face. ' +
+      'Create a new portrait of the pet from the first image in exactly the same style as the second image: ' +
+      'clean flat vector illustration with crisp cel-shaded fur in a few flat tones, smooth shapes, fine whisker lines, ' +
+      'a thin white sticker outline around the animal, plain flat light grey background, head and chest framed close, looking at the viewer. ' +
+      'It must be the very same individual animal as in the first image, instantly recognisable to its owner: same breed or mix, head and muzzle shape, ear shape, size and position, fur length, colours, every marking and eye colour. ' +
+      'No text, no logos, no border. Vertical 3:4.'
+  },
   'acuarela-familia': {
     needsName: false,
     aspectRatio: '4:5',

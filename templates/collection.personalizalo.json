@@ -98,6 +98,16 @@
             "image": "shopify://shop_images/plantilla-retrato-nombre.jpg",
             "link": "shopify://products/retrato-con-sudadera"
           }
+        },
+        "mas5": {
+          "type": "template",
+          "settings": {
+            "category": "Mascotas",
+            "name": "Ilustración plana",
+            "tagline": "Trazo limpio, tonos planos y contorno blanco.",
+            "image": "shopify://shop_images/estilo-mascotas-plana.jpg",
+            "link": "shopify://products/ilustracion-plana"
+          }
         }
       },
       "block_order": [
@@ -105,6 +115,7 @@
         "mas2",
         "mas3",
         "mas4",
+        "mas5",
         "amo1",
         "amo2",
         "fam1",
