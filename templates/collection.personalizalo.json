@@ -114,9 +114,31 @@
             "image": "shopify://shop_images/pz-card-ilustracion-plana.jpg",
             "link": "shopify://products/ilustracion-plana"
           }
+        },
+        "nav1": {
+          "type": "template",
+          "settings": {
+            "category": "Navidad",
+            "name": "Navidad verde",
+            "tagline": "Abrigo de pelo verde, lazo rojo y nieve.",
+            "image": "shopify://shop_images/pz-card-navidad-verde.jpg",
+            "link": "shopify://products/navidad-verde"
+          }
+        },
+        "nav2": {
+          "type": "template",
+          "settings": {
+            "category": "Navidad",
+            "name": "Gorro de Papá Noel",
+            "tagline": "Gorro rojo, bastón de caramelo y nieve.",
+            "image": "shopify://shop_images/pz-card-navidad-papa-noel.jpg",
+            "link": "shopify://products/navidad-papa-noel"
+          }
         }
       },
       "block_order": [
+        "nav1",
+        "nav2",
         "mas1",
         "mas2",
         "mas3",
@@ -173,9 +195,27 @@
             "template_id": "ilustracion-plana",
             "needs_name": false
           }
+        },
+        "s6": {
+          "type": "style",
+          "settings": {
+            "product": "navidad-verde",
+            "template_id": "navidad-verde",
+            "needs_name": false
+          }
+        },
+        "s7": {
+          "type": "style",
+          "settings": {
+            "product": "navidad-papa-noel",
+            "template_id": "navidad-papa-noel",
+            "needs_name": false
+          }
         }
       },
       "block_order": [
+        "s6",
+        "s7",
         "s1",
         "s2",
         "s3",

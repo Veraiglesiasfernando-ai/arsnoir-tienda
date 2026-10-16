@@ -83,6 +83,35 @@ export const TEMPLATES = {
       'No text, no logos, no border. Vertical 3:4.'
   },
 
+  'navidad-verde': {
+    needsName: false,
+    aspectRatio: '4:5',
+    refFirst: true,
+    reference: 'https://cdn.shopify.com/s/files/1/1020/8903/2064/files/estilo-mascotas-navidad-verde.jpg',
+    prompt:
+      'The first image is the finished Christmas illustration template. The second image is the customer\'s photo of their pet. ' +
+      'Edit the first image: replace its animal with the pet from the second image and keep everything else of the first image exactly as it is: ' +
+      'the same painterly digital illustration style, the same lime-green shaggy furry hood with a long tuft on top around the head, the same lime-green shaggy furry collar covering the shoulders and chest, ' +
+      'the same red satin bow under the chin, the same flat pale sky-blue background with round white snow dots, the same pose, angle, size and head-and-chest framing. ' +
+      'The pet\'s ears stick out of the hood like in the template if it has them. ' +
+      'The pet must be fully redrawn in the illustration style: never keep photographic pixels, photo fur texture or anything of the photo background. Exactly one animal with one head. ' +
+      'It must be the very same individual animal as in the second image, instantly recognisable to its owner: same breed or mix, head and muzzle shape, ear shape and colour, fur length, colours, every spot and marking and eye colour. Nothing of the template animal\'s breed, colours or markings may remain. ' +
+      'No text, no logos, no border. Vertical 4:5.'
+  },
+  'navidad-papa-noel': {
+    needsName: false,
+    aspectRatio: '4:5',
+    refFirst: true,
+    reference: 'https://cdn.shopify.com/s/files/1/1020/8903/2064/files/estilo-mascotas-navidad-papa-noel.jpg',
+    prompt:
+      'The first image is the finished Christmas illustration template. The second image is the customer\'s photo of their pet. ' +
+      'Edit the first image: replace its animal with the pet from the second image and keep everything else of the first image exactly as it is: ' +
+      'the same clean digital illustration style with soft painted fur, the same red Santa hat with white fluffy trim and pompom worn tilted on the head, ' +
+      'the same red and white striped candy cane held sideways in the mouth, the same flat pale sky-blue background with round white snow dots, the same pose, angle, size and head-and-chest framing, looking at the viewer. ' +
+      'The pet must be fully redrawn in the illustration style: never keep photographic pixels, photo fur texture or anything of the photo background. Exactly one animal with one head. ' +
+      'It must be the very same individual animal as in the second image, instantly recognisable to its owner: same breed or mix, head and muzzle shape, ear shape and colour, fur length, colours, every spot and marking and eye colour. Nothing of the template animal\'s breed, colours or markings may remain. ' +
+      'No text, no logos, no border. Vertical 4:5.'
+  },
   'momento-ilustrado': {
     needsName: false,
     font: 'manuscrita',
