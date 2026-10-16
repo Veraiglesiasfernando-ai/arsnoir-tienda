@@ -610,6 +610,42 @@ shop_tags_ad(
     tags=[("Revuelto", "Desde 24,95 €"), ("Ataca", "Desde 24,95 €")],
 )
 
+
+def brand_button_ad(cid, photo, lines, button):
+    """Logotipo ARSNOIR en blanco y la frase arriba, sobre la pared; el botón solo, abajo."""
+    src = Image.open(M / photo).convert("RGB")
+    logo_src = Image.open(M / "ads/src/logo-arsnoir-blanco.png")
+    for fmt, (W, H) in {"4x5": (1080, 1350), "9x16": (1080, 1920)}.items():
+        photo_y = 170 if fmt == "4x5" else 470
+        im = scene_canvas(src, W, H, photo_y)
+        im.alpha_composite(gradient(W, 260 + photo_y, 110, 0), (0, 0))
+        bot = 300 if fmt == "4x5" else 560
+        im.alpha_composite(gradient(W, bot, 0, 200), (0, H - bot))
+        lw = 280
+        logo = logo_src.resize((lw, round(logo_src.height * lw / logo_src.width)), Image.LANCZOS)
+        ly = 48 if fmt == "4x5" else 285
+        im.alpha_composite(logo, ((W - lw) // 2, ly))
+        d = ImageDraw.Draw(im)
+        cx = W / 2
+        size = 46 if fmt == "4x5" else 52
+        f = grotesk(size, 600)
+        y = ly + logo.height + (34 if fmt == "4x5" else 44)
+        for line in lines:
+            centered(d, cx, y, line, f, WHITE)
+            y += round(size * 1.12)
+        bf = grotesk(36, 700)
+        bw, bh = d.textlength(button, font=bf) + 120, 94
+        by = H - 64 - bh if fmt == "4x5" else round(H * 0.80) - bh
+        d.rounded_rectangle((cx - bw / 2, by, cx + bw / 2, by + bh), radius=bh / 2, fill=WHITE)
+        centered(d, cx, by + (bh - 36) / 2 - 4, button, bf, INK)
+        save(im, f"{cid}-{fmt}.jpg")
+
+
+brand_button_ad(
+    "c17-pareja-motor-boton", PAIR,
+    ["No decores tu espacio.", "Cambia cómo se siente."], "Comprar ahora",
+)
+
 if __name__ == "__main__":
     import sys
     if "--video" in sys.argv:
