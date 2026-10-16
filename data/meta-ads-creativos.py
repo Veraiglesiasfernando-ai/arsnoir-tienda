@@ -571,6 +571,45 @@ depth_ad(
     price="Desde 24,95 €",
 )
 
+
+def clean_ad(cid, photo):
+    """La foto tal cual, sin texto: parece una publicación normal. Precio y oferta van en el texto del anuncio."""
+    src = Image.open(M / photo).convert("RGB")
+    for fmt, (W, H) in {"4x5": (1080, 1350), "9x16": (1080, 1920)}.items():
+        im = scene_canvas(src, W, H, 0 if fmt == "4x5" else 300)
+        save(im, f"{cid}-{fmt}.jpg")
+
+
+def shop_tags_ad(cid, photo, frames, tags):
+    """Etiquetas de producto tipo Instagram Shopping bajo cada obra: nombre + precio. Nada más."""
+    src = Image.open(M / photo).convert("RGB")
+    for fmt, (W, H) in {"4x5": (1080, 1350), "9x16": (1080, 1920)}.items():
+        photo_y = 0 if fmt == "4x5" else 300
+        k = W / src.width
+        im = scene_canvas(src, W, H, photo_y)
+        d = ImageDraw.Draw(im)
+        nf, pf = grotesk(30, 700), grotesk(25, 400)
+        for (x0, y0, x1, y1), (name, price) in zip(frames, tags):
+            cx = (x0 + x1) / 2 * k
+            top = y1 * k + photo_y + 22
+            tw = max(d.textlength(name, font=nf), d.textlength(price, font=pf)) + 40 + 26
+            th = 92
+            bx = cx - tw / 2
+            d.polygon([(cx - 12, top), (cx + 12, top), (cx, top - 12)], fill=WHITE)
+            d.rounded_rectangle((bx, top, bx + tw, top + th), radius=14, fill=WHITE)
+            d.text((bx + 20, top + 14), name, font=nf, fill=INK)
+            d.text((bx + 20, top + 52), price, font=pf, fill=(90, 90, 90))
+            d.text((bx + tw - 36, top + 24), "›", font=grotesk(40, 500), fill=INK)
+        save(im, f"{cid}-{fmt}.jpg")
+
+
+clean_ad("c15-pareja-motor-limpia", PAIR)
+shop_tags_ad(
+    "c16-pareja-motor-etiquetas", PAIR,
+    frames=[(274, 351, 772, 1061), (843, 351, 1343, 1061)],
+    tags=[("Revuelto", "Desde 24,95 €"), ("Ataca", "Desde 24,95 €")],
+)
+
 if __name__ == "__main__":
     import sys
     if "--video" in sys.argv:
