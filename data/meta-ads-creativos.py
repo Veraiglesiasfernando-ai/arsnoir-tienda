@@ -515,6 +515,62 @@ PAIR = "ads/src/pareja-motor-revuelto-ataca.jpg"
 editorial_ad("c11-pareja-motor", PAIR, ["Hay quien los aparca.", "Tú los cuelgas."], price="Desde 24,95 €")
 editorial_ad("c12-pareja-motor-manifiesto", PAIR, ["No decores", "tu espacio."], price="Cambia cómo se siente · Desde 24,95 €")
 
+
+def depth_ad(cid, photo, frames, big, line, labels, price):
+    """Titular gigante que pasa POR DETRÁS de los cuadros (efecto portada de revista), cartelas de galería
+    bajo cada obra y la información pequeña abajo. `frames` = cajas de los marcos en píxeles de la foto original."""
+    src = Image.open(M / photo).convert("RGB")
+    for fmt, (W, H) in {"4x5": (1080, 1350), "9x16": (1080, 1920)}.items():
+        photo_y = 0 if fmt == "4x5" else 330
+        k = W / src.width
+        im = scene_canvas(src, W, H, photo_y)
+        bot = 330 if fmt == "4x5" else 620
+        im.alpha_composite(gradient(W, bot, 0, 200), (0, H - bot - (0 if fmt == "4x5" else 0)))
+        boxes = [(round(x0 * k), round(y0 * k) + photo_y, round(x1 * k), round(y1 * k) + photo_y) for x0, y0, x1, y1 in frames]
+        top_frame = min(b[1] for b in boxes)
+        # titular gigante, ajustado al ancho, con su parte baja escondida detrás de los marcos
+        size = 300
+        while True:
+            f = grotesk(size, 700)
+            tw = ImageDraw.Draw(im).textlength(big, font=f)
+            if tw <= W - 70:
+                break
+            size -= 4
+        layer = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+        d = ImageDraw.Draw(layer)
+        asc = f.getbbox(big)[3]
+        ty = top_frame - round(asc * 0.84)
+        d.text(((W - tw) / 2, ty), big, font=f, fill=WHITE + (245,))
+        hole = Image.new("L", (W, H), 255)
+        hd = ImageDraw.Draw(hole)
+        for b in boxes:
+            hd.rectangle(b, fill=0)
+        layer.putalpha(Image.composite(layer.split()[3], Image.new("L", (W, H), 0), hole))
+        im.alpha_composite(layer)
+        d = ImageDraw.Draw(im)
+        # cartelas de galería bajo cada obra
+        lf, sf = grotesk(20, 600), grotesk(17, 400)
+        for b, (name, spec) in zip(boxes, labels):
+            cx = (b[0] + b[2]) / 2
+            spaced(d, cx, b[3] + 16, name.upper(), lf, WHITE, 5)
+            spaced(d, cx, b[3] + 44, spec, sf, (220, 220, 220), 2)
+        # información abajo
+        cx = W / 2
+        base = H - 70 if fmt == "4x5" else round(H * 0.80) - 10
+        wordmark(d, cx, base - 6, size=30)
+        centered(d, cx, base - 64, price, grotesk(30, 400), (235, 235, 235))
+        centered(d, cx, base - 130, line, grotesk(50, 700), WHITE)
+        save(im, f"{cid}-{fmt}.jpg")
+
+
+depth_ad(
+    "c14-pareja-motor-portada", PAIR,
+    frames=[(274, 351, 772, 1061), (843, 351, 1343, 1061)],
+    big="NO DECORES.", line="Cambia cómo se siente.",
+    labels=[("Revuelto", "50 × 70 cm"), ("Ataca", "50 × 70 cm")],
+    price="Desde 24,95 €",
+)
+
 if __name__ == "__main__":
     import sys
     if "--video" in sys.argv:
