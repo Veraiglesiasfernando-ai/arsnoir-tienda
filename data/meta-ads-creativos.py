@@ -373,3 +373,8 @@ hero_ad(
     "Pareja Motor · Revuelto + Ataca", "Hay quien los aparca.", "Tú los cuelgas.",
     "Ver la pareja", "Pedido desde 120 €: un A4 de regalo.",
 )
+hero_ad(
+    "c12-pareja-motor-manifiesto", "ads/src/pareja-motor-revuelto-ataca.jpg",
+    "Pareja Motor · Revuelto + Ataca", "No decores tu espacio.", "Cambia cómo se siente.",
+    "Ver la pareja", "Pedido desde 120 €: un A4 de regalo.",
+)
