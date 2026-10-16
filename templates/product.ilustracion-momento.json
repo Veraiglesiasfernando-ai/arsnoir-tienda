@@ -59,6 +59,10 @@
             "show_fonts": true,
             "default_font": "manuscrita"
           }
+        },
+        "delivery": {
+          "type": "delivery",
+          "settings": {}
         }
       },
       "block_order": [
@@ -67,6 +71,7 @@
         "intro",
         "studio",
         "buy",
+        "delivery",
         "returns_notice",
         "photo_help",
         "shipping"

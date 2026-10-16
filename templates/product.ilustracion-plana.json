@@ -57,6 +57,10 @@
             "max_previews": 3,
             "colors": "gris|Gris|#C9CAD0\nrosa|Rosa|#F2C4CC\nazul|Azul|#C9DAEA\nverde|Verde|#C8D5C0\namarillo|Amarillo|#F3E3A8"
           }
+        },
+        "delivery": {
+          "type": "delivery",
+          "settings": {}
         }
       },
       "block_order": [
@@ -65,6 +69,7 @@
         "intro",
         "studio",
         "buy",
+        "delivery",
         "returns_notice",
         "photo_help",
         "shipping"

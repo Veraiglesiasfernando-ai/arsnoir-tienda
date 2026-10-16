@@ -59,6 +59,10 @@
             "default_font": "pincel",
             "colors": "rosa|Rosa|#F4AFC0\nazul|Azul|#A9C7E8\nverde|Verde|#B5CCAA\namarillo|Amarillo|#F3DE9A\nlila|Lila|#CDB8E3"
           }
+        },
+        "delivery": {
+          "type": "delivery",
+          "settings": {}
         }
       },
       "block_order": [
@@ -67,6 +71,7 @@
         "intro",
         "studio",
         "buy",
+        "delivery",
         "returns_notice",
         "photo_help",
         "shipping"

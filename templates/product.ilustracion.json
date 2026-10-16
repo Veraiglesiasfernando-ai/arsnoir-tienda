@@ -59,6 +59,10 @@
             "default_font": "moderna",
             "colors": "crema|Crema|#F1ECE3\nrosa|Rosa|#F2C4CC\nazul|Azul|#C9DAEA\nverde|Verde|#C8D5C0\narena|Arena|#E3D2B8"
           }
+        },
+        "delivery": {
+          "type": "delivery",
+          "settings": {}
         }
       },
       "block_order": [
@@ -67,6 +71,7 @@
         "intro",
         "studio",
         "buy",
+        "delivery",
         "returns_notice",
         "photo_help",
         "shipping"

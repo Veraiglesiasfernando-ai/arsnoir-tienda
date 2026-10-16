@@ -61,6 +61,10 @@
             "link_label": "Ver guía",
             "link": "/pages/guia-foto"
           }
+        },
+        "delivery": {
+          "type": "delivery",
+          "settings": {}
         }
       },
       "block_order": [
@@ -70,6 +74,7 @@
         "guard",
         "guide",
         "buy",
+        "delivery",
         "returns_notice",
         "details",
         "shipping"
