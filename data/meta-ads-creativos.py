@@ -628,17 +628,17 @@ def wall_scene(src, W, H, photo_h, photo_y, center_x):
     return im.convert("RGBA")
 
 
-def brand_button_ad(cid, photo, lines, button):
+def brand_button_ad(cid, photo, lines, button, note=None):
     """Logotipo ARSNOIR en blanco y la frase arriba, sobre la pared de la foto; el botón solo, abajo."""
     src = Image.open(M / photo).convert("RGB")
     logo_src = Image.open(M / "ads/src/logo-arsnoir-blanco.png")
     for fmt, (W, H) in {"4x5": (1080, 1350), "9x16": (1080, 1920)}.items():
         if fmt == "4x5":
             im = wall_scene(src, W, H, H, 0, 0.5)
-            lw, ly, size, gap = 230, 30, 38, 20
+            lw, ly, size, gap = 250, 24, 44, 16
         else:
             im = wall_scene(src, W, H, H - 260, 260, 0.502)
-            lw, ly, size, gap = 280, 300, 50, 34
+            lw, ly, size, gap = 300, 292, 56, 30
         bot = 300 if fmt == "4x5" else 560
         im.alpha_composite(gradient(W, bot, 0, 190), (0, H - bot))
         logo = logo_src.resize((lw, round(logo_src.height * lw / logo_src.width)), Image.LANCZOS)
@@ -652,15 +652,23 @@ def brand_button_ad(cid, photo, lines, button):
             y += round(size * 1.12)
         bf = grotesk(36, 700)
         bw, bh = d.textlength(button, font=bf) + 120, 94
-        by = H - 64 - bh if fmt == "4x5" else round(H * 0.80) - bh
+        by = H - (104 if note else 64) - bh if fmt == "4x5" else round(H * 0.80) - bh - (40 if note else 0)
         d.rounded_rectangle((cx - bw / 2, by, cx + bw / 2, by + bh), radius=bh / 2, fill=WHITE)
         centered(d, cx, by + (bh - 36) / 2 - 4, button, bf, INK)
+        if note:
+            nf = grotesk(26 if fmt == "4x5" else 30, 600)
+            sh = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+            centered(ImageDraw.Draw(sh), cx, by + bh + 16, note, nf, (0, 0, 0, 230))
+            im.alpha_composite(sh.filter(ImageFilter.GaussianBlur(5)))
+            d = ImageDraw.Draw(im)
+            centered(d, cx, by + bh + 16, note, nf, WHITE)
         save(im, f"{cid}-{fmt}.jpg")
 
 
 brand_button_ad(
     "c17-pareja-motor-boton", PAIR,
-    ["No decores tu espacio.", "Cambia cómo se siente."], "Comprar ahora",
+    ["No decores tu espacio.", "Cambia cómo se siente."], "Comprar · desde 24,95 €",
+    note="Envío gratis desde 80 €",
 )
 
 if __name__ == "__main__":
