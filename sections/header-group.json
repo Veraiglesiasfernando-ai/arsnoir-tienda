@@ -14,7 +14,7 @@
         "m3": {
           "type": "message",
           "settings": {
-            "text": "IMPRESO EN EUROPA, BAJO PEDIDO"
+            "text": "2 OBRAS: -15 % EN TU PEDIDO"
           }
         },
         "m4": {
@@ -32,9 +32,9 @@
       },
       "block_order": [
         "m4",
+        "m3",
         "m1",
-        "m5",
-        "m3"
+        "m5"
       ],
       "settings": {
         "interval": 4

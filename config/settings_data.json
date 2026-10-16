@@ -28,6 +28,8 @@
     "delivery_min": 4,
     "delivery_max": 10,
     "gift_enabled": true,
+    "pack_percent": 15,
+    "pack_min": 2,
     "gift_tier1": 119,
     "gift_tier2": 199,
     "sections": {
