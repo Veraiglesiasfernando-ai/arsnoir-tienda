@@ -2912,3 +2912,9 @@ html.sguide-lock { overflow: hidden; }
 .ctpl__group + .ctpl__group { margin-top: clamp(44px, 7vw, 80px); }
 .ctpl__group-title { display: flex; align-items: baseline; gap: 12px; margin: 0 0 clamp(16px, 2.5vw, 24px); padding-bottom: 12px; border-bottom: 1px solid #0a0a0a; font-size: clamp(1.6rem, 3.4vw, 2.4rem); line-height: 1; letter-spacing: -0.04em; }
 .ctpl__group-title span { margin-left: auto; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-muted); }
+/* Mobile menu: solid panel, nothing of the page shows through */
+.glass-header .mobile-menu__panel { background: #fff; -webkit-backdrop-filter: none; backdrop-filter: none; border-color: var(--color-line); box-shadow: 0 24px 48px -20px rgba(0,0,0,0.35); }
+/* Newsletter on mobile: in a column the field's flex-basis became its height (240 px oval) */
+@media (max-width: 749px) {
+  .join__field { flex: none; height: 56px; min-height: 56px; }
+}
