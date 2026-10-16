@@ -58,7 +58,10 @@
     "limited": "LIMITED ED.",
     "placeholder": "Artwork {{ number }}",
     "save_favorite": "Save to favourites",
-    "remove_favorite": "Remove from favourites"
+    "remove_favorite": "Remove from favourites",
+    "best": "Best seller",
+    "new": "New",
+    "pack": "{{ min }} works -{{ pct }}%"
   },
   "search": {
     "title": "Search",

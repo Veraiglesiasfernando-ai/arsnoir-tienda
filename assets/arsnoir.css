@@ -2918,3 +2918,37 @@ html.sguide-lock { overflow: hidden; }
 @media (max-width: 749px) {
   .join__field { flex: none; height: 56px; min-height: 56px; }
 }
+/* Cards: labels, pack tag and cart button on the picture ------------------- */
+.card-wrap .poster__tag { top: 12px; left: 12px; padding: 5px 10px; border-radius: 999px; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; }
+.poster__deal { position: absolute; left: 12px; bottom: 12px; z-index: 1; padding: 5px 10px; border-radius: 999px; background: #FF5A1F; color: #0a0a0a; font-size: 10px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; }
+.poster__cart { position: absolute; right: 12px; bottom: 12px; z-index: 1; display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: #fff; color: #0a0a0a; box-shadow: 0 6px 16px -6px rgba(0,0,0,0.35); transition: background 0.2s, color 0.2s; }
+.poster__cart .icon { width: 18px; height: 18px; }
+.poster:hover .poster__cart { background: #0a0a0a; color: #fff; }
+.art-card .poster__plus { display: none; }
+@media (max-width: 749px) {
+  .card-wrap .poster__tag, .poster__deal { font-size: 9px; padding: 4px 8px; }
+  .card-wrap .poster__tag { top: 8px; left: 8px; }
+  .poster__deal { left: 8px; bottom: 8px; }
+  .poster__cart { right: 8px; bottom: 8px; width: 34px; height: 34px; }
+  .poster__cart .icon { width: 16px; height: 16px; }
+  .card-wrap .fav-btn { top: 8px; right: 8px; width: 32px; height: 32px; }
+  .card-wrap .fav-btn .icon { width: 16px; height: 16px; }
+  .art-card .poster__info { padding-top: 12px; }
+  .art-card .art-card__index { display: none; }
+  .art-card .poster__title { font-size: 14px; }
+  .art-card .poster__price { font-size: 13px; }
+}
+/* Mobile: 2 works per row instead of a long one-by-one slider */
+@media (max-width: 749px) {
+  .featured .slider { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 12px; overflow: visible; scroll-snap-type: none; margin-left: 0; margin-right: 0; padding-left: clamp(16px, 4vw, 48px); padding-right: clamp(16px, 4vw, 48px); }
+  .featured .slider__item { flex: none; width: auto; min-width: 0; }
+  .featured__arrows { display: none; }
+  .welcome__cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 12px; overflow: visible; margin-left: 0; margin-right: 0; padding: 16px 0 8px; }
+  .welcome__cards .poster { flex: none; min-width: 0; transform: none; }
+  .welcome__cards .poster--featured { grid-column: 1 / -1; width: 78%; justify-self: center; }
+  .welcome__cards .poster__title { font-size: 14px; }
+  .welcome__cards .poster__price { font-size: 13px; }
+  .welcome__cards .poster:not(.poster--featured) .poster__plus { width: 32px; height: 32px; }
+  /* Solid header on mobile: the page no longer shows through it */
+  html.is-scrolled .glass-header { background: #fff; -webkit-backdrop-filter: none; backdrop-filter: none; border-color: var(--color-line); }
+}

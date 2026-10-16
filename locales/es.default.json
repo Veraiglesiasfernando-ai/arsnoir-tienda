@@ -58,7 +58,10 @@
     "limited": "ED. LIMITADA",
     "placeholder": "Obra {{ number }}",
     "save_favorite": "Guardar en favoritos",
-    "remove_favorite": "Quitar de favoritos"
+    "remove_favorite": "Quitar de favoritos",
+    "best": "Más vendido",
+    "new": "Novedad",
+    "pack": "{{ min }} obras -{{ pct }} %"
   },
   "search": {
     "title": "Buscar",

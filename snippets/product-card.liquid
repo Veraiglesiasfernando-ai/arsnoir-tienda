@@ -37,11 +37,44 @@
           <div class="poster__ph" aria-hidden="true"></div>
         {%- endif -%}
       </div>
+      {%- liquid
+        # Real labels only: from the collections the work is in, and the live pack offer
+        assign is_best = false
+        assign is_new = false
+        assign is_obra = false
+        for c in product.collections
+          case c.handle
+            when 'mas-vendidos'
+              assign is_best = true
+            when 'novedades'
+              assign is_new = true
+            when 'obras'
+              assign is_obra = true
+          endcase
+        endfor
+        assign pack_pct = settings.pack_percent | default: 0
+        assign today = 'now' | date: '%Y-%m-%d'
+        assign pack_on = false
+        if is_obra and pack_pct > 0
+          assign pack_on = true
+          if settings.pack_until != blank and today > settings.pack_until
+            assign pack_on = false
+          endif
+        endif
+      -%}
       {%- if product.available == false -%}
         <span class="poster__tag">{{ 'cards.sold_out' | t }}</span>
       {%- elsif product.metafields.custom.edition_size.value > 0 -%}
         <span class="poster__tag">{{ 'cards.limited' | t }}</span>
+      {%- elsif is_best -%}
+        <span class="poster__tag">{{ 'cards.best' | t }}</span>
+      {%- elsif is_new -%}
+        <span class="poster__tag">{{ 'cards.new' | t }}</span>
       {%- endif -%}
+      {%- if pack_on and product.available -%}
+        <span class="poster__deal">{{ 'cards.pack' | t: min: settings.pack_min, pct: pack_pct }}</span>
+      {%- endif -%}
+      <span class="poster__cart" aria-hidden="true">{% render 'icon', name: 'bag' %}</span>
     </div>
     <span class="poster__info">
       <span class="poster__meta">
