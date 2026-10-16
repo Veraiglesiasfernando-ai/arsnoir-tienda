@@ -4,6 +4,11 @@
   so theme.js can swap it when the frame changes.
 {%- endcomment -%}
 {%- liquid
+  # The product's main picture is what the customer waits for: fetch it first
+  assign priority = 'auto'
+  if load == 'eager'
+    assign priority = 'high'
+  endif
   assign alt_l = media.alt | downcase
   assign base = product.handle | append: '-marco-'
   assign alt_text = media.alt | default: product.title
@@ -18,6 +23,7 @@
   -%}
   {{ media | image_url: width: 1600 | image_tag:
     loading: load,
+    fetchpriority: priority,
     widths: '500, 800, 1100, 1400, 1600',
     sizes: '(min-width: 900px) 55vw, 90vw',
     alt: alt_text,
@@ -30,6 +36,7 @@
 {%- else -%}
   {{ media | image_url: width: 1600 | image_tag:
     loading: load,
+    fetchpriority: priority,
     widths: '500, 800, 1100, 1400, 1600',
     sizes: '(min-width: 900px) 55vw, 90vw',
     alt: alt_text

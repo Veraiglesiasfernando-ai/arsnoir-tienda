@@ -9,9 +9,18 @@
       {%- assign b = block.settings -%}
       <div class="vhero__slide{% if forloop.first %} is-active{% endif %}" data-text="{{ b.text_position | default: 'bottom' }}" {{ block.shopify_attributes }}>
         {%- if b.video != blank -%}
-          {{ b.video | video_tag: autoplay: true, loop: true, muted: true, playsinline: true, controls: false, preload: 'metadata', image_size: '1920x' }}
+          {%- comment -%} Only the first slide loads straight away; the rest wait (faster first view on mobile) {%- endcomment -%}
+          {%- if forloop.first -%}
+            {{ b.video | video_tag: autoplay: true, loop: true, muted: true, playsinline: true, controls: false, preload: 'metadata', image_size: '1920x' }}
+          {%- else -%}
+            {{ b.video | video_tag: autoplay: true, loop: true, muted: true, playsinline: true, controls: false, preload: 'none', image_size: '1920x' }}
+          {%- endif -%}
         {%- elsif b.image != blank -%}
-          {{ b.image | image_url: width: 2400 | image_tag: loading: 'eager', widths: '750, 1100, 1500, 1920, 2400', sizes: '100vw' }}
+          {%- if forloop.first -%}
+            {{ b.image | image_url: width: 2400 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '750, 1100, 1500, 1920, 2400', sizes: '100vw' }}
+          {%- else -%}
+            {{ b.image | image_url: width: 2400 | image_tag: loading: 'lazy', widths: '750, 1100, 1500, 1920, 2400', sizes: '100vw' }}
+          {%- endif -%}
         {%- else -%}
           <div class="vhero__ph vhero__ph--{{ forloop.index | modulo: 3 }}" aria-hidden="true"></div>
         {%- endif -%}
