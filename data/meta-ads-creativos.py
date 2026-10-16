@@ -673,7 +673,7 @@ def brand_button_ad(cid, photo, lines, button, note=None, price=None):
 brand_button_ad(
     "c17-pareja-motor-boton", PAIR,
     ["No decores tu espacio.", "Cambia cómo se siente."], "Ver la pareja",
-    price="Desde 24,95 €", note="Calidad de galería · Impreso bajo pedido",
+    price="Desde 24,95 €", note="Impresión en Europa",
 )
 
 if __name__ == "__main__":
