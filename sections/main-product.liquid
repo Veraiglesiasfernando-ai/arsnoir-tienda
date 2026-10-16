@@ -90,8 +90,9 @@
             {%- endif -%}
 
           {%- when 'price' -%}
-            <div class="product__price" id="{{ price_id }}" {{ block.shopify_attributes }}>
-              {% render 'price', product: product, variant: current_variant %}
+            {%- comment -%} Lowest price first («Desde 24,95 €»); the exact price of the chosen size/finish is on the add-to-cart button {%- endcomment -%}
+            <div class="product__price" id="{{ price_id }}"{% if product.price_varies %} data-from{% endif %} {{ block.shopify_attributes }}>
+              {%- if product.price_varies -%}{% render 'price', product: product, show_from: true %}{%- else -%}{% render 'price', product: product, variant: current_variant %}{%- endif -%}
             </div>
             {%- if cart.taxes_included or shop.shipping_policy.body != blank -%}
               <div class="product__tax">

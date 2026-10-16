@@ -366,7 +366,7 @@
           html += '<s class="muted">' + formatMoney(variant.compare_at_price) + '</s>';
         }
         html += '<span>' + formatMoney(variant.price) + '</span>';
-        priceEl.innerHTML = html;
+        if (!priceEl.hasAttribute('data-from')) priceEl.innerHTML = html;
         document.querySelectorAll('.sticky-buy__price').forEach(function (el) { el.innerHTML = html; });
       }
       document.querySelectorAll('.sticky-buy .button').forEach(function (b) {

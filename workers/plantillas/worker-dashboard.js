@@ -12,6 +12,7 @@ const TEMPLATES = {
     reference: 'https://cdn.shopify.com/s/files/1/1020/8903/2064/files/estilo-mascotas-nombre.jpg',
     prompt:
       'The first image is the customer\'s photo: it is the subject. The second image is only a style reference: never copy its animal, people, breed or face. ' +
+      'It must be a completely new hand-made artwork in the style of the second image: repaint every part of the animal and the scene, never keep or paste photographic pixels, photo fur texture or the photo background. Exactly one animal with one head. Use the same pose, angle and framing as the animal in the second image, even if the photo shows the pet from the side, from above or lying down: redraw it in that pose. ' +
       'Create a new portrait painting of the pet from the first image in exactly the same style as the second image: ' +
       'thick impasto oil paint with visible palette-knife and brush strokes, plain warm off-white background, ' +
       'the animal facing forward and centred, framed from the chest up, happy expression. ' +
@@ -25,6 +26,7 @@ const TEMPLATES = {
     reference: 'https://cdn.shopify.com/s/files/1/1020/8903/2064/files/plantilla-retrato-nombre.jpg',
     prompt:
       'The first image is the customer\'s photo: it is the subject. The second image is only a style reference: never copy its animal, people, breed or face. ' +
+      'It must be a completely new hand-made artwork in the style of the second image: repaint every part of the animal and the scene, never keep or paste photographic pixels, photo fur texture or the photo background. Exactly one animal with one head. Use the same pose, angle and framing as the animal in the second image, even if the photo shows the pet from the side, from above or lying down: redraw it in that pose. ' +
       'Create a new portrait illustration of the pet from the first image in exactly the same style as the second image: ' +
       'flat hand-painted illustration with soft brush texture, plain pastel pink background, the animal facing forward, ' +
       'happy expression, wearing a pink hoodie with white drawstrings, framed from the chest up. ' +
@@ -38,6 +40,7 @@ const TEMPLATES = {
     reference: 'https://cdn.shopify.com/s/files/1/1020/8903/2064/files/estilo-mascotas-oleo.jpg',
     prompt:
       'The first image is the customer\'s photo: it is the subject. The second image is only a style reference: never copy its animal, people, breed or face. ' +
+      'It must be a completely new hand-made artwork in the style of the second image: repaint every part of the animal and the scene, never keep or paste photographic pixels, photo fur texture or the photo background. Exactly one animal with one head. Use the same pose, angle and framing as the animal in the second image, even if the photo shows the pet from the side, from above or lying down: redraw it in that pose. ' +
       'Create a new vintage oil painting of the pet from the first image in exactly the same style as the second image: ' +
       'fine textured oil brushwork, background of vertical pale blue and cream stripes, ' +
       'the pet wearing a cream headscarf with small blue flowers tied under the chin, head slightly tilted, sweet expression, framed from the chest up. ' +
@@ -50,6 +53,7 @@ const TEMPLATES = {
     reference: 'https://cdn.shopify.com/s/files/1/1020/8903/2064/files/estilo-mascotas-en-casa.jpg',
     prompt:
       'The first image is the customer\'s photo: it is the subject. The second image is only a style reference: never copy its animal, people, breed or face. ' +
+      'It must be a completely new hand-made artwork in the style of the second image: repaint every part of the animal and the scene, never keep or paste photographic pixels, photo fur texture or the photo background. Exactly one animal with one head. Use the same pose, angle and framing as the animal in the second image, even if the photo shows the pet from the side, from above or lying down: redraw it in that pose. ' +
       'Create a new painting of the pet from the first image in exactly the same style as the second image: ' +
       'textured painterly brushwork, the pet lying relaxed on a soft pale blue sofa with its head resting on a blue cushion, ' +
       'plain warm off-white wall behind, calm cosy mood, looking at the viewer. ' +
@@ -62,6 +66,7 @@ const TEMPLATES = {
     reference: 'https://cdn.shopify.com/s/files/1/1020/8903/2064/files/estilo-mascotas-plana.jpg',
     prompt:
       'The first image is the customer\'s photo: it is the subject. The second image is only a style reference: never copy its animal, people, breed or face. ' +
+      'It must be a completely new hand-made artwork in the style of the second image: repaint every part of the animal and the scene, never keep or paste photographic pixels, photo fur texture or the photo background. Exactly one animal with one head. Use the same pose, angle and framing as the animal in the second image, even if the photo shows the pet from the side, from above or lying down: redraw it in that pose. ' +
       'Create a new portrait of the pet from the first image in exactly the same style as the second image: ' +
       'clean flat vector illustration with crisp cel-shaded fur in a few flat tones, smooth shapes, fine whisker lines, ' +
       'a thin white sticker outline around the animal, plain flat light grey background, head and chest framed close, looking at the viewer. ' +
