@@ -28,8 +28,8 @@
     "delivery_min": 4,
     "delivery_max": 10,
     "gift_enabled": true,
-    "gift_tier1": 120,
-    "gift_tier2": 200,
+    "gift_tier1": 119,
+    "gift_tier2": 199,
     "sections": {
       "newsletter-popup": {
         "type": "newsletter-popup",
