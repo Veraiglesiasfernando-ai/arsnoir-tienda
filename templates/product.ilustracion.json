@@ -54,7 +54,10 @@
             "template_id": "retrato-nombre",
             "template_name": "Retrato con nombre",
             "needs_name": true,
-            "max_previews": 3
+            "max_previews": 3,
+            "show_fonts": true,
+            "default_font": "moderna",
+            "colors": "crema|Crema|#F1ECE3\nrosa|Rosa|#F2C4CC\nazul|Azul|#C9DAEA\nverde|Verde|#C8D5C0\narena|Arena|#E3D2B8"
           }
         }
       },

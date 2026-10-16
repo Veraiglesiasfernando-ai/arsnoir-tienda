@@ -61,14 +61,17 @@
         "amo1": {
           "type": "template",
           "settings": {
-            "category": "Amor",
-            "name": "Estilo 1"
+            "category": "Pareja",
+            "name": "Momento ilustrado",
+            "tagline": "Vuestra foto de pareja en ilustración, con vuestra fecha.",
+            "image": "shopify://shop_images/pz-card-momento-ilustrado.jpg",
+            "link": "shopify://products/momento-ilustrado"
           }
         },
         "amo2": {
           "type": "template",
           "settings": {
-            "category": "Amor",
+            "category": "Pareja",
             "name": "Estilo 2"
           }
         },
@@ -86,7 +89,10 @@
           "type": "template",
           "settings": {
             "category": "Familia",
-            "name": "Estilo 2"
+            "name": "Momento ilustrado",
+            "tagline": "Vuestro momento en ilustración, con una frase si quieres.",
+            "image": "shopify://shop_images/pz-card-momento-ilustrado.jpg",
+            "link": "shopify://products/momento-ilustrado"
           }
         },
         "mas4": {

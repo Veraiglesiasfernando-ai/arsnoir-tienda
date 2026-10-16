@@ -9,6 +9,7 @@
   data-endpoint="{{ b.endpoint | strip }}"
   data-template="{{ b.template_id | strip }}"
   data-needs-name="{{ b.needs_name }}"
+  data-text-optional="{{ b.text_optional }}"
   data-max="{{ b.max_previews }}"
   data-key="tstudio-{{ product.id }}"
   data-t-working="{{ b.working_text | escape }}"
@@ -28,9 +29,41 @@
     </label>
     {%- if b.photo_hint != blank -%}<p class="tstudio__hint">{{ b.photo_hint }}</p>{%- endif -%}
 
-    {%- if b.needs_name -%}
-      <p class="vstep__head"><span class="vstep__num">2</span><span class="vstep__title">{{ b.name_label }}</span></p>
-      <input class="tstudio__name" type="text" maxlength="16" autocomplete="off" placeholder="{{ b.name_placeholder | escape }}" data-tstudio-name>
+    {%- assign has_text = false -%}
+    {%- if b.needs_name or b.text_optional -%}{%- assign has_text = true -%}{%- endif -%}
+    {%- if has_text -%}
+      <p class="vstep__head"><span class="vstep__num">2</span><span class="vstep__title">{% if b.needs_name %}{{ b.name_label }}{% else %}{{ b.text_label }}{% endif %}</span></p>
+      <input class="tstudio__name" type="text" maxlength="24" autocomplete="off" placeholder="{% if b.needs_name %}{{ b.name_placeholder | escape }}{% else %}{{ b.text_placeholder | escape }}{% endif %}" data-tstudio-name>
+      {%- if b.show_fonts -%}
+        {%- comment -%} Keys must match FONTS in workers/plantillas/worker.js {%- endcomment -%}
+        <div class="tstudio__opts" role="radiogroup" aria-label="{{ b.font_label | escape }}">
+          <span class="tstudio__opts-label">{{ b.font_label }}</span>
+          {%- assign fonts = 'pincel|Pincel,manuscrita|Manuscrita,clasica|Clásica,moderna|Moderna' | split: ',' -%}
+          {%- for f in fonts -%}
+            {%- assign fk = f | split: '|' | first -%}
+            <label class="tstudio__font tstudio__font--{{ fk }}">
+              <input type="radio" name="tstudio-font-{{ section_id }}" value="{{ fk }}"{% if fk == b.default_font %} checked{% endif %} data-tstudio-font>
+              <span>{{ f | split: '|' | last }}</span>
+            </label>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    {%- endif -%}
+    {%- if b.colors != blank -%}
+      {%- comment -%} One per line: key|Name|#hex — keys must match the template's colours in workers/plantillas/templates.js {%- endcomment -%}
+      <div class="tstudio__opts" role="radiogroup" aria-label="{{ b.color_label | escape }}">
+        <span class="tstudio__opts-label">{{ b.color_label }}</span>
+        {%- assign color_lines = b.colors | newline_to_br | split: '<br />' -%}
+        {%- for line in color_lines -%}
+          {%- assign parts = line | strip | split: '|' -%}
+          {%- if parts.size < 3 -%}{%- continue -%}{%- endif -%}
+          <label class="tstudio__color" title="{{ parts[1] | strip | escape }}">
+            <input type="radio" name="tstudio-color-{{ section_id }}" value="{{ parts[0] | strip }}" data-label="{{ parts[1] | strip | escape }}"{% if forloop.first %} checked{% endif %} data-tstudio-color>
+            <span style="background: {{ parts[2] | strip }}"></span>
+            <em>{{ parts[1] | strip }}</em>
+          </label>
+        {%- endfor -%}
+      </div>
     {%- endif -%}
 
     <button type="button" class="button tstudio__go" data-tstudio-go disabled>{{ b.button_label }}</button>
@@ -48,7 +81,9 @@
 
     <input type="hidden" name="properties[_Ilustración]" form="{{ form_id }}" data-tstudio-url>
     <input type="hidden" name="properties[Plantilla]" value="{{ b.template_name | escape }}" form="{{ form_id }}">
-    {%- if b.needs_name -%}<input type="hidden" name="properties[Nombre]" form="{{ form_id }}" data-tstudio-name-prop>{%- endif -%}
+    {%- if has_text -%}<input type="hidden" name="properties[{% if b.needs_name %}Nombre{% else %}Texto{% endif %}]" form="{{ form_id }}" data-tstudio-name-prop>{%- endif -%}
+    {%- if b.show_fonts and has_text -%}<input type="hidden" name="properties[Letra]" form="{{ form_id }}" data-tstudio-font-prop>{%- endif -%}
+    {%- if b.colors != blank -%}<input type="hidden" name="properties[Color]" form="{{ form_id }}" data-tstudio-color-prop>{%- endif -%}
   {%- endif -%}
 </div>
 <script src="{{ 'template-studio.js' | asset_url }}" defer></script>

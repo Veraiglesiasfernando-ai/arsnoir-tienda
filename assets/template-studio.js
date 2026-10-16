@@ -35,6 +35,9 @@
   const resultImg = studio.querySelector('[data-tstudio-img]');
   const max = parseInt(d.max, 10) || 3;
   const needsName = d.needsName === 'true';
+  const fontProp = studio.querySelector('[data-tstudio-font-prop]');
+  const colorProp = studio.querySelector('[data-tstudio-color-prop]');
+  const picked = function (attr) { const el = studio.querySelector('[' + attr + ']:checked'); return el || null; };
   let photo = null;
 
   const used = function () {
@@ -110,6 +113,8 @@
   const reset = function () {
     urlInput.value = '';
     if (nameProp) nameProp.value = '';
+    if (fontProp) fontProp.value = '';
+    if (colorProp) colorProp.value = '';
     result.hidden = true;
     if (live) live.hidden = true;
   };
@@ -141,6 +146,10 @@
     img.src = URL.createObjectURL(file);
   });
   if (nameInput) nameInput.addEventListener('input', function () { reset(); ready(); });
+  /* A different letter or colour needs a new preview */
+  studio.querySelectorAll('[data-tstudio-font], [data-tstudio-color]').forEach(function (el) {
+    el.addEventListener('change', function () { reset(); ready(); });
+  });
 
   const wait = function (ms) { return new Promise(function (r) { setTimeout(r, ms); }); };
   const poll = function (id, tries) {
@@ -162,7 +171,11 @@
     fetch(endpoint + '/preview', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ template: d.template, name: name, image: photo })
+      body: JSON.stringify({
+        template: d.template, name: name, image: photo,
+        font: picked('data-tstudio-font') ? picked('data-tstudio-font').value : '',
+        color: picked('data-tstudio-color') ? picked('data-tstudio-color').value : ''
+      })
     })
       .then(function (r) { return r.json().then(function (b) { return { ok: r.ok, status: r.status, body: b }; }); })
       .then(function (res) {
@@ -173,7 +186,10 @@
       })
       .then(function (url) {
         urlInput.value = url;
-        if (nameProp) nameProp.value = name.toUpperCase();
+        if (nameProp) nameProp.value = name;
+        const f = picked('data-tstudio-font'), c = picked('data-tstudio-color');
+        if (fontProp) fontProp.value = name && f ? f.nextElementSibling.textContent : '';
+        if (colorProp) colorProp.value = c ? c.dataset.label : '';
         resultImg.src = url;
         result.hidden = false;
         showLive(url);
@@ -191,7 +207,10 @@
       sessionStorage.removeItem('arsnoir-pz-handoff');
       urlInput.value = hand.url;
       if (nameInput && hand.name) nameInput.value = hand.name;
-      if (nameProp) nameProp.value = (hand.name || '').toUpperCase();
+      if (nameProp) nameProp.value = hand.name || '';
+      const hf = picked('data-tstudio-font'), hc = picked('data-tstudio-color');
+      if (fontProp) fontProp.value = hand.name && hf ? hf.nextElementSibling.textContent : '';
+      if (colorProp) colorProp.value = hc ? hc.dataset.label : '';
       resultImg.src = hand.url;
       result.hidden = false;
       showLive(hand.url);

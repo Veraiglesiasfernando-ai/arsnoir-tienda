@@ -7,30 +7,34 @@
 export const TEMPLATES = {
   'retrato-nombre': {
     needsName: true,
+    font: 'moderna',
+    colors: { crema: 'warm off-white', rosa: 'soft pastel pink', azul: 'pale powder blue', verde: 'soft sage green', arena: 'warm sand beige' },
     aspectRatio: '4:5',
     reference: 'https://cdn.shopify.com/s/files/1/1020/8903/2064/files/estilo-mascotas-nombre.jpg',
     prompt:
       'The first image is the customer\'s photo: it is the subject. The second image is only a style reference: never copy its animal, people, breed or face. ' +
       'It must be a completely new hand-made artwork in the style of the second image: repaint every part of the animal and the scene, never keep or paste photographic pixels, photo fur texture or the photo background. Exactly one animal with one head. Use the same pose, angle and framing as the animal in the second image, even if the photo shows the pet from the side, from above or lying down: redraw it in that pose. ' +
       'Create a new portrait painting of the pet from the first image in exactly the same style as the second image: ' +
-      'thick impasto oil paint with visible palette-knife and brush strokes, plain warm off-white background, ' +
+      'thick impasto oil paint with visible palette-knife and brush strokes, plain {COLOR} background, ' +
       'the animal facing forward and centred, framed from the chest up, happy expression. ' +
       'It must be the very same individual animal as in the first image, instantly recognisable to its owner: same breed or mix, head and muzzle shape, ear shape, size and position, fur length, colours, every marking and eye colour. No clothes or accessories. ' +
-      'Write the name "{NAME}" small in clean black sans-serif capital letters with wide letter spacing, centred at the top, spelled exactly. ' +
+      'Write the name "{NAME}" small in {FONT}, in black, centred at the top, spelled exactly. ' +
       'No other text, no logos, no border. Vertical 4:5.'
   },
   'retrato-sudadera': {
     needsName: true,
+    font: 'pincel',
+    colors: { rosa: 'pink', azul: 'blue', verde: 'sage green', amarillo: 'butter yellow', lila: 'lilac' },
     aspectRatio: '4:5',
     reference: 'https://cdn.shopify.com/s/files/1/1020/8903/2064/files/plantilla-retrato-nombre.jpg',
     prompt:
       'The first image is the customer\'s photo: it is the subject. The second image is only a style reference: never copy its animal, people, breed or face. ' +
       'It must be a completely new hand-made artwork in the style of the second image: repaint every part of the animal and the scene, never keep or paste photographic pixels, photo fur texture or the photo background. Exactly one animal with one head. Use the same pose, angle and framing as the animal in the second image, even if the photo shows the pet from the side, from above or lying down: redraw it in that pose. ' +
       'Create a new portrait illustration of the pet from the first image in exactly the same style as the second image: ' +
-      'flat hand-painted illustration with soft brush texture, plain pastel pink background, the animal facing forward, ' +
-      'happy expression, wearing a pink hoodie with white drawstrings, framed from the chest up. ' +
+      'flat hand-painted illustration with soft brush texture, plain pastel {COLOR} background, the animal facing forward, ' +
+      'happy expression, wearing a {COLOR} hoodie in a slightly deeper shade than the background, with white drawstrings, framed from the chest up. ' +
       'It must be the very same individual animal as in the first image, instantly recognisable to its owner: same breed or mix, head and muzzle shape, ear shape, size and position, fur length, colours, every marking and eye colour. ' +
-      'Write the name "{NAME}" in large white hand-painted brush capital letters centred at the top, spelled exactly. ' +
+      'Write the name "{NAME}" large, in {FONT}, in white, centred at the top, spelled exactly. ' +
       'No other text, no logos, no border. Vertical 4:5.'
   },
   'oleo-vintage': {
@@ -61,6 +65,7 @@ export const TEMPLATES = {
   },
   'ilustracion-plana': {
     needsName: false,
+    colors: { gris: 'light grey', rosa: 'soft pastel pink', azul: 'pale powder blue', verde: 'soft sage green', amarillo: 'soft butter yellow' },
     aspectRatio: '3:4',
     reference: 'https://cdn.shopify.com/s/files/1/1020/8903/2064/files/estilo-mascotas-plana.jpg',
     prompt:
@@ -68,9 +73,24 @@ export const TEMPLATES = {
       'It must be a completely new hand-made artwork in the style of the second image: repaint every part of the animal and the scene, never keep or paste photographic pixels, photo fur texture or the photo background. Exactly one animal with one head. Use the same pose, angle and framing as the animal in the second image, even if the photo shows the pet from the side, from above or lying down: redraw it in that pose. ' +
       'Create a new portrait of the pet from the first image in exactly the same style as the second image: ' +
       'clean flat vector illustration with crisp cel-shaded fur in a few flat tones, smooth shapes, fine whisker lines, ' +
-      'a thin white sticker outline around the animal, plain flat light grey background, head and chest framed close, looking at the viewer. ' +
+      'a thin white sticker outline around the animal, plain flat {COLOR} background, head and chest framed close, looking at the viewer. ' +
       'It must be the very same individual animal as in the first image, instantly recognisable to its owner: same breed or mix, head and muzzle shape, ear shape, size and position, fur length, colours, every marking and eye colour. ' +
       'No text, no logos, no border. Vertical 3:4.'
+  },
+  'momento-ilustrado': {
+    needsName: false,
+    font: 'manuscrita',
+    aspectRatio: '4:5',
+    reference: 'https://cdn.shopify.com/s/files/1/1020/8903/2064/files/estilo-momento-ilustrado.jpg',
+    textPrompt: 'Add the text "{NAME}" in {FONT}, dark charcoal, small and centred at the bottom on the white background, spelled exactly. ',
+    prompt:
+      'The first image is the customer\'s photo: it is the subject. The second image is only a style reference: never copy its people, faces, clothes or objects. ' +
+      'Repaint the first image as a new warm editorial illustration in exactly the same style as the second image: ' +
+      'soft flat colour shapes with a fine dry-brush and paper grain texture, gentle shading, rosy cheeks, simplified but expressive faces, ' +
+      'no background scene: the people and the main objects of the photo float on a plain warm off-white background, with a loose painted brush stroke under them as a base. ' +
+      'Keep every person and pet from the first image, with their faces, hair, expressions, clothes and poses recognisable, and keep meaningful objects (a cake, flowers, a gift). ' +
+      'It must be a completely new hand-made illustration: never keep or paste photographic pixels. Do not add or remove people. ' +
+      'No other text, no logos, no border. Vertical 4:5.'
   },
   'acuarela-familia': {
     needsName: false,

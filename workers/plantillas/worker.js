@@ -22,6 +22,14 @@ import { TEMPLATES } from './templates.js';
 
 const MAX_IMAGE_BYTES = 6 * 1024 * 1024;
 
+/* Lettering the customer can choose (the key travels from the theme; the description goes to the model) */
+const FONTS = {
+  pincel: 'bold hand-painted brush capital letters',
+  manuscrita: 'elegant flowing handwritten script lettering',
+  clasica: 'classic elegant serif capital letters',
+  moderna: 'clean modern sans-serif capital letters with wide letter spacing'
+};
+
 export default {
   async fetch(request, env) {
     const origin = request.headers.get('Origin') || '';
@@ -56,7 +64,7 @@ export default {
       if (!/^data:image\/(jpeg|png|webp);base64,/.test(image) || image.length > MAX_IMAGE_BYTES * 1.37) {
         return json({ error: 'image' }, 400);
       }
-      const name = String(body.name || '').replace(/[^\p{L}\p{N} '\-&.]/gu, '').trim().slice(0, 16);
+      const name = String(body.name || '').replace(/[^\p{L}\p{N} '\-&.!]/gu, '').trim().slice(0, 24);
       if (tpl.needsName && !name) return json({ error: 'name' }, 400);
 
       // Per-visitor daily limit (optional KV binding LIMITS)
@@ -68,7 +76,14 @@ export default {
         await env.LIMITS.put(key, String(used + 1), { expirationTtl: 60 * 60 * 26 });
       }
 
-      const prompt = tpl.prompt.replace('{NAME}', name.toUpperCase());
+      /* Font and colour only from the template's own lists: nothing free-form reaches the prompt */
+      const font = FONTS[body.font] ? body.font : (tpl.font || 'pincel');
+      const colors = tpl.colors || {};
+      const color = colors[body.color] ? body.color : Object.keys(colors)[0];
+      const shown = font === 'manuscrita' ? name : name.toUpperCase();
+      const fill = (t) => t.split('{NAME}').join(shown).split('{FONT}').join(FONTS[font]).split('{COLOR}').join(color ? colors[color] : '');
+      let prompt = fill(tpl.prompt);
+      if (!tpl.needsName && name && tpl.textPrompt) prompt += ' ' + fill(tpl.textPrompt);
       const model = env.MODEL || 'google/nano-banana';
       const res = await replicate('/models/' + model + '/predictions', {
         method: 'POST',

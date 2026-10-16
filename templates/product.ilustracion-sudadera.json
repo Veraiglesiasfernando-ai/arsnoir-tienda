@@ -54,7 +54,10 @@
             "template_id": "retrato-sudadera",
             "template_name": "Retrato con sudadera",
             "needs_name": true,
-            "max_previews": 3
+            "max_previews": 3,
+            "show_fonts": true,
+            "default_font": "pincel",
+            "colors": "rosa|Rosa|#F4AFC0\nazul|Azul|#A9C7E8\nverde|Verde|#B5CCAA\namarillo|Amarillo|#F3DE9A\nlila|Lila|#CDB8E3"
           }
         }
       },

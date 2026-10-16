@@ -2875,3 +2875,20 @@ html.sguide-lock { overflow: hidden; }
 .sar__hint { margin: 6px 20px 0; font-size: 13px; line-height: 1.5; color: var(--color-muted); text-align: center; }
 .sar__hint[hidden] { display: none; }
 @media (max-width: 749px) { .sar__stage { margin: 12px 16px 0; } }
+
+/* Template editor: letter and colour choices */
+.tstudio__opts { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 12px 0 4px; }
+.tstudio__opts-label { flex: 0 0 100%; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-muted); }
+.tstudio__font, .tstudio__color { position: relative; cursor: pointer; }
+.tstudio__font input, .tstudio__color input { position: absolute; opacity: 0; pointer-events: none; }
+.tstudio__font span { display: inline-flex; align-items: center; height: 40px; padding: 0 14px; border: 1px solid #d6d4cd; border-radius: 999px; background: #fff; font-size: 15px; }
+.tstudio__font input:checked + span { border-color: #0a0a0a; box-shadow: inset 0 0 0 1px #0a0a0a; }
+.tstudio__font input:focus-visible + span, .tstudio__color input:focus-visible + span { outline: 2px solid #0a0a0a; outline-offset: 2px; }
+.tstudio__font--pincel span { font-family: "Marker Felt", "Comic Sans MS", cursive; font-weight: 700; text-transform: uppercase; }
+.tstudio__font--manuscrita span { font-family: "Snell Roundhand", "Segoe Script", "Brush Script MT", cursive; font-size: 17px; }
+.tstudio__font--clasica span { font-family: Didot, "Bodoni 72", Georgia, "Times New Roman", serif; text-transform: uppercase; letter-spacing: 0.06em; }
+.tstudio__font--moderna span { font-family: "Helvetica Neue", Arial, sans-serif; text-transform: uppercase; letter-spacing: 0.18em; font-size: 13px; }
+.tstudio__color { display: inline-flex; flex-direction: column; align-items: center; gap: 4px; }
+.tstudio__color span { display: block; width: 36px; height: 36px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.12); }
+.tstudio__color input:checked + span { box-shadow: 0 0 0 2px #fff, 0 0 0 4px #0a0a0a; }
+.tstudio__color em { font-style: normal; font-size: 11px; color: var(--color-muted); }

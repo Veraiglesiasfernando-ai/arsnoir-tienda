@@ -54,7 +54,8 @@
             "template_id": "ilustracion-plana",
             "template_name": "Ilustración plana",
             "needs_name": false,
-            "max_previews": 3
+            "max_previews": 3,
+            "colors": "gris|Gris|#C9CAD0\nrosa|Rosa|#F2C4CC\nazul|Azul|#C9DAEA\nverde|Verde|#C8D5C0\namarillo|Amarillo|#F3E3A8"
           }
         }
       },
