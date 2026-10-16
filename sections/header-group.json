@@ -11,12 +11,6 @@
             "text": "ENVÍO GRATIS DESDE 80 €"
           }
         },
-        "m2": {
-          "type": "message",
-          "settings": {
-            "text": "ENVÍOS A ESPAÑA Y TODA EUROPA CON SEGUIMIENTO"
-          }
-        },
         "m3": {
           "type": "message",
           "settings": {
@@ -40,8 +34,7 @@
         "m4",
         "m1",
         "m5",
-        "m3",
-        "m2"
+        "m3"
       ],
       "settings": {
         "interval": 4
