@@ -492,6 +492,12 @@
         "default": 2
       },
       {
+        "type": "text",
+        "id": "pack_until",
+        "label": "Pack activo hasta (AAAA-MM-DD)",
+        "info": "La misma fecha de fin que el descuento en Shopify. Vacío = sin fecha de fin."
+      },
+      {
         "type": "header",
         "content": "Descuento al cerrar el carrito"
       },

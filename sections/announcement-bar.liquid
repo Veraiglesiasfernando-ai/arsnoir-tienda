@@ -15,7 +15,7 @@
       {%- endif -%}
       {%- for block in msgs -%}
         {%- if block.settings.text != blank -%}
-          <p class="announce__msg" {{ block.shopify_attributes }}>
+          <p class="announce__msg"{% if block.settings.until != blank %} data-until="{{ block.settings.until | escape }}"{% endif %} {{ block.shopify_attributes }}>
             {%- if block.settings.link != blank -%}<a href="{{ block.settings.link }}">{%- endif -%}
             {{ block.settings.text }}
             {%- if block.settings.link != blank -%}<span class="announce__arrow" aria-hidden="true"> &rarr;</span></a>{%- endif -%}
@@ -41,7 +41,8 @@
       "name": "Mensaje",
       "settings": [
         { "type": "text", "id": "text", "label": "Texto", "default": "Arte exclusivo de ARSNOIR — no lo encontrarás en ningún otro sitio." },
-        { "type": "url", "id": "link", "label": "Enlace" }
+        { "type": "url", "id": "link", "label": "Enlace" },
+        { "type": "text", "id": "until", "label": "Mostrar hasta (AAAA-MM-DD)", "info": "Opcional. Desde el día siguiente el mensaje deja de salir." }
       ]
     }
   ],

@@ -14,7 +14,8 @@
         "m3": {
           "type": "message",
           "settings": {
-            "text": "2 OBRAS: -15 % EN TU PEDIDO"
+            "text": "2 OBRAS: -15 % HASTA EL 9 DE NOVIEMBRE",
+            "until": "2026-11-09"
           }
         },
         "m4": {

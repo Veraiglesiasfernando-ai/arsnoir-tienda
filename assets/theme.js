@@ -58,6 +58,10 @@
     });
   }
   applyQ4(document);
+  /* Messages with an end date (e.g. a limited offer) disappear the day after */
+  document.querySelectorAll('.announce__msg[data-until]').forEach(function (el) {
+    if (isoDay(new Date()) > el.dataset.until) el.remove();
+  });
   document.querySelectorAll('[data-announce]').forEach(function (bar) {
     const first = bar.querySelector('.announce__msg');
     if (first) first.classList.add('is-active');

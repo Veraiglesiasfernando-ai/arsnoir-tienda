@@ -30,6 +30,7 @@
     "gift_enabled": true,
     "pack_percent": 15,
     "pack_min": 2,
+    "pack_until": "2026-11-09",
     "gift_tier1": 119,
     "gift_tier2": 199,
     "sections": {

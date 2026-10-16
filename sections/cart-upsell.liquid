@@ -18,6 +18,10 @@
     endif
   endfor
   assign pack_pct = settings.pack_percent | default: 0
+  assign today = 'now' | date: '%Y-%m-%d'
+  if settings.pack_until != blank and today > settings.pack_until
+    assign pack_pct = 0
+  endif
   assign pack_min = settings.pack_min | default: 2
   assign check_ship = true
   if threshold == 0 or cart.currency.iso_code != shop.currency or cart.original_total_price >= threshold
