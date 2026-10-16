@@ -26,13 +26,13 @@
         "m4": {
           "type": "message",
           "settings": {
-            "text": "🎁 PÓSTER A4 DE REGALO DESDE 120 €"
+            "text": "PÓSTER A4 DE REGALO DESDE 120 €"
           }
         },
         "m5": {
           "type": "message",
           "settings": {
-            "text": "−10 % EN TU PRIMERA COMPRA AL SUSCRIBIRTE"
+            "text": "-10 % EN TU PRIMERA COMPRA AL SUSCRIBIRTE"
           }
         }
       },
