@@ -77,8 +77,9 @@ const TEMPLATES = {
       'The first image is the finished illustration template. The second image is the customer\'s photo of their pet. ' +
       'Edit the first image: replace its animal with the pet from the second image and keep everything else of the first image exactly as it is: ' +
       'the same clean flat vector style with crisp cel-shaded fur in a few flat tones, smooth shapes and fine whisker lines, the same thin white sticker outline around the animal, ' +
-      'the same upright, straight-on pose with the head level and looking at the viewer, the same head-and-chest framing and size. Background: plain flat {COLOR}. ' +
-      'Do not copy the pose, head tilt, lying position or angle of the photo: the pet sits upright like the template animal. ' +
+      'the same close-up portrait framing as the template: only the head and the top of the chest, the head large and filling the upper two thirds of the picture, cropped at the chest. No legs, no paws, no full body. ' +
+      'The head faces the viewer, looking at the viewer, like the template animal. Background: plain flat {COLOR}. ' +
+      'Do not copy the pose, lying position, framing or angle of the photo. ' +
       'The pet must be fully redrawn as flat vector shapes: never keep photographic pixels, photo fur texture or anything of the photo background. Exactly one animal with one head and two ears. ' +
       'It must be the very same individual animal as in the second image, instantly recognisable to its owner: same breed or mix, head and muzzle shape, ear shape and colour, fur length, colours, every spot and marking and eye colour. Nothing of the template animal\'s breed, colours or markings may remain. ' +
       'No text, no logos, no border. Vertical 3:4.'

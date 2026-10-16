@@ -79,10 +79,22 @@
     const note = item.querySelector('[data-pzall-note]');
     const pick = item.querySelector('[data-pzall-pick]');
     const template = item.dataset.template;
+    const retry = item.querySelector('[data-pzall-retry]');
     if (item.dataset.needsName === 'true' && !name) {
+      /* Made later, with the same photo, once a name is written (no extra run counted) */
       note.textContent = d.tName;
+      if (retry) {
+        retry.hidden = false;
+        retry.onclick = function () {
+          const later = nameInput.value.trim();
+          if (!later) { nameInput.focus(); return; }
+          retry.hidden = true;
+          run(item, later);
+        };
+      }
       return Promise.resolve();
     }
+    if (retry) retry.hidden = true;
     note.textContent = '';
     spin.hidden = false;
     item.classList.add('is-working');

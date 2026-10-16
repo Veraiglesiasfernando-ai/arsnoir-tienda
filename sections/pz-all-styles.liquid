@@ -53,6 +53,7 @@
             <p class="pzall__name-s">{{ b.title | default: p.title }}</p>
             <p class="pzall__note" data-pzall-note></p>
             <a class="pzall__pick" href="{{ p.url }}" data-pzall-pick hidden>{{ s.pick_label }}</a>
+            {%- if b.needs_name -%}<button type="button" class="pzall__pick" data-pzall-retry hidden>{{ s.retry_label }}</button>{%- endif -%}
           </li>
         {%- endfor -%}
       </ul>
@@ -75,12 +76,13 @@
     { "type": "text", "id": "heading", "label": "Título", "default": "Una foto, todos los estilos" },
     { "type": "textarea", "id": "text", "label": "Texto", "default": "Sube una foto de tu mascota y mírala en todos nuestros estilos a la vez. Elige el que más te guste." },
     { "type": "text", "id": "photo_cta", "label": "Recuadro de la foto", "default": "Sube su foto" },
-    { "type": "text", "id": "name_label", "label": "Nombre", "default": "Su nombre (opcional)" },
+    { "type": "text", "id": "name_label", "label": "Nombre", "default": "Su nombre (para los estilos con nombre)" },
     { "type": "text", "id": "name_placeholder", "label": "Ejemplo de nombre", "default": "LINA" },
     { "type": "text", "id": "button_label", "label": "Botón", "default": "Verla en todos los estilos" },
     { "type": "text", "id": "working_text", "label": "Mientras se crean", "default": "Creando tus ilustraciones… cada una tarda unos segundos." },
     { "type": "text", "id": "error_text", "label": "Error en un estilo", "default": "No ha salido. Prueba otra foto." },
-    { "type": "text", "id": "needs_name_text", "label": "Estilo que necesita nombre", "default": "Escribe un nombre para ver este estilo." },
+    { "type": "text", "id": "needs_name_text", "label": "Estilo que necesita nombre", "default": "Escribe su nombre arriba y pulsa «Crear con su nombre»." },
+    { "type": "text", "id": "retry_label", "label": "Botón para crear un estilo con nombre después", "default": "Crear con su nombre" },
     { "type": "text", "id": "limit_text", "label": "Sin intentos", "default": "Ya has probado todos los estilos. Elige el tuyo o escríbenos y te ayudamos." },
     { "type": "text", "id": "pick_label", "label": "Elegir estilo", "default": "Elegir este" },
     { "type": "text", "id": "note", "label": "Nota", "default": "Son vistas previas. Antes de imprimir revisamos cada ilustración y la preparamos en alta calidad." }
