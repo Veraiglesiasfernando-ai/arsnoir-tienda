@@ -678,6 +678,11 @@ brand_button_ad(
 
 brand_button_ad(
     "c18-pareja-motor-pack", PAIR,
+    ["No decores tu espacio.", "Cambia cómo se siente."], "2 obras −15 %",
+    price="Desde 24,95 €", note="Con o sin marco de pino · Plexiglás irrompible",
+)
+brand_button_ad(
+    "c19-pareja-motor-bienvenida", PAIR,
     ["No decores tu espacio.", "Cambia cómo se siente."], "−10 % en tu primer pedido",
     price="Desde 24,95 €", note="Con o sin marco de pino · Plexiglás irrompible",
 )
