@@ -611,25 +611,42 @@ shop_tags_ad(
 )
 
 
+def wall_scene(src, W, H, photo_h, photo_y, center_x):
+    """La foto escalada a `photo_h` de alto, encuadrada en `center_x` (0–1). Si sobra lienzo arriba,
+    se rellena con la propia pared de la foto en espejo (sin colores planos ni cortes)."""
+    k = photo_h / src.height
+    pw = round(src.width * k)
+    ph = round(photo_h)
+    big = src.resize((pw, ph), Image.LANCZOS)
+    x0 = min(max(round(center_x * pw - W / 2), 0), pw - W)
+    big = big.crop((x0, 0, x0 + W, ph))
+    im = Image.new("RGB", (W, H))
+    if photo_y > 0:
+        strip = big.crop((0, 0, W, photo_y)).transpose(Image.FLIP_TOP_BOTTOM).filter(ImageFilter.GaussianBlur(6))
+        im.paste(strip, (0, 0))
+    im.paste(big, (0, photo_y))
+    return im.convert("RGBA")
+
+
 def brand_button_ad(cid, photo, lines, button):
-    """Logotipo ARSNOIR en blanco y la frase arriba, sobre la pared; el botón solo, abajo."""
+    """Logotipo ARSNOIR en blanco y la frase arriba, sobre la pared de la foto; el botón solo, abajo."""
     src = Image.open(M / photo).convert("RGB")
     logo_src = Image.open(M / "ads/src/logo-arsnoir-blanco.png")
     for fmt, (W, H) in {"4x5": (1080, 1350), "9x16": (1080, 1920)}.items():
-        photo_y = 170 if fmt == "4x5" else 470
-        im = scene_canvas(src, W, H, photo_y)
-        im.alpha_composite(gradient(W, 260 + photo_y, 110, 0), (0, 0))
+        if fmt == "4x5":
+            im = wall_scene(src, W, H, H, 0, 0.5)
+            lw, ly, size, gap = 230, 30, 38, 20
+        else:
+            im = wall_scene(src, W, H, H - 260, 260, 0.502)
+            lw, ly, size, gap = 280, 300, 50, 34
         bot = 300 if fmt == "4x5" else 560
-        im.alpha_composite(gradient(W, bot, 0, 200), (0, H - bot))
-        lw = 280
+        im.alpha_composite(gradient(W, bot, 0, 190), (0, H - bot))
         logo = logo_src.resize((lw, round(logo_src.height * lw / logo_src.width)), Image.LANCZOS)
-        ly = 48 if fmt == "4x5" else 285
         im.alpha_composite(logo, ((W - lw) // 2, ly))
         d = ImageDraw.Draw(im)
         cx = W / 2
-        size = 46 if fmt == "4x5" else 52
         f = grotesk(size, 600)
-        y = ly + logo.height + (34 if fmt == "4x5" else 44)
+        y = ly + logo.height + gap
         for line in lines:
             centered(d, cx, y, line, f, WHITE)
             y += round(size * 1.12)
