@@ -1138,7 +1138,7 @@
       const short = parts[1] ? parts[0].trim() : parts[0].replace(/\s*cm\s*$/i, '').trim();
       this.querySelector('[data-guide-choose]').textContent = (S.chooseSize || 'Elegir [size]').replace('[size]', short);
       if (this.guide.open) this.drawStage();
-      if (this.ar && !this.ar.hidden) this.setArImage();
+      if (this.ar && this.ar.open) this.buildAr();
     }
     drawStage() {
       const stage = this.querySelector('[data-stage]');
@@ -1175,138 +1175,67 @@
       Object.assign(dh.style, { height: h + 'px', left: left + w + 12 + 'px', bottom: bottom + 'px' });
       dh.firstChild.textContent = cm(cur.size[1]);
     }
-    /* «Verlo en mi pared» ---------------------------------------------------- */
+    /* «Verlo en mi pared»: real-size 3D frame on the wall in AR (assets/wall-ar.js + <model-viewer>) -- */
     setupAr() {
       const ar = this.ar;
-      this.arArt = ar.querySelector('[data-ar-art]');
-      this.video = ar.querySelector('[data-ar-video]');
-      this.photo = ar.querySelector('[data-ar-photo]');
-      const range = ar.querySelector('[data-ar-range]');
-      this.pos = { x: 0.5, y: 0.42 };
-      const place = () => {
-        const r = ar.getBoundingClientRect();
-        const width = (range.value / 100) * r.width;
-        this.arArt.style.width = width + 'px';
-        this.arArt.style.left = this.pos.x * r.width - width / 2 + 'px';
-        this.arArt.style.top = this.pos.y * r.height - (width * 1.25) / 2 + 'px';
-      };
-      this.placeAr = place;
-      range.addEventListener('input', place);
       ar.querySelector('[data-ar-close]').addEventListener('click', () => this.closeAr());
-      ar.addEventListener('keydown', (e) => { if (e.key === 'Escape') this.closeAr(); });
-      ar.querySelector('[data-ar-file]').addEventListener('change', (e) => {
-        const file = e.target.files && e.target.files[0];
-        if (!file) return;
-        this.stopCamera();
-        this.photo.src = URL.createObjectURL(file);
-        this.photo.hidden = false;
-        this.video.hidden = true;
-        ar.querySelector('[data-ar-msg]').hidden = true;
-      });
-      /* Drag with one finger, resize with two */
-      const pts = new Map();
-      let start = null;
-      this.arArt.addEventListener('pointerdown', (e) => {
-        this.arArt.setPointerCapture(e.pointerId);
-        pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
-        start = { pos: Object.assign({}, this.pos), size: +range.value, pts: new Map(pts) };
-      });
-      this.arArt.addEventListener('pointermove', (e) => {
-        if (!pts.has(e.pointerId) || !start) return;
-        pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
-        const r = ar.getBoundingClientRect();
-        const ids = Array.from(pts.keys());
-        if (ids.length === 1 && start.pts.has(ids[0])) {
-          const a = start.pts.get(ids[0]), b = pts.get(ids[0]);
-          this.pos.x = Math.min(0.95, Math.max(0.05, start.pos.x + (b.x - a.x) / r.width));
-          this.pos.y = Math.min(0.95, Math.max(0.05, start.pos.y + (b.y - a.y) / r.height));
-        } else if (ids.length >= 2 && start.pts.has(ids[0]) && start.pts.has(ids[1])) {
-          const d = (m) => Math.hypot(m.get(ids[0]).x - m.get(ids[1]).x, m.get(ids[0]).y - m.get(ids[1]).y);
-          range.value = Math.min(90, Math.max(10, start.size * (d(pts) / (d(start.pts) || 1))));
-        }
-        place();
-      });
-      const end = (e) => { pts.delete(e.pointerId); start = { pos: Object.assign({}, this.pos), size: +range.value, pts: new Map(pts) }; };
-      this.arArt.addEventListener('pointerup', end);
-      this.arArt.addEventListener('pointercancel', end);
-      ar.querySelector('[data-ar-shot]').addEventListener('click', () => this.shot());
-      window.addEventListener('resize', () => { if (!ar.hidden) place(); });
+      ar.addEventListener('click', (e) => { if (e.target === ar) this.closeAr(); });
     }
-    setArImage() {
-      const k = this.kind();
-      const src = this.dataset[k] || this.dataset.none;
-      if (this.arArt.dataset.src === src) return;
-      this.arArt.dataset.src = src;
-      /* CORS so «Guardar foto» can draw it; without it the image still shows */
-      this.arArt.crossOrigin = 'anonymous';
-      this.arArt.onerror = () => {
-        if (this.arArt.crossOrigin) { this.arArt.removeAttribute('crossorigin'); this.arArt.src = src; return; }
-        this.arArt.onerror = null;
-        this.arArt.src = this.dataset.fallback;
-      };
-      this.arArt.src = src;
-    }
-    async openAr() {
+    openAr() {
       if (this.guide.open) this.guide.close();
-      this.ar.hidden = false;
-      document.documentElement.classList.add('sguide-lock');
-      this.setArImage();
-      this.placeAr();
-      this.ar.querySelector('[data-ar-close]').focus();
-      const msg = this.ar.querySelector('[data-ar-msg]');
-      if (!this.photo.hidden) return;
+      if (typeof this.ar.showModal === 'function') this.ar.showModal(); else this.ar.setAttribute('open', '');
+      this.buildAr();
+    }
+    async buildAr() {
+      const ar = this.ar;
+      const cur = this.current();
+      const kind = this.kind();
+      const w = Math.min(cur.size[0], cur.size[1]), h = Math.max(cur.size[0], cur.size[1]);
+      const sizeText = cur.display.split('·').pop().trim();
+      ar.querySelector('[data-ar-size]').textContent = [sizeText, this.finishLabel()].filter(Boolean).join(' · ');
+      const key = [w, h, kind, this.dataset.art].join('|');
+      if (this.arKey === key) return;
+      this.arKey = key;
+      const stage = ar.querySelector('[data-ar-stage]');
+      const loading = ar.querySelector('[data-ar-loading]');
+      loading.hidden = false;
       try {
-        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) throw new Error('no camera');
-        this.stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: 'environment' } }, audio: false });
-        this.video.srcObject = this.stream;
-        this.video.hidden = false;
-        msg.hidden = true;
-      } catch (err) {
-        this.video.hidden = true;
-        msg.hidden = false;
-      }
-    }
-    stopCamera() {
-      if (this.stream) { this.stream.getTracks().forEach((t) => t.stop()); this.stream = null; }
-      if (this.video) this.video.srcObject = null;
-    }
-    closeAr() {
-      this.stopCamera();
-      this.ar.hidden = true;
-      document.documentElement.classList.remove('sguide-lock');
-    }
-    shot() {
-      const r = this.ar.getBoundingClientRect();
-      const c = this.ar.querySelector('[data-ar-canvas]');
-      const scale = Math.min(2, window.devicePixelRatio || 1);
-      c.width = r.width * scale; c.height = r.height * scale;
-      const ctx = c.getContext('2d');
-      ctx.scale(scale, scale);
-      ctx.fillStyle = '#111'; ctx.fillRect(0, 0, r.width, r.height);
-      const bg = !this.photo.hidden ? this.photo : (!this.video.hidden ? this.video : null);
-      if (bg) {
-        const bw = bg.videoWidth || bg.naturalWidth, bh = bg.videoHeight || bg.naturalHeight;
-        if (bw && bh) {
-          const k = Math.max(r.width / bw, r.height / bh);
-          ctx.drawImage(bg, (r.width - bw * k) / 2, (r.height - bh * k) / 2, bw * k, bh * k);
+        if (!window.ArsnoirWallAR) throw new Error('missing');
+        await window.ArsnoirWallAR.loadViewer();
+        let blob;
+        try { blob = await window.ArsnoirWallAR.build({ w: w, h: h, kind: kind, image: this.dataset.art || this.dataset.fallback }); }
+        catch (e) { blob = await window.ArsnoirWallAR.build({ w: w, h: h, kind: kind, image: this.dataset.fallback }); }
+        if (this.arKey !== key) return;
+        if (this.arUrl) URL.revokeObjectURL(this.arUrl);
+        this.arUrl = URL.createObjectURL(blob);
+        let mv = stage.querySelector('model-viewer');
+        if (!mv) {
+          mv = document.createElement('model-viewer');
+          const attrs = { ar: '', 'ar-modes': 'webxr quick-look', 'ar-placement': 'wall', 'ar-scale': 'fixed', 'camera-controls': '', 'touch-action': 'pan-y', 'shadow-intensity': '0.7', exposure: '1.05', 'camera-orbit': '18deg 82deg auto', 'interaction-prompt': 'none', alt: ar.querySelector('.sguide__title').textContent };
+          Object.keys(attrs).forEach((k) => mv.setAttribute(k, attrs[k]));
+          const go = document.createElement('button');
+          go.type = 'button';
+          go.slot = 'ar-button';
+          go.className = 'button sar__go';
+          go.textContent = ar.querySelector('[data-ar-go-label]').innerHTML.trim();
+          mv.appendChild(go);
+          mv.addEventListener('load', () => {
+            loading.hidden = true;
+            ar.querySelector('[data-ar-no]').hidden = mv.canActivateAR;
+            ar.querySelector('[data-ar-hint]').hidden = !mv.canActivateAR;
+          });
+          stage.appendChild(mv);
         }
+        mv.src = this.arUrl;
+      } catch (err) {
+        this.arKey = null;
+        loading.hidden = true;
+        ar.querySelector('[data-ar-no]').hidden = false;
       }
-      const a = this.arArt.getBoundingClientRect();
-      try { ctx.drawImage(this.arArt, a.left - r.left, a.top - r.top, a.width, a.height); } catch (e) { /* image not drawable */ }
-      try {
-        c.toBlob((blob) => {
-          if (!blob) return;
-          const file = new File([blob], 'arsnoir-en-mi-pared.jpg', { type: 'image/jpeg' });
-          if (navigator.canShare && navigator.canShare({ files: [file] })) {
-            navigator.share({ files: [file] }).catch(() => {});
-          } else {
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = file.name;
-            link.click();
-          }
-        }, 'image/jpeg', 0.9);
-      } catch (e) { /* tainted canvas: nothing to save */ }
+    }
+    stopCamera() { /* the phone's own AR handles the camera */ }
+    closeAr() {
+      if (typeof this.ar.close === 'function' && this.ar.open) this.ar.close(); else this.ar.removeAttribute('open');
     }
   }
   if (!customElements.get('size-compare')) customElements.define('size-compare', SizeCompare);

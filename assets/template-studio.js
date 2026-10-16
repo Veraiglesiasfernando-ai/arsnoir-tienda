@@ -95,6 +95,8 @@
     img.alt = resultImg.alt;
     img.src = url;
     live.hidden = false;
+    /* «Verlo en mi pared» shows the customer's illustration (falls back to the example if it can't load it) */
+    document.querySelectorAll('size-compare').forEach(function (el) { el.dataset.art = url; });
     syncLive();
     gallery.scrollTo({ left: 0, top: 0, behavior: 'smooth' });
   };

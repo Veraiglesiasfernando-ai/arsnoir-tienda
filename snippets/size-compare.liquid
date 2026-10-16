@@ -15,6 +15,15 @@
   endfor
   assign base = product.handle | append: '-marco-'
   assign fallback = product.featured_media | image_url: width: 1200
+  # The artwork on its own (our «…, la obra» photo) for the real-size 3D frame
+  assign art_media = product.featured_media
+  for m in product.media
+    if m.media_type == 'image' and m.alt contains ', la obra'
+      assign art_media = m
+      break
+    endif
+  endfor
+  assign art_src = art_media | image_url: width: 1600
 -%}
 {%- if size_values != blank and size_values.size > 1 -%}
   <size-compare class="sguide-row" {{ block.shopify_attributes }}
@@ -23,7 +32,8 @@
     data-wood="{{ base | append: 'wood.webp' | file_url }}"
     data-canvas="{{ base | append: 'canvas.webp' | file_url }}"
     data-black="{{ product.handle | append: '-marco.png' | file_url }}"
-    data-fallback="{{ fallback }}">
+    data-fallback="{{ fallback }}"
+    data-art="{{ art_src }}">
     <button type="button" class="sguide-btn" data-guide-open>
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h18v8H3zM7 8v3M11 8v4M15 8v3M19 8v4" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
       <span>{{ block.settings.heading }}</span>
@@ -73,27 +83,22 @@
     </dialog>
 
     {%- if block.settings.show_ar -%}
-    <div class="sguide-ar" data-ar hidden role="dialog" aria-modal="true" aria-label="{{ block.settings.ar_label | escape }}">
-      <video class="sguide-ar__video" data-ar-video playsinline muted autoplay></video>
-      <img class="sguide-ar__photo" data-ar-photo alt="" width="1200" height="1600" hidden>
-      <img class="sguide-ar__art" data-ar-art alt="" width="1200" height="1500" draggable="false">
-      <div class="sguide-ar__top">
-        <button type="button" class="sguide-ar__btn" data-ar-close aria-label="{{ 'general.close' | t }}">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8"/></svg>
+    <dialog class="sguide sar" data-ar aria-labelledby="SarTitle-{{ block.id }}">
+      <div class="sguide__head">
+        <p class="sguide__title" id="SarTitle-{{ block.id }}">{{ block.settings.ar_title }}</p>
+        <button type="button" class="sguide__close" data-ar-close aria-label="{{ 'general.close' | t }}">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.6"/></svg>
         </button>
-        <p class="sguide-ar__hint" data-ar-hint>{{ block.settings.ar_hint }}</p>
       </div>
-      <p class="sguide-ar__msg" data-ar-msg hidden>{{ block.settings.ar_no_camera }}</p>
-      <div class="sguide-ar__bar">
-        <label class="sguide-ar__pill">
-          <input type="file" accept="image/*" data-ar-file hidden>
-          <span>{{ block.settings.ar_photo_label }}</span>
-        </label>
-        <input class="sguide-ar__range" type="range" min="10" max="90" value="38" data-ar-range aria-label="{{ block.settings.ar_size_label | escape }}">
-        <button type="button" class="sguide-ar__shot" data-ar-shot aria-label="{{ block.settings.ar_shot_label | escape }}"></button>
+      <div class="sar__stage" data-ar-stage>
+        <p class="sar__loading" data-ar-loading>{{ block.settings.ar_loading }}</p>
       </div>
-      <canvas data-ar-canvas hidden></canvas>
-    </div>
+      <p class="sar__size" data-ar-size></p>
+      <p class="sar__hint" data-ar-hint>{{ block.settings.ar_hint }}</p>
+      <p class="sar__hint sar__hint--no" data-ar-no hidden>{{ block.settings.ar_no_ar }}</p>
+      <template data-ar-go-label>{{ block.settings.ar_go_label }}</template>
+    </dialog>
+    <script src="{{ 'wall-ar.js' | asset_url }}" defer></script>
     {%- endif -%}
   </size-compare>
 {%- endif -%}
