@@ -325,3 +325,51 @@ room_ad(
     "Impreso bajo pedido", "Abrir la caja.\nColgarla.\nListo.",
     "Con marco y listo para colgar. Llega en 4–10 días.", "Comprar ahora", focus=0.2,
 )
+
+
+def hero_ad(cid, photo, kicker, line1, line2, cta, tag):
+    """Foto propia a sangre (generada en Higgsfield): titular arriba en la pared, botón abajo sobre el suelo."""
+    src = Image.open(M / photo).convert("RGB")
+    wall = src.getpixel((src.width // 2, 40))
+    floor = src.getpixel((src.width // 2, src.height - 10))
+    for fmt, (W, H) in {"4x5": (1080, 1350), "9x16": (1080, 1920)}.items():
+        im = Image.new("RGBA", (W, H), wall + (255,))
+        ph = round(src.height * W / src.width)
+        photo_y = 0 if fmt == "4x5" else 250
+        im.paste(src.resize((W, ph), Image.LANCZOS), (0, photo_y))
+        if fmt == "9x16":
+            # funde la foto con el color de la pared (arriba) y del suelo (abajo)
+            fade = 140
+            top = Image.new("RGBA", (W, fade), wall + (255,))
+            top.putalpha(Image.linear_gradient("L").rotate(180).resize((W, fade)))
+            im.alpha_composite(top, (0, photo_y))
+            below = Image.new("RGBA", (W, H - (photo_y + ph) + fade), floor + (255,))
+            mask = Image.linear_gradient("L").resize((W, fade))
+            full = Image.new("L", below.size, 255)
+            full.paste(mask, (0, 0))
+            below.putalpha(full)
+            im.alpha_composite(below, (0, photo_y + ph - fade))
+        im.alpha_composite(gradient(W, 330 + photo_y, 170, 0), (0, 0))
+        im.alpha_composite(gradient(W, 360, 0, 210), (0, H - 360 - (0 if fmt == "4x5" else 330)))
+        if fmt == "9x16":
+            im.alpha_composite(Image.new("RGBA", (W, 330), INK + (210,)), (0, H - 330))
+        d = ImageDraw.Draw(im)
+        pad = 64
+        y0 = 40 if fmt == "4x5" else 272
+        size = 64 if fmt == "4x5" else 74
+        pill(d, (pad, y0), kicker.upper(), font("SemiBold", 22), pad=(16, 9))
+        y = y0 + 52
+        d.text((pad, y), line1, font=font("Black", size), fill=WHITE)
+        d.text((pad, y + round(size * 1.02)), line2, font=font("Black", size), fill=RED)
+        cta_y = H - 64 - 84 if fmt == "4x5" else round(H * 0.80) - 84
+        d.text((pad, cta_y - 46), tag, font=font("Medium", 30), fill=(230, 230, 230))
+        pill(d, (pad, cta_y), cta, font("Bold", 34))
+        logo(d, (W - pad - 150, cta_y + 18))
+        save(im, f"{cid}-{fmt}.jpg")
+
+
+hero_ad(
+    "c11-pareja-motor", "ads/src/pareja-motor-revuelto-ataca.jpg",
+    "Pareja Motor · Revuelto + Ataca", "Hay quien los aparca.", "Tú los cuelgas.",
+    "Ver la pareja", "Pedido desde 120 €: un A4 de regalo.",
+)
