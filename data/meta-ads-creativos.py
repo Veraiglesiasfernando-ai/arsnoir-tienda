@@ -1,6 +1,6 @@
 """Genera los creativos estáticos de Meta Ads a partir de las fotos de media/.
 
-Uso:  python3 data/meta-ads-creativos.py
+Uso:  python3 data/meta-ads-creativos.py  (añade --video para el reel c13)
 Salida: media/ads/<id>-4x5.jpg (feed, 1080×1350) y <id>-9x16.jpg (stories/reels, 1080×1920).
 En 9:16 el texto importante queda fuera del 14 % superior y del 20 % inferior (los tapa la interfaz de Instagram).
 """
@@ -394,56 +394,135 @@ def spaced(draw, cx, y, text, f, fill, tracking):
     return total
 
 
-def editorial_ad(cid, photo, lines, caption=None, price=None):
-    """Foto a sangre con el texto mínimo de la marca: frase centrada arriba y ARSNOIR abajo.
-    Sin botón dibujado: el botón lo pone Meta debajo del anuncio."""
-    src = Image.open(M / photo).convert("RGB")
+def scene_canvas(src, W, H, photo_y):
+    """La foto a ancho completo en un lienzo W×H; lo que sobra arriba y abajo se rellena con el color de la pared y del suelo, fundido."""
     wall = src.getpixel((src.width // 2, 40))
     floor = src.getpixel((src.width // 2, src.height - 10))
+    im = Image.new("RGBA", (W, H), wall + (255,))
+    ph = round(src.height * W / src.width)
+    im.paste(src.resize((W, ph), Image.LANCZOS), (0, photo_y))
+    fade = round(W * 0.15)
+    if photo_y > 0:
+        top = Image.new("RGBA", (W, fade), wall + (255,))
+        top.putalpha(Image.linear_gradient("L").rotate(180).resize((W, fade)))
+        im.alpha_composite(top, (0, photo_y))
+    if photo_y + ph < H:
+        below = Image.new("RGBA", (W, H - (photo_y + ph) + fade), floor + (255,))
+        mask = Image.new("L", below.size, 255)
+        mask.paste(Image.linear_gradient("L").resize((W, fade)), (0, 0))
+        below.putalpha(mask)
+        im.alpha_composite(below, (0, photo_y + ph - fade))
+    return im
+
+
+def centered(draw, cx, y, text, f, fill):
+    draw.text((cx - draw.textlength(text, font=f) / 2, y), text, font=f, fill=fill)
+
+
+def wordmark(draw, cx, y, size=34, fill=WHITE):
+    spaced(draw, cx, y, "ARSNOIR", grotesk(size, 600), fill, round(size * 0.36))
+
+
+def editorial_ad(cid, photo, lines, price=None):
+    """Foto a sangre, titular grande en Space Grotesk arriba y solo el logotipo ARSNOIR abajo.
+    Sin botón dibujado: el botón lo pone Meta debajo del anuncio."""
+    src = Image.open(M / photo).convert("RGB")
     for fmt, (W, H) in {"4x5": (1080, 1350), "9x16": (1080, 1920)}.items():
-        im = Image.new("RGBA", (W, H), wall + (255,))
-        ph = round(src.height * W / src.width)
-        photo_y = 0 if fmt == "4x5" else 250
-        im.paste(src.resize((W, ph), Image.LANCZOS), (0, photo_y))
-        if fmt == "9x16":
-            fade = 160
-            top = Image.new("RGBA", (W, fade), wall + (255,))
-            top.putalpha(Image.linear_gradient("L").rotate(180).resize((W, fade)))
-            im.alpha_composite(top, (0, photo_y))
-            below = Image.new("RGBA", (W, H - (photo_y + ph) + fade), floor + (255,))
-            mask = Image.new("L", below.size, 255)
-            mask.paste(Image.linear_gradient("L").resize((W, fade)), (0, 0))
-            below.putalpha(mask)
-            im.alpha_composite(below, (0, photo_y + ph - fade))
-        im.alpha_composite(gradient(W, 300 + photo_y, 110, 0), (0, 0))
-        im.alpha_composite(gradient(W, 300, 0, 150), (0, H - 300 - (0 if fmt == "4x5" else 380)))
-        if fmt == "9x16":
-            im.alpha_composite(Image.new("RGBA", (W, 380), INK + (150,)), (0, H - 380))
+        photo_y = 130 if fmt == "4x5" else 330
+        im = scene_canvas(src, W, H, photo_y)
+        im.alpha_composite(gradient(W, 260 + photo_y, 120, 0), (0, 0))
+        bot = 260 if fmt == "4x5" else 560
+        im.alpha_composite(gradient(W, bot, 0, 170), (0, H - bot))
         d = ImageDraw.Draw(im)
         cx = W / 2
-        size = 50 if fmt == "4x5" else 54
-        f = grotesk(size, 500)
-        y = 62 if fmt == "4x5" else 300
+        size = 86 if fmt == "4x5" else 92
+        f = grotesk(size, 700)
+        y = 46 if fmt == "4x5" else 300
         for line in lines:
-            d.text((cx - d.textlength(line, font=f) / 2, y), line, font=f, fill=WHITE)
-            y += round(size * 1.18)
+            centered(d, cx, y, line, f, WHITE)
+            y += round(size * 1.04)
         if price:
-            pf = grotesk(30 if fmt == "4x5" else 32, 400)
-            y += 14
-            d.text((cx - d.textlength(price, font=pf) / 2, y), price, font=pf, fill=(225, 225, 225))
-        base = H - 118 if fmt == "4x5" else round(H * 0.80) - 70
-        w = spaced(d, cx, base, "ARSNOIR", grotesk(34, 600), WHITE, 12)
-        d.line((cx - 26, base + 52, cx + 26, base + 52), fill=RED, width=3)
-        small = caption or "ARSNOIR.COM"
-        spaced(d, cx, base + 66, small.upper(), grotesk(18, 500), (215, 215, 215), 4)
+            y += 18
+            centered(d, cx, y, price, grotesk(34, 400), (230, 230, 230))
+        base = H - 96 if fmt == "4x5" else round(H * 0.80) - 40
+        wordmark(d, cx, base)
         save(im, f"{cid}-{fmt}.jpg")
 
 
-editorial_ad(
-    "c11-pareja-motor", "ads/src/pareja-motor-revuelto-ataca.jpg",
-    ["Hay quien los aparca.", "Tú los cuelgas."], price="Desde 24,95 €",
-)
-editorial_ad(
-    "c12-pareja-motor-manifiesto", "ads/src/pareja-motor-revuelto-ataca.jpg",
-    ["No decores tu espacio.", "Cambia cómo se siente."], price="Desde 24,95 €",
-)
+def ease(t):
+    return t * t * (3 - 2 * t)
+
+
+def reel_pullout(cid, photo, focus, beats, seconds=9, fps=30):
+    """Reel 9:16: arranca en primer plano de `focus` (x, y en la foto, 0–1) y se abre hasta la habitación entera.
+    `beats` = [(desde_s, hasta_s, [(texto, tamaño, peso, color)…])]. Termina con el logotipo. Sin audio: pon un sonido en tendencia al publicarlo."""
+    import subprocess
+    src = Image.open(M / photo).convert("RGB")
+    W, H = 1080, 1920
+    S = 1.6  # el lienzo se trabaja a 1,6× para que el zoom no pierda nitidez
+    CW, CH = round(W * S), round(H * S)
+    photo_y = round(330 * S)
+    base = scene_canvas(src, CW, CH, photo_y).convert("RGB")
+    fx = focus[0] * CW
+    fy = photo_y + focus[1] * round(src.height * CW / src.width)
+    zoom0 = 2.2
+    out = OUT / f"{cid}-9x16.mp4"
+    ff = subprocess.Popen(
+        ["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(fps),
+         "-i", "-", "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "18", "-movflags", "+faststart", str(out)],
+        stdin=subprocess.PIPE,
+    )
+    shade = gradient(W, 820, 150, 0)
+    shade_bot = gradient(W, 560, 0, 170)
+    total = seconds * fps
+    for i in range(total):
+        t = i / fps
+        k = ease(min(1.0, t / 6.0))
+        z = zoom0 + (1.0 - zoom0) * k
+        cw, ch = CW / z, CH / z
+        cx = fx + (CW / 2 - fx) * k
+        cy = fy + (CH / 2 - fy) * k
+        cx = min(max(cx, cw / 2), CW - cw / 2)
+        cy = min(max(cy, ch / 2), CH - ch / 2)
+        frame = base.crop((round(cx - cw / 2), round(cy - ch / 2), round(cx + cw / 2), round(cy + ch / 2))).resize((W, H), Image.LANCZOS).convert("RGBA")
+        frame.alpha_composite(shade, (0, 0))
+        frame.alpha_composite(shade_bot, (0, H - 560))
+        layer = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+        d = ImageDraw.Draw(layer)
+        for start, end, lines in beats:
+            if start <= t < end:
+                a = min(1.0, (t - start) / 0.25, (end - t) / 0.25 if end < seconds else 1.0)
+                y = 300
+                for text, size, weight, color in lines:
+                    rise = round((1 - a) * 24)
+                    centered(d, W / 2, y + rise, text, grotesk(size, weight), color + (round(255 * a),))
+                    y += round(size * 1.08)
+        if t >= 6.4:
+            a = min(1.0, (t - 6.4) / 0.4)
+            spaced(d, W / 2, round(H * 0.80) - 40, "ARSNOIR", grotesk(40, 600), WHITE + (round(255 * a),), 15)
+        sh = layer.split()[3].filter(ImageFilter.GaussianBlur(14)).point(lambda v: min(255, v * 1.6))
+        shadow = Image.new("RGBA", (W, H), (0, 0, 0, 255))
+        shadow.putalpha(sh)
+        frame.alpha_composite(shadow)
+        frame.alpha_composite(layer)
+        ff.stdin.write(frame.convert("RGB").tobytes())
+    ff.stdin.close()
+    ff.wait()
+    print("✓", out.name)
+
+
+PAIR = "ads/src/pareja-motor-revuelto-ataca.jpg"
+editorial_ad("c11-pareja-motor", PAIR, ["Hay quien los aparca.", "Tú los cuelgas."], price="Desde 24,95 €")
+editorial_ad("c12-pareja-motor-manifiesto", PAIR, ["No decores", "tu espacio."], price="Cambia cómo se siente · Desde 24,95 €")
+
+if __name__ == "__main__":
+    import sys
+    if "--video" in sys.argv:
+        reel_pullout(
+            "c13-reel-pareja-motor", PAIR, focus=(0.615, 0.40),
+            beats=[
+                (0.0, 2.3, [("No decores", 110, 700, WHITE), ("tu espacio.", 110, 700, WHITE)]),
+                (2.3, 4.6, [("Cambia cómo", 110, 700, WHITE), ("se siente.", 110, 700, WHITE)]),
+                (4.6, 9.0, [("Revuelto + Ataca", 64, 600, WHITE), ("Desde 24,95 €", 44, 400, (230, 230, 230))]),
+            ],
+        )
