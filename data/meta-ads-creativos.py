@@ -676,6 +676,12 @@ brand_button_ad(
     price="Desde 24,95 €", note="Impresión en Europa",
 )
 
+brand_button_ad(
+    "c18-pareja-motor-pack", PAIR,
+    ["No decores tu espacio.", "Cambia cómo se siente."], "2 obras −15 %",
+    price="Desde 24,95 €", note="Con o sin marco de pino · Plexiglás irrompible",
+)
+
 if __name__ == "__main__":
     import sys
     if "--video" in sys.argv:
