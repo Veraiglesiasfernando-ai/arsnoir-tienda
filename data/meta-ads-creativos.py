@@ -394,7 +394,7 @@ def spaced(draw, cx, y, text, f, fill, tracking):
     return total
 
 
-def editorial_ad(cid, photo, lines, caption=None):
+def editorial_ad(cid, photo, lines, caption=None, price=None):
     """Foto a sangre con el texto mínimo de la marca: frase centrada arriba y ARSNOIR abajo.
     Sin botón dibujado: el botón lo pone Meta debajo del anuncio."""
     src = Image.open(M / photo).convert("RGB")
@@ -427,6 +427,10 @@ def editorial_ad(cid, photo, lines, caption=None):
         for line in lines:
             d.text((cx - d.textlength(line, font=f) / 2, y), line, font=f, fill=WHITE)
             y += round(size * 1.18)
+        if price:
+            pf = grotesk(30 if fmt == "4x5" else 32, 400)
+            y += 14
+            d.text((cx - d.textlength(price, font=pf) / 2, y), price, font=pf, fill=(225, 225, 225))
         base = H - 118 if fmt == "4x5" else round(H * 0.80) - 70
         w = spaced(d, cx, base, "ARSNOIR", grotesk(34, 600), WHITE, 12)
         d.line((cx - 26, base + 52, cx + 26, base + 52), fill=RED, width=3)
@@ -437,9 +441,9 @@ def editorial_ad(cid, photo, lines, caption=None):
 
 editorial_ad(
     "c11-pareja-motor", "ads/src/pareja-motor-revuelto-ataca.jpg",
-    ["Hay quien los aparca.", "Tú los cuelgas."],
+    ["Hay quien los aparca.", "Tú los cuelgas."], price="Desde 24,95 €",
 )
 editorial_ad(
     "c12-pareja-motor-manifiesto", "ads/src/pareja-motor-revuelto-ataca.jpg",
-    ["No decores tu espacio.", "Cambia cómo se siente."],
+    ["No decores tu espacio.", "Cambia cómo se siente."], price="Desde 24,95 €",
 )
