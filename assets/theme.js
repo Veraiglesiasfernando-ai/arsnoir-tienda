@@ -60,7 +60,23 @@
   applyQ4(document);
   /* Messages with an end date (e.g. a limited offer) disappear the day after */
   document.querySelectorAll('.announce__msg[data-until]').forEach(function (el) {
-    if (isoDay(new Date()) > el.dataset.until) el.remove();
+    if (isoDay(new Date()) > el.dataset.until) { el.remove(); return; }
+    /* Real time left until the offer's end date (23:59 that day) */
+    const end = parseDay(el.dataset.until, true);
+    if (!end) return;
+    const box = el.querySelector('a') || el;
+    const left = document.createElement('span');
+    left.className = 'announce__left';
+    box.appendChild(left);
+    const tickLeft = function () {
+      const s = Math.max(0, Math.floor((end - Date.now()) / 1000));
+      if (!s) { el.remove(); return; }
+      const d = Math.floor(s / 86400), h = Math.floor(s % 86400 / 3600), m = Math.floor(s % 3600 / 60);
+      left.textContent = d > 0 ? 'ACABA EN ' + d + 'D ' + pad(h) + 'H ' + pad(m) + 'M'
+        : 'ÚLTIMAS HORAS · ' + pad(h) + ':' + pad(m) + ':' + pad(s % 60);
+      setTimeout(tickLeft, d > 0 ? 30000 : 1000);
+    };
+    tickLeft();
   });
   document.querySelectorAll('[data-announce]').forEach(function (bar) {
     const first = bar.querySelector('.announce__msg');

@@ -14,7 +14,7 @@
         "m3": {
           "type": "message",
           "settings": {
-            "text": "2 OBRAS: -15 % HASTA EL 9 DE NOVIEMBRE",
+            "text": "2 OBRAS: -15 %",
             "until": "2026-11-09"
           }
         },
@@ -32,8 +32,8 @@
         }
       },
       "block_order": [
-        "m4",
         "m3",
+        "m4",
         "m1",
         "m5"
       ],
