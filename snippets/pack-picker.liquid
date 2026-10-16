@@ -1,0 +1,51 @@
+{%- comment -%}
+  «1 obra / 2 obras −15 %» tiles above the add-to-cart button (catalogue artworks only).
+  Mirrors the real automatic discount in Shopify (settings: pack_percent, pack_min, pack_until):
+  it only sets the quantity; checkout applies the discount. Hidden after pack_until.
+  Prices follow the selected variant (assets/pack-picker.js).
+{%- endcomment -%}
+{%- liquid
+  assign pack_pct = settings.pack_percent | default: 0
+  assign pack_min = settings.pack_min | default: 2
+  assign today = 'now' | date: '%Y-%m-%d'
+  assign show = false
+  if pack_pct > 0
+    for c in product.collections
+      if c.handle == 'obras'
+        assign show = true
+      endif
+    endfor
+  endif
+  if settings.pack_until != blank and today > settings.pack_until
+    assign show = false
+  endif
+  if product.tags contains 'plantilla'
+    assign show = false
+  endif
+-%}
+{%- if show -%}
+  {%- liquid
+    assign keep = 100 | minus: pack_pct
+    assign one = current_variant.price
+    assign full = one | times: pack_min
+    assign packed = full | times: keep | divided_by: 100
+    assign saved = full | minus: packed
+  -%}
+  <div class="ppick" data-pack-picker data-form="{{ form_id }}" data-min="{{ pack_min }}" data-pct="{{ pack_pct }}">
+    <button type="button" class="ppick__tile is-active" data-pack-qty="1" aria-pressed="true">
+      <span class="ppick__name">1 obra</span>
+      <span class="ppick__price" data-pack-one>{{ one | money }}</span>
+    </button>
+    <button type="button" class="ppick__tile ppick__tile--pack" data-pack-qty="{{ pack_min }}" aria-pressed="false">
+      <span class="ppick__tag">-{{ pack_pct }} %</span>
+      <span class="ppick__name">{{ pack_min }} obras</span>
+      <span class="ppick__price"><s data-pack-full>{{ full | money }}</s> <span data-pack-total>{{ packed | money }}</span></span>
+      <span class="ppick__save">Ahorras <span data-pack-saved>{{ saved | money }}</span></span>
+    </button>
+    <p class="ppick__note">
+      {%- if pack_min == 2 -%}O combina 2 obras distintas: el -{{ pack_pct }} % se aplica solo en el carrito{%- else -%}El -{{ pack_pct }} % se aplica solo en el carrito{%- endif -%}
+      {%- if settings.pack_until != blank -%}{%- assign end_day = settings.pack_until | date: '%-d' -%}{%- assign end_month = settings.pack_until | date: '%-m' | minus: 1 -%} · hasta el {{ end_day }} de {{ 'enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre' | split: ',' | slice: end_month | first | default: '' }}{%- endif -%}
+    </p>
+  </div>
+  <script src="{{ 'pack-picker.js' | asset_url }}" defer></script>
+{%- endif -%}

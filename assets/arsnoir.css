@@ -2893,3 +2893,16 @@ html.sguide-lock { overflow: hidden; }
 .tstudio__color span { display: block; width: 36px; height: 36px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.12); }
 .tstudio__color input:checked + span { box-shadow: 0 0 0 2px #fff, 0 0 0 4px #0a0a0a; }
 .tstudio__color em { font-style: normal; font-size: 11px; color: var(--color-muted); }
+/* Pack picker: 1 obra / 2 obras -15 % (snippets/pack-picker.liquid) */
+.ppick { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 18px 0 12px; }
+.ppick__tile { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; min-height: 92px; padding: 18px 10px 14px; background: #fff; border: 1.5px solid #e2e2e0; border-radius: 12px; color: #0a0a0a; font: inherit; cursor: pointer; overflow: visible; transition: border-color 0.2s; }
+.ppick__tile:hover { border-color: #0a0a0a; }
+.ppick__tile.is-active { border: 2px solid #0a0a0a; }
+.ppick__tile--pack { padding-bottom: 38px; }
+.ppick__name { font-size: 15px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; }
+.ppick__price { font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.ppick__price s { color: var(--color-muted); font-weight: 400; margin-right: 4px; }
+.ppick__tag { position: absolute; top: -11px; left: 50%; transform: translateX(-50%); padding: 3px 12px; background: #FF5A1F; color: #0a0a0a; font-size: 12px; font-weight: 800; letter-spacing: 0.04em; white-space: nowrap; }
+.ppick__save { position: absolute; left: 0; right: 0; bottom: 0; padding: 6px 8px; background: #FF5A1F; color: #0a0a0a; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; border-radius: 0 0 10px 10px; }
+.ppick__tile.is-active .ppick__save { border-radius: 0 0 9px 9px; }
+.ppick__note { grid-column: 1 / -1; margin: 2px 0 0; font-size: 12px; color: var(--color-muted); text-align: center; }
