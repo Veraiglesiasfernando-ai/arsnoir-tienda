@@ -368,13 +368,78 @@ def hero_ad(cid, photo, kicker, line1, line2, cta, tag):
         save(im, f"{cid}-{fmt}.jpg")
 
 
-hero_ad(
+
+def grotesk(size, weight):
+    """Space Grotesk del tema (assets/space-grotesk-latin.woff2), la tipografía de la web."""
+    import io
+    from fontTools.ttLib import TTFont
+    tt = TTFont(str(ROOT / "assets" / "space-grotesk-latin.woff2"))
+    tt.flavor = None
+    buf = io.BytesIO()
+    tt.save(buf)
+    buf.seek(0)
+    f = ImageFont.truetype(buf, size)
+    f.set_variation_by_axes([weight])
+    return f
+
+
+def spaced(draw, cx, y, text, f, fill, tracking):
+    """Texto centrado con espaciado entre letras (como el logotipo de los reels)."""
+    widths = [draw.textlength(ch, font=f) for ch in text]
+    total = sum(widths) + tracking * (len(text) - 1)
+    x = cx - total / 2
+    for ch, w in zip(text, widths):
+        draw.text((x, y), ch, font=f, fill=fill)
+        x += w + tracking
+    return total
+
+
+def editorial_ad(cid, photo, lines, caption=None):
+    """Foto a sangre con el texto mínimo de la marca: frase centrada arriba y ARSNOIR abajo.
+    Sin botón dibujado: el botón lo pone Meta debajo del anuncio."""
+    src = Image.open(M / photo).convert("RGB")
+    wall = src.getpixel((src.width // 2, 40))
+    floor = src.getpixel((src.width // 2, src.height - 10))
+    for fmt, (W, H) in {"4x5": (1080, 1350), "9x16": (1080, 1920)}.items():
+        im = Image.new("RGBA", (W, H), wall + (255,))
+        ph = round(src.height * W / src.width)
+        photo_y = 0 if fmt == "4x5" else 250
+        im.paste(src.resize((W, ph), Image.LANCZOS), (0, photo_y))
+        if fmt == "9x16":
+            fade = 160
+            top = Image.new("RGBA", (W, fade), wall + (255,))
+            top.putalpha(Image.linear_gradient("L").rotate(180).resize((W, fade)))
+            im.alpha_composite(top, (0, photo_y))
+            below = Image.new("RGBA", (W, H - (photo_y + ph) + fade), floor + (255,))
+            mask = Image.new("L", below.size, 255)
+            mask.paste(Image.linear_gradient("L").resize((W, fade)), (0, 0))
+            below.putalpha(mask)
+            im.alpha_composite(below, (0, photo_y + ph - fade))
+        im.alpha_composite(gradient(W, 300 + photo_y, 110, 0), (0, 0))
+        im.alpha_composite(gradient(W, 300, 0, 150), (0, H - 300 - (0 if fmt == "4x5" else 380)))
+        if fmt == "9x16":
+            im.alpha_composite(Image.new("RGBA", (W, 380), INK + (150,)), (0, H - 380))
+        d = ImageDraw.Draw(im)
+        cx = W / 2
+        size = 50 if fmt == "4x5" else 54
+        f = grotesk(size, 500)
+        y = 62 if fmt == "4x5" else 300
+        for line in lines:
+            d.text((cx - d.textlength(line, font=f) / 2, y), line, font=f, fill=WHITE)
+            y += round(size * 1.18)
+        base = H - 118 if fmt == "4x5" else round(H * 0.80) - 70
+        w = spaced(d, cx, base, "ARSNOIR", grotesk(34, 600), WHITE, 12)
+        d.line((cx - 26, base + 52, cx + 26, base + 52), fill=RED, width=3)
+        small = caption or "ARSNOIR.COM"
+        spaced(d, cx, base + 66, small.upper(), grotesk(18, 500), (215, 215, 215), 4)
+        save(im, f"{cid}-{fmt}.jpg")
+
+
+editorial_ad(
     "c11-pareja-motor", "ads/src/pareja-motor-revuelto-ataca.jpg",
-    "Pareja Motor · Revuelto + Ataca", "Hay quien los aparca.", "Tú los cuelgas.",
-    "Ver la pareja", "Pedido desde 120 €: un A4 de regalo.",
+    ["Hay quien los aparca.", "Tú los cuelgas."],
 )
-hero_ad(
+editorial_ad(
     "c12-pareja-motor-manifiesto", "ads/src/pareja-motor-revuelto-ataca.jpg",
-    "Pareja Motor · Revuelto + Ataca", "No decores tu espacio.", "Cambia cómo se siente.",
-    "Ver la pareja", "Pedido desde 120 €: un A4 de regalo.",
+    ["No decores tu espacio.", "Cambia cómo se siente."],
 )
