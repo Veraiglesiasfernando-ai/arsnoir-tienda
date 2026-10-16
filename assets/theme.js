@@ -1043,7 +1043,7 @@
       document.addEventListener('change', this.onChange);
       this.onResize = () => { if (this.guide.open) this.drawStage(); };
       window.addEventListener('resize', this.onResize);
-      this.setupAr();
+      if (this.ar) this.setupAr();
     }
     disconnectedCallback() {
       if (this.onChange) document.removeEventListener('change', this.onChange);
