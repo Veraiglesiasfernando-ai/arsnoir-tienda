@@ -48,7 +48,7 @@
       endfor
       assign cat_list = cats | split: '|'
     -%}
-    {%- if cat_list.size > 1 -%}
+    {%- if cat_list.size > 1 and s.layout != 'sections' -%}
       <div class="ctpl__tabs" role="tablist" aria-label="{{ s.heading | escape }}" data-ctpl-tabs>
         <button type="button" class="ctpl__tab is-active" role="tab" aria-selected="true" data-cat="">{{ s.all_label }}</button>
         {%- for c in cat_list -%}
@@ -56,39 +56,39 @@
         {%- endfor -%}
       </div>
     {%- endif -%}
-    <ul class="ctpl__grid">
-      {%- for block in section.blocks -%}
-        {%- assign b = block.settings -%}
-        {%- if b.link == blank and b.image == blank and request.design_mode == false -%}{%- continue -%}{%- endif -%}
-        <li class="ctpl__item reveal" data-cat="{{ b.category | strip | handleize }}" {{ block.shopify_attributes }}>
-          {%- capture card_inner -%}
-            <span class="ctpl__media">
-              {%- if b.image != blank -%}
-                {{ b.image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '360, 540, 720, 900', sizes: '(min-width: 990px) 25vw, 50vw', alt: b.name }}
-              {%- else -%}
-                <span class="ctpl__ph" aria-hidden="true"></span>
-              {%- endif -%}
-              {%- if b.before != blank -%}
-                <span class="ctpl__before">
-                  {{ b.before | image_url: width: 240 | image_tag: loading: 'lazy', alt: '' }}
-                  <span class="ctpl__before-label">{{ s.before_label }}</span>
-                </span>
-              {%- endif -%}
-              {%- if b.link == blank and b.image != blank -%}<span class="ctpl__soon">{{ s.soon_label }}</span>{%- endif -%}
-              {%- if b.link == blank and b.image == blank -%}<span class="ctpl__draft">{{ s.no_link_label }}</span>{%- endif -%}
-            </span>
-            {%- if b.category != blank -%}<span class="ctpl__cat">{{ b.category }}</span>{%- endif -%}
-            <span class="ctpl__name">{{ b.name }}</span>
-            {%- if b.tagline != blank -%}<span class="ctpl__tagline">{{ b.tagline }}</span>{%- endif -%}
-          {%- endcapture -%}
-          {%- if b.link != blank -%}
-            <a class="ctpl__card" href="{{ b.link }}">{{ card_inner }}<span class="ctpl__cta">{{ s.button_label }}</span></a>
-          {%- else -%}
-            <div class="ctpl__card is-soon">{{ card_inner }}</div>
-          {%- endif -%}
-        </li>
+    {%- if s.layout == 'sections' and cat_list.size > 1 -%}
+      {%- comment -%} One block per theme (Mascotas, Familia, Pareja…) with its own title; chips jump to each {%- endcomment -%}
+      <nav class="ctpl__tabs ctpl__tabs--jump" aria-label="{{ s.heading | escape }}">
+        {%- for c in cat_list -%}
+          <a class="ctpl__tab" href="#ctpl-{{ c | handleize }}">{{ c }}</a>
+        {%- endfor -%}
+      </nav>
+      {%- for c in cat_list -%}
+        {%- assign n = 0 -%}
+        {%- for block in section.blocks -%}
+          {%- if block.settings.link == blank and block.settings.image == blank and request.design_mode == false -%}{%- continue -%}{%- endif -%}
+          {%- assign bc = block.settings.category | strip -%}
+          {%- if bc == c -%}{%- assign n = n | plus: 1 -%}{%- endif -%}
+        {%- endfor -%}
+        <div class="ctpl__group" id="ctpl-{{ c | handleize }}">
+          <h3 class="ctpl__group-title">{{ c }}<span>{{ n }} {% if n == 1 %}estilo{% else %}estilos{% endif %}</span></h3>
+          <ul class="ctpl__grid">
+            {%- for block in section.blocks -%}
+              {%- if block.settings.link == blank and block.settings.image == blank and request.design_mode == false -%}{%- continue -%}{%- endif -%}
+              {%- assign bc = block.settings.category | strip -%}
+              {%- if bc == c -%}{%- render 'ctpl-card', block: block, s: s -%}{%- endif -%}
+            {%- endfor -%}
+          </ul>
+        </div>
       {%- endfor -%}
-    </ul>
+    {%- else -%}
+      <ul class="ctpl__grid">
+        {%- for block in section.blocks -%}
+          {%- if block.settings.link == blank and block.settings.image == blank and request.design_mode == false -%}{%- continue -%}{%- endif -%}
+          {%- render 'ctpl-card', block: block, s: s -%}
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
   </div>
 </section>
 {%- endif -%}
@@ -103,6 +103,7 @@
     { "type": "text", "id": "text", "label": "Texto", "default": "Elige un estilo, sube tu foto y mírala convertida al momento." },
     { "type": "text", "id": "video_url", "label": "Vídeo «cómo funciona» (URL .mp4)", "info": "Archivo de Contenido → Archivos. Se ve encima de los estilos, en bucle y sin sonido." },
     { "type": "image_picker", "id": "video_poster", "label": "Imagen del vídeo mientras carga" },
+    { "type": "select", "id": "layout", "label": "Cómo se agrupan", "default": "tabs", "options": [{ "value": "tabs", "label": "Pestañas (una cuadrícula)" }, { "value": "sections", "label": "Por secciones (Mascotas, Familia…)" }] },
     { "type": "text", "id": "button_label", "label": "Botón", "default": "Elegir estilo" },
     { "type": "text", "id": "all_label", "label": "Pestaña «todas»", "default": "Todas" },
     { "type": "text", "id": "before_label", "label": "Etiqueta de la foto original", "default": "Antes" },

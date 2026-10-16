@@ -1,0 +1,29 @@
+{%- comment -%} One style card of sections/custom-templates.liquid (block, s = section settings) {%- endcomment -%}
+{%- assign b = block.settings -%}
+<li class="ctpl__item reveal" data-cat="{{ b.category | strip | handleize }}" {{ block.shopify_attributes }}>
+  {%- capture card_inner -%}
+    <span class="ctpl__media">
+      {%- if b.image != blank -%}
+        {{ b.image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '360, 540, 720, 900', sizes: '(min-width: 990px) 25vw, 50vw', alt: b.name }}
+      {%- else -%}
+        <span class="ctpl__ph" aria-hidden="true"></span>
+      {%- endif -%}
+      {%- if b.before != blank -%}
+        <span class="ctpl__before">
+          {{ b.before | image_url: width: 240 | image_tag: loading: 'lazy', alt: '' }}
+          <span class="ctpl__before-label">{{ s.before_label }}</span>
+        </span>
+      {%- endif -%}
+      {%- if b.link == blank and b.image != blank -%}<span class="ctpl__soon">{{ s.soon_label }}</span>{%- endif -%}
+      {%- if b.link == blank and b.image == blank -%}<span class="ctpl__draft">{{ s.no_link_label }}</span>{%- endif -%}
+    </span>
+    {%- if b.category != blank -%}<span class="ctpl__cat">{{ b.category }}</span>{%- endif -%}
+    <span class="ctpl__name">{{ b.name }}</span>
+    {%- if b.tagline != blank -%}<span class="ctpl__tagline">{{ b.tagline }}</span>{%- endif -%}
+  {%- endcapture -%}
+  {%- if b.link != blank -%}
+    <a class="ctpl__card" href="{{ b.link }}">{{ card_inner }}<span class="ctpl__cta">{{ s.button_label }}</span></a>
+  {%- else -%}
+    <div class="ctpl__card is-soon">{{ card_inner }}</div>
+  {%- endif -%}
+</li>
