@@ -96,11 +96,12 @@
     }
     if (retry) retry.hidden = true;
     note.textContent = '';
-    /* The customer's photo in sketch look with a brush sweep while this style is made */
+    /* The customer's photo softly blurred, with the spinner, while this style is made */
     item.classList.remove('is-done');
     img.onload = null;
     img.src = photo;
     img.hidden = false;
+    spin.hidden = false;
     item.classList.add('is-working');
     return start(template, name, 0)
       .then(function (id) { return poll(id, 0); })
