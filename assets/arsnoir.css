@@ -2952,3 +2952,8 @@ html.sguide-lock { overflow: hidden; }
   /* Solid header on mobile: the page no longer shows through it */
   html.is-scrolled .glass-header { background: #fff; -webkit-backdrop-filter: none; backdrop-filter: none; border-color: var(--color-line); }
 }
+/* Personalízalo: «Con borde blanco» preview */
+.tlive.is-bordered .tlive__frame img { inset: 6.5%; width: auto; height: auto; }
+.tstudio.is-bordered .tstudio__result img { padding: 7%; background: #fff; box-sizing: border-box; }
+.cupload:has(.cupload__border input[data-white]:checked) .cupload__frame img { padding: 7%; background: #fff; box-sizing: border-box; }
+.cupload__border { margin-top: 14px; }

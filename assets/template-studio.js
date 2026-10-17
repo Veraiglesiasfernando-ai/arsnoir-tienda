@@ -38,6 +38,16 @@
   const fontProp = studio.querySelector('[data-tstudio-font-prop]');
   const colorProp = studio.querySelector('[data-tstudio-color-prop]');
   const picked = function (attr) { const el = studio.querySelector('[' + attr + ']:checked'); return el || null; };
+  /* A sangre / con borde blanco: same illustration, only the margin changes (preview + order) */
+  const borderProp = studio.querySelector('[data-tstudio-border-prop]');
+  const applyBorder = function () {
+    const el = picked('data-tstudio-border');
+    const white = !!(el && el.dataset.white === 'true');
+    if (borderProp && el) borderProp.value = el.value;
+    studio.classList.toggle('is-bordered', white);
+    document.querySelectorAll('.tlive').forEach(function (t) { t.classList.toggle('is-bordered', white); });
+  };
+  studio.querySelectorAll('[data-tstudio-border]').forEach(function (el) { el.addEventListener('change', applyBorder); });
   let photo = null;
 
   const used = function () {
@@ -98,6 +108,7 @@
     img.alt = resultImg.alt;
     img.src = url;
     live.hidden = false;
+    applyBorder();
     /* «Verlo en mi pared» shows the customer's illustration (falls back to the example if it can't load it) */
     document.querySelectorAll('size-compare').forEach(function (el) { el.dataset.art = url; });
     syncLive();

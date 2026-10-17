@@ -405,6 +405,12 @@
                     </div>
                     <p class="cupload__meta" data-cupload-meta></p>
                   </div>
+                  {%- comment -%} A sangre / con borde blanco: saved in the order as «Borde»; the preview shows the margin {%- endcomment -%}
+                  <div class="tstudio__opts cupload__border" role="radiogroup" aria-label="Acabado de la imagen">
+                    <span class="tstudio__opts-label">Acabado de la imagen</span>
+                    <label class="tstudio__font"><input type="radio" name="properties[Borde]" value="A sangre" form="{{ form_id }}" checked><span>A sangre</span></label>
+                    <label class="tstudio__font"><input type="radio" name="properties[Borde]" value="Con borde blanco" form="{{ form_id }}" data-white><span>Con borde blanco</span></label>
+                  </div>
                 </div>
               {%- endif -%}
               <p class="cguard__check" data-cguard-result hidden></p>
@@ -650,6 +656,10 @@
         { "type": "text", "id": "font_label", "label": "Título de las letras", "default": "Letra" },
         { "type": "textarea", "id": "colors", "label": "Colores a elegir", "info": "Uno por línea: clave|Nombre|#color. La clave tiene que existir en la plantilla del intermediario. Vacío = sin elegir color." },
         { "type": "text", "id": "color_label", "label": "Título de los colores", "default": "Color" },
+        { "type": "checkbox", "id": "show_border", "label": "Elegir a sangre o con borde blanco", "default": true, "info": "Se guarda en el pedido como «Borde». No cambia el precio ni hace otra vista previa." },
+        { "type": "text", "id": "border_label", "label": "Título del borde", "default": "Acabado de la imagen" },
+        { "type": "text", "id": "border_full", "label": "Opción a sangre", "default": "A sangre" },
+        { "type": "text", "id": "border_white", "label": "Opción con borde", "default": "Con borde blanco" },
         { "type": "range", "id": "max_previews", "label": "Vistas previas por cliente", "min": 1, "max": 10, "step": 1, "default": 3 },
         { "type": "text", "id": "photo_label", "label": "Paso 1", "default": "Sube tu foto" },
         { "type": "text", "id": "photo_cta", "label": "Texto del recuadro", "default": "Elige una foto" },

@@ -66,6 +66,22 @@
       </div>
     {%- endif -%}
 
+    {%- if b.show_border -%}
+      {%- comment -%} Saved in the order as «Borde»: the print file is prepared full-bleed or with a white margin {%- endcomment -%}
+      <div class="tstudio__opts" role="radiogroup" aria-label="{{ b.border_label | escape }}">
+        <span class="tstudio__opts-label">{{ b.border_label }}</span>
+        <label class="tstudio__font">
+          <input type="radio" name="tstudio-border-{{ section_id }}" value="{{ b.border_full | escape }}" checked data-tstudio-border>
+          <span>{{ b.border_full }}</span>
+        </label>
+        <label class="tstudio__font">
+          <input type="radio" name="tstudio-border-{{ section_id }}" value="{{ b.border_white | escape }}" data-white="true" data-tstudio-border>
+          <span>{{ b.border_white }}</span>
+        </label>
+      </div>
+      <input type="hidden" name="properties[Borde]" value="{{ b.border_full | escape }}" form="{{ form_id }}" data-tstudio-border-prop>
+    {%- endif -%}
+
     <button type="button" class="button tstudio__go" data-tstudio-go disabled>{{ b.button_label }}</button>
     <p class="tstudio__status" role="status" aria-live="polite" data-tstudio-status></p>
 
