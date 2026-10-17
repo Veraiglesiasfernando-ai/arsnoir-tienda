@@ -421,6 +421,45 @@
               {%- if block.settings.note != blank -%}<p class="cguard__note">{{ block.settings.note }}</p>{%- endif -%}
             </div>
 
+          {%- when 'gift_recipient' -%}
+            {%- comment -%} Gift card: send it straight to the recipient by email, with a message and a date (Shopify's recipient fields) {%- endcomment -%}
+            {%- if product.gift_card? -%}
+              <div class="gcr" data-gcr {{ block.shopify_attributes }}>
+                <label class="gcr__toggle">
+                  <input type="checkbox" name="properties[__shopify_send_gift_card_to_recipient]" form="{{ form_id }}" data-gcr-toggle>
+                  <span>{{ block.settings.toggle_label }}</span>
+                </label>
+                <div class="gcr__fields" data-gcr-fields hidden>
+                  <label class="gcr__field"><span>{{ block.settings.email_label }}</span>
+                    <input type="email" name="properties[Recipient email]" form="{{ form_id }}" autocomplete="off" required disabled></label>
+                  <label class="gcr__field"><span>{{ block.settings.name_label }}</span>
+                    <input type="text" name="properties[Recipient name]" form="{{ form_id }}" autocomplete="off" disabled></label>
+                  <label class="gcr__field"><span>{{ block.settings.message_label }}</span>
+                    <textarea name="properties[Message]" form="{{ form_id }}" rows="3" maxlength="200" placeholder="{{ block.settings.message_placeholder | escape }}" disabled></textarea></label>
+                  <label class="gcr__field"><span>{{ block.settings.date_label }}</span>
+                    <input type="date" name="properties[Send on]" form="{{ form_id }}" disabled data-gcr-date></label>
+                  <input type="hidden" name="properties[__shopify_offset]" form="{{ form_id }}" disabled data-gcr-offset>
+                  <p class="gcr__hint">{{ block.settings.hint }}</p>
+                </div>
+              </div>
+              <script>
+                (function () {
+                  var box = document.currentScript.previousElementSibling;
+                  var toggle = box.querySelector('[data-gcr-toggle]');
+                  var fields = box.querySelector('[data-gcr-fields]');
+                  var date = box.querySelector('[data-gcr-date]');
+                  var today = new Date(); var max = new Date(); max.setDate(max.getDate() + 90);
+                  var iso = function (d) { return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); };
+                  date.min = iso(today); date.max = iso(max);
+                  box.querySelector('[data-gcr-offset]').value = new Date().getTimezoneOffset();
+                  toggle.addEventListener('change', function () {
+                    fields.hidden = !toggle.checked;
+                    fields.querySelectorAll('input, textarea').forEach(function (el) { el.disabled = !toggle.checked; });
+                  });
+                })();
+              </script>
+            {%- endif -%}
+
           {%- when 'template_studio' -%}
             {%- render 'template-studio', block: block, form_id: form_id, product: product, section_id: section.id -%}
 
@@ -638,6 +677,19 @@
         { "type": "textarea", "id": "note", "label": "Nota de calidad", "default": "No cambiamos el estilo de tu imagen. Si tiene poca resolución, la revisamos y la mejoramos antes de imprimir para que llegue perfecta." },
         { "type": "checkbox", "id": "upload", "label": "Subida de imagen del tema", "default": true, "info": "Campo para subir la imagen (se guarda en el pedido) con vista previa. Desactívalo si usas el editor de Gelato o de una app. Nunca aparece en productos con la etiqueta «plantilla»." },
         { "type": "range", "id": "min_ppi", "label": "Avisar de pixelado por debajo de", "min": 100, "max": 300, "step": 10, "unit": "ppp", "default": 150, "info": "Solo cuando la imagen se sube en esta ficha y el navegador puede leer su tamaño." }
+      ]
+    },
+    {
+      "type": "gift_recipient", "name": "Tarjeta regalo: enviar a alguien", "limit": 1,
+      "settings": [
+        { "type": "paragraph", "content": "Solo se ve en productos de tarjeta regalo. Shopify envía la tarjeta por email a esa persona el día elegido." },
+        { "type": "text", "id": "toggle_label", "label": "Casilla", "default": "Enviársela directamente a alguien" },
+        { "type": "text", "id": "email_label", "label": "Email", "default": "Su email" },
+        { "type": "text", "id": "name_label", "label": "Nombre", "default": "Su nombre (opcional)" },
+        { "type": "text", "id": "message_label", "label": "Mensaje", "default": "Tu mensaje (opcional)" },
+        { "type": "text", "id": "message_placeholder", "label": "Ejemplo de mensaje", "default": "Para que elijas la obra que más te guste. ¡Feliz Navidad!" },
+        { "type": "text", "id": "date_label", "label": "Fecha", "default": "¿Cuándo se la enviamos? (opcional)" },
+        { "type": "text", "id": "hint", "label": "Nota", "default": "Si no eliges fecha, le llega al momento. Si no marcas la casilla, te llega a ti para que se la des tú." }
       ]
     },
     {

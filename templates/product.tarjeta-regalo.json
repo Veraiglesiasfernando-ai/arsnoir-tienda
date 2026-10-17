@@ -1,0 +1,77 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "intro": {
+          "type": "notice",
+          "settings": {
+            "text": "Llega al momento por email con su código. Sin envío ni esperas."
+          }
+        },
+        "buy": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": false,
+            "highlight_largest": false,
+            "recommended_label": "Recomendado"
+          }
+        },
+        "recipient": {
+          "type": "gift_recipient",
+          "settings": {}
+        },
+        "how": {
+          "type": "collapsible",
+          "settings": {
+            "heading": "¿Cómo funciona?",
+            "content": "<p>1. Eliges el importe y la pagas.</p><p>2. Llega por email con su código, a ti o directamente a la persona que quieras, el día que elijas. También se puede imprimir.</p><p>3. Elige su obra, su tamaño y su marco, y escribe el código al pagar. Si le sobra saldo, se guarda para otra compra; si cuesta más, paga solo la diferencia.</p>",
+            "open": true
+          }
+        },
+        "where": {
+          "type": "collapsible",
+          "settings": {
+            "heading": "¿En qué se puede usar?",
+            "content": "<p>En todas las obras de la tienda y en las ilustraciones de Personalízalo, en cualquier tamaño y acabado. Se puede usar junto con el pack de obras y el envío gratis.</p>",
+            "open": false
+          }
+        }
+      },
+      "block_order": [
+        "title",
+        "price",
+        "intro",
+        "buy",
+        "recipient",
+        "how",
+        "where"
+      ],
+      "settings": {}
+    },
+    "related": {
+      "type": "featured-slider",
+      "settings": {
+        "eyebrow": "PARA INSPIRARTE",
+        "heading": "Algunas de las obras que podrá elegir",
+        "subtitle": "Arte original que solo encontrará en ARSNOIR.",
+        "collection": "mas-vendidos",
+        "limit": 8,
+        "button_label": "VER TODAS",
+        "placeholder_price": "24,95 €"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "related"
+  ]
+}

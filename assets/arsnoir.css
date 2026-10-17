@@ -2957,3 +2957,13 @@ html.sguide-lock { overflow: hidden; }
 .tstudio.is-bordered .tstudio__result img { padding: 7%; background: #fff; box-sizing: border-box; }
 .cupload:has(.cupload__border input[data-white]:checked) .cupload__frame img { padding: 7%; background: #fff; box-sizing: border-box; }
 .cupload__border { margin-top: 14px; }
+/* Gift card: send to someone */
+.gcr { margin: 18px 0 14px; padding: 16px 18px; border: 1px solid var(--color-line); border-radius: 16px; background: #fff; }
+.gcr__toggle { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 600; cursor: pointer; }
+.gcr__toggle input { width: 20px; height: 20px; accent-color: #0a0a0a; }
+.gcr__fields { display: grid; gap: 12px; margin-top: 14px; }
+.gcr__fields[hidden] { display: none; }
+.gcr__field { display: grid; gap: 6px; font-size: 13px; color: var(--color-muted); }
+.gcr__field input, .gcr__field textarea { width: 100%; min-height: 48px; padding: 12px 14px; border: 1px solid #d6d4cd; border-radius: 12px; background: #fff; color: var(--color-fg); font: inherit; font-size: 16px; }
+.gcr__field textarea { min-height: 84px; resize: vertical; }
+.gcr__hint { margin: 0; font-size: 12px; color: var(--color-muted); }

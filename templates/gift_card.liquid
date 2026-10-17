@@ -1,23 +1,136 @@
 {% layout none %}
+{%- comment -%}
+  The page the recipient opens from the gift card email: the card in ARSNOIR black and orange,
+  the sender's message, the code (copy / QR / Apple Wallet), and a way into the shop. Printable.
+{%- endcomment -%}
 <!doctype html>
 <html lang="{{ request.locale.iso_code }}">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex">
     <title>{{ 'gift_card.title' | t }} &ndash; {{ shop.name }}</title>
-    {{ 'base.css' | asset_url | stylesheet_tag }}
-    <style>:root{--color-bg:#fff;--color-fg:#0a0a0a;--color-muted:#6b6b6b;--color-line:#e6e6e6;--color-surface:#f4f4f2;--font-body:Helvetica,Arial,sans-serif;--font-heading:Helvetica,Arial,sans-serif;--page-width:1440px;--radius:0px}</style>
+    {{ 'space-grotesk-latin.woff2' | asset_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: true }}
+    <style>
+      @font-face { font-family: 'Space Grotesk'; src: url('{{ 'space-grotesk-latin.woff2' | asset_url }}') format('woff2'); font-weight: 300 700; font-display: swap; }
+      *, *::before, *::after { box-sizing: border-box; }
+      html, body { margin: 0; }
+      body { min-height: 100vh; background: #e9e9e7; color: #0a0a0a; font-family: 'Space Grotesk', Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+      a { color: inherit; }
+      .gc { max-width: 560px; margin: 0 auto; padding: 40px 16px 56px; text-align: center; }
+      .gc__logo { display: inline-block; margin-bottom: 36px; font-size: 22px; font-weight: 600; letter-spacing: 0.14em; text-decoration: none; }
+      .gc__eyebrow { margin: 0 0 10px; font-size: 12px; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase; color: #6b6b6b; }
+      .gc__title { margin: 0 0 32px; font-size: clamp(34px, 9vw, 52px); line-height: 0.95; letter-spacing: -0.04em; }
+      /* The card */
+      .gc__card { position: relative; aspect-ratio: 1.586; margin: 0 auto 36px; padding: 7% 8%; border-radius: 22px; overflow: hidden; text-align: left; color: #fff;
+        background: radial-gradient(120% 140% at 15% 0%, #2a2a2a, #0a0a0a 60%); box-shadow: 0 40px 60px -30px rgba(0,0,0,0.55), 0 12px 20px -14px rgba(0,0,0,0.4); }
+      .gc__card::after { content: ""; position: absolute; right: -14%; bottom: -24%; width: 46%; aspect-ratio: 1; border-radius: 50%; border: 12px solid #FF5A1F; }
+      .gc__card-logo { font-size: clamp(16px, 4.4vw, 22px); font-weight: 600; letter-spacing: 0.14em; }
+      .gc__card-tag { position: absolute; top: 8%; right: 8%; padding: 5px 12px; border-radius: 999px; background: #FF5A1F; color: #0a0a0a; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; }
+      .gc__amount { position: absolute; left: 8%; bottom: 22%; font-size: clamp(40px, 13vw, 68px); font-weight: 700; line-height: 1; letter-spacing: -0.04em; }
+      .gc__card-sub { position: absolute; left: 8%; bottom: 10%; font-size: 13px; color: rgba(255,255,255,0.65); }
+      .gc__balance { margin: -20px 0 28px; font-size: 15px; color: #6b6b6b; }
+      .gc__invalid { margin: -20px 0 28px; padding: 10px 14px; border-radius: 12px; background: #fff; font-size: 14px; }
+      /* Message */
+      .gc__msg { position: relative; margin: 0 0 28px; padding: 24px 22px 20px; border-radius: 18px; background: #fff; text-align: left; }
+      .gc__msg p { margin: 0; font-size: 17px; line-height: 1.5; white-space: pre-line; }
+      .gc__msg span { display: block; margin-top: 12px; font-size: 13px; color: #6b6b6b; }
+      /* Code */
+      .gc__code-label { margin: 0 0 10px; font-size: 12px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: #6b6b6b; }
+      .gc__code { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0 0 14px; padding: 16px 16px 16px 20px; border: 1.5px dashed #0a0a0a; border-radius: 16px; background: #fff; }
+      .gc__code strong { font-size: clamp(14px, 4vw, 19px); letter-spacing: 0.06em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: left; }
+      .gc__copy { flex: none; height: 40px; padding: 0 16px; border: 0; border-radius: 999px; background: #0a0a0a; color: #fff; font: inherit; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; }
+      .gc__qr { display: inline-block; margin: 6px 0 22px; padding: 12px; border-radius: 14px; background: #fff; }
+      .gc__qr img, .gc__qr canvas { display: block; width: 120px; height: 120px; }
+      /* Actions */
+      .gc__go { display: flex; align-items: center; justify-content: center; height: 56px; margin: 0 0 10px; border-radius: 999px; background: #0a0a0a; color: #fff; font-size: 14px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; }
+      .gc__go--alt { background: #fff; color: #0a0a0a; }
+      .gc__links { display: flex; justify-content: center; gap: 22px; margin-top: 18px; font-size: 14px; }
+      .gc__links button { padding: 0; border: 0; background: none; font: inherit; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+      .gc__how { margin: 34px 0 0; padding: 0; list-style: none; text-align: left; font-size: 14px; line-height: 1.5; color: #3a3a3a; }
+      .gc__how li { display: flex; gap: 12px; padding: 12px 0; border-top: 1px solid #d6d4cd; }
+      .gc__how b { flex: none; width: 24px; height: 24px; border-radius: 50%; background: #0a0a0a; color: #fff; font-size: 12px; line-height: 24px; text-align: center; }
+      @media print {
+        body { background: #fff; }
+        .gc__go, .gc__links, .gc__copy, .gc__how { display: none !important; }
+        .gc__card { -webkit-print-color-adjust: exact; print-color-adjust: exact; box-shadow: none; }
+      }
+    </style>
     {{ content_for_header }}
   </head>
   <body>
-    <main class="page-width section center">
-      <div class="footer__brand">{{ shop.name | strip }}</div>
-      <h1>{{ gift_card.initial_value | money }}</h1>
-      {%- if gift_card.balance != gift_card.initial_value -%}{%- assign balance_money = gift_card.balance | money -%}<p class="muted">{{ 'gift_card.balance' | t: amount: balance_money }}</p>{%- endif -%}
-      {%- if gift_card.expired or gift_card.enabled == false -%}<p class="muted">{{ 'gift_card.invalid' | t }}</p>{%- endif -%}
-      <p style="font-size:24px;letter-spacing:0.2em;margin:32px 0">{{ gift_card.code | format_code }}</p>
-      <a class="button" href="{{ shop.url }}">{{ 'gift_card.shop' | t }}</a>
-      {%- if gift_card.pass_url -%}<p style="margin-top:16px"><a href="{{ gift_card.pass_url }}">{{ 'gift_card.wallet' | t }}</a></p>{%- endif -%}
+    {%- liquid
+      assign sender = gift_card.customer.first_name
+      assign to_name = gift_card.recipient.first_name | default: gift_card.recipient.name
+    -%}
+    <main class="gc">
+      <a class="gc__logo" href="{{ shop.url }}">arsnoir</a>
+      <p class="gc__eyebrow">{% if to_name != blank %}Para {{ to_name }}{% else %}{{ 'gift_card.title' | t }}{% endif %}</p>
+      <h1 class="gc__title">Te han regalado arte</h1>
+
+      <div class="gc__card" role="img" aria-label="{{ 'gift_card.title' | t }} {{ gift_card.initial_value | money }}">
+        <span class="gc__card-logo">arsnoir</span>
+        <span class="gc__card-tag">REGALO</span>
+        <span class="gc__amount">{{ gift_card.initial_value | money_without_trailing_zeros }}</span>
+        <span class="gc__card-sub">Para que elijas tu obra</span>
+      </div>
+
+      {%- if gift_card.expired or gift_card.enabled == false -%}
+        <p class="gc__invalid">{{ 'gift_card.invalid' | t }}</p>
+      {%- elsif gift_card.balance != gift_card.initial_value -%}
+        {%- assign balance_money = gift_card.balance | money -%}
+        <p class="gc__balance">{{ 'gift_card.balance' | t: amount: balance_money }}</p>
+      {%- endif -%}
+
+      {%- if gift_card.message != blank -%}
+        <div class="gc__msg">
+          <p>{{ gift_card.message | escape }}</p>
+          {%- if sender != blank -%}<span>— {{ sender }}</span>{%- endif -%}
+        </div>
+      {%- endif -%}
+
+      <p class="gc__code-label">Tu código</p>
+      <div class="gc__code">
+        <strong data-gc-code>{{ gift_card.code | format_code }}</strong>
+        <button type="button" class="gc__copy" data-gc-copy>Copiar</button>
+      </div>
+      <div class="gc__qr" id="GiftCardQR" data-identifier="{{ gift_card.qr_identifier }}" aria-hidden="true"></div>
+
+      <a class="gc__go" href="{{ routes.all_products_collection_url }}">Elegir mi obra</a>
+      <a class="gc__go gc__go--alt" href="/collections/personalizalo">O convertir una foto en ilustración</a>
+
+      <div class="gc__links">
+        <button type="button" onclick="window.print()">Imprimir</button>
+        {%- if gift_card.pass_url -%}<a href="{{ gift_card.pass_url }}">{{ 'gift_card.wallet' | t }}</a>{%- endif -%}
+      </div>
+
+      <ol class="gc__how">
+        <li><b>1</b><span>Elige tu obra, el tamaño y el marco que más te gusten.</span></li>
+        <li><b>2</b><span>Al pagar, escribe este código en «Tarjeta regalo o código de descuento».</span></li>
+        <li><b>3</b><span>Si te sobra saldo, se guarda para tu próxima compra. Si cuesta más, pagas solo la diferencia.</span></li>
+      </ol>
     </main>
+
+    <script src="{{ 'vendor/qrcode.js' | shopify_asset_url }}"></script>
+    <script>
+      (function () {
+        var qr = document.getElementById('GiftCardQR');
+        if (qr && window.QRCode) {
+          new QRCode(qr, { text: qr.dataset.identifier, width: 120, height: 120, colorDark: '#0a0a0a', colorLight: '#ffffff' });
+        } else if (qr) { qr.hidden = true; }
+        var btn = document.querySelector('[data-gc-copy]');
+        var code = document.querySelector('[data-gc-code]');
+        if (btn && code) btn.addEventListener('click', function () {
+          var text = code.textContent.replace(/\s+/g, '');
+          (navigator.clipboard ? navigator.clipboard.writeText(text) : Promise.reject()).then(function () {
+            btn.textContent = 'Copiado';
+            setTimeout(function () { btn.textContent = 'Copiar'; }, 2000);
+          }, function () {
+            var r = document.createRange(); r.selectNodeContents(code);
+            var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+          });
+        });
+      })();
+    </script>
   </body>
 </html>
