@@ -96,14 +96,49 @@
       if (c) c.textContent = el === live ? cap : '';
     });
   };
-  const showLive = function (url) {
-    if (!gallery) return;
+  const ensureLive = function () {
+    if (!gallery) return null;
     if (!live) {
       live = document.createElement('div');
       live.className = 'product__media tlive';
-      live.innerHTML = '<div class="tlive__wall"><div class="tlive__frame"><img alt="" width="720" height="900"></div></div><p class="tlive__cap"></p>';
+      live.innerHTML = '<div class="tlive__wall"><div class="tlive__frame"><img alt="" width="720" height="900"></div>' +
+        '<div class="tload" aria-hidden="true"><div class="tload__bar"><span></span></div><p class="tload__step"></p></div></div><p class="tlive__cap"></p>';
       gallery.insertBefore(live, gallery.firstChild);
     }
+    return live;
+  };
+  /* While the illustration is made: the customer's photo «being drawn» (sketch look, a brush sweep,
+     a progress bar and steps that change), in the gallery and in the status line */
+  const STEPS = (d.steps || '').split('|').map(function (t) { return t.trim(); }).filter(Boolean);
+  let stepTimer = null;
+  const startLoading = function () {
+    const el = ensureLive();
+    let i = 0;
+    const step = function () {
+      const t = STEPS.length ? STEPS[Math.min(i, STEPS.length - 1)] + '…' : d.tWorking;
+      say(t);
+      if (el) el.querySelector('.tload__step').textContent = t;
+      i++;
+    };
+    step();
+    stepTimer = setInterval(step, 7000);
+    if (!el || !photo) return;
+    el.querySelector('img').src = photo;
+    el.hidden = false;
+    el.classList.remove('is-loading');
+    void el.offsetWidth; /* restart the progress bar */
+    el.classList.add('is-loading');
+    syncLive();
+    gallery.scrollTo({ left: 0, top: 0, behavior: 'smooth' });
+    const r = el.getBoundingClientRect();
+    if (r.bottom < 0 || r.top > window.innerHeight) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  };
+  const stopLoading = function () {
+    clearInterval(stepTimer);
+    if (live) live.classList.remove('is-loading');
+  };
+  const showLive = function (url) {
+    if (!ensureLive()) return;
     const img = live.querySelector('img');
     img.alt = resultImg.alt;
     img.src = url;
@@ -177,7 +212,7 @@
     if (go.disabled) return;
     go.disabled = true;
     go.classList.add('is-loading');
-    say(d.tWorking);
+    startLoading();
     const name = nameInput ? nameInput.value.trim() : '';
     fetch(endpoint + '/preview', {
       method: 'POST',
@@ -196,6 +231,7 @@
         return poll(res.body.id, 0);
       })
       .then(function (url) {
+        stopLoading();
         urlInput.value = url;
         if (nameProp) nameProp.value = name;
         const f = picked('data-tstudio-font'), c = picked('data-tstudio-color');
@@ -207,7 +243,11 @@
         const left = max - used();
         say(left > 0 ? (d.tLeft || '').replace('[N]', left) : '');
       })
-      .catch(function (err) { say(err && err.message === 'limit' ? d.tLimit : d.tError); })
+      .catch(function (err) {
+        stopLoading();
+        if (live && !urlInput.value) live.hidden = true;
+        say(err && err.message === 'limit' ? d.tLimit : d.tError);
+      })
       .finally(function () { go.classList.remove('is-loading'); ready(); });
   });
 

@@ -96,14 +96,18 @@
     }
     if (retry) retry.hidden = true;
     note.textContent = '';
-    spin.hidden = false;
+    /* The customer's photo in sketch look with a brush sweep while this style is made */
+    item.classList.remove('is-done');
+    img.onload = null;
+    img.src = photo;
+    img.hidden = false;
     item.classList.add('is-working');
     return start(template, name, 0)
       .then(function (id) { return poll(id, 0); })
       .then(function (url) {
-        img.onload = function () { item.classList.add('is-done'); };
+        img.hidden = true;
+        img.onload = function () { img.hidden = false; item.classList.add('is-done'); };
         img.src = url;
-        img.hidden = false;
         pick.hidden = false;
         pick.onclick = function () {
           try {
@@ -113,7 +117,7 @@
           } catch (e) {}
         };
       })
-      .catch(function () { note.textContent = d.tError; })
+      .catch(function () { img.hidden = true; note.textContent = d.tError; })
       .finally(function () { spin.hidden = true; item.classList.remove('is-working'); });
   };
 
