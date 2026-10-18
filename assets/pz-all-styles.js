@@ -55,20 +55,23 @@
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ template: template, name: name, image: photo })
     })
-      .then(function (r) { return r.json().then(function (b) { return { ok: r.ok, status: r.status, body: b }; }); })
+      .then(function (r) { return r.json().then(function (b) { return { ok: r.ok, status: r.status, body: b }; }); },
+        function () { return { ok: false, status: 0, body: {} }; })
       .then(function (res) {
         if (res.ok && res.body.id) return res.body.id;
-        const throttled = res.body && /throttl/i.test(String(res.body.detail || ''));
-        if ((throttled || res.status === 429) && tries < 6) return wait(11000).then(function () { return start(template, name, tries + 1); });
+        /* Busy (throttled), a server hiccup or a dropped connection: try again */
+        const busy = res.status === 0 || res.status === 429 || res.status >= 500;
+        if (busy && tries < 6) return wait(tries === 0 ? 3000 : 11000).then(function () { return start(template, name, tries + 1); });
         throw new Error('failed');
       });
   };
   const poll = function (id, tries) {
+    if (tries > 70) return Promise.reject(new Error('failed'));
     return fetch(endpoint + '/preview/' + encodeURIComponent(id))
-      .then(function (r) { return r.json(); })
+      .then(function (r) { return r.json(); }, function () { return { status: 'retry' }; })
       .then(function (res) {
         if (res.status === 'succeeded' && res.url) return res;
-        if (res.status === 'failed' || res.status === 'canceled' || res.error || tries > 60) throw new Error('failed');
+        if (res.status === 'failed' || res.status === 'canceled') throw new Error('failed');
         return wait(2500).then(function () { return poll(id, tries + 1); });
       });
   };
@@ -103,8 +106,12 @@
     img.hidden = false;
     spin.hidden = false;
     item.classList.add('is-working');
-    return start(template, name, 0)
-      .then(function (id) { return poll(id, 0).then(function (done) { return { url: done.url, keep: done.temporary && done.keep ? id : '' }; }); })
+    const attempt = function (n) {
+      return start(template, name, 0)
+        .then(function (id) { return poll(id, 0).then(function (done) { return { url: done.url, keep: done.temporary && done.keep ? id : '' }; }); })
+        .catch(function (err) { return err && err.message === 'failed' && n < 1 ? attempt(n + 1) : Promise.reject(err); });
+    };
+    return attempt(0)
       .then(function (out) {
         const url = out.url;
         img.hidden = true;

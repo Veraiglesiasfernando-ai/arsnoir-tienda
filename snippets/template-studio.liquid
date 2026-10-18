@@ -20,6 +20,8 @@
   data-t-limit="{{ b.limit_text | escape }}"
   data-t-left="{{ b.left_text | escape }}"
   data-t-missing="{{ b.missing_text | escape }}"
+  data-t-busy="Hay mucha gente creando ahora mismo: seguimos intentándolo…"
+  data-t-image="No hemos podido leer esa foto. Prueba con otra en JPG o PNG."
   {{ block.shopify_attributes }}>
   {%- if b.endpoint == blank -%}
     <p class="tstudio__soon">{{ b.soon_text }}</p>

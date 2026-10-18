@@ -230,13 +230,32 @@
   });
 
   const wait = function (ms) { return new Promise(function (r) { setTimeout(r, ms); }); };
+  /* A dropped connection for a moment is not a failure: keep asking (about 3 minutes in all) */
   const poll = function (id, tries) {
+    if (tries > 70) return Promise.reject(new Error('failed'));
     return fetch(endpoint + '/preview/' + encodeURIComponent(id))
-      .then(function (r) { return r.json(); })
+      .then(function (r) { return r.json(); }, function () { return { status: 'retry' }; })
       .then(function (res) {
         if (res.status === 'succeeded' && res.url) return res;
-        if (res.status === 'failed' || res.status === 'canceled' || res.error || tries > 60) throw new Error('failed');
+        if (res.status === 'failed' || res.status === 'canceled') throw new Error('failed');
         return wait(2500).then(function () { return poll(id, tries + 1); });
+      });
+  };
+  /* Start the preview. When Replicate is busy (throttled) or the connection drops, try again
+     a few times before showing an error; the daily limit (429 «limit») stops at once. */
+  const start = function (payload, tries) {
+    return fetch(endpoint + '/preview', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: payload })
+      .then(function (r) { return r.json().then(function (b) { return { ok: r.ok, status: r.status, body: b }; }); },
+        function () { return { ok: false, status: 0, body: {} }; })
+      .then(function (res) {
+        if (res.ok && res.body.id) return res.body.id;
+        if (res.status === 429 && res.body.error === 'limit') throw new Error('limit');
+        const busy = res.status === 0 || res.status === 429 || res.status >= 500;
+        if (busy && tries < 6) {
+          if (tries > 0 && d.tBusy) say(d.tBusy);
+          return wait(tries === 0 ? 3000 : 10000).then(function () { return start(payload, tries + 1); });
+        }
+        throw new Error(res.status === 400 && res.body.error === 'image' ? 'image' : 'failed');
       });
   };
 
@@ -246,22 +265,20 @@
     go.classList.add('is-loading');
     startLoading();
     const name = nameInput ? nameInput.value.trim() : '';
-    fetch(endpoint + '/preview', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        template: d.template, name: name, image: photo,
-        font: picked('data-tstudio-font') ? picked('data-tstudio-font').value : '',
-        color: picked('data-tstudio-color') ? picked('data-tstudio-color').value : ''
-      })
-    })
-      .then(function (r) { return r.json().then(function (b) { return { ok: r.ok, status: r.status, body: b }; }); })
-      .then(function (res) {
-        if (res.status === 429) throw new Error('limit');
-        if (!res.ok || !res.body.id) throw new Error('failed');
-        const id = res.body.id;
-        return poll(id, 0).then(function (done) { return { url: done.url, keep: done.temporary && done.keep ? id : '' }; });
-      })
+    const payload = JSON.stringify({
+      template: d.template, name: name, image: photo,
+      font: picked('data-tstudio-font') ? picked('data-tstudio-font').value : '',
+      color: picked('data-tstudio-color') ? picked('data-tstudio-color').value : ''
+    });
+    /* The model sometimes returns a failed run: make a second one by itself before showing an error */
+    const attempt = function (n) {
+      return start(payload, 0)
+        .then(function (id) {
+          return poll(id, 0).then(function (done) { return { url: done.url, keep: done.temporary && done.keep ? id : '' }; });
+        })
+        .catch(function (err) { return err && err.message === 'failed' && n < 1 ? attempt(n + 1) : Promise.reject(err); });
+    };
+    attempt(0)
       .then(function (out) {
         const url = out.url;
         keepId = out.keep;
@@ -282,7 +299,7 @@
       .catch(function (err) {
         stopLoading();
         if (live && !urlInput.value) live.hidden = true;
-        say(err && err.message === 'limit' ? d.tLimit : d.tError);
+        say(err && err.message === 'limit' ? d.tLimit : (err && err.message === 'image' && d.tImage ? d.tImage : d.tError));
       })
       .finally(function () { go.classList.remove('is-loading'); ready(); });
   });
