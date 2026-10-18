@@ -101,15 +101,19 @@
     if (!live) {
       live = document.createElement('div');
       live.className = 'product__media tlive';
-      live.innerHTML = '<div class="tlive__wall"><div class="tlive__frame"><img alt="" width="720" height="900"></div>' +
-        '<div class="tload" aria-hidden="true"><div class="tload__card"><span class="tload__dots"><i></i><i></i><i></i></span>' +
-        '<p class="tload__title">' + (d.tTitle || 'Creando tu ilustración') + '</p><p class="tload__step"></p><div class="tload__bar"><span></span></div></div></div></div><p class="tlive__cap"></p>';
+      live.innerHTML = '<div class="tlive__wall">' +
+        '<div class="tlive__frame"><img class="tlive__art" alt="" width="720" height="900">' +
+        '<img class="tload__sketch" alt="" aria-hidden="true"><img class="tload__color" alt="" aria-hidden="true"></div>' +
+        '<figure class="tload__photo" aria-hidden="true"><img alt=""><figcaption>' + (d.tPhoto || 'Tu foto') + '</figcaption></figure>' +
+        '<div class="tload" aria-hidden="true"><p class="tload__step"></p><div class="tload__bar"><span></span></div></div>' +
+        '</div><p class="tlive__cap"></p>';
       gallery.insertBefore(live, gallery.firstChild);
     }
     return live;
   };
-  /* While the illustration is made: the customer's photo softly blurred behind a small card
-     (title, steps that change, thin progress line), in the gallery and in the status line */
+  /* While the illustration is made: the customer's photo pinned like a polaroid next to the frame,
+     and the style's example being painted inside it (pencil sketch → colour, brush pass on a loop),
+     with the step and a thin progress line underneath */
   const STEPS = (d.steps || '').split('|').map(function (t) { return t.trim(); }).filter(Boolean);
   let stepTimer = null;
   const startLoading = function () {
@@ -124,10 +128,13 @@
     step();
     stepTimer = setInterval(step, 7000);
     if (!el || !photo) return;
-    el.querySelector('img').src = photo;
+    const example = d.example || photo;
+    el.querySelector('.tload__sketch').src = example;
+    el.querySelector('.tload__color').src = example;
+    el.querySelector('.tload__photo img').src = photo;
     el.hidden = false;
     el.classList.remove('is-loading');
-    void el.offsetWidth; /* restart the progress bar */
+    void el.offsetWidth; /* restart the animations */
     el.classList.add('is-loading');
     syncLive();
     gallery.scrollTo({ left: 0, top: 0, behavior: 'smooth' });
@@ -140,7 +147,7 @@
   };
   const showLive = function (url) {
     if (!ensureLive()) return;
-    const img = live.querySelector('img');
+    const img = live.querySelector('.tlive__art');
     img.alt = resultImg.alt;
     img.src = url;
     live.hidden = false;
