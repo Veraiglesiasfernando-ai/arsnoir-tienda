@@ -13,6 +13,9 @@
   const status = studio.querySelector('[data-tstudio-status]');
   const say = function (t) { if (status) status.textContent = t || ''; };
 
+  /* Replicate's links expire in about an hour: when the work goes to the cart, the worker keeps a
+     copy for good (/keep) and the order gets that link. keepId = the preview still to be kept. */
+  let keepId = '';
   /* Without a preview the product can't go to the cart (also covers the sticky buy bar) */
   document.addEventListener('submit', function (event) {
     if (event.target !== form) return;
@@ -21,7 +24,27 @@
       event.stopImmediatePropagation();
       say(d.tMissing);
       studio.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
     }
+    if (!keepId) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    const id = keepId;
+    const submitter = event.submitter;
+    keepId = '';
+    if (submitter) submitter.disabled = true;
+    fetch(endpoint + '/keep', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: id }) })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (res) { if (res && res.url) urlInput.value = res.url; })
+      .catch(function () {})
+      .finally(function () {
+        /* Next task: a form ignores a new submit while it is still firing the previous one */
+        setTimeout(function () {
+          if (submitter) submitter.disabled = false;
+          if (form.requestSubmit) form.requestSubmit(submitter && submitter.form === form ? submitter : undefined);
+          else form.submit();
+        }, 0);
+      });
   }, true);
   if (!endpoint) return;
 
@@ -165,6 +188,7 @@
 
   /* A new photo or name invalidates the previous preview */
   const reset = function () {
+    keepId = '';
     urlInput.value = '';
     if (nameProp) nameProp.value = '';
     if (fontProp) fontProp.value = '';
@@ -210,7 +234,7 @@
     return fetch(endpoint + '/preview/' + encodeURIComponent(id))
       .then(function (r) { return r.json(); })
       .then(function (res) {
-        if (res.status === 'succeeded' && res.url) return res.url;
+        if (res.status === 'succeeded' && res.url) return res;
         if (res.status === 'failed' || res.status === 'canceled' || res.error || tries > 60) throw new Error('failed');
         return wait(2500).then(function () { return poll(id, tries + 1); });
       });
@@ -235,10 +259,14 @@
       .then(function (res) {
         if (res.status === 429) throw new Error('limit');
         if (!res.ok || !res.body.id) throw new Error('failed');
-        addUse();
-        return poll(res.body.id, 0);
+        const id = res.body.id;
+        return poll(id, 0).then(function (done) { return { url: done.url, keep: done.temporary && done.keep ? id : '' }; });
       })
-      .then(function (url) {
+      .then(function (out) {
+        const url = out.url;
+        keepId = out.keep;
+        /* Only a preview that worked counts towards the customer's limit */
+        addUse();
         stopLoading();
         urlInput.value = url;
         if (nameProp) nameProp.value = name;
@@ -265,6 +293,7 @@
     if (hand && hand.template === d.template && hand.url && Date.now() - hand.at < 50 * 60 * 1000) {
       sessionStorage.removeItem('arsnoir-pz-handoff');
       urlInput.value = hand.url;
+      keepId = hand.keep || '';
       if (nameInput && hand.name) nameInput.value = hand.name;
       if (nameProp) nameProp.value = hand.name || '';
       const hf = picked('data-tstudio-font'), hc = picked('data-tstudio-color');

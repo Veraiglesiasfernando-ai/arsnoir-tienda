@@ -152,8 +152,13 @@ const TEMPLATES = {
  *   POST /preview        { template, name?, image: "data:image/jpeg;base64,..." } -> { id }
  *   GET  /preview/:id    -> { status: "starting|processing|succeeded|failed", url? }
  *
- * When a preview succeeds and an R2 bucket is bound (PREVIEWS), the image is copied there so
- * the link saved in the order never expires (Replicate's own links expire after about an hour).
+ *   POST /keep           { id } -> { url }   copy of a finished preview that never expires (KV binding KEEP)
+ *   GET  /img/:id.png    that copy (public, for the order and the store)
+ *
+ * Replicate's own links expire after about an hour, so the link saved in the order must be a copy:
+ * - KV binding KEEP (no card needed): the theme calls /keep when the work goes to the cart, so only
+ *   carted illustrations are stored, and the order keeps /img/<id>.png.
+ * - or an R2 bucket (PREVIEWS + PUBLIC_BASE): every finished preview is copied there.
  *
  * Secrets / vars (set them in Cloudflare, never in the theme):
  *   REPLICATE_API_TOKEN   secret
@@ -187,10 +192,20 @@ export default {
       new Response(JSON.stringify(body), { status, headers: { ...cors, 'Content-Type': 'application/json' } });
 
     if (request.method === 'OPTIONS') return new Response(null, { headers: cors });
+
+    const url = new URL(request.url);
+
+    // Kept illustrations: public, so the order link and the store can always show them
+    const img = url.pathname.match(/^\/img\/([a-z0-9]+)\.png$/i);
+    if (request.method === 'GET' && img) {
+      const file = env.KEEP ? await env.KEEP.get(img[1] + '.png', { type: 'stream' }) : null;
+      if (!file) return new Response('Not found', { status: 404 });
+      return new Response(file, { headers: { 'Content-Type': 'image/png', 'Cache-Control': 'public, max-age=31536000, immutable', 'Access-Control-Allow-Origin': '*' } });
+    }
+
     if (!allowed.includes(origin)) return json({ error: 'origin' }, 403);
     if (!env.REPLICATE_API_TOKEN) return json({ error: 'not_configured' }, 503);
 
-    const url = new URL(request.url);
     const replicate = (path, init = {}) =>
       fetch('https://api.replicate.com/v1' + path, {
         ...init,
@@ -256,7 +271,24 @@ export default {
         }
         return json({ status: 'succeeded', url: env.PUBLIC_BASE.replace(/\/$/, '') + '/' + key });
       }
-      return json({ status: 'succeeded', url: out, temporary: true });
+      return json({ status: 'succeeded', url: out, temporary: true, keep: !!env.KEEP });
+    }
+
+    // Keep a finished preview for good (called when the work goes to the cart)
+    if (request.method === 'POST' && url.pathname === '/keep') {
+      if (!env.KEEP) return json({ error: 'no_store' }, 501);
+      let body;
+      try { body = await request.json(); } catch (e) { return json({ error: 'bad_request' }, 400); }
+      const id = String(body.id || '');
+      if (!/^[a-z0-9]{8,64}$/i.test(id)) return json({ error: 'id' }, 400);
+      const res = await replicate('/predictions/' + id);
+      const data = await res.json();
+      if (!res.ok || data.status !== 'succeeded') return json({ error: 'not_ready' }, 409);
+      const out = Array.isArray(data.output) ? data.output[0] : data.output;
+      const file = out ? await fetch(out) : null;
+      if (!file || !file.ok) return json({ error: 'expired' }, 410);
+      await env.KEEP.put(id + '.png', await file.arrayBuffer());
+      return json({ url: url.origin + '/img/' + id + '.png' });
     }
 
     return json({ error: 'not_found' }, 404);

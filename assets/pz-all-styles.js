@@ -67,7 +67,7 @@
     return fetch(endpoint + '/preview/' + encodeURIComponent(id))
       .then(function (r) { return r.json(); })
       .then(function (res) {
-        if (res.status === 'succeeded' && res.url) return res.url;
+        if (res.status === 'succeeded' && res.url) return res;
         if (res.status === 'failed' || res.status === 'canceled' || res.error || tries > 60) throw new Error('failed');
         return wait(2500).then(function () { return poll(id, tries + 1); });
       });
@@ -104,8 +104,9 @@
     spin.hidden = false;
     item.classList.add('is-working');
     return start(template, name, 0)
-      .then(function (id) { return poll(id, 0); })
-      .then(function (url) {
+      .then(function (id) { return poll(id, 0).then(function (done) { return { url: done.url, keep: done.temporary && done.keep ? id : '' }; }); })
+      .then(function (out) {
+        const url = out.url;
         img.hidden = true;
         img.onload = function () { img.hidden = false; item.classList.add('is-done'); };
         img.src = url;
@@ -113,7 +114,7 @@
         pick.onclick = function () {
           try {
             sessionStorage.setItem('arsnoir-pz-handoff', JSON.stringify({
-              template: template, url: url, name: item.dataset.needsName === 'true' ? name : '', at: Date.now()
+              template: template, url: url, keep: out.keep, name: item.dataset.needsName === 'true' ? name : '', at: Date.now()
             }));
           } catch (e) {}
         };
