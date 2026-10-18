@@ -1199,6 +1199,12 @@
     setupAr() {
       const ar = this.ar;
       ar.querySelector('[data-ar-close]').addEventListener('click', () => this.closeAr());
+      const copy = ar.querySelector('[data-ar-copy]');
+      if (copy) copy.addEventListener('click', () => {
+        const done = () => { copy.textContent = 'Enlace copiado ✓'; setTimeout(() => { copy.textContent = 'Copiar enlace'; }, 2500); };
+        if (navigator.clipboard) navigator.clipboard.writeText(location.href).then(done, () => window.prompt('Copia este enlace:', location.href));
+        else window.prompt('Copia este enlace:', location.href);
+      });
       ar.addEventListener('click', (e) => { if (e.target === ar) this.closeAr(); });
     }
     openAr() {
@@ -1241,8 +1247,19 @@
           mv.appendChild(go);
           mv.addEventListener('load', () => {
             loading.hidden = true;
-            ar.querySelector('[data-ar-no]').hidden = mv.canActivateAR;
+            /* No AR here: on a phone it's the browser (in-app ones can't), on a computer it's the device */
+            const ua = navigator.userAgent;
+            const ios = /iPhone|iPad|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+            const android = /Android/.test(ua);
+            const app = ar.querySelector('[data-ar-app]');
+            const inApp = !mv.canActivateAR && (ios || android) && app;
             ar.querySelector('[data-ar-hint]').hidden = !mv.canActivateAR;
+            ar.querySelector('[data-ar-no]').hidden = mv.canActivateAR || !!inApp;
+            if (app) {
+              app.hidden = !inApp;
+              app.querySelector('[data-ar-app-ios]').hidden = !ios;
+              app.querySelector('[data-ar-app-android]').hidden = !android;
+            }
           });
           stage.appendChild(mv);
         }

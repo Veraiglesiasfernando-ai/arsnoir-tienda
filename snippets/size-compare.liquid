@@ -96,6 +96,12 @@
       <p class="sar__size" data-ar-size></p>
       <p class="sar__hint" data-ar-hint>{{ block.settings.ar_hint }}</p>
       <p class="sar__hint sar__hint--no" data-ar-no hidden>{{ block.settings.ar_no_ar }}</p>
+      {%- comment -%} On a phone whose browser can't do AR (Instagram, WhatsApp, the Shopify app…): say where it works {%- endcomment -%}
+      <div class="sar__hint sar__hint--no" data-ar-app hidden>
+        <p data-ar-app-ios hidden>Este navegador no permite la realidad aumentada. Ábrela en <strong>Safari</strong> para verla en tu pared: copia el enlace y pégalo allí.</p>
+        <p data-ar-app-android hidden>Este navegador no permite la realidad aumentada. Ábrela en <strong>Google Chrome</strong> para verla en tu pared: copia el enlace y pégalo allí.</p>
+        <button type="button" class="button sar__copy" data-ar-copy>Copiar enlace</button>
+      </div>
       <template data-ar-go-label>{{ block.settings.ar_go_label }}</template>
     </dialog>
     <script src="{{ 'wall-ar.js' | asset_url }}" defer></script>
