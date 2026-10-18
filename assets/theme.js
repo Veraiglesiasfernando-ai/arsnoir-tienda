@@ -1245,22 +1245,44 @@
           go.className = 'button sar__go';
           go.textContent = ar.querySelector('[data-ar-go-label]').innerHTML.trim();
           mv.appendChild(go);
+          const ua = navigator.userAgent;
+          const ios = /iPhone|iPad|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+          const android = /Android/.test(ua);
+          const app = ar.querySelector('[data-ar-app]');
+          /* The browser inside an app (Google, Instagram, Facebook, TikTok…) says it can do AR on
+             iPhone but then never opens it: send those to Safari / Chrome */
+          const appBrowser = /GSA\/|FBAN|FBAV|FB_IAB|Instagram|TikTok|musical_ly|BytedanceWebview|Snapchat|Pinterest|LinkedInApp|Twitter|Line\/|wv\)/.test(ua);
+          const showApp = (on) => {
+            if (!app) return;
+            app.hidden = !on;
+            app.querySelector('[data-ar-app-ios]').hidden = !ios;
+            app.querySelector('[data-ar-app-android]').hidden = !android;
+          };
           mv.addEventListener('load', () => {
             loading.hidden = true;
             /* No AR here: on a phone it's the browser (in-app ones can't), on a computer it's the device */
-            const ua = navigator.userAgent;
-            const ios = /iPhone|iPad|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-            const android = /Android/.test(ua);
-            const app = ar.querySelector('[data-ar-app]');
-            const inApp = !mv.canActivateAR && (ios || android) && app;
-            ar.querySelector('[data-ar-hint]').hidden = !mv.canActivateAR;
-            ar.querySelector('[data-ar-no]').hidden = mv.canActivateAR || !!inApp;
-            if (app) {
-              app.hidden = !inApp;
-              app.querySelector('[data-ar-app-ios]').hidden = !ios;
-              app.querySelector('[data-ar-app-android]').hidden = !android;
-            }
+            const can = mv.canActivateAR && !appBrowser;
+            const inApp = !can && (ios || android) && !!app;
+            go.hidden = !can;
+            ar.querySelector('[data-ar-hint]').hidden = !can;
+            ar.querySelector('[data-ar-no]').hidden = can || inApp;
+            showApp(inApp);
           });
+          /* If the phone's AR doesn't open within a few seconds of the tap, say where it works */
+          go.addEventListener('click', () => {
+            let left = false;
+            const away = () => { left = true; };
+            window.addEventListener('blur', away, { once: true });
+            window.addEventListener('pagehide', away, { once: true });
+            document.addEventListener('visibilitychange', away, { once: true });
+            setTimeout(() => {
+              window.removeEventListener('blur', away);
+              window.removeEventListener('pagehide', away);
+              document.removeEventListener('visibilitychange', away);
+              if (!left && document.visibilityState === 'visible' && (ios || android)) showApp(true);
+            }, 4500);
+          });
+          mv.addEventListener('ar-status', (e) => { if (e.detail && e.detail.status === 'failed') showApp(true); });
           stage.appendChild(mv);
         }
         mv.src = this.arUrl;
