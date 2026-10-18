@@ -108,7 +108,7 @@
     item.classList.add('is-working');
     const attempt = function (n) {
       return start(template, name, 0)
-        .then(function (id) { return poll(id, 0).then(function (done) { return { url: done.url, keep: done.temporary && done.keep ? id : '' }; }); })
+        .then(function (id) { return poll(id, 0).then(function (done) { return { url: done.url, saved: done.saved || '', keep: done.temporary && done.keep ? id : '' }; }); })
         .catch(function (err) { return err && err.message === 'failed' && n < 1 ? attempt(n + 1) : Promise.reject(err); });
     };
     return attempt(0)
@@ -121,7 +121,7 @@
         pick.onclick = function () {
           try {
             sessionStorage.setItem('arsnoir-pz-handoff', JSON.stringify({
-              template: template, url: url, keep: out.keep, name: item.dataset.needsName === 'true' ? name : '', at: Date.now()
+              template: template, url: url, saved: out.saved, keep: out.keep, name: item.dataset.needsName === 'true' ? name : '', at: Date.now()
             }));
           } catch (e) {}
         };

@@ -12,8 +12,9 @@
  *   GET  /img/:id.png    that copy (public, for the order and the store)
  *
  * Replicate's own links expire after about an hour, so the link saved in the order must be a copy:
- * - KV binding KEEP (no card needed): the theme calls /keep when the work goes to the cart, so only
- *   carted illustrations are stored, and the order keeps /img/<id>.png.
+ * - KV binding KEEP (no card needed): every finished preview is copied for 7 days (poll returns it
+ *   as `saved`), and the theme calls /keep when the work goes to the cart to keep it for good.
+ *   The order keeps /img/<id>.png.
  * - or an R2 bucket (PREVIEWS + PUBLIC_BASE): every finished preview is copied there.
  *
  * Secrets / vars (set them in Cloudflare, never in the theme):
@@ -128,7 +129,22 @@ export default {
         }
         return json({ status: 'succeeded', url: env.PUBLIC_BASE.replace(/\/$/, '') + '/' + key });
       }
-      return json({ status: 'succeeded', url: out, temporary: true, keep: !!env.KEEP });
+      // KEEP: a copy for 7 days right away, so the order never depends on Replicate's 1-hour link
+      // even if /keep fails at the cart; /keep makes it permanent. The screen shows Replicate's link
+      // (a fresh KV write can take a moment to be readable everywhere).
+      let saved = '';
+      if (env.KEEP) {
+        const key = m[1] + '.png';
+        try {
+          const existing = await env.KEEP.get(key, { type: 'stream' });
+          if (existing) { await existing.cancel(); saved = url.origin + '/img/' + key; }
+          else {
+            const file = await fetch(out);
+            if (file.ok) { await env.KEEP.put(key, await file.arrayBuffer(), { expirationTtl: 7 * 24 * 3600 }); saved = url.origin + '/img/' + key; }
+          }
+        } catch (e) { saved = ''; }
+      }
+      return json({ status: 'succeeded', url: out, saved, temporary: true, keep: !!env.KEEP });
     }
 
     // Keep a finished preview for good (called when the work goes to the cart)
@@ -138,6 +154,12 @@ export default {
       try { body = await request.json(); } catch (e) { return json({ error: 'bad_request' }, 400); }
       const id = String(body.id || '');
       if (!/^[a-z0-9]{8,64}$/i.test(id)) return json({ error: 'id' }, 400);
+      // Already copied when it was made: store it again without the 7-day expiry
+      const copy = await env.KEEP.get(id + '.png', { type: 'arrayBuffer' });
+      if (copy) {
+        await env.KEEP.put(id + '.png', copy);
+        return json({ url: url.origin + '/img/' + id + '.png' });
+      }
       const res = await replicate('/predictions/' + id);
       const data = await res.json();
       if (!res.ok || data.status !== 'succeeded') return json({ error: 'not_ready' }, 409);

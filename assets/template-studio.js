@@ -33,9 +33,16 @@
     const submitter = event.submitter;
     keepId = '';
     if (submitter) submitter.disabled = true;
-    fetch(endpoint + '/keep', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: id }) })
-      .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (res) { if (res && res.url) urlInput.value = res.url; })
+    /* Up to 3 tries; if all fail, the order still has the 7-day copy (or Replicate's link) */
+    const keep = function (n) {
+      return fetch(endpoint + '/keep', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: id }) })
+        .then(function (r) { return r.ok ? r.json() : null; }, function () { return null; })
+        .then(function (res) {
+          if (res && res.url) { urlInput.value = res.url; return; }
+          if (n < 2) return new Promise(function (r) { setTimeout(r, 1200); }).then(function () { return keep(n + 1); });
+        });
+    };
+    keep(0)
       .catch(function () {})
       .finally(function () {
         /* Next task: a form ignores a new submit while it is still firing the previous one */
@@ -274,7 +281,7 @@
     const attempt = function (n) {
       return start(payload, 0)
         .then(function (id) {
-          return poll(id, 0).then(function (done) { return { url: done.url, keep: done.temporary && done.keep ? id : '' }; });
+          return poll(id, 0).then(function (done) { return { url: done.url, saved: done.saved || '', keep: done.temporary && done.keep ? id : '' }; });
         })
         .catch(function (err) { return err && err.message === 'failed' && n < 1 ? attempt(n + 1) : Promise.reject(err); });
     };
@@ -285,7 +292,8 @@
         /* Only a preview that worked counts towards the customer's limit */
         addUse();
         stopLoading();
-        urlInput.value = url;
+        /* The order gets the copy kept by the worker; the screen shows the image as it came */
+        urlInput.value = out.saved || url;
         if (nameProp) nameProp.value = name;
         const f = picked('data-tstudio-font'), c = picked('data-tstudio-color');
         if (fontProp) fontProp.value = name && f ? f.nextElementSibling.textContent : '';
@@ -309,7 +317,7 @@
     const hand = JSON.parse(sessionStorage.getItem('arsnoir-pz-handoff') || 'null');
     if (hand && hand.template === d.template && hand.url && Date.now() - hand.at < 50 * 60 * 1000) {
       sessionStorage.removeItem('arsnoir-pz-handoff');
-      urlInput.value = hand.url;
+      urlInput.value = hand.saved || hand.url;
       keepId = hand.keep || '';
       if (nameInput && hand.name) nameInput.value = hand.name;
       if (nameProp) nameProp.value = hand.name || '';
