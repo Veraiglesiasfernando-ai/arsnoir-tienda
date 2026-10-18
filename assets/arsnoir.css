@@ -2990,4 +2990,5 @@ html.sguide-lock { overflow: hidden; }
 @keyframes tload-pin { from { opacity: 0; transform: rotate(-16deg) scale(0.7) translateY(-20px); } }
 @media (prefers-reduced-motion: reduce) { .tlive.is-loading .tload__color { animation: none; } }
 .sar__copy { margin-top: 10px; width: 100%; }
+.sar__copylink { display: block; margin: 10px auto 0; padding: 4px; border: 0; background: none; font: inherit; font-size: 13px; color: var(--color-muted); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 .sar__hint--no p { margin: 0; }

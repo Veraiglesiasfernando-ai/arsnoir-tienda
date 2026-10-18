@@ -98,9 +98,10 @@
       <p class="sar__hint sar__hint--no" data-ar-no hidden>{{ block.settings.ar_no_ar }}</p>
       {%- comment -%} On a phone whose browser can't do AR (Instagram, WhatsApp, the Shopify app…): say where it works {%- endcomment -%}
       <div class="sar__hint sar__hint--no" data-ar-app hidden>
-        <p data-ar-app-ios hidden>Este navegador no permite la realidad aumentada. Ábrela en <strong>Safari</strong> para verla en tu pared: copia el enlace y pégalo allí.</p>
-        <p data-ar-app-android hidden>Este navegador no permite la realidad aumentada. Ábrela en <strong>Google Chrome</strong> para verla en tu pared: copia el enlace y pégalo allí.</p>
-        <button type="button" class="button sar__copy" data-ar-copy>Copiar enlace</button>
+        <p data-ar-app-ios hidden>Este navegador no deja ponerla en tu pared. Ábrela en <strong>Safari</strong> con un toque:</p>
+        <p data-ar-app-android hidden>Este navegador no deja ponerla en tu pared. Ábrela en <strong>Google Chrome</strong> con un toque:</p>
+        <button type="button" class="button sar__copy" data-ar-browser>Abrir en Safari</button>
+        <button type="button" class="sar__copylink" data-ar-copy>¿No se abre? Copiar enlace</button>
       </div>
       <template data-ar-go-label>{{ block.settings.ar_go_label }}</template>
     </dialog>

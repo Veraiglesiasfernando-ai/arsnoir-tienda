@@ -1063,7 +1063,14 @@
       document.addEventListener('change', this.onChange);
       this.onResize = () => { if (this.guide.open) this.drawStage(); };
       window.addEventListener('resize', this.onResize);
-      if (this.ar) this.setupAr();
+      if (this.ar) {
+        this.setupAr();
+        /* Arrived from «Abrir en Safari / Chrome»: open the wall view straight away */
+        if (new URLSearchParams(location.search).get('pared') === '1' && !document.querySelector('size-compare[data-ar-auto]')) {
+          this.dataset.arAuto = '1';
+          setTimeout(() => this.openAr(), 700);
+        }
+      }
     }
     disconnectedCallback() {
       if (this.onChange) document.removeEventListener('change', this.onChange);
@@ -1199,11 +1206,25 @@
     setupAr() {
       const ar = this.ar;
       ar.querySelector('[data-ar-close]').addEventListener('click', () => this.closeAr());
+      /* This page with ?pared=1: opened in Safari / Chrome it goes straight to the wall view */
+      const here = () => { const u = new URL(location.href); u.searchParams.set('pared', '1'); return u.href; };
       const copy = ar.querySelector('[data-ar-copy]');
       if (copy) copy.addEventListener('click', () => {
-        const done = () => { copy.textContent = 'Enlace copiado ✓'; setTimeout(() => { copy.textContent = 'Copiar enlace'; }, 2500); };
-        if (navigator.clipboard) navigator.clipboard.writeText(location.href).then(done, () => window.prompt('Copia este enlace:', location.href));
-        else window.prompt('Copia este enlace:', location.href);
+        const label = copy.textContent;
+        const done = () => { copy.textContent = 'Enlace copiado ✓'; setTimeout(() => { copy.textContent = label; }, 2500); };
+        if (navigator.clipboard) navigator.clipboard.writeText(here()).then(done, () => window.prompt('Copia este enlace:', here()));
+        else window.prompt('Copia este enlace:', here());
+      });
+      /* From an app's browser: x-safari-https:// opens Safari (iOS 17+), an intent:// opens Chrome */
+      const open = ar.querySelector('[data-ar-browser]');
+      if (open) open.addEventListener('click', () => {
+        const url = here();
+        if (/Android/.test(navigator.userAgent)) {
+          const u = new URL(url);
+          location.href = 'intent://' + u.host + u.pathname + u.search + '#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=' + encodeURIComponent(url) + ';end';
+        } else {
+          location.href = 'x-safari-' + url;
+        }
       });
       ar.addEventListener('click', (e) => { if (e.target === ar) this.closeAr(); });
     }
@@ -1257,6 +1278,8 @@
             app.hidden = !on;
             app.querySelector('[data-ar-app-ios]').hidden = !ios;
             app.querySelector('[data-ar-app-android]').hidden = !android;
+            const open = app.querySelector('[data-ar-browser]');
+            if (open) open.textContent = android ? 'Abrir en Chrome' : 'Abrir en Safari';
           };
           mv.addEventListener('load', () => {
             loading.hidden = true;
