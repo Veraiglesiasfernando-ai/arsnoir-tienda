@@ -1,0 +1,121 @@
+{%- comment -%}
+  «Lienzos» on the home page: the works that come on canvas, shown as a canvas. Swiping the picture
+  (or hovering it on a computer) shows the same work as a canvas in a floating frame.
+  Images: Shopify files «{handle}-marco-canvas.webp» and «{handle}-marco-canvasframe.webp».
+  Each card opens the work with its cheapest canvas already chosen.
+{%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+  assign collection = s.collection
+-%}
+{%- if collection != blank and collection.products_count > 0 -%}
+<section class="section lienzos">
+  <div class="page-width">
+    <div class="featured__head">
+      <div>
+        {%- if s.eyebrow != blank -%}<p class="eyebrow eyebrow--accent">{{ s.eyebrow }}</p>{%- endif -%}
+        <h2 class="featured__title">{{ s.heading }}</h2>
+        {%- if s.subtitle != blank -%}<p class="featured__subtitle">{{ s.subtitle }}</p>{%- endif -%}
+      </div>
+    </div>
+
+    <ul class="lienzos__grid">
+      {%- for p in collection.products limit: s.limit -%}
+        {%- liquid
+          assign canvas_v = nil
+          for v in p.variants
+            unless v.available
+              continue
+            endunless
+            if v.title contains 'Framed' or v.title contains 'marco'
+              continue
+            endif
+            assign is_canvas = false
+            if v.title contains 'Canvas'
+              assign is_canvas = true
+            elsif v.title contains 'Lienzo'
+              assign is_canvas = true
+            endif
+            if is_canvas
+              if canvas_v == nil
+                assign canvas_v = v
+              elsif v.price < canvas_v.price
+                assign canvas_v = v
+              endif
+            endif
+          endfor
+          if canvas_v == nil
+            continue
+          endif
+          assign base = p.handle | append: '-marco-'
+          assign url = p.url | append: '?variant=' | append: canvas_v.id
+        -%}
+        <li class="lienzos__item">
+          <a href="{{ url }}" class="lienzos__card">
+            <div class="lienzos__media" data-lienzo>
+              <div class="lienzos__track">
+                <img src="{{ base | append: 'canvas.webp' | file_img_url: '700x' }}" alt="{{ p.title | escape }} en lienzo" loading="lazy" width="700" height="875">
+                <img src="{{ base | append: 'canvasframe.webp' | file_img_url: '700x' }}" alt="{{ p.title | escape }} en lienzo con marco" loading="lazy" width="700" height="875">
+              </div>
+              <span class="lienzos__dots" aria-hidden="true"><i class="is-on"></i><i></i></span>
+              <span class="lienzos__label" data-lienzo-label data-a="{{ s.label_canvas | escape }}" data-b="{{ s.label_framed | escape }}">{{ s.label_canvas }}</span>
+            </div>
+            <span class="lienzos__info">
+              <span class="lienzos__title">{{ p.title }}</span>
+              <span class="lienzos__price">{{ 'general.from' | t }} {{ canvas_v.price | money }}</span>
+            </span>
+          </a>
+        </li>
+      {%- endfor -%}
+    </ul>
+
+    {%- if s.button_label != blank -%}
+      <div class="featured__foot"><a class="button" href="{{ collection.url }}">{{ s.button_label }}</a></div>
+    {%- endif -%}
+  </div>
+</section>
+
+<script>
+  /* Swipe (or hover) the picture: canvas ↔ canvas with frame */
+  (function () {
+    document.querySelectorAll('#shopify-section-{{ section.id }} [data-lienzo]').forEach(function (m) {
+      const track = m.querySelector('.lienzos__track');
+      const dots = m.querySelectorAll('.lienzos__dots i');
+      const label = m.querySelector('[data-lienzo-label]');
+      const show = function (i) {
+        m.classList.toggle('is-framed', i === 1);
+        dots.forEach(function (d, k) { d.classList.toggle('is-on', k === i); });
+        label.textContent = i === 1 ? label.dataset.b : label.dataset.a;
+      };
+      let x0 = null, y0 = null, moved = false;
+      m.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; moved = false; }, { passive: true });
+      m.addEventListener('touchmove', function (e) {
+        if (x0 === null) return;
+        const dx = e.touches[0].clientX - x0, dy = e.touches[0].clientY - y0;
+        if (Math.abs(dx) > 30 && Math.abs(dx) > Math.abs(dy)) { show(dx < 0 ? 1 : 0); moved = true; x0 = null; }
+      }, { passive: true });
+      /* A swipe is not a tap: don't open the work */
+      m.closest('a').addEventListener('click', function (e) { if (moved) { e.preventDefault(); moved = false; } });
+      m.addEventListener('mouseenter', function () { show(1); });
+      m.addEventListener('mouseleave', function () { show(0); });
+    });
+  })();
+</script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Lienzos",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Texto pequeño superior", "default": "EN LIENZO" },
+    { "type": "text", "id": "heading", "label": "Título", "default": "Lienzos" },
+    { "type": "text", "id": "subtitle", "label": "Subtítulo", "default": "Tela sobre bastidor de madera, sin cristal ni reflejos. Desliza la imagen para verlo con marco." },
+    { "type": "collection", "id": "collection", "label": "Colección" },
+    { "type": "range", "id": "limit", "label": "Número de obras", "min": 2, "max": 16, "step": 1, "default": 10 },
+    { "type": "text", "id": "label_canvas", "label": "Etiqueta: lienzo", "default": "Lienzo" },
+    { "type": "text", "id": "label_framed", "label": "Etiqueta: con marco", "default": "Lienzo con marco" },
+    { "type": "text", "id": "button_label", "label": "Texto del botón", "default": "VER TODOS LOS LIENZOS" }
+  ],
+  "presets": [{ "name": "Lienzos" }]
+}
+{% endschema %}

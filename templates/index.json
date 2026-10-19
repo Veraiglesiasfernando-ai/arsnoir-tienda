@@ -92,7 +92,7 @@
     "featured": {
       "type": "featured-slider",
       "settings": {
-        "eyebrow": "LO MÁS PEDIDO",
+        "eyebrow": "SELECCIÓN ARSNOIR",
         "heading": "Obras destacadas",
         "subtitle": "Piezas originales que solo encontrarás aquí.",
         "collection": "mas-vendidos",
@@ -463,6 +463,13 @@
         "button_label": "Ver las obras",
         "button_link": "shopify://collections/obras"
       }
+    },
+    "lienzos": {
+      "type": "canvas-showcase",
+      "settings": {
+        "collection": "lienzos",
+        "limit": 10
+      }
     }
   },
   "order": [
@@ -472,6 +479,7 @@
     "marquee",
     "trust",
     "featured",
+    "lienzos",
     "materials",
     "gifts",
     "rooms",
