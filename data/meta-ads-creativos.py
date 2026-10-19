@@ -688,21 +688,18 @@ brand_button_ad(
 )
 
 
-def unboxing_ad(cid, photo, headline, price, button, note):
+def unboxing_ad(cid, photo, headline, price, button, note, x9=0.5):
     """Foto cenital de unboxing: logotipo y titular arriba sobre degradado oscuro; precio, botón y nota abajo.
-    En 9:16 la foto 4:5 va entera en el centro sobre un fondo hecho con la misma foto ampliada y desenfocada."""
+    En 9:16 la foto llena la pantalla, recortada en horizontal en `x9` (0–1)."""
     src = Image.open(M / photo).convert("RGB")
     logo_src = Image.open(M / "ads/src/logo-arsnoir-blanco.png")
     for fmt, (W, H) in {"4x5": (1080, 1350), "9x16": (1080, 1920)}.items():
-        if fmt == "4x5":
-            im = cover(M / photo, W, H, 0.5).convert("RGBA")
-            top_h, bot_h = 430, 470
-        else:
-            im = cover(M / photo, W, H, 0.5).filter(ImageFilter.GaussianBlur(28)).convert("RGBA")
-            im.alpha_composite(Image.new("RGBA", (W, H), (0, 0, 0, 90)))
-            ph = round(src.height * W / src.width)
-            im.paste(src.resize((W, ph), Image.LANCZOS), (0, (H - ph) // 2))
-            top_h, bot_h = 640, 760
+        k = max(W / src.width, H / src.height)
+        big = src.resize((round(src.width * k), round(src.height * k)), Image.LANCZOS)
+        x0 = round((big.width - W) * (0.5 if fmt == "4x5" else x9))
+        y0 = (big.height - H) // 2
+        im = big.crop((x0, y0, x0 + W, y0 + H)).convert("RGBA")
+        top_h, bot_h = (430, 470) if fmt == "4x5" else (700, 800)
         im.alpha_composite(gradient(W, top_h, 215, 0), (0, 0))
         im.alpha_composite(gradient(W, bot_h, 0, 230), (0, H - bot_h))
         d = ImageDraw.Draw(im)
@@ -727,8 +724,8 @@ def unboxing_ad(cid, photo, headline, price, button, note):
 
 unboxing_ad(
     "c20-unboxing-dos-obras", "ads/src/unboxing-tigre-petardeo.jpg",
-    "Llegaron las dos.", "Desde 24,95 €", "2 obras −15 % · hasta el 9 nov",
-    "Marco de pino · Plexiglás irrompible",
+    "Dos obras. Un 15 % menos.", "Desde 24,95 €", "Elegir mis dos obras",
+    "Solo hasta el 9 de noviembre", x9=0.55,
 )
 
 if __name__ == "__main__":
