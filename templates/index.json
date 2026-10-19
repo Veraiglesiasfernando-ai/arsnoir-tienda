@@ -332,25 +332,33 @@
         "p1": {
           "type": "pack",
           "settings": {
-            "title": "Pack Trío",
+            "title": "Pack Botánico",
             "layout": "trio",
-            "button_label": "Añadir el pack"
+            "button_label": "Añadir el pack",
+            "product_1": "limonero",
+            "product_2": "flores-amarillas",
+            "product_3": "cactus"
           }
         },
         "p2": {
           "type": "pack",
           "settings": {
-            "title": "Pack Salón",
+            "title": "Pack Motor",
             "layout": "stack",
-            "button_label": "Añadir el pack"
+            "button_label": "Añadir el pack",
+            "product_1": "ferrari",
+            "product_2": "revuelto",
+            "product_3": "aleron"
           }
         },
         "p3": {
           "type": "pack",
           "settings": {
-            "title": "Pack Dúo",
+            "title": "Pack Amor",
             "layout": "duo",
-            "button_label": "Añadir el pack"
+            "button_label": "Añadir el pack",
+            "product_1": "love-you",
+            "product_2": "you-and-me"
           }
         }
       },
