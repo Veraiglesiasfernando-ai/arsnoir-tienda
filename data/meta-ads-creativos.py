@@ -687,6 +687,50 @@ brand_button_ad(
     price="Desde 24,95 €", note="Con o sin marco de pino · Plexiglás irrompible",
 )
 
+
+def unboxing_ad(cid, photo, headline, price, button, note):
+    """Foto cenital de unboxing: logotipo y titular arriba sobre degradado oscuro; precio, botón y nota abajo.
+    En 9:16 la foto 4:5 va entera en el centro sobre un fondo hecho con la misma foto ampliada y desenfocada."""
+    src = Image.open(M / photo).convert("RGB")
+    logo_src = Image.open(M / "ads/src/logo-arsnoir-blanco.png")
+    for fmt, (W, H) in {"4x5": (1080, 1350), "9x16": (1080, 1920)}.items():
+        if fmt == "4x5":
+            im = cover(M / photo, W, H, 0.5).convert("RGBA")
+            top_h, bot_h = 430, 470
+        else:
+            im = cover(M / photo, W, H, 0.5).filter(ImageFilter.GaussianBlur(28)).convert("RGBA")
+            im.alpha_composite(Image.new("RGBA", (W, H), (0, 0, 0, 90)))
+            ph = round(src.height * W / src.width)
+            im.paste(src.resize((W, ph), Image.LANCZOS), (0, (H - ph) // 2))
+            top_h, bot_h = 640, 760
+        im.alpha_composite(gradient(W, top_h, 215, 0), (0, 0))
+        im.alpha_composite(gradient(W, bot_h, 0, 230), (0, H - bot_h))
+        d = ImageDraw.Draw(im)
+        cx = W / 2
+        lw = 250 if fmt == "4x5" else 290
+        logo = logo_src.resize((lw, round(logo_src.height * lw / logo_src.width)), Image.LANCZOS)
+        ly = 44 if fmt == "4x5" else 292
+        im.alpha_composite(logo, ((W - lw) // 2, ly))
+        d = ImageDraw.Draw(im)
+        hf = grotesk(64 if fmt == "4x5" else 72, 700)
+        centered(d, cx, ly + logo.height + 22, headline, hf, WHITE)
+        bf = grotesk(36, 700)
+        bw, bh = d.textlength(button, font=bf) + 130, 94
+        by = H - 104 - bh if fmt == "4x5" else round(H * 0.80) - bh - 40
+        pf = grotesk(48 if fmt == "4x5" else 54, 700)
+        centered(d, cx, by - pf.size - 22, price, pf, WHITE)
+        d.rounded_rectangle((cx - bw / 2, by, cx + bw / 2, by + bh), radius=bh / 2, fill=WHITE)
+        centered(d, cx, by + (bh - 36) / 2 - 4, button, bf, INK)
+        centered(d, cx, by + bh + 16, note, grotesk(26 if fmt == "4x5" else 30, 600), (235, 235, 235))
+        save(im, f"{cid}-{fmt}.jpg")
+
+
+unboxing_ad(
+    "c20-unboxing-dos-obras", "ads/src/unboxing-tigre-petardeo.jpg",
+    "Llegaron las dos.", "Desde 24,95 €", "2 obras −15 % · hasta el 9 nov",
+    "Marco de pino · Plexiglás irrompible",
+)
+
 if __name__ == "__main__":
     import sys
     if "--video" in sys.argv:
