@@ -1,6 +1,8 @@
 {%- comment -%}
   Tiered gift bar (Theme settings → Carrito: regalo, pack y bienvenida).
-  eligible: cart total without the gift lines, in cents (real cart data).
+  eligible: cart total without the gift lines, before discounts, in cents (real cart data).
+  paid: the same after discounts (free shipping counts what is paid)
+  pack_better: the pack discount saves more than the gifts (they don't combine)
   Mirrors the Shopify gift discounts; the gift line itself is added/removed by theme.js.
 {%- endcomment -%}
 {%- liquid
@@ -28,8 +30,8 @@
   <p class="gift-tiers__text">
     {%- case reached -%}
       {%- when 0 -%}
-        {%- if t0 > 0 and eligible < t0 -%}
-          {%- assign left = t0 | minus: eligible | money -%}
+        {%- if t0 > 0 and paid < t0 -%}
+          {%- assign left = t0 | minus: paid | money -%}
           {{ 'cart.remaining_html' | t: amount: left }}
         {%- else -%}
           {%- assign left = t1 | minus: eligible | money -%}
@@ -37,14 +39,18 @@
         {%- endif -%}
       {%- when 1 -%}
         {%- assign left = t2 | minus: eligible | money -%}
-        <span class="cartx-check" aria-hidden="true"></span>{{ 'cart.gift_unlocked_1_html' | t }} <span class="gift-tiers__next">{{ 'cart.gift_next_html' | t: amount: left }}</span>
+        {%- if pack_better -%}
+          <span class="cartx-check" aria-hidden="true"></span>{{ 'cart.gift_pack_on_html' | t: pct: settings.pack_percent }}
+        {%- else -%}
+          <span class="cartx-check" aria-hidden="true"></span>{{ 'cart.gift_unlocked_1_html' | t }} <span class="gift-tiers__next">{{ 'cart.gift_next_html' | t: amount: left }}</span>
+        {%- endif -%}
       {%- else -%}
-        <span class="cartx-check" aria-hidden="true"></span>{{ 'cart.gift_unlocked_2_html' | t }}
+        <span class="cartx-check" aria-hidden="true"></span>{% if pack_better %}{{ 'cart.gift_pack_on_html' | t: pct: settings.pack_percent }}{% else %}{{ 'cart.gift_unlocked_2_html' | t }}{% endif %}
     {%- endcase -%}
   </p>
   <div class="gift-tiers__track" role="progressbar" aria-valuemin="0" aria-valuemax="{{ t2 }}" aria-valuenow="{{ eligible }}">
     <span class="gift-tiers__fill" style="width: {{ pct }}%"></span>
-    {%- if t0 > 0 -%}<span class="gift-tiers__stop{% if eligible >= t0 %} is-on{% endif %}" style="left: {{ m0 }}%">{% render 'icon', name: 'truck' %}</span>{%- endif -%}
+    {%- if t0 > 0 -%}<span class="gift-tiers__stop{% if paid >= t0 %} is-on{% endif %}" style="left: {{ m0 }}%">{% render 'icon', name: 'truck' %}</span>{%- endif -%}
     <span class="gift-tiers__stop{% if reached >= 1 %} is-on{% endif %}" style="left: {{ m1 }}%">{% render 'icon', name: 'gift' %}</span>
     <span class="gift-tiers__stop{% if reached >= 2 %} is-on{% endif %}" style="left: 100%">{% render 'icon', name: 'gift' %}</span>
   </div>

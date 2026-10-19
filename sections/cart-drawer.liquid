@@ -12,13 +12,19 @@
   # Gift lines are real artworks (gift size, no frame) marked with the hidden property _regalo
   assign gift_on = settings.gift_enabled
 
+  # Shopify weighs each automatic discount on the cart before discounts (pack and gift don't
+  # combine), so the gift tiers count the works at their own price, before the pack.
   assign eligible = 0
+  assign paid = 0
+  assign works_qty = 0
   assign gift_qty = 0
   for item in cart.items
     if gift_on and item.properties['_regalo'] != blank
       assign gift_qty = gift_qty | plus: item.quantity
     else
-      assign eligible = eligible | plus: item.final_line_price
+      assign eligible = eligible | plus: item.original_line_price
+      assign paid = paid | plus: item.final_line_price
+      assign works_qty = works_qty | plus: item.quantity
     endif
   endfor
 
@@ -45,6 +51,7 @@
         "tier1": {{ settings.gift_tier1 | times: 100 }},
         "tier2": {{ settings.gift_tier2 | times: 100 }},
         "giftQty": {{ gift_qty }},
+        "packMin": {{ settings.pack_min | default: 2 }},
         "eligible": {{ eligible }},
         "exitCode": {{ settings.exit_code | strip | json }},
         "exitEnabled": {{ settings.exit_enabled | json }}
@@ -68,9 +75,47 @@
             assign gift_unlocked = 1
           endif
         endif
+
+        # Pack or gift: they don't combine and Shopify keeps whichever saves the customer more.
+        # Gift lines count towards the pack, so: pack -pct % on works + gifts vs the gifts free.
+        assign pack_pct = settings.pack_percent | default: 0
+        assign pack_min = settings.pack_min | default: 2
+        assign today = 'now' | date: '%Y-%m-%d'
+        if settings.pack_until != blank and today > settings.pack_until
+          assign pack_pct = 0
+        endif
+        assign pack_better = false
+        assign pack_with_gift = false
+        if gift_unlocked > 0 and pack_pct > 0
+          # Price of one gift: the gift-size poster without frame
+          assign gift_price = 0
+          assign gift_src = settings.gift_collection | default: collections['obras']
+          assign size_key = settings.gift_size | default: '21' | downcase | remove: ' ' | replace: '×', 'x' | replace: ',', '.'
+          for v in gift_src.products.first.variants
+            assign vt = v.title | downcase | remove: ' ' | replace: '×', 'x' | replace: ',', '.'
+            if vt contains size_key
+              unless vt contains 'frame' or vt contains 'marco' or vt contains 'canvas' or vt contains 'lienzo'
+                assign gift_price = v.price
+                break
+              endunless
+            endif
+          endfor
+          assign gifts_value = gift_price | times: gift_unlocked
+          assign pack_saving = eligible | plus: gifts_value | times: pack_pct | divided_by: 100
+          assign pack_items = works_qty | plus: gift_unlocked
+          if gift_price > 0 and pack_items >= pack_min and pack_saving > gifts_value
+            if works_qty >= pack_min
+              # The pack is already on and saves more: no gift to offer
+              assign pack_better = true
+            else
+              # One work: adding the gift turns the pack on for both, cheaper than the work alone
+              assign pack_with_gift = true
+            endif
+          endif
+        endif
       -%}
       {%- if gift_on -%}
-        {% render 'gift-tiers', eligible: eligible %}
+        {% render 'gift-tiers', eligible: eligible, paid: paid, pack_better: pack_better %}
       {%- else -%}
         <div class="cartx__ship">{% render 'free-shipping-bar' %}</div>
       {%- endif -%}
@@ -166,6 +211,7 @@
                 </div>
                 {%- if is_gift -%}
                   <p class="cartx-item__variant">{{ 'cart.gift_subtitle' | t }} · {{ item.options_with_values | map: 'value' | join: ' · ' }}</p>
+                  {%- if item.final_line_price > 0 and has_code == false -%}<p class="cartx-item__edition">{{ 'cart.gift_with_pack' | t: pct: settings.pack_percent }}</p>{%- endif -%}
                 {%- elsif item.product.has_only_default_variant == false -%}
                   <p class="cartx-item__variant">{{ item.options_with_values | map: 'value' | join: ' · ' }}</p>
                 {%- endif -%}
@@ -206,8 +252,13 @@
               <p class="gift-pick__note">{{ 'cart.gift_code_conflict' | t }}</p>
               <button type="button" class="gift-pick__cta gift-pick__swap" data-gift-swap>{{ 'cart.gift_swap' | t }}</button>
             </div>
+          {%- elsif pack_better -%}
+            <div class="gift-pick gift-pick--swap">
+              <p class="gift-pick__note">{{ 'cart.gift_pack_better' | t: pct: pack_pct }}</p>
+            </div>
           {%- else -%}
             {%- assign slot = gift_qty | plus: 1 -%}
+            {%- if pack_with_gift -%}<p class="gift-pick__note gift-pick__note--pack">{{ 'cart.gift_pack_single' | t: pct: pack_pct }}</p>{%- endif -%}
             {% render 'gift-picker', slot: slot, total: gift_unlocked %}
           {%- endif -%}
         {%- endif -%}

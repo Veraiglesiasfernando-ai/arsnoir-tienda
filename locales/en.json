@@ -148,6 +148,10 @@
     "gift_code_conflict": "Your discount code can't be combined with the gift artworks. Pick one.",
     "gift_swap": "I prefer my gift artwork",
     "gift_size_label": "A4 poster · no frame",
+    "gift_pack_better": "Your −{{ pct }} % pack saves you more than the gift poster. They don't combine, so we keep the pack: it saves you the most.",
+    "gift_pack_on_html": "You have <strong>the −{{ pct }} % pack</strong>, which saves you more than the gift poster",
+    "gift_pack_single": "Adding the poster turns on the −{{ pct }} % pack for both: you pay less than for your artwork alone.",
+    "gift_with_pack": "With the pack's −{{ pct }} %, which saves you more than a free gift",
     "drawer_title": "Cart",
     "payment_methods": "Payment methods",
     "pill_tracking": "Tracked shipping"

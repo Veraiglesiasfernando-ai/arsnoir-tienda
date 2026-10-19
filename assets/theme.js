@@ -542,7 +542,7 @@
 
   /* Gift artwork: the customer picks it (gift size, no frame) once a tier is reached.
      Here we only take gifts away: above the unlocked tier, or when Shopify does not make
-     them free because a discount code that doesn't combine is applied. Prices stay Shopify's. */
+     them free because a discount code or the pack (they don't combine) saves more. Prices stay Shopify's. */
   function cartConfig() {
     const el = document.querySelector('[data-cart-config]');
     try { return el ? JSON.parse(el.textContent) : null; } catch (e) { return null; }
@@ -555,8 +555,12 @@
     const gifts = cart.items.filter(isGift);
     if (!gifts.length) return Promise.resolve(false);
     const others = cart.items.filter(function (i) { return !isGift(i); });
-    const eligible = others.reduce(function (sum, i) { return sum + i.final_line_price; }, 0);
+    /* Before discounts, as Shopify weighs the gift against the pack (they don't combine) */
+    const eligible = others.reduce(function (sum, i) { return sum + i.original_line_price; }, 0);
     let allowed = others.length === 0 ? 0 : eligible >= c.tier2 ? 2 : eligible >= c.tier1 ? 1 : 0;
+    /* The pack is on for the works alone and Shopify kept it over the gift: never charge for a gift */
+    const worksQty = others.reduce(function (sum, i) { return sum + i.quantity; }, 0);
+    if (worksQty >= (c.packMin || 2) && gifts.some(function (i) { return i.final_line_price > 0; })) allowed = 0;
     const hasCode = (cart.cart_level_discount_applications || []).some(function (d) { return d.type === 'discount_code'; }) ||
       cart.items.some(function (i) { return (i.line_level_discount_allocations || []).some(function (a) { return a.discount_application.type === 'discount_code'; }); });
     if (hasCode && gifts.some(function (i) { return i.final_line_price > 0; })) allowed = 0;
