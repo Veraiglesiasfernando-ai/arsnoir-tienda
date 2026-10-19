@@ -12,7 +12,23 @@
   endif
 -%}
 
-{%- if reviews.size > 0 or show_samples -%}
+{%- if s.judgeme and product != blank -%}
+  {%- comment -%}
+    Judge.me (app embed «Judge.me Core» on): its review widget for this product, filled by the app with
+    real customer reviews and its own «Escribir una reseña» button. Manual install markup from Judge.me.
+  {%- endcomment -%}
+  <section class="section reviews reviews--app" id="Reviews">
+    <div class="page-width">
+      <div class="reviews__head">
+        <div>
+          {%- if s.eyebrow != blank -%}<p class="eyebrow eyebrow--accent">{{ s.eyebrow }}</p>{%- endif -%}
+          <h2 class="featured__title">{{ s.heading }}</h2>
+        </div>
+      </div>
+      <div id="judgeme_product_reviews" class="jdgm-widget jdgm-review-widget" data-id="{{ product.id }}">{{ product.metafields.judgeme.widget }}</div>
+    </div>
+  </section>
+{%- elsif reviews.size > 0 or show_samples -%}
   {%- liquid
     if show_samples
       assign avg = '5'
@@ -78,7 +94,8 @@
   "settings": [
     { "type": "paragraph", "content": "Añade solo reseñas reales de clientes. Sin reseñas, la sección no aparece en la tienda (en el editor verás una vista previa de ejemplo)." },
     { "type": "text", "id": "eyebrow", "label": "Texto pequeño superior", "default": "OPINIONES" },
-    { "type": "text", "id": "heading", "label": "Título", "default": "Lo que dicen de sus paredes" }
+    { "type": "text", "id": "heading", "label": "Título", "default": "Lo que dicen de sus paredes" },
+    { "type": "checkbox", "id": "judgeme", "label": "En la ficha de obra: reseñas de Judge.me", "info": "Muestra las reseñas reales que dejan los clientes en Judge.me (activa «Judge.me Core» en Integraciones de aplicaciones).", "default": false }
   ],
   "blocks": [
     {

@@ -88,9 +88,18 @@
       "settings": {
         "lifestyle_from": 2
       }
+    },
+    "reviews": {
+      "type": "reviews",
+      "settings": {
+        "eyebrow": "OPINIONES",
+        "heading": "Lo que dicen nuestros clientes",
+        "judgeme": true
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "reviews"
   ]
 }

@@ -87,6 +87,9 @@
             {%- assign p_count = product.metafields.reviews.rating_count.value | default: 0 -%}
             {%- if p_rating != blank and p_count > 0 -%}
               <a href="#Reviews" class="product__rating">{% render 'stars', rating: p_rating.rating, max: p_rating.scale_max, count: p_count %}</a>
+            {%- else -%}
+              {%- comment -%} Judge.me's own star badge (it stays empty until there are reviews) {%- endcomment -%}
+              <div class="product__rating jdgm-widget jdgm-preview-badge" data-id="{{ product.id }}">{{ product.metafields.judgeme.badge }}</div>
             {%- endif -%}
 
           {%- when 'price' -%}

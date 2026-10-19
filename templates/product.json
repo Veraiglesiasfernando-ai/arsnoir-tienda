@@ -139,7 +139,8 @@
       "type": "reviews",
       "settings": {
         "eyebrow": "OPINIONES",
-        "heading": "Lo que dicen de esta obra"
+        "heading": "Lo que dicen de esta obra",
+        "judgeme": true
       }
     },
     "faq": {
