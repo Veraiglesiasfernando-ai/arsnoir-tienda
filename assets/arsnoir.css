@@ -467,6 +467,15 @@ main > .shopify-section:first-child .vhero { margin-top: -76px; }
   border: 1px solid var(--color-fg);
   background: transparent;
   font-size: 18px;
+  line-height: 1;
+  color: var(--color-fg);
+  text-decoration: none;
+  /* Also on links (pagination): the arrow sits in the middle */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  padding: 0;
   transition: background 0.2s, color 0.2s;
 }
 .round-btn:hover { background: var(--color-fg); color: #fff; }
@@ -840,6 +849,12 @@ html { scroll-behavior: smooth; }
 .active-filters__clear { padding: 6px 4px; font-size: 13px; text-decoration: underline; text-underline-offset: 3px; }
 .pagination { align-items: center; margin-top: clamp(40px, 6vw, 72px); }
 .pagination .current { font-weight: 700; border: 0; }
+/* Page numbers: same height as the arrows, centred with them */
+.pagination { gap: 6px; flex-wrap: wrap; }
+.pagination > a:not(.round-btn), .pagination > span { display: inline-flex; align-items: center; justify-content: center; min-width: 40px; height: 48px; font-size: 15px; text-decoration: none; color: var(--color-muted); }
+.pagination > a:not(.round-btn):hover { color: var(--color-fg); }
+.pagination > .current { color: var(--color-fg); }
+.pagination .round-btn { width: 44px; height: 44px; margin-inline: 6px; }
 .collection-list-art { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(28px, 4vw, 56px) clamp(16px, 2.4vw, 32px); padding-bottom: clamp(56px, 8vw, 112px); }
 @media (max-width: 749px) { .collection-list-art { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
