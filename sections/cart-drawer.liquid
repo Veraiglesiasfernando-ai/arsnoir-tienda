@@ -91,17 +91,6 @@
       {%- endif -%}
 
       <div class="cartx__scroll">
-        {%- if gift_unlocked > gift_qty -%}
-          {%- if has_code -%}
-            <div class="gift-pick gift-pick--swap">
-              <p class="gift-pick__note">{{ 'cart.gift_code_conflict' | t }}</p>
-              <button type="button" class="gift-pick__cta gift-pick__swap" data-gift-swap>{{ 'cart.gift_swap' | t }}</button>
-            </div>
-          {%- else -%}
-            {%- assign slot = gift_qty | plus: 1 -%}
-            {% render 'gift-picker', slot: slot, total: gift_unlocked %}
-          {%- endif -%}
-        {%- endif -%}
         <ul class="cartx__items">
           {%- for item in cart.items -%}
             {%- liquid
@@ -208,6 +197,18 @@
             </li>
           {%- endfor -%}
         </ul>
+        {%- comment -%} The gift choice goes after the works in the cart, so these stay first and clear {%- endcomment -%}
+        {%- if gift_unlocked > gift_qty -%}
+          {%- if has_code -%}
+            <div class="gift-pick gift-pick--swap">
+              <p class="gift-pick__note">{{ 'cart.gift_code_conflict' | t }}</p>
+              <button type="button" class="gift-pick__cta gift-pick__swap" data-gift-swap>{{ 'cart.gift_swap' | t }}</button>
+            </div>
+          {%- else -%}
+            {%- assign slot = gift_qty | plus: 1 -%}
+            {% render 'gift-picker', slot: slot, total: gift_unlocked %}
+          {%- endif -%}
+        {%- endif -%}
         <div class="drawer__upsell" data-cart-upsell data-product-id="{{ cart.items.first.product_id }}"></div>
       </div>
 

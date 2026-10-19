@@ -3039,3 +3039,38 @@ html.sguide-lock { overflow: hidden; }
 .lienzos__info { display: flex; flex-direction: column; gap: 2px; padding: 8px 2px 0; color: inherit; text-decoration: none; }
 .lienzos__title { font-size: 14px; font-weight: 700; }
 .lienzos__price { font-size: 13px; color: var(--color-muted); }
+
+/* ==========================================================================
+   Cart on phones: full screen, the works first and big, a slim gift bar and a
+   short footer (the long notes and badges only on larger screens)
+   ========================================================================== */
+@media (max-width: 749px) {
+  .drawer__panel.cartx { top: 0; right: 0; bottom: 0; width: 100%; border-radius: 0; border: 0; }
+  .cartx .drawer__head { padding: 12px 16px; }
+  .cartx .drawer__title { font-size: 18px; }
+  .cartx .drawer__close { width: 36px; height: 36px; }
+  /* Gift bar: one line of text + the track with its amounts */
+  .cartx .gift-tiers { padding: 10px 16px 6px; background: #fff; }
+  .cartx .gift-tiers__text { margin: 0 0 12px; font-size: 13px; line-height: 1.35; }
+  .cartx .gift-tiers__stop { width: 26px; height: 26px; }
+  .cartx .gift-tiers__stop .icon { width: 13px; height: 13px; }
+  .cartx .gift-tiers__labels { height: 18px; margin-top: 8px; }
+  .cartx .gift-tiers__labels span { width: auto; font-size: 0; white-space: nowrap; }
+  .cartx .gift-tiers__labels strong { font-size: 11px; }
+  .cartx .gift-tiers__note { display: none; }
+  .cartx__q4 { padding: 8px 16px; font-size: 11px; }
+  /* The works: big picture, clear name, size and finish, quantity and price */
+  .cartx__scroll { padding: 0 16px 16px; }
+  .cartx-item { grid-template-columns: 92px 1fr; gap: 14px; padding: 16px 0; }
+  .cartx-item__title { font-size: 16px; }
+  .cartx-item__variant { font-size: 13px; line-height: 1.35; color: #4a4a4a; }
+  .cartx-item__price { font-size: 16px; }
+  .cartx-upgrade { margin-top: 10px; }
+  /* Footer: totals and the pay button */
+  .cartx__foot { padding: 10px 16px calc(12px + env(safe-area-inset-bottom)); }
+  .cartx__foot .delivery { margin-bottom: 6px; }
+  .cartx__row { font-size: 13px; margin-bottom: 2px; }
+  .cartx__row--sub { font-size: 15px; }
+  .cartx__checkout { height: 52px; margin-top: 8px; }
+  .cartx__badges { display: none; }
+}
