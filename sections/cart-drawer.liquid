@@ -247,7 +247,7 @@
         <form action="{{ routes.cart_url }}" method="post" class="cartx__form">
           <button type="submit" name="checkout" class="button button--accent button--full cartx__checkout">
             {% render 'trust-icon', name: 'lock' %}
-            <span>{{ 'cart.secure_checkout' | t }}</span>
+            <span>{{ 'cart.checkout' | t }}</span>
             <span class="cartx__checkout-total">{{ cart.total_price | money }}</span>
           </button>
         </form>
