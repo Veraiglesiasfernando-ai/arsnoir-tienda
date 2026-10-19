@@ -195,6 +195,17 @@
                         assign label_kind = 'size'
                       endif
                     -%}
+                    {%- comment -%} «A2» matches «A2 (42 x 59.4 cm)» and «A2 · 42×59,4 cm» alike {%- endcomment -%}
+                    {%- if is_size and recommended != blank -%}
+                      {%- assign want = recommended | strip -%}
+                      {%- assign want_len = want | size -%}
+                      {%- assign found = blank -%}
+                      {%- for value in option.values -%}
+                        {%- assign head = value | slice: 0, want_len -%}
+                        {%- if value == want or head == want -%}{%- assign found = value -%}{%- break -%}{%- endif -%}
+                      {%- endfor -%}
+                      {%- assign recommended = found -%}
+                    {%- endif -%}
                     {%- if is_size and recommended == blank and block.settings.highlight_largest -%}
                       {%- assign best = 0 -%}
                       {%- for value in option.values -%}
@@ -647,7 +658,7 @@
         { "type": "checkbox", "id": "show_installments", "label": "Mostrar pago a plazos", "default": true, "info": "Aparece solo si tienes activado el pago a plazos (Klarna, Shop Pay Installments…) en Configuración → Pagos." },
         { "type": "header", "content": "Tamaño destacado" },
         { "type": "checkbox", "id": "highlight_largest", "label": "Destacar el tamaño más grande", "default": true, "info": "Se aplica a la opción llamada Tamaño / Medida / Size." },
-        { "type": "text", "id": "recommended_size", "label": "O destacar este tamaño exacto", "info": "Ej.: 50 × 70 cm. Tiene prioridad sobre la opción anterior." },
+        { "type": "text", "id": "recommended_size", "label": "O destacar este tamaño", "info": "Ej.: A2 (vale el principio del nombre). Tiene prioridad sobre la opción anterior." },
         { "type": "text", "id": "recommended_label", "label": "Etiqueta", "default": "Recomendado" },
         { "type": "text", "id": "recommended_frame", "label": "Acabado destacado", "default": "Marco negro", "info": "Nombre exacto del acabado que lleva la etiqueta. Vacío = ninguno." },
         { "type": "page", "id": "size_help", "label": "Página «Guía de tamaños»", "info": "Vacío = página con identificador guia-de-tamanos." },

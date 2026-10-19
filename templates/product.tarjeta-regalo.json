@@ -22,7 +22,8 @@
           "settings": {
             "show_dynamic_checkout": false,
             "highlight_largest": false,
-            "recommended_label": "Recomendado"
+            "recommended_label": "Recomendado",
+            "recommended_size": "A2"
           }
         },
         "recipient": {
