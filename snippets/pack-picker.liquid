@@ -1,7 +1,8 @@
 {%- comment -%}
   «1 obra / 2 obras −15 %» tiles above the add-to-cart button (catalogue artworks only).
   Mirrors the real automatic discount in Shopify (settings: pack_percent, pack_min, pack_until):
-  «2 obras» opens a search over every work of the shop to pick the second one (or the same one twice);
+  «2 obras» opens a search over every work of the shop to pick the second one (or the same one twice;
+  on personalised products also «Crear otra personalizada»). Shown on works and personalised products;
   the discount is applied by Shopify in the cart. Hidden after pack_until.
   Prices follow the selected variant (assets/pack-picker.js).
 {%- endcomment -%}
@@ -10,7 +11,14 @@
   assign pack_min = settings.pack_min | default: 2
   assign today = 'now' | date: '%Y-%m-%d'
   assign show = false
+  assign custom = false
+  if product.type == 'Personalizado'
+    assign custom = true
+  endif
   if pack_pct > 0
+    if custom
+      assign show = true
+    endif
     for c in product.collections
       if c.handle == 'obras'
         assign show = true
@@ -18,9 +26,6 @@
     endfor
   endif
   if settings.pack_until != blank and today > settings.pack_until
-    assign show = false
-  endif
-  if product.tags contains 'plantilla'
     assign show = false
   endif
 -%}
@@ -45,7 +50,15 @@
     </button>
     {%- comment -%} «2 obras»: search any work of the shop and pick it as the second one (pack-picker.js) {%- endcomment -%}
     <div class="ppick__more" data-pack-more data-current="{{ product.id }}" data-key="{{ current_variant.title | escape }}" hidden>
-      <p class="ppick__more-title">Elige tu segunda obra</p>
+      <p class="ppick__more-title">{% if custom %}Elige tu segunda pieza{% else %}Elige tu segunda obra{% endif %}</p>
+      {%- if custom -%}
+        {%- comment -%} Adds this one to the cart and goes to make another illustration (the -15 % applies in the cart) {%- endcomment -%}
+        <button type="button" class="ppick__create" data-pack-create>
+          <span>Crear otra personalizada</span>
+          <small>Añadimos esta al carrito y eliges otro estilo u otra foto</small>
+        </button>
+        <p class="ppick__or">o elige una obra de la tienda</p>
+      {%- endif -%}
       <label class="ppick__search">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m16 16 4.5 4.5" stroke="currentColor" stroke-width="1.8"/></svg>
         <input type="search" placeholder="Busca cualquier obra: coche, tigre, flores…" data-pack-q autocomplete="off" aria-label="Buscar obra">
@@ -54,7 +67,7 @@
       <ul class="ppick__list" data-pack-list aria-live="polite"></ul>
       <p class="ppick__empty" data-pack-empty hidden>No hay ninguna obra con ese nombre.</p>
       <input type="hidden" data-pack-extra value="">
-      <button type="button" class="ppick__same" data-pack-same aria-pressed="false">O llévate esta misma dos veces</button>
+      <button type="button" class="ppick__same" data-pack-same aria-pressed="false">{% if custom %}O la misma dos veces (para regalar){% else %}O llévate esta misma dos veces{% endif %}</button>
     </div>
     <p class="ppick__note">
       {%- if pack_min == 2 -%}O combina 2 obras distintas: el -{{ pack_pct }} % se aplica solo en el carrito{%- else -%}El -{{ pack_pct }} % se aplica solo en el carrito{%- endif -%}

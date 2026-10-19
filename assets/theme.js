@@ -648,6 +648,7 @@
       })
       .then(function (res) {
         if (!res.ok) { alert(res.body.description || S.addError || 'No se ha podido añadir al carrito.'); return; }
+        document.dispatchEvent(new CustomEvent('cart:added'));
         return refreshDrawer().then(openDrawer);
       })
       .catch(function () { form.submit(); })

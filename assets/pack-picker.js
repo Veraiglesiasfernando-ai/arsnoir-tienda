@@ -20,6 +20,8 @@
   const list = box.querySelector('[data-pack-list]');
   const empty = box.querySelector('[data-pack-empty]');
   const extraInput = box.querySelector('[data-pack-extra]');
+  const create = box.querySelector('[data-pack-create]');
+  const sameText = same ? same.textContent : '';
   const json = document.querySelector('variant-picker script[type="application/json"]');
   const variants = json ? JSON.parse(json.textContent) : [];
   const root = (window.Shopify && Shopify.routes && Shopify.routes.root) || '/';
@@ -27,7 +29,7 @@
   const currency = (window.Shopify && Shopify.currency && Shopify.currency.active) || 'EUR';
   const money = function (cents) { return new Intl.NumberFormat(lang, { style: 'currency', currency: currency }).format(cents / 100); };
   const set = function (sel, text) { const el = box.querySelector(sel); if (el) el.textContent = text; };
-  const plain = function (s) { return String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); };
+  const plain = function (s) { return String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); };
   const esc = function (s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
 
   const mainVariant = function () { return variants.find(function (x) { return String(x.id) === String(idInput.value); }); };
@@ -126,7 +128,7 @@
       const twice = n >= min;
       same.classList.toggle('is-active', twice);
       same.setAttribute('aria-pressed', twice ? 'true' : 'false');
-      same.textContent = twice ? '✓ Esta misma dos veces' : 'O llévate esta misma dos veces';
+      same.textContent = twice ? '✓ ' + sameText.replace(/^O (llévate )?/, '').replace(/^./, function (c) { return c.toUpperCase(); }) : sameText;
     }
     if (!v) return;
     const full = v.price * min;
@@ -180,6 +182,20 @@
   });
   document.addEventListener('click', function (event) {
     if (event.target.closest('variant-picker, [data-qty]')) requestAnimationFrame(sync);
+  });
+  /* «Crear otra personalizada»: this one goes to the cart (template-studio.js keeps its illustration
+     first), then on to Personalízalo to make the next one */
+  let goCreate = 0;
+  if (create) create.addEventListener('click', function () {
+    pick(null);
+    setQty(1);
+    /* No illustration yet: the studio's own message asks for it, and we stay here */
+    const studioUrl = document.querySelector('[data-tstudio-url]');
+    goCreate = studioUrl && !studioUrl.value ? 0 : Date.now();
+    if (form.requestSubmit) form.requestSubmit(button || undefined); else form.submit();
+  });
+  document.addEventListener('cart:added', function () {
+    if (goCreate && Date.now() - goCreate < 20000) window.location.href = root + 'collections/personalizalo';
   });
   /* Both went to the cart: start again from «1 obra» */
   document.addEventListener('pack:added', function () { pick(null); setQty(1); openMore(false); if (q) q.value = ''; sync(); });
