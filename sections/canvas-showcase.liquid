@@ -1,6 +1,7 @@
 {%- comment -%}
-  «Lienzos» on the home page: the works that come on canvas, shown as a canvas. Swiping the picture
-  (or hovering it on a computer) shows the same work as a canvas in a floating frame.
+  «Lienzos» on the home page: a sideways row of the works that come on canvas, shown as a canvas.
+  Each picture changes to the canvas in a floating frame and back on its own; two buttons (or hover)
+  pick one.
   Images: Shopify files «{handle}-marco-canvas.webp» and «{handle}-marco-canvasframe.webp».
   Each card opens the work with its cheapest canvas already chosen.
 {%- endcomment -%}
@@ -17,88 +18,105 @@
         <h2 class="featured__title">{{ s.heading }}</h2>
         {%- if s.subtitle != blank -%}<p class="featured__subtitle">{{ s.subtitle }}</p>{%- endif -%}
       </div>
+      <div class="featured__arrows">
+        <button type="button" class="round-btn" data-scroll="-1" data-target="Slider-{{ section.id }}" aria-label="{{ 'general.previous' | t }}">&larr;</button>
+        <button type="button" class="round-btn" data-scroll="1" data-target="Slider-{{ section.id }}" aria-label="{{ 'general.next' | t }}">&rarr;</button>
+      </div>
     </div>
+  </div>
 
-    <ul class="lienzos__grid">
-      {%- for p in collection.products limit: s.limit -%}
-        {%- liquid
-          assign canvas_v = nil
-          for v in p.variants
-            unless v.available
-              continue
-            endunless
-            if v.title contains 'Framed' or v.title contains 'marco'
-              continue
-            endif
-            assign is_canvas = false
-            if v.title contains 'Canvas'
-              assign is_canvas = true
-            elsif v.title contains 'Lienzo'
-              assign is_canvas = true
-            endif
-            if is_canvas
-              if canvas_v == nil
-                assign canvas_v = v
-              elsif v.price < canvas_v.price
-                assign canvas_v = v
-              endif
-            endif
-          endfor
-          if canvas_v == nil
+  <ul class="slider lienzos__row" id="Slider-{{ section.id }}">
+    {%- for p in collection.products limit: s.limit -%}
+      {%- liquid
+        assign canvas_v = nil
+        for v in p.variants
+          unless v.available
+            continue
+          endunless
+          if v.title contains 'Framed' or v.title contains 'marco'
             continue
           endif
-          assign base = p.handle | append: '-marco-'
-          assign url = p.url | append: '?variant=' | append: canvas_v.id
-        -%}
-        <li class="lienzos__item">
-          <a href="{{ url }}" class="lienzos__card">
-            <div class="lienzos__media" data-lienzo>
-              <div class="lienzos__track">
-                <img src="{{ base | append: 'canvas.webp' | file_img_url: '700x' }}" alt="{{ p.title | escape }} en lienzo" loading="lazy" width="700" height="875">
-                <img src="{{ base | append: 'canvasframe.webp' | file_img_url: '700x' }}" alt="{{ p.title | escape }} en lienzo con marco" loading="lazy" width="700" height="875">
-              </div>
-              <span class="lienzos__dots" aria-hidden="true"><i class="is-on"></i><i></i></span>
-              <span class="lienzos__label" data-lienzo-label data-a="{{ s.label_canvas | escape }}" data-b="{{ s.label_framed | escape }}">{{ s.label_canvas }}</span>
-            </div>
-            <span class="lienzos__info">
-              <span class="lienzos__title">{{ p.title }}</span>
-              <span class="lienzos__price">{{ 'general.from' | t }} {{ canvas_v.price | money }}</span>
-            </span>
+          assign is_canvas = false
+          if v.title contains 'Canvas'
+            assign is_canvas = true
+          elsif v.title contains 'Lienzo'
+            assign is_canvas = true
+          endif
+          if is_canvas
+            if canvas_v == nil
+              assign canvas_v = v
+            elsif v.price < canvas_v.price
+              assign canvas_v = v
+            endif
+          endif
+        endfor
+        if canvas_v == nil
+          continue
+        endif
+        assign base = p.handle | append: '-marco-'
+        assign url = p.url | append: '?variant=' | append: canvas_v.id
+      -%}
+      <li class="slider__item lienzos__item">
+        <div class="lienzos__media" data-lienzo>
+          <a href="{{ url }}" class="lienzos__pics" tabindex="-1">
+            <img src="{{ base | append: 'canvas.webp' | file_url }}" alt="{{ p.title | escape }} en lienzo" loading="lazy" width="1200" height="1500">
+            <img class="lienzos__framed" src="{{ base | append: 'canvasframe.webp' | file_url }}" alt="{{ p.title | escape }} en lienzo con marco" loading="lazy" width="1200" height="1500">
           </a>
-        </li>
-      {%- endfor -%}
-    </ul>
+          <div class="lienzos__switch" role="group" aria-label="{{ p.title | escape }}">
+            <button type="button" class="is-on" data-lienzo-show="0" aria-pressed="true">{{ s.label_canvas }}</button>
+            <button type="button" data-lienzo-show="1" aria-pressed="false">{{ s.label_framed }}</button>
+          </div>
+        </div>
+        <a href="{{ url }}" class="lienzos__info">
+          <span class="lienzos__title">{{ p.title }}</span>
+          <span class="lienzos__price">{{ 'general.from' | t }} {{ canvas_v.price | money }}</span>
+        </a>
+      </li>
+    {%- endfor -%}
+  </ul>
 
-    {%- if s.button_label != blank -%}
-      <div class="featured__foot"><a class="button" href="{{ collection.url }}">{{ s.button_label }}</a></div>
-    {%- endif -%}
-  </div>
+  {%- if s.button_label != blank -%}
+    <div class="page-width featured__foot"><a class="button" href="{{ collection.url }}">{{ s.button_label }}</a></div>
+  {%- endif -%}
 </section>
 
 <script>
-  /* Swipe (or hover) the picture: canvas ↔ canvas with frame */
+  /* Each canvas changes to «con marco» and back by itself while it is on screen; the two buttons
+     (or hovering on a computer) choose one and stop the change for that work */
   (function () {
-    document.querySelectorAll('#shopify-section-{{ section.id }} [data-lienzo]').forEach(function (m) {
-      const track = m.querySelector('.lienzos__track');
-      const dots = m.querySelectorAll('.lienzos__dots i');
-      const label = m.querySelector('[data-lienzo-label]');
-      const show = function (i) {
-        m.classList.toggle('is-framed', i === 1);
-        dots.forEach(function (d, k) { d.classList.toggle('is-on', k === i); });
-        label.textContent = i === 1 ? label.dataset.b : label.dataset.a;
-      };
-      let x0 = null, y0 = null, moved = false;
-      m.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; moved = false; }, { passive: true });
-      m.addEventListener('touchmove', function (e) {
-        if (x0 === null) return;
-        const dx = e.touches[0].clientX - x0, dy = e.touches[0].clientY - y0;
-        if (Math.abs(dx) > 30 && Math.abs(dx) > Math.abs(dy)) { show(dx < 0 ? 1 : 0); moved = true; x0 = null; }
-      }, { passive: true });
-      /* A swipe is not a tap: don't open the work */
-      m.closest('a').addEventListener('click', function (e) { if (moved) { e.preventDefault(); moved = false; } });
-      m.addEventListener('mouseenter', function () { show(1); });
-      m.addEventListener('mouseleave', function () { show(0); });
+    const items = document.querySelectorAll('#shopify-section-{{ section.id }} [data-lienzo]');
+    const show = function (m, i) {
+      m.classList.toggle('is-framed', i === 1);
+      m.querySelectorAll('[data-lienzo-show]').forEach(function (b) {
+        const on = parseInt(b.dataset.lienzoShow, 10) === i;
+        b.classList.toggle('is-on', on);
+        b.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+    };
+    const visible = new Set();
+    items.forEach(function (m, k) {
+      m.querySelectorAll('[data-lienzo-show]').forEach(function (b) {
+        b.addEventListener('click', function () { m.dataset.held = '1'; show(m, parseInt(b.dataset.lienzoShow, 10)); });
+      });
+      m.addEventListener('mouseenter', function () { m.dataset.hover = '1'; show(m, 1); });
+      m.addEventListener('mouseleave', function () { m.dataset.hover = ''; show(m, 0); });
+      m.dataset.k = k;
     });
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) { if (e.isIntersecting) visible.add(e.target); else visible.delete(e.target); });
+      }, { threshold: 0.6 });
+      items.forEach(function (m) { io.observe(m); });
+    }
+    let tick = 0;
+    setInterval(function () {
+      tick++;
+      visible.forEach(function (m) {
+        if (m.dataset.held || m.dataset.hover) return;
+        /* Staggered so they don't all flip at once */
+        if ((tick + parseInt(m.dataset.k, 10)) % 2 === 0) show(m, m.classList.contains('is-framed') ? 0 : 1);
+      });
+    }, 1600);
   })();
 </script>
 {%- endif -%}
@@ -109,7 +127,7 @@
   "settings": [
     { "type": "text", "id": "eyebrow", "label": "Texto pequeño superior", "default": "EN LIENZO" },
     { "type": "text", "id": "heading", "label": "Título", "default": "Lienzos" },
-    { "type": "text", "id": "subtitle", "label": "Subtítulo", "default": "Tela sobre bastidor de madera, sin cristal ni reflejos. Desliza la imagen para verlo con marco." },
+    { "type": "text", "id": "subtitle", "label": "Subtítulo", "default": "Tela sobre bastidor de madera, sin cristal ni reflejos. Y si lo quieres, con marco flotante." },
     { "type": "collection", "id": "collection", "label": "Colección" },
     { "type": "range", "id": "limit", "label": "Número de obras", "min": 2, "max": 16, "step": 1, "default": 10 },
     { "type": "text", "id": "label_canvas", "label": "Etiqueta: lienzo", "default": "Lienzo" },

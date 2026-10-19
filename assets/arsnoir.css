@@ -3025,19 +3025,17 @@ html.sguide-lock { overflow: hidden; }
 .ppick__create span { font-size: 14px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; }
 .ppick__create small { font-size: 12px; color: rgba(255,255,255,0.7); }
 .ppick__or { margin: 0 0 8px; font-size: 12px; color: var(--color-muted); text-align: center; }
-/* Home «Lienzos»: canvas ↔ canvas with frame on swipe / hover (sections/canvas-showcase.liquid) */
-.lienzos__grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
-@media (min-width: 750px) { .lienzos__grid { grid-template-columns: repeat(5, 1fr); gap: 20px; } }
-.lienzos__card { display: block; color: inherit; text-decoration: none; }
-.lienzos__media { position: relative; aspect-ratio: 4 / 5; overflow: hidden; border-radius: 14px; background: #ecebe7; touch-action: pan-y; }
-.lienzos__track { display: flex; width: 200%; height: 100%; transition: transform 0.45s cubic-bezier(.2,.7,.2,1); }
-.lienzos__track img { display: block; width: 50%; height: 100%; object-fit: contain; }
-.lienzos__media.is-framed .lienzos__track { transform: translateX(-50%); }
-.lienzos__dots { position: absolute; left: 50%; bottom: 10px; transform: translateX(-50%); display: flex; gap: 6px; }
-.lienzos__dots i { width: 6px; height: 6px; border-radius: 50%; background: rgba(10,10,10,0.25); transition: background 0.2s, width 0.2s; }
-.lienzos__dots i.is-on { width: 16px; border-radius: 3px; background: #0a0a0a; }
-.lienzos__label { position: absolute; top: 10px; left: 10px; padding: 4px 10px; border-radius: 999px; background: #fff; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
-.lienzos__info { display: flex; flex-direction: column; gap: 2px; padding: 10px 2px 0; }
+/* Home «Lienzos»: sideways row, canvas ↔ canvas with frame (sections/canvas-showcase.liquid) */
+.lienzos__row .lienzos__item { flex: 0 0 clamp(210px, 62vw, 300px); }
+@media (min-width: 990px) { .lienzos__row .lienzos__item { flex-basis: clamp(240px, 21vw, 300px); } }
+.lienzos__media { position: relative; }
+.lienzos__pics { position: relative; display: block; aspect-ratio: 4 / 5; overflow: hidden; border-radius: 14px; background: #ecebe7; }
+.lienzos__pics img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; transition: opacity 0.6s ease; }
+.lienzos__pics .lienzos__framed { opacity: 0; }
+.lienzos__media.is-framed .lienzos__framed { opacity: 1; }
+.lienzos__switch { display: flex; gap: 4px; margin: 8px 0 0; padding: 3px; border-radius: 999px; background: #ecebe7; }
+.lienzos__switch button { flex: 1; padding: 7px 6px; border: 0; border-radius: 999px; background: none; color: var(--color-muted); font: inherit; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; }
+.lienzos__switch button.is-on { background: #0a0a0a; color: #fff; }
+.lienzos__info { display: flex; flex-direction: column; gap: 2px; padding: 8px 2px 0; color: inherit; text-decoration: none; }
 .lienzos__title { font-size: 14px; font-weight: 700; }
 .lienzos__price { font-size: 13px; color: var(--color-muted); }
-.lienzos .featured__foot { margin-top: 24px; text-align: center; }
