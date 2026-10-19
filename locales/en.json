@@ -59,7 +59,7 @@
     "placeholder": "Artwork {{ number }}",
     "save_favorite": "Save to favourites",
     "remove_favorite": "Remove from favourites",
-    "best": "Best seller",
+    "best": "Featured",
     "new": "New",
     "pack": "{{ min }} works -{{ pct }}%"
   },

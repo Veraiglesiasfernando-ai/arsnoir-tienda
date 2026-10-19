@@ -59,7 +59,7 @@
     "placeholder": "Obra {{ number }}",
     "save_favorite": "Guardar en favoritos",
     "remove_favorite": "Quitar de favoritos",
-    "best": "Más vendido",
+    "best": "Destacado",
     "new": "Novedad",
     "pack": "{{ min }} obras -{{ pct }} %"
   },

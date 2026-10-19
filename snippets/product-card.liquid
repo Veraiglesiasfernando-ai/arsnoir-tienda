@@ -38,19 +38,21 @@
         {%- endif -%}
       </div>
       {%- liquid
-        # Real labels only: from the collections the work is in, and the live pack offer
+        # Labels picked by hand with product tags (destacado / novedad) and the live pack offer.
+        # No «más vendido» until there are real sales to back it.
         assign is_best = false
         assign is_new = false
         assign is_obra = false
+        if product.tags contains 'destacado'
+          assign is_best = true
+        endif
+        if product.tags contains 'novedad'
+          assign is_new = true
+        endif
         for c in product.collections
-          case c.handle
-            when 'mas-vendidos'
-              assign is_best = true
-            when 'novedades'
-              assign is_new = true
-            when 'obras'
-              assign is_obra = true
-          endcase
+          if c.handle == 'obras'
+            assign is_obra = true
+          endif
         endfor
         assign pack_pct = settings.pack_percent | default: 0
         assign today = 'now' | date: '%Y-%m-%d'
