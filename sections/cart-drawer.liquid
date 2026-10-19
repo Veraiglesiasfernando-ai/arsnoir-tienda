@@ -52,7 +52,7 @@
     </script>
 
     <div class="drawer__head">
-      <p class="drawer__title">{{ 'cart.title' | t }} <span class="drawer__count" data-cart-count-text>{{ cart.item_count }}</span></p>
+      <p class="drawer__title">{{ 'cart.drawer_title' | t }} <span class="drawer__count" data-cart-count-text>{{ cart.item_count }}</span></p>
       <button type="button" class="drawer__close" data-drawer-close aria-label="{{ 'general.close' | t }}">{% render 'icon', name: 'close' %}</button>
     </div>
 
@@ -235,15 +235,18 @@
             {%- endunless -%}
           {%- endif -%}
         {%- endfor -%}
-        <div class="cartx__row cartx__row--sub"><span>{{ 'cart.subtotal' | t }}</span><span>{{ cart.total_price | money }}</span></div>
+        {%- assign ship_free = false -%}
+        {%- if ship_threshold > 0 and cart.original_total_price >= ship_threshold -%}{%- assign ship_free = true -%}{%- endif -%}
         <div class="cartx__row cartx__row--ship">
           <span>{{ 'cart.shipping' | t }}</span>
-          {%- if ship_threshold > 0 and cart.original_total_price >= ship_threshold -%}
+          {%- if ship_free -%}
             <strong class="cartx-free">{{ 'cart.free' | t }}</strong>
           {%- else -%}
             <span data-ship-estimate data-country="{{ localization.country.iso_code }}">{{ 'cart.shipping_at_checkout' | t }}</span>
           {%- endif -%}
         </div>
+        {%- comment -%} With free shipping this is what they pay; otherwise shipping is added at checkout {%- endcomment -%}
+        <div class="cartx__row cartx__row--sub"><span>{% if ship_free %}{{ 'cart.total' | t }}{% else %}{{ 'cart.subtotal' | t }}{% endif %}</span><span>{{ cart.total_price | money }}</span></div>
         <form action="{{ routes.cart_url }}" method="post" class="cartx__form">
           <button type="submit" name="checkout" class="button button--accent button--full cartx__checkout">
             {% render 'trust-icon', name: 'lock' %}
@@ -251,16 +254,14 @@
             <span class="cartx__checkout-total">{{ cart.total_price | money }}</span>
           </button>
         </form>
-        <ul class="cartx__badges">
-          <li>
-            {%- if settings.rating_count > 0 and settings.rating_value != blank -%}
-              <span class="cartx__badge-top">★★★★★</span><span>{{ settings.rating_value }} · {{ settings.rating_count }} {{ 'general.reviews' | t }}</span>
-            {%- else -%}
-              <span class="cartx__badge-top">{% render 'icon', name: 'heart' %}</span><span>{{ 'cart.badge_original' | t }}</span>
-            {%- endif -%}
-          </li>
-          <li><span class="cartx__badge-top">{% render 'trust-icon', name: 'print' %}</span><span>{{ 'cart.badge_quality' | t }}</span></li>
-          <li><span class="cartx__badge-top">{% render 'trust-icon', name: 'return' %}</span><span>{{ 'cart.trust_returns' | t: days: settings.returns_days }}</span></li>
+        {%- if shop.enabled_payment_types.size > 0 -%}
+          <ul class="cartx__payicons" aria-label="{{ 'cart.payment_methods' | t }}">
+            {%- for type in shop.enabled_payment_types -%}<li>{{ type | payment_type_svg_tag: class: 'cartx__payicon' }}</li>{%- endfor -%}
+          </ul>
+        {%- endif -%}
+        <ul class="cartx__pills">
+          <li>{% render 'trust-icon', name: 'return' %}<span>{{ 'cart.trust_returns' | t: days: settings.returns_days }}</span></li>
+          <li>{% render 'trust-icon', name: 'truck' %}<span>{{ 'cart.pill_tracking' | t }}</span></li>
         </ul>
       </div>
     {%- else -%}

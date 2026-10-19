@@ -128,8 +128,8 @@
     "gift_unlocked_1_html": "Has desbloqueado <strong>tu obra de regalo</strong>",
     "gift_next_html": "· <strong>{{ amount }}</strong> más y te llevas 2",
     "gift_unlocked_2_html": "Has desbloqueado <strong>2 obras de regalo</strong>",
-    "gift_tier_1": "1 póster A4 de regalo",
-    "gift_tier_2": "2 pósters A4 de regalo",
+    "gift_tier_1": "1 póster gratis",
+    "gift_tier_2": "2 pósters gratis",
     "gift_note": "El regalo es un póster A4 (21×29,7 cm) sin marco que eliges tú. Sale a 0 € en el pago y puede llegar en un paquete aparte. No se suma a otros códigos de descuento.",
     "gift_subtitle": "Tu regalo",
     "free": "GRATIS",
@@ -147,7 +147,10 @@
     "gift_none": "Todavía no hay obras disponibles para regalo.",
     "gift_code_conflict": "Tu código de descuento no se junta con las obras de regalo. Elige uno de los dos.",
     "gift_swap": "Prefiero mi obra de regalo",
-    "gift_size_label": "Póster A4 · sin marco"
+    "gift_size_label": "Póster A4 · sin marco",
+    "drawer_title": "Carrito",
+    "payment_methods": "Métodos de pago",
+    "pill_tracking": "Envío con seguimiento"
   },
   "product": {
     "add_to_cart": "Añadir al carrito",

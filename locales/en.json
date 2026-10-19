@@ -128,8 +128,8 @@
     "gift_unlocked_1_html": "You've unlocked <strong>your gift artwork</strong>",
     "gift_next_html": "· <strong>{{ amount }}</strong> more for 2",
     "gift_unlocked_2_html": "You've unlocked <strong>2 gift artworks</strong>",
-    "gift_tier_1": "1 free A4 poster",
-    "gift_tier_2": "2 free A4 posters",
+    "gift_tier_1": "1 free poster",
+    "gift_tier_2": "2 free posters",
     "gift_note": "The gift is an A4 poster (21×29.7 cm), unframed, chosen by you. It shows at €0 at checkout and may arrive in a separate parcel. It does not combine with other discount codes.",
     "gift_subtitle": "Your gift",
     "free": "FREE",
@@ -147,7 +147,10 @@
     "gift_none": "No artworks available as a gift yet.",
     "gift_code_conflict": "Your discount code can't be combined with the gift artworks. Pick one.",
     "gift_swap": "I prefer my gift artwork",
-    "gift_size_label": "A4 poster · no frame"
+    "gift_size_label": "A4 poster · no frame",
+    "drawer_title": "Cart",
+    "payment_methods": "Payment methods",
+    "pill_tracking": "Tracked shipping"
   },
   "product": {
     "add_to_cart": "Add to cart",

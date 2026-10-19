@@ -3041,39 +3041,63 @@ html.sguide-lock { overflow: hidden; }
 .lienzos__price { font-size: 13px; color: var(--color-muted); }
 
 /* ==========================================================================
-   Cart on phones: full screen, the works first and big, a slim gift bar and a
-   short footer (the long notes and badges only on larger screens)
+   Cart, clean and clear (white sheet): «Carrito (n)», gift bar in a grey pill
+   with its amounts, the works first, and a footer card with shipping, total,
+   the pay button, payment icons and two promises.
    ========================================================================== */
+.drawer__panel.cartx { background: #fff; }
+.cartx .drawer__head { padding: 16px 20px 10px; border-bottom: 0; }
+.cartx .drawer__title { font-size: 24px; font-weight: 500; letter-spacing: -0.02em; }
+.cartx .drawer__count { min-width: 0; height: auto; margin-left: 2px; border-radius: 0; background: none; color: var(--color-fg); font-size: 13px; font-weight: 500; vertical-align: 10px; }
+.cartx .drawer__count::before { content: "("; }
+.cartx .drawer__count::after { content: ")"; }
+.cartx .drawer__close { border: 0; background: none; }
+.cartx .drawer__close .icon { width: 22px; height: 22px; }
+.cartx .gift-tiers { padding: 4px 20px 14px; background: #fff; border-bottom: 1px solid var(--color-line); }
+.cartx .gift-tiers__text { margin: 0 0 16px; padding: 12px 16px; border-radius: 999px; background: #f2f2f0; font-size: 14px; line-height: 1.35; }
+.cartx .gift-tiers__note { display: none; }
+.cartx .gift-tiers__labels { height: 40px; margin-top: 10px; }
+.cartx .gift-tiers__labels span { width: 62px; font-size: 11px; white-space: normal; line-height: 1.25; color: var(--color-muted); }
+.cartx .gift-tiers__labels strong { font-size: 13px; }
+.cartx__scroll { padding: 0 20px 16px; }
+.cartx-item__media { background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,0.08), 0 6px 14px -8px rgba(0,0,0,0.3); }
+.cartx-item__title { font-size: 16px; text-transform: uppercase; letter-spacing: 0; }
+.cartx-item__variant { color: #555; }
+.cartx__foot { margin: 0 -1px; padding: 18px 20px calc(14px + env(safe-area-inset-bottom)); border-radius: 22px 22px 0 0; background: #fff; box-shadow: 0 -12px 30px -12px rgba(0,0,0,0.18); }
+.cartx__row { font-size: 15px; margin-bottom: 6px; }
+.cartx__row--ship span:first-child { color: var(--color-fg); }
+.cartx__row--sub { margin-top: 0; padding-top: 0; border-top: 0; font-size: 17px; font-weight: 700; }
+.cartx__checkout { height: 56px; margin-top: 12px; border-radius: 12px; font-size: 16px; font-weight: 600; letter-spacing: 0; text-transform: none; white-space: nowrap; }
+.cartx__checkout-total { white-space: nowrap; }
+.cartx__payicons { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin: 12px 0 0; padding: 0; }
+.cartx__payicon { display: block; width: 38px; height: 24px; }
+.cartx__pills { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 12px 0 0; padding: 0; }
+.cartx__pills li { display: inline-flex; align-items: center; gap: 7px; padding: 7px 13px 7px 9px; border-radius: 999px; background: #f2f2f0; font-size: 12px; }
+.cartx__pills .t-icon { width: 16px; height: 16px; }
 @media (max-width: 749px) {
-  .drawer__panel.cartx { top: 0; right: 0; bottom: 0; width: 100%; border-radius: 0; border: 0; }
-  .cartx .drawer__head { padding: 12px 16px; }
-  .cartx .drawer__title { font-size: 18px; }
-  .cartx .drawer__close { width: 36px; height: 36px; }
-  /* Gift bar: one line of text + the track with its amounts */
-  .cartx .gift-tiers { padding: 10px 16px 6px; background: #fff; }
-  .cartx .gift-tiers__text { margin: 0 0 12px; font-size: 13px; line-height: 1.35; }
+  .drawer__panel.cartx { top: 0; right: 0; bottom: 0; width: 100%; height: 100%; height: 100dvh; border-radius: 0; border: 0; }
+  .cartx .drawer__head { padding: 12px 16px 8px; }
+  .cartx .drawer__title { font-size: 22px; }
+  .cartx .gift-tiers { padding: 2px 16px 12px; }
+  .cartx .gift-tiers__text { font-size: 13px; padding: 10px 14px; margin-bottom: 14px; }
   .cartx .gift-tiers__stop { width: 26px; height: 26px; }
   .cartx .gift-tiers__stop .icon { width: 13px; height: 13px; }
-  .cartx .gift-tiers__labels { height: 18px; margin-top: 8px; }
-  .cartx .gift-tiers__labels span { width: auto; font-size: 0; white-space: nowrap; }
-  .cartx .gift-tiers__labels strong { font-size: 11px; }
-  .cartx .gift-tiers__note { display: none; }
   .cartx__q4 { padding: 8px 16px; font-size: 11px; }
-  /* The works: big picture, clear name, size and finish, quantity and price */
   .cartx__scroll { padding: 0 16px 16px; }
-  .cartx-item { grid-template-columns: 92px 1fr; gap: 14px; padding: 16px 0; }
-  .cartx-item__title { font-size: 16px; }
-  .cartx-item__variant { font-size: 13px; line-height: 1.35; color: #4a4a4a; }
+  .cartx-item { grid-template-columns: 88px 1fr; gap: 14px; padding: 16px 0; }
   .cartx-item__price { font-size: 16px; }
-  .cartx-upgrade { margin-top: 10px; }
-  /* Footer: totals and the pay button */
-  .cartx__foot { padding: 10px 16px calc(12px + env(safe-area-inset-bottom)); }
-  .cartx__foot .delivery { margin-bottom: 6px; }
-  .cartx__row { font-size: 13px; margin-bottom: 2px; }
-  .cartx__row--sub { font-size: 15px; }
-  .cartx__checkout { height: 52px; margin-top: 8px; }
-  .cartx__badges { display: none; }
+  .cartx__foot { padding: 14px 16px calc(12px + env(safe-area-inset-bottom)); }
+  .cartx__row { font-size: 14px; margin-bottom: 4px; }
+  .cartx__row--sub { font-size: 16px; }
+  .cartx__checkout { height: 54px; margin-top: 10px; }
+  .cartx__payicons { margin-top: 10px; }
+  .cartx__payicon { width: 34px; height: 22px; }
+  .cartx__pills { flex-wrap: nowrap; gap: 6px; margin-top: 10px; }
+  .cartx__pills li { padding: 6px 10px 6px 8px; font-size: 11px; white-space: nowrap; }
+  .cartx__pills .t-icon { width: 14px; height: 14px; }
+  .cartx__checkout { font-size: 15px; }
 }
+
 /* Gift = small poster without frame: shown whole on a light wall colour */
 .gift-pick__media { background: #ecebe7; }
 .gift-pick__media img { object-fit: contain; }
