@@ -1,7 +1,7 @@
-/* «1 obra / 2 obras −15 %» (snippets/pack-picker.liquid). «2 obras» brings the «Completa tu pared»
-   list (snippets/complete-wall.liquid) right under the tiles so the customer ticks a second work,
-   or takes this same one twice. The ticked works go to the cart with this one (theme.js submit);
-   the discount itself is Shopify's automatic one, applied in the cart. */
+/* «1 obra / 2 obras −15 %» (snippets/pack-picker.liquid). «2 obras» opens a search over every work
+   of the shop (/collections/obras/products.json) to pick the second one, in the same size and finish
+   as this one when it exists; or this same work twice. The picked work goes to the cart with this
+   one (theme.js submit, [data-pack-extra]); the discount itself is Shopify's automatic one. */
 (function () {
   const box = document.querySelector('[data-pack-picker]');
   if (!box || box.dataset.ready) return;
@@ -15,51 +15,110 @@
   const keep = (100 - (parseInt(box.dataset.pct, 10) || 0)) / 100;
   const tiles = box.querySelectorAll('[data-pack-qty]');
   const more = box.querySelector('[data-pack-more]');
-  const slot = box.querySelector('[data-pack-slot]');
   const same = box.querySelector('[data-pack-same]');
-  const cwall = document.querySelector('[data-cwall]');
-  const home = cwall ? document.createComment('cwall') : null;
-  if (cwall) cwall.parentNode.insertBefore(home, cwall);
+  const q = box.querySelector('[data-pack-q]');
+  const list = box.querySelector('[data-pack-list]');
+  const empty = box.querySelector('[data-pack-empty]');
+  const extraInput = box.querySelector('[data-pack-extra]');
   const json = document.querySelector('variant-picker script[type="application/json"]');
   const variants = json ? JSON.parse(json.textContent) : [];
+  const root = (window.Shopify && Shopify.routes && Shopify.routes.root) || '/';
   const lang = document.documentElement.lang || 'es';
   const currency = (window.Shopify && Shopify.currency && Shopify.currency.active) || 'EUR';
   const money = function (cents) { return new Intl.NumberFormat(lang, { style: 'currency', currency: currency }).format(cents / 100); };
   const set = function (sel, text) { const el = box.querySelector(sel); if (el) el.textContent = text; };
+  const plain = function (s) { return String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); };
+  const esc = function (s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
 
+  const mainVariant = function () { return variants.find(function (x) { return String(x.id) === String(idInput.value); }); };
   const setQty = function (n) {
     if (String(qty.value) === String(n)) return;
     qty.value = n;
     qty.dispatchEvent(new Event('change', { bubbles: true }));
   };
-  const picks = function () {
-    return cwall ? Array.prototype.slice.call(cwall.querySelectorAll('[data-cwall-pick]:checked')) : [];
+
+  /* The works to choose from, loaded the first time the search opens */
+  let works = null, loading = null, picked = null;
+  const load = function () {
+    if (works) return Promise.resolve(works);
+    if (loading) return loading;
+    loading = fetch(root + 'collections/obras/products.json?limit=250')
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        const self = String(more.dataset.current);
+        works = (data.products || []).filter(function (p) {
+          return String(p.id) !== self && p.images && p.images.length && p.variants.some(function (v) { return v.available; });
+        }).map(function (p) {
+          return { id: p.id, title: p.title, handle: p.handle, img: p.images[0].src, variants: p.variants,
+            text: plain(p.title + ' ' + (p.tags || []).join(' ') + ' ' + (p.product_type || '')) };
+        });
+        return works;
+      })
+      .catch(function () { loading = null; return []; });
+    return loading;
   };
-  const unpick = function () {
-    picks().forEach(function (p) { p.checked = false; p.dispatchEvent(new Event('change', { bubbles: true })); });
+  /* Same size and finish as this work when that variant exists, else its first available one */
+  const variantFor = function (w) {
+    const m = mainVariant();
+    const key = m ? m.title : more.dataset.key;
+    return w.variants.find(function (v) { return v.available && v.title === key; }) ||
+      w.variants.find(function (v) { return v.available; });
   };
-  const pickedSum = function () {
-    return picks().reduce(function (sum, p) {
-      const v = p.closest('.cwall__item').querySelector('[data-cwall-variant]');
-      const opt = v.tagName === 'SELECT' ? v.options[v.selectedIndex] : v;
-      return sum + (parseInt(opt.dataset.price, 10) || 0);
-    }, 0);
+  const cents = function (price) { return Math.round(parseFloat(price) * 100); };
+  const thumb = function (src) { return src + (src.indexOf('?') === -1 ? '?' : '&') + 'width=240'; };
+
+  const render = function () {
+    if (!works) return;
+    const words = plain(q.value).split(/\s+/).filter(Boolean);
+    const found = works.filter(function (w) { return words.every(function (word) { return w.text.indexOf(word) !== -1; }); });
+    /* The picked one stays first so it never disappears while searching */
+    if (picked) {
+      const i = found.findIndex(function (w) { return w.id === picked.id; });
+      if (i > 0) found.unshift(found.splice(i, 1)[0]);
+      if (i === -1) found.unshift(picked);
+    }
+    const shown = found.slice(0, words.length ? 30 : 12);
+    list.innerHTML = shown.map(function (w) {
+      const v = variantFor(w);
+      const on = picked && picked.id === w.id;
+      return '<li><button type="button" class="ppick__work' + (on ? ' is-on' : '') + '" data-work="' + w.id + '" aria-pressed="' + (on ? 'true' : 'false') + '">' +
+        '<img src="' + esc(thumb(w.img)) + '" alt="" loading="lazy" width="120" height="150">' +
+        '<span class="ppick__work-name">' + esc(w.title) + '</span>' +
+        '<span class="ppick__work-price">' + (v ? money(cents(v.price)) : '') + '</span>' +
+        '<span class="ppick__work-check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="2.4"/></svg></span>' +
+        '</button></li>';
+    }).join('');
+    empty.hidden = shown.length > 0;
   };
+  const pick = function (w) {
+    picked = w;
+    const v = w ? variantFor(w) : null;
+    extraInput.value = v ? v.id : '';
+    extraInput.dataset.price = v ? cents(v.price) : 0;
+    if (w && (parseInt(qty.value, 10) || 1) >= min) setQty(1);
+    render();
+    sync();
+  };
+
   const openMore = function (on) {
-    if (!more || !cwall) return;
+    if (!more) return;
     more.hidden = !on;
-    if (on && cwall.parentNode !== slot) slot.appendChild(cwall);
-    if (!on && cwall.parentNode === slot) home.parentNode.insertBefore(cwall, home.nextSibling);
-    cwall.classList.toggle('cwall--inpack', on);
+    if (on) load().then(render);
   };
 
   const sync = function () {
-    const v = variants.find(function (x) { return String(x.id) === String(idInput.value); });
+    const v = mainVariant();
     const n = parseInt(qty.value, 10) || 1;
-    const extra = picks().length;
-    const pack = n >= min || extra > 0 || (more && !more.hidden);
+    const cwall = Array.prototype.slice.call(document.querySelectorAll('[data-cwall] [data-cwall-pick]:checked'));
+    const cwallSum = cwall.reduce(function (sum, p) {
+      const sel = p.closest('.cwall__item').querySelector('[data-cwall-variant]');
+      const opt = sel.tagName === 'SELECT' ? sel.options[sel.selectedIndex] : sel;
+      return sum + (parseInt(opt.dataset.price, 10) || 0);
+    }, 0);
+    const second = extraInput && extraInput.value ? 1 : 0;
+    const pack = n >= min || second || cwall.length > 0 || (more && !more.hidden);
     tiles.forEach(function (t) {
-      const on = (parseInt(t.dataset.packQty, 10) > 1) === pack;
+      const on = (parseInt(t.dataset.packQty, 10) > 1) === !!pack;
       t.classList.toggle('is-active', on);
       t.setAttribute('aria-pressed', on ? 'true' : 'false');
     });
@@ -76,10 +135,10 @@
     set('[data-pack-full]', money(full));
     set('[data-pack-total]', money(packed));
     set('[data-pack-saved]', money(full - packed));
-    /* The button shows what goes to the cart: this work (× quantity) plus the ticked ones */
+    /* The button shows what goes to the cart: this work (× quantity), the second one and any ticked below */
     if (button && v.available && 'withPrice' in button.dataset) {
-      const items = n + extra;
-      const sum = v.price * n + pickedSum();
+      const items = n + second + cwall.length;
+      const sum = v.price * n + (second ? parseInt(extraInput.dataset.price, 10) || 0 : 0) + cwallSum;
       button.textContent = button.dataset.addText + ' · ' + money(items >= min ? Math.round(sum * keep) : sum);
     }
   };
@@ -87,33 +146,42 @@
   tiles.forEach(function (t) {
     t.addEventListener('click', function () {
       if (parseInt(t.dataset.packQty, 10) > 1) {
-        /* No list to choose from (or nothing else in stock): the same work twice, as before */
-        if (!cwall) { setQty(min); return; }
+        if (!more) { setQty(min); sync(); return; }
         openMore(true);
         more.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       } else {
         openMore(false);
-        unpick();
+        pick(null);
         setQty(1);
       }
       sync();
     });
   });
+  if (list) list.addEventListener('click', function (event) {
+    const b = event.target.closest('[data-work]');
+    if (!b) return;
+    const w = works.find(function (x) { return String(x.id) === b.dataset.work; });
+    pick(picked && w && picked.id === w.id ? null : w);
+  });
+  if (q) q.addEventListener('input', render);
   if (same) same.addEventListener('click', function () {
     const twice = (parseInt(qty.value, 10) || 1) >= min;
-    if (!twice) unpick();
+    if (!twice) pick(null);
     setQty(twice ? 1 : min);
     sync();
   });
-  /* Ticking another work: one of each, not this one twice */
-  if (cwall) cwall.addEventListener('change', function (event) {
-    if (event.target.matches('[data-cwall-pick]') && event.target.checked && (parseInt(qty.value, 10) || 1) >= min) setQty(1);
+  /* A new size or finish: the second work follows it */
+  document.addEventListener('change', function (event) {
+    if (picked && event.target.closest && event.target.closest('variant-picker')) {
+      requestAnimationFrame(function () { pick(picked); });
+      return;
+    }
     requestAnimationFrame(sync);
   });
-  /* Variant changes rewrite the button: re-apply after theme.js has run */
-  document.addEventListener('change', function () { requestAnimationFrame(sync); });
   document.addEventListener('click', function (event) {
     if (event.target.closest('variant-picker, [data-qty]')) requestAnimationFrame(sync);
   });
+  /* Both went to the cart: start again from «1 obra» */
+  document.addEventListener('pack:added', function () { pick(null); setQty(1); openMore(false); if (q) q.value = ''; sync(); });
   sync();
 })();

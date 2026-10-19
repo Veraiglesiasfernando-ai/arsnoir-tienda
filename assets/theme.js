@@ -623,6 +623,10 @@
       const v = pick.closest('.cwall__item').querySelector('[data-cwall-variant]');
       if (v && v.value) extra.push({ id: parseInt(v.value, 10), quantity: 1 });
     });
+    /* «2 obras»: the second work picked in the pack picker (pack-picker.js) */
+    document.querySelectorAll('[data-pack-extra]').forEach(function (input) {
+      if (input.value) extra.push({ id: parseInt(input.value, 10), quantity: 1 });
+    });
     const post = function (body, json) {
       return fetch(root + 'cart/add.js', {
         method: 'POST',
@@ -638,6 +642,7 @@
             pick.checked = false;
             pick.dispatchEvent(new Event('change', { bubbles: true }));
           });
+          if (more.ok) document.dispatchEvent(new CustomEvent('pack:added'));
           return more;
         });
       })

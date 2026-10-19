@@ -1,7 +1,7 @@
 {%- comment -%}
   «1 obra / 2 obras −15 %» tiles above the add-to-cart button (catalogue artworks only).
   Mirrors the real automatic discount in Shopify (settings: pack_percent, pack_min, pack_until):
-  «2 obras» opens the «Completa tu pared» list here to pick a second work (or the same one twice);
+  «2 obras» opens a search over every work of the shop to pick the second one (or the same one twice);
   the discount is applied by Shopify in the cart. Hidden after pack_until.
   Prices follow the selected variant (assets/pack-picker.js).
 {%- endcomment -%}
@@ -43,10 +43,17 @@
       <span class="ppick__price"><s data-pack-full>{{ full | money }}</s> <span data-pack-total>{{ packed | money }}</span></span>
       <span class="ppick__save">Ahorras <span data-pack-saved>{{ saved | money }}</span></span>
     </button>
-    {%- comment -%} «2 obras»: the «Completa tu pared» list moves in here to pick the second work (pack-picker.js) {%- endcomment -%}
-    <div class="ppick__more" data-pack-more hidden>
+    {%- comment -%} «2 obras»: search any work of the shop and pick it as the second one (pack-picker.js) {%- endcomment -%}
+    <div class="ppick__more" data-pack-more data-current="{{ product.id }}" data-key="{{ current_variant.title | escape }}" hidden>
       <p class="ppick__more-title">Elige tu segunda obra</p>
-      <div data-pack-slot></div>
+      <label class="ppick__search">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m16 16 4.5 4.5" stroke="currentColor" stroke-width="1.8"/></svg>
+        <input type="search" placeholder="Busca cualquier obra: coche, tigre, flores…" data-pack-q autocomplete="off" aria-label="Buscar obra">
+      </label>
+      <p class="ppick__hint" data-pack-hint>Mismo tamaño y acabado que esta.</p>
+      <ul class="ppick__list" data-pack-list aria-live="polite"></ul>
+      <p class="ppick__empty" data-pack-empty hidden>No hay ninguna obra con ese nombre.</p>
+      <input type="hidden" data-pack-extra value="">
       <button type="button" class="ppick__same" data-pack-same aria-pressed="false">O llévate esta misma dos veces</button>
     </div>
     <p class="ppick__note">
