@@ -91,6 +91,13 @@
             "text": "Obras del mismo estilo. Márcalas y se añaden con esta.",
             "limit": 6
           }
+        },
+        "payments": {
+          "type": "payments",
+          "settings": {
+            "pill_2": "Devolución [DIAS] días",
+            "pill_2_icon": "return"
+          }
         }
       },
       "block_order": [
@@ -99,6 +106,7 @@
         "notes",
         "edition",
         "buy",
+        "payments",
         "delivery",
         "trust",
         "complete_wall",

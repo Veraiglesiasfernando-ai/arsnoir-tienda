@@ -2992,3 +2992,11 @@ html.sguide-lock { overflow: hidden; }
 .sar__copy { margin-top: 10px; width: 100%; }
 .sar__copylink { display: block; margin: 10px auto 0; padding: 4px; border: 0; background: none; font: inherit; font-size: 13px; color: var(--color-muted); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 .sar__hint--no p { margin: 0; }
+
+/* Under the buy button: enabled payment methods + «Pago seguro» pills (block «payments») */
+.paybar { margin: 14px 0 0; }
+.paybar__icons { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
+.paybar__icon { display: block; width: 38px; height: 24px; }
+.paybar__pills { list-style: none; margin: 12px 0 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+.paybar__pills li { display: inline-flex; align-items: center; gap: 7px; padding: 7px 13px 7px 9px; border-radius: 999px; background: var(--color-surface, #f2f2f0); font-size: 13px; line-height: 1.2; }
+.paybar__pills .t-icon { width: 17px; height: 17px; flex: none; }

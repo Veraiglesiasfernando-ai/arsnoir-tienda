@@ -65,6 +65,13 @@
         "delivery": {
           "type": "delivery",
           "settings": {}
+        },
+        "payments": {
+          "type": "payments",
+          "settings": {
+            "pill_2": "Revisamos tu foto antes de imprimir",
+            "pill_2_icon": "print"
+          }
         }
       },
       "block_order": [
@@ -74,6 +81,7 @@
         "guard",
         "guide",
         "buy",
+        "payments",
         "delivery",
         "returns_notice",
         "details",

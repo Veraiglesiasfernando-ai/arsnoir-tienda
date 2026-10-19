@@ -44,6 +44,13 @@
             "content": "<p>En todas las obras de la tienda y en las ilustraciones de Personalízalo, en cualquier tamaño y acabado. Se puede usar junto con el pack de obras y el envío gratis.</p>",
             "open": false
           }
+        },
+        "payments": {
+          "type": "payments",
+          "settings": {
+            "pill_2": "Llega al momento por email",
+            "pill_2_icon": "truck"
+          }
         }
       },
       "block_order": [
@@ -51,6 +58,7 @@
         "price",
         "intro",
         "buy",
+        "payments",
         "recipient",
         "how",
         "where"

@@ -63,6 +63,13 @@
         "delivery": {
           "type": "delivery",
           "settings": {}
+        },
+        "payments": {
+          "type": "payments",
+          "settings": {
+            "pill_2": "Lo ves antes de pagar",
+            "pill_2_icon": "eye"
+          }
         }
       },
       "block_order": [
@@ -71,6 +78,7 @@
         "intro",
         "studio",
         "buy",
+        "payments",
         "delivery",
         "returns_notice",
         "photo_help",
