@@ -3000,3 +3000,13 @@ html.sguide-lock { overflow: hidden; }
 .paybar__pills { list-style: none; margin: 12px 0 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
 .paybar__pills li { display: inline-flex; align-items: center; gap: 7px; padding: 7px 13px 7px 9px; border-radius: 999px; background: var(--color-surface, #f2f2f0); font-size: 13px; line-height: 1.2; }
 .paybar__pills .t-icon { width: 17px; height: 17px; flex: none; }
+/* «2 obras»: the second work is picked from the «Completa tu pared» list, moved in here */
+.ppick__more { grid-column: 1 / -1; margin: 4px 0 0; padding: 14px 14px 12px; border: 1.5px solid #0a0a0a; border-radius: 12px; background: #fff; }
+.ppick__more[hidden] { display: none; }
+.ppick__more-title { margin: 0 0 10px; font-size: 14px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; }
+.ppick__more .cwall { margin: 0; }
+.ppick__more .cwall__head { margin-bottom: 8px; }
+.ppick__more .cwall__title { display: none; }
+.ppick__more .cwall__sub { margin: 0; font-size: 13px; }
+.ppick__same { display: block; width: 100%; margin: 10px 0 0; padding: 10px 12px; border: 1.5px dashed #c9c9c6; border-radius: 10px; background: none; color: #0a0a0a; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; }
+.ppick__same.is-active { border-style: solid; border-color: #0a0a0a; }

@@ -1,7 +1,8 @@
 {%- comment -%}
   «1 obra / 2 obras −15 %» tiles above the add-to-cart button (catalogue artworks only).
   Mirrors the real automatic discount in Shopify (settings: pack_percent, pack_min, pack_until):
-  it only sets the quantity; checkout applies the discount. Hidden after pack_until.
+  «2 obras» opens the «Completa tu pared» list here to pick a second work (or the same one twice);
+  the discount is applied by Shopify in the cart. Hidden after pack_until.
   Prices follow the selected variant (assets/pack-picker.js).
 {%- endcomment -%}
 {%- liquid
@@ -42,6 +43,12 @@
       <span class="ppick__price"><s data-pack-full>{{ full | money }}</s> <span data-pack-total>{{ packed | money }}</span></span>
       <span class="ppick__save">Ahorras <span data-pack-saved>{{ saved | money }}</span></span>
     </button>
+    {%- comment -%} «2 obras»: the «Completa tu pared» list moves in here to pick the second work (pack-picker.js) {%- endcomment -%}
+    <div class="ppick__more" data-pack-more hidden>
+      <p class="ppick__more-title">Elige tu segunda obra</p>
+      <div data-pack-slot></div>
+      <button type="button" class="ppick__same" data-pack-same aria-pressed="false">O llévate esta misma dos veces</button>
+    </div>
     <p class="ppick__note">
       {%- if pack_min == 2 -%}O combina 2 obras distintas: el -{{ pack_pct }} % se aplica solo en el carrito{%- else -%}El -{{ pack_pct }} % se aplica solo en el carrito{%- endif -%}
       {%- if settings.pack_until != blank -%}{%- assign end_day = settings.pack_until | date: '%-d' -%}{%- assign end_month = settings.pack_until | date: '%-m' | minus: 1 -%} · hasta el {{ end_day }} de {{ 'enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre' | split: ',' | slice: end_month | first | default: '' }}{%- endif -%}
