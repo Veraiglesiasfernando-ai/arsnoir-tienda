@@ -146,7 +146,8 @@
     "gift_change": "Remove and choose another",
     "gift_none": "No artworks available as a gift yet.",
     "gift_code_conflict": "Your discount code can't be combined with the gift artworks. Pick one.",
-    "gift_swap": "I prefer my gift artwork"
+    "gift_swap": "I prefer my gift artwork",
+    "gift_size_label": "A4 poster · no frame"
   },
   "product": {
     "add_to_cart": "Add to cart",
