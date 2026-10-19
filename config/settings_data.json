@@ -23,6 +23,7 @@
     "shipping_details": "Entrega en 4-10 días hábiles en la Península, con seguimiento · Impreso en Europa",
     "free_shipping_threshold": 80,
     "returns_days": "14",
+    "favicon": "shopify://shop_images/arsnoir-favicon.png",
     "q4_start": "2026-11-20",
     "q4_gift_page": "regalos",
     "delivery_min": 4,
