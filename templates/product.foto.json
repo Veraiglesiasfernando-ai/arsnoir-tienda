@@ -1,0 +1,272 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "buy": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": false,
+            "highlight_largest": true,
+            "recommended_label": "Recomendado",
+            "recommended_size": "A2"
+          }
+        },
+        "notes": {
+          "type": "notes",
+          "settings": {
+            "note_1": "Obra original. Solo la encontrarás en ARSNOIR.",
+            "note_2": "Impresa bajo pedido en Europa, solo para ti.",
+            "note_3": "Envío gratis desde 80 € a España y toda Europa."
+          }
+        },
+        "description": {
+          "type": "description",
+          "settings": {
+            "heading": "Descripción",
+            "open": true
+          }
+        },
+        "details": {
+          "type": "collapsible",
+          "settings": {
+            "heading": "Detalles de impresión",
+            "content": "<p>Papel Premium Matte de 200 g/m², acabado mate sin reflejos. Impresión giclée de 12 colores para un color fiel y negros profundos. Papel de origen sostenible y certificado FSC, con tintas al agua.</p>",
+            "open": false
+          }
+        },
+        "sizes": {
+          "type": "collapsible",
+          "settings": {
+            "heading": "Tamaños",
+            "content": "<p>Elige el tamaño según la pared: los formatos pequeños funcionan en estanterías y composiciones; los grandes, como pieza protagonista sobre un sofá o un cabecero. Mide el hueco y deja al menos 20 cm libres a cada lado.</p>",
+            "open": false
+          }
+        },
+        "shipping": {
+          "type": "collapsible",
+          "settings": {
+            "heading": "Envío y devoluciones",
+            "content": "<p>Cada pieza se imprime cuando la pides, en el centro de producción más cercano a ti, y se envía con seguimiento: en la Península llega en 4-10 días hábiles; a las islas, Ceuta, Melilla y el resto de Europa puede tardar algo más. Envío 4,95 € en pedidos de menos de 80 €; desde 80 €, gratis.</p><p>Al hacerse con tu foto, no admite devolución por desistimiento, salvo que llegue dañada o con un defecto de impresión.</p>",
+            "open": false
+          }
+        },
+        "trust": {
+          "type": "trust",
+          "settings": {
+            "line_1": "Impreso en Europa, calidad profesional",
+            "line_3": "Personalizado: sin devolución, salvo defecto"
+          }
+        },
+        "material": {
+          "type": "material",
+          "settings": {}
+        },
+        "wall": {
+          "type": "wall_preview",
+          "settings": {}
+        },
+        "compare": {
+          "type": "size_compare",
+          "settings": {}
+        },
+        "delivery": {
+          "type": "delivery",
+          "settings": {}
+        },
+        "complete_wall": {
+          "type": "complete_wall",
+          "settings": {
+            "heading": "Completa tu pared",
+            "text": "Obras del mismo estilo. Márcalas y se añaden con esta.",
+            "limit": 6
+          }
+        },
+        "payments": {
+          "type": "payments",
+          "settings": {
+            "pill_2": "Revisamos tu foto antes de imprimir",
+            "pill_2_icon": "print"
+          }
+        },
+        "returns_notice": {
+          "type": "notice",
+          "settings": {
+            "text": "Producto personalizado: no admite devolución por desistimiento, salvo defecto."
+          }
+        }
+      },
+      "block_order": [
+        "title",
+        "price",
+        "notes",
+        "buy",
+        "payments",
+        "returns_notice",
+        "delivery",
+        "trust",
+        "complete_wall",
+        "compare",
+        "description",
+        "details",
+        "sizes",
+        "shipping"
+      ],
+      "settings": {
+        "lifestyle_from": 2,
+        "gallery_video": "https://cdn.shopify.com/videos/c/vp/7ba2dfa3eab44ad2b9af6dfcff4dcd2a/7ba2dfa3eab44ad2b9af6dfcff4dcd2a.HD-1080p-2.5Mbps-96575530.mp4",
+        "gallery_video_poster": "shopify://shop_images/arsnoir-marco-negro-poster.jpg"
+      }
+    },
+    "related": {
+      "type": "featured-slider",
+      "settings": {
+        "eyebrow": "TERMINA TU PARED",
+        "heading": "Combínala con estas",
+        "subtitle": "Una obra decora. Dos o tres crean un espacio.",
+        "collection": "mas-vendidos",
+        "limit": 8,
+        "button_label": "VER TODAS",
+        "placeholder_price": "24,95 €"
+      }
+    },
+    "reviews": {
+      "type": "reviews",
+      "settings": {
+        "eyebrow": "OPINIONES",
+        "heading": "Lo que dicen de esta obra",
+        "judgeme": true
+      }
+    },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "q1": {
+          "type": "question",
+          "settings": {
+            "question": "¿Cuánto tarda el envío?",
+            "answer": "<p>Enviamos a España y toda Europa, con seguimiento. Cada obra se imprime cuando la pides, en el centro de producción más cercano a ti. En la Península llega en 4-10 días hábiles; a Baleares, Canarias, Ceuta y Melilla puede tardar algo más y al resto de Europa, según el país. Envío 4,95 € en pedidos de menos de 80 €; desde 80 €, gratis.</p>"
+          }
+        },
+        "q2": {
+          "type": "question",
+          "settings": {
+            "question": "¿En qué material se imprime?",
+            "answer": "<p>Papel Premium Matte de 200 g/m², acabado mate sin reflejos. Impresión giclée de 12 colores para un color fiel y negros profundos. Papel de origen sostenible y certificado FSC, con tintas al agua.</p>"
+          }
+        },
+        "q3": {
+          "type": "question",
+          "settings": {
+            "question": "¿Cómo son los marcos?",
+            "answer": "<p>Marcos de madera en negro, blanco o natural, con plexiglás irrompible delante y trasera rígida. Incluyen kit para colgar: tres colgadores dentados para ponerlo en vertical u horizontal (los clavos o tornillos no van incluidos).</p>"
+          }
+        },
+        "q4": {
+          "type": "question",
+          "settings": {
+            "question": "¿El arte es exclusivo?",
+            "answer": "<p>Sí. Todas las piezas son originales y exclusivas de ARSNOIR — no se venden en ningún otro sitio.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4"
+      ],
+      "settings": {
+        "eyebrow": "DUDAS",
+        "heading": "Antes de comprar",
+        "text": "¿Otra pregunta? Escríbenos.",
+        "button_label": "Contactar",
+        "button_link": "/pages/contacto"
+      }
+    },
+    "recent": {
+      "type": "recently-viewed",
+      "settings": {}
+    },
+    "features": {
+      "type": "product-features",
+      "blocks": {
+        "frames": {
+          "type": "feature",
+          "settings": {
+            "image": "shopify://shop_images/arsnoir-marco-black.webp",
+            "image_white": "shopify://shop_images/arsnoir-marco-white.webp",
+            "image_wood": "shopify://shop_images/arsnoir-marco-wood.webp",
+            "zoom": "shopify://shop_images/arsnoir-marco-black-detalle.webp",
+            "zoom_white": "shopify://shop_images/arsnoir-marco-white-detalle.webp",
+            "zoom_wood": "shopify://shop_images/arsnoir-marco-wood-detalle.webp",
+            "show_with": "poster",
+            "image_right": false,
+            "heading": "Marcos de madera, con todo para colgar",
+            "text": "Un marco fino y actual que deja hablar a la obra. Así es por dentro: cada pieza protege tu lámina y la trasera trae todo para colgarla.",
+            "items": "Madera de pino, perfil fino\nPlexiglás irrompible que protege la impresión\nTres colgadores dentados: vertical u horizontal\nEn negro, blanco o madera natural"
+          }
+        },
+        "canvas": {
+          "type": "feature",
+          "settings": {
+            "image": "shopify://shop_images/arsnoir-lienzo.webp",
+            "zoom": "shopify://shop_images/arsnoir-lienzo-detalle.webp",
+            "show_with": "canvas",
+            "image_right": false,
+            "heading": "Lienzo sobre bastidor de madera",
+            "text": "La obra impresa sobre tela de lienzo y tensada en un bastidor de madera. Sin cristal ni reflejos: textura de cuadro de verdad.",
+            "items": "Tela de lienzo de algodón y poliéster\nBastidor de madera de origen sostenible (FSC)\nSin cristal: cero reflejos\nCantos limpios, no necesita marco"
+          }
+        },
+        "paper": {
+          "type": "feature",
+          "settings": {
+            "heading": "Calidad de impresión",
+            "text": "Cada lámina se imprime en Europa solo cuando la pides: giclée de 12 colores sobre papel mate premium. Las A4 viajan en plano con cartón rígido; las más grandes, enrolladas con papel protector en tubo de cartón.",
+            "items": "Papel Premium Matte de 200 g/m²\nGiclée de 12 colores: color fiel y negros profundos\nAcabado mate, sin reflejos\nPapel certificado FSC y tintas al agua",
+            "image_right": true,
+            "show_with": "poster",
+            "video_url": "https://cdn.shopify.com/videos/c/vp/9b7eecdda40044c59f6700c025248458/9b7eecdda40044c59f6700c025248458.HD-1080p-2.5Mbps-96595824.mp4",
+            "video_poster": "shopify://shop_images/arsnoir-impresion-v2-poster.jpg"
+          }
+        },
+        "llega": {
+          "type": "feature",
+          "settings": {
+            "heading": "Así llega con marco",
+            "text": "Tu obra enmarcada viaja en una caja plana de cartón rígido, con una funda por dentro que sujeta el marco para que llegue perfecta.",
+            "items": "Caja plana de cartón rígido\nSe abre por la tira, sin cúter ni tijeras\nFunda interior que sujeta el marco\nEnvío con seguimiento",
+            "image_right": false,
+            "show_with": "poster",
+            "video_url": "https://cdn.shopify.com/videos/c/vp/9c356c31e191416eae3719678f3bf053/9c356c31e191416eae3719678f3bf053.HD-1080p-2.5Mbps-97089859.mp4",
+            "video_poster": "shopify://shop_images/arsnoir-llega-con-marco-poster.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "frames",
+        "canvas",
+        "paper",
+        "llega"
+      ],
+      "settings": {}
+    }
+  },
+  "order": [
+    "main",
+    "features",
+    "reviews",
+    "faq",
+    "related",
+    "recent"
+  ]
+}

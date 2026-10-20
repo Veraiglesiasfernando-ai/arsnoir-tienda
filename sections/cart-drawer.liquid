@@ -311,7 +311,10 @@
           </ul>
         {%- endif -%}
         <ul class="cartx__pills">
-          <li>{% render 'trust-icon', name: 'return' %}<span>{{ 'cart.trust_returns' | t: days: settings.returns_days }}</span></li>
+          {%- comment -%} Personalised pieces can't be returned by withdrawal (only for a defect): say so when there is one {%- endcomment -%}
+          {%- assign has_custom = false -%}
+          {%- for item in cart.items -%}{%- if item.product.type == 'Personalizado' -%}{%- assign has_custom = true -%}{%- break -%}{%- endif -%}{%- endfor -%}
+          <li>{% render 'trust-icon', name: 'return' %}<span>{% if has_custom %}{{ 'cart.trust_returns_custom' | t: days: settings.returns_days }}{% else %}{{ 'cart.trust_returns' | t: days: settings.returns_days }}{% endif %}</span></li>
           <li>{% render 'trust-icon', name: 'truck' %}<span>{{ 'cart.pill_tracking' | t }}</span></li>
         </ul>
       </div>

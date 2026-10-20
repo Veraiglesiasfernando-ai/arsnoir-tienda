@@ -122,6 +122,7 @@
     "you_save": "Ahorras",
     "trust_secure": "Pago seguro",
     "trust_returns": "{{ days }} días para devolver",
+    "trust_returns_custom": "{{ days }} días para devolver (personalizados, solo por defecto)",
     "trust_tracking": "Envío con seguimiento",
     "gift_left_html": "Te faltan <strong>{{ amount }}</strong> para tu póster A4 de regalo",
     "gift_ship_ok": "Envío gratis",

@@ -122,6 +122,7 @@
     "you_save": "You save",
     "trust_secure": "Secure payment",
     "trust_returns": "{{ days }}-day returns",
+    "trust_returns_custom": "{{ days }}-day returns (personalised: defects only)",
     "trust_tracking": "Tracked shipping",
     "gift_left_html": "<strong>{{ amount }}</strong> more for your free A4 poster",
     "gift_ship_ok": "Free shipping",
