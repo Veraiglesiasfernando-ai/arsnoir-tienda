@@ -59,12 +59,12 @@
       .catch(function () { loading = null; return []; });
     return loading;
   };
-  /* Same size and finish as this work when that variant exists, else its first available one */
+  /* Same size and finish as this work when that variant exists, else its cheapest available one */
   const variantFor = function (w) {
     const m = mainVariant();
     const key = m ? m.title : more.dataset.key;
     return w.variants.find(function (v) { return v.available && v.title === key; }) ||
-      w.variants.find(function (v) { return v.available; });
+      w.variants.filter(function (v) { return v.available; }).sort(function (a, b) { return parseFloat(a.price) - parseFloat(b.price); })[0];
   };
   const cents = function (price) { return Math.round(parseFloat(price) * 100); };
   const thumb = function (src) { return src + (src.indexOf('?') === -1 ? '?' : '&') + 'width=240'; };

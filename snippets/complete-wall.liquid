@@ -51,7 +51,15 @@
     endfor
   endif
   assign handles = picked | split: ','
+  # The main work's starting variant (the link's, else the cheapest available), as on the product page
   assign cur = product.selected_or_first_available_variant
+  if product.selected_variant == blank
+    for v in product.variants
+      if v.available and v.price < cur.price
+        assign cur = v
+      endif
+    endfor
+  endif
   assign per_page = 3
 -%}
 {%- if handles.size > 0 -%}
@@ -73,7 +81,13 @@
         {%- assign p = all_products[h] -%}
         {%- liquid
           assign page = forloop.index0 | divided_by: per_page
+          # Same size and finish as the main work when it exists, else its cheapest available
           assign chosen = p.selected_or_first_available_variant
+          for v in p.variants
+            if v.available and v.price < chosen.price
+              assign chosen = v
+            endif
+          endfor
           for v in p.variants
             if v.available and v.title == cur.title
               assign chosen = v

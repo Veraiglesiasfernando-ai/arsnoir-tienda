@@ -40,6 +40,11 @@
             continue
           endif
           assign pick = p.selected_or_first_available_variant
+          for v in p.variants
+            if v.available and v.price < pick.price
+              assign pick = v
+            endif
+          endfor
           assign unlocks = false
           if check_ship
             assign best = false

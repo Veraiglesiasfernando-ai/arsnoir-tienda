@@ -15,8 +15,17 @@
       endif
     endfor
   endfor
+  # Same starting variant as the product page: the link's, else the cheapest available
+  assign start_variant = product.selected_or_first_available_variant
+  if product.selected_variant == blank
+    for v in product.variants
+      if v.available and v.price < start_variant.price
+        assign start_variant = v
+      endif
+    endfor
+  endif
   assign is_canvas = false
-  for o in product.selected_or_first_available_variant.options
+  for o in start_variant.options
     assign vd = o | downcase
     if vd contains 'canvas' or vd contains 'lienzo'
       assign is_canvas = true

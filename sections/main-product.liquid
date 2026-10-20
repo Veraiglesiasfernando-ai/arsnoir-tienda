@@ -1,5 +1,13 @@
 {%- liquid
+  # Without ?variant= in the link, start on the cheapest size/finish available (not Shopify's first variant)
   assign current_variant = product.selected_or_first_available_variant
+  if product.selected_variant == blank
+    for v in product.variants
+      if v.available and v.price < current_variant.price
+        assign current_variant = v
+      endif
+    endfor
+  endif
   assign form_id = 'ProductForm-' | append: section.id
   assign price_id = 'Price-' | append: section.id
 -%}

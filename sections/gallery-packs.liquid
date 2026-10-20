@@ -50,7 +50,13 @@
               break
             endif
             if p != blank
+              # The cheapest size/finish available of each work
               assign v = p.selected_or_first_available_variant
+              for x in p.variants
+                if x.available and x.price < v.price
+                  assign v = x
+                endif
+              endfor
               assign total = total | plus: v.price
               assign count = count | plus: 1
               if v.available == false
