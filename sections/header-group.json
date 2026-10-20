@@ -18,12 +18,6 @@
             "until": "2026-11-09"
           }
         },
-        "m4": {
-          "type": "message",
-          "settings": {
-            "text": "PÓSTER A4 DE REGALO DESDE 119 €"
-          }
-        },
         "m5": {
           "type": "message",
           "settings": {
@@ -33,7 +27,6 @@
       },
       "block_order": [
         "m3",
-        "m4",
         "m1",
         "m5"
       ],

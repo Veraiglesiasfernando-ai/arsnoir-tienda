@@ -550,7 +550,7 @@
   let giftBusy = false;
   function syncGift(cart) {
     const c = cartConfig();
-    if (!c || !c.giftEnabled || giftBusy) return Promise.resolve(false);
+    if (!c || giftBusy) return Promise.resolve(false);
     const isGift = function (i) { return i.properties && i.properties._regalo; };
     const gifts = cart.items.filter(isGift);
     if (!gifts.length) return Promise.resolve(false);
@@ -558,6 +558,8 @@
     /* Before discounts, as Shopify weighs the gift against the pack (they don't combine) */
     const eligible = others.reduce(function (sum, i) { return sum + i.original_line_price; }, 0);
     let allowed = others.length === 0 ? 0 : eligible >= c.tier2 ? 2 : eligible >= c.tier1 ? 1 : 0;
+    /* Gifts switched off: a gift line left in a cart would be charged, so it goes */
+    if (!c.giftEnabled) allowed = 0;
     /* The pack is on for the works alone and Shopify kept it over the gift: never charge for a gift */
     const worksQty = others.reduce(function (sum, i) { return sum + i.quantity; }, 0);
     if (worksQty >= (c.packMin || 2) && gifts.some(function (i) { return i.final_line_price > 0; })) allowed = 0;
@@ -1484,8 +1486,8 @@
   document.addEventListener('change', function (event) { if (event.target.closest('[data-gift]')) saveGift(event.target); });
   document.addEventListener('input', function (event) { if (event.target.matches('[data-gift-note]')) saveGift(event.target); });
 
-  /* On load: bring the gift line up to date (e.g. after a discount change at checkout) */
-  if (drawer() && (cartConfig() || {}).giftEnabled) {
+  /* On load: bring the gift line up to date (e.g. after a discount change at checkout, or gifts switched off) */
+  if (drawer() && cartConfig()) {
     fetch(root + 'cart.js').then(function (r) { return r.json(); }).then(function (cart) {
       return syncGift(cart).then(function (changed) { if (changed) return refreshDrawer(true); });
     }).catch(function () {});

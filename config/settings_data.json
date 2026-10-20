@@ -28,7 +28,7 @@
     "q4_gift_page": "regalos",
     "delivery_min": 4,
     "delivery_max": 10,
-    "gift_enabled": true,
+    "gift_enabled": false,
     "pack_percent": 15,
     "pack_min": 2,
     "pack_until": "2026-11-09",
