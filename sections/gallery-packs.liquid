@@ -1,6 +1,7 @@
 {%- comment -%}
-  "Compón tu pared": sets of 2–3 artworks shown as a gallery wall, added to the
-  cart together with one button (theme.js → data-pack-add).
+  "Compón tu pared": sets of 2–3 artworks shown as a gallery wall (each work at its own
+  proportions, framed with a mat), added to the cart together with one button (theme.js →
+  data-pack-add). The price shown includes the shop's automatic pack discount while it runs.
   On the live store a pack shows only when it has real products; in the editor
   empty packs show as placeholders.
 {%- endcomment -%}
@@ -25,6 +26,15 @@
     </div>
 
     <ul class="packs__grid">
+      {%- liquid
+        # The pack -% is Shopify's own automatic discount (Theme settings → Carrito: pack_percent, pack_min, pack_until)
+        assign pack_pct = settings.pack_percent | default: 0
+        assign pack_min = settings.pack_min | default: 2
+        assign today = 'now' | date: '%Y-%m-%d'
+        if settings.pack_until != blank and today > settings.pack_until
+          assign pack_pct = 0
+        endif
+      -%}
       {%- for block in section.blocks -%}
         {%- liquid
           assign b = block.settings
@@ -32,9 +42,13 @@
           assign total = 0
           assign count = 0
           assign all_available = true
+          assign size_a4 = true
           for i in (1..3)
             assign key = 'product_' | append: i
             assign p = b[key]
+            if b.layout == 'duo' and i == 3
+              break
+            endif
             if p != blank
               assign v = p.selected_or_first_available_variant
               assign total = total | plus: v.price
@@ -42,28 +56,57 @@
               if v.available == false
                 assign all_available = false
               endif
+              assign vt = v.title | downcase | remove: ' '
+              unless vt contains '21x29.7'
+                assign size_a4 = false
+              endunless
               if ids != ''
                 assign ids = ids | append: ','
               endif
               assign ids = ids | append: v.id
             endif
           endfor
+          assign packed = total
+          if pack_pct > 0 and count >= pack_min
+            assign keep = 100 | minus: pack_pct
+            assign packed = total | times: keep | divided_by: 100.0 | round
+          endif
         -%}
         {%- if count > 0 or request.design_mode -%}
           <li class="pack reveal" {{ block.shopify_attributes }}>
             <div class="pack__wall pack__wall--{{ b.layout }}">
-              {%- for i in (1..3) -%}
-                {%- assign key = 'product_' | append: i -%}
-                {%- assign p = b[key] -%}
-                {%- if b.layout == 'duo' and i == 3 -%}{%- break -%}{%- endif -%}
-                <a class="pack__frame pack__frame--{{ i }}"{% if p != blank %} href="{{ p.url }}"{% endif %}>
-                  {%- if p != blank and p.featured_media -%}
-                    {{ p.featured_media | image_url: width: 500 | image_tag: loading: 'lazy', widths: '250, 400, 500', sizes: '(min-width: 990px) 12vw, 30vw', alt: p.title }}
-                  {%- else -%}
-                    <span class="pack__ph pack__ph--{{ i }}"></span>
-                  {%- endif -%}
-                </a>
-              {%- endfor -%}
+              <div class="pack__hang">
+                {%- for i in (1..3) -%}
+                  {%- assign key = 'product_' | append: i -%}
+                  {%- assign p = b[key] -%}
+                  {%- if b.layout == 'duo' and i == 3 -%}{%- break -%}{%- endif -%}
+                  {%- liquid
+                    # The artwork itself (file «{handle}-obra»), at its own proportions; else the product photo
+                    assign art = p.featured_media.preview_image
+                    for m in p.media
+                      if m.preview_image.src contains '-obra'
+                        assign art = m.preview_image
+                        break
+                      endif
+                    endfor
+                    assign ar = 0.75
+                    if art != blank
+                      assign ar = art.aspect_ratio
+                    endif
+                  -%}
+                  {%- if b.layout == 'stack' and i == 2 -%}<div class="pack__col">{%- endif -%}
+                  <a class="pack__frame pack__frame--{{ i }}" style="--ar: {{ ar }}"{% if p != blank %} href="{{ p.url }}" aria-label="{{ p.title | escape }}"{% endif %}>
+                    <span class="pack__mat">
+                      {%- if art != blank -%}
+                        {{ art | image_url: width: 600 | image_tag: loading: 'lazy', widths: '300, 450, 600', sizes: '(min-width: 990px) 14vw, 40vw', alt: p.title }}
+                      {%- else -%}
+                        <span class="pack__ph pack__ph--{{ i }}"></span>
+                      {%- endif -%}
+                    </span>
+                  </a>
+                  {%- if b.layout == 'stack' and i == 3 -%}</div>{%- endif -%}
+                {%- endfor -%}
+              </div>
               {%- if b.note != blank -%}<span class="pack__badge">{{ b.note }}</span>{%- endif -%}
             </div>
             <div class="pack__info">
@@ -72,6 +115,7 @@
                 <p class="pack__list">
                   {%- if count > 0 -%}
                     {%- for i in (1..3) -%}
+                      {%- if b.layout == 'duo' and i == 3 -%}{%- break -%}{%- endif -%}
                       {%- assign key = 'product_' | append: i -%}
                       {%- if b[key] != blank -%}{% unless forloop.first %} · {% endunless %}{{ b[key].title }}{%- endif -%}
                     {%- endfor -%}
@@ -79,8 +123,14 @@
                     {{ 'packs.pick_in_editor' | t }}
                   {%- endif -%}
                 </p>
+                {%- if count > 0 and size_a4 -%}<p class="pack__size">{{ 'packs.size_a4' | t: count: count }}</p>{%- endif -%}
               </div>
-              {%- if count > 0 -%}<span class="pack__price">{{ total | money }}</span>{%- endif -%}
+              {%- if count > 0 -%}
+                <div class="pack__prices">
+                  <span class="pack__price">{{ packed | money }}</span>
+                  {%- if packed < total -%}<span class="pack__save">{{ 'packs.discount_note' | t: pct: pack_pct }}</span>{%- endif -%}
+                </div>
+              {%- endif -%}
             </div>
             <button type="button" class="button button--accent button--full pack__add" data-pack-add="{{ ids }}"{% if count == 0 or all_available == false %} disabled{% endif %}>
               {%- if all_available -%}{{ b.button_label }}{%- else -%}{{ 'packs.some_sold_out' | t }}{%- endif -%}

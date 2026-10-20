@@ -202,7 +202,9 @@
   },
   "packs": {
     "pick_in_editor": "Choose the pack's artworks in the editor.",
-    "some_sold_out": "An artwork is sold out"
+    "some_sold_out": "An artwork is sold out",
+    "size_a4": "{{ count }} unframed A4 posters",
+    "discount_note": "−{{ pct }} % pack discount included"
   },
   "notfound": {
     "eyebrow": "ERROR 404",

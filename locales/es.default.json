@@ -202,7 +202,9 @@
   },
   "packs": {
     "pick_in_editor": "Elige las obras del pack en el editor.",
-    "some_sold_out": "Alguna obra está agotada"
+    "some_sold_out": "Alguna obra está agotada",
+    "size_a4": "{{ count }} pósters A4 sin marco",
+    "discount_note": "−{{ pct }} % del pack incluido"
   },
   "notfound": {
     "eyebrow": "ERROR 404",
