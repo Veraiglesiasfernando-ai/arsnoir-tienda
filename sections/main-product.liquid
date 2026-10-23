@@ -436,10 +436,9 @@
                 </div>
               {%- endif -%}
               <p class="cguard__check" data-cguard-result hidden></p>
-              <label class="cguard__rights">
-                <input type="checkbox" name="properties[Derechos de imagen]" value="{{ 'product.cguard_rights_value' | t }}" form="{{ form_id }}" required data-cguard-rights>
-                <span>{{ block.settings.rights_label }}</span>
-              </label>
+              {%- comment -%} No box to tick: adding to the cart is the confirmation, and it is still saved in the order {%- endcomment -%}
+              <input type="hidden" name="properties[Derechos de imagen]" value="Confirmados al añadir al carrito" form="{{ form_id }}">
+              <p class="cguard__rights-note">Al añadir al carrito confirmas que tienes los derechos para imprimir esta imagen.</p>
               {%- if block.settings.note != blank -%}<p class="cguard__note">{{ block.settings.note }}</p>{%- endif -%}
             </div>
 
@@ -710,7 +709,7 @@
     {
       "type": "custom_guard", "name": "Personalízalo: avisos", "limit": 1,
       "settings": [
-        { "type": "paragraph", "content": "Para el producto «Sube tu imagen». La casilla de derechos es obligatoria: sin marcarla no se puede añadir al carrito (tampoco desde los bloques de apps de esta ficha, como el de Gelato), y queda guardada en el pedido." },
+        { "type": "paragraph", "content": "Para el producto «Sube tu imagen». Sin casilla: al añadir al carrito el cliente confirma los derechos de la imagen (lo dice la nota) y queda guardado en el pedido como «Derechos de imagen»." },
         { "type": "text", "id": "heading", "label": "Título", "default": "Antes de subir tu imagen" },
         { "type": "textarea", "id": "notice", "label": "Aviso de resolución", "default": "Para que tu pieza imprima con calidad, sube una imagen en alta resolución. Recomendado: mínimo 300 ppp al tamaño elegido. Imágenes de baja calidad pueden salir pixeladas." },
         { "type": "text", "id": "rights_label", "label": "Casilla de derechos", "default": "Confirmo que tengo los derechos para imprimir esta imagen." },

@@ -99,10 +99,9 @@
       <figcaption>{{ b.result_note }}</figcaption>
     </figure>
 
-    <label class="cguard__rights">
-      <input type="checkbox" name="properties[Derechos de imagen]" value="Sí" form="{{ form_id }}" required>
-      <span>{{ b.rights_label }}</span>
-    </label>
+    {%- comment -%} No box to tick: adding to the cart is the confirmation, and it is still saved in the order {%- endcomment -%}
+    <input type="hidden" name="properties[Derechos de imagen]" value="Confirmados al añadir al carrito" form="{{ form_id }}">
+    <p class="cguard__rights-note">Al añadir al carrito confirmas que tienes derecho a usar esta foto.</p>
 
     <input type="hidden" name="properties[_Ilustración]" form="{{ form_id }}" data-tstudio-url>
     <input type="hidden" name="properties[Plantilla]" value="{{ b.template_name | escape }}" form="{{ form_id }}">

@@ -3171,3 +3171,4 @@ html.sguide-lock { overflow: hidden; }
 .cguard__rights { flex-wrap: wrap; }
 .ppick__create + .ppick__create { background: #fff; color: #0a0a0a; box-shadow: inset 0 0 0 1px #0a0a0a; }
 .ppick__create + .ppick__create small { color: #5a5a5a; }
+.cguard__rights-note { margin: 12px 0 0; font-size: 12px; color: var(--color-muted); line-height: 1.45; }
