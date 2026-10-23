@@ -201,7 +201,7 @@
               <a class="cartx-item__media" href="{{ item.url }}">
                 {%- if is_gift -%}
                   <img src="{{ item.product.handle | append: '-marco-none.webp' | file_url }}" alt="{{ item.product.title | escape }}, póster sin marco" loading="lazy" width="1200" height="1500">
-                {%- elsif item.image -%}{{ item.image | image_url: width: 300 | image_tag: loading: 'lazy', alt: item.product.title }}{%- else -%}<span class="cartx-item__ph"></span>{%- endif -%}
+                {%- else -%}{% render 'cart-line-image', item: item, placeholder: true %}{%- endif -%}
                 {%- if is_gift -%}<span class="cartx-item__gift-tag">{% render 'icon', name: 'gift' %}</span>{%- endif -%}
               </a>
               <div class="cartx-item__body">

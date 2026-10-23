@@ -1,0 +1,23 @@
+{%- comment -%}
+  Cart line picture. A personalised piece shows the customer's own work: the illustration made in the
+  studio («_Ilustración», template-studio.js) or the photo they uploaded («Imagen»); if that link no
+  longer loads, the product picture comes back.
+{%- endcomment -%}
+{%- liquid
+  assign own = item.properties['_Ilustración'] | default: item.properties['Imagen'] | strip
+  assign own_ok = false
+  if own contains 'https://' or own contains '//cdn.shopify.com'
+    assign own_ok = true
+  endif
+  assign fallback = ''
+  if item.image
+    assign fallback = item.image | image_url: width: 300
+  endif
+-%}
+{%- if own_ok -%}
+  <img src="{{ own | escape }}" alt="{{ item.product.title | escape }}" loading="lazy" width="720" height="900" class="cart-line-own"{% if fallback != '' %} onerror="this.onerror=null;this.src='{{ fallback }}'"{% endif %}>
+{%- elsif item.image -%}
+  {{ item.image | image_url: width: 300 | image_tag: loading: 'lazy', alt: item.product.title }}
+{%- elsif placeholder -%}
+  <span class="cartx-item__ph"></span>
+{%- endif -%}
