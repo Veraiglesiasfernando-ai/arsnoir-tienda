@@ -15,6 +15,20 @@
   if product.type == 'Personalizado'
     assign custom = true
   endif
+  # Personalised pieces say what they are: an illustration (studio templates) or a photo frame
+  assign one_label = '1 obra'
+  assign two_label = pack_min | append: ' obras'
+  assign another = 'obra'
+  if custom
+    assign one_label = '1 cuadro'
+    assign two_label = 'Añade otro cuadro'
+    assign another = 'cuadro'
+    if product.template_suffix contains 'ilustracion'
+      assign one_label = '1 ilustración'
+      assign two_label = 'Añade otra ilustración'
+      assign another = 'ilustración'
+    endif
+  endif
   if pack_pct > 0
     if custom
       assign show = true
@@ -39,12 +53,12 @@
   -%}
   <div class="ppick" data-pack-picker data-form="{{ form_id }}" data-min="{{ pack_min }}" data-pct="{{ pack_pct }}">
     <button type="button" class="ppick__tile is-active" data-pack-qty="1" aria-pressed="true">
-      <span class="ppick__name">1 obra</span>
+      <span class="ppick__name">{{ one_label }}</span>
       <span class="ppick__price" data-pack-one>{{ one | money }}</span>
     </button>
     <button type="button" class="ppick__tile ppick__tile--pack" data-pack-qty="{{ pack_min }}" aria-pressed="false">
       <span class="ppick__tag">-{{ pack_pct }} %</span>
-      <span class="ppick__name">{{ pack_min }} obras</span>
+      <span class="ppick__name">{{ two_label }}</span>
       <span class="ppick__price"><s data-pack-full>{{ full | money }}</s> <span data-pack-total>{{ packed | money }}</span></span>
       <span class="ppick__save">Ahorras <span data-pack-saved>{{ saved | money }}</span></span>
     </button>
@@ -54,7 +68,7 @@
       {%- if custom -%}
         {%- comment -%} Adds this one to the cart and goes to make another illustration (the -15 % applies in the cart) {%- endcomment -%}
         <button type="button" class="ppick__create" data-pack-create>
-          <span>Crear otra personalizada</span>
+          <span>Crear otra {% if another == 'cuadro' %}personalizada{% else %}{{ another }}{% endif %}</span>
           <small>Añadimos esta al carrito y eliges otro estilo u otra foto</small>
         </button>
         <p class="ppick__or">o elige una obra de la tienda</p>
@@ -70,7 +84,7 @@
       <button type="button" class="ppick__same" data-pack-same aria-pressed="false">{% if custom %}O la misma dos veces (para regalar){% else %}O llévate esta misma dos veces{% endif %}</button>
     </div>
     <p class="ppick__note">
-      {%- if pack_min == 2 -%}O combina 2 obras distintas: el -{{ pack_pct }} % se aplica solo en el carrito{%- else -%}El -{{ pack_pct }} % se aplica solo en el carrito{%- endif -%}
+      {%- if custom -%}Con 2 en el carrito, el -{{ pack_pct }} % se aplica solo{%- elsif pack_min == 2 -%}O combina 2 obras distintas: el -{{ pack_pct }} % se aplica solo en el carrito{%- else -%}El -{{ pack_pct }} % se aplica solo en el carrito{%- endif -%}
       {%- if settings.pack_until != blank -%}{%- assign end_day = settings.pack_until | date: '%-d' -%}{%- assign end_month = settings.pack_until | date: '%-m' | minus: 1 -%} · hasta el {{ end_day }} de {{ 'enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre' | split: ',' | slice: end_month | first | default: '' }}{%- endif -%}
     </p>
   </div>

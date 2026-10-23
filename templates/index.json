@@ -142,6 +142,8 @@
         "seal_center": "A",
         "button_label": "Ver obras",
         "button_link": "shopify://collections/all",
+        "button2_label": "Crea tu ilustración",
+        "button2_link": "shopify://collections/personalizalo",
         "heading": "No decores tu espacio.\nCambia cómo se siente."
       }
     },

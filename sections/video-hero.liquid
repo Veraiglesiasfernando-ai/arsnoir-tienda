@@ -49,8 +49,15 @@
       <h1 class="vhero__heading">{{ s.heading | newline_to_br }}</h1>
     {%- endif -%}
 
-    {%- if s.button_label != blank -%}
-      <a class="vhero__cta" href="{{ s.button_link | default: routes.all_products_collection_url }}">{{ s.button_label }}</a>
+    {%- if s.button_label != blank or s.button2_label != blank -%}
+      <div class="vhero__ctas">
+        {%- if s.button_label != blank -%}
+          <a class="vhero__cta" href="{{ s.button_link | default: routes.all_products_collection_url }}">{{ s.button_label }}</a>
+        {%- endif -%}
+        {%- if s.button2_label != blank -%}
+          <a class="vhero__cta vhero__cta--alt" href="{{ s.button2_link | default: routes.all_products_collection_url }}">{{ s.button2_label }}</a>
+        {%- endif -%}
+      </div>
     {%- endif -%}
   </div>
 
@@ -84,7 +91,9 @@
     { "type": "text", "id": "seal_text", "label": "Texto del sello", "default": "ARTE ORIGINAL · SOLO EN ARSNOIR · " },
     { "type": "text", "id": "seal_center", "label": "Centro del sello", "default": "A" },
     { "type": "text", "id": "button_label", "label": "Texto del botón", "default": "Ver obras" },
-    { "type": "url", "id": "button_link", "label": "Enlace del botón" }
+    { "type": "url", "id": "button_link", "label": "Enlace del botón" },
+    { "type": "text", "id": "button2_label", "label": "Segundo botón (opcional)" },
+    { "type": "url", "id": "button2_link", "label": "Enlace del segundo botón" }
   ],
   "blocks": [
     {

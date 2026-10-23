@@ -1236,6 +1236,11 @@ html:not(.is-scrolled) body:has(main > .shopify-section:first-child .vhero) .gla
   text-shadow: 0 2px 30px rgba(0, 0, 0, 0.35);
 }
 .vhero__center .vhero__cta { position: static; transform: none; }
+/* Two buttons side by side: «Ver obras» + «Crea tu ilustración» */
+.vhero__ctas { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.vhero__ctas .vhero__cta { position: static; transform: none; }
+.vhero__cta--alt { background: rgba(255,255,255,0.92); color: #0a0a0a; border-color: transparent; }
+.vhero__cta--alt:hover { background: #fff; color: #0a0a0a; }
 @media (max-width: 749px) {
   .vhero__center { padding-bottom: 170px; }
   .vhero__heading { font-size: clamp(2.1rem, 10vw, 3rem); }
