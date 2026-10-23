@@ -110,7 +110,7 @@
     /* The illustration is the star: always drawn big (the room photos and the size guide show the scale) */
     const fw = kind === 'none' ? 0 : 2.5;
     const fwW = w + fw * 2, fwH = h + fw * 2;
-    const share = Math.min(0.8, (0.86 * 1.25 * fwW) / fwH); /* of the 4:5 wall's width */
+    const share = Math.min(0.8, (0.8 * 1.25 * fwW) / fwH); /* of the 4:5 wall's width */
     const cap = [sizeText, finText].filter(Boolean).join(' · ');
     gallery.querySelectorAll('.tlive:not([hidden])').forEach(function (el) {
       const wall = el.querySelector('.tlive__wall');

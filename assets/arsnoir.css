@@ -2855,6 +2855,9 @@ html.sguide-lock { overflow: hidden; }
 .tlive__cap { position: absolute; left: 0; right: 0; bottom: 14px; margin: 0; text-align: center; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-muted); }
 @media (prefers-reduced-motion: reduce) { .tlive__frame { transition: none; } }
 .product__gallery > .product__media.tlive { display: block; padding: 0; aspect-ratio: auto !important; }
+/* The gallery's «img { height: auto }» left a white strip under the illustration: fill the frame */
+.product__media.tlive .tlive__frame img { width: 100%; height: 100%; box-shadow: none; }
+.product__media.tlive.is-bordered .tlive__frame img { inset: 6.5%; width: 87%; height: 87%; }
 /* Room photos with the customer's illustration painted in (template-studio.js) */
 .product__gallery > .product__media[hidden], .product__media > img[hidden] { display: none !important; }
 .product__media canvas.tart { display: block; width: 100%; height: auto; }
