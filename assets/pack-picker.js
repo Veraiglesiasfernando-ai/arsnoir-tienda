@@ -1,7 +1,7 @@
 /* «1 obra / 2 obras −15 %» (snippets/pack-picker.liquid). «2 obras» opens a search over every work
    of the shop (/collections/obras/products.json) to pick the second one, in the same size and finish
-   as this one when it exists; or this same work twice. The picked work goes to the cart with this
-   one (theme.js submit, [data-pack-extra]); the discount itself is Shopify's automatic one. */
+   as this one when it exists; or this same work twice. Tapping a work adds it to the cart right away
+   with this one (theme.js submit, [data-pack-extra]); the discount itself is Shopify's automatic one. */
 (function () {
   const box = document.querySelector('[data-pack-picker]');
   if (!box || box.dataset.ready) return;
@@ -163,7 +163,12 @@
     const b = event.target.closest('[data-work]');
     if (!b) return;
     const w = works.find(function (x) { return String(x.id) === b.dataset.work; });
-    pick(picked && w && picked.id === w.id ? null : w);
+    if (picked && w && picked.id === w.id) { pick(null); return; }
+    pick(w);
+    /* Tapping the second work is the choice: both go to the cart now (theme.js submit) and the drawer
+       opens with the pack discount; a personalised one without its illustration stops in the studio */
+    if (!w || !extraInput.value || (button && button.disabled)) return;
+    if (form.requestSubmit) form.requestSubmit(button || undefined); else form.submit();
   });
   if (q) q.addEventListener('input', render);
   if (same) same.addEventListener('click', function () {
