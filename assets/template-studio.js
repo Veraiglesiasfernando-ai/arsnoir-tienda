@@ -357,6 +357,8 @@
         resultImg.src = url;
         result.hidden = false;
         showLive(url);
+        /* Show it where the customer is looking: the picture under the button */
+        requestAnimationFrame(function () { result.scrollIntoView({ behavior: 'smooth', block: 'center' }); });
         const left = max - used();
         say(left > 0 ? (d.tLeft || '').replace('[N]', left) : '');
       })
