@@ -2696,8 +2696,9 @@ html.is-scrolled .glass-header { background: rgba(255, 255, 255, 0.95); }
 .tstudio__status { margin: 0; min-height: 1em; font-size: 13px; color: var(--color-muted); }
 .tstudio__status:empty { display: none; }
 .tstudio__result { margin: 0; }
-.tstudio__result img { display: block; width: 100%; max-width: 200px; border-radius: 12px; box-shadow: 0 16px 30px -20px rgba(0,0,0,0.4); }
-.tstudio__result figcaption { margin-top: 8px; font-size: 12px; color: var(--color-muted); }
+/* The illustration is shown big in the gallery (template-studio.js): here only the note */
+.tstudio__result img { display: none; }
+.tstudio__result figcaption { margin-top: 4px; font-size: 13px; color: var(--color-muted); }
 .tstudio__thumb, .tstudio__result img { height: auto; }
 
 /* Personalízalo, minimal editorial: no rounded cards, icons or pills ------- */
@@ -2854,6 +2855,10 @@ html.sguide-lock { overflow: hidden; }
 .tlive__cap { position: absolute; left: 0; right: 0; bottom: 14px; margin: 0; text-align: center; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-muted); }
 @media (prefers-reduced-motion: reduce) { .tlive__frame { transition: none; } }
 .product__gallery > .product__media.tlive { display: block; padding: 0; aspect-ratio: auto !important; }
+/* Room photos with the customer's illustration painted in (template-studio.js) */
+.product__gallery > .product__media[hidden], .product__media > img[hidden] { display: none !important; }
+.product__media canvas.tart { display: block; width: 100%; height: auto; }
+.product__media--lifestyle canvas.tart { height: 100%; object-fit: cover; }
 
 /* Personalízalo · «Pruébala en todos los estilos» (sections/pz-all-styles.liquid) */
 .pzall { padding: clamp(40px, 6vw, 80px) 0; }

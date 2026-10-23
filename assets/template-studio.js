@@ -77,7 +77,7 @@
     studio.classList.toggle('is-bordered', white);
     document.querySelectorAll('.tlive').forEach(function (t) { t.classList.toggle('is-bordered', white); });
   };
-  studio.querySelectorAll('[data-tstudio-border]').forEach(function (el) { el.addEventListener('change', applyBorder); });
+  studio.querySelectorAll('[data-tstudio-border]').forEach(function (el) { el.addEventListener('change', function () { applyBorder(); paintRooms(); }); });
   let photo = null;
 
   const used = function () {
@@ -107,19 +107,18 @@
     else if (/madera|wood|natural/.test(f)) kind = 'wood';
     const s = sizeOf(sizeText);
     const w = Math.min(s[0], s[1]), h = Math.max(s[0], s[1]);
-    /* ~75 cm across, like the framed photo of the artworks: sizes still read bigger or smaller */
-    const WALL = 75;
+    /* The illustration is the star: always drawn big (the room photos and the size guide show the scale) */
     const fw = kind === 'none' ? 0 : 2.5;
     const fwW = w + fw * 2, fwH = h + fw * 2;
-    const fit = Math.min(1, (0.78 * WALL) / fwW, (0.78 * WALL * 1.25) / fwH); /* 4:5 */
+    const share = Math.min(0.8, (0.86 * 1.25 * fwW) / fwH); /* of the 4:5 wall's width */
     const cap = [sizeText, finText].filter(Boolean).join(' · ');
     gallery.querySelectorAll('.tlive:not([hidden])').forEach(function (el) {
       const wall = el.querySelector('.tlive__wall');
       const frame = el.querySelector('.tlive__frame');
-      const px = ((wall.clientWidth || 600) / WALL) * fit;
+      const px = ((wall.clientWidth || 600) * share) / fwW;
       frame.dataset.kind = kind;
       frame.classList.toggle('is-canvas', /lienzo|canvas/.test(f));
-      frame.style.width = (fwW / WALL) * fit * 100 + '%';
+      frame.style.width = share * 100 + '%';
       frame.style.aspectRatio = fwW + ' / ' + fwH;
       frame.style.borderWidth = fw ? Math.max(1, fw * px) + 'px' : '0';
       const c = el.querySelector('.tlive__cap');
@@ -175,7 +174,62 @@
     clearInterval(stepTimer);
     if (live) live.classList.remove('is-loading');
   };
+  /* The room photos show the template's example: once there is an illustration, paint it into
+     their frame (same spot in every product, measured on the photos) and hide the example-only ones */
+  const ROOMS = { 'salón': [41.72, 24, 29.22, 29.73], 'dormitorio': [37.75, 16.93, 24.83, 28.93], 'estudio': [34.77, 13.2, 36.26, 37.47] };
+  let artUrl = '';
+  const roomOf = function (img) {
+    const m = (img.alt || '').match(/ en un (salón|dormitorio|estudio)$/i);
+    return m ? ROOMS[m[1].toLowerCase()] : null;
+  };
+  const exampleOnly = function (img) {
+    const a = img.alt || '';
+    return img.hasAttribute('data-black') || / con marco negro$|, la obra$|^Ejemplo:|^La foto original/i.test(a);
+  };
+  const paintRooms = function () {
+    if (!gallery) return;
+    const white = studio.classList.contains('is-bordered');
+    gallery.querySelectorAll('.product__media:not(.tlive) > img').forEach(function (img) {
+      const media = img.parentElement;
+      if (!artUrl) { media.hidden = false; img.hidden = false; const old = media.querySelector('canvas.tart'); if (old) old.remove(); return; }
+      if (exampleOnly(img)) { media.hidden = true; return; }
+      const r = roomOf(img);
+      if (!r) return;
+      const art = new Image();
+      const draw = function () {
+        if (!img.naturalWidth || !art.naturalWidth) return;
+        let c = media.querySelector('canvas.tart');
+        if (!c) { c = document.createElement('canvas'); c.className = 'tart'; c.setAttribute('role', 'img'); media.appendChild(c); }
+        c.setAttribute('aria-label', img.alt);
+        c.width = img.naturalWidth; c.height = img.naturalHeight;
+        const g = c.getContext('2d');
+        g.drawImage(img, 0, 0, c.width, c.height);
+        let x = r[0] / 100 * c.width, y = r[1] / 100 * c.height, w = r[2] / 100 * c.width, h = r[3] / 100 * c.height;
+        if (white) {
+          g.fillStyle = '#fbfbfa'; g.fillRect(x, y, w, h);
+          const m = Math.min(w, h) * 0.065; x += m; y += m; w -= m * 2; h -= m * 2;
+        }
+        const k = Math.max(w / art.naturalWidth, h / art.naturalHeight);
+        const sw = w / k, sh = h / k;
+        g.drawImage(art, (art.naturalWidth - sw) / 2, (art.naturalHeight - sh) / 2, sw, sh, x, y, w, h);
+        /* a little depth: the frame's shadow on the top and left edges */
+        const sh1 = g.createLinearGradient(0, y, 0, y + h * 0.05);
+        sh1.addColorStop(0, 'rgba(0,0,0,0.22)'); sh1.addColorStop(1, 'rgba(0,0,0,0)');
+        g.fillStyle = sh1; g.fillRect(x, y, w, h * 0.05);
+        const sh2 = g.createLinearGradient(x, 0, x + w * 0.04, 0);
+        sh2.addColorStop(0, 'rgba(0,0,0,0.15)'); sh2.addColorStop(1, 'rgba(0,0,0,0)');
+        g.fillStyle = sh2; g.fillRect(x, y, w * 0.04, h);
+        img.hidden = true;
+      };
+      img.loading = 'eager';
+      if (!img.complete) img.addEventListener('load', draw, { once: true });
+      art.onload = draw;
+      art.src = artUrl;
+    });
+  };
   const showLive = function (url) {
+    artUrl = url;
+    paintRooms();
     if (!ensureLive()) return;
     const img = live.querySelector('.tlive__art');
     img.alt = resultImg.alt;
@@ -202,6 +256,8 @@
     if (colorProp) colorProp.value = '';
     result.hidden = true;
     if (live) live.hidden = true;
+    artUrl = '';
+    paintRooms();
   };
   const ready = function () {
     go.disabled = !photo || (needsName && !nameInput.value.trim()) || used() >= max;
