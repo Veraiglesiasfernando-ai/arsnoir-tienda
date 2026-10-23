@@ -613,6 +613,35 @@
       .catch(function () { swap.disabled = false; });
   });
 
+  /* A required field left empty (image-rights box, photo upload) stops the add without a word on
+     phones: scroll to it, mark it and say what is missing */
+  let invalidShown = 0;
+  document.addEventListener('invalid', function (event) {
+    const el = event.target;
+    if (!el.form || !el.form.hasAttribute('data-ajax-cart')) return;
+    if (Date.now() - invalidShown < 800) return; /* only the first one */
+    invalidShown = Date.now();
+    const box = el.closest('.cguard__rights, .cupload, label') || el;
+    box.classList.remove('is-needed');
+    void box.offsetWidth;
+    box.classList.add('is-needed');
+    box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    let msg = box.querySelector('.needed-msg');
+    if (!msg) {
+      msg = document.createElement('span');
+      msg.className = 'needed-msg';
+      msg.setAttribute('role', 'alert');
+      box.appendChild(msg);
+    }
+    msg.textContent = el.type === 'checkbox' ? 'Marca esta casilla para seguir.' : (el.type === 'file' ? 'Sube tu imagen para seguir.' : 'Rellena este campo para seguir.');
+    setTimeout(function () { box.classList.remove('is-needed'); }, 2600);
+  }, true);
+  document.addEventListener('change', function (event) {
+    const box = event.target.closest && event.target.closest('.is-needed, .cguard__rights, .cupload');
+    const msg = box && box.querySelector('.needed-msg');
+    if (msg && event.target.checkValidity && event.target.checkValidity()) msg.remove();
+  });
+
   document.addEventListener('submit', function (event) {
     const form = event.target.closest('form[data-ajax-cart]');
     if (!form || !drawer() || !window.fetch) return;

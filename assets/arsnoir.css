@@ -3164,3 +3164,10 @@ html.sguide-lock { overflow: hidden; }
 .gift-pick__size { font-size: 11px; color: var(--color-muted); white-space: nowrap; }
 .cartx-item--gift .cartx-item__media { background: #ecebe7; }
 .cartx-item--gift .cartx-item__media img { object-fit: contain; }
+/* A required field the customer missed (theme.js «invalid»): pulse and say what's missing */
+.is-needed { animation: needed-pulse 0.9s ease 2; border-radius: 10px; }
+@keyframes needed-pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(200,30,30,0); } 40% { box-shadow: 0 0 0 4px rgba(200,30,30,0.35); } }
+.needed-msg { display: block; flex-basis: 100%; margin-top: 6px; color: #b42318; font-size: 13px; font-weight: 600; }
+.cguard__rights { flex-wrap: wrap; }
+.ppick__create + .ppick__create { background: #fff; color: #0a0a0a; box-shadow: inset 0 0 0 1px #0a0a0a; }
+.ppick__create + .ppick__create small { color: #5a5a5a; }

@@ -66,11 +66,30 @@
     <div class="ppick__more" data-pack-more data-current="{{ product.id }}" data-key="{{ current_variant.title | escape }}" hidden>
       <p class="ppick__more-title">{% if custom %}Elige tu segunda pieza{% else %}Elige tu segunda obra{% endif %}</p>
       {%- if custom -%}
-        {%- comment -%} Adds this one to the cart and goes to make another illustration (the -15 % applies in the cart) {%- endcomment -%}
-        <button type="button" class="ppick__create" data-pack-create>
-          <span>Crear otra {% if another == 'cuadro' %}personalizada{% else %}{{ another }}{% endif %}</span>
-          <small>Añadimos esta al carrito y eliges otro estilo u otra foto</small>
-        </button>
+        {%- comment -%} Adds this one to the cart, then goes to make the second one (the -15 % applies in the cart):
+            another illustration (Personalízalo) or any image printed as it is («Tu foto, en un cuadro») {%- endcomment -%}
+        {%- assign photo_product = all_products['tu-foto-en-un-cuadro'] -%}
+        {%- if another == 'ilustración' -%}
+          <button type="button" class="ppick__create" data-pack-create="{{ routes.collections_url }}/personalizalo#Plantillas">
+            <span>Crear otra ilustración</span>
+            <small>Añadimos esta al carrito y eliges otro estilo u otra foto</small>
+          </button>
+          {%- if photo_product != blank -%}
+            <button type="button" class="ppick__create" data-pack-create="{{ photo_product.url }}">
+              <span>Subir otra imagen, tal cual</span>
+              <small>Sin ilustración: imprimimos la foto o imagen que quieras</small>
+            </button>
+          {%- endif -%}
+        {%- else -%}
+          <button type="button" class="ppick__create" data-pack-create="{{ product.url }}">
+            <span>Subir otra imagen</span>
+            <small>Añadimos esta al carrito y subes la siguiente</small>
+          </button>
+          <button type="button" class="ppick__create" data-pack-create="{{ routes.collections_url }}/personalizalo#Plantillas">
+            <span>Convertir una foto en ilustración</span>
+            <small>Elige un estilo: mascota, familia, momento…</small>
+          </button>
+        {%- endif -%}
         <p class="ppick__or">o elige una obra de la tienda</p>
       {%- endif -%}
       <label class="ppick__search">
