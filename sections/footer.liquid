@@ -41,7 +41,7 @@
     <div class="site-footer__wordmark" aria-hidden="true">{{ s.wordmark | default: shop.name }}</div>
 
     <div class="site-footer__bottom">
-      <span>&copy; {{ 'now' | date: '%Y' }} {{ shop.name | strip }}. {{ 'general.all_rights' | t }}</span>
+      <span>&copy; {{ 'now' | date: '%Y' }} {{ shop.name | strip }}. {{ 'general.all_rights' | t }} · <a href="#cookies" class="site-footer__cookies" data-cookie-open>Configurar cookies</a></span>
       <div class="site-footer__social">
         {%- if settings.social_instagram != blank -%}<a href="{{ settings.social_instagram }}" target="_blank" rel="noopener">Instagram</a>{%- endif -%}
         {%- if settings.social_tiktok != blank -%}<a href="{{ settings.social_tiktok }}" target="_blank" rel="noopener">TikTok</a>{%- endif -%}
