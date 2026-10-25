@@ -134,11 +134,33 @@
             "image": "shopify://shop_images/pz-card-navidad-papa-noel.jpg",
             "link": "shopify://products/navidad-papa-noel"
           }
+        },
+        "mas6": {
+          "type": "template",
+          "settings": {
+            "category": "Mascotas",
+            "name": "Retrato glam",
+            "tagline": "Gafas de estrella, collar rosa y su nombre en la chapa.",
+            "image": "shopify://shop_images/estilo-mascotas-glam.jpg",
+            "link": "shopify://products/retrato-glam"
+          }
+        },
+        "mas7": {
+          "type": "template",
+          "settings": {
+            "category": "Mascotas",
+            "name": "Retrato cómic",
+            "tagline": "Feliz y en cómic. Eliges el color del collar.",
+            "image": "shopify://shop_images/estilo-mascotas-comic.jpg",
+            "link": "shopify://products/retrato-comic"
+          }
         }
       },
       "block_order": [
         "nav1",
         "nav2",
+        "mas6",
+        "mas7",
         "mas1",
         "mas2",
         "mas3",
@@ -211,11 +233,29 @@
             "template_id": "navidad-papa-noel",
             "needs_name": false
           }
+        },
+        "s8": {
+          "type": "style",
+          "settings": {
+            "product": "retrato-glam",
+            "template_id": "retrato-glam",
+            "needs_name": true
+          }
+        },
+        "s9": {
+          "type": "style",
+          "settings": {
+            "product": "retrato-comic",
+            "template_id": "retrato-comic",
+            "needs_name": true
+          }
         }
       },
       "block_order": [
         "s6",
         "s7",
+        "s8",
+        "s9",
         "s1",
         "s2",
         "s3",
