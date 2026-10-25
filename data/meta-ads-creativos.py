@@ -728,6 +728,80 @@ unboxing_ad(
     "Solo hasta el 9 de noviembre", x9=0.55,
 )
 
+
+def pet_light_ad(cid, photo, headline, price, button, note):
+    """Mascota sobre fondo claro: logotipo y texto en negro arriba, sobre un velo crema suave; botón negro.
+    4:5: logo, titular y precio arriba; botón y nota abajo, en el suelo, sin tapar al perro.
+    9:16: la foto a lo ancho, con la propia foto en espejo arriba y abajo; todo el texto arriba (abajo lo tapa Instagram)."""
+    src = Image.open(M / photo).convert("RGB")
+    logo_src = Image.open(M / "ads/src/logo-arsnoir-negro.png")
+    CREAM = (246, 241, 234)
+
+    def veil(W, h, a0, a1, top=True):
+        layer = Image.new("RGBA", (W, h), CREAM + (0,))
+        g = Image.linear_gradient("L").resize((W, h))
+        if top:
+            g = g.rotate(180)
+        layer.putalpha(g.point(lambda v: round(a1 + (a0 - a1) * v / 255)))
+        return layer
+
+    for fmt, (W, H) in {"4x5": (1080, 1350), "9x16": (1080, 1920)}.items():
+        ph = round(src.height * W / src.width)
+        if fmt == "4x5":
+            im = cover(M / photo, W, H, 0.5).convert("RGBA")
+            im.alpha_composite(veil(W, 330, 215, 0), (0, 0))
+            im.alpha_composite(veil(W, 190, 190, 0, top=False), (0, H - 190))
+        else:
+            py = 300
+            fade = 140
+            body = src.resize((W, ph), Image.LANCZOS)
+            im = Image.new("RGB", (W, H))
+            # arriba: la propia foto en espejo; abajo: el suelo estirado. Ambos desenfocados.
+            top = body.crop((0, 0, W, py + fade)).transpose(Image.FLIP_TOP_BOTTOM).filter(ImageFilter.GaussianBlur(12))
+            im.paste(top, (0, 0))
+            rest = H - py - ph
+            floor = body.crop((0, ph - 40, W, ph)).resize((W, rest + fade), Image.BICUBIC).filter(ImageFilter.GaussianBlur(14))
+            im.paste(floor, (0, py + ph - fade))
+            # la foto se funde arriba y abajo con el relleno, sin corte visible
+            mask = Image.new("L", (W, ph), 255)
+            mask.paste(Image.linear_gradient("L").resize((W, fade)), (0, 0))
+            mask.paste(Image.linear_gradient("L").rotate(180).resize((W, fade)), (0, ph - fade))
+            im.paste(body, (0, py), mask)
+            im = im.convert("RGBA")
+            im.alpha_composite(veil(W, 700, 225, 0), (0, 0))
+        d = ImageDraw.Draw(im)
+        cx = W / 2
+        lw = 230 if fmt == "4x5" else 270
+        logo = logo_src.resize((lw, round(logo_src.height * lw / logo_src.width)), Image.LANCZOS)
+        ly = 34 if fmt == "4x5" else 290
+        im.alpha_composite(logo, ((W - lw) // 2, ly))
+        d = ImageDraw.Draw(im)
+        hs = 62 if fmt == "4x5" else 70
+        y = ly + logo.height + 14
+        centered(d, cx, y, headline, grotesk(hs, 700), INK)
+        y += hs + 12
+        ps = 40 if fmt == "4x5" else 46
+        centered(d, cx, y, price, grotesk(ps, 600), INK)
+        y += ps + 22
+        bf = grotesk(34 if fmt == "4x5" else 36, 700)
+        bw, bh = d.textlength(button, font=bf) + 120, 88 if fmt == "4x5" else 94
+        nf = grotesk(24 if fmt == "4x5" else 28, 600)
+        if fmt == "4x5":
+            by = H - 52 - 30 - bh
+        else:
+            by = y
+        d.rounded_rectangle((cx - bw / 2, by, cx + bw / 2, by + bh), radius=bh / 2, fill=INK)
+        centered(d, cx, by + (bh - bf.size) / 2 - 4, button, bf, WHITE)
+        centered(d, cx, by + bh + 12, note, nf, INK)
+        save(im, f"{cid}-{fmt}.jpg")
+
+
+pet_light_ad(
+    "c21-mascota-thor", "ads/src/mascota-thor-glam-comic.jpg",
+    "¿Cuál es más él?", "Desde 24,95 €", "Pruébalo con su foto",
+    "Vista previa gratis antes de pagar",
+)
+
 if __name__ == "__main__":
     import sys
     if "--video" in sys.argv:
