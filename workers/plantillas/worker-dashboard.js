@@ -114,6 +114,41 @@ const TEMPLATES = {
       'It must be the very same individual animal as in the second image, instantly recognisable to its owner: same breed or mix, head and muzzle shape, ear shape and colour, fur length, colours, every spot and marking and eye colour. Nothing of the template animal\'s breed, colours or markings may remain. ' +
       'No text, no logos, no border. Vertical 4:5.'
   },
+  'retrato-glam': {
+    needsName: true,
+    font: 'manuscrita', /* keeps the name as typed («Thor», not «THOR») on the tag */
+    aspectRatio: '4:5',
+    refFirst: true,
+    reference: 'https://cdn.shopify.com/s/files/1/1020/8903/2064/files/estilo-mascotas-glam.jpg',
+    prompt:
+      'The first image is the finished illustration template. The second image is the customer\'s photo of their pet. ' +
+      'Edit the first image: replace its animal with the pet from the second image and keep everything else of the first image exactly as it is: ' +
+      'the same flat hand-painted illustration style with soft paper texture, the same plain pastel pink background, ' +
+      'the same pink cat-eye sunglasses with tinted pink lenses and little star details, worn on the pet\'s face over the eyes and tilted like in the template, ' +
+      'the same pink leather collar with a silver buckle and a red heart-shaped tag hanging from it, the same pose, angle, size and head-and-chest framing, happy expression. ' +
+      'The heart tag shows the name "{NAME}" in white, spelled exactly, with a small white star under it. No other text. ' +
+      'The pet must be fully redrawn in the illustration style: never keep photographic pixels, photo fur texture or anything of the photo background. Exactly one animal with one head. ' +
+      'It must be the very same individual animal as in the second image, instantly recognisable to its owner: same breed or mix, head and muzzle shape, ear shape and colour, fur length, colours, every spot and marking. Nothing of the template animal\'s breed, colours or markings may remain. ' +
+      'No logos, no border. Vertical 4:5.'
+  },
+  'retrato-comic': {
+    needsName: true,
+    font: 'manuscrita',
+    colors: { azul: 'bright blue', rojo: 'bright red', rosa: 'hot pink', verde: 'green', negro: 'black', morado: 'purple' },
+    aspectRatio: '4:5',
+    refFirst: true,
+    reference: 'https://cdn.shopify.com/s/files/1/1020/8903/2064/files/estilo-mascotas-comic.jpg',
+    prompt:
+      'The first image is the finished illustration template. The second image is the customer\'s photo of their pet. ' +
+      'Edit the first image: replace its animal with the pet from the second image and keep everything else of the first image exactly as it is: ' +
+      'the same cheerful hand-drawn comic illustration style with fine ink outlines and textured colour, the same plain mustard yellow background with the same little white stars, dots and motion lines, ' +
+      'the same tilted head leaning into the picture from the left, the same big happy open-mouth smile with the tongue out, looking at the viewer, the same framing. ' +
+      'The collar is {COLOR} leather with stitching and a gold ring, with a red heart-shaped tag hanging from it. ' +
+      'The heart tag shows the name "{NAME}" in white, spelled exactly, with a small white star under it. No other text. ' +
+      'The pet must be fully redrawn in the illustration style: never keep photographic pixels, photo fur texture or anything of the photo background. Exactly one animal with one head. ' +
+      'It must be the very same individual animal as in the second image, instantly recognisable to its owner: same breed or mix, head and muzzle shape, ear shape and colour, fur length, colours, every spot and marking. Nothing of the template animal\'s breed, colours or markings may remain. ' +
+      'No logos, no border. Vertical 4:5.'
+  },
   'momento-ilustrado': {
     needsName: false,
     font: 'manuscrita',
