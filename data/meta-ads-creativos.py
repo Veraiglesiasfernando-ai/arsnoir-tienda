@@ -635,10 +635,10 @@ def brand_button_ad(cid, photo, lines, button, note=None, price=None):
     for fmt, (W, H) in {"4x5": (1080, 1350), "9x16": (1080, 1920)}.items():
         if fmt == "4x5":
             im = wall_scene(src, W, H, H, 0, 0.5)
-            lw, ly, size, gap = 250, 24, 44, 16
+            lw, ly, size, gap = 290, 28, 44, 18
         else:
             im = wall_scene(src, W, H, H - 260, 260, 0.502)
-            lw, ly, size, gap = 300, 292, 56, 30
+            lw, ly, size, gap = 340, 296, 56, 30
         bot = 300 if fmt == "4x5" else 560
         im.alpha_composite(gradient(W, bot, 0, 190), (0, H - bot))
         logo = logo_src.resize((lw, round(logo_src.height * lw / logo_src.width)), Image.LANCZOS)
@@ -704,7 +704,7 @@ def unboxing_ad(cid, photo, headline, price, button, note, x9=0.5):
         im.alpha_composite(gradient(W, bot_h, 0, 230), (0, H - bot_h))
         d = ImageDraw.Draw(im)
         cx = W / 2
-        lw = 250 if fmt == "4x5" else 290
+        lw = 290 if fmt == "4x5" else 330
         logo = logo_src.resize((lw, round(logo_src.height * lw / logo_src.width)), Image.LANCZOS)
         ly = 44 if fmt == "4x5" else 292
         im.alpha_composite(logo, ((W - lw) // 2, ly))
@@ -771,7 +771,7 @@ def pet_light_ad(cid, photo, headline, price, button, note):
             im.alpha_composite(veil(W, 700, 225, 0), (0, 0))
         d = ImageDraw.Draw(im)
         cx = W / 2
-        lw = 230 if fmt == "4x5" else 270
+        lw = 270 if fmt == "4x5" else 310
         logo = logo_src.resize((lw, round(logo_src.height * lw / logo_src.width)), Image.LANCZOS)
         ly = 34 if fmt == "4x5" else 290
         im.alpha_composite(logo, ((W - lw) // 2, ly))
