@@ -1224,11 +1224,14 @@
       const art = this.querySelector('[data-art]');
       Object.assign(art.style, { width: w + 'px', height: h + 'px', left: left + 'px', bottom: bottom + 'px', borderWidth: Math.max(1, fw * ppc) + 'px' });
       art.dataset.kind = kind;
+      /* The artwork on its own («…, la obra», or the customer's illustration), filling the frame: the
+         no-frame mockup has margins and a shadow, and cropping it cut the edges of the work */
       const img = this.querySelector('[data-art-img]');
-      const src = this.dataset.none;
+      const src = this.dataset.art || this.dataset.none;
       if (img.dataset.src !== src) {
         img.dataset.src = src;
-        img.onerror = () => { img.onerror = null; img.classList.add('is-fallback'); img.src = this.dataset.fallback; };
+        img.classList.add('is-fallback');
+        img.onerror = () => { img.onerror = null; img.src = this.dataset.fallback; };
         img.src = src;
       }
       const sofa = this.querySelector('[data-sofa]');
