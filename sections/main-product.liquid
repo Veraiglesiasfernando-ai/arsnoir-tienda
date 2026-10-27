@@ -24,6 +24,18 @@
         endif
         assign gelato_shown = 0
       -%}
+      {%- assign lead = section.settings.lead_image -%}
+      {%- if lead != blank -%}
+        {%- comment -%} Lead photo first (e.g. the piece as a gift), then the video right under it {%- endcomment -%}
+        <div class="product__media product__media--lead">
+          {{ lead | image_url: width: 1600 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '500, 800, 1100, 1400, 1600', sizes: '(min-width: 900px) 55vw, 90vw', alt: lead.alt | default: product.title }}
+        </div>
+        {%- if section.settings.gallery_video != blank -%}
+        <div class="product__media product__media--video">
+          <video src="{{ section.settings.gallery_video }}" autoplay muted loop playsinline preload="metadata"{% if section.settings.gallery_video_poster != blank %} poster="{{ section.settings.gallery_video_poster | image_url: width: 1200 }}"{% endif %} aria-label="{{ 'product.frame_video' | t }}"></video>
+        </div>
+        {%- endif -%}
+      {%- endif -%}
       {%- for media in product.media -%}
         {%- liquid
           assign alt_parts = media.alt | split: '-'
@@ -70,7 +82,7 @@
       {%- else -%}
         <div class="product__media">{% render 'frame-placeholder' %}</div>
       {%- endfor -%}
-      {%- if section.settings.gallery_video != blank -%}
+      {%- if section.settings.gallery_video != blank and lead == blank -%}
         {%- comment -%} Looping "how the frame is made" video under the photos (fills the column on desktop) {%- endcomment -%}
         <div class="product__media product__media--video">
           <video src="{{ section.settings.gallery_video }}" autoplay muted loop playsinline preload="metadata"{% if section.settings.gallery_video_poster != blank %} poster="{{ section.settings.gallery_video_poster | image_url: width: 1200 }}"{% endif %} aria-label="{{ 'product.frame_video' | t }}"></video>
@@ -643,6 +655,7 @@
       "info": "Se reproduce solo, sin sonido y en bucle debajo de la galería. Súbelo en Contenido → Archivos y pega aquí su enlace."
     },
     { "type": "image_picker", "id": "gallery_video_poster", "label": "Imagen mientras carga el vídeo" },
+    { "type": "image_picker", "id": "lead_image", "label": "Foto principal (opcional)", "info": "Sale la primera de la galería, con el vídeo justo debajo." },
     {
       "type": "range", "id": "lifestyle_from", "label": "Fotos ambientadas a partir de la imagen nº", "min": 0, "max": 6, "step": 1, "default": 2,
       "info": "Las primeras imágenes se muestran sobre paspartú gris; a partir de este número, a sangre (fotos de la obra en una pared). 0 = todas con paspartú."
