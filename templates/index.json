@@ -116,13 +116,15 @@
         "s1": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/arsnoir-hero-salon.jpg"
+            "image": "shopify://shop_images/arsnoir-hero-salon.jpg",
+            "image_mobile": "shopify://shop_images/arsnoir-hero-movil-sofa.jpg"
           }
         },
         "s2": {
           "type": "slide",
           "settings": {
             "image": "shopify://shop_images/arsnoir-hero-coche.jpg",
+            "image_mobile": "shopify://shop_images/arsnoir-hero-movil-coche.jpg",
             "text_position": "top"
           }
         }
