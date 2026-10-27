@@ -143,7 +143,7 @@
             "category": "Mascotas",
             "name": "Retrato glam",
             "tagline": "Gafas de estrella, collar rosa y su nombre en la chapa.",
-            "image": "shopify://shop_images/estilo-mascotas-glam.jpg",
+            "image": "shopify://shop_images/pz-card-retrato-glam.jpg",
             "link": "shopify://products/retrato-glam"
           }
         },
@@ -153,7 +153,7 @@
             "category": "Mascotas",
             "name": "Retrato cómic",
             "tagline": "Feliz y en cómic. Eliges el color del collar.",
-            "image": "shopify://shop_images/estilo-mascotas-comic.jpg",
+            "image": "shopify://shop_images/pz-card-retrato-comic.jpg",
             "link": "shopify://products/retrato-comic"
           }
         }
