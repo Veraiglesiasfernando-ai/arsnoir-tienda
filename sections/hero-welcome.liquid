@@ -46,6 +46,7 @@
           <span class="poster__info">
             <span class="poster__meta">
               <span class="poster__title">{{ title }}</span>
+              {%- if b.subtitle != blank -%}<span class="poster__sub">{{ b.subtitle }}</span>{%- endif -%}
               <span class="poster__price">
                 {%- if p != blank -%}{% render 'price', product: p, show_from: true %}{%- else -%}{{ b.placeholder_price }}{%- endif -%}
               </span>
@@ -124,6 +125,7 @@
         { "type": "checkbox", "id": "featured", "label": "Carta destacada (más grande)", "default": false },
         { "type": "image_picker", "id": "image", "label": "Imagen personalizada", "info": "Opcional. Sustituye a la imagen de la obra." },
         { "type": "text", "id": "title", "label": "Nombre personalizado" },
+        { "type": "text", "id": "subtitle", "label": "Frase bajo el nombre (opcional)", "info": "Ej.: Sube su foto y míralo gratis" },
         { "type": "text", "id": "tag", "label": "Etiqueta superior", "info": "Ej.: NUEVA, EDICIÓN LIMITADA" },
         {
           "type": "select", "id": "tone", "label": "Color del hueco vacío", "default": "light",

@@ -3184,3 +3184,7 @@ html.sguide-lock { overflow: hidden; }
   .vhero:has(.vhero__slide.is-active[data-text="top"] picture) .vhero__center { justify-content: flex-start; padding: 22px 16px 30px; }
   .vhero__slide[data-text="top"]:has(picture)::after { background: linear-gradient(0deg, rgba(0,0,0,0) 55%, rgba(0,0,0,0.55) 100%); }
 }
+
+/* Welcome cards: optional line under the name (e.g. the personalised card) */
+.poster__sub { display: block; margin-top: 2px; font-size: 12px; line-height: 1.35; color: var(--color-muted); }
+.poster--featured .poster__tag { background: #FF5A1F; color: #0a0a0a; }

@@ -18,8 +18,12 @@
             "featured": true,
             "tone": "light",
             "placeholder_price": "24,95 €",
-            "product": "blue-corner-1",
-            "tag": "Novedad"
+            "product": "retrato-glam",
+            "image": "shopify://shop_images/arsnoir-personalizado-mascotas.jpg",
+            "title": "Tu mascota, con su nombre",
+            "subtitle": "Personalizado con su foto · Míralo gratis antes de pagar",
+            "link": "shopify://collections/personalizalo",
+            "tag": "Personalizado"
           }
         },
         "right": {
