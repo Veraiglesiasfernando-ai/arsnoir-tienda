@@ -3172,3 +3172,6 @@ html.sguide-lock { overflow: hidden; }
 .ppick__create + .ppick__create { background: #fff; color: #0a0a0a; box-shadow: inset 0 0 0 1px #0a0a0a; }
 .ppick__create + .ppick__create small { color: #5a5a5a; }
 .cguard__rights-note { margin: 12px 0 0; font-size: 12px; color: var(--color-muted); line-height: 1.45; }
+
+/* Solo nuestro banner de cookies: oculta el de Shopify (el nuestro ya envía el consentimiento con setTrackingConsent) */
+#shopify-pc__banner,#shopify-pc__prefs{display:none!important}
