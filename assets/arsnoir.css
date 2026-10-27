@@ -3209,3 +3209,9 @@ html.sguide-lock { overflow: hidden; }
 .pz-way__media--photo { margin-bottom: clamp(10px, 1.4vw, 16px); }
 .pz-way__media--photo .pz-way__btn { position: absolute; left: 50%; bottom: clamp(16px, 3vw, 28px); transform: translateX(-50%); display: inline-flex; align-items: center; gap: 8px; padding: 14px 26px; border-radius: 999px; background: #0a0a0a; color: #fff; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; box-shadow: 0 10px 30px rgba(0,0,0,0.3); transition: transform 0.3s ease, background 0.3s ease; }
 .pz-way__media--photo:hover .pz-way__btn { background: #490B1A; transform: translateX(-50%) translateY(-2px); }
+
+/* Obras destacadas: one row you swipe on mobile too (the next work peeks in) */
+@media (max-width: 749px) {
+  .featured .slider { display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 8px 16px 24px; scroll-padding-left: 16px; }
+  .featured .slider__item { flex: 0 0 62vw; width: auto; scroll-snap-align: start; }
+}
