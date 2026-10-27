@@ -123,8 +123,7 @@
       "settings": {
         "lifestyle_from": 2,
         "gallery_video": "https://cdn.shopify.com/videos/c/vp/7ba2dfa3eab44ad2b9af6dfcff4dcd2a/7ba2dfa3eab44ad2b9af6dfcff4dcd2a.HD-1080p-2.5Mbps-96575530.mp4",
-        "gallery_video_poster": "shopify://shop_images/arsnoir-marco-negro-poster.jpg",
-        "lead_image": "shopify://shop_images/arsnoir-regalo-foto-familia.jpg"
+        "gallery_video_poster": "shopify://shop_images/arsnoir-marco-negro-poster.jpg"
       }
     },
     "related": {

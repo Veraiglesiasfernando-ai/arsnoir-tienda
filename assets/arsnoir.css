@@ -3204,3 +3204,6 @@ html.sguide-lock { overflow: hidden; }
 .product__media--lead { aspect-ratio: 4 / 5; overflow: hidden; background: #f3f3f1; }
 .product__media--lead img { display: block; width: 100%; height: 100%; object-fit: cover; }
 @media (min-width: 750px) { .product__gallery > .product__media--lead { grid-column: 1 / -1; } }
+
+/* Personalízalo: a photo above each way's video */
+.pz-way__media--photo { margin-bottom: clamp(10px, 1.4vw, 16px); }

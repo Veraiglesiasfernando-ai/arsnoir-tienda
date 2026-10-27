@@ -57,6 +57,9 @@
 
     <div class="pz-ways">
       <div class="pz-way" id="SubeTuFoto">
+        {%- if s.upload_image != blank -%}
+          <a class="pz-way__media pz-way__media--photo" href="{{ cta_url }}" tabindex="-1" aria-hidden="true">{{ s.upload_image | image_url: width: 1400 | image_tag: loading: 'eager', widths: '600, 900, 1200, 1400', sizes: '(min-width: 750px) 50vw, 100vw', alt: '' }}</a>
+        {%- endif -%}
         <a class="pz-way__media" href="{{ cta_url }}" tabindex="-1" aria-hidden="true">
           {%- if s.upload_video_url != blank -%}
             <video src="{{ s.upload_video_url }}" autoplay muted loop playsinline preload="metadata"{% if s.upload_video_poster != blank %} poster="{{ s.upload_video_poster | image_url: width: 1200 }}"{% endif %}></video>
@@ -72,6 +75,9 @@
         </div>
       </div>
       <div class="pz-way" id="Ilustracion">
+        {%- if s.template_image != blank -%}
+          <a class="pz-way__media pz-way__media--photo" href="#Plantillas" tabindex="-1" aria-hidden="true">{{ s.template_image | image_url: width: 1400 | image_tag: loading: 'eager', widths: '600, 900, 1200, 1400', sizes: '(min-width: 750px) 50vw, 100vw', alt: '' }}</a>
+        {%- endif -%}
         <div class="pz-way__media">
           {%- if s.video_url != blank -%}{{ template_video }}{%- endif -%}
         </div>
@@ -195,6 +201,8 @@
     { "type": "text", "id": "path_template_title", "label": "Tarjeta 2: título", "default": "Conviértela en ilustración" },
     { "type": "text", "id": "path_template_text", "label": "Tarjeta 2: texto", "default": "Elige un estilo y tu foto se transforma en esa ilustración." },
     { "type": "header", "content": "Vídeos" },
+    { "type": "image_picker", "id": "upload_image", "label": "Tarjeta 1: foto encima del vídeo (opcional)" },
+    { "type": "image_picker", "id": "template_image", "label": "Tarjeta 2: foto encima del vídeo (opcional)" },
     { "type": "text", "id": "upload_video_url", "label": "Vídeo «Sube tu foto» (URL .mp4)", "info": "Contenido → Archivos. En bucle y sin sonido." },
     { "type": "image_picker", "id": "upload_video_poster", "label": "Imagen del vídeo «Sube tu foto» mientras carga" },
     { "type": "text", "id": "video_url", "label": "Vídeo de las plantillas (URL .mp4)" },
