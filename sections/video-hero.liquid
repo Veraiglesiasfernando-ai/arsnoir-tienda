@@ -16,7 +16,18 @@
             {{ b.video | video_tag: autoplay: true, loop: true, muted: true, playsinline: true, controls: false, preload: 'none', image_size: '1920x' }}
           {%- endif -%}
         {%- elsif b.image != blank -%}
-          {%- if forloop.first -%}
+          {%- if forloop.first -%}{%- assign load = 'eager' -%}{%- else -%}{%- assign load = 'lazy' -%}{%- endif -%}
+          {%- comment -%} Own photo on mobile (portrait crop), if set {%- endcomment -%}
+          {%- if b.image_mobile != blank -%}
+            <picture>
+              <source media="(max-width: 749px)" srcset="{{ b.image_mobile | image_url: width: 750 }} 750w, {{ b.image_mobile | image_url: width: 1100 }} 1100w, {{ b.image_mobile | image_url: width: 1500 }} 1500w" sizes="100vw">
+              {%- if forloop.first -%}
+                {{ b.image | image_url: width: 2400 | image_tag: loading: load, fetchpriority: 'high', widths: '1100, 1500, 1920, 2400', sizes: '100vw' }}
+              {%- else -%}
+                {{ b.image | image_url: width: 2400 | image_tag: loading: load, widths: '1100, 1500, 1920, 2400', sizes: '100vw' }}
+              {%- endif -%}
+            </picture>
+          {%- elsif forloop.first -%}
             {{ b.image | image_url: width: 2400 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '750, 1100, 1500, 1920, 2400', sizes: '100vw' }}
           {%- else -%}
             {{ b.image | image_url: width: 2400 | image_tag: loading: 'lazy', widths: '750, 1100, 1500, 1920, 2400', sizes: '100vw' }}
@@ -102,6 +113,7 @@
       "settings": [
         { "type": "video", "id": "video", "label": "Vídeo de fondo", "info": "Súbelo en Contenido → Archivos. Se reproduce en bucle y sin sonido." },
         { "type": "image_picker", "id": "image", "label": "Imagen (si no hay vídeo)" },
+        { "type": "image_picker", "id": "image_mobile", "label": "Imagen en móvil (opcional)", "info": "Se recorta en vertical (4:5). Si la dejas vacía, se usa la de arriba." },
         {
           "type": "select", "id": "text_position", "label": "Texto encima de esta imagen", "default": "bottom",
           "info": "Ponlo donde no tape la obra de la foto.",

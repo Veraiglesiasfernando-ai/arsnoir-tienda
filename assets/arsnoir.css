@@ -3175,3 +3175,12 @@ html.sguide-lock { overflow: hidden; }
 
 /* Solo nuestro banner de cookies: oculta el de Shopify (el nuestro ya envía el consentimiento con setTrackingConsent) */
 #shopify-pc__banner,#shopify-pc__prefs{display:none!important}
+
+/* Mobile hero with its own photo: taller portrait crop, text where the slide says (top or bottom) */
+@media (max-width: 749px) {
+  .vhero__slide picture { display: block; }
+  .vhero__slide:has(picture) img { aspect-ratio: 4 / 5; object-position: 50% 50%; }
+  .vhero:has(.vhero__slide.is-active picture) .vhero__heading { font-size: clamp(1.7rem, 8vw, 2.2rem); }
+  .vhero:has(.vhero__slide.is-active[data-text="top"] picture) .vhero__center { justify-content: flex-start; padding: 22px 16px 30px; }
+  .vhero__slide[data-text="top"]:has(picture)::after { background: linear-gradient(0deg, rgba(0,0,0,0) 55%, rgba(0,0,0,0.55) 100%); }
+}
