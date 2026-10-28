@@ -56,16 +56,15 @@
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.6"/></svg>
         </button>
       </div>
+      <p class="sguide__note">Una persona de 1,75 m al lado, para ver el tamaño real.</p>
       <div class="sguide__stage" data-stage>
         <div class="sguide__art" data-art><img alt="" data-art-img width="1200" height="1500"></div>
-        <div class="sguide__dim sguide__dim--w" data-dim-w><span></span></div>
-        <div class="sguide__dim sguide__dim--h" data-dim-h><span></span></div>
-        <svg class="sguide__sofa" data-sofa viewBox="0 0 200 90" preserveAspectRatio="none" aria-hidden="true">
-          <path d="M18 88V42c0-12 6-18 18-18h128c12 0 18 6 18 18v46" fill="none" stroke="currentColor" stroke-width="1.2" vector-effect="non-scaling-stroke"/>
-          <path d="M28 88V44c0-6 4-10 10-10h52c6 0 10 4 10 10v44M100 88V44c0-6 4-10 10-10h52c6 0 10 4 10 10v44" fill="none" stroke="currentColor" stroke-width="1.2" vector-effect="non-scaling-stroke"/>
-          <path d="M2 88V64c0-8 5-12 12-12h4c7 0 10 4 10 12v24M198 88V64c0-8-5-12-12-12h-4c-7 0-10 4-10 12v24" fill="none" stroke="currentColor" stroke-width="1.2" vector-effect="non-scaling-stroke"/>
+        <svg class="sguide__person" data-person viewBox="0 0 32 100" preserveAspectRatio="none" aria-hidden="true">
+          <circle cx="16" cy="7" r="6.2" fill="currentColor"/>
+          <path d="M8.5 16h15l3 35h-5l-1.2 49h-5.3L14.8 66 14.6 100H9.3L8 51H3z" fill="currentColor"/>
         </svg>
-        <div class="sguide__floor" data-floor><span>{{ block.settings.sofa_label }}</span></div>
+        <span class="sguide__plabel" data-person-label>1,75 m</span>
+        <div class="sguide__ground" data-ground></div>
       </div>
       <div class="sguide__sizes" role="radiogroup" aria-label="{{ 'product.step_size' | t | escape }}" data-size-list></div>
       <div class="sguide__finishes" data-finish-list></div>

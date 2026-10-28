@@ -1214,23 +1214,24 @@
       if (this.ar && this.ar.open) this.buildAr();
     }
     drawStage() {
+      /* The work hung at eye level (centre at 150 cm) next to a 1.75 m person, both to scale */
       const stage = this.querySelector('[data-stage]');
       const W = stage.clientWidth, H = stage.clientHeight;
       if (!W) return;
-      const WALL = 300, ppc = W / WALL; /* stage = 300 × 225 cm of wall */
+      const groundH = H * 0.14, floorY = H - groundH;
+      const ppc = floorY / 210; /* 210 cm of wall above the floor */
       const cur = this.current();
       const kind = this.kind();
       const fw = kind === 'black' || kind === 'white' || kind === 'wood' ? 2.5 : 0;
       const w = (cur.size[0] + fw * 2) * ppc, h = (cur.size[1] + fw * 2) * ppc;
-      const sofaW = 200 * ppc, sofaH = 90 * ppc;
-      const base = 26; /* room under the sofa for its measure */
-      const bottom = Math.max(base + 4, Math.min(H - h - 40, base + sofaH + 25 * ppc));
-      const left = (W - w) / 2;
+      const personW = 175 * ppc * 0.32, personH = 175 * ppc;
+      const gap = 30 * ppc;
+      const total = w + gap + personW;
+      const left = Math.max(12, (W - total) / 2);
+      const bottom = Math.max(groundH + 6, groundH + 150 * ppc - h / 2);
       const art = this.querySelector('[data-art]');
       Object.assign(art.style, { width: w + 'px', height: h + 'px', left: left + 'px', bottom: bottom + 'px', borderWidth: Math.max(1, fw * ppc) + 'px' });
       art.dataset.kind = kind;
-      /* The artwork on its own («…, la obra», or the customer's illustration), filling the frame: the
-         no-frame mockup has margins and a shadow, and cropping it cut the edges of the work */
       const img = this.querySelector('[data-art-img]');
       const src = this.dataset.art || this.dataset.none;
       if (img.dataset.src !== src) {
@@ -1239,17 +1240,10 @@
         img.onerror = () => { img.onerror = null; img.src = this.dataset.fallback; };
         img.src = src;
       }
-      const sofa = this.querySelector('[data-sofa]');
-      Object.assign(sofa.style, { width: sofaW + 'px', height: sofaH + 'px', left: (W - sofaW) / 2 + 'px', bottom: base + 'px' });
-      const floor = this.querySelector('[data-floor]');
-      Object.assign(floor.style, { width: sofaW + 'px', left: (W - sofaW) / 2 + 'px' });
-      const cm = (n) => (Math.round(n * 10) / 10).toString().replace('.', ',') + ' cm';
-      const dw = this.querySelector('[data-dim-w]');
-      Object.assign(dw.style, { width: w + 'px', left: left + 'px', bottom: bottom + h + 10 + 'px' });
-      dw.firstChild.textContent = cm(cur.size[0]);
-      const dh = this.querySelector('[data-dim-h]');
-      Object.assign(dh.style, { height: h + 'px', left: left + w + 12 + 'px', bottom: bottom + 'px' });
-      dh.firstChild.textContent = cm(cur.size[1]);
+      const px = left + w + gap;
+      Object.assign(this.querySelector('[data-person]').style, { width: personW + 'px', height: personH + 'px', left: px + 'px', bottom: groundH + 'px' });
+      Object.assign(this.querySelector('[data-person-label]').style, { left: px + personW + 6 + 'px', bottom: groundH + personH - 14 + 'px' });
+      this.querySelector('[data-ground]').style.height = groundH + 'px';
     }
     /* «Verlo en mi pared»: real-size 3D frame on the wall in AR (assets/wall-ar.js + <model-viewer>) -- */
     setupAr() {
