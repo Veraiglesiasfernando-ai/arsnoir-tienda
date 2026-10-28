@@ -189,6 +189,8 @@ const TEMPLATES = {
  *
  *   POST /keep           { id } -> { url }   copy of a finished preview that never expires (KV binding KEEP)
  *   GET  /img/:id.png    that copy (public, for the order and the store)
+ *   GET  /stats          counter page: illustrations started / added to the cart per day and template
+ *                        (only counts, never photos; uses the KEEP or LIMITS KV binding; ?k=STATS_KEY if set)
  *
  * Replicate's own links expire after about an hour, so the link saved in the order must be a copy:
  * - KV binding KEEP (no card needed): every finished preview is copied for 7 days (poll returns it
@@ -214,6 +216,47 @@ const FONTS = {
   moderna: 'clean modern sans-serif capital letters with wide letter spacing'
 };
 
+/* Counter: plain numbers per day (Madrid time) and template, kept in KV for 120 days */
+const today = () => new Date().toLocaleDateString('sv-SE', { timeZone: 'Europe/Madrid' });
+const count = async (kv, what, tpl) => {
+  if (!kv) return;
+  try {
+    const key = 's:' + today() + ':' + what + ':' + (tpl || '-');
+    const n = parseInt((await kv.get(key)) || '0', 10);
+    await kv.put(key, String(n + 1), { expirationTtl: 120 * 24 * 3600 });
+  } catch (e) { /* the counter never blocks a preview */ }
+};
+const statsPage = async (kv) => {
+  const rows = {};
+  let cursor;
+  do {
+    const list = await kv.list({ prefix: 's:', cursor });
+    for (const k of list.keys) {
+      const [, day, what, tpl] = k.name.split(':');
+      const n = parseInt((await kv.get(k.name)) || '0', 10);
+      const r = (rows[day + '|' + tpl] = rows[day + '|' + tpl] || { day, tpl, made: 0, cart: 0 });
+      if (what === 'made') r.made += n;
+      if (what === 'cart') r.cart += n;
+    }
+    cursor = list.list_complete ? null : list.cursor;
+  } while (cursor);
+  const list = Object.values(rows).sort((a, b) => (b.day + b.tpl).localeCompare(a.day + a.tpl));
+  const days = {};
+  list.forEach((r) => { const d = (days[r.day] = days[r.day] || { made: 0, cart: 0 }); d.made += r.made; d.cart += r.cart; });
+  const esc = (t) => String(t).replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' })[c]);
+  const tr = (cells, tag = 'td') => '<tr>' + cells.map((c) => '<' + tag + '>' + esc(c) + '</' + tag + '>').join('') + '</tr>';
+  const html = '<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">' +
+    '<title>ARSNOIR · contador</title><style>body{font:15px system-ui,sans-serif;margin:24px;color:#0a0a0a;background:#f4f4f3}' +
+    'h1{font-size:20px}h2{font-size:16px;margin-top:28px}table{border-collapse:collapse;width:100%;max-width:640px;background:#fff}' +
+    'td,th{padding:8px 10px;border-bottom:1px solid #e2e2e0;text-align:left}th{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:#6b6b6b}</style>' +
+    '<h1>Ilustraciones generadas</h1><p>Hoy (' + today() + '): <b>' + ((days[today()] || {}).made || 0) + '</b> generadas · <b>' + ((days[today()] || {}).cart || 0) + '</b> al carrito</p>' +
+    '<h2>Por día</h2><table>' + tr(['Día', 'Generadas', 'Al carrito'], 'th') +
+    Object.keys(days).sort().reverse().map((d) => tr([d, days[d].made, days[d].cart])).join('') + '</table>' +
+    '<h2>Por plantilla</h2><table>' + tr(['Día', 'Plantilla', 'Generadas', 'Al carrito'], 'th') +
+    list.map((r) => tr([r.day, r.tpl, r.made, r.cart])).join('') + '</table>';
+  return new Response(html, { headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' } });
+};
+
 export default {
   async fetch(request, env) {
     const origin = request.headers.get('Origin') || '';
@@ -237,6 +280,14 @@ export default {
       const file = env.KEEP ? await env.KEEP.get(img[1] + '.png', { type: 'stream' }) : null;
       if (!file) return new Response('Not found', { status: 404 });
       return new Response(file, { headers: { 'Content-Type': 'image/png', 'Cache-Control': 'public, max-age=31536000, immutable', 'Access-Control-Allow-Origin': '*' } });
+    }
+
+    // Counter page (no photos, only numbers)
+    if (request.method === 'GET' && url.pathname === '/stats') {
+      const kv = env.KEEP || env.LIMITS;
+      if (!kv) return new Response('Falta el KV (KEEP o LIMITS)', { status: 501 });
+      if (env.STATS_KEY && url.searchParams.get('k') !== env.STATS_KEY) return new Response('Not found', { status: 404 });
+      return statsPage(kv);
     }
 
     if (!allowed.includes(origin)) return json({ error: 'origin' }, 403);
@@ -285,6 +336,7 @@ export default {
       });
       const data = await res.json();
       if (!res.ok || !data.id) return json({ error: 'replicate', detail: data.detail || null }, 502);
+      await count(env.KEEP || env.LIMITS, 'made', body.template);
       return json({ id: data.id });
     }
 
@@ -332,6 +384,7 @@ export default {
       try { body = await request.json(); } catch (e) { return json({ error: 'bad_request' }, 400); }
       const id = String(body.id || '');
       if (!/^[a-z0-9]{8,64}$/i.test(id)) return json({ error: 'id' }, 400);
+      if (body.first !== false) await count(env.KEEP || env.LIMITS, 'cart', TEMPLATES[body.template] ? body.template : '-');
       // Already copied when it was made: store it again without the 7-day expiry
       const copy = await env.KEEP.get(id + '.png', { type: 'arrayBuffer' });
       if (copy) {

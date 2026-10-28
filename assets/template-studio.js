@@ -35,7 +35,7 @@
     if (submitter) submitter.disabled = true;
     /* Up to 3 tries; if all fail, the order still has the 7-day copy (or Replicate's link) */
     const keep = function (n) {
-      return fetch(endpoint + '/keep', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: id }) })
+      return fetch(endpoint + '/keep', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: id, template: d.template, first: n === 0 }) })
         .then(function (r) { return r.ok ? r.json() : null; }, function () { return null; })
         .then(function (res) {
           if (res && res.url) { urlInput.value = res.url; return; }
