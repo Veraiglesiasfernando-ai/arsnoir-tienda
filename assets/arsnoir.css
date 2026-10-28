@@ -3223,3 +3223,15 @@ html.sguide-lock { overflow: hidden; }
 .announce__unit b { font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: 0.02em; }
 .announce__unit[hidden] { display: none; }
 @media (max-width: 749px) { .announce__left { margin-left: 4px; gap: 3px; } .announce__left-label { display: none; } .announce__unit { padding: 1px 4px; } }
+
+/* Pack Glam + Cómic (Personalízalo) */
+.pzpack__inner { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(20px, 4vw, 56px); align-items: center; max-width: 1120px; }
+.pzpack__media { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: #ecebe8; }
+.pzpack__media img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.pzpack__badge { position: absolute; top: 16px; left: 16px; padding: 8px 14px; border-radius: 999px; background: #490B1A; color: #F5E9D6; font-weight: 700; font-size: 15px; letter-spacing: 0.04em; }
+.pzpack__title { margin: 6px 0 10px; font-size: clamp(26px, 3.2vw, 40px); line-height: 1.05; letter-spacing: -0.03em; }
+.pzpack__text { margin: 0 0 16px; color: var(--color-muted); font-size: 16px; line-height: 1.5; max-width: 44ch; }
+.pzpack__steps { margin: 0 0 22px; padding-left: 20px; display: grid; gap: 6px; font-size: 15px; }
+.pzpack__ctas { display: flex; flex-wrap: wrap; gap: 10px; }
+.pzpack__note { margin: 14px 0 0; font-size: 12px; color: var(--color-muted); }
+@media (max-width: 749px) { .pzpack__inner { grid-template-columns: 1fr; } .pzpack__ctas .button { flex: 1 1 100%; text-align: center; } }

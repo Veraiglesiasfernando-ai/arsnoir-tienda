@@ -1,0 +1,60 @@
+{%- comment -%}
+  «Pack Glam + Cómic»: the same pet in both styles. Shows the real automatic 2-piece discount
+  (settings.pack_percent); it does not stack with other discounts. Hidden after the end date.
+{%- endcomment -%}
+{%- liquid
+  assign s = section.settings
+  assign pct = settings.pack_percent | default: 0
+  assign until = s.until | default: settings.pack_until
+  assign today = 'now' | date: '%Y-%m-%d'
+  assign show = true
+  if pct == 0
+    assign show = false
+  endif
+  if until != blank and today > until
+    assign show = false
+  endif
+  assign glam = all_products['retrato-glam']
+  assign comic = all_products['retrato-comic']
+-%}
+{%- if show -%}
+<section class="section pzpack" id="PackGlamComic">
+  <div class="page-width pzpack__inner">
+    <div class="pzpack__media">
+      {%- if s.image != blank -%}
+        {{ s.image | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '600, 900, 1200, 1400', sizes: '(min-width: 750px) 50vw, 100vw', alt: s.heading }}
+      {%- endif -%}
+      <span class="pzpack__badge">−{{ pct }} %</span>
+    </div>
+    <div class="pzpack__body">
+      <p class="eyebrow">{{ s.eyebrow }}</p>
+      <h2 class="pzpack__title">{{ s.heading }}</h2>
+      <p class="pzpack__text">{{ s.text }}</p>
+      <ol class="pzpack__steps">
+        <li>Crea el primero con su foto y añádelo al carrito.</li>
+        <li>Pulsa «Añade otra ilustración» y crea el otro estilo.</li>
+        <li>El −{{ pct }} % se aplica solo en el carrito.</li>
+      </ol>
+      <div class="pzpack__ctas">
+        {%- if glam != blank -%}<a class="button" href="{{ glam.url }}">Empieza por el glam</a>{%- endif -%}
+        {%- if comic != blank -%}<a class="button button--outline" href="{{ comic.url }}">Empieza por el cómic</a>{%- endif -%}
+      </div>
+      <p class="pzpack__note">Al llevar 2 ilustraciones{% if until != blank %}, hasta el {{ until | date: '%-d/%-m' }}{% endif %}. No se acumula con otros descuentos.</p>
+    </div>
+  </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Pack Glam + Cómic",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Imagen" },
+    { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "PACK GLAM + CÓMIC" },
+    { "type": "text", "id": "heading", "label": "Título", "default": "Tu mascota en los 2 estilos" },
+    { "type": "textarea", "id": "text", "label": "Texto", "default": "Uno glam, otro cómic, los dos con su nombre en la chapa. Quedan de lujo juntos en la pared." },
+    { "type": "text", "id": "until", "label": "Hasta (AAAA-MM-DD)", "info": "Vacío = la fecha del pack en Ajustes del tema." }
+  ],
+  "presets": [{ "name": "Pack Glam + Cómic" }]
+}
+{% endschema %}

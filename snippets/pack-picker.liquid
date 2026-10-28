@@ -70,6 +70,20 @@
             another illustration (Personalízalo) or any image printed as it is («Tu foto, en un cuadro») {%- endcomment -%}
         {%- assign photo_product = all_products['tu-foto-en-un-cuadro'] -%}
         {%- if another == 'ilustración' -%}
+          {%- liquid
+            assign pair = blank
+            if product.handle == 'retrato-glam'
+              assign pair = all_products['retrato-comic']
+            elsif product.handle == 'retrato-comic'
+              assign pair = all_products['retrato-glam']
+            endif
+          -%}
+          {%- if pair != blank -%}
+            <button type="button" class="ppick__create" data-pack-create="{{ pair.url }}">
+              <span>Ahora en estilo {% if product.handle == 'retrato-glam' %}cómic{% else %}glam{% endif %}</span>
+              <small>Añadimos esta al carrito y creas la otra con la misma foto: pack Glam + Cómic</small>
+            </button>
+          {%- endif -%}
           <button type="button" class="ppick__create" data-pack-create="{{ routes.collections_url }}/personalizalo#Plantillas">
             <span>Crear otra ilustración</span>
             <small>Añadimos esta al carrito y eliges otro estilo u otra foto</small>

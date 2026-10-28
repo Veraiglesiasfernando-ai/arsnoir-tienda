@@ -271,10 +271,17 @@
         "endpoint": "https://arsnoir-plantillas.veraiglesiasfernando.workers.dev",
         "max_runs": 2
       }
+    },
+    "pzpack": {
+      "type": "pz-pack",
+      "settings": {
+        "image": "shopify://shop_images/arsnoir-personalizado-mascotas.jpg"
+      }
     }
   },
   "order": [
     "landing",
+    "pzpack",
     "allstyles",
     "templates"
   ]
