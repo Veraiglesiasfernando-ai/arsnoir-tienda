@@ -65,16 +65,21 @@
     const end = parseDay(el.dataset.until, true);
     if (!end) return;
     const box = el.querySelector('a') || el;
+    /* Live clock: «Acaba en» + day / hour / minute / second tiles, ticking every second */
     const left = document.createElement('span');
     left.className = 'announce__left';
+    left.innerHTML = '<span class="announce__left-label">Acaba en</span>' +
+      ['d', 'h', 'm', 's'].map(function (u) { return '<span class="announce__unit"><b data-u="' + u + '">00</b>' + u + '</span>'; }).join('');
     box.appendChild(left);
+    const units = {};
+    left.querySelectorAll('[data-u]').forEach(function (b) { units[b.dataset.u] = b; });
     const tickLeft = function () {
       const s = Math.max(0, Math.floor((end - Date.now()) / 1000));
       if (!s) { el.remove(); return; }
-      const d = Math.floor(s / 86400), h = Math.floor(s % 86400 / 3600), m = Math.floor(s % 3600 / 60);
-      left.textContent = d > 0 ? 'ACABA EN ' + d + 'D ' + pad(h) + 'H ' + pad(m) + 'M'
-        : 'ÚLTIMAS HORAS · ' + pad(h) + ':' + pad(m) + ':' + pad(s % 60);
-      setTimeout(tickLeft, d > 0 ? 30000 : 1000);
+      const v = { d: Math.floor(s / 86400), h: Math.floor(s % 86400 / 3600), m: Math.floor(s % 3600 / 60), s: s % 60 };
+      Object.keys(v).forEach(function (u) { const t = pad(v[u]); if (units[u].textContent !== t) units[u].textContent = t; });
+      units.d.parentNode.hidden = v.d === 0;
+      setTimeout(tickLeft, 1000);
     };
     tickLeft();
   });
