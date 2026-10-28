@@ -275,7 +275,8 @@
     "pzpack": {
       "type": "pz-pack",
       "settings": {
-        "image": "shopify://shop_images/arsnoir-personalizado-mascotas.jpg"
+        "image": "shopify://shop_images/arsnoir-pack-duo.jpg",
+        "eyebrow": "PACK DÚO · GLAM + CÓMIC"
       }
     }
   },
