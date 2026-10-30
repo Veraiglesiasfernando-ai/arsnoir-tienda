@@ -48,7 +48,7 @@ const count = async (kv, what, tpl) => {
     await kv.put(key, String(n + 1), { expirationTtl: 120 * 24 * 3600 });
   } catch (e) { /* the counter never blocks a preview */ }
 };
-const statsPage = async (kv) => {
+const statsPage = async (kv, showImages) => {
   const rows = {};
   let cursor;
   do {
@@ -75,8 +75,21 @@ const statsPage = async (kv) => {
     '<h2>Por día</h2><table>' + tr(['Día', 'Generadas', 'Al carrito'], 'th') +
     Object.keys(days).sort().reverse().map((d) => tr([d, days[d].made, days[d].cart])).join('') + '</table>' +
     '<h2>Por plantilla</h2><table>' + tr(['Día', 'Plantilla', 'Generadas', 'Al carrito'], 'th') +
-    list.map((r) => tr([r.day, r.tpl, r.made, r.cart])).join('') + '</table>';
+    list.map((r) => tr([r.day, r.tpl, r.made, r.cart])).join('') + '</table>' + (await gallery(kv, showImages));
   return new Response(html, { headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' } });
+};
+
+/* Last illustrations made (only with ?k=STATS_KEY): to check the AI did a good job. Copies last 7 days. */
+const gallery = async (kv, showImages) => {
+  if (!showImages) return '<p style="margin-top:28px;color:#6b6b6b">Para ver las ilustraciones, añade el secreto STATS_KEY en Cloudflare y abre esta página con ?k=TU_CLAVE</p>';
+  const list = await kv.list({ prefix: 'g:', limit: 40 });
+  if (!list.keys.length) return '<h2>Últimas ilustraciones</h2><p>Todavía ninguna.</p>';
+  const cards = list.keys.map((k) => {
+    const [, inv, id] = k.name.split(':');
+    const when = new Date(9e15 - Number(inv)).toLocaleString('es-ES', { timeZone: 'Europe/Madrid', day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+    return '<a href="/img/' + id + '.png" target="_blank" style="display:block;text-decoration:none;color:#6b6b6b;font-size:12px"><img src="/img/' + id + '.png" loading="lazy" style="width:100%;aspect-ratio:4/5;object-fit:cover;background:#e2e2e0;display:block">' + when + '</a>';
+  }).join('');
+  return '<h2>Últimas ilustraciones (7 días)</h2><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;max-width:900px">' + cards + '</div>';
 };
 
 export default {
@@ -109,7 +122,7 @@ export default {
       const kv = env.KEEP || env.LIMITS;
       if (!kv) return new Response('Falta el KV (KEEP o LIMITS)', { status: 501 });
       if (env.STATS_KEY && url.searchParams.get('k') !== env.STATS_KEY) return new Response('Not found', { status: 404 });
-      return statsPage(kv);
+      return statsPage(kv, !!env.STATS_KEY && url.searchParams.get('k') === env.STATS_KEY);
     }
 
     if (!allowed.includes(origin)) return json({ error: 'origin' }, 403);
@@ -192,7 +205,12 @@ export default {
           if (existing) { await existing.cancel(); saved = url.origin + '/img/' + key; }
           else {
             const file = await fetch(out);
-            if (file.ok) { await env.KEEP.put(key, await file.arrayBuffer(), { expirationTtl: 7 * 24 * 3600 }); saved = url.origin + '/img/' + key; }
+            if (file.ok) {
+              await env.KEEP.put(key, await file.arrayBuffer(), { expirationTtl: 7 * 24 * 3600 });
+              saved = url.origin + '/img/' + key;
+              // Owner's check list (stats page with the key): newest first, kept as long as the copy
+              await env.KEEP.put('g:' + (9e15 - Date.now()) + ':' + m[1], '', { expirationTtl: 7 * 24 * 3600 });
+            }
           }
         } catch (e) { saved = ''; }
       }
