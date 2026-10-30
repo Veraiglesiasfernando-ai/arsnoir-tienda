@@ -10,6 +10,8 @@
  *
  *   POST /keep           { id } -> { url }   copy of a finished preview that never expires (KV binding KEEP)
  *   GET  /img/:id.png    that copy (public, for the order and the store)
+ *   GET  /send           { enabled } — the theme shows «Envíamela» only when sending is set up
+ *   POST /send           { id, email, name?, template?, page } -> { ok }  the illustration by email (Brevo)
  *   GET  /stats          counter page: illustrations started / added to the cart per day and template
  *                        (only counts, never photos; uses the KEEP or LIMITS KV binding; ?k=STATS_KEY if set)
  *
@@ -25,6 +27,8 @@
  *   MODEL                 Replicate model, default google/nano-banana
  *   PUBLIC_BASE           public URL of the R2 bucket, e.g. https://plantillas.arsnoir.com
  *   DAILY_LIMIT           previews per visitor per day, default 6 (needs the LIMITS KV binding)
+ *   BREVO_API_KEY         secret: sends «Envíamela» emails (free plan, 300/day)
+ *   SENDER_EMAIL          verified Brevo sender, default hola@arsnoir.com
  */
 import { TEMPLATES } from './templates.js';
 
@@ -59,6 +63,7 @@ const statsPage = async (kv, showImages) => {
       const r = (rows[day + '|' + tpl] = rows[day + '|' + tpl] || { day, tpl, made: 0, cart: 0 });
       if (what === 'made') r.made += n;
       if (what === 'cart') r.cart += n;
+      if (what === 'mail') r.mail = (r.mail || 0) + n;
     }
     cursor = list.list_complete ? null : list.cursor;
   } while (cursor);
@@ -92,6 +97,22 @@ const gallery = async (kv, showImages) => {
   return '<h2>Últimas ilustraciones (7 días)</h2><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;max-width:900px">' + cards + '</div>';
 };
 
+/* «Envíamela»: the customer's illustration by email, with a button back to the product */
+const mailHtml = (img, name, page) => {
+  const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+  const who = name ? esc(name) : 'tu mascota';
+  return '<!doctype html><html lang="es"><body style="margin:0;background:#f4f4f3;font-family:Helvetica,Arial,sans-serif;color:#0a0a0a">' +
+    '<table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:32px 16px">' +
+    '<table role="presentation" width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;background:#ffffff">' +
+    '<tr><td style="padding:28px 28px 8px;text-align:center;font-size:13px;letter-spacing:.3em">A R S N O I R</td></tr>' +
+    '<tr><td style="padding:8px 28px 18px;text-align:center"><h1 style="margin:0;font-size:26px;line-height:1.2">Así queda ' + who + ' 🐾</h1>' +
+    '<p style="margin:10px 0 0;color:#6b6b6b;font-size:15px">Aquí tienes la ilustración que has creado. Guárdala, enséñala… y cuando quieras, la imprimimos para tu pared.</p></td></tr>' +
+    '<tr><td style="padding:0 28px"><img src="' + esc(img) + '" width="504" alt="Ilustración de ' + who + '" style="display:block;width:100%;height:auto;border:10px solid #141414"></td></tr>' +
+    '<tr><td style="padding:24px 28px 8px;text-align:center"><a href="' + esc(page) + '?utm_source=email&utm_medium=envio-ilustracion" style="display:inline-block;background:#0a0a0a;color:#ffffff;text-decoration:none;font-weight:bold;padding:15px 28px;border-radius:999px;font-size:14px;letter-spacing:.06em">LO QUIERO EN MI PARED</a></td></tr>' +
+    '<tr><td style="padding:8px 28px 28px;text-align:center;color:#6b6b6b;font-size:13px">Lienzo o póster, con o sin marco. Desde 24,95 € · Envío a España y UE.<br>¿Dudas? Responde a este email.</td></tr>' +
+    '</table><p style="color:#9a9a98;font-size:11px;margin:16px 0 0">Recibes este email porque pediste tu ilustración en arsnoir.com.</p></td></tr></table></body></html>';
+};
+
 export default {
   async fetch(request, env) {
     const origin = request.headers.get('Origin') || '';
@@ -123,6 +144,10 @@ export default {
       if (!kv) return new Response('Falta el KV (KEEP o LIMITS)', { status: 501 });
       if (env.STATS_KEY && url.searchParams.get('k') !== env.STATS_KEY) return new Response('Not found', { status: 404 });
       return statsPage(kv, !!env.STATS_KEY && url.searchParams.get('k') === env.STATS_KEY);
+    }
+
+    if (url.pathname === '/send' && request.method === 'GET') {
+      return json({ enabled: !!(env.BREVO_API_KEY && env.KEEP) });
     }
 
     if (!allowed.includes(origin)) return json({ error: 'origin' }, 403);
@@ -215,6 +240,44 @@ export default {
         } catch (e) { saved = ''; }
       }
       return json({ status: 'succeeded', url: out, saved, temporary: true, keep: !!env.KEEP });
+    }
+
+    // «Envíamela»: send the customer their illustration (and keep that copy for good, the email links to it)
+    if (request.method === 'POST' && url.pathname === '/send') {
+      if (!env.BREVO_API_KEY || !env.KEEP) return json({ error: 'not_configured' }, 503);
+      let body;
+      try { body = await request.json(); } catch (e) { return json({ error: 'bad_request' }, 400); }
+      const id = String(body.id || '');
+      const email = String(body.email || '').trim().slice(0, 120);
+      if (!/^[a-z0-9]{8,64}$/i.test(id)) return json({ error: 'id' }, 400);
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return json({ error: 'email' }, 400);
+      let page = String(body.page || '');
+      if (!allowed.some((o) => page.startsWith(o + '/'))) page = allowed[0] || '';
+      const name = String(body.name || '').replace(/[^\p{L}\p{N} '\-&.!]/gu, '').trim().slice(0, 24);
+      // At most 5 emails per visitor per day
+      const lim = env.LIMITS || env.KEEP;
+      const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
+      const lkey = 'm:' + new Date().toISOString().slice(0, 10) + ':' + ip;
+      const sent = parseInt((await lim.get(lkey)) || '0', 10);
+      if (sent >= 5) return json({ error: 'limit' }, 429);
+      const copy = await env.KEEP.get(id + '.png', { type: 'arrayBuffer' });
+      if (!copy) return json({ error: 'expired' }, 410);
+      await env.KEEP.put(id + '.png', copy);
+      const res = await fetch('https://api.brevo.com/v3/smtp/email', {
+        method: 'POST',
+        headers: { 'api-key': env.BREVO_API_KEY, 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          sender: { name: 'ARSNOIR', email: env.SENDER_EMAIL || 'hola@arsnoir.com' },
+          to: [{ email }],
+          subject: name ? 'Así queda ' + name + ' 🐾 Tu ilustración de ARSNOIR' : 'Tu ilustración de ARSNOIR 🐾',
+          htmlContent: mailHtml(url.origin + '/img/' + id + '.png', name, page),
+          tags: ['ilustracion', String(body.template || '').slice(0, 40)].filter(Boolean)
+        })
+      });
+      if (!res.ok) return json({ error: 'send' }, 502);
+      await lim.put(lkey, String(sent + 1), { expirationTtl: 60 * 60 * 26 });
+      await count(env.KEEP || env.LIMITS, 'mail', TEMPLATES[body.template] ? body.template : '-');
+      return json({ ok: true });
     }
 
     // Keep a finished preview for good (called when the work goes to the cart)

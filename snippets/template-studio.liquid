@@ -99,6 +99,20 @@
       <figcaption>{{ b.result_note }}</figcaption>
     </figure>
 
+    {%- comment -%} «Send it to me»: the illustration by email (worker /send) and, only with the box ticked, a subscriber tagged «ilustracion» {%- endcomment -%}
+    <div class="tsend" data-tstudio-send hidden>
+      <p class="tsend__title">¿Te la guardamos? 💌</p>
+      <p class="tsend__text">Te la enviamos por email para que la enseñes o la pidas más tarde.</p>
+      <div class="tsend__row">
+        <label class="visually-hidden" for="TSendEmail-{{ section_id }}">Tu email</label>
+        <input class="tsend__email" id="TSendEmail-{{ section_id }}" type="email" placeholder="Tu email" autocomplete="email" inputmode="email" data-tstudio-send-email>
+        <button type="button" class="button tsend__go" data-tstudio-send-go>Envíamela</button>
+      </div>
+      <label class="tsend__opt"><input type="checkbox" data-tstudio-send-consent> Quiero recibir ofertas y novedades de ARSNOIR (opcional)</label>
+      <p class="tsend__msg" role="status" aria-live="polite" data-tstudio-send-msg></p>
+      <p class="tsend__legal">Usamos tu email para enviarte esta ilustración{% if shop.privacy_policy %} · <a href="{{ shop.privacy_policy.url }}">Privacidad</a>{% endif %}.</p>
+    </div>
+
     {%- comment -%} No box to tick: adding to the cart is the confirmation, and it is still saved in the order {%- endcomment -%}
     <input type="hidden" name="properties[Derechos de imagen]" value="Confirmados al añadir al carrito" form="{{ form_id }}">
     <p class="cguard__rights-note">Al añadir al carrito confirmas que tienes derecho a usar esta foto.</p>

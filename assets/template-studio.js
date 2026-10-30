@@ -247,6 +247,54 @@
   window.addEventListener('resize', syncLive);
   syncLive();
 
+  /* «Envíamela»: the illustration by email. Shown only when the worker can send (GET /send) */
+  const sendBox = studio.querySelector('[data-tstudio-send]');
+  const sendEmail = studio.querySelector('[data-tstudio-send-email]');
+  const sendGo = studio.querySelector('[data-tstudio-send-go]');
+  const sendConsent = studio.querySelector('[data-tstudio-send-consent]');
+  const sendMsg = studio.querySelector('[data-tstudio-send-msg]');
+  let sendOn = false, sendId = '', sendName = '';
+  if (sendBox) {
+    fetch(endpoint + '/send').then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) { sendOn = !!(j && j.enabled); if (sendOn && sendId) sendBox.hidden = false; }, function () {});
+  }
+  const showSend = function (id, name) {
+    if (!sendBox || !id) return;
+    sendId = id; sendName = name || '';
+    sendMsg.textContent = ''; sendGo.disabled = false; sendGo.textContent = 'Envíamela';
+    sendBox.hidden = !sendOn;
+  };
+  const subscribe = function (email) {
+    /* Shopify's own newsletter form: a customer tagged «ilustracion», with marketing consent */
+    const body = new URLSearchParams();
+    body.set('form_type', 'customer'); body.set('utf8', '✓');
+    body.set('contact[email]', email);
+    body.set('contact[tags]', ['newsletter', 'ilustracion', d.template].join(','));
+    body.set('contact[accepts_marketing]', 'true');
+    return fetch('/contact', { method: 'POST', body: body, credentials: 'same-origin' }).catch(function () {});
+  };
+  if (sendGo) {
+    const send = function () {
+      const email = sendEmail.value.trim();
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { sendMsg.textContent = 'Escribe un email válido.'; sendEmail.focus(); return; }
+      sendGo.disabled = true; sendGo.textContent = 'Enviando…'; sendMsg.textContent = '';
+      fetch(endpoint + '/send', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: sendId, email: email, name: sendName, template: d.template, page: location.origin + location.pathname }) })
+        .then(function (r) { return r.json().then(function (j) { if (!r.ok) throw new Error(j.error || 'send'); return j; }); })
+        .then(function () {
+          if (sendConsent && sendConsent.checked) subscribe(email);
+          sendGo.textContent = 'Enviada ✓';
+          sendMsg.textContent = 'Te la hemos enviado. Si no la ves, mira en «Promociones» o spam.';
+        })
+        .catch(function (err) {
+          sendGo.disabled = false; sendGo.textContent = 'Envíamela';
+          sendMsg.textContent = err && err.message === 'limit' ? 'Has enviado muchas hoy. Prueba mañana.' : 'No hemos podido enviarla. Inténtalo de nuevo en un momento.';
+        });
+    };
+    sendGo.addEventListener('click', send);
+    sendEmail.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); send(); } });
+  }
+
   /* A new photo or name invalidates the previous preview */
   const reset = function () {
     keepId = '';
@@ -255,6 +303,8 @@
     if (fontProp) fontProp.value = '';
     if (colorProp) colorProp.value = '';
     result.hidden = true;
+    if (sendBox) sendBox.hidden = true;
+    sendId = '';
     if (live) live.hidden = true;
     artUrl = '';
     paintRooms();
@@ -337,7 +387,7 @@
     const attempt = function (n) {
       return start(payload, 0)
         .then(function (id) {
-          return poll(id, 0).then(function (done) { return { url: done.url, saved: done.saved || '', keep: done.temporary && done.keep ? id : '' }; });
+          return poll(id, 0).then(function (done) { return { id: id, url: done.url, saved: done.saved || '', keep: done.temporary && done.keep ? id : '' }; });
         })
         .catch(function (err) { return err && err.message === 'failed' && n < 1 ? attempt(n + 1) : Promise.reject(err); });
     };
@@ -356,6 +406,7 @@
         if (colorProp) colorProp.value = c ? c.dataset.label : '';
         resultImg.src = url;
         result.hidden = false;
+        showSend(out.id, name);
         showLive(url);
         /* Show it where the customer is looking: the picture under the button */
         requestAnimationFrame(function () { result.scrollIntoView({ behavior: 'smooth', block: 'center' }); });
@@ -384,6 +435,7 @@
       if (colorProp) colorProp.value = hc ? hc.dataset.label : '';
       resultImg.src = hand.url;
       result.hidden = false;
+      showSend(hand.keep || ((hand.saved || '').match(/\/img\/([a-z0-9]+)\.png/i) || [])[1] || '', hand.name || '');
       showLive(hand.url);
     }
   } catch (e) {}
