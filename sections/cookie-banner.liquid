@@ -6,6 +6,10 @@
 {%- assign s = section.settings -%}
 <div class="cookie" id="CookieBanner" data-cookie-banner{% if request.design_mode and s.preview %} data-preview{% endif %} hidden role="dialog" aria-live="polite" aria-label="{{ s.title | escape }}">
   <div class="cookie__card">
+    {%- comment -%} Closing = rejecting (no analytics or marketing cookies), as the AEPD allows {%- endcomment -%}
+    <button type="button" class="cookie__close" data-cookie="reject" aria-label="Cerrar sin aceptar">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8"/></svg>
+    </button>
     <p class="cookie__title">{{ s.title }}</p>
     <p class="cookie__text">{{ s.text }}</p>
     {%- comment -%} Second layer: one switch per purpose (AEPD: accept, reject and configure, at the same level) {%- endcomment -%}

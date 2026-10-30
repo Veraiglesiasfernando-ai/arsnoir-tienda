@@ -3271,3 +3271,13 @@ html.sguide-lock { overflow: hidden; }
   .cookie__actions .cookie__config { min-height: 0; padding: 4px 0; border: 0; background: none; font-size: 12.5px; font-weight: 500; text-decoration: underline; text-underline-offset: 3px; color: var(--color-muted); }
   .cookie__policy { margin-top: 6px; font-size: 12px; }
 }
+
+/* Cookie banner: bigger «Aceptar» / «Rechazar» and a close button (closing = rejecting) */
+.cookie__close { position: absolute; top: 10px; right: 10px; z-index: 1; display: grid; place-items: center; width: 36px; height: 36px; padding: 0; border: 0; border-radius: 50%; background: rgba(0,0,0,0.06); color: #0a0a0a; cursor: pointer; }
+.cookie__close svg { width: 18px; height: 18px; }
+.cookie__close:hover { background: rgba(0,0,0,0.12); }
+.cookie__title { padding-right: 40px; }
+.cookie__actions .cookie__accept, .cookie__actions .cookie__reject { min-height: 52px; font-size: 16px; font-weight: 700; }
+@media (max-width: 749px) {
+  .cookie__actions .cookie__accept, .cookie__actions .cookie__reject { min-height: 50px; font-size: 15.5px; }
+}
