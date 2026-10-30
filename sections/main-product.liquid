@@ -32,7 +32,7 @@
         </div>
         {%- if section.settings.gallery_video != blank -%}
         <div class="product__media product__media--video">
-          <video src="{{ section.settings.gallery_video }}" autoplay muted loop playsinline preload="metadata"{% if section.settings.gallery_video_poster != blank %} poster="{{ section.settings.gallery_video_poster | image_url: width: 1200 }}"{% endif %} aria-label="{{ 'product.frame_video' | t }}"></video>
+          <video data-src="{{ section.settings.gallery_video }}" data-lazy-video muted loop playsinline preload="none"{% if section.settings.gallery_video_poster != blank %} poster="{{ section.settings.gallery_video_poster | image_url: width: 1200 }}"{% endif %} aria-label="{{ 'product.frame_video' | t }}"></video>
         </div>
         {%- endif -%}
       {%- endif -%}
@@ -85,7 +85,7 @@
       {%- if section.settings.gallery_video != blank and lead == blank -%}
         {%- comment -%} Looping "how the frame is made" video under the photos (fills the column on desktop) {%- endcomment -%}
         <div class="product__media product__media--video">
-          <video src="{{ section.settings.gallery_video }}" autoplay muted loop playsinline preload="metadata"{% if section.settings.gallery_video_poster != blank %} poster="{{ section.settings.gallery_video_poster | image_url: width: 1200 }}"{% endif %} aria-label="{{ 'product.frame_video' | t }}"></video>
+          <video data-src="{{ section.settings.gallery_video }}" data-lazy-video muted loop playsinline preload="none"{% if section.settings.gallery_video_poster != blank %} poster="{{ section.settings.gallery_video_poster | image_url: width: 1200 }}"{% endif %} aria-label="{{ 'product.frame_video' | t }}"></video>
         </div>
       {%- endif -%}
     </div>

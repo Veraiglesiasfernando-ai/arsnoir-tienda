@@ -38,13 +38,13 @@
               <button type="button" class="clanding__vtab" role="tab" aria-selected="false" data-vtab="{{ forloop.index }}" {{ b.shopify_attributes }}>{{ b.settings.label }}</button>
             {%- endfor -%}
           </div>
-          <video data-vpane="0" src="{{ s.video_url }}" autoplay muted loop playsinline preload="metadata"{% if s.video_poster != blank %} poster="{{ s.video_poster | image_url: width: 1200 }}"{% endif %} aria-label="{{ s.video_label | escape }}"></video>
+          <video data-vpane="0" data-src="{{ s.video_url }}" data-lazy-video muted loop playsinline preload="none"{% if s.video_poster != blank %} poster="{{ s.video_poster | image_url: width: 1200 }}"{% endif %} aria-label="{{ s.video_label | escape }}"></video>
           {%- for b in more_videos -%}
             <video data-vpane="{{ forloop.index }}" src="{{ b.settings.video_url }}" muted loop playsinline preload="none"{% if b.settings.poster != blank %} poster="{{ b.settings.poster | image_url: width: 1200 }}"{% endif %} aria-label="{{ b.settings.label | escape }}" hidden></video>
           {%- endfor -%}
         </div>
       {%- else -%}
-        <video src="{{ s.video_url }}" autoplay muted loop playsinline preload="metadata"{% if s.video_poster != blank %} poster="{{ s.video_poster | image_url: width: 1200 }}"{% endif %} aria-label="{{ s.path_template_title | escape }}"></video>
+        <video data-src="{{ s.video_url }}" data-lazy-video muted loop playsinline preload="none"{% if s.video_poster != blank %} poster="{{ s.video_poster | image_url: width: 1200 }}"{% endif %} aria-label="{{ s.path_template_title | escape }}"></video>
       {%- endif -%}
     {%- endcapture -%}
 
@@ -62,7 +62,7 @@
         {%- endif -%}
         <a class="pz-way__media" href="{{ cta_url }}" tabindex="-1" aria-hidden="true">
           {%- if s.upload_video_url != blank -%}
-            <video src="{{ s.upload_video_url }}" autoplay muted loop playsinline preload="metadata"{% if s.upload_video_poster != blank %} poster="{{ s.upload_video_poster | image_url: width: 1200 }}"{% endif %}></video>
+            <video data-src="{{ s.upload_video_url }}" data-lazy-video muted loop playsinline preload="none"{% if s.upload_video_poster != blank %} poster="{{ s.upload_video_poster | image_url: width: 1200 }}"{% endif %}></video>
           {%- elsif s.upload_video_poster != blank -%}
             {{ s.upload_video_poster | image_url: width: 1200 | image_tag: loading: 'lazy', alt: '' }}
           {%- endif -%}

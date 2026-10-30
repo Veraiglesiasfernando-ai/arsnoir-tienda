@@ -3260,3 +3260,14 @@ html.sguide-lock { overflow: hidden; }
 .tsend__legal { margin: 8px 0 0; font-size: 11px; color: #9a9a98; }
 .tsend__legal a { text-decoration: underline; }
 @media (max-width: 420px) { .tsend__row { flex-direction: column; } .tsend__go { width: 100%; } }
+
+/* Cookie banner on phones: compact, «Aceptar» and «Rechazar» side by side at the same level, «Configurar» as a quiet link */
+@media (max-width: 749px) {
+  .cookie__card { padding: 14px 16px; }
+  .cookie__title { font-size: 16px; margin-bottom: 2px; }
+  .cookie__text { font-size: 12.5px; line-height: 1.45; margin-bottom: 10px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .cookie.is-config .cookie__text { -webkit-line-clamp: unset; display: block; }
+  .cookie__actions .button { min-height: 44px; font-size: 14px; }
+  .cookie__actions .cookie__config { min-height: 0; padding: 4px 0; border: 0; background: none; font-size: 12.5px; font-weight: 500; text-decoration: underline; text-underline-offset: 3px; color: var(--color-muted); }
+  .cookie__policy { margin-top: 6px; font-size: 12px; }
+}

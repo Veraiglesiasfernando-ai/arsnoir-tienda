@@ -958,6 +958,27 @@
     }
   }, true);
 
+  /* Videos load only when they come near the screen, and phones get Shopify's lighter copy (480p; 720p
+     on larger screens) instead of the 1080p file: the pages the ads open show up much faster */
+  (function () {
+    const vids = document.querySelectorAll('video[data-src]');
+    if (!vids.length) return;
+    const small = window.matchMedia('(max-width: 749px)').matches || (navigator.connection && navigator.connection.saveData);
+    const pick = function (u) { return u.replace(/HD-1080p-2\.5Mbps/, small ? 'SD-480p-0.9Mbps' : 'HD-720p-1.6Mbps'); };
+    const load = function (v) {
+      if (v.dataset.loaded) return;
+      v.dataset.loaded = '1';
+      v.src = pick(v.dataset.src);
+      const play = v.play();
+      if (play && play.catch) play.catch(function () {});
+    };
+    if (!('IntersectionObserver' in window)) { vids.forEach(load); return; }
+    const io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { load(e.target); io.unobserve(e.target); } });
+    }, { rootMargin: '200px 0px' });
+    vids.forEach(function (v) { io.observe(v); });
+  })();
+
   /* Personalízalo: tabs above the hero video switch between the example videos */
   document.querySelectorAll('[data-vswitch]').forEach(function (box) {
     box.addEventListener('click', function (event) {
@@ -972,6 +993,7 @@
         const on = video.dataset.vpane === tab.dataset.vtab;
         video.hidden = !on;
         if (on) {
+          if (video.dataset.src && !video.dataset.loaded) { video.dataset.loaded = '1'; video.src = video.dataset.src.replace(/HD-1080p-2\.5Mbps/, window.matchMedia('(max-width: 749px)').matches ? 'SD-480p-0.9Mbps' : 'HD-720p-1.6Mbps'); }
           video.currentTime = 0;
           const play = video.play();
           if (play && play.catch) play.catch(function () {});

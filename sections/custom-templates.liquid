@@ -24,7 +24,7 @@
     </div>
     {%- if s.video_url != blank -%}
       <div class="ctpl__video">
-        <video src="{{ s.video_url }}" autoplay muted loop playsinline preload="metadata"{% if s.video_poster != blank %} poster="{{ s.video_poster | image_url: width: 900 }}"{% endif %} aria-label="{{ s.heading | escape }}"></video>
+        <video data-src="{{ s.video_url }}" data-lazy-video muted loop playsinline preload="none"{% if s.video_poster != blank %} poster="{{ s.video_poster | image_url: width: 900 }}"{% endif %} aria-label="{{ s.heading | escape }}"></video>
       </div>
     {%- endif -%}
     {%- liquid

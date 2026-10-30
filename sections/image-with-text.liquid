@@ -4,7 +4,7 @@
     <div class="image-text{% if s.reverse %} image-text--reverse{% endif %}">
       <div class="image-text__media{% if s.grayscale %} hero__media--grayscale{% endif %}">
         {%- if s.video_url != blank -%}
-          <video src="{{ s.video_url }}" autoplay muted loop playsinline preload="metadata"{% if s.image != blank %} poster="{{ s.image | image_url: width: 1100 }}"{% endif %} aria-label="{{ s.heading | escape }}"></video>
+          <video data-src="{{ s.video_url }}" data-lazy-video muted loop playsinline preload="none"{% if s.image != blank %} poster="{{ s.image | image_url: width: 1100 }}"{% endif %} aria-label="{{ s.heading | escape }}"></video>
         {%- elsif s.image != blank -%}
           {{ s.image | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '500, 800, 1100, 1400', sizes: '(min-width: 750px) 50vw, 100vw' }}
         {%- else -%}
