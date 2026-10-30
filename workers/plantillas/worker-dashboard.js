@@ -242,23 +242,24 @@ const statsPage = async (kv, showImages) => {
       if (what === 'made') r.made += n;
       if (what === 'cart') r.cart += n;
       if (what === 'mail') r.mail = (r.mail || 0) + n;
+      if (what === 'fail') r.fail = (r.fail || 0) + n;
     }
     cursor = list.list_complete ? null : list.cursor;
   } while (cursor);
   const list = Object.values(rows).sort((a, b) => (b.day + b.tpl).localeCompare(a.day + a.tpl));
   const days = {};
-  list.forEach((r) => { const d = (days[r.day] = days[r.day] || { made: 0, cart: 0 }); d.made += r.made; d.cart += r.cart; });
+  list.forEach((r) => { const d = (days[r.day] = days[r.day] || { made: 0, cart: 0, fail: 0 }); d.made += r.made; d.cart += r.cart; d.fail += r.fail || 0; });
   const esc = (t) => String(t).replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' })[c]);
   const tr = (cells, tag = 'td') => '<tr>' + cells.map((c) => '<' + tag + '>' + esc(c) + '</' + tag + '>').join('') + '</tr>';
   const html = '<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">' +
     '<title>ARSNOIR · contador</title><style>body{font:15px system-ui,sans-serif;margin:24px;color:#0a0a0a;background:#f4f4f3}' +
     'h1{font-size:20px}h2{font-size:16px;margin-top:28px}table{border-collapse:collapse;width:100%;max-width:640px;background:#fff}' +
     'td,th{padding:8px 10px;border-bottom:1px solid #e2e2e0;text-align:left}th{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:#6b6b6b}</style>' +
-    '<h1>Ilustraciones generadas</h1><p>Hoy (' + today() + '): <b>' + ((days[today()] || {}).made || 0) + '</b> generadas · <b>' + ((days[today()] || {}).cart || 0) + '</b> al carrito</p>' +
-    '<h2>Por día</h2><table>' + tr(['Día', 'Generadas', 'Al carrito'], 'th') +
-    Object.keys(days).sort().reverse().map((d) => tr([d, days[d].made, days[d].cart])).join('') + '</table>' +
+    '<h1>Ilustraciones generadas</h1><p>Hoy (' + today() + '): <b>' + ((days[today()] || {}).made || 0) + '</b> intentos · <b>' + ((days[today()] || {}).fail || 0) + '</b> fallidos · <b>' + ((days[today()] || {}).cart || 0) + '</b> al carrito</p>' +
+    '<h2>Por día</h2><table>' + tr(['Día', 'Intentos', 'Fallidos', 'Al carrito'], 'th') +
+    Object.keys(days).sort().reverse().map((d) => tr([d, days[d].made, days[d].fail, days[d].cart])).join('') + '</table>' +
     '<h2>Por plantilla</h2><table>' + tr(['Día', 'Plantilla', 'Generadas', 'Al carrito'], 'th') +
-    list.map((r) => tr([r.day, r.tpl, r.made, r.cart])).join('') + '</table>' + (await gallery(kv, showImages));
+    list.filter((r) => r.tpl !== '-' || r.cart).map((r) => tr([r.day, r.tpl, r.made, r.cart])).join('') + '</table>' + (await gallery(kv, showImages));
   return new Response(html, { headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' } });
 };
 
@@ -366,11 +367,15 @@ export default {
       const shown = font === 'manuscrita' ? name : name.toUpperCase();
       const fill = (t) => t.split('{NAME}').join(shown).split('{FONT}').join(FONTS[font]).split('{COLOR}').join(color ? colors[color] : '');
       let prompt = fill(tpl.prompt);
+      // Retries after a failed run (the theme sends attempt 1 or 2): change the request a little,
+      // since the same input often fails again the same way
+      const retry = Math.min(2, Math.max(0, parseInt(body.attempt, 10) || 0));
+      if (retry) prompt += ' Keep it a warm, friendly, family-safe illustration of the pet only; leave out any people, logos or text other than the name.';
       if (!tpl.needsName && name && tpl.textPrompt) prompt += ' ' + fill(tpl.textPrompt);
       const model = env.MODEL || 'google/nano-banana';
       const res = await replicate('/models/' + model + '/predictions', {
         method: 'POST',
-        body: JSON.stringify({ input: { prompt, image_input: tpl.refFirst ? [tpl.reference, image] : [image, tpl.reference], output_format: 'png', aspect_ratio: tpl.aspectRatio || '4:5' } })
+        body: JSON.stringify({ input: { prompt, image_input: (retry === 2 ? !tpl.refFirst : tpl.refFirst) ? [tpl.reference, image] : [image, tpl.reference], output_format: 'png', aspect_ratio: tpl.aspectRatio || '4:5' } })
       });
       const data = await res.json();
       if (!res.ok || !data.id) return json({ error: 'replicate', detail: data.detail || null }, 502);
@@ -384,6 +389,12 @@ export default {
       const res = await replicate('/predictions/' + m[1]);
       const data = await res.json();
       if (!res.ok) return json({ error: 'replicate' }, 502);
+      if (data.status === 'failed') {
+        // Counted once per run (the theme polls until it sees «failed»)
+        const fk = 'f:' + m[1];
+        const kv = env.KEEP || env.LIMITS;
+        if (kv && !(await kv.get(fk))) { await kv.put(fk, '1', { expirationTtl: 3 * 24 * 3600 }); await count(kv, 'fail', '-'); }
+      }
       if (data.status !== 'succeeded') return json({ status: data.status });
       const out = Array.isArray(data.output) ? data.output[0] : data.output;
       if (!out) return json({ status: 'failed' });

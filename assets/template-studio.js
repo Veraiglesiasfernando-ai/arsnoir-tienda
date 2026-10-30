@@ -383,13 +383,15 @@
       font: picked('data-tstudio-font') ? picked('data-tstudio-font').value : '',
       color: picked('data-tstudio-color') ? picked('data-tstudio-color').value : ''
     });
-    /* The model sometimes returns a failed run: make a second one by itself before showing an error */
+    /* The model sometimes returns a failed run: try up to 3 times by itself (the worker varies each
+       retry a little) before showing an error */
     const attempt = function (n) {
-      return start(payload, 0)
+      const body = n ? payload.replace(/^\{/, '{"attempt":' + n + ',') : payload;
+      return start(body, 0)
         .then(function (id) {
           return poll(id, 0).then(function (done) { return { id: id, url: done.url, saved: done.saved || '', keep: done.temporary && done.keep ? id : '' }; });
         })
-        .catch(function (err) { return err && err.message === 'failed' && n < 1 ? attempt(n + 1) : Promise.reject(err); });
+        .catch(function (err) { return err && err.message === 'failed' && n < 2 ? attempt(n + 1) : Promise.reject(err); });
     };
     attempt(0)
       .then(function (out) {
