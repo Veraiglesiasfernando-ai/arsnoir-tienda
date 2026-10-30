@@ -688,17 +688,32 @@ brand_button_ad(
 )
 
 
-def unboxing_ad(cid, photo, headline, price, button, note, x9=0.5):
+def unboxing_ad(cid, photo, headline, price, button, note, x9=0.5, fit9_y=None):
     """Foto cenital de unboxing: logotipo y titular arriba sobre degradado oscuro; precio, botón y nota abajo.
     En 9:16 la foto llena la pantalla, recortada en horizontal en `x9` (0–1)."""
     src = Image.open(M / photo).convert("RGB")
     logo_src = Image.open(M / "ads/src/logo-arsnoir-blanco.png")
     for fmt, (W, H) in {"4x5": (1080, 1350), "9x16": (1080, 1920)}.items():
-        k = max(W / src.width, H / src.height)
-        big = src.resize((round(src.width * k), round(src.height * k)), Image.LANCZOS)
-        x0 = round((big.width - W) * (0.5 if fmt == "4x5" else x9))
-        y0 = (big.height - H) // 2
-        im = big.crop((x0, y0, x0 + W, y0 + H)).convert("RGBA")
+        if fmt == "9x16" and fit9_y is not None:
+            # foto entera a lo ancho; arriba el techo y abajo el suelo de la propia foto, estirados y fundidos sin corte
+            py, fade = fit9_y, 140
+            ph = round(src.height * W / src.width)
+            body = src.resize((W, ph), Image.LANCZOS)
+            base = Image.new("RGB", (W, H))
+            base.paste(body.crop((0, 0, W, 120)).resize((W, py + fade), Image.BICUBIC).filter(ImageFilter.GaussianBlur(16)), (0, 0))
+            rest = H - py - ph
+            base.paste(body.crop((0, ph - 40, W, ph)).resize((W, rest + fade), Image.BICUBIC).filter(ImageFilter.GaussianBlur(14)), (0, py + ph - fade))
+            mask = Image.new("L", (W, ph), 255)
+            mask.paste(Image.linear_gradient("L").resize((W, fade)), (0, 0))
+            mask.paste(Image.linear_gradient("L").rotate(180).resize((W, fade)), (0, ph - fade))
+            base.paste(body, (0, py), mask)
+            im = base.convert("RGBA")
+        else:
+            k = max(W / src.width, H / src.height)
+            big = src.resize((round(src.width * k), round(src.height * k)), Image.LANCZOS)
+            x0 = round((big.width - W) * (0.5 if fmt == "4x5" else x9))
+            y0 = (big.height - H) // 2
+            im = big.crop((x0, y0, x0 + W, y0 + H)).convert("RGBA")
         top_h, bot_h = (430, 470) if fmt == "4x5" else (700, 800)
         im.alpha_composite(gradient(W, top_h, 215, 0), (0, 0))
         im.alpha_composite(gradient(W, bot_h, 0, 230), (0, H - bot_h))
@@ -709,8 +724,13 @@ def unboxing_ad(cid, photo, headline, price, button, note, x9=0.5):
         ly = 44 if fmt == "4x5" else 292
         im.alpha_composite(logo, ((W - lw) // 2, ly))
         d = ImageDraw.Draw(im)
-        hf = grotesk(64 if fmt == "4x5" else 72, 700)
-        centered(d, cx, ly + logo.height + 22, headline, hf, WHITE)
+        lines = headline.split("\n")
+        hs = (64 if fmt == "4x5" else 72) if len(lines) == 1 else (52 if fmt == "4x5" else 62)
+        hf = grotesk(hs, 700)
+        hy = ly + logo.height + 22
+        for line in lines:
+            centered(d, cx, hy, line, hf, WHITE)
+            hy += round(hs * 1.1)
         bf = grotesk(36, 700)
         bw, bh = d.textlength(button, font=bf) + 130, 94
         by = H - 104 - bh if fmt == "4x5" else round(H * 0.80) - bh - 40
@@ -800,6 +820,12 @@ pet_light_ad(
     "c21-mascota-thor", "ads/src/mascota-thor-glam-comic.jpg",
     "¿Cuál es más él?", "Desde 24,95 €", "Pruébalo con su foto",
     "Vista previa gratis antes de pagar",
+)
+
+unboxing_ad(
+    "c22-mascota-berner", "ads/src/mascota-berner-pop-glam.jpg",
+    "Él en el sofá.\nSu retrato en la pared.", "Desde 24,95 €", "Pruébalo con su foto",
+    "Vista previa gratis antes de pagar", fit9_y=290,
 )
 
 if __name__ == "__main__":
