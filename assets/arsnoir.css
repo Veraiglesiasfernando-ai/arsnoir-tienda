@@ -3281,3 +3281,9 @@ html.sguide-lock { overflow: hidden; }
 @media (max-width: 749px) {
   .cookie__actions .cookie__accept, .cookie__actions .cookie__reject { min-height: 50px; font-size: 15.5px; }
 }
+
+/* Studio · «¿Te gusta? Elige tamaño» under the preview */
+.tstudio__next { margin: 14px auto 4px; max-width: 420px; text-align: center; }
+.tstudio__next-btn { width: 100%; min-height: 52px; font-size: 16px; }
+.tstudio__next-note { margin: 8px 0 0; font-size: 12.5px; color: var(--color-muted); }
+.tstudio ~ * variant-picker, variant-picker.vsteps { scroll-margin-top: 84px; }

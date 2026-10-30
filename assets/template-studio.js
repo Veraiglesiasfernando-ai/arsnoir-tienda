@@ -62,6 +62,13 @@
   const nameProp = studio.querySelector('[data-tstudio-name-prop]');
   const go = studio.querySelector('[data-tstudio-go]');
   const result = studio.querySelector('[data-tstudio-result]');
+  /* «¿Te gusta? Elige tamaño»: from the preview straight to the size step */
+  const next = studio.querySelector('[data-tstudio-next]');
+  const showNext = function () { if (next) next.hidden = false; };
+  if (next) next.querySelector('[data-tstudio-next-go]').addEventListener('click', function () {
+    const step = document.querySelector('variant-picker[data-form="' + (form && form.id) + '"]') || document.querySelector('variant-picker') || form;
+    if (step) step.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
   const resultImg = studio.querySelector('[data-tstudio-img]');
   const max = parseInt(d.max, 10) || 3;
   const needsName = d.needsName === 'true';
@@ -303,6 +310,7 @@
     if (fontProp) fontProp.value = '';
     if (colorProp) colorProp.value = '';
     result.hidden = true;
+    if (next) next.hidden = true;
     if (sendBox) sendBox.hidden = true;
     sendId = '';
     if (live) live.hidden = true;
@@ -409,6 +417,7 @@
         resultImg.src = url;
         result.hidden = false;
         showSend(out.id, name);
+        showNext();
         showLive(url);
         /* Show it where the customer is looking: the picture under the button */
         requestAnimationFrame(function () { result.scrollIntoView({ behavior: 'smooth', block: 'center' }); });
@@ -438,6 +447,7 @@
       resultImg.src = hand.url;
       result.hidden = false;
       showSend(hand.keep || ((hand.saved || '').match(/\/img\/([a-z0-9]+)\.png/i) || [])[1] || '', hand.name || '');
+      showNext();
       showLive(hand.url);
     }
   } catch (e) {}
