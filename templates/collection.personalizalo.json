@@ -269,7 +269,7 @@
       ],
       "settings": {
         "endpoint": "https://arsnoir-plantillas.veraiglesiasfernando.workers.dev",
-        "max_runs": 2
+        "max_runs": 1
       }
     },
     "pzpack": {
