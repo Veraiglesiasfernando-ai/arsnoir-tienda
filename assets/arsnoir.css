@@ -3289,3 +3289,13 @@ html.sguide-lock { overflow: hidden; }
 .tstudio ~ * variant-picker, variant-picker.vsteps { scroll-margin-top: 84px; }
 .tstudio__next-code { margin: 10px 0 0; padding: 8px 12px; border: 1px dashed #490B1A; border-radius: 6px; color: #490B1A; font-size: 14px; }
 .tstudio__next-code b { letter-spacing: .06em; }
+
+/* Preview watermark (screen only; the order and the email keep the clean image) */
+.tstudio__shot { position: relative; max-width: 420px; margin: 0 auto; }
+.tstudio__shot img { max-width: 100%; }
+.pv-mark, .pzall__item.is-done .pzall__media::after, .tlive__frame::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 2;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='180'%3E%3Cg transform='rotate(-28 130 90)' font-family='Arial,sans-serif' font-weight='700' font-size='19' letter-spacing='3' text-anchor='middle'%3E%3Ctext x='130' y='96' fill='none' stroke='%23000' stroke-opacity='.28' stroke-width='3'%3EARSNOIR · VISTA PREVIA%3C/text%3E%3Ctext x='130' y='96' fill='%23fff' fill-opacity='.62'%3EARSNOIR · VISTA PREVIA%3C/text%3E%3C/g%3E%3C/svg%3E") center / 260px 180px repeat;
+}
+.tlive__frame:not(:has(img[src]))::after { display: none; }
+.pzall__item.is-done .pzall__media::after { background-size: 170px 118px; }

@@ -95,7 +95,11 @@
     <p class="tstudio__status" role="status" aria-live="polite" data-tstudio-status></p>
 
     <figure class="tstudio__result" data-tstudio-result hidden>
-      <img alt="{{ b.result_alt | escape }}" width="720" height="900" data-tstudio-img>
+      {%- comment -%} Watermark on screen only: the order and the email get the clean image {%- endcomment -%}
+      <div class="tstudio__shot">
+        <img alt="{{ b.result_alt | escape }}" width="720" height="900" data-tstudio-img>
+        <span class="pv-mark" aria-hidden="true"></span>
+      </div>
       <figcaption>{{ b.result_note }}</figcaption>
     </figure>
     {%- comment -%} Straight from the preview to the size step (it sits under the studio, out of sight on mobile) {%- endcomment -%}
