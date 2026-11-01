@@ -1722,7 +1722,9 @@
       }
     } else if (npop.hasAttribute('data-preview')) {
       openPop();
-    } else if (!saved.subscribed && !(saved.until > Date.now()) && document.body.dataset.template !== 'cart') {
+    /* Not on the illustration pages: they already show WELCOME10 under the preview, and visitors
+       from the ads should go straight to uploading the photo */
+    } else if (!saved.subscribed && !(saved.until > Date.now()) && document.body.dataset.template !== 'cart' && !document.querySelector('[data-tstudio]')) {
       const minPages = parseInt(npop.dataset.minPages, 10) || 2;
       const delay = (parseInt(npop.dataset.delay, 10) || 6) * 1000;
       if (pv >= minPages) setTimeout(tryOpen, delay);
