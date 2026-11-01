@@ -3299,3 +3299,9 @@ html.sguide-lock { overflow: hidden; }
 }
 .tlive__frame:not(:has(img[src]))::after { display: none; }
 .pzall__item.is-done .pzall__media::after { background-size: 170px 118px; }
+
+/* Mobile «Sube su foto»: jumps from the gallery to the studio */
+.tjump { position: fixed; left: 16px; right: 16px; bottom: calc(14px + env(safe-area-inset-bottom)); z-index: 40; min-height: 52px; border: 0; border-radius: 999px; background: #490B1A; color: #F5E9D6; font: 600 16px/1.2 var(--font-body); box-shadow: 0 12px 28px -10px rgba(0,0,0,0.45); cursor: pointer; }
+.tjump[hidden] { display: none; }
+@media (min-width: 900px) { .tjump { display: none !important; } }
+.tstudio { scroll-margin-top: 90px; }

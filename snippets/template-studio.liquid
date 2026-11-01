@@ -134,4 +134,6 @@
     {%- if b.colors != blank -%}<input type="hidden" name="properties[Color]" form="{{ form_id }}" data-tstudio-color-prop>{%- endif -%}
   {%- endif -%}
 </div>
+{%- comment -%} Mobile: the gallery fills the first screen, so the upload box starts out of sight {%- endcomment -%}
+<button type="button" class="tjump" data-tstudio-jump hidden>📸 Sube su foto y míralo gratis</button>
 <script src="{{ 'template-studio.js' | asset_url }}" defer></script>

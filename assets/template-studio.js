@@ -62,6 +62,21 @@
   const nameProp = studio.querySelector('[data-tstudio-name-prop]');
   const go = studio.querySelector('[data-tstudio-go]');
   const result = studio.querySelector('[data-tstudio-result]');
+  /* Mobile «Sube su foto»: shown until the studio comes into view or there is a preview */
+  const jump = document.querySelector('[data-tstudio-jump]');
+  if (jump && 'IntersectionObserver' in window && window.matchMedia('(max-width: 899px)').matches) {
+    let seen = false;
+    const io = new IntersectionObserver(function (entries) {
+      const e = entries[0];
+      if (e.isIntersecting || e.boundingClientRect.top < 0) seen = true;
+      jump.hidden = seen || !!urlInput.value;
+      if (seen) io.disconnect();
+    });
+    io.observe(studio);
+    jump.addEventListener('click', function () {
+      studio.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }
   /* «¿Te gusta? Elige tamaño»: from the preview straight to the size step */
   const next = studio.querySelector('[data-tstudio-next]');
   const showNext = function () { if (next) next.hidden = false; };
