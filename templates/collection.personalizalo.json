@@ -63,27 +63,10 @@
             "link": "shopify://products/retrato-con-nombre"
           }
         },
-        "amo1": {
-          "type": "template",
-          "settings": {
-            "category": "Pareja",
-            "name": "Momento ilustrado",
-            "tagline": "Vuestra foto de pareja en ilustración, con vuestra fecha.",
-            "image": "shopify://shop_images/pz-card-momento-ilustrado.jpg",
-            "link": "shopify://products/momento-ilustrado"
-          }
-        },
-        "amo2": {
-          "type": "template",
-          "settings": {
-            "category": "Pareja",
-            "name": "Estilo 2"
-          }
-        },
         "fam1": {
           "type": "template",
           "settings": {
-            "category": "Familia",
+            "category": "Familia y pareja",
             "name": "Acuarela en casa",
             "tagline": "Tu foto en acuarela, luz cálida y trazo suave.",
             "image": "shopify://shop_images/pz-card-acuarela-en-casa.jpg",
@@ -93,9 +76,9 @@
         "fam2": {
           "type": "template",
           "settings": {
-            "category": "Familia",
+            "category": "Familia y pareja",
             "name": "Momento ilustrado",
-            "tagline": "Vuestro momento en ilustración, con una frase si quieres.",
+            "tagline": "Vuestro momento en ilustración: en familia, en pareja o con vuestra mascota. Con una frase si quieres.",
             "image": "shopify://shop_images/pz-card-momento-ilustrado.jpg",
             "link": "shopify://products/momento-ilustrado"
           }
@@ -162,19 +145,17 @@
         }
       },
       "block_order": [
-        "nav1",
-        "nav2",
-        "mas6",
         "mas7",
-        "mas1",
-        "mas2",
+        "mas6",
         "mas3",
         "mas4",
+        "mas1",
+        "mas2",
         "mas5",
-        "fam1",
+        "nav2",
+        "nav1",
         "fam2",
-        "amo1",
-        "amo2"
+        "fam1"
       ],
       "settings": {
         "layout": "sections"
@@ -282,8 +263,8 @@
   },
   "order": [
     "landing",
-    "pzpack",
+    "templates",
     "allstyles",
-    "templates"
+    "pzpack"
   ]
 }
