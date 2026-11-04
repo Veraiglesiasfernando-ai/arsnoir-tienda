@@ -436,7 +436,7 @@
             "image": "shopify://shop_images/arsnoir-material-poster.jpg",
             "title": "Póster",
             "text": "Papel mate de 200 g/m² con impresión giclée de 12 colores.",
-            "price": "Desde 24,95 €"
+            "price": "Desde 16,95 €"
           }
         },
         "poster_marco": {
@@ -445,7 +445,7 @@
             "image": "shopify://shop_images/arsnoir-material-poster-con-marco.jpg",
             "title": "Póster con marco",
             "text": "Marco de madera en negro, blanco o natural, con plexiglás y kit para colgar.",
-            "price": "Desde 54,95 €"
+            "price": "Desde 39,95 €"
           }
         },
         "lienzo": {
@@ -454,7 +454,7 @@
             "image": "shopify://shop_images/arsnoir-material-lienzo.jpg",
             "title": "Lienzo",
             "text": "Tela de lienzo tensada sobre bastidor de madera. Sin cristal ni reflejos.",
-            "price": "Desde 54,95 €"
+            "price": "Desde 39,95 €"
           }
         },
         "lienzo_marco": {
@@ -463,7 +463,7 @@
             "image": "shopify://shop_images/arsnoir-material-lienzo-con-marco.jpg",
             "title": "Lienzo con marco",
             "text": "El lienzo dentro de un marco de madera, en negro o natural.",
-            "price": "Desde 89,95 €"
+            "price": "Desde 59,95 €"
           }
         }
       },
