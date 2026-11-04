@@ -26,6 +26,7 @@
   {%- if b.endpoint == blank -%}
     <p class="tstudio__soon">{{ b.soon_text }}</p>
   {%- else -%}
+    {%- render 'pz-styles-strip', product: product -%}
     <p class="vstep__head"><span class="vstep__num">1</span><span class="vstep__title">{{ b.photo_label }}</span></p>
     <label class="tstudio__drop" for="TStudio-{{ section_id }}">
       <input class="tstudio__file" id="TStudio-{{ section_id }}" type="file" accept="image/jpeg,image/png,image/webp" data-tstudio-file>

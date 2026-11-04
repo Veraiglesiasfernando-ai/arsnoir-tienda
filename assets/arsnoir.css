@@ -3305,3 +3305,17 @@ html.sguide-lock { overflow: hidden; }
 .tjump[hidden] { display: none; }
 @media (min-width: 900px) { .tjump { display: none !important; } }
 .tstudio { scroll-margin-top: 90px; }
+
+/* «Otros estilos» on the illustration pages: one swipeable row of styles */
+.pzstrip { margin: 4px 0 22px; }
+.pzstrip__title { margin: 0 0 10px; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; }
+.pzstrip__title span { color: var(--color-muted); letter-spacing: 0.04em; text-transform: none; font-size: 12px; }
+.pzstrip__list { display: flex; gap: 10px; margin: 0; padding: 0 0 6px; list-style: none; overflow-x: auto; scroll-snap-type: x proximity; scrollbar-width: none; }
+.pzstrip__list::-webkit-scrollbar { display: none; }
+.pzstrip__list li { flex: 0 0 76px; scroll-snap-align: start; }
+.pzstrip__item { display: block; text-decoration: none; color: inherit; text-align: center; }
+.pzstrip__item img { display: block; width: 76px; height: 95px; object-fit: cover; border-radius: 6px; border: 2px solid transparent; background: var(--color-surface); }
+.pzstrip__item span { display: block; margin-top: 5px; font-size: 11px; line-height: 1.25; }
+.pzstrip__item.is-current img { border-color: #490B1A; }
+.pzstrip__item.is-current span { font-weight: 600; color: #490B1A; }
+@media (hover: hover) { .pzstrip__item:hover img { border-color: rgba(73, 11, 26, 0.35); } }

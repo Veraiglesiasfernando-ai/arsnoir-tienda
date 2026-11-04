@@ -336,6 +336,20 @@
     go.disabled = !photo || (needsName && !nameInput.value.trim()) || used() >= max;
   };
 
+  /* Switching style (the «Otros estilos» strip) keeps the photo and the name already given */
+  const PHOTO_KEY = 'arsnoir-pz-photo', NAME_KEY = 'arsnoir-pz-name';
+  try {
+    const savedPhoto = sessionStorage.getItem(PHOTO_KEY);
+    if (savedPhoto) {
+      photo = savedPhoto;
+      thumb.src = savedPhoto;
+      thumb.hidden = false;
+      if (dropText) dropText.hidden = true;
+    }
+    const savedName = sessionStorage.getItem(NAME_KEY);
+    if (nameInput && savedName && !nameInput.value) nameInput.value = savedName;
+  } catch (e) {}
+
   /* Resize to max 1536 px and send as JPEG: enough detail for the model, small upload */
   fileInput.addEventListener('change', function () {
     const file = fileInput.files && fileInput.files[0];
@@ -350,6 +364,8 @@
       c.height = Math.round(img.naturalHeight * k);
       c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
       photo = c.toDataURL('image/jpeg', 0.9);
+      /* Kept in this tab only, so the next style starts with the same photo */
+      try { sessionStorage.setItem(PHOTO_KEY, photo); } catch (e) {}
       thumb.src = photo;
       thumb.hidden = false;
       if (dropText) dropText.hidden = true;
@@ -359,7 +375,10 @@
     img.onerror = function () { say(d.tError); };
     img.src = URL.createObjectURL(file);
   });
-  if (nameInput) nameInput.addEventListener('input', function () { reset(); ready(); });
+  if (nameInput) nameInput.addEventListener('input', function () {
+    try { sessionStorage.setItem(NAME_KEY, nameInput.value); } catch (e) {}
+    reset(); ready();
+  });
   /* A different letter or colour needs a new preview */
   studio.querySelectorAll('[data-tstudio-font], [data-tstudio-color]').forEach(function (el) {
     el.addEventListener('change', function () { reset(); ready(); });

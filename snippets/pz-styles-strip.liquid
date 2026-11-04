@@ -1,0 +1,27 @@
+{%- comment -%}
+  «Otros estilos»: every illustration style in one swipeable row, so trying another one doesn't
+  mean going back to Personalízalo. The photo already uploaded comes along (template-studio.js).
+  - product: the product on screen (marked as the current style)
+{%- endcomment -%}
+{%- assign handles = 'retrato-comic,retrato-glam,retrato-con-nombre,retrato-con-sudadera,oleo-vintage,en-su-rincon,ilustracion-plana,navidad-papa-noel,navidad-verde,momento-ilustrado,acuarela-en-casa' | split: ',' -%}
+<nav class="pzstrip" aria-label="Otros estilos">
+  <p class="pzstrip__title">Otros estilos <span>· tu foto se mantiene</span></p>
+  <ul class="pzstrip__list">
+    {%- for h in handles -%}
+      {%- assign p = all_products[h] -%}
+      {%- if p == empty or p.available == false and p.handle != product.handle -%}{%- continue -%}{%- endif -%}
+      {%- assign card = 'pz-card-' | append: h | append: '.jpg' -%}
+      {%- assign img = images[card] -%}
+      <li>
+        <a class="pzstrip__item{% if p.handle == product.handle %} is-current{% endif %}" href="{{ p.url }}"{% if p.handle == product.handle %} aria-current="page"{% endif %}>
+          {%- if img -%}
+            {{ img | image_url: width: 160 | image_tag: loading: 'lazy', width: 80, height: 100, alt: '' }}
+          {%- elsif p.featured_media -%}
+            {{ p.featured_media | image_url: width: 160 | image_tag: loading: 'lazy', width: 80, height: 100, alt: '' }}
+          {%- endif -%}
+          <span>{{ p.title }}</span>
+        </a>
+      </li>
+    {%- endfor -%}
+  </ul>
+</nav>
