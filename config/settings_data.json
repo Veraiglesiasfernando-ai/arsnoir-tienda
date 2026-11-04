@@ -24,7 +24,9 @@
     "free_shipping_threshold": 80,
     "returns_days": "14",
     "favicon": "shopify://shop_images/arsnoir-favicon.png",
-    "q4_start": "2026-11-20",
+    "q4_start": "2026-11-10",
+    "q4_bf_offer": "3 obras −25 % · 2 obras −15 % · Personalizados −15 %. Se aplica solo en el carrito.",
+    "q4_msg_bf": "BLACK FRIDAY · 3 obras −25 % · Hasta el [FIN_BF]",
     "q4_gift_page": "regalos",
     "delivery_min": 4,
     "delivery_max": 10,
@@ -67,6 +69,8 @@
           "text": "Usamos cookies propias y de terceros (como Meta y Google) para que la tienda funcione, saber qué se visita y mostrarte anuncios que encajen contigo. Tú decides: acéptalas, recházalas o elige cuáles.",
           "accept_label": "Aceptar",
           "reject_label": "Rechazar",
+          "config_label": "Configurar",
+          "save_label": "Guardar mi elección",
           "policy_label": "Política de privacidad y cookies",
           "policy_link": ""
         }
