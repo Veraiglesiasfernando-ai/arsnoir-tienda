@@ -5,12 +5,12 @@
   {%- case request.page_type -%}
     {%- when 'product' -%}
       <span aria-hidden="true">/</span>
-      {%- if collection -%}<a href="{{ collection.url }}">{{ collection.title }}</a>{%- else -%}<a href="{{ routes.all_products_collection_url }}">{{ 'general.works' | t }}</a>{%- endif -%}
+      {%- if collection -%}<a href="{{ collection.url }}">{{ collection.title | split: ' (' | first }}</a>{%- else -%}<a href="{{ routes.all_products_collection_url }}">{{ 'general.works' | t }}</a>{%- endif -%}
       <span aria-hidden="true">/</span><span aria-current="page">{{ product.title }}</span>
     {%- when 'collection' -%}
       <span aria-hidden="true">/</span>
       {%- if collection.handle != 'all' -%}<a href="{{ routes.collections_url }}">{{ 'general.collections' | t }}</a><span aria-hidden="true">/</span>{%- endif -%}
-      <span aria-current="page">{{ collection.title | default: works_label }}</span>
+      <span aria-current="page">{{ collection.title | split: ' (' | first | default: works_label }}</span>
     {%- when 'list-collections' -%}
       <span aria-hidden="true">/</span><span aria-current="page">{{ 'general.collections' | t }}</span>
     {%- when 'page' -%}

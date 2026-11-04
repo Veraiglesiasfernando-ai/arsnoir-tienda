@@ -98,8 +98,9 @@
       "settings": {
         "eyebrow": "SELECCIÓN ARSNOIR",
         "heading": "Obras destacadas",
-        "subtitle": "Piezas originales que solo encontrarás aquí.",
-        "collection": "mas-vendidos",
+        "subtitle": "Una selección de obras para empezar.",
+        "collection": "obras",
+        "products": ["revuelto", "rose", "tour", "ataca", "aleron", "blue-corner-1", "end-of-the-world-1", "seguridad"],
         "limit": 8,
         "button_label": "VER TODAS",
         "placeholder_price": "24,95 €"
@@ -206,7 +207,7 @@
           "settings": {
             "icon": "truck",
             "title": "Envío a España y Europa",
-            "text": "Con seguimiento: 4-10 días hábiles en la Península. Envío 4,95 €, gratis desde 80 €."
+            "text": "Con seguimiento: 4-10 días hábiles en la Península. Láminas y marcos: 4,95 € a España y la UE; lienzos según tamaño. Gratis desde 80 € (importe con descuentos)."
           }
         },
         "g2": {
@@ -251,7 +252,7 @@
           "type": "question",
           "settings": {
             "question": "¿Cuánto tarda el envío?",
-            "answer": "<p>Enviamos a España y toda Europa, con seguimiento. Cada obra se imprime cuando la pides, en el centro de producción más cercano a ti. En la Península llega en 4-10 días hábiles; a Baleares, Canarias, Ceuta y Melilla puede tardar algo más y al resto de Europa, según el país. Envío 4,95 € en pedidos de menos de 80 €; desde 80 €, gratis.</p>"
+            "answer": "<p>Enviamos a España y toda Europa, con seguimiento. Cada obra se imprime cuando la pides, en el centro de producción más cercano a ti. En la Península llega en 4-10 días hábiles; a Baleares, Canarias, Ceuta y Melilla puede tardar algo más y al resto de Europa, según el país. Láminas y láminas con marco: 4,95 € a España y la UE; los lienzos tienen su propia tarifa según el tamaño. Desde 80 € (importe con descuentos), el envío es gratis. El importe exacto lo ves en el pago antes de confirmar.</p>"
           }
         },
         "q2": {

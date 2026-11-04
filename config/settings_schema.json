@@ -153,7 +153,14 @@
         "step": 5,
         "unit": "€",
         "default": 80,
-        "info": "Solo muestra la barra y el aviso «Envío gratis desde…». No decide el envío: debe coincidir con la regla real de Shopify (Configuración → Envíos y entregas o Descuentos → Envío gratis). 0 = sin barra."
+        "info": "Debe coincidir con el descuento «Envío gratis desde 80 €» de Shopify (mínimo sobre el subtotal ya descontado). La barra del carrito usa este valor."
+      },
+      {
+        "type": "text",
+        "id": "shipping_rate_print",
+        "label": "Envío de láminas y marcos (España y UE)",
+        "default": "4,95 €",
+        "info": "Tarifa real de los perfiles de envío de Shopify para láminas y láminas con marco. Los lienzos tienen tarifas propias según tamaño y se muestran como «se calcula en el pago». Déjalo vacío para no mostrar tarifa."
       },
       {
         "type": "header",

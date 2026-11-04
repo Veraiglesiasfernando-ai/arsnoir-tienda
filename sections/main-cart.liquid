@@ -2,10 +2,6 @@
   assign cart_eyebrow = 'cart.eyebrow' | t
   assign cart_title = 'cart.page_title' | t
 -%}
-{%- liquid
-  assign cart_eyebrow = 'cart.eyebrow' | t
-  assign cart_title = 'cart.page_title' | t
--%}
 <section class="page-width cart-page">
   {% render 'page-head', eyebrow: cart_eyebrow, title: cart_title, crumbs: true %}
 
@@ -33,16 +29,14 @@
                 <a class="cart-item__title" href="{{ item.url }}">{{ item.product.title }}</a>
                 <div class="cart-item__meta">
                   {%- unless item.product.has_only_default_variant -%}
-                    {%- for option in item.options_with_values -%}
-                      <div>{{ option.name }}: {{ option.value }}</div>
-                    {%- endfor -%}
+                    <div>{% render 'variant-label', variant: item.variant, product: item.product %}</div>
                   {%- endunless -%}
                   {%- for property in item.properties -%}
                     {%- unless property.last == blank or property.first contains '_' -%}
                       <div>{{ property.first }}: {{ property.last }}</div>
                     {%- endunless -%}
                   {%- endfor -%}
-                  <div>{{ item.final_price | money }}</div>
+                  <div>{%- if item.original_price > item.final_price -%}<s class="muted">{{ item.original_price | money }}</s> {% endif -%}{{ item.final_price | money }}</div>
                 </div>
                 <div class="cart-item__actions">
                   <div class="qty">
@@ -61,12 +55,24 @@
       </div>
 
       <aside class="cart-summary">
-        <div class="cart-summary__row"><span>{{ 'cart.subtotal' | t }}</span><span>{{ cart.items_subtotal_price | money }}</span></div>
-        {%- for discount in cart.cart_level_discount_applications -%}
-          <div class="cart-summary__row muted"><span>{{ discount.title }}</span><span>&minus;{{ discount.total_allocated_amount | money }}</span></div>
+        {%- comment -%} Products before discounts, every discount (pack, codes), shipping, then what is paid {%- endcomment -%}
+        <div class="cart-summary__row"><span>{{ 'cart.items_before_discounts' | t }}</span><span>{{ cart.original_total_price | money }}</span></div>
+        {%- for discount in cart.discount_applications -%}
+          {%- if discount.total_allocated_amount > 0 -%}
+            <div class="cart-summary__row cart-summary__row--discount"><span>{% if discount.type == 'discount_code' %}{{ 'cart.code' | t }} {% endif %}{{ discount.title | split: ' (' | first }}</span><span>&minus;{{ discount.total_allocated_amount | money }}</span></div>
+          {%- endif -%}
         {%- endfor -%}
-        <div class="cart-summary__row cart-summary__total"><span>{{ 'cart.total' | t }}</span><span>{{ cart.total_price | money }}</span></div>
-        <small>{% if cart.taxes_included %}{{ 'cart.taxes_included' | t }} {% endif %}{% if settings.free_shipping_threshold == 0 and settings.shipping_message != blank %}{{ settings.shipping_message }}.{% else %}{{ 'cart.shipping_at_checkout' | t }}{% endif %}</small>
+        {%- assign page_ship_threshold = settings.free_shipping_threshold | times: 100 -%}
+        <div class="cart-summary__row">
+          <span>{{ 'cart.shipping' | t }}</span>
+          {%- if page_ship_threshold > 0 and cart.total_price >= page_ship_threshold and cart.currency.iso_code == shop.currency -%}
+            <strong>{{ 'cart.free' | t }}</strong>
+          {%- else -%}
+            <span data-ship-estimate data-country="{{ localization.country.iso_code }}">{{ 'cart.shipping_at_checkout' | t }}</span>
+          {%- endif -%}
+        </div>
+        <div class="cart-summary__row cart-summary__total"><span>{{ 'cart.total_before_shipping' | t }}</span><span>{{ cart.total_price | money }}</span></div>
+        <small>{% if cart.taxes_included %}{{ 'cart.taxes_included' | t }} {% endif %}{{ 'cart.shipping_final_at_checkout' | t }}</small>
 
         {%- if settings.cart_gift -%}
           {% render 'cart-gift', id: 'page' %}
@@ -78,6 +84,7 @@
         {%- endif -%}
 
         <button type="submit" name="checkout" class="button button--full button--accent">{{ 'cart.checkout' | t }}</button>
+        <a class="cart-summary__continue" href="{{ routes.all_products_collection_url }}">{{ 'cart.continue_shopping' | t }}</a>
         <p class="cart-summary__secure">{% render 'trust-icon', name: 'lock' %} {{ 'general.secure_payment' | t }}</p>
         <ul class="cart-summary__payments" aria-label="{{ 'general.payment_methods' | t }}">
           {%- for type in shop.enabled_payment_types -%}<li>{{ type | payment_type_svg_tag }}</li>{%- endfor -%}

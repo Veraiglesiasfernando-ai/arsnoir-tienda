@@ -59,6 +59,9 @@
     <script>
       window.themeStrings = {
         addShort: {{ 'product.add_short' | t | json }},
+        noFrame: {{ 'product.summary_no_frame' | t | json }},
+        frameIncluded: {{ 'product.summary_frame_included' | t: frame: '[FRAME]' | json }},
+        photoShows: {{ 'product.photo_shows' | t: finish: '[FINISH]' | json }},
         cartCount: {{ 'cart.count' | t: count: '[count]' | json }},
         addError: {{ 'cart.add_error' | t | json }},
         packError: {{ 'cart.pack_error' | t | json }},

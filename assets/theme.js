@@ -369,6 +369,7 @@
       this.markAvailability();
       this.syncFinish(selected);
       this.updateRowPrices(selected);
+      this.updateSummary();
       this.querySelectorAll('[data-vsel][open]').forEach(function (d) { d.removeAttribute('open'); });
 
       const button = this.form.querySelector('[type="submit"]');
@@ -391,7 +392,7 @@
           html += '<s class="muted">' + formatMoney(variant.compare_at_price) + '</s>';
         }
         html += '<span>' + formatMoney(variant.price) + '</span>';
-        if (!priceEl.hasAttribute('data-from')) priceEl.innerHTML = html;
+        priceEl.innerHTML = '<span class="price">' + html + '</span>';
         document.querySelectorAll('.sticky-buy__price').forEach(function (el) { el.innerHTML = html; });
       }
       document.querySelectorAll('.sticky-buy .button').forEach(function (b) {
@@ -414,6 +415,34 @@
           }
         }
       }
+    }
+
+    /* «A4 · 21 × 29,7 cm · Marco negro incluido» under the price: what the price is for */
+    updateSummary() {
+      const box = document.getElementById(this.dataset.price + '-summary');
+      if (!box) return;
+      const sizeIn = this.querySelector('fieldset[data-option-kind="size"] input:checked');
+      let finish = '';
+      const fv = this.finish && this.finish.querySelector('[data-finish-value]');
+      if (fv) finish = fv.textContent.trim();
+      else {
+        const fin = this.querySelector('fieldset[data-option-kind="frame"] input:checked');
+        if (fin) finish = fin.dataset.display || fin.value;
+      }
+      let finishText = finish;
+      if (/sin marco/i.test(finish)) finishText = S.noFrame || finish;
+      else if (/lienzo|canvas/i.test(finish)) finishText = finish;
+      else if (/marco/i.test(finish)) finishText = (S.frameIncluded || '[FRAME] incluido').replace('[FRAME]', finish);
+      const size = sizeIn ? (sizeIn.dataset.display || sizeIn.value) : '';
+      /* Canvas has its own shipping rates: swap the shipping line next to the button */
+      const flat = !!document.querySelector('[data-ship-rule][data-flat]');
+      const canvas = !flat && /lienzo|canvas/i.test(finish) || !flat && Array.prototype.some.call(this.querySelectorAll('input:checked'), function (i) { return /canvas|lienzo/i.test(i.value); });
+      document.querySelectorAll('[data-ship-rule-print]').forEach(function (el) { el.hidden = canvas; });
+      document.querySelectorAll('[data-ship-rule-canvas]').forEach(function (el) { el.hidden = !canvas; });
+      const sizeEl = box.querySelector('[data-summary-size]');
+      const finEl = box.querySelector('[data-summary-finish]');
+      if (sizeEl && finEl) { sizeEl.textContent = size; finEl.textContent = finishText; }
+      else box.textContent = [size, finishText].filter(Boolean).join(' · ');
     }
 
     /* Size rows show the price of that size with the finish currently chosen */
@@ -829,14 +858,27 @@
       const canvas = picker && Array.prototype.some.call(picker.querySelectorAll('input:checked'), function (i) { return /canvas|lienzo/i.test(i.value); });
       if (canvas) kind = 'canvas';
     }
+    /* No photo for the chosen finish: keep the black-frame photo but say so on it */
+    const note = function (img, show) {
+      const box = img.closest('.product__media') || img.parentElement;
+      let n = box.querySelector('.pmedia__note');
+      if (!show) { if (n) n.remove(); return; }
+      const fv = document.querySelector('variant-picker [data-finish-value]');
+      const fin = document.querySelector('variant-picker fieldset[data-option-kind="frame"] input:checked');
+      const finish = (fv && fv.textContent.trim()) || (fin && (fin.dataset.display || fin.value)) || '';
+      if (!n) { n = document.createElement('p'); n.className = 'pmedia__note'; box.appendChild(n); }
+      n.textContent = (S.photoShows || '').replace('[FINISH]', finish);
+    };
     scope.querySelectorAll('img[data-black]').forEach(function (img) {
       if (img.dataset.blackSrcset === undefined) img.dataset.blackSrcset = img.getAttribute('srcset') || '';
       const back = function () {
         img.onerror = null;
         if (img.dataset.blackSrcset) img.setAttribute('srcset', img.dataset.blackSrcset);
         img.src = img.dataset.black;
+        note(img, kind !== 'black');
       };
       const url = kind === 'black' ? '' : img.dataset[kind];
+      note(img, false);
       if (!url) { back(); return; }
       img.onerror = back;
       img.removeAttribute('srcset');
@@ -1746,4 +1788,41 @@
     });
     document.addEventListener('keydown', function (event) { if (event.key === 'Escape' && !npop.hidden) closePop(); });
   }
+})();
+
+/* «Tu foto, en un cuadro» · paso 1: open Gelato's personaliser (app embed) from our own step.
+   Gelato's trigger lives outside the theme, so it is found by its visible text; nothing inside its
+   iframe is touched. Without it (app not loaded yet / renamed), scroll to the buy area. */
+(function () {
+  const step = document.querySelector('[data-photo-step]');
+  if (!step) return;
+  const go = step.querySelector('[data-photo-step-go]');
+  const status = step.querySelector('[data-photo-step-status]');
+  const findTrigger = function () {
+    const nodes = document.querySelectorAll('button, a, [role="button"]');
+    for (let i = 0; i < nodes.length; i++) {
+      const el = nodes[i];
+      if (step.contains(el) || el.closest('.sticky-buy')) continue;
+      const t = (el.textContent || '').trim();
+      if (/personaliz/i.test(t) && el.offsetParent !== null) return el;
+    }
+    return null;
+  };
+  go.addEventListener('click', function () {
+    const t = findTrigger();
+    if (t) { status.textContent = ''; t.click(); return; }
+    status.textContent = 'Cargando el editor…';
+    let tries = 0;
+    const timer = setInterval(function () {
+      const again = findTrigger();
+      tries += 1;
+      if (again) { clearInterval(timer); status.textContent = ''; again.click(); return; }
+      if (tries > 12) {
+        clearInterval(timer);
+        status.textContent = 'Usa el botón «Personalizar» que verás junto al botón de compra.';
+        const form = document.querySelector('form[data-ajax-cart]');
+        if (form) form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }, 250);
+  });
 })();

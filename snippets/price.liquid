@@ -2,7 +2,9 @@
   Renders a product or variant price.
   - product: product object (required)
   - variant: optional variant object; when given, shows that variant's price
-  - show_from: show "Desde" when prices vary (for cards)
+  - show_from: show "Desde" when prices vary (for cards). When the product is sold both as a
+    print and framed, the card says both («Lámina desde … · Con marco desde …»), taken from the
+    real variants, so a framed photo is never read as the print's price.
 {%- endcomment -%}
 {%- liquid
   if variant
@@ -12,9 +14,42 @@
     assign price = product.price
     assign compare = product.compare_at_price
   endif
+  assign print_min = 0
+  assign framed_min = 0
+  if show_from and product.price_varies
+    for v in product.variants
+      unless v.available
+        continue
+      endunless
+      assign t = v.title | downcase
+      # Canvas is its own format: it counts neither as the print nor as the framed print
+      if t contains 'canvas' or t contains 'lienzo'
+        continue
+      endif
+      assign framed = false
+      if t contains 'framed'
+        assign framed = true
+      elsif t contains 'marco'
+        assign framed = true
+        if t contains 'sin marco'
+          assign framed = false
+        endif
+      endif
+      if framed
+        if framed_min == 0 or v.price < framed_min
+          assign framed_min = v.price
+        endif
+      elsif print_min == 0 or v.price < print_min
+        assign print_min = v.price
+      endif
+    endfor
+  endif
 -%}
-<span class="price">
-  {%- if show_from and product.price_varies -%}
+<span class="price{% if print_min > 0 and framed_min > 0 %} price--split{% endif %}">
+  {%- if print_min > 0 and framed_min > 0 -%}
+    <span class="price__line">{{ 'general.print_from' | t }} <b>{{ print_min | money }}</b></span>
+    <span class="price__line">{{ 'general.framed_from' | t }} <b>{{ framed_min | money }}</b></span>
+  {%- elsif show_from and product.price_varies -%}
     {{ 'general.from' | t }} {{ product.price_min | money }}
   {%- else -%}
     {%- if compare > price -%}<s class="muted">{{ compare | money }}</s>{%- endif -%}

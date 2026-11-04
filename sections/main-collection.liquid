@@ -1,7 +1,8 @@
 {%- liquid
   assign s = section.settings
   assign nav_menu = linklists[s.sections_menu]
-  assign title = collection.title
+  # Internal notes in titles («Obras (sin regalos)») stay in the admin, not on the page
+  assign title = collection.title | split: ' (' | first
   if collection.handle == 'all'
     assign title = s.all_title
   endif
@@ -19,8 +20,8 @@
         {%- endfor -%}
       {%- else -%}
         {%- for c in collections -%}
-          {%- if c.handle == 'frontpage' or c.handle == 'all' or c.handle == 'mas-vendidos' or c.products_count == 0 -%}{%- continue -%}{%- endif -%}
-          <a href="{{ c.url }}"{% if c.handle == collection.handle %} aria-current="page"{% endif %}>{{ c.title }}</a>
+          {%- if c.handle == 'frontpage' or c.handle == 'all' or c.handle == 'mas-vendidos' or c.handle == 'obras' or c.products_count == 0 -%}{%- continue -%}{%- endif -%}
+          <a href="{{ c.url }}"{% if c.handle == collection.handle %} aria-current="page"{% endif %}>{{ c.title | split: ' (' | first }}</a>
         {%- endfor -%}
       {%- endif -%}
     </nav>
@@ -32,6 +33,8 @@
 
       <div class="toolbar__controls">
         {%- for filter in collection.filters -%}
+          {%- comment -%} Everything is printed on demand, so «Disponibilidad» never filters anything out {%- endcomment -%}
+          {%- if filter.param_name contains 'availability' -%}{%- continue -%}{%- endif -%}
           <details class="filter">
             <summary>
               {{ filter.label }}

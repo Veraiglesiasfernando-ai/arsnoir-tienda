@@ -7,6 +7,23 @@
         assign current_variant = v
       endif
     endfor
+    # Gelato prints: the photos show the black frame, so start on the cheapest black-framed
+    # variant here (it used to switch in JS after load, leaving «Desde 24,95 €» next to a framed photo)
+    assign framed_found = false
+    for v in product.variants
+      assign vt = v.title | downcase
+      if v.available and vt contains 'framed' and vt contains 'black'
+        unless vt contains 'canvas'
+          if framed_found == false or v.price < framed_start.price
+            assign framed_start = v
+            assign framed_found = true
+          endif
+        endunless
+      endif
+    endfor
+    if framed_found
+      assign current_variant = framed_start
+    endif
   endif
   assign form_id = 'ProductForm-' | append: section.id
   assign price_id = 'Price-' | append: section.id
@@ -104,19 +121,71 @@
             </div>
             {%- comment -%} Stars only when a review app has written real ratings to the standard metafields {%- endcomment -%}
             {%- assign p_rating = product.metafields.reviews.rating.value -%}
+            {%- liquid
+              assign jm_badge = product.metafields.judgeme.badge | append: ''
+              assign jm_badge_on = false
+              if jm_badge contains 'data-number-of-reviews'
+                assign jm_badge_on = true
+                if jm_badge contains 'data-number-of-reviews="0"' or jm_badge contains "data-number-of-reviews='0'"
+                  assign jm_badge_on = false
+                endif
+              endif
+            -%}
             {%- assign p_count = product.metafields.reviews.rating_count.value | default: 0 -%}
             {%- if p_rating != blank and p_count > 0 -%}
               <a href="#Reviews" class="product__rating">{% render 'stars', rating: p_rating.rating, max: p_rating.scale_max, count: p_count %}</a>
-            {%- else -%}
-              {%- comment -%} Judge.me's own star badge (it stays empty until there are reviews) {%- endcomment -%}
+            {%- elsif jm_badge_on -%}
+              {%- comment -%} Judge.me's own star badge, only once there is at least one review {%- endcomment -%}
               <div class="product__rating jdgm-widget jdgm-preview-badge" data-id="{{ product.id }}">{{ product.metafields.judgeme.badge }}</div>
             {%- endif -%}
 
           {%- when 'price' -%}
-            {%- comment -%} Lowest price first («Desde 24,95 €»); the exact price of the chosen size/finish is on the add-to-cart button {%- endcomment -%}
-            <div class="product__price" id="{{ price_id }}"{% if product.price_varies %} data-from{% endif %} {{ block.shopify_attributes }}>
-              {%- if product.price_varies -%}{% render 'price', product: product, show_from: true %}{%- else -%}{% render 'price', product: product, variant: current_variant %}{%- endif -%}
+            {%- comment -%}
+              The price of exactly what is selected (size + finish), with a line saying what it is and
+              whether the frame is included. theme.js keeps both in step with the picker.
+            {%- endcomment -%}
+            {%- liquid
+              assign vs_size = ''
+              assign vs_finish = ''
+              assign vs_p = ''
+              assign vs_s = ''
+              for o in product.options_with_values
+                assign ok = o.name | downcase
+                assign ov = current_variant.options[forloop.index0]
+                if ok contains 'tama' or ok contains 'size' or ok contains 'medida'
+                  assign vs_size = ov
+                elsif ok == 'product' or ok == 'producto' or ok == 'material'
+                  assign vs_p = ov
+                elsif ok == 'style' or ok == 'estilo'
+                  assign vs_s = ov
+                elsif ok contains 'marco' or ok contains 'frame' or ok contains 'acabado'
+                  assign vs_finish = ov
+                endif
+              endfor
+            -%}
+            {%- capture vs_size_label -%}{%- if vs_size != '' -%}{% render 'option-label', value: vs_size, kind: 'size' %}{%- endif -%}{%- endcapture -%}
+            {%- capture vs_finish_label -%}
+              {%- if vs_p != '' -%}{% render 'option-label', value: vs_p, kind: 'finish', style: vs_s %}{%- else -%}{{ vs_finish }}{%- endif -%}
+            {%- endcapture -%}
+            {%- assign vs_finish_label = vs_finish_label | strip -%}
+            <div class="product__price" id="{{ price_id }}" {{ block.shopify_attributes }}>
+              {%- render 'price', product: product, variant: current_variant -%}
             </div>
+            {%- if product.has_only_default_variant == false -%}
+              <p class="product__variant-summary" id="{{ price_id }}-summary" data-variant-summary>
+                {%- assign fl = vs_finish_label | downcase -%}
+                <span data-summary-size>{{ vs_size_label | strip }}</span>
+                {%- if vs_finish_label != '' -%}
+                  {%- if vs_size_label != '' %} · {% endif -%}
+                  <span data-summary-finish>
+                    {%- if fl contains 'sin marco' -%}{{ 'product.summary_no_frame' | t }}
+                    {%- elsif fl contains 'lienzo' -%}{{ vs_finish_label }}
+                    {%- elsif fl contains 'marco' -%}{{ 'product.summary_frame_included' | t: frame: vs_finish_label }}
+                    {%- else -%}{{ vs_finish_label }}{%- endif -%}
+                  </span>
+                {%- endif -%}
+              </p>
+            {%- endif -%}
             {%- if cart.taxes_included or shop.shipping_policy.body != blank -%}
               <div class="product__tax">
                 {%- if cart.taxes_included -%}{{ 'cart.taxes_included' | t }}{%- endif -%}
@@ -151,6 +220,9 @@
                   assign step_offset = 0
                   for b in section.blocks
                     if b.type == 'custom_guard' and b.settings.upload and is_template == false
+                      assign step_offset = 1
+                    endif
+                    if b.type == 'photo_step'
                       assign step_offset = 1
                     endif
                     if b.type == 'template_studio' and b.settings.endpoint != blank
@@ -408,8 +480,28 @@
                 {%- endif -%}
               {%- endform -%}
               {%- if settings.free_shipping_threshold > 0 -%}
+                {%- comment -%}
+                  The shipping rule next to the button, from the theme settings (one source): prints and
+                  framed prints have the flat rate of their Shopify delivery profiles; canvases have their
+                  own rates per size, so for a canvas it says the price is shown at checkout.
+                  theme.js swaps the two lines when the finish changes. Only for the shop currency.
+                {%- endcomment -%}
                 {%- assign threshold_money = settings.free_shipping_threshold | times: 100 | money_without_trailing_zeros -%}
-                <p class="product__ship-hint">{{ 'product.free_shipping_from' | t: amount: threshold_money }}{%- if settings.gift_enabled -%}{%- assign gift_money = settings.gift_tier1 | times: 100 | money_without_trailing_zeros %} · {{ 'product.gift_from' | t: amount: gift_money }}{%- endif -%}</p>
+                {%- assign cv_t = current_variant.title | downcase -%}
+                {%- assign is_canvas = false -%}
+                {%- comment -%} Illustrations ship on their own flat-rate profile (canvas included): no separate canvas line there {%- endcomment -%}
+                {%- assign canvas_own_rate = true -%}
+                {%- if product.template_suffix contains 'ilustracion' -%}{%- assign canvas_own_rate = false -%}{%- endif -%}
+                {%- if canvas_own_rate -%}{%- if cv_t contains 'canvas' or cv_t contains 'lienzo' -%}{%- assign is_canvas = true -%}{%- endif -%}{%- endif -%}
+                {%- if cart.currency.iso_code == shop.currency -%}
+                  <p class="product__ship-hint" data-ship-rule{% unless canvas_own_rate %} data-flat{% endunless %}>
+                    <span data-ship-rule-print{% if is_canvas %} hidden{% endif %}>
+                      {%- if settings.shipping_rate_print != blank -%}{{ 'product.ship_rule' | t: rate: settings.shipping_rate_print, threshold: threshold_money }}{%- else -%}{{ 'product.ship_rule_nofee' | t: threshold: threshold_money }}{%- endif -%}
+                    </span>
+                    <span data-ship-rule-canvas{% unless is_canvas %} hidden{% endunless %}>{{ 'product.ship_rule_canvas' | t: threshold: threshold_money }}</span>
+                    {%- if settings.gift_enabled -%}{%- assign gift_money = settings.gift_tier1 | times: 100 | money_without_trailing_zeros %} · {{ 'product.gift_from' | t: amount: gift_money }}{%- endif -%}
+                  </p>
+                {%- endif -%}
               {%- elsif settings.shipping_message != blank -%}
                 <p class="product__ship-hint">{{ settings.shipping_message }}{% if settings.shipping_details != blank %}<span class="product__ship-sub">{{ settings.shipping_details }}</span>{% endif %}</p>
               {%- endif -%}
@@ -506,6 +598,21 @@
             {%- if block.settings.link != blank -%}
               <p class="ptpl-link" {{ block.shopify_attributes }}>{{ block.settings.text }} <a href="{{ block.settings.link }}">{{ block.settings.link_label }}</a></p>
             {%- endif -%}
+
+          {%- when 'photo_step' -%}
+            {%- comment -%}
+              «Tu foto, en un cuadro»: the photo comes first. The upload itself happens in Gelato's
+              personaliser (app embed, an iframe on another domain we don't touch); this step explains
+              the order and opens it. theme.js finds Gelato's «Personalizar» button by its text; if it
+              isn't there (app not loaded / renamed) the button scrolls to the buy area instead.
+            {%- endcomment -%}
+            <div class="pstep" data-photo-step {{ block.shopify_attributes }}>
+              <p class="vstep__head"><span class="vstep__num">1</span><span class="vstep__title">{{ block.settings.title | default: 'Sube tu foto' }}</span></p>
+              {%- if block.settings.text != blank -%}<p class="pstep__text">{{ block.settings.text }}</p>{%- endif -%}
+              <button type="button" class="button button--accent button--full pstep__go" data-photo-step-go>{{ block.settings.button | default: 'Sube tu foto' }}</button>
+              <p class="pstep__status" role="status" aria-live="polite" data-photo-step-status></p>
+              {%- if block.settings.steps != blank -%}<p class="pstep__steps">{{ block.settings.steps }}</p>{%- endif -%}
+            </div>
 
           {%- when 'notice' -%}
             {%- if block.settings.text != blank -%}
@@ -714,6 +821,16 @@
       ]
     },
     {
+      "type": "photo_step", "name": "Tu foto: paso 1 (abrir editor Gelato)", "limit": 1,
+      "settings": [
+        { "type": "paragraph", "content": "Abre el editor de personalización de Gelato (app embed). Ponlo antes de «Comprar» para que la foto sea lo primero." },
+        { "type": "text", "id": "title", "label": "Título", "default": "Sube tu foto" },
+        { "type": "textarea", "id": "text", "label": "Texto", "default": "Se abre el editor: sube la foto desde tu móvil u ordenador, colócala y guarda el diseño. Después eliges tamaño y acabado." },
+        { "type": "text", "id": "button", "label": "Botón", "default": "Sube tu foto" },
+        { "type": "text", "id": "steps", "label": "Pasos (resumen)", "default": "Foto → ajuste y vista previa → tamaño y acabado → carrito" }
+      ]
+    },
+    {
       "type": "notice", "name": "Aviso breve",
       "settings": [
         { "type": "text", "id": "text", "label": "Texto" }
@@ -726,7 +843,7 @@
         { "type": "text", "id": "heading", "label": "Título", "default": "Antes de subir tu imagen" },
         { "type": "textarea", "id": "notice", "label": "Aviso de resolución", "default": "Para que tu pieza imprima con calidad, sube una imagen en alta resolución. Recomendado: mínimo 300 ppp al tamaño elegido. Imágenes de baja calidad pueden salir pixeladas." },
         { "type": "text", "id": "rights_label", "label": "Casilla de derechos", "default": "Confirmo que tengo los derechos para imprimir esta imagen." },
-        { "type": "textarea", "id": "note", "label": "Nota de calidad", "default": "No cambiamos el estilo de tu imagen. Si tiene poca resolución, la revisamos y la mejoramos antes de imprimir para que llegue perfecta." },
+        { "type": "textarea", "id": "note", "label": "Nota de calidad", "default": "No cambiamos el estilo de tu imagen. Si tiene poca resolución para el tamaño elegido, te avisamos aquí antes de comprar: elige un tamaño menor o sube una foto mejor." },
         { "type": "checkbox", "id": "upload", "label": "Subida de imagen del tema", "default": true, "info": "Campo para subir la imagen (se guarda en el pedido) con vista previa. Desactívalo si usas el editor de Gelato o de una app. Nunca aparece en productos con la etiqueta «plantilla»." },
         { "type": "range", "id": "min_ppi", "label": "Avisar de pixelado por debajo de", "min": 100, "max": 300, "step": 10, "unit": "ppp", "default": 150, "info": "Solo cuando la imagen se sube en esta ficha y el navegador puede leer su tamaño." }
       ]

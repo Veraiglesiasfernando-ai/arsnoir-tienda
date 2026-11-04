@@ -1,0 +1,47 @@
+{%- comment -%}
+  Customer-facing label of a variant: «A4 · 21 × 29,7 cm · Marco negro». Gelato syncs its options in
+  English (Size / Product / Style: «Premium Matte Paper Wooden Framed Poster», «Black frame»); this
+  only changes what is shown, the variant and its real values stay as they are for Shopify and Gelato.
+  - variant: the variant (required)
+  - product: its product (required)
+  - part: 'size' | 'finish' | blank (both, joined with « · »)
+{%- endcomment -%}
+{%- liquid
+  assign vl_size = ''
+  assign vl_p = ''
+  assign vl_s = ''
+  assign vl_finish = ''
+  assign vl_other = ''
+  for o in product.options
+    assign ok = o | downcase
+    assign ov = variant.options[forloop.index0]
+    if ok contains 'tama' or ok contains 'size' or ok contains 'medida'
+      assign vl_size = ov
+    elsif ok == 'product' or ok == 'producto' or ok == 'material'
+      assign vl_p = ov
+    elsif ok == 'style' or ok == 'estilo'
+      assign vl_s = ov
+    elsif ok contains 'marco' or ok contains 'frame' or ok contains 'acabado'
+      assign vl_finish = ov
+    elsif ov != 'Default Title' and ov != '-'
+      if vl_other == ''
+        assign vl_other = ov
+      else
+        assign vl_other = vl_other | append: ' · ' | append: ov
+      endif
+    endif
+  endfor
+-%}
+{%- capture vl_size_label -%}{%- if vl_size != '' -%}{% render 'option-label', value: vl_size, kind: 'size' %}{%- endif -%}{%- endcapture -%}
+{%- capture vl_finish_label -%}{%- if vl_p != '' -%}{% render 'option-label', value: vl_p, kind: 'finish', style: vl_s %}{%- else -%}{{ vl_finish }}{%- endif -%}{%- endcapture -%}
+{%- assign vl_size_label = vl_size_label | strip -%}
+{%- assign vl_finish_label = vl_finish_label | strip -%}
+{%- case part -%}
+  {%- when 'size' -%}{{ vl_size_label }}
+  {%- when 'finish' -%}{{ vl_finish_label }}
+  {%- else -%}
+    {%- assign vl_parts = vl_size_label | append: '¦' | append: vl_finish_label | append: '¦' | append: vl_other | split: '¦' -%}
+    {%- assign vl_out = '' -%}
+    {%- for x in vl_parts -%}{%- if x != '' -%}{%- if vl_out != '' -%}{%- assign vl_out = vl_out | append: ' · ' -%}{%- endif -%}{%- assign vl_out = vl_out | append: x -%}{%- endif -%}{%- endfor -%}
+    {{- vl_out -}}
+{%- endcase -%}

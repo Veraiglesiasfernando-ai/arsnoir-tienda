@@ -3323,3 +3323,28 @@ html.sguide-lock { overflow: hidden; }
 .product > * { min-width: 0; }
 .tstudio, .pzstrip { min-width: 0; max-width: 100%; }
 .pzstrip__list { max-width: 100%; }
+
+/* ── CRO · precio coherente con la variante ───────────────────────────── */
+.product__price .price { font-size: inherit; }
+.product__variant-summary { margin: -1.25rem 0 0.6rem; font-size: 14px; color: var(--color-fg); }
+.product__variant-summary span[data-summary-finish] { font-weight: 600; }
+.product__variant-summary + .product__tax { margin-top: 0; }
+.price--split { display: flex; flex-direction: column; gap: 1px; line-height: 1.35; }
+.price--split .price__line { white-space: nowrap; }
+.price--split b { font-weight: 600; color: var(--color-fg); }
+.product__media { position: relative; }
+.pmedia__note { position: absolute; left: 10px; right: 10px; bottom: 10px; margin: 0; padding: 7px 10px; border-radius: 6px; background: rgba(10,10,10,0.78); color: #fff; font-size: 12.5px; line-height: 1.35; text-align: center; pointer-events: none; }
+
+/* ── CRO · carrito claro ──────────────────────────────────────────────── */
+.cartx__row--items { color: var(--color-muted); }
+.cartx__continue { display: block; width: 100%; margin: 10px 0 2px; padding: 10px; background: none; border: 0; font: inherit; font-size: 14px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; color: var(--color-fg); }
+.cart-summary__row--discount { color: #2f6b3a; }
+.cart-summary__continue { display: block; margin-top: 12px; text-align: center; font-size: 14px; text-decoration: underline; text-underline-offset: 3px; }
+.pstep { margin: 0 0 22px; padding: 16px; border: 1px solid var(--color-line); border-radius: 10px; background: #fff; }
+.pstep__text { margin: 6px 0 12px; font-size: 14px; color: var(--color-muted); }
+.pstep__go { min-height: 50px; }
+.pstep__status:empty { display: none; }
+.pstep__status { margin: 8px 0 0; font-size: 13px; }
+.pstep__steps { margin: 10px 0 0; font-size: 12px; letter-spacing: .02em; color: var(--color-muted); text-align: center; }
+.featured__pack { margin: 6px 0 0; font-size: 13px; font-weight: 600; }
+.reviews--empty { padding-top: 8px; padding-bottom: 32px; } .reviews__empty { margin: 0; font-size: 14px; color: var(--color-muted); text-align: center; } .reviews__empty a { text-decoration: underline; text-underline-offset: 3px; color: var(--color-fg); }

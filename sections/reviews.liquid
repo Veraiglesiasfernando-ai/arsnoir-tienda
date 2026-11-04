@@ -12,7 +12,25 @@
   endif
 -%}
 
-{%- if s.judgeme and product != blank -%}
+{%- liquid
+  # Real review count for this product: the standard metafield Judge.me fills, or its own badge markup
+  assign jm_count = product.metafields.reviews.rating_count.value | default: 0
+  if jm_count == 0 and product.metafields.judgeme.badge != blank
+    assign jm_raw = product.metafields.judgeme.badge | split: 'data-number-of-reviews=' | last | remove: '"' | remove: "'" | split: ' ' | first | split: '>' | first
+    assign jm_count = jm_raw | plus: 0
+  endif
+-%}
+{%- if s.judgeme and product != blank and jm_count == 0 -%}
+  {%- comment -%}
+    No reviews yet: no empty «Customer Reviews / Be the first…» widget and no zero stars. Just one
+    honest line and the way to ask. The widget appears by itself with the first real review.
+  {%- endcomment -%}
+  <section class="section reviews reviews--empty" id="Reviews">
+    <div class="page-width">
+      <p class="reviews__empty">{{ 'product.reviews_empty' | t }} <a href="{{ s.contact_url | default: '/pages/contacto' }}">{{ 'product.reviews_ask' | t }}</a></p>
+    </div>
+  </section>
+{%- elsif s.judgeme and product != blank -%}
   {%- comment -%}
     Judge.me (app embed «Judge.me Core» on): its review widget for this product, filled by the app with
     real customer reviews and its own «Escribir una reseña» button. Manual install markup from Judge.me.

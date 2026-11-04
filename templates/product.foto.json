@@ -23,9 +23,9 @@
         "notes": {
           "type": "notes",
           "settings": {
-            "note_1": "Obra original. Solo la encontrarás en ARSNOIR.",
+            "note_1": "Tu foto impresa en papel mate o en lienzo, con o sin marco.",
             "note_2": "Impresa bajo pedido en Europa, solo para ti.",
-            "note_3": "Envío gratis desde 80 € a España y toda Europa."
+            "note_3": "Envío gratis desde 80 € (importe con descuentos)."
           }
         },
         "description": {
@@ -55,7 +55,7 @@
           "type": "collapsible",
           "settings": {
             "heading": "Envío y devoluciones",
-            "content": "<p>Cada pieza se imprime cuando la pides, en el centro de producción más cercano a ti, y se envía con seguimiento: en la Península llega en 4-10 días hábiles; a las islas, Ceuta, Melilla y el resto de Europa puede tardar algo más. Envío 4,95 € en pedidos de menos de 80 €; desde 80 €, gratis.</p><p>Al hacerse con tu foto, no admite devolución por desistimiento, salvo que llegue dañada o con un defecto de impresión.</p>",
+            "content": "<p>Cada pieza se imprime cuando la pides, en el centro de producción más cercano a ti, y se envía con seguimiento: en la Península llega en 4-10 días hábiles; a las islas, Ceuta, Melilla y el resto de Europa puede tardar algo más. Láminas y láminas con marco: 4,95 € a España y la UE; los lienzos tienen su propia tarifa según el tamaño. Desde 80 € (importe con descuentos), el envío es gratis. El importe exacto lo ves en el pago antes de confirmar.</p><p>Al hacerse con tu foto, no admite devolución por desistimiento, salvo que llegue dañada o con un defecto de impresión.</p>",
             "open": false
           }
         },
@@ -93,8 +93,8 @@
         "payments": {
           "type": "payments",
           "settings": {
-            "pill_2": "Revisamos tu foto antes de imprimir",
-            "pill_2_icon": "print"
+            "pill_2": "Ves tu diseño antes de comprar",
+            "pill_2_icon": "eye"
           }
         },
         "returns_notice": {
@@ -102,18 +102,27 @@
           "settings": {
             "text": "Producto personalizado: no admite devolución por desistimiento, salvo defecto."
           }
+        },
+        "photo": {
+          "type": "photo_step",
+          "settings": {
+            "title": "Sube tu foto",
+            "text": "Se abre el editor: sube la foto desde tu móvil u ordenador, colócala y guarda el diseño. Después eliges tamaño y acabado y lo añades al carrito.",
+            "button": "Sube tu foto",
+            "steps": "Foto → ajuste y vista previa → tamaño y acabado → carrito"
+          }
         }
       },
       "block_order": [
         "title",
         "price",
+        "photo",
         "notes",
         "buy",
         "payments",
         "returns_notice",
         "delivery",
         "trust",
-        "complete_wall",
         "compare",
         "description",
         "details",
@@ -153,7 +162,7 @@
           "type": "question",
           "settings": {
             "question": "¿Cuánto tarda el envío?",
-            "answer": "<p>Enviamos a España y toda Europa, con seguimiento. Cada obra se imprime cuando la pides, en el centro de producción más cercano a ti. En la Península llega en 4-10 días hábiles; a Baleares, Canarias, Ceuta y Melilla puede tardar algo más y al resto de Europa, según el país. Envío 4,95 € en pedidos de menos de 80 €; desde 80 €, gratis.</p>"
+            "answer": "<p>Enviamos a España y toda Europa, con seguimiento. Cada obra se imprime cuando la pides, en el centro de producción más cercano a ti. En la Península llega en 4-10 días hábiles; a Baleares, Canarias, Ceuta y Melilla puede tardar algo más y al resto de Europa, según el país. Láminas y láminas con marco: 4,95 € a España y la UE; los lienzos tienen su propia tarifa según el tamaño. Desde 80 € (importe con descuentos), el envío es gratis. El importe exacto lo ves en el pago antes de confirmar.</p>"
           }
         },
         "q2": {
@@ -173,8 +182,8 @@
         "q4": {
           "type": "question",
           "settings": {
-            "question": "¿El arte es exclusivo?",
-            "answer": "<p>Sí. Todas las piezas son originales y exclusivas de ARSNOIR — no se venden en ningún otro sitio.</p>"
+            "question": "¿Qué foto puedo imprimir?",
+            "answer": "<p>Cualquier foto tuya o que tengas derecho a usar: familia, viajes, tu mascota… Al subirla confirmas que tienes los derechos para imprimirla (condiciones, punto 9). Cuanta más resolución tenga, mejor se verá en grande; el editor te avisa si se queda corta para el tamaño elegido.</p>"
           }
         }
       },

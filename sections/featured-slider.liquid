@@ -1,16 +1,47 @@
 {%- liquid
   assign s = section.settings
   assign collection = s.collection
+  # On a product page: never the product itself, a few relevant works only. First the complements
+  # picked by hand in the product (metafield custom.complementos), then works of the same theme.
+  assign on_product = false
+  if template.name == 'product' and product.id != nil
+    assign on_product = true
+    assign current = product
+    assign picks = product.metafields.custom.complementos.value
+    assign themes = 'motor,sport,urban,animals,abstract,art,mindset,escape' | split: ','
+    for c in product.collections
+      if themes contains c.handle
+        assign collection = c
+        break
+      endif
+    endfor
+  endif
+  assign max = s.limit
+  if on_product
+    assign max = s.limit_on_product | default: 4
+  endif
   assign button_url = collection.url | default: routes.all_products_collection_url
+  assign shown_ids = ','
 -%}
 
-<section class="section featured">
+<section class="section featured"{% if section.id contains '__featured' %} id="featured"{% endif %}>
   <div class="page-width">
     <div class="featured__head">
       <div>
         {%- if s.eyebrow != blank -%}<p class="eyebrow eyebrow--accent">{{ s.eyebrow }}</p>{%- endif -%}
         <h2 class="featured__title">{{ s.heading }}</h2>
         {%- if s.subtitle != blank -%}<p class="featured__subtitle">{{ s.subtitle }}</p>{%- endif -%}
+        {%- liquid
+          assign pack_on = false
+          assign today = 'now' | date: '%Y-%m-%d'
+          if on_product and settings.pack_percent > 0
+            assign pack_on = true
+            if settings.pack_until != blank and today > settings.pack_until
+              assign pack_on = false
+            endif
+          endif
+        -%}
+        {%- if pack_on -%}<p class="featured__pack">{{ 'product.pack_hint' | t: pct: settings.pack_percent, n: settings.pack_min }}</p>{%- endif -%}
       </div>
       <div class="featured__arrows">
         <button type="button" class="round-btn" data-scroll="-1" data-target="Slider-{{ section.id }}" aria-label="{{ 'general.previous' | t }}">&larr;</button>
@@ -20,7 +51,27 @@
   </div>
 
   <ul class="slider" id="Slider-{{ section.id }}">
-    {%- if collection != blank and collection.products_count > 0 -%}
+    {%- if on_product -%}
+      {%- assign n = 0 -%}
+      {%- for p in picks -%}
+        {%- assign key = ',' | append: p.id | append: ',' -%}
+        {%- if n >= max or p.id == current.id or p.available == false or shown_ids contains key -%}{%- continue -%}{%- endif -%}
+        {%- assign shown_ids = shown_ids | append: p.id | append: ',' -%}{%- assign n = n | plus: 1 -%}
+        <li class="slider__item">{% render 'product-card', product: p, index: n %}</li>
+      {%- endfor -%}
+      {%- for p in collection.products -%}
+        {%- assign key = ',' | append: p.id | append: ',' -%}
+        {%- if n >= max -%}{%- break -%}{%- endif -%}
+        {%- if p.id == current.id or p.available == false or p.type == 'Personalizado' or shown_ids contains key -%}{%- continue -%}{%- endif -%}
+        {%- assign shown_ids = shown_ids | append: p.id | append: ',' -%}{%- assign n = n | plus: 1 -%}
+        <li class="slider__item">{% render 'product-card', product: p, index: n %}</li>
+      {%- endfor -%}
+    {%- elsif s.products != blank and s.products.count > 0 -%}
+      {%- comment -%} Hand-picked works first (setting «Obras elegidas a mano»), in the order chosen {%- endcomment -%}
+      {%- for product in s.products limit: s.limit -%}
+        <li class="slider__item">{% render 'product-card', product: product, index: forloop.index %}</li>
+      {%- endfor -%}
+    {%- elsif collection != blank and collection.products_count > 0 -%}
       {%- for product in collection.products limit: s.limit -%}
         <li class="slider__item">{% render 'product-card', product: product, index: forloop.index %}</li>
       {%- endfor -%}
@@ -46,7 +97,9 @@
     { "type": "text", "id": "heading", "label": "Título", "default": "Obras destacadas" },
     { "type": "text", "id": "subtitle", "label": "Subtítulo", "default": "Piezas originales que solo encontrarás aquí." },
     { "type": "collection", "id": "collection", "label": "Colección" },
+    { "type": "product_list", "id": "products", "label": "Obras elegidas a mano", "limit": 12, "info": "Si eliges obras aquí, se muestran estas en este orden (y no la colección)." },
     { "type": "range", "id": "limit", "label": "Número de obras", "min": 3, "max": 16, "step": 1, "default": 8 },
+    { "type": "range", "id": "limit_on_product", "label": "Número de obras en la ficha de producto", "min": 2, "max": 8, "step": 1, "default": 4, "info": "En la ficha: primero los complementos elegidos en el producto (metacampo «Complementos»), luego obras de su misma temática. Nunca la propia obra." },
     { "type": "text", "id": "button_label", "label": "Texto del botón", "default": "VER TODAS" },
     { "type": "text", "id": "placeholder_price", "label": "Precio de ejemplo (mientras no haya obras)", "default": "24,95 €" }
   ],

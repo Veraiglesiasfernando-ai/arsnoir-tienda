@@ -22,6 +22,8 @@
     "see_works": "Ver obras",
     "see_all_works": "Ver todas las obras",
     "from": "Desde",
+    "print_from": "Lámina desde",
+    "framed_from": "Con marco desde",
     "to": "Hasta",
     "email": "Email",
     "your_email": "Tu email",
@@ -155,7 +157,11 @@
     "gift_with_pack": "Con el −{{ pct }} % del pack, que te ahorra más que el regalo gratis",
     "drawer_title": "Carrito",
     "payment_methods": "Métodos de pago",
-    "pill_tracking": "Envío con seguimiento"
+    "pill_tracking": "Envío con seguimiento",
+    "items_before_discounts": "Productos",
+    "continue_shopping": "Seguir comprando",
+    "total_before_shipping": "Total (sin envío)",
+    "shipping_final_at_checkout": "El envío exacto según tu dirección se confirma en el pago."
   },
   "product": {
     "add_to_cart": "Añadir al carrito",
@@ -187,7 +193,16 @@
     "upload_hint": "JPG o PNG · recomendado 300 ppp",
     "upload_meta": "[NAME] · [W] × [H] px",
     "upload_step": "Sube tu imagen",
-    "frame_video": "Cómo es el marco por dentro"
+    "frame_video": "Cómo es el marco por dentro",
+    "summary_no_frame": "Sin marco · solo la lámina",
+    "summary_frame_included": "{{ frame }} incluido",
+    "photo_shows": "La foto muestra el marco negro · Tu elección: {{ finish }}",
+    "ship_rule": "Envío {{ rate }} a España y la UE · gratis desde {{ threshold }} (importe con descuentos)",
+    "ship_rule_canvas": "Lienzos: el envío depende del tamaño y lo verás en el pago · gratis desde {{ threshold }}",
+    "ship_rule_nofee": "Envío gratis desde {{ threshold }} (importe con descuentos)",
+    "pack_hint": "Con {{ n }} obras, −{{ pct }} % en el carrito.",
+    "reviews_empty": "Todavía no hay opiniones publicadas de esta pieza.",
+    "reviews_ask": "¿Tienes dudas? Escríbenos"
   },
   "collection": {
     "all": "Todas",
@@ -247,7 +262,7 @@
     "hours": "horas",
     "minutes": "min",
     "seconds": "seg",
-    "delivery": "Pídelo hoy y recíbelo entre el [MIN] y el [MAX]",
+    "delivery": "Pídelo hoy y recíbelo entre el [MIN] y el [MAX] (Península)",
     "before_xmas": "Llega antes de Navidad",
     "before_reyes": "Llega antes de Reyes",
     "d_short": "d"

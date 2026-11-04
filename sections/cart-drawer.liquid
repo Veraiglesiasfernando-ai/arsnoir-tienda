@@ -210,10 +210,10 @@
                   <button type="button" class="cartx-item__remove" data-cart-change data-line="{{ line }}" data-quantity="0" aria-label="{% if is_gift %}{{ 'cart.gift_change' | t }}{% else %}{{ 'cart.remove' | t }}{% endif %}">{% render 'icon', name: 'close' %}</button>
                 </div>
                 {%- if is_gift -%}
-                  <p class="cartx-item__variant">{{ 'cart.gift_subtitle' | t }} · {{ item.options_with_values | map: 'value' | join: ' · ' }}</p>
+                  <p class="cartx-item__variant">{{ 'cart.gift_subtitle' | t }} · {% render 'variant-label', variant: item.variant, product: item.product %}</p>
                   {%- if item.final_line_price > 0 and has_code == false -%}<p class="cartx-item__edition">{{ 'cart.gift_with_pack' | t: pct: settings.pack_percent }}</p>{%- endif -%}
                 {%- elsif item.product.has_only_default_variant == false -%}
-                  <p class="cartx-item__variant">{{ item.options_with_values | map: 'value' | join: ' · ' }}</p>
+                  <p class="cartx-item__variant">{% render 'variant-label', variant: item.variant, product: item.product %}</p>
                 {%- endif -%}
                 {%- if is_gift == false and ed_size > 0 and ed_left > 0 -%}
                   <p class="cartx-item__edition">
@@ -266,6 +266,10 @@
       </div>
 
       <div class="drawer__foot cartx__foot">
+        {%- comment -%} Products before discounts, then each discount, then what is paid {%- endcomment -%}
+        {%- if cart.original_total_price > cart.total_price -%}
+          <div class="cartx__row cartx__row--items"><span>{{ 'cart.items_before_discounts' | t }}</span><span>{{ cart.original_total_price | money }}</span></div>
+        {%- endif -%}
         {%- for d in cart.discount_applications -%}
           {%- if d.total_allocated_amount > 0 -%}
             {%- liquid
@@ -280,14 +284,14 @@
             -%}
             {%- unless is_gift_discount -%}
               <div class="cartx__row cartx__row--discount">
-                <span>{% if is_pack %}<span class="cartx-check" aria-hidden="true"></span>{{ settings.pack_message }}{% elsif d.type == 'discount_code' %}{{ 'cart.code' | t }} {{ d.title }}{% else %}{{ d.title }}{% endif %}</span>
+                <span>{% if is_pack %}<span class="cartx-check" aria-hidden="true"></span>{{ settings.pack_message }}{% elsif d.type == 'discount_code' %}{{ 'cart.code' | t }} {{ d.title }}{% else %}{{ d.title | split: ' (' | first }}{% endif %}</span>
                 <span>&minus;{{ d.total_allocated_amount | money }}</span>
               </div>
             {%- endunless -%}
           {%- endif -%}
         {%- endfor -%}
         {%- assign ship_free = false -%}
-        {%- if ship_threshold > 0 and cart.original_total_price >= ship_threshold -%}{%- assign ship_free = true -%}{%- endif -%}
+        {%- if ship_threshold > 0 and cart.total_price >= ship_threshold -%}{%- assign ship_free = true -%}{%- endif -%}
         <div class="cartx__row cartx__row--ship">
           <span>{{ 'cart.shipping' | t }}</span>
           {%- if ship_free -%}
@@ -305,6 +309,7 @@
             <span class="cartx__checkout-total">{{ cart.total_price | money }}</span>
           </button>
         </form>
+        <button type="button" class="cartx__continue" data-drawer-close>{{ 'cart.continue_shopping' | t }}</button>
         {%- if shop.enabled_payment_types.size > 0 -%}
           <ul class="cartx__payicons" aria-label="{{ 'cart.payment_methods' | t }}">
             {%- for type in shop.enabled_payment_types -%}<li>{{ type | payment_type_svg_tag: class: 'cartx__payicon' }}</li>{%- endfor -%}

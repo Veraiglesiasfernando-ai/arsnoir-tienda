@@ -4,7 +4,7 @@
   <div class="collection-list-art">
     {%- assign n = 0 -%}
     {%- for collection in collections -%}
-      {%- if collection.handle == 'frontpage' or collection.handle == 'mas-vendidos' -%}{%- continue -%}{%- endif -%}
+      {%- if collection.handle == 'frontpage' or collection.handle == 'mas-vendidos' or collection.handle == 'obras' -%}{%- continue -%}{%- endif -%}
       {%- if collection.products_count == 0 and request.design_mode == false -%}{%- continue -%}{%- endif -%}
       {%- assign n = n | plus: 1 -%}
       {%- assign tone_i = n | modulo: 3 -%}
@@ -21,7 +21,7 @@
         </div>
         <span class="poster__info">
           <span class="poster__meta">
-            <span class="poster__title">{{ collection.title }}</span>
+            <span class="poster__title">{{ collection.title | split: ' (' | first }}</span>
             <span class="poster__price">{{ 'general.works_count' | t: count: collection.products_count }}</span>
           </span>
           <span class="poster__plus" aria-hidden="true">&rarr;</span>

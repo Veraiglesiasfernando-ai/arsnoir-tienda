@@ -22,6 +22,8 @@
     "see_works": "Shop art",
     "see_all_works": "See all artworks",
     "from": "From",
+    "print_from": "Print from",
+    "framed_from": "Framed from",
     "to": "To",
     "email": "Email",
     "your_email": "Your email",
@@ -155,7 +157,11 @@
     "gift_with_pack": "With the pack's −{{ pct }} %, which saves you more than a free gift",
     "drawer_title": "Cart",
     "payment_methods": "Payment methods",
-    "pill_tracking": "Tracked shipping"
+    "pill_tracking": "Tracked shipping",
+    "items_before_discounts": "Items",
+    "continue_shopping": "Continue shopping",
+    "total_before_shipping": "Total (before shipping)",
+    "shipping_final_at_checkout": "Exact shipping for your address is confirmed at checkout."
   },
   "product": {
     "add_to_cart": "Add to cart",
@@ -187,7 +193,16 @@
     "upload_hint": "JPG or PNG · 300 dpi recommended",
     "upload_meta": "[NAME] · [W] × [H] px",
     "upload_step": "Upload your image",
-    "frame_video": "How the frame is made"
+    "frame_video": "How the frame is made",
+    "summary_no_frame": "No frame · print only",
+    "summary_frame_included": "{{ frame }} included",
+    "photo_shows": "Photo shows the black frame · Your choice: {{ finish }}",
+    "ship_rule": "Shipping {{ rate }} to Spain and the EU · free from {{ threshold }} (after discounts)",
+    "ship_rule_canvas": "Canvas: shipping depends on the size, shown at checkout · free from {{ threshold }}",
+    "ship_rule_nofee": "Free shipping from {{ threshold }} (after discounts)",
+    "pack_hint": "With {{ n }} works, −{{ pct }} % in the cart.",
+    "reviews_empty": "No reviews published for this piece yet.",
+    "reviews_ask": "Questions? Write to us"
   },
   "collection": {
     "all": "All",
