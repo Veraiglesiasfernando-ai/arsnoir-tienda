@@ -261,9 +261,9 @@
   "order": [
     "main",
     "features",
-    "reviews",
     "faq",
     "related",
-    "recent"
+    "recent",
+    "reviews"
   ]
 }
