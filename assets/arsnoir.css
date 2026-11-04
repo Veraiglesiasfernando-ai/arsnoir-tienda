@@ -3319,3 +3319,7 @@ html.sguide-lock { overflow: hidden; }
 .pzstrip__item.is-current img { border-color: #490B1A; }
 .pzstrip__item.is-current span { font-weight: 600; color: #490B1A; }
 @media (hover: hover) { .pzstrip__item:hover img { border-color: rgba(73, 11, 26, 0.35); } }
+/* The styles row must scroll inside the column, never widen the page (grid items default to min-width: auto) */
+.product > * { min-width: 0; }
+.tstudio, .pzstrip { min-width: 0; max-width: 100%; }
+.pzstrip__list { max-width: 100%; }
