@@ -245,7 +245,7 @@
   /* Variant picker ------------------------------------------------------- */
   class VariantPicker extends HTMLElement {
     connectedCallback() {
-      this.variants = JSON.parse(this.querySelector('[type="application/json"]').textContent);
+      this.variants = JSON.parse((this.querySelector('script[data-variants]') || this.querySelector('[type="application/json"]:not([data-sizes]):not([data-labels])')).textContent);
       this.form = document.getElementById(this.dataset.form);
       this.addEventListener('change', this.onChange.bind(this));
       this.markAvailability();

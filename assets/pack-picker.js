@@ -22,7 +22,7 @@
   const extraInput = box.querySelector('[data-pack-extra]');
   const creates = box.querySelectorAll('[data-pack-create]');
   const sameText = same ? same.textContent : '';
-  const json = document.querySelector('variant-picker script[type="application/json"]');
+  const json = (document.querySelector('variant-picker script[data-variants]') || document.querySelector('variant-picker script[type="application/json"]:not([data-sizes]):not([data-labels])'));
   const variants = json ? JSON.parse(json.textContent) : [];
   const root = (window.Shopify && Shopify.routes && Shopify.routes.root) || '/';
   const lang = document.documentElement.lang || 'es';

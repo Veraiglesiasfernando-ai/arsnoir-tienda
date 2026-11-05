@@ -253,6 +253,9 @@
                   assign step_n = step_offset
                 -%}
                 {%- comment -%} Personalised illustrations: a shorter picker (sizes that don't exist for the chosen finish are hidden; canvas behind one link) {%- endcomment -%}
+                {%- comment -%} The size guide buttons go right under «Elige tu tamaño» (the size_compare block, if the template has one) {%- endcomment -%}
+                {%- assign sc_block = nil -%}
+                {%- for sb in section.blocks -%}{%- if sb.type == 'size_compare' -%}{%- assign sc_block = sb -%}{%- endif -%}{%- endfor -%}
                 {%- assign simple_picker = false -%}
                 {%- for sb in section.blocks -%}{%- if sb.type == 'template_studio' -%}{%- assign simple_picker = true -%}{%- endif -%}{%- endfor -%}
                 <variant-picker class="vsteps{% if simple_picker %} vsteps--simple{% endif %}" data-form="{{ form_id }}" data-price="{{ price_id }}">
@@ -321,6 +324,7 @@
                         {%- unless is_size -%}<span class="vstep__value" data-selected-value>{{ selected_label }}</span>{%- endunless -%}
                       </legend>
                       {%- if is_size and size_help != blank -%}<a class="vstep__help" href="{{ size_help }}">{{ 'product.size_guide' | t }}</a>{%- endif -%}
+                      {%- if is_size and sc_block and sc_inline != true -%}{%- render 'size-compare', product: product, block: sc_block -%}{%- assign sc_inline = true -%}{%- endif -%}
                       {%- if is_frame and frame_help != blank and is_hidden == false -%}<a class="vstep__help" href="{{ frame_help }}">{{ 'product.about_frames' | t }}</a>{%- endif -%}
 
                       <details class="vsel{% unless is_size %} vsel--static{% endunless %}"{% if is_size %} data-vsel{% else %} open{% endif %}>
@@ -460,7 +464,7 @@
                       </div>
                     {%- endif -%}
                   {%- endfor -%}
-                  <script type="application/json">{{ product.variants | json }}</script>
+                  <script type="application/json" data-variants>{{ product.variants | json }}</script>
                 </variant-picker>
               {%- endunless -%}
 
@@ -681,7 +685,8 @@
             {% render 'wall-preview', product: product, block: block %}
 
           {%- when 'size_compare' -%}
-            {% render 'size-compare', product: product, block: block %}
+            {%- comment -%} Already shown under the size step when the template has the variant picker {%- endcomment -%}
+            {%- unless sc_inline -%}{% render 'size-compare', product: product, block: block %}{%- endunless -%}
 
           {%- when 'material' -%}
             <div class="product__material" {{ block.shopify_attributes }}>
