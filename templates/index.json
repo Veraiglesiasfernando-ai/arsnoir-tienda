@@ -154,7 +154,69 @@
         "heading": "No decores tu espacio.\nCambia cómo se siente."
       }
     },
+    "walls": {
+      "type": "wall-stories",
+      "blocks": {
+        "w1": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/rose-salon.jpg",
+            "product": "rose"
+          }
+        },
+        "w2": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/retrato-comic-salon.jpg",
+            "product": "retrato-comic"
+          }
+        },
+        "w3": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/arsnoir-room-dormitorio.jpg",
+            "product": "blue-corner-1"
+          }
+        },
+        "w4": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/retrato-glam-dormitorio.jpg",
+            "product": "retrato-glam"
+          }
+        },
+        "w5": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/arsnoir-room-estudio.jpg",
+            "product": "perro-amarillo"
+          }
+        },
+        "w6": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/rose-dormitorio.jpg",
+            "product": "rose"
+          }
+        }
+      },
+      "block_order": [
+        "w1",
+        "w2",
+        "w3",
+        "w4",
+        "w5",
+        "w6"
+      ],
+      "settings": {
+        "eyebrow": "INSPIRACIÓN",
+        "heading": "Un buen cuadro\nlo cambia todo.\nTu pared\npodría ser la siguiente.",
+        "text": "Ideas para cada rincón de tu casa. Toca una foto para ver la obra.",
+        "note": "Imágenes de ambiente."
+      }
+    },
     "rooms": {
+      "disabled": true,
       "type": "room-mockups",
       "blocks": {
         "r1": {
@@ -499,6 +561,7 @@
     "lienzos",
     "materials",
     "gifts",
+    "walls",
     "rooms",
     "packs",
     "reviews",

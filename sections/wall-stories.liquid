@@ -1,0 +1,66 @@
+{%- comment -%}
+  «Tu pared podría ser la siguiente»: big centred headline + a swipeable row of room photos,
+  each one linking to the artwork on the wall. Room photos are styled scenes (not customer photos):
+  the small note under the row says so. Swap them for real customer photos when they arrive.
+{%- endcomment -%}
+{%- assign s = section.settings -%}
+<section class="section wstories">
+  <div class="page-width">
+    <header class="wstories__head">
+      {%- if s.eyebrow != blank -%}<p class="wstories__eyebrow">{{ s.eyebrow }}</p>{%- endif -%}
+      {%- if s.heading != blank -%}<h2 class="wstories__title">{{ s.heading | newline_to_br }}</h2>{%- endif -%}
+      {%- if s.text != blank -%}<p class="wstories__text">{{ s.text }}</p>{%- endif -%}
+    </header>
+  </div>
+  <div class="wstories__row" role="list">
+    {%- for block in section.blocks -%}
+      {%- liquid
+        assign b = block.settings
+        assign p = b.product
+        assign url = p.url | default: routes.all_products_collection_url
+        assign label = b.caption | default: p.title
+      -%}
+      <a href="{{ url }}" class="wstory" role="listitem" {{ block.shopify_attributes }}>
+        <span class="wstory__media">
+          {%- if b.image != blank -%}
+            {{ b.image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '400, 600, 900', sizes: '(min-width: 990px) 25vw, (min-width: 750px) 40vw, 78vw', alt: label }}
+          {%- elsif p.featured_media -%}
+            {{ p.featured_media | image_url: width: 900 | image_tag: loading: 'lazy', widths: '400, 600, 900', sizes: '(min-width: 990px) 25vw, 78vw', alt: label }}
+          {%- endif -%}
+        </span>
+        {%- if label != blank -%}
+          <span class="wstory__cap">
+            <span class="wstory__name">{{ label }}</span>
+            {%- if p != blank -%}<span class="wstory__price">{% render 'price', product: p, show_from: true %}</span>{%- endif -%}
+          </span>
+        {%- endif -%}
+      </a>
+    {%- endfor -%}
+  </div>
+  {%- if s.note != blank -%}<p class="page-width wstories__note">{{ s.note }}</p>{%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Tu pared (inspiración)",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "INSPIRACIÓN" },
+    { "type": "textarea", "id": "heading", "label": "Titular (una línea por renglón)", "default": "Un buen cuadro\nlo cambia todo.\nTu pared\npodría ser la siguiente." },
+    { "type": "text", "id": "text", "label": "Texto", "default": "Ideas para cada rincón de tu casa. Toca una foto para ver la obra." },
+    { "type": "text", "id": "note", "label": "Nota bajo las fotos", "default": "Imágenes de ambiente.", "info": "Mientras no sean fotos de clientes, déjalo así." }
+  ],
+  "blocks": [
+    {
+      "type": "photo",
+      "name": "Foto",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Foto del ambiente" },
+        { "type": "product", "id": "product", "label": "Obra que aparece" },
+        { "type": "text", "id": "caption", "label": "Texto (vacío = nombre de la obra)" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Tu pared (inspiración)" }]
+}
+{% endschema %}
