@@ -2,9 +2,9 @@
   Renders a product or variant price.
   - product: product object (required)
   - variant: optional variant object; when given, shows that variant's price
-  - show_from: show "Desde" when prices vary (for cards). When the product is sold both as a
-    print and framed, the card says both («Lámina desde … · Con marco desde …»), taken from the
-    real variants, so a framed photo is never read as the print's price.
+  - show_from: show «Desde <lowest price>» when prices vary (for cards)
+  - show_split: with show_from, say both «Lámina desde … · Con marco desde …» (taken from the real
+    variants) instead of the single lowest price. Not used on cards for now: one short price reads better.
 {%- endcomment -%}
 {%- liquid
   if variant
@@ -16,7 +16,7 @@
   endif
   assign print_min = 0
   assign framed_min = 0
-  if show_from and product.price_varies
+  if show_split and show_from and product.price_varies
     for v in product.variants
       unless v.available
         continue
