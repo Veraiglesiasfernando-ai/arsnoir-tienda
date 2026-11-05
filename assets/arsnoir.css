@@ -3348,3 +3348,10 @@ html.sguide-lock { overflow: hidden; }
 .pstep__steps { margin: 10px 0 0; font-size: 12px; letter-spacing: .02em; color: var(--color-muted); text-align: center; }
 .featured__pack { margin: 6px 0 0; font-size: 13px; font-weight: 600; }
 .reviews--empty { padding-top: 8px; padding-bottom: 32px; } .reviews__empty { margin: 0; font-size: 14px; color: var(--color-muted); text-align: center; } .reviews__empty a { text-decoration: underline; text-underline-offset: 3px; color: var(--color-fg); }
+
+/* Personalised illustrations: simpler size + finish steps */
+.vsteps--simple .vsel__row:has([data-row-price]:empty) { display: none; }
+.vsteps--simple:not(.show-canvas) .ftiles.option__values label.ftile--canvas { display: none; }
+.vsteps--simple.show-canvas [data-show-canvas] { display: none; }
+.vsimple__canvas { margin-top: 12px; padding: 0; border: 0; background: none; color: var(--color-fg); font: inherit; font-size: 13px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.tstudio__go[disabled] { opacity: .5; background: var(--color-fg, #0a0a0a); color: #fff; filter: none; }

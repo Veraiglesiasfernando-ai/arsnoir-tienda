@@ -195,6 +195,7 @@
     "upload_step": "Upload your image",
     "frame_video": "How the frame is made",
     "summary_no_frame": "No frame · print only",
+    "show_canvas": "+ Also on canvas",
     "summary_frame_included": "{{ frame }} included",
     "photo_shows": "Photo shows the black frame · Your choice: {{ finish }}",
     "ship_rule": "Shipping {{ rate }} to Spain and the EU · free from {{ threshold }} (after discounts)",

@@ -195,6 +195,7 @@
     "upload_step": "Sube tu imagen",
     "frame_video": "Cómo es el marco por dentro",
     "summary_no_frame": "Sin marco · solo la lámina",
+    "show_canvas": "+ También en lienzo",
     "summary_frame_included": "{{ frame }} incluido",
     "photo_shows": "La foto muestra el marco negro · Tu elección: {{ finish }}",
     "ship_rule": "Envío {{ rate }} a España y la UE · gratis desde {{ threshold }} (importe con descuentos)",

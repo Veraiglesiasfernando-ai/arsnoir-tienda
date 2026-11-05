@@ -43,6 +43,7 @@
           }
         },
         "intro": {
+          "disabled": true,
           "type": "notice",
           "settings": {
             "text": "Sube la foto de tu mascota y mírala en su rincón antes de comprar."

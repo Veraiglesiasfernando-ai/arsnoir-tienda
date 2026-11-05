@@ -43,6 +43,7 @@
           }
         },
         "intro": {
+          "disabled": true,
           "type": "notice",
           "settings": {
             "text": "Sube tu foto (familia, pareja, amigos…) y mírala ilustrada antes de comprar. Puedes añadir una frase o una fecha."

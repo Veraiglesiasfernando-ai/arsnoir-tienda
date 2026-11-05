@@ -43,6 +43,7 @@
           }
         },
         "intro": {
+          "disabled": true,
           "type": "notice",
           "settings": {
             "text": "Sube la foto de tu mascota, escribe su nombre y mírala con gafas de estrella antes de comprar."

@@ -1826,3 +1826,18 @@
     }, 250);
   });
 })();
+
+/* Personalised illustrations: canvas finishes stay behind «+ También en lienzo» (shown if one is already chosen) */
+(function () {
+  document.querySelectorAll('.vsteps--simple').forEach(function (vp) {
+    const btn = vp.querySelector('[data-show-canvas]');
+    if (!btn) return;
+    const sync = function () {
+      const canvas = Array.prototype.some.call(vp.querySelectorAll('fieldset[data-option-kind="frame"] input:checked'), function (i) { return /lienzo|canvas/i.test(i.value); });
+      if (canvas) vp.classList.add('show-canvas');
+    };
+    sync();
+    vp.addEventListener('change', sync);
+    btn.addEventListener('click', function () { vp.classList.add('show-canvas'); });
+  });
+})();

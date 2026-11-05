@@ -43,6 +43,7 @@
           }
         },
         "intro": {
+          "disabled": true,
           "type": "notice",
           "settings": {
             "text": "Sube tu foto y mírala pintada en acuarela antes de comprar."

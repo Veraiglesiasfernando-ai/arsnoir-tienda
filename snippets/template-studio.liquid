@@ -26,18 +26,15 @@
   {%- if b.endpoint == blank -%}
     <p class="tstudio__soon">{{ b.soon_text }}</p>
   {%- else -%}
-    {%- render 'pz-styles-strip', product: product -%}
     <p class="vstep__head"><span class="vstep__num">1</span><span class="vstep__title">{{ b.photo_label }}</span></p>
     <label class="tstudio__drop" for="TStudio-{{ section_id }}">
       <input class="tstudio__file" id="TStudio-{{ section_id }}" type="file" accept="image/jpeg,image/png,image/webp" data-tstudio-file>
       <img class="tstudio__thumb" alt="" width="128" height="160" data-tstudio-thumb hidden>
       <span class="tstudio__drop-text" data-tstudio-drop-text>{{ b.photo_cta }}</span>
     </label>
-    {%- if b.photo_hint != blank -%}<p class="tstudio__hint">{{ b.photo_hint }}</p>{%- endif -%}
-    {%- comment -%} Pet templates work with any furry pet, not only dogs (the prompts say «the pet / the animal») {%- endcomment -%}
-    {%- unless b.template_id contains 'familia' or b.template_id contains 'momento' -%}
-      <p class="pets-ok"><span>Perros</span><span>Gatos</span><span>Conejos</span><span>Y cualquier mascota</span></p>
-    {%- endunless -%}
+    {%- comment -%} One short line: pet templates work with any furry pet (the prompts say «the pet / the animal») {%- endcomment -%}
+    {%- capture pets_ok -%}{%- unless b.template_id contains 'familia' or b.template_id contains 'momento' -%}Perros, gatos, conejos… cualquier mascota.{%- endunless -%}{%- endcapture -%}
+    {%- if b.photo_hint != blank or pets_ok != blank -%}<p class="tstudio__hint">{{ pets_ok }}{% if pets_ok != blank and b.photo_hint != blank %} {% endif %}{{ b.photo_hint }}</p>{%- endif -%}
 
     {%- assign has_text = false -%}
     {%- if b.needs_name or b.text_optional -%}{%- assign has_text = true -%}{%- endif -%}
