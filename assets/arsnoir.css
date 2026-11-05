@@ -3187,7 +3187,7 @@ html.sguide-lock { overflow: hidden; }
 
 /* Welcome cards: optional line under the name (e.g. the personalised card) */
 .poster__sub { display: block; margin-top: 2px; font-size: 12px; line-height: 1.35; color: var(--color-muted); }
-.poster--featured .poster__tag { background: #FF5A1F; color: #0a0a0a; }
+.poster--featured .poster__tag { background: #0a0a0a; color: #fff; }
 
 /* Announcement bar: black and quiet (elegant), countdown as a thin outlined chip */
 .announce { background: #0a0a0a; color: #f4f4f3; font-weight: 500; }
