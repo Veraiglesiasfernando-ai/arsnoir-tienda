@@ -179,16 +179,14 @@ const TEMPLATES = {
     needsName: true,
     font: 'manuscrita',
     aspectRatio: '3:4',
-    refFirst: true,
     reference: 'https://cdn.shopify.com/s/files/1/1020/8903/2064/files/estilo-pareja-acuarela.jpg',
     prompt:
-      'The first image is the finished watercolour template. The second image is the customer\'s photo. ' +
-      'Edit the first image: replace the two people with the people from the second image and keep everything else of the first image exactly as it is: ' +
-      'the same loose hand-painted watercolour technique with visible brush strokes, wet edges, pigment granulation and paper texture on every part, including faces, hair, skin and clothes; ' +
-      'the same soft sky-blue wash behind them with irregular painted edges fading into the plain cream paper; the same waist-up framing and size. ' +
-      'The people must look painted with a brush, not photographic: no photo pixels, no photo lighting, no photo background, and leave out objects from the photo. ' +
-      'Keep every person from the second image recognisable: their faces, expressions, hair, skin tone, clothes and pose. Do not add or remove people. ' +
-      'Replace the text at the bottom: write exactly "{NAME}" (letter by letter: {SPELL}) in the same elegant calligraphy script and dark charcoal colour, centred. Never copy the names or date of the template. ' +
+      'The first image is the customer\'s photo: these are the only people to paint. The second image only shows the painting technique: none of its people, faces, hats, clothes or text may appear. ' +
+      'Paint a brand-new watercolour portrait of the people from the first image with the technique of the second image: an illustrator\'s loose hand-painted watercolour on textured cream cotton paper, ' +
+      'soft washes and visible brush strokes on the faces, skin, hair and clothes, gently simplified painterly features, wet edges and pigment granulation. It must clearly look painted with a brush, never like a photo or a photo filter. ' +
+      'Behind them a loose patch of soft sky-blue wash with irregular edges fading into the plain paper; no background scene and no objects from the photo. Framed from about the waist up, centred in the upper two thirds. ' +
+      'Keep every person from the first image recognisable: face shape, expression, hair, skin tone, clothes and pose. Do not add or remove people. ' +
+      'Below the painting write exactly "{NAME}" (letter by letter: {SPELL}) in elegant flowing calligraphy script in dark charcoal grey, centred. ' +
       'No other text, no brand logos, no border. Vertical 3:4.'
   },
   'pareja-sin-rostro': {
@@ -211,16 +209,15 @@ const TEMPLATES = {
     needsName: false,
     font: 'manuscrita',
     aspectRatio: '3:4',
-    refFirst: true,
     reference: 'https://cdn.shopify.com/s/files/1/1020/8903/2064/files/estilo-familia-acuarela-circulo.jpg',
-    textPrompt: 'Replace the text under the circle: write exactly "{NAME}" (letter by letter: {SPELL}) in the same elegant handwritten script and dark colour, centred. ',
+    textPrompt: 'Under the circle write exactly "{NAME}" (letter by letter: {SPELL}) in elegant flowing handwritten script in dark charcoal, centred; never write the words of the second image. ',
     prompt:
-      'The first image is the finished watercolour family template. The second image is the customer\'s photo. ' +
-      'Edit the first image: replace the family with the people (and pets) from the second image and keep everything else exactly as it is: ' +
-      'the same detailed hand-painted watercolour technique with visible brush strokes and paper texture on faces, hair and clothes, the same large soft dusty-blue watercolour circle behind them, the group fading softly into the plain cream paper at the bottom. ' +
-      'The people must look painted with a brush, not photographic: no photo pixels, no photo lighting, no photo background, and leave out objects from the photo. ' +
-      'Keep every person and pet from the second image recognisable: faces, expressions, hair, skin tone, clothes and pose. Do not add or remove anyone. ' +
-      'If no text is requested, leave the space under the circle empty: never keep the template\'s words. No brand logos, no border. Vertical 3:4.'
+      'The first image is the customer\'s photo: these are the only people (and pets) to paint. The second image only shows the painting technique and layout: none of its people, faces, clothes or text may appear. ' +
+      'Paint a brand-new watercolour family portrait of the people from the first image with the technique of the second image: detailed hand-painted watercolour on textured cream cotton paper, ' +
+      'soft washes and visible brush strokes on faces, skin, hair and clothes, warm natural skin tones. It must clearly look painted with a brush, never like a photo or a photo filter. ' +
+      'The group close together in front of a large soft dusty-blue watercolour circle, the bottom of the group fading softly into the plain paper; no background scene and no objects from the photo. ' +
+      'Keep every person and pet from the first image recognisable: face shape, expression, hair, skin tone, clothes and pose. Do not add or remove anyone. ' +
+      'If no text is requested, leave the paper under the circle empty. No brand logos, no border. Vertical 3:4, the circle in the upper part.'
   },
   'mascota-acuarela': {
     needsName: true,
