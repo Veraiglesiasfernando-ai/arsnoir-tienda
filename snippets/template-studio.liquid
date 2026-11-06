@@ -33,7 +33,7 @@
       <span class="tstudio__drop-text" data-tstudio-drop-text>{{ b.photo_cta }}</span>
     </label>
     {%- comment -%} One short line: pet templates work with any furry pet (the prompts say «the pet / the animal») {%- endcomment -%}
-    {%- capture pets_ok -%}{%- unless b.template_id contains 'familia' or b.template_id contains 'momento' -%}Perros, gatos, conejos… cualquier mascota.{%- endunless -%}{%- endcapture -%}
+    {%- capture pets_ok -%}{%- unless b.template_id contains 'familia' or b.template_id contains 'momento' or b.template_id contains 'pareja' -%}Perros, gatos, conejos… cualquier mascota.{%- endunless -%}{%- endcapture -%}
     {%- if b.photo_hint != blank or pets_ok != blank -%}<p class="tstudio__hint">{{ pets_ok }}{% if pets_ok != blank and b.photo_hint != blank %} {% endif %}{{ b.photo_hint }}</p>{%- endif -%}
 
     {%- assign has_text = false -%}
