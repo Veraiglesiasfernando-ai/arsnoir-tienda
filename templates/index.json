@@ -115,7 +115,24 @@
         "success": "Ya estás dentro. Tu código de bienvenida: WELCOME10 (10% en tu primera compra)."
       }
     },
+    "hposter": {
+      "type": "hero-poster",
+      "settings": {
+        "image": "shopify://shop_images/arsnoir-hero-dalmatas.jpg",
+        "focus": "62% 60%",
+        "heading": "Tu perro,\nen tu pared.",
+        "sub_left": "Sube su foto. Míralo gratis.",
+        "sub_right": "Desde 16,95 €",
+        "mono": "Retratos de mascota · Envío gratis desde 80 €",
+        "button_label": "Crea el suyo",
+        "button_link": "/collections/personalizalo",
+        "vertical": "Cómic /01  Glam /02  Acuarela /03",
+        "note": "",
+        "accent": "#D0331F"
+      }
+    },
     "vhero": {
+      "disabled": true,
       "type": "video-hero",
       "blocks": {
         "s1": {
@@ -552,6 +569,7 @@
     }
   },
   "order": [
+    "hposter",
     "vhero",
     "q4",
     "welcome",

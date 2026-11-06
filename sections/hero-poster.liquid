@@ -1,0 +1,47 @@
+{%- comment -%}
+  Poster hero: a white strip on the left and the photo filling the rest, with a big red headline
+  running across both (desktop). On mobile the headline sits on white above the photo.
+{%- endcomment -%}
+{%- assign s = section.settings -%}
+{%- assign link = s.button_link | default: '/collections/personalizalo' -%}
+<section class="hposter" style="--hp-accent: {{ s.accent }}; --hp-focus: {{ s.focus | default: '62% 60%' }};">
+  <div class="hposter__side" aria-hidden="true">
+    {%- if s.vertical != blank -%}<p class="hposter__vertical">{{ s.vertical }}</p>{%- endif -%}
+  </div>
+  <a class="hposter__media" href="{{ link }}" tabindex="-1" aria-hidden="true">
+    {%- if s.image != blank -%}
+      {{ s.image | image_url: width: 2400 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '600, 900, 1200, 1600, 2000, 2400', sizes: '(min-width: 750px) 80vw, 100vw', alt: s.heading }}
+    {%- endif -%}
+  </a>
+  <div class="hposter__copy">
+    <h1 class="hposter__title">{{ s.heading | newline_to_br }}</h1>
+    <div class="hposter__subs">
+      {%- if s.sub_left != blank -%}<p class="hposter__sub">{{ s.sub_left }}</p>{%- endif -%}
+      {%- if s.sub_right != blank -%}<p class="hposter__sub hposter__sub--right">{{ s.sub_right }}</p>{%- endif -%}
+    </div>
+    {%- if s.mono != blank -%}<p class="hposter__mono">{{ s.mono }}</p>{%- endif -%}
+    {%- if s.button_label != blank -%}<a class="hposter__btn" href="{{ link }}">{{ s.button_label }}</a>{%- endif -%}
+  </div>
+  {%- if s.note != blank -%}<p class="hposter__note">{{ s.note }}</p>{%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Portada cartel",
+  "tag": "section",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Foto" },
+    { "type": "text", "id": "focus", "label": "Punto de la foto que siempre se ve", "default": "62% 60%", "info": "Horizontal y vertical en %. Ej.: 62% 60% = los cuadros." },
+    { "type": "textarea", "id": "heading", "label": "Titular (una línea por renglón)", "default": "Tu perro,\nen tu pared." },
+    { "type": "text", "id": "sub_left", "label": "Frase pequeña izquierda", "default": "Sube su foto. Míralo gratis." },
+    { "type": "text", "id": "sub_right", "label": "Frase pequeña derecha", "default": "Desde 16,95 €" },
+    { "type": "text", "id": "mono", "label": "Línea tipo máquina de escribir", "default": "Retratos de mascota · Envío gratis desde 80 €" },
+    { "type": "text", "id": "button_label", "label": "Botón", "default": "Crea el suyo" },
+    { "type": "url", "id": "button_link", "label": "Enlace del botón" },
+    { "type": "text", "id": "vertical", "label": "Texto vertical (solo ordenador)", "default": "Cómic /01  Glam /02  Acuarela /03" },
+    { "type": "text", "id": "note", "label": "Nota pequeña abajo a la derecha" },
+    { "type": "color", "id": "accent", "label": "Color de los textos", "default": "#D0331F" }
+  ],
+  "presets": [{ "name": "Portada cartel" }]
+}
+{% endschema %}
