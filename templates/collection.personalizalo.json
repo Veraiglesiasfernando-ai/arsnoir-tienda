@@ -142,11 +142,52 @@
             "image": "shopify://shop_images/pz-card-retrato-comic.jpg",
             "link": "shopify://products/retrato-comic"
           }
+        },
+        "mas8": {
+          "type": "template",
+          "settings": {
+            "category": "Mascotas",
+            "name": "Mascota en acuarela",
+            "tagline": "Acuarela realista con su nombre en caligrafía.",
+            "image": "shopify://shop_images/ke1axmdy7hrmy0d1p9ts9kzm7r.png",
+            "link": "shopify://products/tu-mascota-en-acuarela"
+          }
+        },
+        "fam3": {
+          "type": "template",
+          "settings": {
+            "category": "Familia y pareja",
+            "name": "Pareja en acuarela",
+            "tagline": "Vuestra foto pintada en acuarela, con vuestros nombres.",
+            "image": "shopify://shop_images/8sfrxcrwxhrmr0d1p9ybvqqa7m.png",
+            "link": "shopify://products/retrato-de-pareja-en-acuarela"
+          }
+        },
+        "fam4": {
+          "type": "template",
+          "settings": {
+            "category": "Familia y pareja",
+            "name": "Pareja sin rostro",
+            "tagline": "Acuarela minimalista: se os reconoce sin dibujar la cara.",
+            "image": "shopify://shop_images/562126za2drmw0d1p9wvgdp6f4.png",
+            "link": "shopify://products/pareja-en-acuarela-sin-rostro"
+          }
+        },
+        "fam5": {
+          "type": "template",
+          "settings": {
+            "category": "Familia y pareja",
+            "name": "Familia en acuarela",
+            "tagline": "Toda la familia dentro de un círculo azul, con texto si quieres.",
+            "image": "shopify://shop_images/vam3g345khrmw0d1p9y91q28rr.png",
+            "link": "shopify://products/familia-en-acuarela"
+          }
         }
       },
       "block_order": [
         "mas7",
         "mas6",
+        "mas8",
         "mas3",
         "mas4",
         "mas1",
@@ -154,6 +195,9 @@
         "mas5",
         "nav2",
         "nav1",
+        "fam3",
+        "fam4",
+        "fam5",
         "fam2",
         "fam1"
       ],
