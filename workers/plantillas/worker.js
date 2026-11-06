@@ -187,7 +187,9 @@ export default {
       const colors = tpl.colors || {};
       const color = colors[body.color] ? body.color : Object.keys(colors)[0];
       const shown = font === 'manuscrita' ? name : name.toUpperCase();
-      const fill = (t) => t.split('{NAME}').join(shown).split('{FONT}').join(FONTS[font]).split('{COLOR}').join(color ? colors[color] : '');
+      // {SPELL}: the same text letter by letter, so accents and «&» come out right
+      const spell = Array.from(shown).map((c) => (c === ' ' ? '(space)' : c)).join(' ');
+      const fill = (t) => t.split('{NAME}').join(shown).split('{SPELL}').join(spell).split('{FONT}').join(FONTS[font]).split('{COLOR}').join(color ? colors[color] : '');
       let prompt = fill(tpl.prompt);
       // Retries after a failed run (the theme sends attempt 1 or 2): change the request a little,
       // since the same input often fails again the same way
