@@ -32,7 +32,7 @@
             assign loading = 'eager'
           endif
         -%}
-        <a href="{{ url }}" class="poster poster--{{ b.tone }}{% if b.featured %} poster--featured{% endif %}" {{ block.shopify_attributes }}>
+        <a href="{{ url }}" class="poster poster--{{ b.tone }}{% if b.featured %} poster--featured{% endif %}{% if b.black_frame and b.image != blank %} poster--blackframe{% endif %}" {{ block.shopify_attributes }}>
           <div class="poster__frame">
             <div class="poster__media">
               {%- if img != blank -%}
@@ -127,6 +127,7 @@
         { "type": "text", "id": "title", "label": "Nombre personalizado" },
         { "type": "text", "id": "subtitle", "label": "Frase bajo el nombre (opcional)", "info": "Ej.: Sube su foto y míralo gratis" },
         { "type": "text", "id": "tag", "label": "Etiqueta superior", "info": "Ej.: NUEVA, EDICIÓN LIMITADA" },
+        { "type": "checkbox", "id": "black_frame", "label": "Poner marco negro a la imagen personalizada", "default": false },
         {
           "type": "select", "id": "tone", "label": "Color del hueco vacío", "default": "light",
           "options": [

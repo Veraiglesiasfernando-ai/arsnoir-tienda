@@ -13,7 +13,8 @@
             "title": "Familia en acuarela",
             "subtitle": "Vuestra foto, pintada en acuarela",
             "link": "shopify://products/familia-en-acuarela",
-            "tag": "Novedad"
+            "tag": "Novedad",
+            "black_frame": true
           }
         },
         "center": {
@@ -40,7 +41,8 @@
             "title": "Tu foto, en un cuadro",
             "subtitle": "Sube tu imagen y la imprimimos",
             "link": "shopify://products/tu-foto-en-un-cuadro",
-            "tag": "Tu foto"
+            "tag": "Tu foto",
+            "black_frame": true
           }
         }
       },
