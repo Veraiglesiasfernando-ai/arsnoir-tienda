@@ -6,9 +6,13 @@
         "left": {
           "type": "card",
           "settings": {
-            "tone": "dark",
-            "placeholder_price": "24,95 €",
-            "product": "revuelto",
+            "tone": "light",
+            "placeholder_price": "Desde 16,95 €",
+            "product": "familia-en-acuarela",
+            "image": "shopify://shop_images/arsnoir-card-familia-acuarela.jpg",
+            "title": "Familia en acuarela",
+            "subtitle": "Vuestra foto, pintada en acuarela",
+            "link": "shopify://products/familia-en-acuarela",
             "tag": "Novedad"
           }
         },
@@ -17,22 +21,26 @@
           "settings": {
             "featured": true,
             "tone": "light",
-            "placeholder_price": "24,95 €",
-            "product": "retrato-glam",
+            "placeholder_price": "Desde 16,95 €",
+            "product": "retrato-comic",
             "image": "shopify://shop_images/arsnoir-personalizado-mascotas.jpg",
-            "title": "Tu mascota, con su nombre",
-            "subtitle": "Personalizado con su foto · Míralo gratis antes de pagar",
-            "link": "shopify://collections/personalizalo",
+            "title": "Tu perro, en cómic",
+            "subtitle": "Sube su foto · Míralo gratis antes de pagar",
+            "link": "shopify://products/retrato-comic",
             "tag": "Personalizado"
           }
         },
         "right": {
           "type": "card",
           "settings": {
-            "tone": "accent",
-            "placeholder_price": "24,95 €",
-            "product": "legend",
-            "tag": "Novedad"
+            "tone": "light",
+            "placeholder_price": "Desde 16,95 €",
+            "product": "tu-foto-en-un-cuadro",
+            "image": "shopify://shop_images/arsnoir-card-tu-foto-familia.jpg",
+            "title": "Tu foto, en un cuadro",
+            "subtitle": "Sube tu imagen y la imprimimos",
+            "link": "shopify://products/tu-foto-en-un-cuadro",
+            "tag": "Tu foto"
           }
         }
       },
@@ -100,7 +108,16 @@
         "heading": "Obras destacadas",
         "subtitle": "Una selección de obras para empezar.",
         "collection": "obras",
-        "products": ["revuelto", "rose", "tour", "ataca", "aleron", "blue-corner-1", "end-of-the-world-1", "seguridad"],
+        "products": [
+          "revuelto",
+          "rose",
+          "tour",
+          "ataca",
+          "aleron",
+          "blue-corner-1",
+          "end-of-the-world-1",
+          "seguridad"
+        ],
         "limit": 8,
         "button_label": "VER TODAS",
         "placeholder_price": "24,95 €"
@@ -129,10 +146,10 @@
         "vertical": "Cómic /01  Glam /02  Acuarela /03",
         "note": "",
         "accent": "#490B1A"
-      }
+      },
+      "disabled": true
     },
     "vhero": {
-      "disabled": true,
       "type": "video-hero",
       "blocks": {
         "s1": {
