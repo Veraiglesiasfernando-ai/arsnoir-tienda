@@ -5,55 +5,55 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>En Ká La Iné · Villa Maribel</title>
 <meta name="description" content="En Ká La Iné, en Villa Maribel (Cuartillos, Jerez de la Frontera). Comer bien entre palmeras. Reservas: 672 217 481.">
-<meta name="theme-color" content="#0b0f1f">
+<meta name="theme-color" content="#f6efe2">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400;1,9..144,600&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink:#0b0f1f;
-    --ink-2:#121833;
-    --cream:#f6ead7;
-    --cream-dim:rgba(246,234,215,.72);
-    --gold:#f2b544;
-    --wine:#a3192f;
-    --olive:#7d9a52;
-    --glass:rgba(14,18,38,.55);
-    --line:rgba(246,234,215,.16);
+    --bg:#f6efe2;
+    --bg-2:#ece2cf;
+    --text:#2b1d12;
+    --text-dim:rgba(43,29,18,.74);
+    --accent:#b4432a;
+    --gold:#eaa62c;
+    --olive:#5d7a35;
+    --glass:rgba(255,250,240,.66);
+    --line:rgba(43,29,18,.13);
     --serif:"Fraunces",Georgia,serif;
     --sans:"Manrope",system-ui,-apple-system,sans-serif;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
-  body{background:var(--ink);color:var(--cream);font-family:var(--sans);line-height:1.55;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.55;overflow-x:hidden;-webkit-font-smoothing:antialiased}
   a{color:inherit}
   #scene{position:fixed;inset:0;width:100%;height:100%;display:block;z-index:0}
   .vignette{position:fixed;inset:0;pointer-events:none;z-index:1;
-    background:radial-gradient(120% 90% at 50% 40%,transparent 45%,rgba(5,7,16,.75) 100%)}
-  body.no-webgl{background:radial-gradient(80% 60% at 50% 30%,#3a2140 0%,#141a36 55%,var(--ink) 100%) fixed}
+    background:radial-gradient(130% 100% at 50% 35%,transparent 55%,rgba(90,60,25,.28) 100%)}
+  body.no-webgl{background:linear-gradient(180deg,#8cc2ec 0%,#d9ecf6 45%,var(--bg) 100%) fixed}
 
   /* loader */
-  #loader{position:fixed;inset:0;z-index:50;display:grid;place-items:center;background:var(--ink);transition:opacity .9s ease,visibility .9s}
+  #loader{position:fixed;inset:0;z-index:50;display:grid;place-items:center;background:var(--bg);transition:opacity .9s ease,visibility .9s}
   #loader.done{opacity:0;visibility:hidden}
-  #loader span{font-family:var(--serif);font-style:italic;font-size:clamp(2rem,6vw,3.4rem);color:var(--gold);animation:pulse 1.6s ease-in-out infinite}
+  #loader span{font-family:var(--serif);font-style:italic;font-size:clamp(2rem,6vw,3.4rem);color:var(--accent);animation:pulse 1.6s ease-in-out infinite}
   @keyframes pulse{50%{opacity:.35}}
 
   /* nav */
   .nav{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:16px;
     padding:18px clamp(16px,4vw,48px);transition:background .4s,backdrop-filter .4s}
-  .nav.scrolled{background:rgba(11,15,31,.6);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+  .nav.scrolled{background:rgba(246,239,226,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
   .brand{font-family:var(--serif);font-style:italic;font-size:1.35rem;text-decoration:none;white-space:nowrap}
-  .brand b{color:var(--gold);font-weight:600}
-  .nav ul{display:flex;gap:26px;list-style:none;font-size:.9rem;letter-spacing:.04em}
-  .nav ul a{text-decoration:none;opacity:.8;transition:opacity .2s}
-  .nav ul a:hover{opacity:1;color:var(--gold)}
+  .brand b{color:var(--accent);font-weight:600}
+  .nav ul{display:flex;gap:26px;list-style:none;font-size:.9rem;letter-spacing:.04em;font-weight:500}
+  .nav ul a{text-decoration:none;opacity:.85;transition:opacity .2s}
+  .nav ul a:hover{opacity:1;color:var(--accent)}
   .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px 26px;border-radius:999px;font-weight:700;font-size:.95rem;
     text-decoration:none;letter-spacing:.02em;transition:transform .2s,box-shadow .3s,background .3s;cursor:pointer;border:0}
   .btn:hover{transform:translateY(-2px)}
-  .btn-gold{background:var(--gold);color:#1d1305;box-shadow:0 10px 40px -10px rgba(242,181,68,.7)}
-  .btn-gold:hover{box-shadow:0 14px 50px -8px rgba(242,181,68,.9)}
-  .btn-ghost{background:rgba(246,234,215,.08);border:1px solid var(--line);color:var(--cream);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
-  .btn-ghost:hover{background:rgba(246,234,215,.16)}
+  .btn-gold{background:var(--accent);color:#fff8ee;box-shadow:0 10px 30px -10px rgba(180,67,42,.65)}
+  .btn-gold:hover{box-shadow:0 14px 40px -8px rgba(180,67,42,.8)}
+  .btn-ghost{background:rgba(255,252,245,.6);border:1px solid var(--line);color:var(--text);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+  .btn-ghost:hover{background:rgba(255,252,245,.9)}
   .nav .btn{padding:10px 20px;font-size:.85rem}
 
   /* sections */
@@ -62,48 +62,48 @@
   section.right{justify-content:flex-end}
   .panel{max-width:520px;opacity:0;transform:translateY(40px);transition:opacity 1s ease,transform 1s cubic-bezier(.2,.7,.2,1)}
   .panel.in{opacity:1;transform:none}
-  .card{background:var(--glass);border:1px solid var(--line);border-radius:28px;padding:clamp(24px,3.4vw,40px);
-    backdrop-filter:blur(18px) saturate(1.2);-webkit-backdrop-filter:blur(18px) saturate(1.2)}
-  .kicker{display:inline-flex;align-items:center;gap:10px;font-size:.78rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:18px}
+  .card{background:var(--glass);border:1px solid rgba(255,255,255,.6);border-radius:28px;padding:clamp(24px,3.4vw,40px);
+    box-shadow:0 30px 80px -30px rgba(70,45,20,.35);
+    backdrop-filter:blur(18px) saturate(1.3);-webkit-backdrop-filter:blur(18px) saturate(1.3)}
+  .kicker{display:inline-flex;align-items:center;gap:10px;font-size:.78rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:18px}
   .kicker::before{content:"";width:28px;height:1px;background:currentColor}
   h1{font-family:var(--serif);font-weight:400;font-size:clamp(3.4rem,11vw,8.5rem);line-height:.9;letter-spacing:-.02em}
-  h1 em{color:var(--gold)}
+  h1 em{color:var(--accent)}
   h2{font-family:var(--serif);font-weight:400;font-size:clamp(2.3rem,5.5vw,4rem);line-height:1;letter-spacing:-.01em;margin-bottom:18px}
-  h2 em{color:var(--gold)}
-  p.lead{font-size:clamp(1.05rem,1.6vw,1.25rem);color:var(--cream-dim);margin:22px 0 32px;max-width:440px}
-  p{color:var(--cream-dim)}
+  h2 em{color:var(--accent)}
+  p.lead{font-size:clamp(1.05rem,1.6vw,1.25rem);color:var(--text-dim);margin:22px 0 32px;max-width:440px}
+  p{color:var(--text-dim)}
   .actions{display:flex;flex-wrap:wrap;gap:12px}
 
   #inicio{align-items:flex-end;padding-bottom:12vh;position:relative}
-  #inicio::before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(8,10,24,.78) 0%,rgba(8,10,24,.35) 38%,transparent 60%)}
-  #inicio .panel{position:relative}
-  #inicio h1,#inicio p.lead{text-shadow:0 2px 30px rgba(5,7,16,.8)}
-  #inicio .panel{max-width:760px}
-  .scroll-hint{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);font-size:.72rem;letter-spacing:.25em;text-transform:uppercase;opacity:.6;display:flex;flex-direction:column;align-items:center;gap:10px}
-  .scroll-hint i{width:1px;height:42px;background:linear-gradient(var(--cream),transparent);animation:drip 2s ease-in-out infinite}
+  #inicio::before{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(246,239,226,.88) 0%,rgba(246,239,226,.5) 36%,transparent 60%)}
+  #inicio .panel{position:relative;max-width:760px}
+  #inicio h1,#inicio p.lead{text-shadow:0 2px 24px rgba(255,248,235,.7)}
+  .scroll-hint{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);font-size:.72rem;font-weight:700;letter-spacing:.25em;text-transform:uppercase;opacity:.7;display:flex;flex-direction:column;align-items:center;gap:10px}
+  .scroll-hint i{width:1px;height:42px;background:linear-gradient(var(--text),transparent);animation:drip 2s ease-in-out infinite}
   @keyframes drip{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
 
   .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
-  .chip{padding:9px 16px;border-radius:999px;border:1px solid var(--line);font-size:.85rem;background:rgba(246,234,215,.05)}
+  .chip{padding:9px 16px;border-radius:999px;border:1px solid var(--line);font-size:.85rem;font-weight:500;background:rgba(255,252,245,.55)}
 
   .info-row{display:flex;gap:16px;align-items:flex-start;padding:18px 0;border-top:1px solid var(--line)}
   .info-row:first-of-type{border-top:0}
-  .info-row svg{flex:none;width:22px;height:22px;stroke:var(--gold);margin-top:3px}
-  .info-row strong{display:block;color:var(--cream);font-weight:700}
+  .info-row svg{flex:none;width:22px;height:22px;stroke:var(--accent);margin-top:3px}
+  .info-row strong{display:block;color:var(--text);font-weight:700}
 
-  .map{margin-top:22px;border-radius:18px;overflow:hidden;border:1px solid var(--line);aspect-ratio:16/10;background:var(--ink-2)}
-  .map iframe{width:100%;height:100%;border:0;filter:invert(.9) hue-rotate(180deg) saturate(.6) brightness(.95)}
+  .map{margin-top:22px;border-radius:18px;overflow:hidden;border:1px solid var(--line);aspect-ratio:16/10;background:var(--bg-2)}
+  .map iframe{width:100%;height:100%;border:0}
 
   #reservar{justify-content:center;text-align:center}
   #reservar .panel{max-width:720px}
-  .phone{display:block;font-family:var(--serif);font-size:clamp(2.6rem,9vw,6rem);line-height:1;color:var(--gold);text-decoration:none;margin:10px 0 30px;letter-spacing:-.01em}
-  .phone:hover{text-shadow:0 0 40px rgba(242,181,68,.6)}
+  .phone{display:block;font-family:var(--serif);font-size:clamp(2.6rem,9vw,6rem);line-height:1;color:var(--accent);text-decoration:none;margin:10px 0 30px;letter-spacing:-.01em}
+  .phone:hover{opacity:.85}
   #reservar .actions{justify-content:center}
 
   footer{position:relative;z-index:2;padding:40px clamp(16px,6vw,96px) 120px;display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;
-    font-size:.85rem;color:var(--cream-dim);border-top:1px solid var(--line);background:linear-gradient(transparent,rgba(5,7,16,.85))}
+    font-size:.85rem;color:var(--text-dim);border-top:1px solid var(--line);background:linear-gradient(rgba(246,239,226,.6),var(--bg))}
   footer a{text-decoration:none}
-  footer a:hover{color:var(--gold)}
+  footer a:hover{color:var(--accent)}
 
   /* barra fija móvil */
   .mobile-cta{display:none}
@@ -111,10 +111,11 @@
     .nav ul{display:none}
     section,section.right{justify-content:flex-start;align-items:flex-end;padding:100px 16px 110px}
     #reservar{align-items:center}
-    #inicio::before{background:linear-gradient(0deg,rgba(8,10,24,.92) 0%,rgba(8,10,24,.6) 45%,transparent 70%)}
+    #inicio::before{background:linear-gradient(0deg,rgba(246,239,226,.95) 0%,rgba(246,239,226,.7) 42%,transparent 66%)}
     .panel{max-width:none;width:100%}
     .mobile-cta{display:flex;position:fixed;left:12px;right:12px;bottom:max(12px,env(safe-area-inset-bottom));z-index:30;gap:8px;
-      padding:8px;border-radius:999px;background:rgba(11,15,31,.72);border:1px solid var(--line);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+      padding:8px;border-radius:999px;background:rgba(246,239,226,.78);border:1px solid var(--line);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+      box-shadow:0 12px 40px -12px rgba(70,45,20,.4)}
     .mobile-cta .btn{flex:1;padding:13px 10px}
     .scroll-hint{display:none}
   }
@@ -146,7 +147,7 @@
     <div class="panel">
       <div class="kicker">Villa Maribel · Cuartillos, Jerez</div>
       <h1>En Ká<br><em>La Iné</em></h1>
-      <p class="lead">Comer bien entre palmeras. Cocina de aquí, una copa en la mano y el jardín encendido cuando cae la noche.</p>
+      <p class="lead">Comer bien en pleno campo. Cocina de aquí, una copa en la mano y la sobremesa al sol, entre palmeras.</p>
       <div class="actions">
         <a class="btn btn-gold" href="tel:+34672217481">Reservar mesa</a>
         <a class="btn btn-ghost" href="#carta">Ver la carta</a>
@@ -159,7 +160,7 @@
     <div class="panel card">
       <div class="kicker">El sitio</div>
       <h2>Un jardín para <em>quedarse</em></h2>
-      <p>Palmeras, un cenador de madera, la fuente en el centro y luces colgadas de lado a lado. En Villa Maribel, en pleno campo de Cuartillos, se viene a comer y se acaba echando la tarde.</p>
+      <p>Palmeras, un cenador de madera, la fuente en el centro y sombra para comer a gusto. En Villa Maribel, en pleno campo de Cuartillos, se viene a comer y se acaba echando la tarde.</p>
       <div class="chips">
         <span class="chip">Terraza al aire libre</span>
         <span class="chip">Zona cubierta</span>
@@ -263,11 +264,13 @@ try {
 renderer.setPixelRatio(Math.min(devicePixelRatio, mobile ? 1.5 : 2));
 renderer.setSize(innerWidth, innerHeight);
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.1;
+renderer.toneMappingExposure = 1.0;
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 
 const scene = new THREE.Scene();
-scene.fog = new THREE.FogExp2(0x151a35, 0.026);
+scene.fog = new THREE.FogExp2(0xd6e6ee, 0.014);
 const camera = new THREE.PerspectiveCamera(mobile ? 58 : 45, innerWidth / innerHeight, 0.1, 400);
 
 /* ---------- utilidades ---------- */
@@ -306,38 +309,34 @@ const sky = new THREE.Mesh(
     fragmentShader: `varying vec3 vP;
       void main(){
         float h = vP.y;
-        vec3 top = vec3(.03,.04,.11);
-        vec3 mid = vec3(.12,.10,.26);
-        vec3 hor = vec3(.62,.27,.24);
-        vec3 c = mix(hor, mid, smoothstep(-.02,.18,h));
-        c = mix(c, top, smoothstep(.18,.7,h));
-        c += vec3(.9,.45,.2) * pow(max(0., 1.-abs(h*6.)),3.) * .25;
+        vec3 top = vec3(.16,.42,.82);
+        vec3 mid = vec3(.45,.70,.93);
+        vec3 hor = vec3(.88,.92,.93);
+        vec3 c = mix(hor, mid, smoothstep(-.02,.22,h));
+        c = mix(c, top, smoothstep(.22,.85,h));
+        vec3 sd = normalize(vec3(-.45,.55,-.7));
+        float sdot = max(dot(vP, sd), 0.);
+        c += vec3(1.,.95,.82) * (pow(sdot, 900.)*3. + pow(sdot, 40.)*.35 + pow(sdot, 6.)*.12);
         gl_FragColor = vec4(c,1.);
       }`
   })
 );
 scene.add(sky);
 
-// estrellas
-{
-  const n = 1400, p = new Float32Array(n * 3);
-  for (let i = 0; i < n; i++) {
-    const th = Math.random() * Math.PI * 2, ph = Math.acos(rand(.15, 1));
-    p.set([Math.sin(ph) * Math.cos(th) * 180, Math.cos(ph) * 180, Math.sin(ph) * Math.sin(th) * 180], i * 3);
-  }
-  const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.BufferAttribute(p, 3));
-  scene.add(new THREE.Points(g, new THREE.PointsMaterial({color: 0xfff1d6, size: .7, sizeAttenuation: true, fog: false, transparent: true, opacity: .8})));
-}
 
 /* ---------- luces ---------- */
-scene.add(new THREE.HemisphereLight(0x5a6aa8, 0x2a1a0c, .55));
-const sun = new THREE.DirectionalLight(0xff9c5a, 1.1); sun.position.set(-30, 8, -40); scene.add(sun);
-const moon = new THREE.DirectionalLight(0x8fa8ff, .35); moon.position.set(20, 30, 20); scene.add(moon);
+scene.add(new THREE.HemisphereLight(0xcfe4ff, 0x7a6440, 1.15));
+const sun = new THREE.DirectionalLight(0xfff0d6, 2.8); sun.position.set(-22, 30, -18); scene.add(sun);
+sun.castShadow = true;
+sun.shadow.mapSize.set(mobile ? 1024 : 2048, mobile ? 1024 : 2048);
+Object.assign(sun.shadow.camera, {left: -28, right: 28, top: 28, bottom: -28, near: 1, far: 90});
+sun.shadow.bias = -0.0004; sun.shadow.normalBias = 0.03;
+const fill = new THREE.DirectionalLight(0xbfd8ff, .45); fill.position.set(20, 15, 25); scene.add(fill);
 
 /* ---------- suelo ---------- */
-const ground = new THREE.Mesh(new THREE.CircleGeometry(120, 64), new THREE.MeshStandardMaterial({color: 0x1a2a14, roughness: 1}));
+const ground = new THREE.Mesh(new THREE.CircleGeometry(120, 64), new THREE.MeshStandardMaterial({color: 0x6f8f45, roughness: 1}));
 ground.rotation.x = -Math.PI / 2; scene.add(ground);
-const path = new THREE.Mesh(new THREE.RingGeometry(3.6, 5.6, 64), new THREE.MeshStandardMaterial({color: 0xb8956a, roughness: .95}));
+const path = new THREE.Mesh(new THREE.RingGeometry(3.6, 5.6, 64), new THREE.MeshStandardMaterial({color: 0xe2cda6, roughness: .95}));
 path.rotation.x = -Math.PI / 2; path.position.y = .01; scene.add(path);
 // camino hacia el cenador
 const walk = new THREE.Mesh(new THREE.PlaneGeometry(1.8, 8), path.material);
@@ -346,7 +345,7 @@ walk.rotation.x = -Math.PI / 2; walk.rotation.z = Math.atan2(-9, -6) ; walk.posi
 // hierba baja: arbustos
 {
   const bushGeo = new THREE.IcosahedronGeometry(1, 1);
-  const bushMat = new THREE.MeshStandardMaterial({color: 0x2c4a22, roughness: 1, flatShading: true});
+  const bushMat = new THREE.MeshStandardMaterial({color: 0x4f7d32, roughness: 1, flatShading: true});
   const bushes = new THREE.InstancedMesh(bushGeo, bushMat, 60);
   const m = new THREE.Matrix4(), q = new THREE.Quaternion(), s = new THREE.Vector3(), v = new THREE.Vector3();
   for (let i = 0; i < 60; i++) {
@@ -361,7 +360,7 @@ walk.rotation.x = -Math.PI / 2; walk.rotation.z = Math.atan2(-9, -6) ; walk.posi
 }
 
 /* ---------- fuente ---------- */
-const stone = new THREE.MeshStandardMaterial({color: 0xcfb894, roughness: .85});
+const stone = new THREE.MeshStandardMaterial({color: 0xf1e6d2, roughness: .85});
 const fountain = new THREE.Group(); scene.add(fountain);
 fountain.add(at(new THREE.Mesh(new THREE.CylinderGeometry(3.4, 3.5, .7, 48, 1, true), stone), 0, .35, 0));
 const rim = new THREE.Mesh(new THREE.TorusGeometry(3.45, .16, 10, 64), stone); rim.rotation.x = Math.PI / 2; rim.position.y = .7; fountain.add(rim);
@@ -373,7 +372,7 @@ const waterMat = new THREE.ShaderMaterial({
       vec2 p = vU-.5; float d = length(p);
       float w = sin(d*60.-t*3.)*.5+.5;
       float w2 = sin((p.x+p.y)*40.+t*1.7)*.5+.5;
-      vec3 deep = vec3(.02,.12,.18), hi = vec3(.25,.75,.85), warm = vec3(1.,.7,.35);
+      vec3 deep = vec3(.06,.42,.55), hi = vec3(.55,.9,.95), warm = vec3(1.,1.,.95);
       vec3 c = mix(deep, hi, w*w2*.45 + (1.-d*2.)*.15);
       c += warm * pow(w*w2,6.) * .6;
       gl_FragColor = vec4(c,1.);
@@ -383,14 +382,14 @@ const water = new THREE.Mesh(new THREE.CircleGeometry(3.35, 48), waterMat); wate
 fountain.add(at(new THREE.Mesh(new THREE.CylinderGeometry(.35, .5, 1.6, 20), stone), 0, 1.2, 0));
 fountain.add(at(new THREE.Mesh(new THREE.CylinderGeometry(1.2, .5, .3, 32), stone), 0, 2.05, 0));
 fountain.add(at(new THREE.Mesh(new THREE.CylinderGeometry(.15, .25, .8, 12), stone), 0, 2.5, 0));
-const fLight = new THREE.PointLight(0x7fd6ff, 6, 9, 2); fLight.position.set(0, 1.2, 0); fountain.add(fLight);
+const fLight = new THREE.PointLight(0x7fd6ff, 0, 9, 2); fLight.position.set(0, 1.2, 0); fountain.add(fLight);
 
 // chorro de agua
 const JET = mobile ? 220 : 420;
 const jetPos = new Float32Array(JET * 3), jetVel = [], jetLife = new Float32Array(JET);
 for (let i = 0; i < JET; i++) { jetVel.push(new THREE.Vector3()); jetLife[i] = Math.random() * 1.4; }
 const jetGeo = new THREE.BufferGeometry(); jetGeo.setAttribute('position', new THREE.BufferAttribute(jetPos, 3));
-const jet = new THREE.Points(jetGeo, new THREE.PointsMaterial({size: .16, map: glowTexture('rgba(220,250,255,1)','rgba(120,200,255,0)'), color: 0xbfeeff, transparent: true, opacity: .8, blending: THREE.AdditiveBlending, depthWrite: false}));
+const jet = new THREE.Points(jetGeo, new THREE.PointsMaterial({size: .16, map: glowTexture('rgba(255,255,255,1)','rgba(200,235,255,0)'), color: 0xffffff, transparent: true, opacity: .9, depthWrite: false}));
 scene.add(jet);
 function resetDrop(i) {
   jetPos.set([0, 2.9, 0], i * 3);
@@ -400,10 +399,10 @@ function resetDrop(i) {
 }
 
 /* ---------- cenador octogonal ---------- */
-const wood = new THREE.MeshStandardMaterial({color: 0x4a3222, roughness: .8});
-const roofMat = new THREE.MeshStandardMaterial({color: 0x2b211c, roughness: .7, flatShading: true});
+const wood = new THREE.MeshStandardMaterial({color: 0x7a5534, roughness: .8});
+const roofMat = new THREE.MeshStandardMaterial({color: 0x5a3f2c, roughness: .75, flatShading: true});
 const gazebo = new THREE.Group(); gazebo.position.set(-9, 0, -6); scene.add(gazebo);
-const deck = new THREE.Mesh(new THREE.CylinderGeometry(4.4, 4.5, .35, 8), new THREE.MeshStandardMaterial({color: 0x6b4a30, roughness: .9}));
+const deck = new THREE.Mesh(new THREE.CylinderGeometry(4.4, 4.5, .35, 8), new THREE.MeshStandardMaterial({color: 0x9c7450, roughness: .9}));
 deck.position.y = .17; gazebo.add(deck);
 for (let i = 0; i < 8; i++) {
   const a = i / 8 * Math.PI * 2 + Math.PI / 8;
@@ -418,10 +417,10 @@ for (let i = 0; i < 8; i++) {
 }
 const roof = new THREE.Mesh(new THREE.ConeGeometry(5.2, 2.2, 8), roofMat); roof.position.y = 4.65; roof.rotation.y = Math.PI / 8; gazebo.add(roof);
 const roof2 = new THREE.Mesh(new THREE.ConeGeometry(1.4, 1, 8), roofMat); roof2.position.y = 6.1; roof2.rotation.y = Math.PI / 8; gazebo.add(roof2);
-const lantern = new THREE.Mesh(new THREE.CylinderGeometry(.9, .9, .6, 8), new THREE.MeshStandardMaterial({color: 0xffd08a, emissive: 0xffa040, emissiveIntensity: 1.2}));
+const lantern = new THREE.Mesh(new THREE.CylinderGeometry(.9, .9, .6, 8), new THREE.MeshStandardMaterial({color: 0xf3e3c3, roughness: .6}));
 lantern.position.y = 5.5; gazebo.add(lantern);
 const vane = new THREE.Mesh(new THREE.CylinderGeometry(.03, .03, 1.2, 6), wood); vane.position.y = 7; gazebo.add(vane);
-const gLight = new THREE.PointLight(0xffa860, 18, 14, 2); gLight.position.y = 2.8; gazebo.add(gLight);
+const gLight = new THREE.PointLight(0xffe2b8, 3, 9, 2); gLight.position.y = 2.8; gazebo.add(gLight);
 // mesas dentro del cenador
 {
   const tableMat = new THREE.MeshStandardMaterial({color: 0xe9dcc4, roughness: .6});
@@ -429,14 +428,12 @@ const gLight = new THREE.PointLight(0xffa860, 18, 14, 2); gLight.position.y = 2.
     const a = i / 3 * Math.PI * 2;
     const t = new THREE.Mesh(new THREE.CylinderGeometry(.7, .7, .06, 20), tableMat); t.position.set(Math.cos(a) * 1.9, 1.1, Math.sin(a) * 1.9); gazebo.add(t);
     const l = new THREE.Mesh(new THREE.CylinderGeometry(.06, .06, .8, 8), wood); l.position.set(Math.cos(a) * 1.9, .7, Math.sin(a) * 1.9); gazebo.add(l);
-    const c = new THREE.Sprite(new THREE.SpriteMaterial({map: glowTex, blending: THREE.AdditiveBlending, depthWrite: false, transparent: true}));
-    c.scale.setScalar(.8); c.position.set(Math.cos(a) * 1.9, 1.3, Math.sin(a) * 1.9); gazebo.add(c);
   }
 }
 
 /* ---------- palmeras ---------- */
-const trunkMat = new THREE.MeshStandardMaterial({color: 0x6e5236, roughness: 1, flatShading: true});
-const leafMat = new THREE.MeshStandardMaterial({color: 0x3c6b2e, roughness: .8, side: THREE.DoubleSide, flatShading: true});
+const trunkMat = new THREE.MeshStandardMaterial({color: 0x9a7a55, roughness: 1, flatShading: true});
+const leafMat = new THREE.MeshStandardMaterial({color: 0x4d8a34, roughness: .75, side: THREE.DoubleSide, flatShading: true});
 function frondGeo(L) {
   const seg = 14, pos = [], idx = [];
   for (let i = 0; i <= seg; i++) {
@@ -483,14 +480,14 @@ function makePalm(x, z, h, lean) {
 
 /* ---------- guirnaldas de luces ---------- */
 const poles = [[5.5, 9], [-5, 9], [-6, 1.5], [-12.5, -1.5], [6.5, 1.5], [9, -5], [-2, -9.5], [-5, -10.5]];
-const poleMat = new THREE.MeshStandardMaterial({color: 0x2a221c, roughness: .9});
+const poleMat = new THREE.MeshStandardMaterial({color: 0x5a4636, roughness: .9});
 poles.forEach(([x, z]) => { const p = new THREE.Mesh(new THREE.CylinderGeometry(.06, .08, 4.4, 6), poleMat); p.position.set(x, 2.2, z); scene.add(p); });
 const strands = [[0, 1], [1, 2], [2, 3], [0, 4], [4, 5], [5, 6], [6, 7], [2, 4], [1, 4], [0, 2]];
-const bulbGeo = new THREE.SphereGeometry(.07, 8, 6);
-const bulbMat = new THREE.MeshBasicMaterial({color: 0xffd9a0});
+const bulbGeo = new THREE.SphereGeometry(.045, 8, 6);
+const bulbMat = new THREE.MeshStandardMaterial({color: 0xf3d9a4, roughness: .3, emissive: 0x6a4a10, emissiveIntensity: .25});
 const glowMat = new THREE.SpriteMaterial({map: glowTex, blending: THREE.AdditiveBlending, depthWrite: false, transparent: true, color: 0xffc27a});
 const bulbs = [];
-const wireMat = new THREE.LineBasicMaterial({color: 0x1a1410, transparent: true, opacity: .7});
+const wireMat = new THREE.LineBasicMaterial({color: 0x3a2c22, transparent: true, opacity: .6});
 strands.forEach(([a, b]) => {
   const A = new THREE.Vector3(poles[a][0], 4.3, poles[a][1]), B = new THREE.Vector3(poles[b][0], 4.3, poles[b][1]);
   const sag = A.distanceTo(B) * .12, pts = [];
@@ -500,11 +497,8 @@ strands.forEach(([a, b]) => {
   for (let i = 1; i < k; i++) {
     const t = i / k, p = A.clone().lerp(B, t); p.y -= Math.sin(Math.PI * t) * sag + .12;
     const m = new THREE.Mesh(bulbGeo, bulbMat); m.position.copy(p); scene.add(m);
-    const s = new THREE.Sprite(glowMat); s.position.copy(p); s.scale.setScalar(.9); scene.add(s);
-    bulbs.push({s, ph: Math.random() * 6});
   }
 });
-[[0, 4.5, 6], [-6, 4, -2], [6, 4, -2]].forEach(([x, y, z]) => { const l = new THREE.PointLight(0xffb066, 10, 14, 2); l.position.set(x, y, z); scene.add(l); });
 
 /* ---------- la copa (logo) ---------- */
 const glassGroup = new THREE.Group(); glassGroup.position.set(0, 2.2, 8.4); scene.add(glassGroup);
@@ -515,15 +509,15 @@ const glassMat = mobile
 const glass = new THREE.Mesh(new THREE.LatheGeometry(prof, 64), glassMat);
 glassGroup.add(glass);
 const wineProf = [[0, 1.03], [.08, 1.04], [.29, 1.13], [.45, 1.33], [.5, 1.52], [0, 1.52]].map(([x, y]) => new THREE.Vector2(x * .96, y));
-const wineMat = new THREE.MeshPhysicalMaterial({color: 0x6e0717, emissive: 0x3a0510, emissiveIntensity: .6, roughness: .1, clearcoat: 1, sheen: .5, sheenColor: 0xff4060});
+const wineMat = new THREE.MeshPhysicalMaterial({color: 0x6e0717, emissive: 0x2a0308, emissiveIntensity: .3, roughness: .1, clearcoat: 1, sheen: .5, sheenColor: 0xff4060});
 const wine = new THREE.Mesh(new THREE.LatheGeometry(wineProf, 64), wineMat); glassGroup.add(wine);
 const rimLine = new THREE.Mesh(new THREE.TorusGeometry(.49, .008, 6, 64), new THREE.MeshBasicMaterial({color: 0xffe8c0})); rimLine.rotation.x = Math.PI / 2; rimLine.position.y = 2.2; glassGroup.add(rimLine);
-const halo = new THREE.Sprite(new THREE.SpriteMaterial({map: glowTexture('rgba(255,120,110,.9)', 'rgba(120,20,40,0)'), blending: THREE.AdditiveBlending, depthWrite: false, transparent: true, opacity: .55}));
-halo.scale.setScalar(5); halo.position.set(0, 1.4, -.8); glassGroup.add(halo);
-const glassKey = new THREE.PointLight(0xffd2a0, 8, 6, 2); glassKey.position.set(1.2, 2.4, 1.5); glassGroup.add(glassKey);
-const glassRim = new THREE.PointLight(0xff4d6a, 6, 5, 2); glassRim.position.set(-1.4, 1.8, -1); glassGroup.add(glassRim);
+const halo = new THREE.Sprite(new THREE.SpriteMaterial({map: glowTexture('rgba(255,120,110,.9)', 'rgba(120,20,40,0)'), blending: THREE.AdditiveBlending, depthWrite: false, transparent: true, opacity: .18}));
+halo.scale.setScalar(4); halo.position.set(0, 1.4, -.8); glassGroup.add(halo);
+const glassKey = new THREE.PointLight(0xffffff, 4, 6, 2); glassKey.position.set(1.2, 2.4, 1.5); glassGroup.add(glassKey);
+const glassRim = new THREE.PointLight(0xff4d6a, 2, 5, 2); glassRim.position.set(-1.4, 1.8, -1); glassGroup.add(glassRim);
 // pedestal de piedra
-const pedestal = new THREE.Mesh(new THREE.CylinderGeometry(.9, 1.1, 2.2, 8), stone); pedestal.position.set(0, 1.1, 8.4); scene.add(pedestal);
+const pedestal = new THREE.Mesh(new THREE.CylinderGeometry(.9, 1.1, 2.2, 8), new THREE.MeshStandardMaterial({color: 0xc06a43, roughness: .9})); pedestal.position.set(0, 1.1, 8.4); scene.add(pedestal);
 
 /* ---------- luciérnagas ---------- */
 const FF = mobile ? 120 : 260;
@@ -539,13 +533,19 @@ const ffMat = new THREE.ShaderMaterial({
       p.x += sin(t*.4+seed)*.8; p.y += sin(t*.7+seed*2.)*.4; p.z += cos(t*.35+seed)*.8;
       vA = pow(sin(t*1.3+seed*3.)*.5+.5, 3.);
       vec4 mv = modelViewMatrix*vec4(p,1.);
-      gl_PointSize = 70.*pr/(-mv.z);
+      gl_PointSize = 34.*pr/(-mv.z);
       gl_Position = projectionMatrix*mv;
     }`,
   fragmentShader: `varying float vA;
-    void main(){ float d = length(gl_PointCoord-.5); float a = smoothstep(.5,0.,d); gl_FragColor = vec4(1.,.85,.4, a*a*vA); }`
+    void main(){ float d = length(gl_PointCoord-.5); float a = smoothstep(.5,0.,d); gl_FragColor = vec4(1.,1.,.96, a*a*(.25+vA*.45)); }`
 });
 scene.add(new THREE.Points(ffGeo, ffMat));
+
+scene.traverse(o => {
+  if (!o.isMesh || o === sky || o === water || o === glass || o === wine) return;
+  o.castShadow = true; o.receiveShadow = true;
+});
+ground.castShadow = false;
 
 /* ---------- cámara guiada por scroll ---------- */
 const shots = [
@@ -594,9 +594,7 @@ renderer.setAnimationLoop(() => {
   glassGroup.position.y = 2.2 + Math.sin(t * .9) * .06 * m;
   wine.rotation.z = Math.sin(t * 1.1) * .015 * m;
   palms.forEach(p => { p.crown.rotation.z = Math.sin(t * .8 + p.phase) * p.amp * m; p.crown.rotation.x = Math.cos(t * .6 + p.phase) * p.amp * .6 * m; });
-  bulbs.forEach(b => b.s.material === glowMat && (b.s.scale.setScalar(.85 + Math.sin(t * 2 + b.ph) * .08)));
   waterMat.uniforms.t.value = t; ffMat.uniforms.t.value = t * m;
-  lantern.material.emissiveIntensity = 1.1 + Math.sin(t * 3) * .08;
 
   for (let i = 0; i < JET; i++) {
     jetLife[i] += dt;
