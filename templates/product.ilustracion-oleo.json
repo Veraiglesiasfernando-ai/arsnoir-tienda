@@ -56,7 +56,7 @@
             "template_id": "oleo-vintage",
             "template_name": "Óleo vintage",
             "needs_name": false,
-            "max_previews": 3
+            "max_previews": 1
           }
         },
         "delivery": {

@@ -56,7 +56,7 @@
             "template_id": "retrato-comic",
             "template_name": "Retrato cómic",
             "needs_name": true,
-            "max_previews": 3,
+            "max_previews": 1,
             "show_fonts": false,
             "name_label": "Su nombre (va en la chapa del collar)",
             "name_placeholder": "Thor",

@@ -301,7 +301,7 @@
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { sendMsg.textContent = 'Escribe un email válido.'; sendEmail.focus(); return; }
       sendGo.disabled = true; sendGo.textContent = 'Enviando…'; sendMsg.textContent = '';
       fetch(endpoint + '/send', { method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: sendId, email: email, name: sendName, template: d.template, page: location.origin + location.pathname }) })
+        body: JSON.stringify({ id: sendId, email: email, name: sendName, template: d.template, page: location.origin + location.pathname, consent: !!(sendConsent && sendConsent.checked) }) })
         .then(function (r) { return r.json().then(function (j) { if (!r.ok) throw new Error(j.error || 'send'); return j; }); })
         .then(function () {
           if (sendConsent && sendConsent.checked) subscribe(email);
@@ -433,7 +433,7 @@
         .then(function (id) {
           return poll(id, 0).then(function (done) { return { id: id, url: done.url, saved: done.saved || '', keep: done.temporary && done.keep ? id : '' }; });
         })
-        .catch(function (err) { return err && err.message === 'failed' && n < 2 ? attempt(n + 1) : Promise.reject(err); });
+        .catch(function (err) { return err && err.message === 'failed' && n < 1 ? attempt(n + 1) : Promise.reject(err); });
     };
     attempt(0)
       .then(function (out) {

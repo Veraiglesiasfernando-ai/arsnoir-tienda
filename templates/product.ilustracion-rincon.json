@@ -56,7 +56,7 @@
             "template_id": "en-su-rincon",
             "template_name": "En su rincón",
             "needs_name": false,
-            "max_previews": 3
+            "max_previews": 1
           }
         },
         "delivery": {

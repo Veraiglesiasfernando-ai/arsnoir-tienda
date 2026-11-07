@@ -58,7 +58,7 @@
             "endpoint": "https://arsnoir-plantillas.veraiglesiasfernando.workers.dev",
             "template_id": "mascota-acuarela",
             "template_name": "Mascota en acuarela",
-            "max_previews": 3,
+            "max_previews": 1,
             "show_fonts": false,
             "needs_name": true,
             "name_label": "Su nombre (va encima, en caligrafía)",

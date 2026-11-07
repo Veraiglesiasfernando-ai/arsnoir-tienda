@@ -58,7 +58,7 @@
             "endpoint": "https://arsnoir-plantillas.veraiglesiasfernando.workers.dev",
             "template_id": "familia-acuarela",
             "template_name": "Familia en acuarela",
-            "max_previews": 3,
+            "max_previews": 1,
             "show_fonts": false,
             "needs_name": false,
             "text_optional": true,

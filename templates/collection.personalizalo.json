@@ -295,7 +295,8 @@
       "settings": {
         "endpoint": "https://arsnoir-plantillas.veraiglesiasfernando.workers.dev",
         "max_runs": 1
-      }
+      },
+      "disabled": true
     },
     "pzpack": {
       "type": "pz-pack",

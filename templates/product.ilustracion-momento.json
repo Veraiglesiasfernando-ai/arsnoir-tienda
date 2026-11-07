@@ -56,7 +56,7 @@
             "template_id": "momento-ilustrado",
             "template_name": "Momento ilustrado",
             "needs_name": false,
-            "max_previews": 3,
+            "max_previews": 1,
             "text_optional": true,
             "show_fonts": true,
             "default_font": "manuscrita"

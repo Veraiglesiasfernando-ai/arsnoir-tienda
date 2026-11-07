@@ -58,7 +58,7 @@
             "endpoint": "https://arsnoir-plantillas.veraiglesiasfernando.workers.dev",
             "template_id": "pareja-acuarela",
             "template_name": "Pareja en acuarela",
-            "max_previews": 3,
+            "max_previews": 1,
             "show_fonts": false,
             "needs_name": true,
             "name_label": "Vuestros nombres (y la fecha si queréis)",
