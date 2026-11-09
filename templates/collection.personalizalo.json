@@ -28,7 +28,8 @@
         "upload_video_poster": "shopify://shop_images/arsnoir-sube-tu-foto-salon-poster.jpg",
         "quality_promise": "<p><strong>Calidad ARSNOIR.</strong> Imprimimos tu imagen tal como la subes. Si tiene poca resolución para el tamaño elegido, el editor te avisa antes de comprar: una foto de baja calidad puede verse pixelada, así que elige un tamaño menor o sube una foto mejor. <a href=\"/pages/guia-foto\">Ver guía para mejorar tu foto</a></p>",
         "illustrations_ready": true
-      }
+      },
+      "disabled": true
     },
     "templates": {
       "type": "custom-templates",
@@ -193,16 +194,22 @@
         "mas1",
         "mas2",
         "mas5",
-        "nav2",
-        "nav1",
         "fam3",
         "fam4",
         "fam5",
         "fam2",
-        "fam1"
+        "fam1",
+        "nav2",
+        "nav1"
       ],
       "settings": {
-        "layout": "sections"
+        "layout": "tabs",
+        "eyebrow": "",
+        "heading": "Elige tu estilo",
+        "text": "",
+        "pets_note": "",
+        "button_label": "Crear el mío →",
+        "all_label": "Todos"
       }
     },
     "allstyles": {
@@ -304,12 +311,24 @@
         "image": "shopify://shop_images/arsnoir-pack-duo.jpg",
         "eyebrow": "PACK DÚO · GLAM + CÓMIC"
       }
+    },
+    "pzintro": {
+      "type": "pz-intro",
+      "settings": {}
+    },
+    "pzphoto": {
+      "type": "pz-photo-banner",
+      "settings": {
+        "image": "shopify://shop_images/arsnoir-regalo-foto-familia.jpg"
+      }
     }
   },
   "order": [
-    "landing",
+    "pzintro",
     "templates",
-    "allstyles",
-    "pzpack"
+    "pzphoto",
+    "pzpack",
+    "landing",
+    "allstyles"
   ]
 }

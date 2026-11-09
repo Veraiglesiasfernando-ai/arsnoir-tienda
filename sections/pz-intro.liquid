@@ -1,0 +1,41 @@
+{%- comment -%}
+  Personalízalo, clean intro: one title, one line, three tiny steps and two ways in.
+{%- endcomment -%}
+{%- assign s = section.settings -%}
+<section class="pzi">
+  <div class="page-width">
+    {%- if s.eyebrow != blank -%}<p class="pzi__eyebrow">{{ s.eyebrow }}</p>{%- endif -%}
+    <h1 class="pzi__title">{{ s.heading | newline_to_br }}</h1>
+    {%- if s.text != blank -%}<p class="pzi__text">{{ s.text }}</p>{%- endif -%}
+    <ol class="pzi__steps">
+      {%- for i in (1..3) -%}
+        {%- assign k = 'step_' | append: i -%}
+        {%- if s[k] != blank -%}<li><span>{{ i }}</span>{{ s[k] }}</li>{%- endif -%}
+      {%- endfor -%}
+    </ol>
+    <div class="pzi__ctas">
+      {%- if s.button_label != blank -%}<a class="pzi__btn" href="{{ s.button_link | default: '#Plantillas' }}">{{ s.button_label }} <span aria-hidden="true">↓</span></a>{%- endif -%}
+      {%- if s.link_label != blank -%}<a class="pzi__link" href="{{ s.link_url | default: '/products/tu-foto-en-un-cuadro' }}">{{ s.link_label }} <span aria-hidden="true">→</span></a>{%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Personalízalo · entrada",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "PERSONALIZADO" },
+    { "type": "textarea", "id": "heading", "label": "Título", "default": "Tu foto, convertida\nen un cuadro único." },
+    { "type": "text", "id": "text", "label": "Texto", "default": "Mascotas, parejas y familias. Mira el resultado gratis antes de comprar." },
+    { "type": "text", "id": "step_1", "label": "Paso 1", "default": "Elige un estilo" },
+    { "type": "text", "id": "step_2", "label": "Paso 2", "default": "Sube tu foto" },
+    { "type": "text", "id": "step_3", "label": "Paso 3", "default": "Míralo gratis y pídelo" },
+    { "type": "text", "id": "button_label", "label": "Botón", "default": "Elige tu estilo" },
+    { "type": "url", "id": "button_link", "label": "Enlace del botón", "info": "Vacío = baja a los estilos." },
+    { "type": "text", "id": "link_label", "label": "Enlace secundario", "default": "O imprime tu foto tal cual" },
+    { "type": "url", "id": "link_url", "label": "Destino del enlace secundario" }
+  ],
+  "presets": [{ "name": "Personalízalo · entrada" }]
+}
+{% endschema %}
