@@ -48,10 +48,11 @@
           "type": "template",
           "settings": {
             "category": "Mascotas",
-            "name": "En su rincón",
-            "tagline": "Tu mascota en su sitio favorito de casa.",
-            "image": "shopify://shop_images/pz-frame-en-su-rincon.jpg",
-            "link": "shopify://products/en-su-rincon"
+            "name": "Retrato en color pastel",
+            "tagline": "Retrato realista sobre el color pastel que elijas.",
+            "image": "shopify://shop_images/pz-frame-retrato-color-pastel.jpg",
+            "link": "shopify://products/retrato-color-pastel",
+            "badge": "Nuevo"
           }
         },
         "mas3": {
@@ -193,10 +194,10 @@
         "mas7",
         "mas6",
         "mas8",
+        "mas2",
         "mas3",
         "mas4",
         "mas1",
-        "mas2",
         "mas5",
         "fam3",
         "fam4",

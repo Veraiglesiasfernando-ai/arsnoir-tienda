@@ -67,6 +67,21 @@ const TEMPLATES = {
       'It must be the very same individual animal as in the first image, instantly recognisable to its owner: same breed or mix, head and muzzle shape, ear shape, size and position, fur length, colours, every marking and eye colour. ' +
       'No text, no logos, no border. Vertical 4:5.'
   },
+  'retrato-pastel': {
+    needsName: false,
+    colors: { azul: 'soft pastel sky blue', rosa: 'soft pastel pink', verde: 'soft pastel mint green', amarillo: 'soft pastel butter yellow', lila: 'soft pastel lilac', melocoton: 'soft pastel peach' },
+    aspectRatio: '3:4',
+    reference: 'https://cdn.shopify.com/s/files/1/1020/8903/2064/files/estilo-retrato-pastel.jpg',
+    prompt:
+      'The first image is the customer\'s photo: it is the subject. The second image is only a style reference: never copy its animal, breed, markings or face. ' +
+      'It must be a completely new hand-made artwork in the style of the second image: repaint every part of the animal, never keep or paste photographic pixels, photo fur texture or the photo background. Exactly one animal with one head. Use the same pose, angle and framing as the animal in the second image, even if the photo shows the pet from the side, from above or lying down: redraw it in that pose. ' +
+      'Create a new realistic portrait painting of the pet from the first image in exactly the same style as the second image: ' +
+      'detailed digital painting with fine directional brush strokes following the fur, soft even studio light, rich natural colours, glossy expressive eyes, ' +
+      'the animal facing forward, head slightly tilted, happy expression, framed from the chest up, centred, the head in the upper half, ' +
+      'on a completely plain flat {COLOR} background with no gradient, no shadow, no objects. ' +
+      'It must be the very same individual animal as in the first image, instantly recognisable to its owner: same breed or mix, head and muzzle shape, ear shape, size and position, fur length, colours, every spot and marking and eye colour. No clothes or accessories. ' +
+      'No text, no logos, no border. Vertical 3:4.'
+  },
   'ilustracion-plana': {
     needsName: false,
     colors: { gris: 'light grey', rosa: 'soft pastel pink', azul: 'pale powder blue', verde: 'soft sage green', amarillo: 'soft butter yellow' },
