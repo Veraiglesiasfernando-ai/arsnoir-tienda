@@ -10,7 +10,7 @@
         assign ik = 'pw_image_' | append: i
         assign pk = 'pw_product_' | append: i
         assign img = settings[ik]
-        assign p = all_products[settings[pk]]
+        assign p = settings[pk]
         if img == blank
           continue
         endif
