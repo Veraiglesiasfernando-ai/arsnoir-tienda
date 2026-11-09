@@ -43,8 +43,11 @@
   document.addEventListener('click', function (e) {
     var t = e.target.closest('[data-pzm-tab]');
     if (!t) return;
-    var tab = document.querySelector('[data-ctpl-tabs] [data-cat="' + t.getAttribute('data-pzm-tab') + '"]');
-    if (tab) tab.click();
+    var key = t.getAttribute('data-pzm-tab');
+    var tab = document.querySelector('[data-ctpl-tabs] [data-cat="' + key + '"]');
+    if (tab) { tab.click(); return; }
+    var group = document.getElementById('ctpl-' + key);
+    if (group) { e.preventDefault(); group.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
   });
 </script>
 

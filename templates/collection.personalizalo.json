@@ -40,7 +40,7 @@
             "category": "Mascotas",
             "name": "Óleo vintage",
             "tagline": "Pinceladas de óleo y fondo de rayas.",
-            "image": "shopify://shop_images/pz-card-oleo-vintage.jpg",
+            "image": "shopify://shop_images/pz-wall-oleo-vintage.jpg",
             "link": "shopify://products/oleo-vintage"
           }
         },
@@ -50,7 +50,7 @@
             "category": "Mascotas",
             "name": "En su rincón",
             "tagline": "Tu mascota en su sitio favorito de casa.",
-            "image": "shopify://shop_images/pz-card-en-su-rincon.jpg",
+            "image": "shopify://shop_images/pz-wall-en-su-rincon.jpg",
             "link": "shopify://products/en-su-rincon"
           }
         },
@@ -60,7 +60,7 @@
             "category": "Mascotas",
             "name": "Retrato con nombre",
             "tagline": "Su retrato con su nombre arriba.",
-            "image": "shopify://shop_images/pz-card-retrato-con-nombre.jpg",
+            "image": "shopify://shop_images/pz-wall-retrato-con-nombre.jpg",
             "link": "shopify://products/retrato-con-nombre"
           }
         },
@@ -70,7 +70,7 @@
             "category": "Familia y pareja",
             "name": "Acuarela en casa",
             "tagline": "Tu foto en acuarela, luz cálida y trazo suave.",
-            "image": "shopify://shop_images/pz-card-acuarela-en-casa.jpg",
+            "image": "shopify://shop_images/pz-wall-acuarela-en-casa.jpg",
             "link": "shopify://products/acuarela-en-casa"
           }
         },
@@ -80,7 +80,7 @@
             "category": "Familia y pareja",
             "name": "Momento ilustrado",
             "tagline": "Vuestro momento en ilustración: en familia, en pareja o con vuestra mascota. Con una frase si quieres.",
-            "image": "shopify://shop_images/pz-card-momento-ilustrado.jpg",
+            "image": "shopify://shop_images/pz-wall-momento-ilustrado.jpg",
             "link": "shopify://products/momento-ilustrado"
           }
         },
@@ -90,7 +90,7 @@
             "category": "Mascotas",
             "name": "Retrato con sudadera",
             "tagline": "Con su sudadera rosa y su nombre arriba.",
-            "image": "shopify://shop_images/pz-card-retrato-con-sudadera.jpg",
+            "image": "shopify://shop_images/pz-wall-retrato-con-sudadera.jpg",
             "link": "shopify://products/retrato-con-sudadera"
           }
         },
@@ -100,7 +100,7 @@
             "category": "Mascotas",
             "name": "Ilustración plana",
             "tagline": "Trazo limpio, tonos planos y contorno blanco.",
-            "image": "shopify://shop_images/pz-card-ilustracion-plana.jpg",
+            "image": "shopify://shop_images/pz-wall-ilustracion-plana.jpg",
             "link": "shopify://products/ilustracion-plana"
           }
         },
@@ -110,7 +110,7 @@
             "category": "Navidad",
             "name": "Navidad verde",
             "tagline": "Abrigo de pelo verde, lazo rojo y nieve.",
-            "image": "shopify://shop_images/pz-card-navidad-verde.jpg",
+            "image": "shopify://shop_images/pz-wall-navidad-verde.jpg",
             "link": "shopify://products/navidad-verde"
           }
         },
@@ -120,7 +120,7 @@
             "category": "Navidad",
             "name": "Gorro de Papá Noel",
             "tagline": "Gorro rojo, bastón de caramelo y nieve.",
-            "image": "shopify://shop_images/pz-card-navidad-papa-noel.jpg",
+            "image": "shopify://shop_images/pz-wall-navidad-papa-noel.jpg",
             "link": "shopify://products/navidad-papa-noel"
           }
         },
@@ -130,7 +130,7 @@
             "category": "Mascotas",
             "name": "Retrato glam",
             "tagline": "Gafas de estrella, collar rosa y su nombre en la chapa.",
-            "image": "shopify://shop_images/pz-card-retrato-glam.jpg",
+            "image": "shopify://shop_images/pz-wall-retrato-glam.jpg",
             "link": "shopify://products/retrato-glam"
           }
         },
@@ -140,7 +140,7 @@
             "category": "Mascotas",
             "name": "Retrato cómic",
             "tagline": "Feliz y en cómic. Eliges el color del collar.",
-            "image": "shopify://shop_images/pz-card-retrato-comic.jpg",
+            "image": "shopify://shop_images/pz-wall-retrato-comic.jpg",
             "link": "shopify://products/retrato-comic"
           }
         },
@@ -150,7 +150,7 @@
             "category": "Mascotas",
             "name": "Mascota en acuarela",
             "tagline": "Acuarela realista con su nombre en caligrafía.",
-            "image": "shopify://shop_images/pz-card-mascota-acuarela.jpg",
+            "image": "shopify://shop_images/pz-wall-mascota-acuarela.jpg",
             "link": "shopify://products/tu-mascota-en-acuarela",
             "badge": "Nuevo"
           }
@@ -161,7 +161,7 @@
             "category": "Familia y pareja",
             "name": "Pareja en acuarela",
             "tagline": "Vuestra foto pintada en acuarela, con vuestros nombres.",
-            "image": "shopify://shop_images/pz-card-pareja-acuarela.jpg",
+            "image": "shopify://shop_images/pz-wall-pareja-acuarela.jpg",
             "link": "shopify://products/retrato-de-pareja-en-acuarela",
             "badge": "Nuevo"
           }
@@ -172,7 +172,7 @@
             "category": "Familia y pareja",
             "name": "Pareja sin rostro",
             "tagline": "Acuarela minimalista: se os reconoce sin dibujar la cara.",
-            "image": "shopify://shop_images/pz-card-pareja-sin-rostro.jpg",
+            "image": "shopify://shop_images/pz-wall-pareja-sin-rostro.jpg",
             "link": "shopify://products/pareja-en-acuarela-sin-rostro",
             "badge": "Nuevo"
           }
@@ -183,7 +183,7 @@
             "category": "Familia y pareja",
             "name": "Familia en acuarela",
             "tagline": "Toda la familia dentro de un círculo azul, con texto si quieres.",
-            "image": "shopify://shop_images/pz-card-familia-acuarela.jpg",
+            "image": "shopify://shop_images/pz-wall-familia-acuarela.jpg",
             "link": "shopify://products/familia-en-acuarela",
             "badge": "Nuevo"
           }
@@ -207,7 +207,7 @@
         "nav1"
       ],
       "settings": {
-        "layout": "tabs",
+        "layout": "rows",
         "eyebrow": "",
         "heading": "Todos los estilos",
         "text": "Elige el que más te guste. Todos se ven gratis antes de comprar.",

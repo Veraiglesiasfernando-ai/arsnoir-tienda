@@ -49,7 +49,7 @@
       endfor
       assign cat_list = cats | split: '|'
     -%}
-    {%- if cat_list.size > 1 and s.layout != 'sections' -%}
+    {%- if cat_list.size > 1 and s.layout == 'tabs' -%}
       <div class="ctpl__tabs" role="tablist" aria-label="{{ s.heading | escape }}" data-ctpl-tabs>
         <button type="button" class="ctpl__tab is-active" role="tab" aria-selected="true" data-cat="">{{ s.all_label }}</button>
         {%- for c in cat_list -%}
@@ -57,13 +57,16 @@
         {%- endfor -%}
       </div>
     {%- endif -%}
-    {%- if s.layout == 'sections' and cat_list.size > 1 -%}
-      {%- comment -%} One block per theme (Mascotas, Familia, Pareja…) with its own title; chips jump to each {%- endcomment -%}
+    {%- if s.layout == 'rows' or s.layout == 'sections' and cat_list.size > 1 -%}
+      {%- comment -%} One block per theme (Mascotas, Familia, Pareja…) with its own title; chips jump to each.
+        «rows»: each theme is a horizontal, swipeable row with arrows. {%- endcomment -%}
+      {%- unless s.layout == 'rows' -%}
       <nav class="ctpl__tabs ctpl__tabs--jump" aria-label="{{ s.heading | escape }}">
         {%- for c in cat_list -%}
           <a class="ctpl__tab" href="#ctpl-{{ c | handleize }}">{{ c }}</a>
         {%- endfor -%}
       </nav>
+      {%- endunless -%}
       {%- for c in cat_list -%}
         {%- assign n = 0 -%}
         {%- for block in section.blocks -%}
@@ -71,9 +74,17 @@
           {%- assign bc = block.settings.category | strip -%}
           {%- if bc == c -%}{%- assign n = n | plus: 1 -%}{%- endif -%}
         {%- endfor -%}
-        <div class="ctpl__group" id="ctpl-{{ c | handleize }}">
-          <h3 class="ctpl__group-title">{{ c }}<span>{{ n }} {% if n == 1 %}estilo{% else %}estilos{% endif %}</span></h3>
-          <ul class="ctpl__grid">
+        <div class="ctpl__group{% if s.layout == 'rows' %} ctpl__group--row{% endif %}" id="ctpl-{{ c | handleize }}">
+          <div class="ctpl__group-head">
+            <h3 class="ctpl__group-title">{{ c }}<span>{{ n }} {% if n == 1 %}estilo{% else %}estilos{% endif %}</span></h3>
+            {%- if s.layout == 'rows' and n > 3 -%}
+              <div class="ctpl__arrows">
+                <button type="button" class="ctpl__arrow" data-row-step="-1" aria-label="Anterior">←</button>
+                <button type="button" class="ctpl__arrow" data-row-step="1" aria-label="Siguiente">→</button>
+              </div>
+            {%- endif -%}
+          </div>
+          <ul class="ctpl__grid{% if s.layout == 'rows' %} ctpl__row{% endif %}">
             {%- for block in section.blocks -%}
               {%- if block.settings.link == blank and block.settings.image == blank and request.design_mode == false -%}{%- continue -%}{%- endif -%}
               {%- assign bc = block.settings.category | strip -%}
@@ -92,6 +103,18 @@
     {%- endif -%}
   </div>
 </section>
+{%- if s.layout == 'rows' -%}
+<script>
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-row-step]');
+    if (!b) return;
+    var row = b.closest('.ctpl__group').querySelector('.ctpl__row');
+    var card = row.querySelector('.ctpl__item');
+    var step = card ? card.getBoundingClientRect().width + 16 : row.clientWidth * 0.8;
+    row.scrollBy({ left: step * (+b.getAttribute('data-row-step')) * (window.innerWidth > 749 ? 2 : 1), behavior: 'smooth' });
+  });
+</script>
+{%- endif -%}
 {%- endif -%}
 
 {% schema %}
@@ -105,7 +128,7 @@
     { "type": "text", "id": "pets_note", "label": "Mascotas que valen (separadas por comas)", "default": "Perros, Gatos, Conejos, Y cualquier mascota", "info": "Se ven como etiquetas bajo el texto. Vacío para quitarlo." },
     { "type": "text", "id": "video_url", "label": "Vídeo «cómo funciona» (URL .mp4)", "info": "Archivo de Contenido → Archivos. Se ve encima de los estilos, en bucle y sin sonido." },
     { "type": "image_picker", "id": "video_poster", "label": "Imagen del vídeo mientras carga" },
-    { "type": "select", "id": "layout", "label": "Cómo se agrupan", "default": "tabs", "options": [{ "value": "tabs", "label": "Pestañas (una cuadrícula)" }, { "value": "sections", "label": "Por secciones (Mascotas, Familia…)" }] },
+    { "type": "select", "id": "layout", "label": "Cómo se agrupan", "default": "tabs", "options": [{ "value": "tabs", "label": "Pestañas (una cuadrícula)" }, { "value": "sections", "label": "Por secciones (Mascotas, Familia…)" }, { "value": "rows", "label": "Filas que se deslizan (una por tema)" }] },
     { "type": "select", "id": "style", "label": "Aspecto", "default": "gallery", "options": [{ "value": "gallery", "label": "Galería (fondo cálido, tarjetas grandes)" }, { "value": "plain", "label": "Sencillo" }] },
     { "type": "text", "id": "button_label", "label": "Botón", "default": "Elegir estilo" },
     { "type": "text", "id": "all_label", "label": "Pestaña «todas»", "default": "Todas" },
