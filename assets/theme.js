@@ -407,6 +407,7 @@
           save = '<span class="price__save">−' + formatMoney(variant.compare_at_price - variant.price) + '</span>';
         }
         priceEl.innerHTML = '<span class="price">' + html + save + '</span>';
+        document.querySelectorAll('[data-product-deal]').forEach(function (el) { el.hidden = variant.compare_at_price > variant.price; });
         document.querySelectorAll('.sticky-buy__price').forEach(function (el) { el.innerHTML = html; });
       }
       document.querySelectorAll('.sticky-buy .button').forEach(function (b) {

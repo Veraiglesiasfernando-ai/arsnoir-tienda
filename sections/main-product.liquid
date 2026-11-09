@@ -173,6 +173,22 @@
             <div class="product__price" id="{{ price_id }}" data-show-save {{ block.shopify_attributes }}>
               {%- render 'price', product: product, variant: current_variant, show_save: true -%}
             </div>
+            {%- comment -%}
+              When the selected option has no earlier price but others do (e.g. «Sin marco» selected,
+              framed sizes reduced), show the cheapest real reduction under the price. theme.js hides it
+              while the selected variant carries its own struck price.
+            {%- endcomment -%}
+            {%- assign deal_v = nil -%}
+            {%- for v in product.variants -%}
+              {%- if v.available and v.compare_at_price > v.price -%}
+                {%- if deal_v == nil or v.price < deal_v.price -%}{%- assign deal_v = v -%}{%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+            {%- if deal_v -%}
+              <p class="product__deal" data-product-deal{% if current_variant.compare_at_price > current_variant.price %} hidden{% endif %}>
+                {{ 'general.framed_from' | t }} <s>{{ deal_v.compare_at_price | money }}</s> <b>{{ deal_v.price | money }}</b>
+              </p>
+            {%- endif -%}
             {%- if product.has_only_default_variant == false -%}
               <p class="product__variant-summary" id="{{ price_id }}-summary" data-variant-summary>
                 {%- assign fl = vs_finish_label | downcase -%}
