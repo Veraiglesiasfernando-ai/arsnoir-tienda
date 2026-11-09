@@ -3778,3 +3778,9 @@ h1, h2, h3, h4, .h1, .h2, .h3 { letter-spacing: -0.03em; line-height: 1.06; }
 .pinfo__link { justify-self: start; margin-top: 2px; padding-top: 12px; width: 100%; border-top: 1px solid #d5dae3; font-size: 14px; text-decoration: underline; text-underline-offset: 3px; }
 .pinfo .delivery[hidden] { display: none; }
 .vsel--boxes .vsel__row:has([data-row-price]:empty) { display: none !important; }
+
+/* Brand accent: burgundy instead of orange (offer tags, savings, bullets) */
+.ppick__tag, .ppick__save, .poster__deal, .ctpl__soon, .cpath__soon { background: #490B1A; color: #fff; }
+.ppick__tile--pack.is-active { border-color: #490B1A; }
+.product__notes li::before { background: #490B1A; }
+.cquality__icon { color: #490B1A; }
