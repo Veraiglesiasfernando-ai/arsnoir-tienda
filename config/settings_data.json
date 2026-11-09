@@ -36,6 +36,17 @@
     "pack_until": "2026-11-19",
     "gift_tier1": 119,
     "gift_tier2": 199,
+    "pw_enabled": true,
+    "pw_title": "Tu pared podría ser la siguiente.",
+    "pw_note": "Imágenes de ambiente.",
+    "pw_image_1": "shopify://shop_images/rose-salon.jpg",
+    "pw_product_1": "rose",
+    "pw_image_2": "shopify://shop_images/retrato-comic-salon.jpg",
+    "pw_product_2": "retrato-comic",
+    "pw_image_3": "shopify://shop_images/arsnoir-room-dormitorio.jpg",
+    "pw_product_3": "blue-corner-1",
+    "pw_image_4": "shopify://shop_images/retrato-glam-dormitorio.jpg",
+    "pw_product_4": "retrato-glam",
     "sections": {
       "newsletter-popup": {
         "type": "newsletter-popup",

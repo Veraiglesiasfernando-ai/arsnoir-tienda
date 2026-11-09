@@ -1,0 +1,32 @@
+{%- comment -%}
+  «Tu pared podría ser la siguiente» under the product photos (desktop only, fills the empty left
+  column while the visitor reads the right one). Room photos and the work on each one come from
+  Theme settings → Fotos de ambiente en la ficha. Styled scenes, not customer photos: the note says so.
+{%- endcomment -%}
+{%- if settings.pw_enabled -%}
+  {%- capture pw_items -%}
+    {%- for i in (1..6) -%}
+      {%- liquid
+        assign ik = 'pw_image_' | append: i
+        assign pk = 'pw_product_' | append: i
+        assign img = settings[ik]
+        assign p = all_products[settings[pk]]
+        if img == blank
+          continue
+        endif
+        assign url = p.url | default: routes.all_products_collection_url
+      -%}
+      <a class="pwall__item" href="{{ url }}">
+        {{ img | image_url: width: 700 | image_tag: loading: 'lazy', widths: '350, 500, 700', sizes: '(min-width: 990px) 25vw, 1px', alt: p.title | default: '' }}
+        {%- if p != blank -%}<span class="pwall__name">{{ p.title }}</span>{%- endif -%}
+      </a>
+    {%- endfor -%}
+  {%- endcapture -%}
+  {%- if pw_items != blank -%}
+    <div class="pwall">
+      {%- if settings.pw_title != blank -%}<p class="pwall__title">{{ settings.pw_title | newline_to_br }}</p>{%- endif -%}
+      <div class="pwall__grid">{{ pw_items }}</div>
+      {%- if settings.pw_note != blank -%}<p class="pwall__note">{{ settings.pw_note }}</p>{%- endif -%}
+    </div>
+  {%- endif -%}
+{%- endif -%}

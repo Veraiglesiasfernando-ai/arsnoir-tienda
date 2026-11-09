@@ -105,6 +105,7 @@
           <video data-src="{{ section.settings.gallery_video }}" data-lazy-video muted loop playsinline preload="none"{% if section.settings.gallery_video_poster != blank %} poster="{{ section.settings.gallery_video_poster | image_url: width: 1200 }}"{% endif %} aria-label="{{ 'product.frame_video' | t }}"></video>
         </div>
       {%- endif -%}
+      {% render 'product-walls' %}
     </div>
 
     <div class="product__info">

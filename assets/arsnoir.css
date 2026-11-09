@@ -3876,3 +3876,16 @@ html:not(.is-scrolled) body:has(main > .shopify-section:first-child .vhero) .gla
 @media (prefers-reduced-motion: reduce) {
   .tlive.is-loading .tlive__frame::before, .tlive.is-loading .tload__photo { animation: none; }
 }
+
+/* Product page · «Tu pared podría ser la siguiente» under the photos (desktop only) */
+.pwall { display: none; }
+@media (min-width: 990px) {
+  .pwall { display: block; grid-column: 1 / -1; margin-top: clamp(36px, 4vw, 64px); text-align: center; }
+  .pwall__title { margin: 0 auto 22px; max-width: 18ch; font-size: clamp(1.8rem, 2.6vw, 2.6rem); font-weight: 600; letter-spacing: -0.035em; line-height: 1.02; text-wrap: balance; }
+  .pwall__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .pwall__item { display: block; color: var(--color-fg); text-align: left; }
+  .pwall__item img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 10px; box-shadow: none !important; transition: transform 1.2s cubic-bezier(.2,.7,.2,1); }
+  .pwall__item:hover img { transform: scale(1.02); }
+  .pwall__name { display: block; margin-top: 8px; font-size: 13.5px; font-weight: 600; }
+  .pwall__note { margin: 14px 0 0; font-size: 12px; color: var(--color-muted); }
+}

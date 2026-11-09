@@ -551,5 +551,89 @@
         "default": "Hecho. Tu 10% ya está aplicado."
       }
     ]
+  },
+  {
+    "name": "Fotos de ambiente en la ficha",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "pw_enabled",
+        "label": "Mostrar fotos de ambiente bajo las fotos del producto",
+        "default": true,
+        "info": "Solo en ordenador, para llenar la columna izquierda."
+      },
+      {
+        "type": "textarea",
+        "id": "pw_title",
+        "label": "Título",
+        "default": "Tu pared podría ser la siguiente."
+      },
+      {
+        "type": "text",
+        "id": "pw_note",
+        "label": "Nota",
+        "default": "Imágenes de ambiente."
+      },
+      {
+        "type": "image_picker",
+        "id": "pw_image_1",
+        "label": "Foto 1"
+      },
+      {
+        "type": "product",
+        "id": "pw_product_1",
+        "label": "Obra de la foto 1"
+      },
+      {
+        "type": "image_picker",
+        "id": "pw_image_2",
+        "label": "Foto 2"
+      },
+      {
+        "type": "product",
+        "id": "pw_product_2",
+        "label": "Obra de la foto 2"
+      },
+      {
+        "type": "image_picker",
+        "id": "pw_image_3",
+        "label": "Foto 3"
+      },
+      {
+        "type": "product",
+        "id": "pw_product_3",
+        "label": "Obra de la foto 3"
+      },
+      {
+        "type": "image_picker",
+        "id": "pw_image_4",
+        "label": "Foto 4"
+      },
+      {
+        "type": "product",
+        "id": "pw_product_4",
+        "label": "Obra de la foto 4"
+      },
+      {
+        "type": "image_picker",
+        "id": "pw_image_5",
+        "label": "Foto 5"
+      },
+      {
+        "type": "product",
+        "id": "pw_product_5",
+        "label": "Obra de la foto 5"
+      },
+      {
+        "type": "image_picker",
+        "id": "pw_image_6",
+        "label": "Foto 6"
+      },
+      {
+        "type": "product",
+        "id": "pw_product_6",
+        "label": "Obra de la foto 6"
+      }
+    ]
   }
 ]
