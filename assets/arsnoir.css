@@ -3660,7 +3660,7 @@ h1, h2, h3, h4, .h1, .h2, .h3 { letter-spacing: -0.03em; line-height: 1.06; }
 .pzf { background: var(--pzf-bg, #490B1A); color: var(--pzf-fg, #fff); padding: clamp(40px, 6vw, 96px) 0; }
 .pzf__grid { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr); gap: clamp(28px, 7vw, 120px); align-items: center; }
 .pzf--reverse .pzf__media { order: 2; }
-.pzf__media { position: relative; aspect-ratio: 937 / 1678; max-height: 82vh; justify-self: center; width: 100%; max-width: 520px; border-radius: 14px; overflow: hidden; box-shadow: 0 30px 60px -30px rgba(0,0,0,.6); }
+.pzf__media { position: relative; aspect-ratio: var(--pzf-ratio, 0.8); max-height: 82vh; justify-self: center; width: 100%; max-width: 520px; border-radius: 14px; overflow: hidden; box-shadow: 0 30px 60px -30px rgba(0,0,0,.6); }
 .pzf__media img, .pzf__ph { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .pzf__ph { background: rgba(255,255,255,.08); }
 .pzf__eyebrow { margin: 0 0 14px; font-size: 12px; font-weight: 500; letter-spacing: .2em; text-transform: uppercase; opacity: .75; }
@@ -3671,7 +3671,7 @@ h1, h2, h3, h4, .h1, .h2, .h3 { letter-spacing: -0.03em; line-height: 1.06; }
 @media (max-width: 749px) {
   .pzf__grid { grid-template-columns: 1fr; gap: 28px; }
   .pzf--reverse .pzf__media { order: 0; }
-  .pzf__media { max-width: 78vw; max-height: none; }
+  .pzf__media { max-width: 88vw; max-height: none; }
   .pzf__copy { text-align: center; }
   .pzf__text { margin-left: auto; margin-right: auto; }
 }

@@ -4,7 +4,7 @@
 {%- endcomment -%}
 {%- assign s = section.settings -%}
 {%- assign tab = s.tab | strip | handleize -%}
-<section class="pzf{% if s.reverse %} pzf--reverse{% endif %}" style="--pzf-bg: {{ s.bg }}; --pzf-fg: {{ s.fg }};">
+<section class="pzf{% if s.reverse %} pzf--reverse{% endif %}" style="--pzf-bg: {{ s.bg }}; --pzf-fg: {{ s.fg }};{% if s.image != blank %} --pzf-ratio: {{ s.image.aspect_ratio }};{% endif %}">
   <div class="page-width pzf__grid">
     <div class="pzf__media">
       {%- if s.image != blank -%}

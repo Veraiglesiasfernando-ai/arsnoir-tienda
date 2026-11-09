@@ -630,6 +630,21 @@
         "alt": "Vera, fundador de ARSNOIR",
         "bg": "#EEF0F3"
       }
+    },
+    "navidad": {
+      "type": "pz-feature",
+      "settings": {
+        "image": "shopify://shop_images/arsnoir-christmas-sillon.jpg",
+        "alt": "Retrato de dálmata con gorro de Papá Noel y foto familiar en blanco y negro, enmarcados junto a una cortina burdeos",
+        "eyebrow": "ARSNOIR CHRISTMAS",
+        "heading": "Este año,\nregala su retrato.",
+        "text": "Tu mascota con gorro de Papá Noel o vuestra foto en blanco y negro, enmarcada. Sube tu foto y mira el resultado gratis antes de comprar.",
+        "button_label": "Ver estilos de Navidad",
+        "tab": "Navidad",
+        "bg": "#490B1A",
+        "fg": "#FFFFFF",
+        "button_link": "/collections/personalizalo#ctpl-navidad"
+      }
     }
   },
   "order": [
@@ -637,6 +652,7 @@
     "vhero",
     "q4",
     "welcome",
+    "navidad",
     "marquee",
     "trust",
     "featured",
