@@ -186,11 +186,20 @@
             "image_mobile": "shopify://shop_images/arsnoir-hero-movil-silla-coches.jpg",
             "text_position": "top"
           }
+        },
+        "s5": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/arsnoir-hero-navidad-butaca.jpg",
+            "image_mobile": "shopify://shop_images/arsnoir-hero-movil-navidad-butaca.jpg",
+            "text_position": "bottom"
+          }
         }
       },
       "block_order": [
         "s3",
         "s4",
+        "s5",
         "s1",
         "s2"
       ],
