@@ -3728,3 +3728,15 @@ h1, h2, h3, h4, .h1, .h2, .h3 { letter-spacing: -0.03em; line-height: 1.06; }
   .ctpl__row > .ctpl__item { flex-basis: 66vw; }
   .ctpl__group--row .ctpl__group-title span { display: block; margin: 6px 0 0; }
 }
+
+/* Rows: just the framed artwork, no wall or tile behind it */
+.ctpl__group--row .ctpl__media { aspect-ratio: 750 / 936; border-radius: 0; background: transparent; overflow: visible; box-shadow: none !important; transform: none !important; }
+.ctpl__group--row .ctpl__media img { box-shadow: 0 22px 34px -22px rgba(30,20,10,.55), 0 4px 10px -6px rgba(30,20,10,.35); }
+@media (hover: hover) {
+  .ctpl__group--row .ctpl__card:hover .ctpl__media img { transform: translateY(-5px); box-shadow: 0 32px 44px -24px rgba(30,20,10,.55), 0 4px 10px -6px rgba(30,20,10,.35); }
+}
+.ctpl__group--row .ctpl__badge { top: -10px; left: 14px; }
+.ctpl__group--row .ctpl__go { right: -6px; bottom: -14px; }
+.ctpl__group--row .ctpl__name { margin-top: 24px; }
+.ctpl__row { padding-top: 14px; padding-bottom: 22px; }
+.ctpl__row > .ctpl__item { padding-right: 6px; }
