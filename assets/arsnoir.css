@@ -3498,3 +3498,53 @@ html.is-scrolled .glass-header { grid-template-columns: auto 1fr auto; gap: 18px
 .wstories__title { font-family: 'Inter Tight', 'Space Grotesk', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif; font-size: clamp(2.1rem, 5vw, 4.4rem); font-weight: 600; line-height: 1.04; letter-spacing: -0.028em; text-transform: none; }
 .wstories__eyebrow { font-family: 'Inter Tight', system-ui, sans-serif; font-weight: 600; letter-spacing: 0.14em; }
 .wstories__text { font-family: 'Inter Tight', system-ui, sans-serif; }
+
+/* ==========================================================================
+   PREMIUM LAYER — one clean typeface everywhere, calmer weights, more air.
+   Everything below only overrides earlier rules: delete this block to undo.
+   ========================================================================== */
+@font-face { font-family: 'Inter Tight'; font-weight: 400; font-display: swap; src: url('inter-tight-400.woff2') format('woff2'); }
+@font-face { font-family: 'Inter Tight'; font-weight: 700; font-display: swap; src: url('inter-tight-700.woff2') format('woff2'); }
+:root {
+  --font-body: 'Inter Tight', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  --font-heading: 'Inter Tight', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  --font-heading-weight: 600;
+}
+body { font-family: var(--font-body); -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; letter-spacing: -0.005em; }
+h1, h2, h3, h4, .h1, .h2, .h3 { letter-spacing: -0.03em; line-height: 1.06; }
+
+/* More breathing room between sections */
+.section { padding: clamp(64px, 10vw, 136px) 0; }
+
+/* Big section titles: lighter, sentence case, balanced lines */
+.featured__title, .mats__title, .join__title, .q4__title, .wstories__title, .vhero__heading {
+  font-weight: 600; letter-spacing: -0.035em; line-height: 1.02; text-transform: none; text-wrap: balance;
+}
+.featured__title { font-size: clamp(2rem, 4.2vw, 3.6rem); }
+.mats__title { font-size: clamp(1.9rem, 4vw, 3.2rem); }
+.join__title { font-size: clamp(2.2rem, 5vw, 4.4rem); }
+.welcome__title { font-weight: 600; letter-spacing: -0.045em; line-height: 0.95; }
+.featured__head { margin-bottom: clamp(28px, 4.5vw, 56px); }
+
+/* Small labels above titles: quiet, spaced capitals */
+.welcome__eyebrow, .wstories__eyebrow, .q4__eyebrow, .gift-tile__kicker {
+  font-size: 12px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; opacity: .7;
+}
+
+/* Card titles */
+.gift-tile__title { font-weight: 600; letter-spacing: -0.03em; }
+.pack__title, .lienzos__title, .review__title, .guarantee__title, .poster__title { font-weight: 500; letter-spacing: -0.01em; }
+
+/* Buttons: slimmer, softer capitals */
+.button { min-height: 50px; padding: 0 2rem; font-size: 12.5px; font-weight: 500; letter-spacing: 0.12em; transition: background .25s, color .25s, border-color .25s; }
+
+/* Images: no heavy shadows, a slow gentle zoom on hover (desktop only) */
+.gift-tile, .pack, .wstory__media, .poster__media { box-shadow: none !important; }
+@media (hover: hover) {
+  .wstory__media img, .gift-tile img, .pack img, .art-card .poster__media img { transition: transform 1.2s cubic-bezier(.2,.7,.2,1); }
+  .wstory:hover .wstory__media img, .gift-tile:hover img, .pack:hover img, .art-card:hover .poster__media img { transform: scale(1.035); }
+}
+
+/* Scrolling strip: thinner and calmer */
+.marquee { padding: 12px 0; }
+.marquee__group span { font-size: 12px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; }
