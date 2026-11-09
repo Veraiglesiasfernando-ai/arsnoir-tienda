@@ -14,7 +14,7 @@
   endfor
 -%}
 {%- if shown > 0 -%}
-<section class="ctpl" id="Plantillas">
+<section class="ctpl{% if s.style == 'gallery' %} ctpl--gallery{% endif %}" id="Plantillas">
   <div class="page-width">
     <div class="ctpl__head">
       {%- if s.eyebrow != blank -%}<p class="eyebrow">{{ s.eyebrow }}</p>{%- endif -%}
@@ -106,6 +106,7 @@
     { "type": "text", "id": "video_url", "label": "Vídeo «cómo funciona» (URL .mp4)", "info": "Archivo de Contenido → Archivos. Se ve encima de los estilos, en bucle y sin sonido." },
     { "type": "image_picker", "id": "video_poster", "label": "Imagen del vídeo mientras carga" },
     { "type": "select", "id": "layout", "label": "Cómo se agrupan", "default": "tabs", "options": [{ "value": "tabs", "label": "Pestañas (una cuadrícula)" }, { "value": "sections", "label": "Por secciones (Mascotas, Familia…)" }] },
+    { "type": "select", "id": "style", "label": "Aspecto", "default": "gallery", "options": [{ "value": "gallery", "label": "Galería (fondo cálido, tarjetas grandes)" }, { "value": "plain", "label": "Sencillo" }] },
     { "type": "text", "id": "button_label", "label": "Botón", "default": "Elegir estilo" },
     { "type": "text", "id": "all_label", "label": "Pestaña «todas»", "default": "Todas" },
     { "type": "text", "id": "before_label", "label": "Etiqueta de la foto original", "default": "Antes" },
@@ -120,6 +121,7 @@
         { "type": "text", "id": "category", "label": "Tema", "default": "Mascotas", "info": "Mascotas, Amor, Familia… Los estilos con el mismo tema se agrupan en una pestaña." },
         { "type": "text", "id": "name", "label": "Nombre", "default": "Estilo" },
         { "type": "text", "id": "tagline", "label": "Frase corta" },
+        { "type": "text", "id": "badge", "label": "Etiqueta (ej.: Nuevo)", "info": "Vacío = sin etiqueta." },
         { "type": "image_picker", "id": "image", "label": "Ilustración de ejemplo" },
         { "type": "image_picker", "id": "before", "label": "Foto original del ejemplo (opcional)", "info": "Se ve pequeña en una esquina como «Antes»." },
         { "type": "url", "id": "link", "label": "Enlace a la ficha", "info": "Sin enlace ni foto, la tarjeta no se muestra en la tienda. Con foto y sin enlace, sale como ejemplo «Muy pronto»." }

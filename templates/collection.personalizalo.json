@@ -151,7 +151,8 @@
             "name": "Mascota en acuarela",
             "tagline": "Acuarela realista con su nombre en caligrafía.",
             "image": "shopify://shop_images/pz-card-mascota-acuarela.jpg",
-            "link": "shopify://products/tu-mascota-en-acuarela"
+            "link": "shopify://products/tu-mascota-en-acuarela",
+            "badge": "Nuevo"
           }
         },
         "fam3": {
@@ -161,7 +162,8 @@
             "name": "Pareja en acuarela",
             "tagline": "Vuestra foto pintada en acuarela, con vuestros nombres.",
             "image": "shopify://shop_images/pz-card-pareja-acuarela.jpg",
-            "link": "shopify://products/retrato-de-pareja-en-acuarela"
+            "link": "shopify://products/retrato-de-pareja-en-acuarela",
+            "badge": "Nuevo"
           }
         },
         "fam4": {
@@ -171,7 +173,8 @@
             "name": "Pareja sin rostro",
             "tagline": "Acuarela minimalista: se os reconoce sin dibujar la cara.",
             "image": "shopify://shop_images/pz-card-pareja-sin-rostro.jpg",
-            "link": "shopify://products/pareja-en-acuarela-sin-rostro"
+            "link": "shopify://products/pareja-en-acuarela-sin-rostro",
+            "badge": "Nuevo"
           }
         },
         "fam5": {
@@ -181,7 +184,8 @@
             "name": "Familia en acuarela",
             "tagline": "Toda la familia dentro de un círculo azul, con texto si quieres.",
             "image": "shopify://shop_images/pz-card-familia-acuarela.jpg",
-            "link": "shopify://products/familia-en-acuarela"
+            "link": "shopify://products/familia-en-acuarela",
+            "badge": "Nuevo"
           }
         }
       },
@@ -206,10 +210,11 @@
         "layout": "tabs",
         "eyebrow": "",
         "heading": "Todos los estilos",
-        "text": "",
+        "text": "Elige el que más te guste. Todos se ven gratis antes de comprar.",
         "pets_note": "",
         "button_label": "Crear el mío →",
-        "all_label": "Todos"
+        "all_label": "Todos",
+        "style": "gallery"
       }
     },
     "allstyles": {

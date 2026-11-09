@@ -14,6 +14,8 @@
           <span class="ctpl__before-label">{{ s.before_label }}</span>
         </span>
       {%- endif -%}
+      {%- if b.badge != blank -%}<span class="ctpl__badge">{{ b.badge }}</span>{%- endif -%}
+      {%- if b.link != blank -%}<span class="ctpl__go" aria-hidden="true">→</span>{%- endif -%}
       {%- if b.link == blank and b.image != blank -%}<span class="ctpl__soon">{{ s.soon_label }}</span>{%- endif -%}
       {%- if b.link == blank and b.image == blank -%}<span class="ctpl__draft">{{ s.no_link_label }}</span>{%- endif -%}
     </span>
