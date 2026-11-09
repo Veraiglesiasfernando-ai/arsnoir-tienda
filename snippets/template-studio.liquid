@@ -14,6 +14,8 @@
   data-key="tstudio-all"
   data-t-working="{{ b.working_text | escape }}"
   data-steps="{{ b.loading_steps | escape }}"
+  data-t-wait="{{ b.loading_wait | escape }}"
+  data-t-ready="{{ b.loading_ready | default: '¡Listo!' | escape }}"
   {%- assign example_media = product.media[1] | default: product.featured_media -%}
   data-example="{{ example_media | image_url: width: 900 }}"
   data-t-error="{{ b.error_text | escape }} Si sigue sin salir, escríbenos a hola@arsnoir.com y te la preparamos nosotros."

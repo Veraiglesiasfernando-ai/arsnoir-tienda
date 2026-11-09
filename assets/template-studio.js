@@ -156,7 +156,9 @@
         '<div class="tlive__frame"><img class="tlive__art" alt="" width="720" height="900">' +
         '<img class="tload__sketch" alt="" aria-hidden="true"><img class="tload__color" alt="" aria-hidden="true"></div>' +
         '<figure class="tload__photo" aria-hidden="true"><img alt=""><figcaption>' + (d.tPhoto || 'Tu foto') + '</figcaption></figure>' +
-        '<div class="tload" aria-hidden="true"><p class="tload__step"></p><div class="tload__bar"><span></span></div></div>' +
+        '<div class="tload" aria-hidden="true"><p class="tload__step"></p><div class="tload__bar"><span></span></div>' +
+        (d.tWait ? '<p class="tload__sub">' + d.tWait + '</p>' : '') + '</div>' +
+        '<p class="treveal" aria-hidden="true">' + (d.tReady || '¡Listo!') + '</p>' +
         '</div><p class="tlive__cap"></p>';
       gallery.insertBefore(live, gallery.firstChild);
     }
@@ -192,9 +194,19 @@
     const r = el.getBoundingClientRect();
     if (r.bottom < 0 || r.top > window.innerHeight) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
   };
-  const stopLoading = function () {
+  /* ok = the illustration arrived: fill the bar, then reveal it with a sweep from left to right
+     and a short «¡Listo!» (skipped when the visitor prefers reduced motion) */
+  let revealTimer = null;
+  const stopLoading = function (ok) {
     clearInterval(stepTimer);
-    if (live) live.classList.remove('is-loading');
+    if (!live) return;
+    live.classList.remove('is-loading');
+    if (!ok || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    clearTimeout(revealTimer);
+    live.classList.remove('is-reveal');
+    void live.offsetWidth;
+    live.classList.add('is-reveal');
+    revealTimer = setTimeout(function () { live.classList.remove('is-reveal'); }, 2600);
   };
   /* The room photos show the template's example: once there is an illustration, paint it into
      their frame (same spot in every product, measured on the photos) and hide the example-only ones */
@@ -441,7 +453,7 @@
         keepId = out.keep;
         /* Only a preview that worked counts towards the customer's limit */
         addUse();
-        stopLoading();
+        stopLoading(true);
         /* The order gets the copy kept by the worker; the screen shows the image as it came */
         urlInput.value = out.saved || url;
         if (nameProp) nameProp.value = name;
