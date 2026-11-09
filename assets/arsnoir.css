@@ -3845,3 +3845,10 @@ html:not(.is-scrolled) body:has(main > .shopify-section:first-child .vhero) .gla
   .welcome--tiles .poster__plus::before { font-size: 15px; }
   .welcome--tiles .poster__tag { top: 10px; left: 10px; font-size: 9px; padding: 4px 9px; }
 }
+
+/* Footer wordmark: logo face and no overlapping letters in the outline */
+.site-footer__wordmark { font-family: 'Space Grotesk', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif; letter-spacing: 0; font-size: clamp(3.4rem, 16vw, 15rem); }
+.price__deal { display: block; margin-top: 2px; font-size: .92em; font-weight: 500; color: var(--color-muted); }
+.price__deal s { margin: 0 2px; color: #8a8a8a; font-weight: 400; }
+.price__deal b { color: #C8102E; font-weight: 600; }
+.welcome--tiles .price__deal, .welcome--tiles .price__deal s, .welcome--tiles .price__deal b { color: #fff; }
