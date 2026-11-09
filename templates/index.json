@@ -585,6 +585,19 @@
         "collection": "lienzos",
         "limit": 10
       }
+    },
+    "founder": {
+      "type": "founder-story",
+      "settings": {
+        "eyebrow": "QUIÉN ESTÁ DETRÁS",
+        "heading": "Hola, soy Vera.",
+        "text": "<p>Fundé ARSNOIR con una idea sencilla: que las paredes de tu casa cuenten algo tuyo. Tu perro, tu pareja, tu familia o ese momento que no quieres olvidar.</p><p>ARSNOIR es una marca pequeña y la llevo yo. Si tienes cualquier duda con tu cuadro, antes o después de pedirlo, escríbeme y te contesto personalmente.</p>",
+        "signature": "Vera · Fundador de ARSNOIR",
+        "button_label": "Escríbeme",
+        "button_link": "/pages/contacto",
+        "alt": "Vera, fundador de ARSNOIR",
+        "bg": "#F4F1EC"
+      }
     }
   },
   "order": [
@@ -599,6 +612,7 @@
     "materials",
     "gifts",
     "walls",
+    "founder",
     "rooms",
     "packs",
     "reviews",
