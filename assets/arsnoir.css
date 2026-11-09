@@ -3792,3 +3792,27 @@ html:not(.is-scrolled) body:has(main > .shopify-section:first-child .vhero) .gla
 html:not(.is-scrolled) body:has(main > .shopify-section:first-child .vhero) .glass-header .cart-count,
 html:not(.is-scrolled) body:has(main > .shopify-section:first-child .vhero) .glass-header .fav-count { background: #0a0a0a; color: #fff; }
 .vhero__progress--hidden { display: none !important; }
+
+/* ==========================================================================
+   WELCOME CARDS · one gallery look: same size, same thin black frame with a
+   white mat, whole artwork visible, small tag inside, centred caption
+   ========================================================================== */
+.welcome__cards { align-items: start; gap: clamp(20px, 3.2vw, 56px); }
+.welcome__cards .poster, .welcome__cards .poster:not(.poster--featured) { transform: none !important; }
+.welcome__cards .poster--blackframe .poster__media { border: clamp(7px, .7vw, 11px) solid #111; padding: 9%; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.08), 0 18px 28px -14px rgba(0,0,0,.28), 0 40px 64px -32px rgba(0,0,0,.3); transition: box-shadow .5s, transform .5s cubic-bezier(.2,.7,.2,1); }
+.welcome__cards .poster--blackframe .poster__media img { object-fit: contain !important; box-shadow: none; }
+.welcome__cards .poster--blackframe:hover .poster__frame { transform: none; }
+@media (hover: hover) { .welcome__cards .poster--blackframe:hover .poster__media { transform: translateY(-6px); box-shadow: 0 1px 2px rgba(0,0,0,.08), 0 28px 40px -16px rgba(0,0,0,.32), 0 56px 80px -36px rgba(0,0,0,.36); } }
+.welcome__cards .poster__frame { overflow: visible; }
+.welcome__cards .poster__tag, .welcome__cards .poster--featured .poster__tag { top: clamp(16px, 1.6vw, 24px); left: clamp(16px, 1.6vw, 24px); right: auto; z-index: 2; padding: 5px 10px; border-radius: 999px; background: #0a0a0a; color: #fff; font-size: 10px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
+.welcome__cards .poster__info { justify-content: center; padding-top: 22px; text-align: center; }
+.welcome__cards .poster__meta { align-items: center; gap: 3px; }
+.welcome__cards .poster__title { font-size: clamp(16px, 1.3vw, 19px); font-weight: 600; letter-spacing: -0.01em; }
+.welcome__cards .poster__sub { font-size: 13.5px; color: var(--color-muted); }
+.welcome__cards .poster__price { margin-top: 4px; font-size: 14px; font-weight: 500; color: var(--color-fg); }
+.welcome__cards .poster__plus { display: none; }
+@media (max-width: 899px) {
+  .welcome__cards .poster__sub { display: none; }
+  .welcome__cards .poster__title { font-size: 14px; white-space: normal; }
+  .welcome__cards .poster__tag { top: 12px; left: 12px; font-size: 9px; padding: 4px 8px; }
+}
