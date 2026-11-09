@@ -3452,3 +3452,40 @@ html.sguide-lock { overflow: hidden; }
 .paybar__guarantee { display: flex; gap: 10px; align-items: flex-start; margin: 12px 0 0; padding: 12px 14px; border: 1px solid rgba(0,0,0,0.1); border-radius: 8px; background: #fff; font-size: 13.5px; line-height: 1.45; color: var(--color-fg); text-align: left; }
 .paybar__guarantee svg { flex: none; width: 18px; height: 18px; margin-top: 1px; }
 .paybar__guarantee b { font-weight: 700; }
+
+/* =========================================================================
+   Sklum-like look: flat white header, menu as a white side drawer
+   ========================================================================= */
+.glass-header-wrap { padding: 0; background: #fff; border-bottom: 1px solid rgba(0,0,0,0.08); }
+.glass-header,
+html.is-scrolled .glass-header { grid-template-columns: auto 1fr auto; gap: 18px; min-height: 76px; padding: 0 clamp(16px, 2.2vw, 32px); border: 0; border-radius: 0; background: #fff; -webkit-backdrop-filter: none; backdrop-filter: none; box-shadow: none; }
+.glass-header__start { display: flex; align-items: center; gap: clamp(14px, 1.6vw, 24px); }
+.glass-header__nav { display: none !important; }
+.glass-header .mobile-menu { display: block !important; }
+.glass-header .mobile-menu .icon { width: 30px; height: 30px; }
+.glass-header__logo { font-size: clamp(30px, 3vw, 44px); font-weight: 500; letter-spacing: -0.045em; text-transform: lowercase; line-height: 1; }
+.glass-header__icons { grid-column: 3; gap: clamp(16px, 1.8vw, 26px); }
+.glass-header__icons .icon { width: 26px; height: 26px; stroke-width: 1.3; }
+.glass-header__icons a:first-child { display: inline-flex !important; }
+@media (max-width: 749px) {
+  .glass-header, html.is-scrolled .glass-header { min-height: 62px; gap: 12px; }
+  .glass-header .mobile-menu .icon { width: 26px; height: 26px; }
+  .glass-header__logo { font-size: 30px; }
+  .glass-header__icons { gap: 14px; }
+  .glass-header__icons .icon { width: 23px; height: 23px; }
+  .glass-header__fav, .glass-header__account { display: none !important; }
+}
+/* Drawer */
+.glass-header .mobile-menu[open] > summary::before { content: ""; position: fixed; inset: 0; z-index: 70; background: rgba(10,10,10,0.45); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
+.glass-header .mobile-menu__panel { position: fixed; inset: 0 auto 0 0 !important; z-index: 71; width: min(440px, 88vw); max-height: none !important; height: 100%; overflow-y: auto; padding: 28px clamp(24px, 3vw, 52px) 40px; border: 0; border-radius: 0; background: #fff; box-shadow: 0 0 60px rgba(0,0,0,0.25); animation: drawer-in 0.28s ease; }
+@keyframes drawer-in { from { transform: translateX(-100%); } to { transform: none; } }
+.mobile-menu__close { display: inline-flex; padding: 6px; margin: 0 0 18px -6px; border: 0; background: none; color: var(--color-fg); cursor: pointer; }
+.mobile-menu__close .icon { width: 28px; height: 28px; stroke-width: 1.3; }
+.mobile-menu__brand { margin: 0 0 36px; font-size: clamp(48px, 5vw, 64px); font-weight: 500; letter-spacing: -0.05em; line-height: 1; }
+.glass-header .mobile-menu__panel > ul { list-style: none; margin: 0; padding: 0; }
+.glass-header .mobile-menu__panel > ul > li > a { display: block; padding: 11px 0; font-size: 20px; font-weight: 400; letter-spacing: 0; text-transform: none; }
+.glass-header .mobile-menu__panel > ul > li:first-child > a,
+.glass-header .mobile-menu__panel > ul > li[hidden] + li > a { font-weight: 800; text-transform: uppercase; letter-spacing: -0.01em; }
+.glass-header .mobile-menu__panel a:hover { color: var(--color-muted); }
+.glass-header .mobile-menu__panel .mobile-menu__sub { display: block; margin: 0 0 8px; padding: 0 0 0 2px; }
+.glass-header .mobile-menu__panel .mobile-menu__sub a { padding: 5px 0; font-size: 15px; color: var(--color-muted); }

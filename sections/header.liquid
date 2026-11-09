@@ -13,6 +13,9 @@
       <details class="mobile-menu">
         <summary aria-label="{{ 'general.menu' | t }}">{% render 'icon', name: 'menu' %}</summary>
         <div class="mobile-menu__panel">
+          {%- comment -%} Side drawer (Sklum-like): close button + big logo on top {%- endcomment -%}
+          <button type="button" class="mobile-menu__close" aria-label="{{ 'general.close' | t }}" onclick="this.closest('details').removeAttribute('open')">{% render 'icon', name: 'close' %}</button>
+          <p class="mobile-menu__brand">{{ s.logo_text | default: shop.name | strip | downcase }}</p>
           <ul>
             {%- if settings.q4_enabled and settings.q4_gift_page != blank -%}
               <li data-q4="prebf bf xmas reyes late" hidden><a href="{{ settings.q4_gift_page.url }}">{{ 'q4.gifts' | t }}</a></li>
