@@ -3994,3 +3994,16 @@ html:not(.is-scrolled) body:has(main > .shopify-section:first-child .vhero) .gla
   .pq__text { display: none; }
   .pq__name { font-size: 14.5px; }
 }
+
+/* Wall preview keeps up while scrolling (the left column now runs as tall as the right one) */
+@media (min-width: 990px) {
+  /* Docked: while the size/finish picker is on screen, the big wall shows fixed over the left column */
+  .svis--big { position: fixed !important; z-index: 20; top: calc(var(--announce-h, 0px) + 104px); left: var(--sv-left, 40px); width: var(--sv-width, 40vw); max-height: calc(100vh - var(--announce-h, 0px) - 124px); overflow: hidden; margin: 0 !important; opacity: 0; visibility: hidden; transform: translateY(16px) scale(.985); transition: opacity .35s ease, transform .45s cubic-bezier(.2,.8,.2,1), visibility 0s linear .35s; box-shadow: 0 40px 80px -40px rgba(30,20,10,.45); }
+  .svis--big.is-docked { opacity: 1; visibility: visible; transform: none; transition: opacity .35s ease, transform .45s cubic-bezier(.2,.8,.2,1), visibility 0s; }
+}
+/* With the customer's own preview on the wall: same on-screen watermark + «prints clean» note */
+.svis.is-preview .svis__frame::after { content: ""; position: absolute; inset: var(--fw, 0%); pointer-events: none; z-index: 2;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='180'%3E%3Cg transform='rotate(-28 130 90)' font-family='Arial,sans-serif' font-weight='700' font-size='19' letter-spacing='3' text-anchor='middle'%3E%3Ctext x='130' y='96' fill='none' stroke='%23000' stroke-opacity='.28' stroke-width='3'%3EARSNOIR · VISTA PREVIA%3C/text%3E%3Ctext x='130' y='96' fill='%23fff' fill-opacity='.62'%3EARSNOIR · VISTA PREVIA%3C/text%3E%3C/g%3E%3C/svg%3E") center / 130px 90px repeat; }
+.svis__clean { display: none; margin: 12px 0 0; padding: 10px 14px; border-radius: 10px; background: #F4EEEA; color: #3a2a2e; font-size: 13px; line-height: 1.45; text-align: center; }
+.svis__clean b { color: #490B1A; }
+.svis.is-preview .svis__clean { display: block; }

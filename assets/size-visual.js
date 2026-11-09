@@ -3,6 +3,25 @@
   const picker = document.querySelector('variant-picker');
   if (!picker) return;
   document.querySelectorAll('[data-size-visual]').forEach(function (box) { init(box); });
+
+  /* Desktop: dock the big wall over the left column while the picker is on screen */
+  const big = document.querySelector('.svis--big');
+  const gallery = big && big.closest('.product__gallery');
+  if (big && gallery && 'IntersectionObserver' in window) {
+    const place = function () {
+      const r = gallery.getBoundingClientRect();
+      big.style.setProperty('--sv-left', r.left + 'px');
+      big.style.setProperty('--sv-width', r.width + 'px');
+    };
+    place();
+    window.addEventListener('resize', place);
+    new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        place();
+        big.classList.toggle('is-docked', en.isIntersecting && window.innerWidth >= 990);
+      });
+    }, { rootMargin: '-35% 0px -35% 0px' }).observe(picker);
+  }
   function init(box) {
   const art = box.querySelector('[data-svis-art]');
   const frame = box.querySelector('[data-svis-frame]');
@@ -60,7 +79,12 @@
   const live = document.querySelector('.tlive__art');
   if (live && img && 'MutationObserver' in window) {
     new MutationObserver(function () {
-      if (live.src && /^https?:/.test(live.src)) { img.removeAttribute('srcset'); img.src = live.src; }
+      if (live.src && /^https?:/.test(live.src)) {
+        img.removeAttribute('srcset'); img.src = live.src;
+        box.classList.add('is-preview');
+        const t = box.querySelector('[data-svis-title]');
+        if (t) t.innerHTML = 'Tu obra,<br>en tu pared.';
+      }
     }).observe(live, { attributes: true, attributeFilter: ['src'] });
   }
   }

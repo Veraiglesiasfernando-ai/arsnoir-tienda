@@ -15,7 +15,7 @@
 -%}
 <div class="svis{% if big %} svis--big{% endif %}" data-size-visual aria-label="Así queda en tu pared">
   <div class="svis__head">
-    {%- if big -%}<p class="svis__title">Así queda<br>en tu pared.</p>{%- endif -%}
+    {%- if big -%}<p class="svis__title" data-svis-title>Así queda<br>en tu pared.</p>{%- endif -%}
     <span class="svis__eyebrow">Así queda en tu pared</span>
     <span class="svis__dims" data-svis-dims></span>
   </div>
@@ -46,5 +46,6 @@
     </div>
     <div class="svis__floor" aria-hidden="true"></div>
   </div>
+  <p class="svis__clean">La marca «ARSNOIR · vista previa» solo sale en pantalla: <b>tu cuadro se imprime limpio</b>, sin ninguna marca.</p>
   <p class="svis__note">Sofá de 200 cm como referencia · medidas reales del cuadro{% if product.media.size > 0 %} · imagen orientativa{% endif %}</p>
 </div>
