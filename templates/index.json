@@ -159,7 +159,8 @@
           "settings": {
             "image": "shopify://shop_images/arsnoir-hero-salon.jpg",
             "image_mobile": "shopify://shop_images/arsnoir-hero-movil-sofa.jpg"
-          }
+          },
+          "disabled": true
         },
         "s2": {
           "type": "slide",
@@ -167,7 +168,8 @@
             "image": "shopify://shop_images/arsnoir-hero-coche.jpg",
             "image_mobile": "shopify://shop_images/arsnoir-hero-movil-coche.jpg",
             "text_position": "top"
-          }
+          },
+          "disabled": true
         },
         "s3": {
           "type": "slide",
@@ -188,8 +190,8 @@
       },
       "block_order": [
         "s3",
-        "s1",
         "s4",
+        "s1",
         "s2"
       ],
       "settings": {
