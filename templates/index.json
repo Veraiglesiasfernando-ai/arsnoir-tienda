@@ -589,14 +589,16 @@
     "founder": {
       "type": "founder-story",
       "settings": {
-        "eyebrow": "QUIÉN ESTÁ DETRÁS",
-        "heading": "Hola, soy Vera.",
-        "text": "<p>Fundé ARSNOIR con una idea sencilla: que las paredes de tu casa cuenten algo tuyo. Tu perro, tu pareja, tu familia o ese momento que no quieres olvidar.</p><p>ARSNOIR es una marca pequeña y la llevo yo. Si tienes cualquier duda con tu cuadro, antes o después de pedirlo, escríbeme y te contesto personalmente.</p>",
-        "signature": "Vera · Fundador de ARSNOIR",
+        "eyebrow": "DETRÁS DE LA MARCA",
+        "heading": "EL FUNDADOR.",
+        "as_quote": true,
+        "text": "<p>Fundé ARSNOIR con una idea sencilla: que las paredes de tu casa cuenten algo tuyo. Tu perro, tu pareja, tu familia o ese momento que no quieres olvidar. Es una marca pequeña y la llevo yo: si tienes cualquier duda con tu cuadro, escríbeme y te contesto personalmente.</p>",
+        "name": "Vera",
+        "role": "Fundador, ARSNOIR",
         "button_label": "Escríbeme",
         "button_link": "/pages/contacto",
         "alt": "Vera, fundador de ARSNOIR",
-        "bg": "#F4F1EC"
+        "bg": "#EEF0F3"
       }
     }
   },

@@ -6,6 +6,7 @@
 {%- assign fd_alt = s.alt | default: s.heading -%}
 {%- if s.image != blank or request.design_mode -%}
 <section class="founder{% if s.reverse %} founder--reverse{% endif %}" style="--fd-bg: {{ s.bg }};">
+  <div class="page-width founder__grid">
   <div class="founder__media">
     {%- if s.image != blank -%}
       {{ s.image | image_url: width: 1800 | image_tag: loading: 'lazy', widths: '600, 900, 1200, 1500, 1800', sizes: '(min-width: 750px) 50vw, 100vw', alt: fd_alt }}
@@ -16,9 +17,15 @@
   <div class="founder__copy">
     {%- if s.eyebrow != blank -%}<p class="founder__eyebrow">{{ s.eyebrow }}</p>{%- endif -%}
     {%- if s.heading != blank -%}<h2 class="founder__title">{{ s.heading | newline_to_br }}</h2>{%- endif -%}
-    {%- if s.text != blank -%}<div class="founder__text">{{ s.text }}</div>{%- endif -%}
-    {%- if s.signature != blank -%}<p class="founder__sign">{{ s.signature }}</p>{%- endif -%}
-    {%- if s.button_label != blank -%}<a class="button button--outline founder__btn" href="{{ s.button_link | default: '/pages/contacto' }}">{{ s.button_label }}</a>{%- endif -%}
+    {%- if s.text != blank -%}<div class="founder__text{% if s.as_quote %} founder__text--quote{% endif %}">{{ s.text }}</div>{%- endif -%}
+    {%- if s.name != blank or s.role != blank -%}
+      <p class="founder__sign">
+        {%- if s.name != blank -%}<strong>{{ s.name }}</strong>{%- endif -%}
+        {%- if s.role != blank -%}<span>{{ s.role }}</span>{%- endif -%}
+      </p>
+    {%- endif -%}
+    {%- if s.button_label != blank -%}<a class="founder__btn" href="{{ s.button_link | default: '/pages/contacto' }}">{{ s.button_label }} <span aria-hidden="true">→</span></a>{%- endif -%}
+  </div>
   </div>
 </section>
 {%- endif -%}
@@ -31,11 +38,13 @@
     { "type": "image_picker", "id": "image", "label": "Tu foto", "info": "Vertical y con buena luz. Sin foto, la sección no se muestra." },
     { "type": "text", "id": "alt", "label": "Descripción de la foto", "default": "Vera, fundador de ARSNOIR" },
     { "type": "checkbox", "id": "reverse", "label": "Foto a la derecha", "default": false },
-    { "type": "color", "id": "bg", "label": "Fondo del texto", "default": "#F4F1EC" },
-    { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "QUIÉN ESTÁ DETRÁS" },
-    { "type": "textarea", "id": "heading", "label": "Título", "default": "Hola, soy Vera." },
+    { "type": "color", "id": "bg", "label": "Fondo", "default": "#EEF0F3" },
+    { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "DETRÁS DE LA MARCA" },
+    { "type": "textarea", "id": "heading", "label": "Título", "default": "EL FUNDADOR." },
     { "type": "richtext", "id": "text", "label": "Historia", "default": "<p>Cuenta aquí tu historia.</p>" },
-    { "type": "text", "id": "signature", "label": "Firma", "default": "Vera · Fundador de ARSNOIR" },
+    { "type": "checkbox", "id": "as_quote", "label": "Mostrar la historia entre comillas", "default": true },
+    { "type": "text", "id": "name", "label": "Nombre", "default": "Vera" },
+    { "type": "text", "id": "role", "label": "Cargo", "default": "Fundador, ARSNOIR" },
     { "type": "text", "id": "button_label", "label": "Botón", "default": "Escríbeme" },
     { "type": "url", "id": "button_link", "label": "Enlace del botón" }
   ],
