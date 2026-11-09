@@ -3791,3 +3791,4 @@ html:not(.is-scrolled) body:has(main > .shopify-section:first-child .vhero) .gla
 html:not(.is-scrolled) body:has(main > .shopify-section:first-child .vhero) .glass-header__links a:hover { color: var(--color-fg); opacity: 1; }
 html:not(.is-scrolled) body:has(main > .shopify-section:first-child .vhero) .glass-header .cart-count,
 html:not(.is-scrolled) body:has(main > .shopify-section:first-child .vhero) .glass-header .fav-count { background: #0a0a0a; color: #fff; }
+.vhero__progress--hidden { display: none !important; }

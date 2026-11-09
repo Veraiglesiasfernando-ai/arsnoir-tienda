@@ -205,6 +205,16 @@
     }
 
     bars.forEach(function (bar, i) { bar.addEventListener('click', function () { show(i); }); });
+    /* Swipe left / right to change slide (touch screens) */
+    let touchX = null, touchY = null;
+    hero.addEventListener('touchstart', function (e) { touchX = e.touches[0].clientX; touchY = e.touches[0].clientY; }, { passive: true });
+    hero.addEventListener('touchend', function (e) {
+      if (touchX === null) return;
+      const dx = e.changedTouches[0].clientX - touchX;
+      const dy = e.changedTouches[0].clientY - touchY;
+      touchX = null;
+      if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.5) show(current + (dx < 0 ? 1 : -1));
+    }, { passive: true });
     timer = setTimeout(function () { show(1); }, interval);
   });
 

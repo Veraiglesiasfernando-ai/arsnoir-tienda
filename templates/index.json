@@ -208,7 +208,7 @@
         "overlay": 15,
         "interval": 6,
         "label_left": "(ARSNOIR)",
-        "label_right": "obra nº01",
+        "label_right": "",
         "show_seal": false,
         "seal_text": "ARTE ORIGINAL · SOLO EN ARSNOIR · ",
         "seal_center": "A",
@@ -216,7 +216,8 @@
         "button_link": "shopify://collections/all",
         "button2_label": "Crea tu ilustración",
         "button2_link": "shopify://collections/personalizalo",
-        "heading": "No decores tu espacio.\nCambia cómo se siente."
+        "heading": "No decores tu espacio.\nCambia cómo se siente.",
+        "show_progress": false
       }
     },
     "walls": {

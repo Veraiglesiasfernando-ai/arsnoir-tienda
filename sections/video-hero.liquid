@@ -73,7 +73,7 @@
   </div>
 
   {%- if slide_count > 1 -%}
-    <div class="vhero__progress">
+    <div class="vhero__progress{% unless s.show_progress %} vhero__progress--hidden{% endunless %}">
       {%- for block in section.blocks -%}
         <button type="button" class="vhero__bar{% if forloop.first %} is-active{% endif %}" data-slide="{{ forloop.index0 }}" aria-label="{{ 'general.slide' | t: number: forloop.index }}"><span></span></button>
       {%- endfor -%}
@@ -94,6 +94,7 @@
       ]
     },
     { "type": "range", "id": "overlay", "label": "Oscurecer fondo", "min": 0, "max": 70, "step": 5, "unit": "%", "default": 15 },
+    { "type": "checkbox", "id": "show_progress", "label": "Mostrar las rayitas de las diapositivas", "default": true },
     { "type": "range", "id": "interval", "label": "Segundos por diapositiva", "min": 3, "max": 15, "step": 1, "unit": "s", "default": 6 },
     { "type": "text", "id": "label_left", "label": "Etiqueta izquierda", "default": "(ARSNOIR)" },
     { "type": "text", "id": "label_right", "label": "Etiqueta derecha", "default": "obra nº01" },
