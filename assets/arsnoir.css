@@ -3893,3 +3893,7 @@ html:not(.is-scrolled) body:has(main > .shopify-section:first-child .vhero) .gla
 .product__deal[hidden] { display: none; }
 .product__deal s { margin: 0 3px; color: #8a8a8a; font-weight: 400; }
 .product__deal b { color: #C8102E; font-weight: 600; }
+/* deal line sits right under the price; the size/finish summary follows it without overlapping */
+.product__deal { margin: -1.1rem 0 .5rem; line-height: 1.35; }
+.product__deal + .product__variant-summary { margin-top: 0; }
+.product__deal[hidden] + .product__variant-summary { margin-top: -1.25rem; }
