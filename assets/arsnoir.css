@@ -3489,3 +3489,12 @@ html.is-scrolled .glass-header { grid-template-columns: auto 1fr auto; gap: 18px
 .glass-header .mobile-menu__panel a:hover { color: var(--color-muted); }
 .glass-header .mobile-menu__panel .mobile-menu__sub { display: block; margin: 0 0 8px; padding: 0 0 0 2px; }
 .glass-header .mobile-menu__panel .mobile-menu__sub a { padding: 5px 0; font-size: 15px; color: var(--color-muted); }
+
+/* Clean headline face (Inter Tight, SIL OFL, self-hosted next to this file) */
+@font-face { font-family: 'Inter Tight'; font-weight: 500; font-display: swap; src: url('inter-tight-500.woff2') format('woff2'); }
+@font-face { font-family: 'Inter Tight'; font-weight: 600; font-display: swap; src: url('inter-tight-600.woff2') format('woff2'); }
+@font-face { font-family: 'Inter Tight'; font-weight: 800; font-display: swap; src: url('inter-tight-800.woff2') format('woff2'); }
+@font-face { font-family: 'Inter Tight'; font-weight: 900; font-display: swap; src: url('inter-tight-900.woff2') format('woff2'); }
+.wstories__title { font-family: 'Inter Tight', 'Space Grotesk', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif; font-size: clamp(2.1rem, 5vw, 4.4rem); font-weight: 600; line-height: 1.04; letter-spacing: -0.028em; text-transform: none; }
+.wstories__eyebrow { font-family: 'Inter Tight', system-ui, sans-serif; font-weight: 600; letter-spacing: 0.14em; }
+.wstories__text { font-family: 'Inter Tight', system-ui, sans-serif; }
