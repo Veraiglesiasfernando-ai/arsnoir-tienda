@@ -3784,3 +3784,10 @@ h1, h2, h3, h4, .h1, .h2, .h3 { letter-spacing: -0.03em; line-height: 1.06; }
 .ppick__tile--pack.is-active { border-color: #490B1A; }
 .product__notes li::before { background: #490B1A; }
 .cquality__icon { color: #490B1A; }
+
+/* Header is solid white now: keep logo, icons and menu dark even over the video hero at the top */
+html:not(.is-scrolled) body:has(main > .shopify-section:first-child .vhero) .glass-header,
+html:not(.is-scrolled) body:has(main > .shopify-section:first-child .vhero) .glass-header__links a[aria-current],
+html:not(.is-scrolled) body:has(main > .shopify-section:first-child .vhero) .glass-header__links a:hover { color: var(--color-fg); opacity: 1; }
+html:not(.is-scrolled) body:has(main > .shopify-section:first-child .vhero) .glass-header .cart-count,
+html:not(.is-scrolled) body:has(main > .shopify-section:first-child .vhero) .glass-header .fav-count { background: #0a0a0a; color: #fff; }

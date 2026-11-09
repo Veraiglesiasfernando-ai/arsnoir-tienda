@@ -168,10 +168,28 @@
             "image_mobile": "shopify://shop_images/arsnoir-hero-movil-coche.jpg",
             "text_position": "top"
           }
+        },
+        "s3": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/arsnoir-hero-dalmatas.jpg",
+            "image_mobile": "shopify://shop_images/arsnoir-hero-movil-dalmatas.jpg",
+            "text_position": "bottom"
+          }
+        },
+        "s4": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/arsnoir-hero-silla-coches.jpg",
+            "image_mobile": "shopify://shop_images/arsnoir-hero-movil-silla-coches.jpg",
+            "text_position": "top"
+          }
         }
       },
       "block_order": [
+        "s3",
         "s1",
+        "s4",
         "s2"
       ],
       "settings": {
