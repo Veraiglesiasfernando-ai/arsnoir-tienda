@@ -11,7 +11,7 @@
   data-needs-name="{{ b.needs_name }}"
   data-text-optional="{{ b.text_optional }}"
   data-max="{{ b.max_previews }}"
-  data-key="tstudio-all"
+  data-key="tstudio-{{ b.template_id | default: 'all' }}"
   data-t-working="{{ b.working_text | escape }}"
   data-steps="{{ b.loading_steps | escape }}"
   data-t-wait="{{ b.loading_wait | escape }}"
