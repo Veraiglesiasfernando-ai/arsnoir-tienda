@@ -13,8 +13,9 @@
     endif
   endfor
 -%}
-<div class="svis" data-size-visual aria-label="Así queda en tu pared">
+<div class="svis{% if big %} svis--big{% endif %}" data-size-visual aria-label="Así queda en tu pared">
   <div class="svis__head">
+    {%- if big -%}<p class="svis__title">Así queda<br>en tu pared.</p>{%- endif -%}
     <span class="svis__eyebrow">Así queda en tu pared</span>
     <span class="svis__dims" data-svis-dims></span>
   </div>

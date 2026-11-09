@@ -1,8 +1,9 @@
 /* Live size preview: draws the artwork to scale over a 200 cm sofa, in the chosen frame. */
 (function () {
-  const box = document.querySelector('[data-size-visual]');
   const picker = document.querySelector('variant-picker');
-  if (!box || !picker) return;
+  if (!picker) return;
+  document.querySelectorAll('[data-size-visual]').forEach(function (box) { init(box); });
+  function init(box) {
   const art = box.querySelector('[data-svis-art]');
   const frame = box.querySelector('[data-svis-frame]');
   const img = box.querySelector('[data-svis-img]');
@@ -61,5 +62,6 @@
     new MutationObserver(function () {
       if (live.src && /^https?:/.test(live.src)) { img.removeAttribute('srcset'); img.src = live.src; }
     }).observe(live, { attributes: true, attributeFilter: ['src'] });
+  }
   }
 })();

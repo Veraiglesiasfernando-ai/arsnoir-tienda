@@ -3945,3 +3945,20 @@ html:not(.is-scrolled) body:has(main > .shopify-section:first-child .vhero) .gla
 .svis__note { margin: 10px 0 0; font-size: 12px; color: var(--color-muted); text-align: center; }
 @media (prefers-reduced-motion: reduce) { .svis__art, .svis__frame { transition: none; } .svis.is-bump .svis__frame { animation: none; } }
 .svis__art { bottom: 47%; }
+
+/* Desktop: the big wall preview fills the left column (sticky); the small one stays for mobile */
+.svis--big { display: none; }
+@media (min-width: 990px) {
+  .svis:not(.svis--big) { display: none !important; }
+  .svis--big { display: block; grid-column: 1 / -1; position: sticky; top: 96px; margin-top: clamp(28px, 3vw, 48px); padding: clamp(18px, 2vw, 28px); border-radius: 20px; }
+  .svis--big[hidden] { display: none; }
+  .svis--big .svis__head { flex-wrap: wrap; align-items: flex-end; margin-bottom: 18px; }
+  .svis__title { flex: 1 0 100%; margin: 0 0 10px; font-size: clamp(2rem, 2.8vw, 2.9rem); font-weight: 600; letter-spacing: -0.04em; line-height: 1; color: #0a0a0a; }
+  .svis--big .svis__dims { font-size: 20px; }
+  .svis--big .svis__room { border-radius: 14px; }
+  .svis--big .svis__w, .svis--big .svis__h { font-size: 12.5px; }
+  .svis--big .svis__floor { height: 22px; }
+}
+.svis__title { display: none; }
+@media (min-width: 990px) { .svis--big .svis__title { display: block; } }
+@media (min-width: 990px) { .svis--big .svis__eyebrow { display: none; } .svis--big .svis__dims { margin-left: 0; text-align: left; } }
