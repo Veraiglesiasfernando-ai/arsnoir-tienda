@@ -1,0 +1,49 @@
+{%- comment -%}
+  Live size preview under the picker: a wall with a 200 cm sofa and the artwork drawn to scale,
+  in the chosen frame, with its measurements. Updates (animated) when size or finish change, and
+  swaps in the customer's own preview once it exists (assets/size-visual.js).
+{%- endcomment -%}
+{%- liquid
+  assign sv_art = product.featured_media
+  for m in product.media
+    assign a = m.alt | downcase
+    if a contains 'la obra'
+      assign sv_art = m
+      break
+    endif
+  endfor
+-%}
+<div class="svis" data-size-visual aria-label="Así queda en tu pared">
+  <div class="svis__head">
+    <span class="svis__eyebrow">Así queda en tu pared</span>
+    <span class="svis__dims" data-svis-dims></span>
+  </div>
+  <div class="svis__room">
+    <div class="svis__wall">
+      <div class="svis__light" aria-hidden="true"></div>
+      <div class="svis__art" data-svis-art>
+        <div class="svis__frame" data-svis-frame>
+          {%- if sv_art -%}{{ sv_art | image_url: width: 700 | image_tag: loading: 'lazy', alt: '', data-svis-img: '' }}{%- endif -%}
+        </div>
+        <span class="svis__w" data-svis-w aria-hidden="true"></span>
+        <span class="svis__h" data-svis-h aria-hidden="true"></span>
+      </div>
+      <svg class="svis__sofa" viewBox="0 0 200 86" aria-hidden="true">
+        <rect x="6" y="18" width="188" height="40" rx="10" fill="#cfc4b5"/>
+        <rect x="0" y="34" width="22" height="40" rx="9" fill="#c4b8a8"/>
+        <rect x="178" y="34" width="22" height="40" rx="9" fill="#c4b8a8"/>
+        <rect x="16" y="48" width="168" height="24" rx="7" fill="#d8cdbf"/>
+        <line x1="100" y1="50" x2="100" y2="72" stroke="#c7bba9" stroke-width="1"/>
+        <rect x="14" y="74" width="4" height="12" fill="#8a6f55"/><rect x="182" y="74" width="4" height="12" fill="#8a6f55"/>
+      </svg>
+      <svg class="svis__plant" viewBox="0 0 60 150" aria-hidden="true">
+        <path d="M30 104 C10 80 6 52 14 30 C24 50 28 74 30 104Z" fill="#7d9472"/>
+        <path d="M30 104 C46 78 56 50 50 22 C38 44 32 70 30 104Z" fill="#6d8563"/>
+        <path d="M30 104 C22 70 30 36 34 8 C40 40 38 74 30 104Z" fill="#8aa17f"/>
+        <path d="M16 104 h28 l-4 44 h-20z" fill="#b9a48c"/>
+      </svg>
+    </div>
+    <div class="svis__floor" aria-hidden="true"></div>
+  </div>
+  <p class="svis__note">Sofá de 200 cm como referencia · medidas reales del cuadro{% if product.media.size > 0 %} · imagen orientativa{% endif %}</p>
+</div>
