@@ -185,9 +185,16 @@
               {%- endif -%}
             {%- endfor -%}
             {%- if deal_v -%}
-              <p class="product__deal" data-product-deal{% if current_variant.compare_at_price > current_variant.price %} hidden{% endif %}>
-                {{ 'general.framed_from' | t }} <s>{{ deal_v.compare_at_price | money }}</s> <b>{{ deal_v.price | money }}</b>
-              </p>
+              {%- assign deal_save = deal_v.compare_at_price | minus: deal_v.price -%}
+              <button type="button" class="product__deal" data-product-deal data-pick-frame{% if current_variant.compare_at_price > current_variant.price %} hidden{% endif %}>
+                <span class="product__deal-tag">Oferta</span>
+                <span class="product__deal-text">
+                  <span class="product__deal-label">{{ 'general.framed_from' | t }}</span>
+                  <span class="product__deal-prices"><s>{{ deal_v.compare_at_price | money }}</s> <b>{{ deal_v.price | money }}</b></span>
+                </span>
+                <span class="product__deal-save">Ahorras {{ deal_save | money }}</span>
+                <span class="product__deal-go" aria-hidden="true">→</span>
+              </button>
             {%- endif -%}
             {%- if product.has_only_default_variant == false -%}
               <p class="product__variant-summary" id="{{ price_id }}-summary" data-variant-summary>

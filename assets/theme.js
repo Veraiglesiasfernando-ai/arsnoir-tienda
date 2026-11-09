@@ -180,6 +180,20 @@
     slider.scrollBy({ left: step * parseInt(button.dataset.scroll, 10), behavior: 'smooth' });
   });
 
+  /* «Oferta con marco» box under the price: picks the black frame (or the first framed option) */
+  document.addEventListener('click', function (e) {
+    const btn = e.target.closest('[data-pick-frame]');
+    if (!btn) return;
+    const picker = document.querySelector('variant-picker');
+    if (!picker) return;
+    const inputs = Array.prototype.slice.call(picker.querySelectorAll('input[type="radio"]'));
+    const pick = inputs.find(function (i) { return /marco negro|black frame/i.test(i.value); }) ||
+      inputs.find(function (i) { return /marco|framed/i.test(i.value) && !/sin marco|lienzo|canvas/i.test(i.value); });
+    if (pick) { pick.click(); pick.dispatchEvent(new Event('change', { bubbles: true })); }
+    const target = pick ? (pick.closest('fieldset') || picker) : picker;
+    target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+
   /* Video hero slideshow with progress bars ---------------------------- */
   document.querySelectorAll('[data-vhero]').forEach(function (hero) {
     const slides = hero.querySelectorAll('.vhero__slide');

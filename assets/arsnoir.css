@@ -3897,3 +3897,21 @@ html:not(.is-scrolled) body:has(main > .shopify-section:first-child .vhero) .gla
 .product__deal { margin: -1.1rem 0 .5rem; line-height: 1.35; }
 .product__deal + .product__variant-summary { margin-top: 0; }
 .product__deal[hidden] + .product__variant-summary { margin-top: -1.25rem; }
+
+/* «Oferta con marco» box under the price (tap = choose the black frame) */
+.product__deal { display: flex !important; align-items: center; gap: 12px; width: 100%; margin: -.6rem 0 .9rem; padding: 12px 14px; border: 1px solid #ead7dc; border-radius: 12px; background: linear-gradient(90deg, #FBF3F5, #F6ECEE); color: #2a1a1e; font: inherit; text-align: left; cursor: pointer; transition: border-color .25s, box-shadow .25s, transform .25s; }
+.product__deal[hidden] { display: none !important; }
+.product__deal:hover { border-color: #490B1A; box-shadow: 0 10px 22px -16px rgba(73,11,26,.55); transform: translateY(-1px); }
+.product__deal-tag { flex: none; padding: 5px 9px; border-radius: 999px; background: #490B1A; color: #fff; font-size: 10.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+.product__deal-text { display: flex; flex-direction: column; min-width: 0; line-height: 1.25; }
+.product__deal-label { font-size: 12.5px; color: #6b5a5e; }
+.product__deal-prices { font-size: 17px; }
+.product__deal-prices s { margin-right: 4px; color: #9a8a8e; font-weight: 400; font-size: .85em; }
+.product__deal-prices b { color: #C8102E; font-weight: 700; }
+.product__deal-save { margin-left: auto; flex: none; padding: 5px 10px; border: 1.5px solid #490B1A; border-radius: 999px; color: #490B1A; font-size: 12px; font-weight: 700; white-space: nowrap; }
+.product__deal-go { flex: none; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: #490B1A; color: #fff; font-size: 14px; }
+@media (max-width: 749px) {
+  .product__deal { gap: 10px; padding: 11px 12px; }
+  .product__deal-save { display: none; }
+}
+@media (max-width: 749px) { .product__deal-go { margin-left: auto; } }
