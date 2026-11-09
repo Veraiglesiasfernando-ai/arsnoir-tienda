@@ -199,8 +199,8 @@
         }
       },
       "block_order": [
-        "s3",
         "s4",
+        "s3",
         "s5",
         "s1",
         "s2"
@@ -208,7 +208,7 @@
       "settings": {
         "height": "full",
         "overlay": 15,
-        "interval": 6,
+        "interval": 4,
         "label_left": "(ARSNOIR)",
         "label_right": "",
         "show_seal": false,
