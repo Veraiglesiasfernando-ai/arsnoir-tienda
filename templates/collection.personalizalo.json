@@ -150,7 +150,7 @@
             "category": "Mascotas",
             "name": "Mascota en acuarela",
             "tagline": "Acuarela realista con su nombre en caligrafía.",
-            "image": "shopify://shop_images/ke1axmdy7hrmy0d1p9ts9kzm7r.png",
+            "image": "shopify://shop_images/pz-card-mascota-acuarela.jpg",
             "link": "shopify://products/tu-mascota-en-acuarela"
           }
         },
@@ -160,7 +160,7 @@
             "category": "Familia y pareja",
             "name": "Pareja en acuarela",
             "tagline": "Vuestra foto pintada en acuarela, con vuestros nombres.",
-            "image": "shopify://shop_images/8sfrxcrwxhrmr0d1p9ybvqqa7m.png",
+            "image": "shopify://shop_images/pz-card-pareja-acuarela.jpg",
             "link": "shopify://products/retrato-de-pareja-en-acuarela"
           }
         },
@@ -170,7 +170,7 @@
             "category": "Familia y pareja",
             "name": "Pareja sin rostro",
             "tagline": "Acuarela minimalista: se os reconoce sin dibujar la cara.",
-            "image": "shopify://shop_images/562126za2drmw0d1p9wvgdp6f4.png",
+            "image": "shopify://shop_images/pz-card-pareja-sin-rostro.jpg",
             "link": "shopify://products/pareja-en-acuarela-sin-rostro"
           }
         },
@@ -180,7 +180,7 @@
             "category": "Familia y pareja",
             "name": "Familia en acuarela",
             "tagline": "Toda la familia dentro de un círculo azul, con texto si quieres.",
-            "image": "shopify://shop_images/vam3g345khrmw0d1p9y91q28rr.png",
+            "image": "shopify://shop_images/pz-card-familia-acuarela.jpg",
             "link": "shopify://products/familia-en-acuarela"
           }
         }
@@ -339,7 +339,7 @@
         "m2": {
           "type": "tile",
           "settings": {
-            "image": "shopify://shop_images/8sfrxcrwxhrmr0d1p9ybvqqa7m.png",
+            "image": "shopify://shop_images/pz-card-pareja-acuarela.jpg",
             "label": "Parejas",
             "tab": "Familia y pareja"
           }
@@ -347,7 +347,7 @@
         "m3": {
           "type": "tile",
           "settings": {
-            "image": "shopify://shop_images/vam3g345khrmw0d1p9y91q28rr.png",
+            "image": "shopify://shop_images/pz-card-familia-acuarela.jpg",
             "label": "Familia",
             "tab": "Familia y pareja"
           }
