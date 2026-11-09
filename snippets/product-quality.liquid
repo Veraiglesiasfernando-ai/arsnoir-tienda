@@ -1,0 +1,70 @@
+{%- comment -%}
+  «Calidad que se nota de cerca», under the product: a magnifier on the artwork (mouse or finger)
+  and the four finishes in photos with what each one includes. Texts are the shop's own material
+  descriptions; photos come from Contenido → Archivos (arsnoir-material-*.jpg).
+{%- endcomment -%}
+{%- liquid
+  assign q_art = product.featured_media
+  for m in product.media
+    assign a = m.alt | downcase
+    if a contains 'la obra'
+      assign q_art = m
+      break
+    endif
+  endfor
+  assign q_big = q_art | image_url: width: 2400
+  assign q_small = q_art | image_url: width: 900
+-%}
+<section class="pq">
+  <div class="page-width">
+    <header class="pq__head">
+      <p class="pq__eyebrow">Calidad</p>
+      <h2 class="pq__title">Calidad que se nota<br>de cerca.</h2>
+    </header>
+    <div class="pq__grid">
+      {%- if q_art -%}
+        <div class="pq__zoom" data-pq-zoom style="--pq-big: url('{{ q_big }}');">
+          <img src="{{ q_small }}" alt="{{ product.title | escape }}, detalle" loading="lazy" width="900" height="1125">
+          <span class="pq__lens" aria-hidden="true"></span>
+          <span class="pq__hint">Pasa el ratón o el dedo para acercarte</span>
+        </div>
+      {%- endif -%}
+      <div class="pq__cards">
+        {%- assign q_items = 'poster|Póster|Papel mate de 200 g/m² con impresión giclée de 12 colores.|200 g/m²,Mate,Giclée;poster-con-marco|Póster con marco|Marco de madera en negro, blanco o natural, con plexiglás y kit para colgar.|Madera,Plexiglás,Listo para colgar;lienzo|Lienzo|Tela de lienzo tensada sobre bastidor de madera. Sin cristal ni reflejos.|Bastidor de madera,Sin reflejos;lienzo-con-marco|Lienzo con marco|El lienzo dentro de un marco de madera, en negro o natural.|Madera,Negro o natural' | split: ';' -%}
+        {%- for it in q_items -%}
+          {%- assign f = it | split: '|' -%}
+          {%- assign q_name = 'arsnoir-material-' | append: f[0] | append: '.jpg' -%}
+          {%- assign q_img = images[q_name] -%}
+          <figure class="pq__card">
+            <div class="pq__media">{%- if q_img.width > 0 -%}{{ q_img | image_url: width: 600 | image_tag: loading: 'lazy', widths: '300, 450, 600', sizes: '(min-width: 990px) 20vw, 45vw', alt: f[1] }}{%- endif -%}</div>
+            <figcaption>
+              <span class="pq__name">{{ f[1] }}</span>
+              <span class="pq__text">{{ f[2] }}</span>
+              <span class="pq__chips">{%- assign chips = f[3] | split: ',' -%}{%- for c in chips -%}<span>{{ c }}</span>{%- endfor -%}</span>
+            </figcaption>
+          </figure>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+  (function () {
+    document.querySelectorAll('[data-pq-zoom]').forEach(function (z) {
+      const move = function (x, y) {
+        const r = z.getBoundingClientRect();
+        const px = Math.max(0, Math.min(1, (x - r.left) / r.width));
+        const py = Math.max(0, Math.min(1, (y - r.top) / r.height));
+        z.style.setProperty('--x', (px * 100) + '%');
+        z.style.setProperty('--y', (py * 100) + '%');
+        z.style.setProperty('--lx', (px * r.width) + 'px');
+        z.style.setProperty('--ly', (py * r.height) + 'px');
+      };
+      z.addEventListener('pointerenter', function () { z.classList.add('is-on'); });
+      z.addEventListener('pointerleave', function () { z.classList.remove('is-on'); });
+      z.addEventListener('pointermove', function (e) { z.classList.add('is-on'); move(e.clientX, e.clientY); });
+      z.addEventListener('touchmove', function (e) { const t = e.touches[0]; move(t.clientX, t.clientY); }, { passive: true });
+      z.addEventListener('touchend', function () { z.classList.remove('is-on'); });
+    });
+  })();
+</script>

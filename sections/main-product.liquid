@@ -789,6 +789,8 @@
   </button>
 </div>
 
+{%- if section.settings.quality_block -%}{% render 'product-quality', product: product %}{%- endif -%}
+
 <script type="application/ld+json">
   {
     "@context": "https://schema.org/",
@@ -820,6 +822,7 @@
   "name": "Obra",
   "settings": [
     { "type": "text", "id": "brand_line", "label": "Marca encima del título", "default": "ARSNOIR", "info": "Vacío = sin línea." },
+    { "type": "checkbox", "id": "quality_block", "label": "Bloque «Calidad que se nota de cerca» (lupa y acabados)", "default": true },
     { "type": "checkbox", "id": "size_visual", "label": "Vista a escala en la pared (bajo tamaño y acabado)", "default": true },
     { "type": "checkbox", "id": "size_boxes", "label": "Tamaños como botones (en vez de desplegable)", "default": true },
     {

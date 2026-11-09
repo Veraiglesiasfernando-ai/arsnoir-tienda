@@ -3962,3 +3962,35 @@ html:not(.is-scrolled) body:has(main > .shopify-section:first-child .vhero) .gla
 .svis__title { display: none; }
 @media (min-width: 990px) { .svis--big .svis__title { display: block; } }
 @media (min-width: 990px) { .svis--big .svis__eyebrow { display: none; } .svis--big .svis__dims { margin-left: 0; text-align: left; } }
+
+/* ==========================================================================
+   PRODUCT PAGE · «Calidad que se nota de cerca» (magnifier + finishes)
+   ========================================================================== */
+.pq { padding: clamp(56px, 8vw, 110px) 0; background: #F4F1EC; margin-top: clamp(40px, 6vw, 80px); }
+.pq__head { margin-bottom: clamp(24px, 3.5vw, 44px); }
+.pq__eyebrow { margin: 0 0 10px; font-size: 12px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: #490B1A; }
+.pq__title { margin: 0; font-size: clamp(2.1rem, 4.4vw, 3.8rem); font-weight: 600; letter-spacing: -0.04em; line-height: 1; }
+.pq__grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(20px, 3vw, 44px); align-items: start; }
+.pq__zoom { position: relative; overflow: hidden; border-radius: 16px; background: #fff; cursor: crosshair; touch-action: pan-y; box-shadow: 0 30px 50px -36px rgba(40,30,20,.5); }
+.pq__zoom img { display: block; width: 100%; height: auto; box-shadow: none !important; }
+.pq__lens { position: absolute; left: var(--lx, 50%); top: var(--ly, 50%); width: clamp(140px, 16vw, 220px); aspect-ratio: 1; border-radius: 50%; transform: translate(-50%, -50%) scale(.6); opacity: 0; pointer-events: none; background-image: var(--pq-big); background-repeat: no-repeat; background-size: 320% auto; background-position: var(--x, 50%) var(--y, 50%); border: 3px solid #fff; box-shadow: 0 16px 34px -10px rgba(0,0,0,.45), 0 0 0 1px rgba(0,0,0,.08); transition: opacity .2s, transform .25s cubic-bezier(.2,.9,.3,1.2); }
+.pq__zoom.is-on .pq__lens { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+.pq__hint { position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); padding: 7px 14px; border-radius: 999px; background: rgba(10,10,10,.72); color: #fff; font-size: 12px; font-weight: 500; white-space: nowrap; transition: opacity .3s; pointer-events: none; }
+.pq__zoom.is-on .pq__hint { opacity: 0; }
+.pq__cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(12px, 1.6vw, 20px); }
+.pq__card { margin: 0; overflow: hidden; border-radius: 14px; background: #fff; }
+.pq__media { aspect-ratio: 4 / 3; overflow: hidden; background: #e9e6e1; }
+.pq__media img { display: block; width: 100%; height: 100%; object-fit: cover; box-shadow: none !important; transition: transform 1.2s cubic-bezier(.2,.7,.2,1); }
+.pq__card:hover .pq__media img { transform: scale(1.05); }
+.pq__card figcaption { display: flex; flex-direction: column; gap: 6px; padding: 14px 16px 16px; }
+.pq__name { font-size: 16px; font-weight: 700; letter-spacing: -0.01em; }
+.pq__text { font-size: 13.5px; line-height: 1.45; color: #5a5650; }
+.pq__chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.pq__chips span { padding: 4px 9px; border-radius: 999px; background: #F4EEEA; color: #490B1A; font-size: 11.5px; font-weight: 600; }
+@media (max-width: 899px) {
+  .pq__grid { grid-template-columns: 1fr; }
+  .pq__cards { gap: 10px; }
+  .pq__card figcaption { padding: 12px; }
+  .pq__text { display: none; }
+  .pq__name { font-size: 14.5px; }
+}
