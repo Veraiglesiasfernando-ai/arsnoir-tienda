@@ -3447,3 +3447,8 @@ html.sguide-lock { overflow: hidden; }
 .poster--blackframe:hover .poster__frame { background: transparent; box-shadow: none; }
 .poster--blackframe .poster__media { border: clamp(9px, 1vw, 15px) solid #141414; background: #fff; padding: 7%; box-shadow: 0 2px 3px rgba(0,0,0,0.08), 0 16px 26px -12px rgba(0,0,0,0.28), 0 36px 56px -28px rgba(0,0,0,0.3); }
 .poster--blackframe .poster__media img { object-fit: cover !important; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.06); }
+
+/* Product: guarantee line under the payment methods */
+.paybar__guarantee { display: flex; gap: 10px; align-items: flex-start; margin: 12px 0 0; padding: 12px 14px; border: 1px solid rgba(0,0,0,0.1); border-radius: 8px; background: #fff; font-size: 13.5px; line-height: 1.45; color: var(--color-fg); text-align: left; }
+.paybar__guarantee svg { flex: none; width: 18px; height: 18px; margin-top: 1px; }
+.paybar__guarantee b { font-weight: 700; }

@@ -679,6 +679,9 @@
                   {%- if block.settings.pill_2 != blank -%}<li>{% render 'trust-icon', name: block.settings.pill_2_icon %}<span>{{ block.settings.pill_2 | replace: '[DIAS]', settings.returns_days }}</span></li>{%- endif -%}
                 </ul>
               {%- endif -%}
+              {%- if block.settings.guarantee != blank -%}
+                <p class="paybar__guarantee">{% render 'trust-icon', name: 'print' %}<span>{{ block.settings.guarantee }}</span></p>
+              {%- endif -%}
             </div>
 
           {%- when 'wall_preview' -%}
@@ -932,7 +935,8 @@
         { "type": "text", "id": "pill_2", "label": "Píldora 2", "default": "Devolución [DIAS] días" },
         { "type": "select", "id": "pill_2_icon", "label": "Icono píldora 2", "default": "return", "options": [
           { "value": "return", "label": "Devolución" }, { "value": "truck", "label": "Envío" }, { "value": "print", "label": "Impresión" }, { "value": "lock", "label": "Candado" }, { "value": "eye", "label": "Ojo" }
-        ] }
+        ] },
+        { "type": "textarea", "id": "guarantee", "label": "Garantía (bajo los pagos)", "default": "<b>Garantía ARSNOIR:</b> si tu cuadro llega dañado o con un fallo de impresión, te lo reponemos gratis. Solo tienes que enviarnos una foto." }
       ]
     },
     {
