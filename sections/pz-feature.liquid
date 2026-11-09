@@ -1,0 +1,46 @@
+{%- comment -%}
+  Feature banner (e.g. Christmas): a tall photo and a short pitch on a coloured background.
+  With «Pestaña» set, the button opens that tab of the style grid on the same page.
+{%- endcomment -%}
+{%- assign s = section.settings -%}
+{%- assign tab = s.tab | strip | handleize -%}
+<section class="pzf{% if s.reverse %} pzf--reverse{% endif %}" style="--pzf-bg: {{ s.bg }}; --pzf-fg: {{ s.fg }};">
+  <div class="page-width pzf__grid">
+    <div class="pzf__media">
+      {%- if s.image != blank -%}
+        {{ s.image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '400, 600, 900, 1200', sizes: '(min-width: 750px) 40vw, 100vw', alt: s.alt }}
+      {%- else -%}
+        <span class="pzf__ph"></span>
+      {%- endif -%}
+    </div>
+    <div class="pzf__copy">
+      {%- if s.eyebrow != blank -%}<p class="pzf__eyebrow">{{ s.eyebrow }}</p>{%- endif -%}
+      {%- if s.heading != blank -%}<h2 class="pzf__title">{{ s.heading | newline_to_br }}</h2>{%- endif -%}
+      {%- if s.text != blank -%}<p class="pzf__text">{{ s.text }}</p>{%- endif -%}
+      {%- if s.button_label != blank -%}
+        <a class="pzf__btn" href="{{ s.button_link | default: '#Plantillas' }}"{% if s.button_link == blank and tab != blank %} data-pzm-tab="{{ tab }}"{% endif %}>{{ s.button_label }} <span aria-hidden="true">→</span></a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Destacado (ej. Navidad)",
+  "tag": "section",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Imagen (vertical)" },
+    { "type": "text", "id": "alt", "label": "Descripción de la imagen" },
+    { "type": "checkbox", "id": "reverse", "label": "Imagen a la derecha", "default": false },
+    { "type": "color", "id": "bg", "label": "Fondo", "default": "#490B1A" },
+    { "type": "color", "id": "fg", "label": "Texto", "default": "#FFFFFF" },
+    { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "NAVIDAD" },
+    { "type": "textarea", "id": "heading", "label": "Título", "default": "Este año,\nregala su retrato." },
+    { "type": "textarea", "id": "text", "label": "Texto" },
+    { "type": "text", "id": "button_label", "label": "Botón", "default": "Ver estilos de Navidad" },
+    { "type": "text", "id": "tab", "label": "Pestaña de estilos que abre", "default": "Navidad" },
+    { "type": "url", "id": "button_link", "label": "Enlace (en vez de pestaña)" }
+  ],
+  "presets": [{ "name": "Destacado (ej. Navidad)" }]
+}
+{% endschema %}

@@ -378,10 +378,25 @@
         "m5"
       ],
       "settings": {}
+    },
+    "pznavidad": {
+      "type": "pz-feature",
+      "settings": {
+        "image": "shopify://shop_images/arsnoir-christmas-dalmata.jpg",
+        "alt": "Retrato de dálmata con gorro de Papá Noel en un cuadro, junto a una cortina burdeos",
+        "eyebrow": "ARSNOIR CHRISTMAS",
+        "heading": "Este año,\nregala su retrato.",
+        "text": "Tu mascota con gorro de Papá Noel o abrigo verde y nieve. Sube su foto y mira el resultado gratis antes de comprar.",
+        "button_label": "Ver estilos de Navidad",
+        "tab": "Navidad",
+        "bg": "#490B1A",
+        "fg": "#FFFFFF"
+      }
     }
   },
   "order": [
     "pzmosaic",
+    "pznavidad",
     "templates",
     "pzpack",
     "pzintro",
