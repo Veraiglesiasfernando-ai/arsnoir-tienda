@@ -34,10 +34,19 @@
             {%- if p != blank -%}<span class="wstory__price">{% render 'price', product: p, show_from: true %}</span>{%- endif -%}
           </span>
         {%- endif -%}
+        {%- if b.quote != blank -%}
+          {%- comment -%} Only for a REAL review (copy it from Judge.me, with the customer's OK to show their photo). {%- endcomment -%}
+          <span class="wstory__review">
+            <span class="wstory__stars" aria-label="{{ b.rating }} de 5 estrellas">{% for i in (1..5) %}<span class="{% if i > b.rating %}is-off{% endif %}">★</span>{% endfor %}</span>
+            <span class="wstory__quote">«{{ b.quote }}»</span>
+            {%- if b.author != blank -%}<span class="wstory__author">{{ b.author }}{% if b.verified %} · Compra verificada{% endif %}</span>{%- endif -%}
+          </span>
+        {%- endif -%}
       </a>
     {%- endfor -%}
   </div>
-  {%- if s.note != blank -%}<p class="page-width wstories__note">{{ s.note }}</p>{%- endif -%}
+  {%- assign n_reviews = 0 -%}{%- for block in section.blocks -%}{%- if block.settings.quote != blank -%}{%- assign n_reviews = n_reviews | plus: 1 -%}{%- endif -%}{%- endfor -%}
+  {%- if s.note != blank and n_reviews < section.blocks.size -%}<p class="page-width wstories__note">{{ s.note }}</p>{%- endif -%}
 </section>
 
 {% schema %}
@@ -48,7 +57,7 @@
     { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "INSPIRACIÓN" },
     { "type": "textarea", "id": "heading", "label": "Titular (una línea por renglón)", "default": "Una buena decoración\nlo cambia todo.\nTu pared\npodría ser la siguiente." },
     { "type": "text", "id": "text", "label": "Texto", "default": "Ideas para cada rincón de tu casa. Toca una foto para ver la obra." },
-    { "type": "text", "id": "note", "label": "Nota bajo las fotos", "default": "Imágenes de ambiente.", "info": "Mientras no sean fotos de clientes, déjalo así." }
+    { "type": "text", "id": "note", "label": "Nota bajo las fotos", "default": "Imágenes de ambiente.", "info": "Se oculta sola cuando todas las fotos llevan reseña real." }
   ],
   "blocks": [
     {
@@ -57,7 +66,13 @@
       "settings": [
         { "type": "image_picker", "id": "image", "label": "Foto del ambiente" },
         { "type": "product", "id": "product", "label": "Obra que aparece" },
-        { "type": "text", "id": "caption", "label": "Texto (vacío = nombre de la obra)" }
+        { "type": "text", "id": "caption", "label": "Texto (vacío = nombre de la obra)" },
+        { "type": "header", "content": "Reseña del cliente (solo reseñas reales)" },
+        { "type": "paragraph", "content": "Copia aquí una reseña real de Judge.me y pon como foto la de la pared del cliente (con su permiso). Vacío = foto de ambiente, sin reseña." },
+        { "type": "textarea", "id": "quote", "label": "Texto de la reseña" },
+        { "type": "text", "id": "author", "label": "Nombre (ej.: Laura M., Madrid)" },
+        { "type": "range", "id": "rating", "label": "Estrellas", "min": 1, "max": 5, "step": 1, "default": 5 },
+        { "type": "checkbox", "id": "verified", "label": "Compra verificada en Judge.me", "default": false }
       ]
     }
   ],

@@ -3548,3 +3548,11 @@ h1, h2, h3, h4, .h1, .h2, .h3 { letter-spacing: -0.03em; line-height: 1.06; }
 /* Scrolling strip: thinner and calmer */
 .marquee { padding: 12px 0; }
 .marquee__group span { font-size: 12px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; }
+
+/* Wall stories: real customer review under a customer's wall photo */
+.wstory__review { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--color-line); }
+.wstory__stars { color: #0a0a0a; font-size: 13px; letter-spacing: 2px; }
+.wstory__stars .is-off { color: #d6d6d6; }
+.wstory__quote { font-size: 14px; line-height: 1.45; color: var(--color-fg); display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+.wstory__author { font-size: 12px; color: var(--color-muted); letter-spacing: .02em; }
+.wstory__name { font-weight: 600; }
