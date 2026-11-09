@@ -3740,3 +3740,41 @@ h1, h2, h3, h4, .h1, .h2, .h3 { letter-spacing: -0.03em; line-height: 1.06; }
 .ctpl__group--row .ctpl__name { margin-top: 24px; }
 .ctpl__row { padding-top: 14px; padding-bottom: 22px; }
 .ctpl__row > .ctpl__item { padding-right: 6px; }
+
+/* ==========================================================================
+   PRODUCT PAGE · Furnoo-like: brand line, big uppercase title, sale price
+   with saving tag, sizes as boxes, info box (made to order / delivery / free shipping)
+   ========================================================================== */
+.product__brand { margin: 0 0 8px; font-size: 13px; font-weight: 500; letter-spacing: .2em; text-transform: uppercase; color: #6b6b6b; }
+.product__title { font-size: clamp(2.1rem, 3.8vw, 3.4rem); font-weight: 800; letter-spacing: -0.01em; line-height: 1; text-transform: uppercase; }
+.product__price { margin-top: 14px; font-size: clamp(24px, 2.2vw, 30px); font-weight: 500; }
+.product__price .price { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; }
+.product__price .price s { font-size: .72em; font-weight: 400; color: #8a8a8a; }
+.product__price .price:has(s) > span:not(.price__save) { color: #C8102E; }
+.price__save { display: inline-flex; align-items: center; min-height: 32px; padding: 0 12px; border: 1.5px solid #0a0a0a; font-size: 14px; font-weight: 600; letter-spacing: .06em; color: #0a0a0a; }
+.product__tax { margin-top: 6px; font-size: 14px; color: #444; }
+
+/* Sizes as boxes */
+.vsel--boxes > summary { display: none !important; }
+.vsel--boxes .vsel__list.option__values { position: static; display: flex; flex-direction: row; flex-wrap: wrap; gap: 10px; padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none; }
+.vsel--boxes .vsel__list.option__values label.vsel__row { width: auto; min-width: 104px; min-height: 58px; flex-direction: column; align-items: flex-start; justify-content: center; gap: 2px; padding: 8px 16px; border: 1px solid rgba(10,10,10,.28); border-radius: 4px; background: #fff; font-size: 15px; font-weight: 500; letter-spacing: .02em; }
+.vsel--boxes .vsel__row > span:first-child { flex: 0 0 auto; }
+.vsel--boxes .vsel__rowprice { font-size: 12.5px; font-weight: 400; }
+.vsel--boxes .vsel__list.option__values label.vsel__row:hover { background: #fff; border-color: #0a0a0a; }
+.vsel--boxes .vsel__list.option__values input:checked + label.vsel__row { background: #0a0a0a; border-color: #0a0a0a; color: #fff; }
+.vsel--boxes .vsel__row .option__badge { position: absolute; top: -9px; right: 8px; }
+.vsel--boxes label.vsel__row { position: relative; }
+@media (max-width: 749px) { .vsel--boxes .vsel__list.option__values label.vsel__row { min-width: calc(50% - 5px); flex: 1 1 calc(50% - 5px); } }
+
+/* Info box */
+.pinfo { display: grid; gap: 12px; margin: 18px 0 6px; padding: 18px 20px; border: 1px solid #dfe3ea; border-radius: 6px; background: #EEF1F6; font-size: 15px; }
+.pinfo__row { display: flex; align-items: center; gap: 12px; margin: 0; }
+.pinfo__row .t-icon { flex: none; width: 22px; height: 22px; }
+.pinfo__row--ok { color: #1f7a4d; font-weight: 500; }
+.pinfo__dot { flex: none; width: 10px; height: 10px; margin: 0 6px; border-radius: 50%; background: #1f9d5c; box-shadow: 0 0 0 4px rgba(31,157,92,.15); }
+.pinfo .delivery { display: flex; align-items: center; gap: 12px; margin: 0; padding: 0; border: 0; background: none; }
+.pinfo .delivery .t-icon { flex: none; width: 22px; height: 22px; }
+.pinfo .delivery__text { margin: 0; }
+.pinfo__link { justify-self: start; margin-top: 2px; padding-top: 12px; width: 100%; border-top: 1px solid #d5dae3; font-size: 14px; text-decoration: underline; text-underline-offset: 3px; }
+.pinfo .delivery[hidden] { display: none; }
+.vsel--boxes .vsel__row:has([data-row-price]:empty) { display: none !important; }

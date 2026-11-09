@@ -392,7 +392,11 @@
           html += '<s class="muted">' + formatMoney(variant.compare_at_price) + '</s>';
         }
         html += '<span>' + formatMoney(variant.price) + '</span>';
-        priceEl.innerHTML = '<span class="price">' + html + '</span>';
+        let save = '';
+        if (priceEl.hasAttribute('data-show-save') && variant.compare_at_price > variant.price) {
+          save = '<span class="price__save">−' + formatMoney(variant.compare_at_price - variant.price) + '</span>';
+        }
+        priceEl.innerHTML = '<span class="price">' + html + save + '</span>';
         document.querySelectorAll('.sticky-buy__price').forEach(function (el) { el.innerHTML = html; });
       }
       document.querySelectorAll('.sticky-buy .button').forEach(function (b) {

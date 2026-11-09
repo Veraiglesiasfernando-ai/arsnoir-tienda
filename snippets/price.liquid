@@ -3,6 +3,7 @@
   - product: product object (required)
   - variant: optional variant object; when given, shows that variant's price
   - show_from: show «Desde <lowest price>» when prices vary (for cards)
+  - show_save: with a compare-at price, add a «−X €» saving tag (product page)
   - show_split: with show_from, say both «Lámina desde … · Con marco desde …» (taken from the real
     variants) instead of the single lowest price. Not used on cards for now: one short price reads better.
 {%- endcomment -%}
@@ -54,5 +55,6 @@
   {%- else -%}
     {%- if compare > price -%}<s class="muted">{{ compare | money }}</s>{%- endif -%}
     <span>{{ price | money }}</span>
+    {%- if show_save and compare > price -%}<span class="price__save">−{{ compare | minus: price | money }}</span>{%- endif -%}
   {%- endif -%}
 </span>

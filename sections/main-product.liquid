@@ -115,6 +115,7 @@
             <div class="product__vendor" {{ block.shopify_attributes }}>{{ product.vendor }}</div>
 
           {%- when 'title' -%}
+            {%- if section.settings.brand_line != blank -%}<p class="product__brand">{{ section.settings.brand_line }}</p>{%- endif -%}
             <div class="product__title-row" {{ block.shopify_attributes }}>
               <h1 class="product__title">{{ product.title }}</h1>
               {% render 'fav-button', handle: product.handle, class: 'fav-btn--inline' %}
@@ -168,8 +169,8 @@
               {%- if vs_p != '' -%}{% render 'option-label', value: vs_p, kind: 'finish', style: vs_s %}{%- else -%}{{ vs_finish }}{%- endif -%}
             {%- endcapture -%}
             {%- assign vs_finish_label = vs_finish_label | strip -%}
-            <div class="product__price" id="{{ price_id }}" {{ block.shopify_attributes }}>
-              {%- render 'price', product: product, variant: current_variant -%}
+            <div class="product__price" id="{{ price_id }}" data-show-save {{ block.shopify_attributes }}>
+              {%- render 'price', product: product, variant: current_variant, show_save: true -%}
             </div>
             {%- if product.has_only_default_variant == false -%}
               <p class="product__variant-summary" id="{{ price_id }}-summary" data-variant-summary>
@@ -327,7 +328,8 @@
                       {%- if is_size and sc_block and sc_inline != true -%}{%- render 'size-compare', product: product, block: sc_block -%}{%- assign sc_inline = true -%}{%- endif -%}
                       {%- if is_frame and frame_help != blank and is_hidden == false -%}<a class="vstep__help" href="{{ frame_help }}">{{ 'product.about_frames' | t }}</a>{%- endif -%}
 
-                      <details class="vsel{% unless is_size %} vsel--static{% endunless %}"{% if is_size %} data-vsel{% else %} open{% endif %}>
+                      {%- assign size_boxes = false -%}{%- if is_size and section.settings.size_boxes -%}{%- assign size_boxes = true -%}{%- endif -%}
+                      <details class="vsel{% unless is_size %} vsel--static{% endunless %}{% if size_boxes %} vsel--boxes{% endif %}"{% if is_size and size_boxes == false %} data-vsel{% else %} open{% endif %}>
                         <summary class="vsel__current"{% unless is_size %} tabindex="-1" aria-hidden="true"{% endunless %}>
                           <span data-selected-value>{{ selected_label }}</span>
                           <span class="vsel__price" data-atc-price-mirror>{{ current_variant.price | money }}</span>
@@ -661,7 +663,19 @@
             {%- endif -%}
 
           {%- when 'delivery' -%}
-            <div {{ block.shopify_attributes }}>{% render 'delivery-estimate' %}</div>
+            {%- if block.settings.boxed -%}
+              {%- comment -%} Info box: made to order + delivery estimate + free-shipping threshold (all real data) {%- endcomment -%}
+              <div class="pinfo" {{ block.shopify_attributes }}>
+                {%- if block.settings.made_to_order != blank -%}<p class="pinfo__row pinfo__row--ok"><span class="pinfo__dot" aria-hidden="true"></span>{{ block.settings.made_to_order }}</p>{%- endif -%}
+                {% render 'delivery-estimate' %}
+                {%- if settings.free_shipping_threshold > 0 -%}
+                  <p class="pinfo__row">{% render 'trust-icon', name: 'box' %}<span>{{ block.settings.free_ship_label }} <b>{{ settings.free_shipping_threshold }} €</b></span></p>
+                {%- endif -%}
+                {%- if block.settings.link_label != blank -%}<a class="pinfo__link" href="{{ block.settings.link_url | default: shop.shipping_policy.url }}">{{ block.settings.link_label }}</a>{%- endif -%}
+              </div>
+            {%- else -%}
+              <div {{ block.shopify_attributes }}>{% render 'delivery-estimate' %}</div>
+            {%- endif -%}
 
           {%- when 'payments' -%}
             {%- comment -%} Under the buy button: the payment methods really enabled in the shop + two short promises {%- endcomment -%}
@@ -777,6 +791,8 @@
 {
   "name": "Obra",
   "settings": [
+    { "type": "text", "id": "brand_line", "label": "Marca encima del título", "default": "ARSNOIR", "info": "Vacío = sin línea." },
+    { "type": "checkbox", "id": "size_boxes", "label": "Tamaños como botones (en vez de desplegable)", "default": true },
     {
       "type": "text", "id": "gallery_video", "label": "Vídeo bajo las fotos (enlace .mp4, opcional)",
       "info": "Se reproduce solo, sin sonido y en bucle debajo de la galería. Súbelo en Contenido → Archivos y pega aquí su enlace."
@@ -942,7 +958,12 @@
     {
       "type": "delivery", "name": "Fecha de entrega", "limit": 1,
       "settings": [
-        { "type": "paragraph", "content": "«Recíbelo entre el … y el …», calculado con el plazo de Configuración del tema → Campaña Q4. En temporada indica si llega antes de Navidad o de Reyes." }
+        { "type": "paragraph", "content": "«Recíbelo entre el … y el …», calculado con el plazo de Configuración del tema → Campaña Q4. En temporada indica si llega antes de Navidad o de Reyes." },
+        { "type": "checkbox", "id": "boxed", "label": "Mostrar en un recuadro con más información", "default": true },
+        { "type": "text", "id": "made_to_order", "label": "Línea con punto verde", "default": "Se imprime bajo pedido, solo para ti" },
+        { "type": "text", "id": "free_ship_label", "label": "Texto envío gratis", "default": "Envío gratis a partir de", "info": "El importe sale de Configuración del tema." },
+        { "type": "text", "id": "link_label", "label": "Enlace", "default": "Ver detalles de envío" },
+        { "type": "url", "id": "link_url", "label": "Destino del enlace", "info": "Vacío = política de envíos." }
       ]
     },
     {
