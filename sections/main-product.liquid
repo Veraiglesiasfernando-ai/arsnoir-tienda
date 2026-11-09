@@ -665,31 +665,12 @@
           {%- when 'delivery' -%}
             {%- if block.settings.boxed -%}
               {%- comment -%} Info box: made to order + delivery estimate + free-shipping threshold (all real data) {%- endcomment -%}
-              {%- comment -%}
-                One trust card: made to order, the payments block's promise (preview / returns), delivery
-                estimate, free-shipping threshold, the guarantee and secure payment with the real methods.
-                The payments block's own pills, guarantee and icons are hidden while this card is shown.
-              {%- endcomment -%}
-              {%- assign pay = nil -%}
-              {%- for b2 in section.blocks -%}{%- if b2.type == 'payments' -%}{%- assign pay = b2.settings -%}{%- endif -%}{%- endfor -%}
-              <div class="pinfo pinfo--trust" {{ block.shopify_attributes }}>
-                {%- if block.settings.trust_title != blank -%}<p class="pinfo__title">{{ block.settings.trust_title }}</p>{%- endif -%}
-                {%- if block.settings.made_to_order != blank -%}<p class="pinfo__row pinfo__row--ok"><span class="pinfo__ic pinfo__ic--ok" aria-hidden="true"><span class="pinfo__dot"></span></span><span>{{ block.settings.made_to_order }}</span></p>{%- endif -%}
-                {%- if pay and pay.pill_2 != blank -%}<p class="pinfo__row"><span class="pinfo__ic">{% render 'trust-icon', name: pay.pill_2_icon %}</span><span>{{ pay.pill_2 | replace: '[DIAS]', settings.returns_days }}</span></p>{%- endif -%}
-                <div class="pinfo__row pinfo__row--delivery"><span class="pinfo__ic">{% render 'trust-icon', name: 'truck' %}</span>{% render 'delivery-estimate' %}</div>
+              <div class="pinfo" {{ block.shopify_attributes }}>
+                {%- if block.settings.made_to_order != blank -%}<p class="pinfo__row pinfo__row--ok"><span class="pinfo__dot" aria-hidden="true"></span>{{ block.settings.made_to_order }}</p>{%- endif -%}
+                {% render 'delivery-estimate' %}
                 {%- if settings.free_shipping_threshold > 0 -%}
-                  <p class="pinfo__row"><span class="pinfo__ic">{% render 'trust-icon', name: 'box' %}</span><span>{{ block.settings.free_ship_label }} <b>{{ settings.free_shipping_threshold }} €</b></span></p>
+                  <p class="pinfo__row">{% render 'trust-icon', name: 'box' %}<span>{{ block.settings.free_ship_label }} <b>{{ settings.free_shipping_threshold }} €</b></span></p>
                 {%- endif -%}
-                {%- if pay and pay.guarantee != blank -%}<p class="pinfo__row"><span class="pinfo__ic">{% render 'trust-icon', name: 'print' %}</span><span>{{ pay.guarantee }}</span></p>{%- endif -%}
-                <div class="pinfo__row pinfo__row--pay"><span class="pinfo__ic">{% render 'trust-icon', name: 'lock' %}</span>
-                  <span>{{ pay.pill_1 | default: 'Pago seguro' }}{% if pay.pill_1 == blank or pay.pill_1 == 'Pago seguro' %} con cifrado SSL{% endif %}
-                    {%- if shop.enabled_payment_types.size > 0 -%}
-                      <span class="pinfo__pays" aria-label="Métodos de pago">
-                        {%- for type in shop.enabled_payment_types -%}{{ type | payment_type_svg_tag: class: 'pinfo__pay' }}{%- endfor -%}
-                      </span>
-                    {%- endif -%}
-                  </span>
-                </div>
                 {%- if block.settings.link_label != blank -%}<a class="pinfo__link" href="{{ block.settings.link_url | default: shop.shipping_policy.url }}">{{ block.settings.link_label }}</a>{%- endif -%}
               </div>
             {%- else -%}
@@ -981,7 +962,6 @@
       "settings": [
         { "type": "paragraph", "content": "«Recíbelo entre el … y el …», calculado con el plazo de Configuración del tema → Campaña Q4. En temporada indica si llega antes de Navidad o de Reyes." },
         { "type": "checkbox", "id": "boxed", "label": "Mostrar en un recuadro con más información", "default": true },
-        { "type": "text", "id": "trust_title", "label": "Título del recuadro", "default": "Compra con tranquilidad" },
         { "type": "text", "id": "made_to_order", "label": "Línea con punto verde", "default": "Se imprime bajo pedido, solo para ti" },
         { "type": "text", "id": "free_ship_label", "label": "Texto envío gratis", "default": "Envío gratis a partir de", "info": "El importe sale de Configuración del tema." },
         { "type": "text", "id": "link_label", "label": "Enlace", "default": "Ver detalles de envío" },

@@ -3876,28 +3876,3 @@ html:not(.is-scrolled) body:has(main > .shopify-section:first-child .vhero) .gla
 @media (prefers-reduced-motion: reduce) {
   .tlive.is-loading .tlive__frame::before, .tlive.is-loading .tload__photo { animation: none; }
 }
-
-/* ==========================================================================
-   PRODUCT PAGE · one trust card (replaces loose payment logos, pills and guarantee box)
-   ========================================================================== */
-.product__info:has(.pinfo--trust) .paybar { display: none; }
-.pinfo--trust { gap: 0; margin: 20px 0 8px; padding: 6px 20px 16px; border: 1px solid #e4e1dc; border-radius: 14px; background: #fff; box-shadow: 0 18px 36px -30px rgba(40,30,20,.35); }
-.pinfo__title { margin: 14px 0 6px; font-size: 12px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: #490B1A; }
-.pinfo--trust .pinfo__row { align-items: flex-start; gap: 14px; padding: 12px 0; border-top: 1px solid #efece7; font-size: 14.5px; line-height: 1.45; color: #2a2a2a; }
-.pinfo--trust .pinfo__title + .pinfo__row { border-top: 0; }
-.pinfo--trust .pinfo__row--ok { color: #1f7a4d; font-weight: 600; }
-.pinfo__ic { flex: none; display: inline-grid; place-items: center; width: 34px; height: 34px; margin-top: -6px; border-radius: 50%; background: #F4EEEA; color: #490B1A; }
-.pinfo__ic .t-icon { width: 18px; height: 18px; }
-.pinfo__ic--ok { background: #e7f4ec; }
-.pinfo--trust .pinfo__dot { margin: 0; }
-.pinfo--trust .pinfo__row b { font-weight: 700; }
-.pinfo__row--delivery .delivery { margin: 0; padding: 0; font-size: inherit; }
-.pinfo__row--delivery .delivery .t-icon { display: none; }
-.pinfo__row--delivery:has(.delivery[hidden]) { display: none; }
-.pinfo__pays { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
-.pinfo__pay { width: 34px; height: 22px; border-radius: 3px; }
-.pinfo--trust .pinfo__link { margin-top: 4px; padding-top: 12px; border-top: 1px solid #efece7; font-size: 13.5px; color: #555; }
-@media (max-width: 749px) {
-  .pinfo--trust { padding: 4px 16px 14px; }
-  .pinfo--trust .pinfo__row { font-size: 14px; }
-}
