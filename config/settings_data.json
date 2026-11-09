@@ -24,7 +24,7 @@
     "free_shipping_threshold": 80,
     "returns_days": "14",
     "favicon": "shopify://shop_images/arsnoir-favicon.png",
-    "q4_start": "2026-11-10",
+    "q4_start": "2026-11-20",
     "q4_bf_offer": "3 obras −25 % · 2 obras −15 % · Personalizados −15 %. Se aplica solo en el carrito.",
     "q4_msg_bf": "BLACK FRIDAY · 3 obras −25 % · Hasta el [FIN_BF]",
     "q4_gift_page": "regalos",
@@ -33,7 +33,7 @@
     "gift_enabled": false,
     "pack_percent": 15,
     "pack_min": 2,
-    "pack_until": "2026-11-09",
+    "pack_until": "2026-11-19",
     "gift_tier1": 119,
     "gift_tier2": 199,
     "sections": {
