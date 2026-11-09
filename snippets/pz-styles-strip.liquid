@@ -10,11 +10,31 @@
     {%- for h in handles -%}
       {%- assign p = all_products[h] -%}
       {%- if p == empty or p.available == false and p.handle != product.handle -%}{%- continue -%}{%- endif -%}
-      {%- assign card = 'pz-card-' | append: h | append: '.jpg' -%}
-      {%- assign img = images[card] -%}
+      {%- liquid
+        # Card image file name (the newer styles use a shorter name than their product handle)
+        case h
+          when 'tu-mascota-en-acuarela'
+            assign card_name = 'mascota-acuarela'
+          when 'retrato-de-pareja-en-acuarela'
+            assign card_name = 'pareja-acuarela'
+          when 'pareja-en-acuarela-sin-rostro'
+            assign card_name = 'pareja-sin-rostro'
+          when 'familia-en-acuarela'
+            assign card_name = 'familia-acuarela'
+          else
+            assign card_name = h
+        endcase
+        assign card = 'pz-card-' | append: card_name | append: '.jpg'
+        assign img = images[card]
+        # Only a real uploaded image (a missing file must never break the page)
+        assign img_ok = false
+        if img.width > 0
+          assign img_ok = true
+        endif
+      -%}
       <li>
         <a class="pzstrip__item{% if p.handle == product.handle %} is-current{% endif %}" href="{{ p.url }}"{% if p.handle == product.handle %} aria-current="page"{% endif %}>
-          {%- if img -%}
+          {%- if img_ok -%}
             {{ img | image_url: width: 160 | image_tag: loading: 'lazy', width: 80, height: 100, alt: '' }}
           {%- elsif p.featured_media -%}
             {{ p.featured_media | image_url: width: 160 | image_tag: loading: 'lazy', width: 80, height: 100, alt: '' }}
