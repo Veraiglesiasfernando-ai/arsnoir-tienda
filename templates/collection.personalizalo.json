@@ -205,7 +205,7 @@
       "settings": {
         "layout": "tabs",
         "eyebrow": "",
-        "heading": "Elige tu estilo",
+        "heading": "Todos los estilos",
         "text": "",
         "pets_note": "",
         "button_label": "Crear el mío →",
@@ -314,20 +314,78 @@
     },
     "pzintro": {
       "type": "pz-intro",
-      "settings": {}
+      "settings": {},
+      "disabled": true
     },
     "pzphoto": {
       "type": "pz-photo-banner",
       "settings": {
         "image": "shopify://shop_images/arsnoir-regalo-foto-familia.jpg"
-      }
+      },
+      "disabled": true
+    },
+    "pzmosaic": {
+      "type": "pz-mosaic",
+      "blocks": {
+        "m1": {
+          "type": "tile",
+          "settings": {
+            "image": "shopify://shop_images/arsnoir-regalo-retrato-comic.jpg",
+            "label": "Mascotas",
+            "sub": "Cómic, glam, acuarela y más",
+            "tab": "Mascotas"
+          }
+        },
+        "m2": {
+          "type": "tile",
+          "settings": {
+            "image": "shopify://shop_images/8sfrxcrwxhrmr0d1p9ybvqqa7m.png",
+            "label": "Parejas",
+            "tab": "Familia y pareja"
+          }
+        },
+        "m3": {
+          "type": "tile",
+          "settings": {
+            "image": "shopify://shop_images/vam3g345khrmw0d1p9y91q28rr.png",
+            "label": "Familia",
+            "tab": "Familia y pareja"
+          }
+        },
+        "m4": {
+          "type": "tile",
+          "settings": {
+            "image": "shopify://shop_images/pz-card-navidad-papa-noel.jpg",
+            "label": "Navidad",
+            "tab": "Navidad"
+          }
+        },
+        "m5": {
+          "type": "tile",
+          "settings": {
+            "image": "shopify://shop_images/arsnoir-regalo-foto-familia.jpg",
+            "label": "Tu foto",
+            "sub": "Tal cual, sin ilustrar",
+            "link": "shopify://products/tu-foto-en-un-cuadro"
+          }
+        }
+      },
+      "block_order": [
+        "m1",
+        "m2",
+        "m3",
+        "m4",
+        "m5"
+      ],
+      "settings": {}
     }
   },
   "order": [
-    "pzintro",
+    "pzmosaic",
     "templates",
-    "pzphoto",
     "pzpack",
+    "pzintro",
+    "pzphoto",
     "landing",
     "allstyles"
   ]

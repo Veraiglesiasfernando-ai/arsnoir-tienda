@@ -1,0 +1,77 @@
+{%- comment -%}
+  Personalízalo: category mosaic (big photos, white label on top). A tile with a «Pestaña» jumps
+  down to the style grid and opens that tab; a tile with a link goes there instead.
+{%- endcomment -%}
+{%- assign s = section.settings -%}
+<section class="pzm">
+  <div class="page-width">
+    {%- if s.heading != blank or s.eyebrow != blank -%}
+      <header class="pzm__head">
+        {%- if s.eyebrow != blank -%}<p class="pzm__eyebrow">{{ s.eyebrow }}</p>{%- endif -%}
+        {%- if s.heading != blank -%}<h1 class="pzm__title">{{ s.heading }}</h1>{%- endif -%}
+        {%- if s.text != blank -%}<p class="pzm__text">{{ s.text }}</p>{%- endif -%}
+      </header>
+    {%- endif -%}
+    <div class="pzm__grid">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign b = block.settings
+          assign tab = b.tab | strip | handleize
+          if b.link != blank
+            assign href = b.link
+          else
+            assign href = '#Plantillas'
+          endif
+        -%}
+        <a class="pzm__tile" href="{{ href }}"{% if b.link == blank and tab != blank %} data-pzm-tab="{{ tab }}"{% endif %} {{ block.shopify_attributes }}>
+          {%- if b.image != blank -%}
+            {{ b.image | image_url: width: 1600 | image_tag: loading: 'eager', widths: '500, 800, 1100, 1600', sizes: '(min-width: 750px) 50vw, 100vw', alt: b.label }}
+          {%- else -%}
+            <span class="pzm__ph"></span>
+          {%- endif -%}
+          <span class="pzm__label">
+            <span class="pzm__name">{{ b.label }}</span>
+            {%- if b.sub != blank -%}<span class="pzm__sub">{{ b.sub }}</span>{%- endif -%}
+          </span>
+        </a>
+      {%- endfor -%}
+    </div>
+    {%- if s.steps != blank -%}<p class="pzm__steps">{{ s.steps }}</p>{%- endif -%}
+  </div>
+</section>
+<script>
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest('[data-pzm-tab]');
+    if (!t) return;
+    var tab = document.querySelector('[data-ctpl-tabs] [data-cat="' + t.getAttribute('data-pzm-tab') + '"]');
+    if (tab) tab.click();
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Personalízalo · mosaico",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "PERSONALIZADO" },
+    { "type": "text", "id": "heading", "label": "Título", "default": "¿Qué quieres en tu pared?" },
+    { "type": "text", "id": "text", "label": "Texto" },
+    { "type": "text", "id": "steps", "label": "Línea de pasos (debajo)", "default": "Elige un estilo · Sube tu foto · Míralo gratis antes de comprar" }
+  ],
+  "blocks": [
+    {
+      "type": "tile",
+      "name": "Categoría",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Foto" },
+        { "type": "text", "id": "label", "label": "Texto", "default": "MASCOTAS" },
+        { "type": "text", "id": "sub", "label": "Texto pequeño" },
+        { "type": "text", "id": "tab", "label": "Pestaña de estilos que abre", "info": "Igual que el «Tema» de los estilos: Mascotas, Familia y pareja, Navidad." },
+        { "type": "url", "id": "link", "label": "Enlace (en vez de pestaña)" }
+      ]
+    }
+  ],
+  "max_blocks": 7,
+  "presets": [{ "name": "Personalízalo · mosaico" }]
+}
+{% endschema %}
