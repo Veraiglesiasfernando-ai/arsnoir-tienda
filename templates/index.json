@@ -9,12 +9,12 @@
             "tone": "light",
             "placeholder_price": "Desde 16,95 €",
             "product": "familia-en-acuarela",
-            "image": "shopify://shop_images/arsnoir-card-familia-acuarela.jpg",
+            "image": "shopify://shop_images/arsnoir-salon-familia-acuarela.jpg",
             "title": "Familia en acuarela",
             "subtitle": "Vuestra foto, pintada en acuarela",
             "link": "shopify://products/familia-en-acuarela",
             "tag": "Novedad",
-            "black_frame": true
+            "black_frame": false
           }
         },
         "center": {
@@ -24,12 +24,12 @@
             "tone": "light",
             "placeholder_price": "Desde 16,95 €",
             "product": "retrato-comic",
-            "image": "shopify://shop_images/retrato-comic-obra.jpg",
+            "image": "shopify://shop_images/arsnoir-regalo-retrato-comic.jpg",
             "title": "Tu perro, en cómic",
             "subtitle": "Sube su foto · Míralo gratis antes de pagar",
             "link": "shopify://products/retrato-comic",
             "tag": "Personalizado",
-            "black_frame": true
+            "black_frame": false
           }
         },
         "right": {
@@ -38,12 +38,12 @@
             "tone": "light",
             "placeholder_price": "Desde 16,95 €",
             "product": "tu-foto-en-un-cuadro",
-            "image": "shopify://shop_images/arsnoir-card-tu-foto-familia.jpg",
+            "image": "shopify://shop_images/arsnoir-regalo-foto-familia.jpg",
             "title": "Tu foto, en un cuadro",
             "subtitle": "Sube tu imagen y la imprimimos",
             "link": "shopify://products/tu-foto-en-un-cuadro",
             "tag": "Tu foto",
-            "black_frame": true
+            "black_frame": false
           }
         }
       },
@@ -58,7 +58,8 @@
         "subtitle": "Arte que no verás en ningún otro sitio.",
         "pz_photo_image": "shopify://shop_images/arsnoir-regalo-foto-familia.jpg",
         "pz_tpl_image": "shopify://shop_images/arsnoir-regalo-retrato-comic.jpg",
-        "pz_tpl_soon": false
+        "pz_tpl_soon": false,
+        "card_style": "tiles"
       }
     },
     "marquee": {

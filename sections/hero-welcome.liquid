@@ -1,7 +1,7 @@
 {%- assign s = section.settings -%}
 {%- assign reviews_label = 'general.customer_reviews' | t -%}
 
-<section class="welcome">
+<section class="welcome{% if s.card_style == 'tiles' %} welcome--tiles{% endif %}">
   <div class="welcome__glow" aria-hidden="true"></div>
   <div class="page-width welcome__inner">
     {%- if s.eyebrow != blank -%}
@@ -97,6 +97,7 @@
   "name": "Bienvenida",
   "max_blocks": 3,
   "settings": [
+    { "type": "select", "id": "card_style", "label": "Aspecto de las 3 obras", "default": "frames", "options": [{ "value": "frames", "label": "Cuadros con marco" }, { "value": "tiles", "label": "Fotos de ambiente con texto encima" }] },
     { "type": "text", "id": "eyebrow", "label": "Texto pequeño superior", "default": "BIENVENIDO A" },
     { "type": "text", "id": "title", "label": "Título", "default": "ARSNOIR" },
     { "type": "text", "id": "subtitle", "label": "Subtítulo", "default": "Arte que no verás en ningún otro sitio." },

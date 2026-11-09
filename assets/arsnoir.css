@@ -3816,3 +3816,32 @@ html:not(.is-scrolled) body:has(main > .shopify-section:first-child .vhero) .gla
   .welcome__cards .poster__title { font-size: 14px; white-space: normal; }
   .welcome__cards .poster__tag { top: 12px; left: 12px; font-size: 9px; padding: 4px 8px; }
 }
+
+/* Welcome cards · «tiles»: big lifestyle photos, white caption on top (like the category mosaic) */
+.welcome--tiles .welcome__cards { align-items: stretch; gap: clamp(10px, 1.2vw, 16px); }
+.welcome--tiles .poster { position: relative; display: block; overflow: hidden; border-radius: 6px; color: #fff; isolation: isolate; }
+.welcome--tiles .poster__frame { aspect-ratio: 4 / 5; background: #ddd; box-shadow: none !important; transform: none !important; overflow: hidden; }
+.welcome--tiles .poster__media img { object-fit: cover !important; transition: transform 1.4s cubic-bezier(.2,.7,.2,1); }
+.welcome--tiles .poster__frame::after { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(180deg, rgba(0,0,0,0) 45%, rgba(0,0,0,.62)); pointer-events: none; }
+@media (hover: hover) { .welcome--tiles .poster:hover .poster__media img { transform: scale(1.045); } }
+.welcome--tiles .poster__tag, .welcome--tiles .poster--featured .poster__tag { top: 16px; left: 16px; right: auto; z-index: 2; padding: 6px 12px; border-radius: 999px; background: #fff; color: #0a0a0a; font-size: 10.5px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
+.welcome--tiles .poster__info { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; display: flex; align-items: flex-end; justify-content: space-between; gap: 14px; padding: clamp(18px, 2vw, 28px); text-align: left; }
+.welcome--tiles .poster__meta { align-items: flex-start; gap: 4px; }
+.welcome--tiles .poster__title { color: #fff; font-size: clamp(1.4rem, 2.2vw, 2.1rem); font-weight: 700; letter-spacing: .02em; line-height: 1.02; text-transform: uppercase; white-space: normal; text-shadow: 0 2px 16px rgba(0,0,0,.25); }
+.welcome--tiles .poster__sub { display: block; color: rgba(255,255,255,.88); font-size: 14px; }
+.welcome--tiles .poster__price, .welcome--tiles .poster__price .price { margin-top: 2px; color: #fff; font-size: 14px; font-weight: 600; }
+.welcome--tiles .poster__plus { display: inline-flex; width: 46px; height: 46px; background: #fff; color: #0a0a0a; font-size: 0; position: relative; }
+.welcome--tiles .poster__plus::before { content: '→'; font-size: 19px; }
+.welcome--tiles .poster:hover .poster__plus { background: #490B1A; color: #fff; }
+@media (max-width: 899px) {
+  .welcome--tiles .welcome__cards { gap: 8px; }
+  .welcome--tiles .poster--featured { width: 100% !important; }
+  .welcome--tiles .poster__title { font-size: 15px; }
+  .welcome--tiles .poster--featured .poster__title { font-size: 1.5rem; }
+  .welcome--tiles .poster__sub { display: none; }
+  .welcome--tiles .poster--featured .poster__sub { display: block; font-size: 13px; }
+  .welcome--tiles .poster__info { padding: 14px; }
+  .welcome--tiles .poster__plus { width: 34px; height: 34px; }
+  .welcome--tiles .poster__plus::before { font-size: 15px; }
+  .welcome--tiles .poster__tag { top: 10px; left: 10px; font-size: 9px; padding: 4px 9px; }
+}
