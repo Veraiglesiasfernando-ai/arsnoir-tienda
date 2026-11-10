@@ -43,3 +43,19 @@ Shopify tiene los precios v8 bien. En Gelato hay variantes con precios antiguos.
 - Blue Corner: lienzo 30×40 79,95 (y es la versión «slim», distinta al resto)
 - Perro amarillo: lienzo 30×40 76,95
 - Red horse: lienzo con marco 60×80 negro 209,96
+
+## Cambio de precios (10/11/2026)
+
+Subidos los formatos que dejaban 2–5 € o perdían con descuento (todas las obras y personalizados).
+En estas variantes se quitó el precio tachado: el precio sube, así que no hay "precio anterior" más alto que mostrar.
+
+| Formato | Antes | Ahora | Beneficio aprox. |
+|---|---|---|---|
+| Marco A2 | 64,95 | 69,95 | ~10,7 € |
+| Marco 50×70 | 79,95 | 89,95 | ~7,9 € |
+| Marco A1 | 94,95 | 104,95 | ~11,8 € |
+| Marco 60×90 | 99,95 | 109,95 | ~10,4 € |
+| Lámina A3 | 24,95 | 29,95 | ~6,5 € |
+| Lienzo 60×80 | 94,95 | 99,95 | ~9,0 € |
+
+Estos formatos no entran en los descuentos de Black Friday (solo −15 % en tamaños con margen).
