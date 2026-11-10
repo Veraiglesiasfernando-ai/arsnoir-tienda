@@ -4077,3 +4077,10 @@ html:not(.is-scrolled) body:has(main > .shopify-section:first-child .vhero) .gla
 .wstv__nav--prev { left: 0; } .wstv__nav--next { right: 0; }
 .wstv__foot { position: absolute; left: 16px; right: 16px; bottom: 22px; z-index: 3; }
 .wstv__cta { display: block; text-align: center; padding: 15px 18px; border-radius: 999px; background: #fff; color: #0a0a0a; font-weight: 800; font-size: 15px; text-decoration: none; }
+
+/* Under each story: the artwork's real Judge.me rating (or an invite to write the first review) */
+.wst__rev { display: flex; align-items: center; gap: 8px; margin-top: 10px; padding: 0 4px; font-size: 13px; color: var(--color-fg, #0a0a0a); text-decoration: none; }
+.wst__rev-stars { color: #E0A100; letter-spacing: 1px; font-size: 14px; }
+.wst__rev-stars .is-off { color: #d6d6d3; }
+.wst__rev--none { color: var(--color-muted, #6b6b6b); }
+.wst__rev--none u { text-underline-offset: 3px; color: #490B1A; font-weight: 600; }
