@@ -51,7 +51,13 @@
     <span class="price__line">{{ 'general.print_from' | t }} <b>{{ print_min | money }}</b></span>
     <span class="price__line">{{ 'general.framed_from' | t }} <b>{{ framed_min | money }}</b></span>
   {%- elsif show_from and product.price_varies -%}
-    {{ 'general.from' | t }} {{ product.price_min | money }}
+    {%- comment -%} Say what the «from» price buys: usually the unframed print {%- endcomment -%}
+    {%- assign min_v = product.variants | sort: 'price' | first -%}
+    {%- assign min_t = min_v.title | downcase -%}
+    {%- assign min_framed = false -%}
+    {%- if min_t contains 'frame' or min_t contains 'marco' -%}{%- assign min_framed = true -%}{%- endif -%}
+    {%- if min_t contains 'sin marco' -%}{%- assign min_framed = false -%}{%- endif -%}
+    {% if min_framed %}{{ 'general.from' | t }}{% else %}{{ 'general.print_from' | t }}{% endif %} {{ product.price_min | money }}
     {%- comment -%}
       Cards: when some variants have a real earlier price (compare-at), also show the cheapest of
       them struck through, e.g. «Con marco 39,95 € 34,95 €». Only variants that carry it count.
