@@ -263,7 +263,7 @@ const TEMPLATES = {
  *   POST /keep           { id } -> { url }   copy of a finished preview that never expires (KV binding KEEP)
  *   GET  /img/:id.png    that copy (public, for the order and the store)
  *   GET  /send           { enabled } — the theme shows «Envíamela» only when sending is set up
- *   POST /send           { id, email, name?, template?, page } -> { ok }  the illustration by email (Brevo)
+ *   POST /send           { id, email, name?, template?, page, mark? } -> { ok }  watermarked preview by email (Brevo)
  *   GET  /stats          counter page: illustrations started / added to the cart per day and template
  *                        (only counts, never photos; uses the KEEP or LIMITS KV binding; ?k=STATS_KEY if set)
  *
@@ -358,8 +358,8 @@ const mailHtml = (img, name, page) => {
     '<table role="presentation" width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;background:#ffffff">' +
     '<tr><td style="padding:28px 28px 8px;text-align:center;font-size:13px;letter-spacing:.3em">A R S N O I R</td></tr>' +
     '<tr><td style="padding:8px 28px 18px;text-align:center"><h1 style="margin:0;font-size:26px;line-height:1.2">Así queda ' + who + ' 🐾</h1>' +
-    '<p style="margin:10px 0 0;color:#6b6b6b;font-size:15px">Aquí tienes la ilustración que has creado. Guárdala, enséñala… y cuando quieras, la imprimimos para tu pared.</p></td></tr>' +
-    '<tr><td style="padding:0 28px"><img src="' + esc(img) + '" width="504" alt="Ilustración de ' + who + '" style="display:block;width:100%;height:auto;border:10px solid #141414"></td></tr>' +
+    '<p style="margin:10px 0 0;color:#6b6b6b;font-size:15px">Aquí tienes la vista previa que has creado (con marca de agua: el cuadro impreso llega limpio). Enséñala… y cuando quieras, la imprimimos para tu pared.</p></td></tr>' +
+    (img ? '<tr><td style="padding:0 28px"><img src="' + esc(img) + '" width="504" alt="Ilustración de ' + who + '" style="display:block;width:100%;height:auto;border:10px solid #141414"></td></tr>' : '') +
     '<tr><td style="padding:24px 28px 8px;text-align:center"><a href="' + esc(page) + '?utm_source=email&utm_medium=envio-ilustracion" style="display:inline-block;background:#0a0a0a;color:#ffffff;text-decoration:none;font-weight:bold;padding:15px 28px;border-radius:999px;font-size:14px;letter-spacing:.06em">LO QUIERO EN MI PARED</a></td></tr>' +
     '<tr><td style="padding:8px 28px 28px;text-align:center;color:#6b6b6b;font-size:13px">Lámina, marco o lienzo. Desde 16,95 € · Envío gratis desde 80 €.<br>¿Dudas? Responde a este email.</td></tr>' +
     '</table><p style="color:#9a9a98;font-size:11px;margin:16px 0 0">Recibes este email porque pediste tu ilustración en arsnoir.com.</p></td></tr></table></body></html>';
@@ -376,7 +376,7 @@ const reminderHtml = (img, name, page) => {
     '<tr><td style="padding:8px 28px 18px;text-align:center"><h1 style="margin:0;font-size:26px;line-height:1.2">' + (name ? 'El retrato de ' + who : 'Tu ilustración') + ' sigue aquí 🐾</h1>' +
     '<p style="margin:10px 0 0;color:#6b6b6b;font-size:15px">Te la guardamos. Si la quieres en tu pared, tienes un <b style="color:#0a0a0a">−10 % en tu primer pedido</b> con el código:</p>' +
     '<p style="margin:14px 0 0"><span style="display:inline-block;border:2px dashed #490B1A;color:#490B1A;font-weight:bold;font-size:20px;letter-spacing:.12em;padding:10px 18px">WELCOME10</span></p></td></tr>' +
-    '<tr><td style="padding:0 28px"><img src="' + esc(img) + '" width="504" alt="' + who + '" style="display:block;width:100%;height:auto;border:10px solid #141414"></td></tr>' +
+    (img ? '<tr><td style="padding:0 28px"><img src="' + esc(img) + '" width="504" alt="' + who + '" style="display:block;width:100%;height:auto;border:10px solid #141414"></td></tr>' : '') +
     '<tr><td style="padding:24px 28px 8px;text-align:center"><a href="' + esc(page) + '?utm_source=email&utm_medium=recordatorio" style="display:inline-block;background:#490B1A;color:#ffffff;text-decoration:none;font-weight:bold;padding:15px 28px;border-radius:999px;font-size:14px;letter-spacing:.06em">LO QUIERO EN MI PARED</a></td></tr>' +
     '<tr><td style="padding:8px 28px 28px;text-align:center;color:#6b6b6b;font-size:13px">Lámina, marco o lienzo. Desde 16,95 € · Envío gratis desde 80 €.<br>Sube la misma foto en la página y la tendrás de nuevo.<br>¿Dudas? Responde a este email.</td></tr>' +
     '</table><p style="color:#9a9a98;font-size:11px;margin:16px 0 0">Recibes este email porque pediste tu ilustración en arsnoir.com y aceptaste recibir ofertas. Si no quieres más, responde «baja».</p></td></tr></table></body></html>';
@@ -400,11 +400,12 @@ export default {
     const url = new URL(request.url);
 
     // Kept illustrations: public, so the order link and the store can always show them
-    const img = url.pathname.match(/^\/img\/([a-z0-9]+)\.png$/i);
+    const img = url.pathname.match(/^\/img\/([a-z0-9]+)\.(png|jpg)$/i);
     if (request.method === 'GET' && img) {
-      const file = env.KEEP ? await env.KEEP.get(img[1] + '.png', { type: 'stream' }) : null;
+      const ext = img[2].toLowerCase();
+      const file = env.KEEP ? await env.KEEP.get(img[1] + '.' + ext, { type: 'stream' }) : null;
       if (!file) return new Response('Not found', { status: 404 });
-      return new Response(file, { headers: { 'Content-Type': 'image/png', 'Cache-Control': 'public, max-age=31536000, immutable', 'Access-Control-Allow-Origin': '*' } });
+      return new Response(file, { headers: { 'Content-Type': ext === 'jpg' ? 'image/jpeg' : 'image/png', 'Cache-Control': 'public, max-age=31536000, immutable', 'Access-Control-Allow-Origin': '*' } });
     }
 
     // Counter page (no photos, only numbers)
@@ -544,6 +545,17 @@ export default {
       const copy = await env.KEEP.get(id + '.png', { type: 'arrayBuffer' });
       if (!copy) return json({ error: 'expired' }, 410);
       await env.KEEP.put(id + '.png', copy);
+      // The email never carries the clean file: only the small watermarked copy made in the browser
+      // (JPEG, data URL). Without one, the email goes out with no image, just the link back.
+      let mailImg = '';
+      const mark = String(body.mark || '');
+      if (mark.startsWith('data:image/jpeg;base64,') && mark.length < 700000) {
+        try {
+          const bin = Uint8Array.from(atob(mark.slice(23)), (c) => c.charCodeAt(0));
+          await env.KEEP.put('m' + id + '.jpg', bin, { expirationTtl: 180 * 24 * 3600 });
+          mailImg = url.origin + '/img/m' + id + '.jpg';
+        } catch (e) { mailImg = ''; }
+      }
       const res = await fetch('https://api.brevo.com/v3/smtp/email', {
         method: 'POST',
         headers: { 'api-key': env.BREVO_API_KEY, 'Content-Type': 'application/json', Accept: 'application/json' },
@@ -551,7 +563,7 @@ export default {
           sender: { name: 'ARSNOIR', email: env.SENDER_EMAIL || 'hola@arsnoir.com' },
           to: [{ email }],
           subject: name ? 'Así queda ' + name + ' 🐾 Tu ilustración de ARSNOIR' : 'Tu ilustración de ARSNOIR 🐾',
-          htmlContent: mailHtml(url.origin + '/img/' + id + '.png', name, page),
+          htmlContent: mailHtml(mailImg, name, page),
           tags: ['ilustracion', String(body.template || '').slice(0, 40)].filter(Boolean)
         })
       });
@@ -565,7 +577,7 @@ export default {
             sender: { name: 'ARSNOIR', email: env.SENDER_EMAIL || 'hola@arsnoir.com' },
             to: [{ email }],
             subject: name ? 'El retrato de ' + name + ' sigue aquí 🐾 −10 % para ti' : 'Tu ilustración sigue aquí 🐾 −10 % para ti',
-            htmlContent: reminderHtml(url.origin + '/img/' + id + '.png', name, page),
+            htmlContent: reminderHtml(mailImg, name, page),
             scheduledAt: new Date(Date.now() + 24 * 3600 * 1000).toISOString(),
             tags: ['recordatorio', String(body.template || '').slice(0, 40)].filter(Boolean)
           })

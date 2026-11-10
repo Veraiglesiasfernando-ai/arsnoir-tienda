@@ -307,13 +307,39 @@
     body.set('contact[accepts_marketing]', 'true');
     return fetch('/contact', { method: 'POST', body: body, credentials: 'same-origin' }).catch(function () {});
   };
+  /* The email gets a small copy with the watermark burnt in (never the clean file). If the image can't
+     be read (CORS, old browser), it resolves to '' and the email goes out without an image. */
+  const makeMark = function (src) {
+    if (!src || !window.createImageBitmap) return Promise.resolve('');
+    return fetch(src, { mode: 'cors' })
+      .then(function (r) { if (!r.ok) throw new Error('img'); return r.blob(); })
+      .then(function (blob) { return createImageBitmap(blob); })
+      .then(function (bm) {
+        const W = 720, H = Math.round(bm.height * W / bm.width);
+        const c = document.createElement('canvas'); c.width = W; c.height = H;
+        const x = c.getContext('2d');
+        x.drawImage(bm, 0, 0, W, H);
+        x.font = '700 22px Arial, sans-serif'; x.textAlign = 'center'; x.textBaseline = 'middle';
+        x.lineWidth = 3; x.strokeStyle = 'rgba(0,0,0,.3)'; x.fillStyle = 'rgba(255,255,255,.66)';
+        x.translate(W / 2, H / 2); x.rotate(-28 * Math.PI / 180);
+        const t = 'ARSNOIR · VISTA PREVIA', R = Math.hypot(W, H);
+        for (let row = 0, y = -R; y < R; y += 105, row++) {
+          for (let px = -R + (row % 2 ? 160 : 0); px < R; px += 320) { x.strokeText(t, px, y); x.fillText(t, px, y); }
+        }
+        return c.toDataURL('image/jpeg', 0.8);
+      })
+      .catch(function () { return ''; });
+  };
   if (sendGo) {
     const send = function () {
       const email = sendEmail.value.trim();
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { sendMsg.textContent = 'Escribe un email válido.'; sendEmail.focus(); return; }
       sendGo.disabled = true; sendGo.textContent = 'Enviando…'; sendMsg.textContent = '';
-      fetch(endpoint + '/send', { method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: sendId, email: email, name: sendName, template: d.template, page: location.origin + location.pathname, consent: !!(sendConsent && sendConsent.checked) }) })
+      makeMark(artUrl)
+        .then(function (mark) {
+          return fetch(endpoint + '/send', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: sendId, email: email, name: sendName, template: d.template, page: location.origin + location.pathname, consent: !!(sendConsent && sendConsent.checked), mark: mark }) });
+        })
         .then(function (r) { return r.json().then(function (j) { if (!r.ok) throw new Error(j.error || 'send'); return j; }); })
         .then(function () {
           if (sendConsent && sendConsent.checked) subscribe(email);
