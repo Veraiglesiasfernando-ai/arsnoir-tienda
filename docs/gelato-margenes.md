@@ -59,3 +59,21 @@ En estas variantes se quitó el precio tachado: el precio sube, así que no hay 
 | Lienzo 60×80 | 94,95 | 99,95 | ~9,0 € |
 
 Estos formatos no entran en los descuentos de Black Friday (solo −15 % en tamaños con margen).
+
+## Retratos personalizados (10/11/2026)
+
+Subida suave (+3 a +5 €) en los 16 retratos ilustrados, sin precio tachado y fuera del Black Friday
+(el −15 % se mide sobre el precio más bajo de 30 días). «Tu foto en un cuadro» no cambia y mantiene el −15 %.
+
+| Tamaño | Lámina | Marco | Lienzo | Lienzo con marco |
+|---|---|---|---|---|
+| A4 | 19,95 | 39,95 | | |
+| A3 | 32,95 | 49,95 | | |
+| A2 | 36,95 | 74,95 | | |
+| 50×70 | 42,95 | 94,95 | | |
+| A1 | 52,95 | 109,95 | | |
+| 60×90 | 62,95 | 114,95 | | |
+| 20×25 | | | 44,95 | 64,95 |
+| 30×40 | | | 64,95 | 89,95 |
+| 45×60 | | | 79,95 | 114,95 |
+| 60×80 | | | 104,95 | 154,95 |
