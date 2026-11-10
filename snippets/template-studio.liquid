@@ -103,10 +103,21 @@
       <figcaption>{{ b.result_note }}</figcaption>
     </figure>
     {%- comment -%} Straight from the preview to the size step (it sits under the studio, out of sight on mobile) {%- endcomment -%}
-    <div class="tstudio__next" data-tstudio-next hidden>
-      <button type="button" class="button button--accent tstudio__next-btn" data-tstudio-next-go>¿Te gusta? Elige tamaño y marco ↓</button>
-      <p class="tstudio__next-code">−10 % en tu primer pedido con el código <b>WELCOME10</b></p>
-      <p class="tstudio__next-note">Desde {{ product.price_min | money }} · Impreso en papel de museo · Llega en 4-10 días hábiles · El código no se suma a otras ofertas</p>
+    <div class="tstudio__next tnext" data-tstudio-next hidden>
+      <p class="tnext__ok">✓ Tu retrato está listo</p>
+      <ol class="tnext__steps">
+        <li><span>1</span>Elige el tamaño</li>
+        <li><span>2</span>Lámina sola o con marco</li>
+        <li><span>3</span>Pulsa «Añadir al carrito»</li>
+      </ol>
+      {%- assign tv = product.selected_or_first_available_variant -%}
+      <p class="tnext__sum"><span class="tnext__sum-l">Tu elección:</span> <span data-tnext-variant></span> <b data-tnext-price>{{ tv.price | money }}</b></p>
+      <button type="button" class="button button--accent tstudio__next-btn" data-tstudio-next-go>Elegir tamaño y marco ↓</button>
+      <ul class="tnext__get">
+        <li>Recibes tu retrato impreso <b>sin marca de agua</b>: la marca solo sale en esta vista previa.</li>
+        <li>Llega en {{ settings.delivery_min | default: 4 }}-{{ settings.delivery_max | default: 10 }} días hábiles{% if settings.free_shipping_threshold > 0 %} · Envío gratis desde {{ settings.free_shipping_threshold }} €{% endif %}.</li>
+        <li>−10 % en tu primer pedido con el código <b>WELCOME10</b> (no se suma a otras ofertas).</li>
+      </ul>
     </div>
 
     {%- comment -%} «Send it to me»: the illustration by email (worker /send) and, only with the box ticked, a subscriber tagged «ilustracion» {%- endcomment -%}

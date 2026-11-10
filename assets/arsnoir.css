@@ -4010,3 +4010,16 @@ html:not(.is-scrolled) body:has(main > .shopify-section:first-child .vhero) .gla
 
 /* Reviews: no reviews yet, the line sits under the title (left) */
 .reviews__empty--left { text-align: left; margin-top: 8px; }
+
+/* After the preview: what's next, what it costs, what arrives */
+.tnext { text-align: left; margin-top: 16px; padding: 18px; border: 1px solid var(--color-line); border-radius: 16px; background: #fff; }
+.tnext__ok { text-align: center; margin: 0 0 10px; font-weight: 700; font-size: 17px; }
+.tnext__steps { list-style: none; margin: 0 0 14px; padding: 0; display: grid; gap: 6px; font-size: 14px; }
+.tnext__steps li { display: flex; align-items: center; gap: 10px; }
+.tnext__steps span { flex: 0 0 22px; height: 22px; border-radius: 50%; background: #0a0a0a; color: #fff; font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; }
+.tnext__sum { margin: 0 0 12px; padding: 10px 12px; background: var(--color-surface); border-radius: 10px; font-size: 14px; }
+.tnext__sum-l { color: var(--color-muted); }
+.tnext__sum b { white-space: nowrap; }
+.tnext .tstudio__next-btn { width: 100%; }
+.tnext__get { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 6px; font-size: 13px; color: var(--color-muted); }
+.tnext__get li::before { content: '✓ '; color: #0a0a0a; font-weight: 700; }

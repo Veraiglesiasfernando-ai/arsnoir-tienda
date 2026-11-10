@@ -79,11 +79,31 @@
   }
   /* «¿Te gusta? Elige tamaño»: from the preview straight to the size step */
   const next = studio.querySelector('[data-tstudio-next]');
-  const showNext = function () { if (next) next.hidden = false; };
+  const showNext = function () { if (next) { next.hidden = false; if (typeof syncChoice === 'function') syncChoice(); } };
   if (next) next.querySelector('[data-tstudio-next-go]').addEventListener('click', function () {
     const step = document.querySelector('variant-picker[data-form="' + (form && form.id) + '"]') || document.querySelector('variant-picker') || form;
     if (step) step.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
+  /* «Tu elección»: the size + finish and price chosen right now, kept in sync with the picker */
+  const tnVariant = studio.querySelector('[data-tnext-variant]');
+  const tnPrice = studio.querySelector('[data-tnext-price]');
+  const variantsEl = document.querySelector('script[data-variants]');
+  let allVariants = [];
+  try { allVariants = variantsEl ? JSON.parse(variantsEl.textContent) : []; } catch (e) { allVariants = []; }
+  const syncChoice = function () {
+    if (!tnVariant || !tnPrice) return;
+    const sum = document.querySelector('[data-variant-summary]');
+    if (sum && sum.textContent.trim()) tnVariant.textContent = sum.textContent.trim().replace(/\s+/g, ' ') + ' ·';
+    const idIn = form && form.querySelector('input[name="id"]');
+    const v = idIn && allVariants.find(function (x) { return String(x.id) === idIn.value; });
+    if (v) {
+      const amount = (v.price / 100).toFixed(2).replace('.', ',');
+      tnPrice.textContent = /^\s*€/.test(tnPrice.textContent) ? '€' + amount : amount + ' €';
+    }
+  };
+  document.addEventListener('change', function () { setTimeout(syncChoice, 0); });
+  document.addEventListener('click', function (e) { if (e.target.closest('variant-picker, [data-product-deal]')) setTimeout(syncChoice, 50); });
+  syncChoice();
   const resultImg = studio.querySelector('[data-tstudio-img]');
   const max = parseInt(d.max, 10) || 3;
   const needsName = d.needsName === 'true';
