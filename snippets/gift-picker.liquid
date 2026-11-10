@@ -49,7 +49,7 @@
           <button type="button" class="gift-pick__btn" data-gift-pick data-variant="{{ gv.id }}" aria-label="{{ 'cart.gift_choose' | t }}: {{ p.title | escape }}">
             {%- comment -%} The gift is the small poster without frame: show it that way (Shopify file «{handle}-marco-none.webp») {%- endcomment -%}
             <span class="gift-pick__media">
-              <img src="{{ p.handle | append: '-marco-none.webp' | file_url }}" alt="{{ p.title | escape }}, póster sin marco" loading="lazy" width="1200" height="1500">
+              <img src="{{ p.handle | append: '-marco-none.webp' | file_img_url: '400x' }}" alt="{{ p.title | escape }}, póster sin marco" loading="lazy" width="1200" height="1500">
             </span>
             <span class="gift-pick__name">{{ p.title }}</span>
             <span class="gift-pick__size">{{ 'cart.gift_size_label' | t }}</span>

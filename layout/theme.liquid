@@ -13,8 +13,15 @@
       <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 64, height: 64 }}">
     {%- endif -%}
 
+    {%- comment -%} Home: a descriptive title and description while Tienda online → Preferencias has none {%- endcomment -%}
+    {%- liquid
+      assign home_seo = false
+      if template.name == 'index' and page_title == shop.name
+        assign home_seo = true
+      endif
+    -%}
     <title>
-      {{ page_title }}
+      {% if home_seo %}ARSNOIR · Retratos personalizados de mascotas y cuadros para tu pared{% else %}{{ page_title }}{% endif %}
       {%- if current_tags %} &ndash; {{ current_tags | join: ', ' }}{% endif -%}
       {%- if current_page != 1 %} &ndash; Página {{ current_page }}{% endif -%}
       {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
@@ -22,6 +29,8 @@
 
     {% if page_description %}
       <meta name="description" content="{{ page_description | escape }}">
+    {% elsif template.name == 'index' %}
+      <meta name="description" content="Convierte la foto de tu mascota, tu pareja o tu familia en un cuadro ilustrado. Mira el resultado antes de pagar. Impreso en Europa, envío a España en 4-10 días hábiles.">
     {% endif %}
 
     {% render 'meta-tags' %}

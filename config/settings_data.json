@@ -54,7 +54,7 @@
           "enabled": true,
           "preview": false,
           "min_pages": 1,
-          "delay": 4,
+          "delay": 30,
           "days": 14,
           "image": "shopify://shop_images/arsnoir-bienvenida-salon.jpg",
           "eyebrow": "BIENVENIDO A ARSNOIR",

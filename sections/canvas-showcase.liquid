@@ -59,8 +59,8 @@
       <li class="slider__item lienzos__item">
         <div class="lienzos__media" data-lienzo>
           <a href="{{ url }}" class="lienzos__pics" tabindex="-1">
-            <img src="{{ base | append: 'canvas.webp' | file_url }}" alt="{{ p.title | escape }} en lienzo" loading="lazy" width="1200" height="1500">
-            <img class="lienzos__framed" src="{{ base | append: 'canvasframe.webp' | file_url }}" alt="{{ p.title | escape }} en lienzo con marco" loading="lazy" width="1200" height="1500">
+            <img src="{{ base | append: 'canvas.webp' | file_img_url: '800x' }}" alt="{{ p.title | escape }} en lienzo" loading="lazy" width="1200" height="1500">
+            <img class="lienzos__framed" src="{{ base | append: 'canvasframe.webp' | file_img_url: '800x' }}" alt="{{ p.title | escape }} en lienzo con marco" loading="lazy" width="1200" height="1500">
           </a>
           <div class="lienzos__switch" role="group" aria-label="{{ p.title | escape }}">
             <button type="button" class="is-on" data-lienzo-show="0" aria-pressed="true">{{ s.label_canvas }}</button>

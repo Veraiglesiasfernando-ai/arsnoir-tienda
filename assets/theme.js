@@ -1618,11 +1618,16 @@
   }
 
   /* Shipping in the cart: Shopify's cheapest real rate for the visitor's country */
+  const SHIP_ZIP = { ES: ['28001', 'Madrid'], FR: ['75001'], DE: ['10115'], NL: ['1011 AB'], IT: ['00118', 'RM'], PT: ['1000-001', 'Lisboa'], BE: ['1000'], AT: ['1010'], IE: ['D01 F5P2', 'D'] };
   function fillShipping(container) {
     (container || document).querySelectorAll('[data-ship-estimate]').forEach(function (el) {
       if (el.dataset.done || !el.dataset.country) return;
       el.dataset.done = '1';
-      fetch(root + 'cart/shipping_rates.json?shipping_address%5Bcountry%5D=' + encodeURIComponent(el.dataset.country))
+      /* Shopify answers 422 without a postcode: ask with the capital's one (rates are flat per country) */
+      const zip = SHIP_ZIP[el.dataset.country];
+      if (!zip) return;
+      fetch(root + 'cart/shipping_rates.json?shipping_address%5Bcountry%5D=' + encodeURIComponent(el.dataset.country) +
+        '&shipping_address%5Bzip%5D=' + encodeURIComponent(zip[0]) + '&shipping_address%5Bprovince%5D=' + encodeURIComponent(zip[1] || ''))
         .then(function (r) { return r.ok ? r.json() : null; })
         .then(function (data) {
           const rates = data && data.shipping_rates;

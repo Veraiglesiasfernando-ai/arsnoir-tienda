@@ -16,10 +16,10 @@
 {%- if alt_l contains 'con marco negro' -%}
   {%- liquid
     assign black_src = media | image_url: width: 1600
-    assign white_src = base | append: 'white.webp' | file_url
-    assign wood_src = base | append: 'wood.webp' | file_url
-    assign none_src = base | append: 'none.webp' | file_url
-    assign canvas_src = base | append: 'canvas.webp' | file_url
+    assign white_src = base | append: 'white.webp' | file_img_url: '1400x'
+    assign wood_src = base | append: 'wood.webp' | file_img_url: '1400x'
+    assign none_src = base | append: 'none.webp' | file_img_url: '1400x'
+    assign canvas_src = base | append: 'canvas.webp' | file_img_url: '1400x'
   -%}
   {{ media | image_url: width: 1600 | image_tag:
     loading: load,

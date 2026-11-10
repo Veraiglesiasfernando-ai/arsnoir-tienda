@@ -26,7 +26,7 @@
             "product": "retrato-comic",
             "image": "shopify://shop_images/arsnoir-regalo-retrato-comic.jpg",
             "title": "Tu perro, en cómic",
-            "subtitle": "Sube su foto · Míralo gratis antes de pagar",
+            "subtitle": "Sube su foto · Lo ves antes de pagar",
             "link": "shopify://products/retrato-comic",
             "tag": "Personalizado",
             "black_frame": false
@@ -55,7 +55,7 @@
       "settings": {
         "eyebrow": "BIENVENIDO A",
         "title": "ARSNOIR",
-        "subtitle": "Arte que no verás en ningún otro sitio.",
+        "subtitle": "Retratos de tu mascota, tu pareja o tu familia. Los ves antes de pagar.",
         "pz_photo_image": "shopify://shop_images/arsnoir-regalo-foto-familia.jpg",
         "pz_tpl_image": "shopify://shop_images/arsnoir-regalo-retrato-comic.jpg",
         "pz_tpl_soon": false,
@@ -65,7 +65,7 @@
     "marquee": {
       "type": "marquee",
       "settings": {
-        "text": "ARTE QUE NO VERÁS EN NINGÚN OTRO SITIO · 100% ORIGINAL · SOLO EN ARSNOIR ·",
+        "text": "IMPRESO EN EUROPA · PAPEL MATE DE 200 G · LO VES ANTES DE PAGAR · ENVÍO CON SEGUIMIENTO ·",
         "speed": 35
       }
     },
@@ -214,10 +214,10 @@
         "show_seal": false,
         "seal_text": "ARTE ORIGINAL · SOLO EN ARSNOIR · ",
         "seal_center": "A",
-        "button_label": "Ver obras",
-        "button_link": "shopify://collections/all",
-        "button2_label": "Crea tu ilustración",
-        "button2_link": "shopify://collections/personalizalo",
+        "button_label": "Crea tu retrato",
+        "button_link": "shopify://collections/personalizalo",
+        "button2_label": "Ver obras",
+        "button2_link": "shopify://collections/all",
         "heading": "No decores tu espacio.\nCambia cómo se siente.",
         "show_progress": false
       }

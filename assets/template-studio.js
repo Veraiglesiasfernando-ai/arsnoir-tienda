@@ -85,6 +85,55 @@
     if (step) step.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
   const resultImg = studio.querySelector('[data-tstudio-img]');
+
+  /* The picture on screen and in the email is a small copy with the watermark drawn into it, so
+     saving it never gives the clean artwork; the clean one only travels in the order.
+     If the copy can't be made (no CORS on the source), the screen keeps the CSS watermark. */
+  let markData = '';
+  const markCopy = function (src) {
+    return new Promise(function (resolve, reject) {
+      const im = new Image();
+      im.crossOrigin = 'anonymous';
+      im.onload = function () {
+        try {
+          const w = Math.min(640, im.naturalWidth), h = Math.round(im.naturalHeight * (w / im.naturalWidth));
+          const c = document.createElement('canvas');
+          c.width = w; c.height = h;
+          const x = c.getContext('2d');
+          x.drawImage(im, 0, 0, w, h);
+          x.translate(w / 2, h / 2); x.rotate(-28 * Math.PI / 180);
+          x.font = '700 20px Arial, sans-serif'; x.textAlign = 'center';
+          x.fillStyle = 'rgba(255,255,255,.6)'; x.strokeStyle = 'rgba(0,0,0,.28)'; x.lineWidth = 1;
+          for (let y = -h; y <= h; y += 84) {
+            for (let dx = -w; dx <= w; dx += 300) {
+              x.strokeText('ARSNOIR · VISTA PREVIA', dx, y);
+              x.fillText('ARSNOIR · VISTA PREVIA', dx, y);
+            }
+          }
+          resolve(c.toDataURL('image/jpeg', 0.82));
+        } catch (e) { reject(e); }
+      };
+      im.onerror = function () { reject(new Error('img')); };
+      im.src = src;
+    });
+  };
+  /* Shows the preview; swaps in the watermarked copy as soon as it is ready (kept copy first, then the model's link) */
+  const paintResult = function (url, saved) {
+    markData = '';
+    resultImg.src = url;
+    const tryMark = function (list) {
+      if (!list.length) return;
+      markCopy(list[0]).then(function (data) {
+        if (resultImg.src !== url) return;
+        markData = data;
+        resultImg.src = data;
+        resultImg.closest('.tstudio__shot') && resultImg.closest('.tstudio__shot').classList.add('is-marked');
+      }, function () { tryMark(list.slice(1)); });
+    };
+    const shot = resultImg.closest('.tstudio__shot');
+    if (shot) shot.classList.remove('is-marked');
+    tryMark([saved, url].filter(Boolean));
+  };
   const max = parseInt(d.max, 10) || 3;
   const needsName = d.needsName === 'true';
   const fontProp = studio.querySelector('[data-tstudio-font-prop]');
@@ -313,7 +362,7 @@
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { sendMsg.textContent = 'Escribe un email válido.'; sendEmail.focus(); return; }
       sendGo.disabled = true; sendGo.textContent = 'Enviando…'; sendMsg.textContent = '';
       fetch(endpoint + '/send', { method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: sendId, email: email, name: sendName, template: d.template, page: location.origin + location.pathname, consent: !!(sendConsent && sendConsent.checked) }) })
+        body: JSON.stringify({ id: sendId, email: email, name: sendName, thumb: markData, template: d.template, page: location.origin + location.pathname, consent: !!(sendConsent && sendConsent.checked) }) })
         .then(function (r) { return r.json().then(function (j) { if (!r.ok) throw new Error(j.error || 'send'); return j; }); })
         .then(function () {
           if (sendConsent && sendConsent.checked) subscribe(email);
@@ -332,6 +381,7 @@
   /* A new photo or name invalidates the previous preview */
   const reset = function () {
     keepId = '';
+    markData = '';
     urlInput.value = '';
     if (nameProp) nameProp.value = '';
     if (fontProp) fontProp.value = '';
@@ -460,7 +510,7 @@
         const f = picked('data-tstudio-font'), c = picked('data-tstudio-color');
         if (fontProp) fontProp.value = name && f ? f.nextElementSibling.textContent : '';
         if (colorProp) colorProp.value = c ? c.dataset.label : '';
-        resultImg.src = url;
+        paintResult(url, out.saved);
         result.hidden = false;
         showSend(out.id, name);
         showNext();
@@ -490,7 +540,7 @@
       const hf = picked('data-tstudio-font'), hc = picked('data-tstudio-color');
       if (fontProp) fontProp.value = hand.name && hf ? hf.nextElementSibling.textContent : '';
       if (colorProp) colorProp.value = hc ? hc.dataset.label : '';
-      resultImg.src = hand.url;
+      paintResult(hand.url, hand.saved);
       result.hidden = false;
       showSend(hand.keep || ((hand.saved || '').match(/\/img\/([a-z0-9]+)\.png/i) || [])[1] || '', hand.name || '');
       showNext();
