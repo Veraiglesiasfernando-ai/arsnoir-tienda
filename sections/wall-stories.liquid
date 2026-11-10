@@ -1,10 +1,12 @@
 {%- comment -%}
-  «Tu pared podría ser la siguiente»: big centred headline + a swipeable row of room photos,
-  each one linking to the artwork on the wall. Room photos are styled scenes (not customer photos):
-  the small note under the row says so. Swap them for real customer photos when they arrive.
+  «Tu pared podría ser la siguiente» as customer stories: tall story cards (like Instagram stories).
+  Tap one and it opens full screen, with progress bars, the review and a button to the artwork.
+  - A card with a review = a REAL customer (photo of their wall + their Judge.me review, with their OK).
+  - A card without a review = a styled room photo, and it says so on the card («Imagen de ambiente»).
+  - The last card invites customers to send the photo of their wall.
 {%- endcomment -%}
 {%- assign s = section.settings -%}
-<section class="section wstories">
+<section class="section wstories" id="WallStories-{{ section.id }}">
   <div class="page-width">
     <header class="wstories__head">
       {%- if s.eyebrow != blank -%}<p class="wstories__eyebrow">{{ s.eyebrow }}</p>{%- endif -%}
@@ -12,63 +14,175 @@
       {%- if s.text != blank -%}<p class="wstories__text">{{ s.text }}</p>{%- endif -%}
     </header>
   </div>
-  <div class="wstories__row" role="list">
+
+  <div class="wst-row" role="list">
     {%- for block in section.blocks -%}
       {%- liquid
         assign b = block.settings
         assign p = b.product
         assign url = p.url | default: routes.all_products_collection_url
         assign label = b.caption | default: p.title
+        assign is_review = false
+        if b.quote != blank
+          assign is_review = true
+        endif
+        assign img = b.image | default: p.featured_media
       -%}
-      <a href="{{ url }}" class="wstory" role="listitem" {{ block.shopify_attributes }}>
-        <span class="wstory__media">
-          {%- if b.image != blank -%}
-            {{ b.image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '400, 600, 900', sizes: '(min-width: 990px) 25vw, (min-width: 750px) 40vw, 78vw', alt: label }}
-          {%- elsif p.featured_media -%}
-            {{ p.featured_media | image_url: width: 900 | image_tag: loading: 'lazy', widths: '400, 600, 900', sizes: '(min-width: 990px) 25vw, 78vw', alt: label }}
-          {%- endif -%}
-        </span>
-        {%- if label != blank -%}
-          <span class="wstory__cap">
-            <span class="wstory__name">{{ label }}</span>
-            {%- if p != blank -%}<span class="wstory__price">{% render 'price', product: p, show_from: true %}</span>{%- endif -%}
+      <div class="wst" role="listitem" {{ block.shopify_attributes }}>
+        <button type="button" class="wst__card{% if is_review %} wst__card--review{% endif %}" data-wst-open="{{ forloop.index0 }}" aria-label="{{ label | escape }}{% if is_review %}, reseña de {{ b.author | escape }}{% endif %}">
+          <span class="wst__media">
+            {%- if img != blank -%}
+              {{ img | image_url: width: 900 | image_tag: loading: 'lazy', widths: '360, 540, 720, 900', sizes: '(min-width: 990px) 22vw, 62vw', alt: '' }}
+            {%- endif -%}
           </span>
-        {%- endif -%}
-        {%- if b.quote != blank -%}
-          {%- comment -%} Only for a REAL review (copy it from Judge.me, with the customer's OK to show their photo). {%- endcomment -%}
-          <span class="wstory__review">
-            <span class="wstory__stars" aria-label="{{ b.rating }} de 5 estrellas">{% for i in (1..5) %}<span class="{% if i > b.rating %}is-off{% endif %}">★</span>{% endfor %}</span>
-            <span class="wstory__quote">«{{ b.quote }}»</span>
-            {%- if b.author != blank -%}<span class="wstory__author">{{ b.author }}{% if b.verified %} · Compra verificada{% endif %}</span>{%- endif -%}
+          <span class="wst__top">
+            {%- if is_review -%}
+              <span class="wst__who"><span class="wst__avatar" aria-hidden="true">{{ b.author | slice: 0 }}</span>{{ b.author }}</span>
+              <span class="wst__stars" aria-hidden="true">{% for i in (1..5) %}<span{% if i > b.rating %} class="is-off"{% endif %}>★</span>{% endfor %}</span>
+            {%- else -%}
+              <span class="wst__tag">Imagen de ambiente</span>
+            {%- endif -%}
           </span>
-        {%- endif -%}
-      </a>
+          <span class="wst__bottom">
+            {%- if is_review -%}<span class="wst__quote">«{{ b.quote }}»</span>{%- endif -%}
+            <span class="wst__name">{{ label }}</span>
+            {%- if p != blank -%}<span class="wst__price">{% render 'price', product: p, show_from: true %}</span>{%- endif -%}
+          </span>
+        </button>
+        {%- comment -%} Data for the full-screen viewer {%- endcomment -%}
+        <template data-wst-item>
+          <div class="wstv__slide"
+            data-url="{{ url }}"
+            data-label="{{ label | escape }}"
+            data-review="{{ is_review }}"
+            data-author="{{ b.author | escape }}"
+            data-verified="{{ b.verified }}"
+            data-rating="{{ b.rating }}">
+            {%- if img != blank -%}{{ img | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '720, 1080, 1400', sizes: '100vw', alt: label }}{%- endif -%}
+            {%- if is_review -%}<p class="wstv__quote">«{{ b.quote }}»</p>{%- endif -%}
+          </div>
+        </template>
+      </div>
     {%- endfor -%}
+
+    {%- if s.upload_title != blank -%}
+      <div class="wst" role="listitem">
+        <a class="wst__card wst__card--upload" href="{{ s.upload_link | default: '/pages/contacto' }}">
+          <span class="wst__plus" aria-hidden="true">+</span>
+          <span class="wst__up-title">{{ s.upload_title }}</span>
+          {%- if s.upload_text != blank -%}<span class="wst__up-text">{{ s.upload_text }}</span>{%- endif -%}
+          {%- if s.upload_button != blank -%}<span class="wst__up-btn">{{ s.upload_button }}</span>{%- endif -%}
+        </a>
+      </div>
+    {%- endif -%}
   </div>
-  {%- assign n_reviews = 0 -%}{%- for block in section.blocks -%}{%- if block.settings.quote != blank -%}{%- assign n_reviews = n_reviews | plus: 1 -%}{%- endif -%}{%- endfor -%}
-  {%- if s.note != blank and n_reviews < section.blocks.size -%}<p class="page-width wstories__note">{{ s.note }}</p>{%- endif -%}
+
+  {%- comment -%} Full-screen story viewer (filled from the templates above) {%- endcomment -%}
+  <div class="wstv" data-wst-viewer hidden role="dialog" aria-modal="true" aria-label="Historias de paredes">
+    <div class="wstv__frame">
+      <div class="wstv__bars" data-wst-bars></div>
+      <div class="wstv__head">
+        <span class="wstv__who" data-wst-who></span>
+        <button type="button" class="wstv__close" data-wst-close aria-label="Cerrar">×</button>
+      </div>
+      <div class="wstv__stage" data-wst-stage></div>
+      <button type="button" class="wstv__nav wstv__nav--prev" data-wst-prev aria-label="Anterior"></button>
+      <button type="button" class="wstv__nav wstv__nav--next" data-wst-next aria-label="Siguiente"></button>
+      <div class="wstv__foot">
+        <a class="wstv__cta" data-wst-cta href="#">Ver la obra →</a>
+      </div>
+    </div>
+  </div>
 </section>
+
+<script>
+  (function () {
+    var root = document.getElementById('WallStories-{{ section.id }}');
+    if (!root) return;
+    var viewer = root.querySelector('[data-wst-viewer]');
+    var stage = root.querySelector('[data-wst-stage]');
+    var bars = root.querySelector('[data-wst-bars]');
+    var who = root.querySelector('[data-wst-who]');
+    var cta = root.querySelector('[data-wst-cta]');
+    var items = Array.prototype.map.call(root.querySelectorAll('template[data-wst-item]'), function (t) { return t; });
+    var cur = 0, timer = null, DUR = 5000;
+
+    function stars(n) { var s = ''; for (var i = 1; i <= 5; i++) s += i <= n ? '★' : '☆'; return s; }
+    function show(i) {
+      if (i < 0) i = 0;
+      if (i >= items.length) { close(); return; }
+      cur = i;
+      stage.innerHTML = '';
+      stage.appendChild(items[i].content.cloneNode(true));
+      var slide = stage.firstElementChild;
+      var img = slide.querySelector('img'); if (img) img.loading = 'eager';
+      var isReview = slide.dataset.review === 'true';
+      who.textContent = isReview
+        ? slide.dataset.author + ' · ' + stars(parseInt(slide.dataset.rating, 10) || 5) + (slide.dataset.verified === 'true' ? ' · Compra verificada' : '')
+        : 'Imagen de ambiente';
+      cta.href = slide.dataset.url;
+      cta.textContent = 'Ver «' + slide.dataset.label + '» →';
+      Array.prototype.forEach.call(bars.children, function (b, k) {
+        b.className = 'wstv__bar' + (k < i ? ' is-done' : k === i ? ' is-on' : '');
+      });
+      clearTimeout(timer);
+      timer = setTimeout(function () { show(cur + 1); }, DUR);
+    }
+    function open(i) {
+      bars.innerHTML = items.map(function () { return '<span class="wstv__bar"><i></i></span>'; }).join('');
+      bars.style.setProperty('--wst-dur', DUR + 'ms');
+      viewer.hidden = false;
+      document.documentElement.classList.add('wst-lock');
+      show(i);
+    }
+    function close() {
+      clearTimeout(timer);
+      viewer.hidden = true;
+      stage.innerHTML = '';
+      document.documentElement.classList.remove('wst-lock');
+    }
+    root.addEventListener('click', function (e) {
+      var o = e.target.closest('[data-wst-open]');
+      if (o) { open(parseInt(o.dataset.wstOpen, 10) || 0); return; }
+      if (e.target.closest('[data-wst-close]')) { close(); return; }
+      if (e.target.closest('[data-wst-next]')) { show(cur + 1); return; }
+      if (e.target.closest('[data-wst-prev]')) { show(cur - 1); return; }
+      if (e.target === viewer) close();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (viewer.hidden) return;
+      if (e.key === 'Escape') close();
+      if (e.key === 'ArrowRight') show(cur + 1);
+      if (e.key === 'ArrowLeft') show(cur - 1);
+    });
+  })();
+</script>
 
 {% schema %}
 {
-  "name": "Tu pared (inspiración)",
+  "name": "Tu pared (historias)",
   "tag": "section",
   "settings": [
     { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "INSPIRACIÓN" },
     { "type": "textarea", "id": "heading", "label": "Titular (una línea por renglón)", "default": "Una buena decoración\nlo cambia todo.\nTu pared\npodría ser la siguiente." },
-    { "type": "text", "id": "text", "label": "Texto", "default": "Ideas para cada rincón de tu casa. Toca una foto para ver la obra." },
-    { "type": "text", "id": "note", "label": "Nota bajo las fotos", "default": "Imágenes de ambiente.", "info": "Se oculta sola cuando todas las fotos llevan reseña real." }
+    { "type": "text", "id": "text", "label": "Texto", "default": "Ideas para cada rincón de tu casa. Toca una foto para verla en grande." },
+    { "type": "text", "id": "note", "label": "(antiguo, sin uso)" },
+    { "type": "header", "content": "Última tarjeta: «sube tu pared»" },
+    { "type": "text", "id": "upload_title", "label": "Título", "default": "Tu pared aquí" },
+    { "type": "textarea", "id": "upload_text", "label": "Texto", "default": "¿Ya tienes tu cuadro? Escribe tu reseña con una foto de tu pared en la ficha de tu obra, o mándanosla y la compartimos aquí (con tu permiso)." },
+    { "type": "text", "id": "upload_button", "label": "Botón", "default": "Enviar mi foto" },
+    { "type": "url", "id": "upload_link", "label": "Enlace del botón", "info": "Vacío = página de contacto." }
   ],
   "blocks": [
     {
       "type": "photo",
-      "name": "Foto",
+      "name": "Historia",
       "settings": [
-        { "type": "image_picker", "id": "image", "label": "Foto del ambiente" },
+        { "type": "image_picker", "id": "image", "label": "Foto (de la pared del cliente o de ambiente)" },
         { "type": "product", "id": "product", "label": "Obra que aparece" },
         { "type": "text", "id": "caption", "label": "Texto (vacío = nombre de la obra)" },
         { "type": "header", "content": "Reseña del cliente (solo reseñas reales)" },
-        { "type": "paragraph", "content": "Copia aquí una reseña real de Judge.me y pon como foto la de la pared del cliente (con su permiso). Vacío = foto de ambiente, sin reseña." },
+        { "type": "paragraph", "content": "Copia aquí una reseña real de Judge.me y pon como foto la de la pared del cliente (con su permiso). Vacío = sale como «Imagen de ambiente»." },
         { "type": "textarea", "id": "quote", "label": "Texto de la reseña" },
         { "type": "text", "id": "author", "label": "Nombre (ej.: Laura M., Madrid)" },
         { "type": "range", "id": "rating", "label": "Estrellas", "min": 1, "max": 5, "step": 1, "default": 5 },
@@ -76,6 +190,6 @@
       ]
     }
   ],
-  "presets": [{ "name": "Tu pared (inspiración)" }]
+  "presets": [{ "name": "Tu pared (historias)" }]
 }
 {% endschema %}
