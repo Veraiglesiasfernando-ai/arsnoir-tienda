@@ -15,6 +15,7 @@
     </header>
   </div>
 
+  {%- if request.design_mode -%}<p class="page-width wst__editor-note">👀 Solo lo ves tú en el editor: reseñas de EJEMPLO para ver el diseño. Los clientes ven solo las reseñas reales.</p>{%- endif -%}
   <div class="wst-row" role="list">
     {%- for block in section.blocks -%}
       {%- liquid
@@ -27,6 +28,16 @@
           assign is_review = true
         endif
         assign img = b.image | default: p.featured_media
+        # Theme editor only (request.design_mode): sample reviews so the layout can be judged.
+        # Customers never see them.
+        assign sample = false
+        if is_review == false and request.design_mode
+          assign sample = true
+          assign is_review = true
+          assign sample_quotes = 'Queda precioso en el salón, los colores son tal cual la vista previa.|Lo regalé por su cumpleaños y lloró de la emoción. Llegó muy bien embalado.|La calidad del marco me sorprendió, se ve mucho más caro de lo que es.|Me encanta cómo quedó mi perro, todo el mundo me pregunta dónde lo compré.|Fácil de pedir y llegó en una semana. Repetiré seguro.|El tamaño A3 es perfecto encima del sofá.' | split: '|'
+          assign sample_names = 'Laura M.|Carlos R.|Marta G.|Javier P.|Lucía S.|Andrea V.' | split: '|'
+          assign si = forloop.index0 | modulo: 6
+        endif
       -%}
       <div class="wst" role="listitem" {{ block.shopify_attributes }}>
         <button type="button" class="wst__card{% if is_review %} wst__card--review{% endif %}" data-wst-open="{{ forloop.index0 }}" aria-label="{{ label | escape }}{% if is_review %}, reseña de {{ b.author | escape }}{% endif %}">
@@ -37,14 +48,15 @@
           </span>
           <span class="wst__top">
             {%- if is_review -%}
-              <span class="wst__who"><span class="wst__avatar" aria-hidden="true">{{ b.author | slice: 0 }}</span>{{ b.author }}</span>
-              <span class="wst__stars" aria-hidden="true">{% for i in (1..5) %}<span{% if i > b.rating %} class="is-off"{% endif %}>★</span>{% endfor %}</span>
+              {%- if sample -%}{%- assign r_author = sample_names[si] | append: ' · EJEMPLO' -%}{%- assign r_rating = 5 -%}{%- else -%}{%- assign r_author = b.author -%}{%- assign r_rating = b.rating -%}{%- endif -%}
+              <span class="wst__who"><span class="wst__avatar" aria-hidden="true">{{ r_author | slice: 0 }}</span>{{ r_author }}</span>
+              <span class="wst__stars" aria-hidden="true">{% for i in (1..5) %}<span{% if i > r_rating %} class="is-off"{% endif %}>★</span>{% endfor %}</span>
             {%- else -%}
               <span class="wst__tag">Imagen de ambiente</span>
             {%- endif -%}
           </span>
           <span class="wst__bottom">
-            {%- if is_review -%}<span class="wst__quote">«{{ b.quote }}»</span>{%- endif -%}
+            {%- if is_review -%}<span class="wst__quote">«{% if sample %}{{ sample_quotes[si] }}{% else %}{{ b.quote }}{% endif %}»</span>{%- endif -%}
             <span class="wst__name">{{ label }}</span>
             {%- if p != blank -%}<span class="wst__price">{% render 'price', product: p, show_from: true %}</span>{%- endif -%}
           </span>
@@ -65,10 +77,11 @@
             assign jm_avg_n = jm_avg | plus: 0
             assign jm_full = jm_avg_n | round
           -%}
+          {%- if jm_n == 0 and request.design_mode -%}{%- assign jm_n = 12 -%}{%- assign jm_avg_n = 4.9 -%}{%- assign jm_full = 5 -%}{%- assign jm_sample = true -%}{%- else -%}{%- assign jm_sample = false -%}{%- endif -%}
           <a class="wst__rev{% if jm_n == 0 %} wst__rev--none{% endif %}" href="{{ p.url }}#Reviews">
             {%- if jm_n > 0 -%}
               <span class="wst__rev-stars" aria-hidden="true">{% for i in (1..5) %}<span{% if i > jm_full %} class="is-off"{% endif %}>★</span>{% endfor %}</span>
-              <span class="wst__rev-txt"><b>{{ jm_avg_n | round: 1 | replace: '.', ',' }}</b> · {{ jm_n }} {% if jm_n == 1 %}reseña{% else %}reseñas{% endif %}</span>
+              <span class="wst__rev-txt"><b>{{ jm_avg_n | round: 1 | replace: '.', ',' }}</b> · {{ jm_n }} {% if jm_n == 1 %}reseña{% else %}reseñas{% endif %}{% if jm_sample %} · EJEMPLO{% endif %}</span>
             {%- else -%}
               <span class="wst__rev-txt">Aún sin reseñas · <u>Sé el primero en opinar</u> →</span>
             {%- endif -%}
@@ -80,11 +93,11 @@
             data-url="{{ url }}"
             data-label="{{ label | escape }}"
             data-review="{{ is_review }}"
-            data-author="{{ b.author | escape }}"
-            data-verified="{{ b.verified }}"
-            data-rating="{{ b.rating }}">
+            data-author="{% if sample %}{{ sample_names[si] }} · EJEMPLO{% else %}{{ b.author | escape }}{% endif %}"
+            data-verified="{% if sample %}false{% else %}{{ b.verified }}{% endif %}"
+            data-rating="{% if sample %}5{% else %}{{ b.rating }}{% endif %}">
             {%- if img != blank -%}{{ img | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '720, 1080, 1400', sizes: '100vw', alt: label }}{%- endif -%}
-            {%- if is_review -%}<p class="wstv__quote">«{{ b.quote }}»</p>{%- endif -%}
+            {%- if is_review -%}<p class="wstv__quote">«{% if sample %}{{ sample_quotes[si] }}{% else %}{{ b.quote }}{% endif %}»</p>{%- endif -%}
           </div>
         </template>
       </div>

@@ -4084,3 +4084,4 @@ html:not(.is-scrolled) body:has(main > .shopify-section:first-child .vhero) .gla
 .wst__rev-stars .is-off { color: #d6d6d3; }
 .wst__rev--none { color: var(--color-muted, #6b6b6b); }
 .wst__rev--none u { text-underline-offset: 3px; color: #490B1A; font-weight: 600; }
+.wst__editor-note { margin: 0 auto 14px; padding: 10px 14px; border-radius: 10px; background: #FFF4D6; color: #6b4e00; font-size: 13px; text-align: center; }
