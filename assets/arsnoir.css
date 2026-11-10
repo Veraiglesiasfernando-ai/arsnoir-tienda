@@ -4007,3 +4007,6 @@ html:not(.is-scrolled) body:has(main > .shopify-section:first-child .vhero) .gla
 .svis__clean { display: none; margin: 12px 0 0; padding: 10px 14px; border-radius: 10px; background: #F4EEEA; color: #3a2a2e; font-size: 13px; line-height: 1.45; text-align: center; }
 .svis__clean b { color: #490B1A; }
 .svis.is-preview .svis__clean { display: block; }
+
+/* Reviews: no reviews yet, the line sits under the title (left) */
+.reviews__empty--left { text-align: left; margin-top: 8px; }

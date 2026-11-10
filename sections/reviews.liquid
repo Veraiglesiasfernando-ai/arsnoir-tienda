@@ -22,12 +22,19 @@
 -%}
 {%- if s.judgeme and product != blank and jm_count == 0 -%}
   {%- comment -%}
-    No reviews yet: no empty «Customer Reviews / Be the first…» widget and no zero stars. Just one
-    honest line and the way to ask. The widget appears by itself with the first real review.
+    No reviews yet: one honest line and Judge.me's own widget, so customers can already write the
+    first review (Judge.me's «Escribir una reseña» button). No stars or numbers are invented.
   {%- endcomment -%}
-  <section class="section reviews reviews--empty" id="Reviews">
+  <section class="section reviews reviews--app reviews--first" id="Reviews">
     <div class="page-width">
-      <p class="reviews__empty">{{ 'product.reviews_empty' | t }} <a href="{{ s.contact_url | default: '/pages/contacto' }}">{{ 'product.reviews_ask' | t }}</a></p>
+      <div class="reviews__head">
+        <div>
+          {%- if s.eyebrow != blank -%}<p class="eyebrow eyebrow--accent">{{ s.eyebrow }}</p>{%- endif -%}
+          <h2 class="featured__title">{{ s.heading }}</h2>
+          <p class="reviews__empty reviews__empty--left">{{ 'product.reviews_empty' | t }} Si ya tienes la tuya, cuéntanos qué tal.</p>
+        </div>
+      </div>
+      <div id="judgeme_product_reviews" class="jdgm-widget jdgm-review-widget" data-id="{{ product.id }}">{{ product.metafields.judgeme.widget }}</div>
     </div>
   </section>
 {%- elsif s.judgeme and product != blank -%}
