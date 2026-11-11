@@ -4171,3 +4171,29 @@ html:not(.is-scrolled) body:has(main > .shopify-section:first-child .vhero) .gla
 .pack__title { font-size: 18px; font-weight: 700; }
 .pack__price { font-size: 18px; }
 .pack .pack__add { margin: 0 6px; border-radius: 999px; }
+
+/* ===== Destacado con collage (big room photo + floating product cards + copy) ===== */
+.fcol { background: var(--fcol-bg, #fff); padding: clamp(40px, 6vw, 88px) 0; overflow: hidden; }
+.fcol__grid { display: grid; grid-template-columns: 1.1fr 1fr; align-items: center; gap: clamp(32px, 5vw, 80px); }
+.fcol--reverse .fcol__art { order: 2; }
+.fcol__art { position: relative; aspect-ratio: 1 / 0.92; }
+.fcol__card, .fcol__main { position: absolute; display: block; border-radius: 16px; overflow: hidden; background: #f3f2ef; text-decoration: none; }
+.fcol__card img, .fcol__main img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.fcol__card { box-shadow: 0 10px 30px rgba(0,0,0,.08); transition: transform .4s ease; background: linear-gradient(160deg, #f7f6f3, #ebe9e4); }
+.fcol__card img { object-fit: contain; padding: 8%; }
+.fcol__card--1 { left: 0; top: 0; width: 36%; aspect-ratio: 4 / 5; }
+.fcol__card--2 { right: 0; top: 10%; width: 36%; aspect-ratio: 4 / 5; }
+.fcol__card--3 { left: 11%; bottom: 0; width: 28%; aspect-ratio: 4 / 5; }
+.fcol__card:hover { transform: translateY(-6px); }
+.fcol__main { left: 28%; top: 21%; width: 47%; aspect-ratio: 4 / 5; z-index: 2; box-shadow: 0 24px 50px rgba(0,0,0,.18); }
+.fcol__name { position: absolute; left: 10px; bottom: 10px; padding: 4px 10px; border-radius: 999px; background: rgba(255,255,255,.92); font-size: 11.5px; font-weight: 700; color: #0a0a0a; }
+.fcol__eyebrow { margin: 0 0 12px; font-size: 13px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+.fcol__title { margin: 0; font-family: var(--font-heading); font-size: clamp(2.2rem, 4.6vw, 4.2rem); font-weight: 800; line-height: .98; letter-spacing: -.035em; text-transform: uppercase; }
+.fcol__text { margin: clamp(16px, 2vw, 26px) 0 0; max-width: 52ch; font-size: clamp(15px, 1.3vw, 18px); line-height: 1.6; color: #3a3a3a; }
+.fcol__btn { display: inline-block; margin-top: clamp(22px, 2.6vw, 34px); padding: 18px 32px; border-radius: 999px; background: #0a0a0a; color: #fff; font-size: 14px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; text-decoration: none; transition: transform .2s ease, background .2s ease; }
+.fcol__btn:hover { background: #490B1A; transform: translateY(-2px); }
+@media (max-width: 899px) {
+  .fcol__grid { grid-template-columns: 1fr; }
+  .fcol--reverse .fcol__art { order: 0; }
+  .fcol__art { max-width: 560px; width: 100%; margin: 0 auto; }
+}

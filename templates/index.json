@@ -650,6 +650,21 @@
         "fg": "#FFFFFF",
         "button_link": "/collections/personalizalo#ctpl-navidad"
       }
+    },
+    "collage": {
+      "type": "feature-collage",
+      "settings": {
+        "image": "shopify://shop_images/retrato-comic-salon.jpg",
+        "alt": "Retrato cómic de un perro enmarcado en un salón",
+        "product_1": "retrato-glam",
+        "product_2": "tu-mascota-en-acuarela",
+        "product_3": "navidad-papa-noel",
+        "eyebrow": "RETRATOS PERSONALIZADOS",
+        "heading": "Tu mascota,\nen tu pared.",
+        "text": "Sube su foto, elige el estilo y míralo gratis antes de pagar. Lo imprimimos en el tamaño y el marco que elijas, y te llega en 4–10 días hábiles.",
+        "button_label": "Crear su retrato",
+        "bg": "#FFFFFF"
+      }
     }
   },
   "order": [
@@ -657,6 +672,7 @@
     "vhero",
     "q4",
     "welcome",
+    "collage",
     "navidad",
     "marquee",
     "trust",
