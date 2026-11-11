@@ -138,3 +138,7 @@ La API ya funciona (200) con el secreto del entorno Default.
 3. Lienzo 20×25 (con y sin marco): merchOne no lo tiene. ¿Quitarlo o pasarlo a 30×20?
 4. Póster con marco: hoy hay 6 tamaños y merchOne tiene 4. Qué tamaño va a cuál y a qué precio.
 5. Color del marco «Wood»: roble, nogal o pino.
+
+## Originales (11/11/2026)
+Recibidos en Drive. Análisis completo en `docs/merchone-originales.md`: 36 de las 54 obras tienen original y ninguna necesita ampliarse. Faltan 18 (lista en ese documento).
+La API de pedidos (`POST /orders`) pide `is_test` y `shipping_type`; los valores válidos de `shipping_type` no salen probando. Hace falta la documentación de la API (merchone.com no está permitido en la red de la sesión) [CONFIRMAR].
