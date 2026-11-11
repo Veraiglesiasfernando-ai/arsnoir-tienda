@@ -4223,3 +4223,30 @@ html:not(.is-scrolled) body:has(main > .shopify-section:first-child .vhero) .gla
 .ppk__price { margin: 16px 0 0; font-size: 16px; }
 .ppk__price b { font-size: 22px; }
 .ppk__price span { color: var(--color-muted, #6b6b6b); font-size: 14px; }
+
+/* MIXPIX pack: choose the styles (snippets/mixpix-styles.liquid) */
+.mxp { margin: 16px 0 12px; padding: 14px; border: 1px solid rgba(0,0,0,.12); border-radius: 12px; }
+.mxp__title { font-weight: 600; margin: 0 0 4px; }
+.mxp__sub, .mxp__hint { font-size: .875rem; opacity: .75; margin: 0 0 10px; }
+.mxp__hint:empty { display: none; }
+.mxp__list { list-style: none; margin: 0 0 8px; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; }
+.mxp__opt { display: flex; align-items: center; gap: 8px; padding: 6px 8px; border: 1px solid rgba(0,0,0,.12); border-radius: 8px; cursor: pointer; font-size: .875rem; }
+.mxp__opt img { width: 36px; height: 36px; object-fit: cover; border-radius: 4px; }
+.mxp__opt:has(input:checked) { border-color: currentColor; }
+.mxp__opt:has(input:disabled:not(:checked)) { opacity: .45; cursor: default; }
+.mxp__opt.is-fixed { cursor: default; }
+
+/* «Pack MIXPIX» tab (snippets/mixpix-pack-panel.liquid): a wall of 20×20 tiles + price table */
+.mxpk { display: grid; grid-template-columns: 1.1fr 1fr; align-items: center; gap: clamp(32px, 5vw, 80px); }
+.mxpk[hidden] { display: none; }
+.mxpk__wall { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(8px, 1.4vw, 16px); padding: clamp(18px, 3vw, 36px); background: #EAE3D8; border-radius: 16px; }
+.mxpk__tile { aspect-ratio: 1; background: #fff; padding: 6%; box-shadow: 0 6px 16px rgba(0,0,0,.12); overflow: hidden; }
+.mxpk__tile img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.mxpk.is-active .mxpk__tile { animation: ppk-in .5s ease both; }
+.mxpk.is-active .mxpk__tile--2 { animation-delay: .05s; } .mxpk.is-active .mxpk__tile--3 { animation-delay: .1s; }
+.mxpk.is-active .mxpk__tile--4 { animation-delay: .15s; } .mxpk.is-active .mxpk__tile--5 { animation-delay: .2s; } .mxpk.is-active .mxpk__tile--6 { animation-delay: .25s; }
+.mxpk__prices { width: 100%; border-collapse: collapse; margin: 14px 0 18px; font-size: .95rem; }
+.mxpk__prices th, .mxpk__prices td { padding: 8px 6px; text-align: left; border-bottom: 1px solid rgba(0,0,0,.1); }
+.mxpk__prices thead th { font-weight: 500; opacity: .7; font-size: .8rem; }
+.mxpk__prices td { font-variant-numeric: tabular-nums; }
+@media (max-width: 899px) { .mxpk { grid-template-columns: 1fr; } .mxpk__wall { max-width: 560px; width: 100%; margin: 0 auto; } }

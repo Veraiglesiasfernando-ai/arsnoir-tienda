@@ -499,6 +499,7 @@
               {%- endunless -%}
 
               {%- render 'pack-picker', product: product, current_variant: current_variant, form_id: form_id -%}
+              {%- render 'mixpix-styles', product: product, form_id: form_id -%}
               {%- form 'product', product, id: form_id, data-ajax-cart: 'true' -%}
                 <input type="hidden" name="id" value="{{ current_variant.id }}">
                 <div class="product__buy">

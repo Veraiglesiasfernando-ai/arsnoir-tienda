@@ -686,12 +686,24 @@
             "text": "Dos retratos navideños de tu mascota para decorar estas fiestas o regalar.",
             "button_label": "Crear el pack"
           }
+        },
+        "k4": {
+          "type": "mixpix",
+          "settings": {
+            "title": "Pack MIXPIX",
+            "product_1": "retrato-glam",
+            "product_2": "retrato-de-pareja-en-acuarela",
+            "product_3": "familia-en-acuarela",
+            "text": "Cuadros de 20×20 adhesivos: se pegan a la pared sin clavos. Tu mascota, tu pareja o tu familia en varios estilos, con la misma foto.",
+            "button_label": "Crear mi MIXPIX"
+          }
         }
       },
       "block_order": [
         "k1",
         "k2",
-        "k3"
+        "k3",
+        "k4"
       ],
       "settings": {
         "eyebrow": "PACKS DE MASCOTA",

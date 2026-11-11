@@ -22,6 +22,10 @@
     {%- endif -%}
 
     {%- for block in section.blocks -%}
+      {%- if block.type == 'mixpix' -%}
+        {%- render 'mixpix-pack-panel', block: block, index: forloop.index0, active: forloop.first -%}
+        {%- continue -%}
+      {%- endif -%}
       {%- liquid
         assign b = block.settings
         assign first = nil
@@ -124,9 +128,21 @@
         { "type": "textarea", "id": "text", "label": "Texto" },
         { "type": "text", "id": "button_label", "label": "Botón", "default": "Crear el pack" }
       ]
+    },
+    {
+      "type": "mixpix",
+      "name": "Pack MIXPIX",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Nombre de la pestaña", "default": "Pack MIXPIX" },
+        { "type": "product", "id": "product_1", "label": "Estilo 1 (sus precios MIXPIX se muestran)" },
+        { "type": "product", "id": "product_2", "label": "Estilo 2" },
+        { "type": "product", "id": "product_3", "label": "Estilo 3" },
+        { "type": "textarea", "id": "text", "label": "Texto", "default": "Cuadros de 20×20 adhesivos: se pegan a la pared sin clavos. Tu mascota, tu pareja o tu familia en varios estilos, con la misma foto." },
+        { "type": "text", "id": "button_label", "label": "Botón", "default": "Crear mi MIXPIX" }
+      ]
     }
   ],
-  "max_blocks": 5,
+  "max_blocks": 6,
   "presets": [{ "name": "Packs de mascota" }]
 }
 {% endschema %}

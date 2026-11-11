@@ -1,0 +1,47 @@
+{
+  "_nota": "Correspondencia variante actual de Shopify (Gelato) -> SKU de merchOne. Sacado de la API el 11/11/2026. Costes sin IVA y sin envío. 'pendiente' = falta decisión del dueño. No cambiar precios de venta sin su «dale».",
+  "lamina": {
+    "blueprint": 47,
+    "variantes": [
+      {"shopify_tamano": "21x29.7 cm / 8x12\"", "merchone": "DIN A4", "sku": "PSD0290211", "coste": 3.35, "venta": 16.95},
+      {"shopify_tamano": "A3 (29.7 x 42  cm)", "merchone": "DIN A3", "sku": "PSD0420291", "coste": 5.68, "venta": 29.95},
+      {"shopify_tamano": "A2 (42 x 59.4  cm)", "merchone": "DIN A2", "sku": "PSD0590421", "coste": 6.93, "venta": 32.95},
+      {"shopify_tamano": "50x70 cm / 20x28″", "merchone": "70x50 cm", "sku": "PSD0700501", "coste": 7.26, "venta": 39.95},
+      {"shopify_tamano": "A1 (59.4 x 84.1  cm)", "merchone": "DIN A1", "sku": "PSD0840591", "coste": 9.84, "venta": 49.95},
+      {"shopify_tamano": "60x90 cm / 24x36″", "merchone": "pendiente: 100x70 (PSD1000701, 13.86) o 91x61 (PSD0910611, 6.12)", "sku": null, "venta": 59.95}
+    ]
+  },
+  "lienzo": {
+    "blueprint": 2,
+    "nota": "Slim = bastidor 2 cm, Thick = bastidor 4 cm. Borde espejo.",
+    "variantes": [
+      {"shopify": "30x40 cm / Canvas / Slim", "merchone": "40x30 cm, 2 cm", "sku": "CVS0400301LMF2", "coste": 14.89, "venta": 59.95},
+      {"shopify": "45x60 cm / Canvas / Thick", "merchone": "60x40 cm, 4 cm", "sku": "CVS0600401LMF4", "coste": 26.04, "venta": 74.95},
+      {"shopify": "60x80 cm / Canvas / Thick", "merchone": "80x60 cm, 4 cm", "sku": "CVS0800601LMF4", "coste": 35.96, "venta": 99.95},
+      {"shopify": "20x25 cm / Canvas / Thick", "merchone": "pendiente: no hay 20x25 (solo 20x20 y 30x20)", "sku": null, "venta": 39.95}
+    ]
+  },
+  "lienzo_con_marco": {
+    "blueprint": 2,
+    "nota": "Marco flotante, solo con bastidor 2 cm. Wood frame -> roble (Oak flair) [CONFIRMAR color con el dueño; también hay nogal y pino].",
+    "variantes": [
+      {"shopify": "30x40 cm / Framed Canvas / Black frame", "merchone": "40x30 negro", "sku": "CVS0400301LMSBF2", "coste": 25.88, "venta": 84.95},
+      {"shopify": "30x40 cm / Framed Canvas / Wood frame", "merchone": "40x30 roble", "sku": "CVS0400301LMSGF2", "coste": 25.88, "venta": 84.95},
+      {"shopify": "45x60 cm / Framed Canvas / Black frame", "merchone": "60x40 negro", "sku": "CVS0600401LMSBF2", "coste": 36.61, "venta": 109.95},
+      {"shopify": "45x60 cm / Framed Canvas / Wood frame", "merchone": "60x40 roble", "sku": "CVS0600401LMSGF2", "coste": 36.61, "venta": 109.95},
+      {"shopify": "60x80 cm / Framed Canvas / Black frame", "merchone": "80x60 negro", "sku": "CVS0800601LMSBF2", "coste": 49.16, "venta": 149.95},
+      {"shopify": "60x80 cm / Framed Canvas / Wood frame", "merchone": "80x60 roble", "sku": "CVS0800601LMSGF2", "coste": 49.16, "venta": 149.95},
+      {"shopify": "20x25 cm / Framed Canvas / *", "merchone": "pendiente: no hay 20x25", "sku": null, "venta": 59.95}
+    ]
+  },
+  "poster_con_marco": {
+    "blueprint": 58,
+    "nota": "Solo 4 tamaños; hoy hay 6 (A4, A3, A2, 50x70, A1, 60x90). Qué tamaño actual va a cuál y a qué precio: pendiente. Obra entera con margen blanco. Marcos: DB negro, DW blanco, DG roble, DN nogal, DS plata (mismo precio). Con colgador +1 € (sufijo HC).",
+    "tamanos": [
+      {"merchone": "30x20 cm", "area_impresion_mm": "272x172", "coste": 10.70, "sku_negro": "PSF0270171DB", "sku_blanco": "PSF0270171DW", "sku_roble": "PSF0270171DG"},
+      {"merchone": "40x30 cm", "area_impresion_mm": "371.6x271.6", "coste": 12.12, "sku_negro": "PSF0370271DB", "sku_blanco": "PSF0370271DW", "sku_roble": "PSF0370271DG"},
+      {"merchone": "60x40 cm", "area_impresion_mm": "571.6x371.6", "coste": 24.35, "sku_negro": "PSF0570371DB", "sku_blanco": "PSF0570371DW", "sku_roble": "PSF0570371DG"},
+      {"merchone": "80x60 cm", "area_impresion_mm": "771.6x571.6", "coste": 37.64, "sku_negro": "PSF0770571DB", "sku_blanco": "PSF0770571DW", "sku_roble": "PSF0770571DG"}
+    ]
+  }
+}

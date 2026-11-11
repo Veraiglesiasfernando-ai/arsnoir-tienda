@@ -123,22 +123,40 @@ La API ya funciona (200) con el secreto del entorno Default.
   - Los pedidos se quedan en «manual» hasta revisarlos. No hace falta ninguna app de pago.
 - El texto de las fichas dice «200 g/m²» (el papel de Gelato). Con merchOne hay que poner «Papel fotográfico Fujifilm mate» hasta confirmar el gramaje.
 
-## MIXPIX (después de obras, marcos y lienzos)
-- Solo para retratos personalizados (mascota, pareja, familia). No para las obras: son cuadradas y se recortarían.
-- Formatos: **suelto, pack de 2, pack de 3 y pack de 6**. Con o sin marco (blanco o negro).
-- En la portada, sección «Compón tu pared» (`pet-packs`): añadir una pestaña **«Pack MIXPIX»** con una cuadrícula de cuadrados de 20×20 de los estilos.
-- Requisitos antes de enseñarlo en la web:
-  - el producto existe en Shopify y está conectado a merchOne;
-  - el envío está confirmado;
-  - hay una muestra recibida.
-- Precios propuestos (sin aprobar): 24,95 suelto · pack de 3 54,95 · pack de 6 99,95. **Pack de 2: proponer.** Con marco: unos +5 € por cuadro.
-- **Precios de MIXPIX APROBADOS por el dueño (11/11/2026)**, pendientes de confirmar el envío real:
+## Sesión siguiente (11/11/2026): tabla de SKU
+- La API sigue funcionando (200).
+- Correspondencia variante de Shopify → SKU de merchOne en `data/merchone-skus.json`.
+  - Láminas: A4, A3, A2, A1 y 70×50 ya tienen SKU, con los mismos precios de venta.
+  - Lienzo: «Slim» = bastidor 2 cm y «Thick» = bastidor 4 cm. 30×40 → 40×30, 45×60 → 60×40, 60×80 → 80×60.
+  - Lienzo con marco flotante (solo bastidor 2 cm): negro y, para «Wood frame», roble [CONFIRMAR color].
+- **Resuelto el [CONFIRMAR] del lienzo:** el panel enseña el bastidor de 4 cm (40×30 = 18,93) y la API lista primero el de 2 cm (14,89). No es una diferencia de precio.
+- Aviso: los tamaños de merchOne vienen en horizontal (p. ej. 40×30). Hay que comprobar en el pedido de prueba que acepta el archivo en vertical [CONFIRMAR].
 
-  | Formato | Sin marco | Con marco |
-  |---|---|---|
-  | Suelto | 24,95 | 29,95 |
-  | Pack de 2 | 39,95 | 49,95 |
-  | Pack de 3 | 54,95 | 69,95 |
-  | Pack de 6 | 99,95 | 124,95 |
+## Falta que decida el dueño
+1. **Dónde están los originales en alta resolución.** Sigue siendo lo que bloquea. En el repositorio solo hay imágenes de muestra (`media/products/*-obra.jpg`, ~900–1400 px de ancho).
+2. Lámina 60×90 → ¿100×70 (coste 13,86, misma proporción que las obras, no recorta) o 91×61 (6,12, recorta)? Recomendación: **100×70**.
+3. Lienzo 20×25 (con y sin marco): merchOne no lo tiene. ¿Quitarlo o pasarlo a 30×20?
+4. Póster con marco: hoy hay 6 tamaños y merchOne tiene 4. Qué tamaño va a cuál y a qué precio.
+5. Color del marco «Wood»: roble, nogal o pino.
 
-  **Envío confirmado en el panel (11/11/2026): 6,99 € el primero y 1,99 € cada adicional**, a España. Los cálculos de margen son buenos.
+## Originales (11/11/2026)
+Recibidos en Drive. Análisis completo en `docs/merchone-originales.md`: 36 de las 54 obras tienen original y ninguna necesita ampliarse. Faltan 18 (lista en ese documento).
+La API de pedidos (`POST /orders`) pide `is_test` y `shipping_type`; los valores válidos de `shipping_type` no salen probando. Hace falta la documentación de la API (merchone.com no está permitido en la red de la sesión) [CONFIRMAR].
+
+## MIXPIX en los retratos (11/11/2026)
+- Envío de MIXPIX visto en el panel: **6,99 €** a España.
+- Coste por la API (blueprint 34, sin IVA): sin marco 5,64 €; con marco blanco o negro 7,75 €.
+- Precios de venta aprobados por el dueño:
+
+  | | Suelto | Pack de 2 | Pack de 3 | Pack de 6 |
+  |---|---|---|---|---|
+  | Sin marco | 24,95 | 39,95 | 54,95 | 99,95 |
+  | Con marco (negro o blanco) | 29,95 | 49,95 | 69,95 | 124,95 |
+
+- **Hecho en Shopify:** los 16 retratos de mascota, pareja y familia tienen 12 variantes nuevas: Tamaño «MIXPIX 20×20 · suelto / pack de 2 / pack de 3 / pack de 6» × Acabado «Sin marco / Marco negro / Marco blanco».
+  - SKU = SKU de merchOne + `-P{n}` (unidades del pack): `MPS0200201-P3` (sin marco), `MPS0200201MB-P3` (marco negro), `MPS0200201MW-P3` (marco blanco).
+  - Pedido en merchOne: n unidades del SKU base, una por estilo.
+- **Pack = la misma mascota (o pareja o familia) en varios estilos.** En la ficha, al elegir un pack, el cliente marca los estilos (`snippets/mixpix-styles.liquid`). El estilo de la página es el primero. Llegan al pedido como propiedad «Estilos del pack». Mientras hay un pack elegido se oculta el «2 obras −15 %».
+- Pestaña «Pack MIXPIX» en «Compón tu pared» de la portada (`sections/pet-packs.liquid`, bloque `mixpix`, `snippets/mixpix-pack-panel.liquid`). Los precios salen de las variantes, no van escritos a mano.
+- Pedidos de MIXPIX: **a mano en merchOne** (Gelato no los sirve). Margen más justo: pack de 6 sin marco con envío de 6,99 € por unidad, unos 17 €; si es 6,99 € por pedido, unos 52 €. **Envío confirmado en el panel: 6,99 € el primero y 1,99 € cada adicional**, así que el pack de 6 sin marco deja unos 22 €.
+- **Envío en Shopify (arreglado el 11/11/2026):** las 192 variantes MIXPIX estaban en «Perfil general» (gratis a la UE). Se pasaron a «ARSNOIR · Envío estándar (España y UE)»: 4,95 €, gratis desde 80 €.
