@@ -4255,10 +4255,18 @@ html:not(.is-scrolled) body:has(main > .shopify-section:first-child .vhero) .gla
 .mxp__square p { margin: 0; }
 .mxp__sqimg { width: 96px; height: 96px; flex: none; border-radius: 4px; box-shadow: 0 3px 10px rgba(0,0,0,.18); }
 .mxp__sqimg[hidden] { display: none; }
-/* MIXPIX tabs by pack size: 2 side by side, 3 in a row, 6 in a 3×2 grid, on a wall-coloured panel */
-.mxpk__wall { min-height: clamp(260px, 30vw, 420px); align-content: center; }
-.mxpk--2 .mxpk__wall { grid-template-columns: repeat(2, minmax(0, 38%)); justify-content: center; }
-.mxpk--3 .mxpk__wall { grid-template-columns: repeat(3, minmax(0, 28%)); justify-content: center; }
-.mxpk--6 .mxpk__wall { grid-template-columns: repeat(3, minmax(0, 26%)); justify-content: center; }
-.mxpk.is-active .mxpk__tile:nth-child(2) { animation-delay: .06s; } .mxpk.is-active .mxpk__tile:nth-child(3) { animation-delay: .12s; }
-.mxpk.is-active .mxpk__tile:nth-child(4) { animation-delay: .18s; } .mxpk.is-active .mxpk__tile:nth-child(5) { animation-delay: .24s; } .mxpk.is-active .mxpk__tile:nth-child(6) { animation-delay: .3s; }
+/* MIXPIX tabs: a big room photo with the 20×20 tiles hung on its wall (2 side by side, 3 in a row, 6 in 3×2) */
+.mxpk__art { position: relative; display: block; border-radius: 18px; overflow: hidden; aspect-ratio: 1208 / 1500; background: #EAE3D8; box-shadow: 0 18px 40px rgba(0,0,0,.12); }
+.mxpk__room { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.mxpk__art::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.08), transparent 45%); pointer-events: none; }
+.mxpk .mxpk__wall { position: absolute; z-index: 1; left: 56%; top: 27%; transform: translateX(-50%); width: 76%; display: grid; gap: 4%; padding: 0; background: none; border-radius: 0; min-height: 0; justify-content: center; }
+.mxpk--2 .mxpk__wall { grid-template-columns: repeat(2, 30%); }
+.mxpk--3 .mxpk__wall { grid-template-columns: repeat(3, 24%); top: 29%; }
+.mxpk--6 .mxpk__wall { grid-template-columns: repeat(3, 21%); gap: 3%; top: 20%; }
+.mxpk .mxpk__tile { aspect-ratio: 1; background: #fff; padding: 5%; box-shadow: 0 10px 22px rgba(0,0,0,.28), 0 2px 4px rgba(0,0,0,.18); overflow: hidden; }
+.mxpk .mxpk__tile img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 0; display: block; }
+.mxpk.is-active .mxpk__tile { animation: ppk-in .55s ease both; }
+.mxpk.is-active .mxpk__tile:nth-child(2) { animation-delay: .07s; } .mxpk.is-active .mxpk__tile:nth-child(3) { animation-delay: .14s; }
+.mxpk.is-active .mxpk__tile:nth-child(4) { animation-delay: .21s; } .mxpk.is-active .mxpk__tile:nth-child(5) { animation-delay: .28s; } .mxpk.is-active .mxpk__tile:nth-child(6) { animation-delay: .35s; }
+.mxpk__tag { position: absolute; z-index: 1; left: 14px; bottom: 14px; padding: 7px 12px; border-radius: 999px; background: rgba(255,255,255,.92); font-size: 12px; font-weight: 700; letter-spacing: .02em; color: #0a0a0a; }
+
