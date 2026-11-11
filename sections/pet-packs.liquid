@@ -133,12 +133,16 @@
       "type": "mixpix",
       "name": "Pack MIXPIX",
       "settings": [
-        { "type": "text", "id": "title", "label": "Nombre de la pestaña", "default": "Pack MIXPIX" },
-        { "type": "product", "id": "product_1", "label": "Estilo 1 (sus precios MIXPIX se muestran)" },
+        { "type": "text", "id": "title", "label": "Nombre de la pestaña", "default": "Pack de 3" },
+        { "type": "select", "id": "pack", "label": "Cuadros del pack", "default": "3", "options": [{ "value": "2", "label": "2" }, { "value": "3", "label": "3" }, { "value": "6", "label": "6" }] },
+        { "type": "product", "id": "product_1", "label": "Estilo 1 (sus precios MIXPIX se muestran y el botón lleva aquí)" },
         { "type": "product", "id": "product_2", "label": "Estilo 2" },
         { "type": "product", "id": "product_3", "label": "Estilo 3" },
+        { "type": "product", "id": "product_4", "label": "Estilo 4 (pack de 6)" },
+        { "type": "product", "id": "product_5", "label": "Estilo 5 (pack de 6)" },
+        { "type": "product", "id": "product_6", "label": "Estilo 6 (pack de 6)" },
         { "type": "textarea", "id": "text", "label": "Texto", "default": "Cuadros de 20×20 adhesivos: se pegan a la pared sin clavos. Tu mascota, tu pareja o tu familia en varios estilos, con la misma foto." },
-        { "type": "text", "id": "button_label", "label": "Botón", "default": "Crear mi MIXPIX" }
+        { "type": "text", "id": "button_label", "label": "Botón", "default": "Crear mi pack" }
       ]
     }
   ],

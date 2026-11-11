@@ -655,60 +655,54 @@
     "compon": {
       "type": "pet-packs",
       "blocks": {
-        "k1": {
-          "type": "pack",
-          "settings": {
-            "title": "Pack Dúo",
-            "product_1": "retrato-comic",
-            "product_2": "retrato-glam",
-            "image": "shopify://shop_images/retrato-comic-salon.jpg",
-            "text": "Tu mascota en cómic y en glam: dos cuadros que juntos quedan brutales.",
-            "button_label": "Crear el pack"
-          }
-        },
-        "k2": {
-          "type": "pack",
-          "settings": {
-            "title": "Pack Clásico",
-            "product_1": "oleo-vintage",
-            "product_2": "tu-mascota-en-acuarela",
-            "product_3": "retrato-con-nombre",
-            "text": "Acuarela, óleo y con su nombre: una pared elegante para el salón.",
-            "button_label": "Crear el pack"
-          }
-        },
-        "k3": {
-          "type": "pack",
-          "settings": {
-            "title": "Pack Navidad",
-            "product_1": "navidad-papa-noel",
-            "product_2": "navidad-verde",
-            "text": "Dos retratos navideños de tu mascota para decorar estas fiestas o regalar.",
-            "button_label": "Crear el pack"
-          }
-        },
-        "k4": {
+        "m2": {
           "type": "mixpix",
           "settings": {
-            "title": "Pack MIXPIX",
-            "product_1": "retrato-glam",
-            "product_2": "retrato-de-pareja-en-acuarela",
-            "product_3": "familia-en-acuarela",
-            "text": "Cuadros de 20×20 adhesivos: se pegan a la pared sin clavos. Tu mascota, tu pareja o tu familia en varios estilos, con la misma foto.",
-            "button_label": "Crear mi MIXPIX"
+            "title": "Pack de 2",
+            "pack": "2",
+            "product_1": "retrato-comic",
+            "product_2": "retrato-glam",
+            "text": "Tu mascota en cómic y en glam: dos cuadros que juntos quedan brutales. Cuadros de 20×20 que se pegan a la pared sin clavos.",
+            "button_label": "Crear mi pack de 2"
+          }
+        },
+        "m3": {
+          "type": "mixpix",
+          "settings": {
+            "title": "Pack de 3",
+            "pack": "3",
+            "product_1": "tu-mascota-en-acuarela",
+            "product_2": "oleo-vintage",
+            "product_3": "retrato-con-nombre",
+            "text": "Acuarela, óleo y con su nombre: una fila elegante sobre el sofá o la cama. Cuadros de 20×20 que se pegan a la pared sin clavos.",
+            "button_label": "Crear mi pack de 3"
+          }
+        },
+        "m6": {
+          "type": "mixpix",
+          "settings": {
+            "title": "Pack de 6",
+            "pack": "6",
+            "product_1": "retrato-comic",
+            "product_2": "retrato-glam",
+            "product_3": "tu-mascota-en-acuarela",
+            "product_4": "oleo-vintage",
+            "product_5": "navidad-papa-noel",
+            "product_6": "ilustracion-plana",
+            "text": "Seis estilos de tu mascota en una cuadrícula: una pared de fotos entera. Cuadros de 20×20 que se pegan a la pared sin clavos.",
+            "button_label": "Crear mi pack de 6"
           }
         }
       },
       "block_order": [
-        "k1",
-        "k2",
-        "k3",
-        "k4"
+        "m2",
+        "m3",
+        "m6"
       ],
       "settings": {
-        "eyebrow": "PACKS DE MASCOTA",
+        "eyebrow": "PACKS MIXPIX",
         "heading": "Compón tu pared.",
-        "text": "Tu mascota en varios estilos, pensados para colgarse juntos."
+        "text": "Tu mascota en varios estilos, en cuadros de 20×20 que se pegan sin clavos."
       }
     }
   },

@@ -4255,3 +4255,10 @@ html:not(.is-scrolled) body:has(main > .shopify-section:first-child .vhero) .gla
 .mxp__square p { margin: 0; }
 .mxp__sqimg { width: 96px; height: 96px; flex: none; border-radius: 4px; box-shadow: 0 3px 10px rgba(0,0,0,.18); }
 .mxp__sqimg[hidden] { display: none; }
+/* MIXPIX tabs by pack size: 2 side by side, 3 in a row, 6 in a 3×2 grid, on a wall-coloured panel */
+.mxpk__wall { min-height: clamp(260px, 30vw, 420px); align-content: center; }
+.mxpk--2 .mxpk__wall { grid-template-columns: repeat(2, minmax(0, 38%)); justify-content: center; }
+.mxpk--3 .mxpk__wall { grid-template-columns: repeat(3, minmax(0, 28%)); justify-content: center; }
+.mxpk--6 .mxpk__wall { grid-template-columns: repeat(3, minmax(0, 26%)); justify-content: center; }
+.mxpk.is-active .mxpk__tile:nth-child(2) { animation-delay: .06s; } .mxpk.is-active .mxpk__tile:nth-child(3) { animation-delay: .12s; }
+.mxpk.is-active .mxpk__tile:nth-child(4) { animation-delay: .18s; } .mxpk.is-active .mxpk__tile:nth-child(5) { animation-delay: .24s; } .mxpk.is-active .mxpk__tile:nth-child(6) { animation-delay: .3s; }

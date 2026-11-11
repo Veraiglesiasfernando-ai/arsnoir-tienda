@@ -1,63 +1,61 @@
 {%- comment -%}
-  «Pack MIXPIX» tab of «Compón tu pared» (sections/pet-packs.liquid, block type 'mixpix').
-  A wall of 20×20 tiles made from the chosen styles, the MIXPIX prices (read from the variants of
-  style 1: «MIXPIX 20×20 · suelto / pack de 2 / 3 / 6», «Sin marco» and «Marco negro») and a button
-  to style 1, where the pack and its styles are chosen (snippets/mixpix-styles.liquid).
+  MIXPIX tab of «Compón tu pared» (sections/pet-packs.liquid, block type 'mixpix'): one pack size per tab
+  (2, 3 or 6 tiles of 20×20). Shows a wall with that many tiles (one style each, from the block's
+  products), the price of that pack read from the variants of style 1 («MIXPIX 20×20 · pack de N»,
+  «Sin marco» and «Marco negro»), and a button to style 1 with that pack already selected, where the
+  customer ticks the other styles (snippets/mixpix-styles.liquid).
   - block, index, active
 {%- endcomment -%}
 {%- liquid
   assign b = block.settings
+  assign n = b.pack | default: '3' | plus: 0
   assign first = b.product_1 | default: b.product_2 | default: b.product_3
-  assign packs = 'suelto,pack de 2,pack de 3,pack de 6' | split: ','
+  assign size = 'MIXPIX 20×20 · pack de ' | append: n
+  if n == 1
+    assign size = 'MIXPIX 20×20 · suelto'
+  endif
+  assign bare = nil
+  assign framed = nil
+  assign bare_id = nil
+  for v in first.variants
+    if v.option1 == size and v.option2 == 'Sin marco'
+      assign bare = v.price
+      assign bare_id = v.id
+    elsif v.option1 == size and v.option2 == 'Marco negro'
+      assign framed = v.price
+    endif
+  endfor
+  assign names = ''
+  assign shown = 0
 -%}
-<div class="ppk__panel mxpk{% if active %} is-active{% endif %}" role="tabpanel" data-ppk-panel="{{ index }}"{% unless active %} hidden{% endunless %} {{ block.shopify_attributes }}>
+<div class="ppk__panel mxpk mxpk--{{ n }}{% if active %} is-active{% endif %}" role="tabpanel" data-ppk-panel="{{ index }}"{% unless active %} hidden{% endunless %} {{ block.shopify_attributes }}>
   <div class="mxpk__wall" aria-hidden="true">
-    {%- for k in (1..6) -%}
-      {%- assign i = forloop.index0 | modulo: 3 | plus: 1 -%}
-      {%- assign key = 'product_' | append: i -%}
+    {%- for k in (1..n) -%}
+      {%- assign key = 'product_' | append: k -%}
       {%- assign p = b[key] | default: first -%}
-      <span class="mxpk__tile mxpk__tile--{{ k }}">
+      {%- if b[key] != blank and shown < 3 -%}
+        {%- if names != '' -%}{%- assign names = names | append: ' · ' -%}{%- endif -%}
+        {%- assign names = names | append: p.title -%}
+        {%- assign shown = shown | plus: 1 -%}
+      {%- endif -%}
+      <span class="mxpk__tile">
         {%- if p.featured_media != blank -%}
-          {{ p.featured_media | image_url: width: 400, height: 400, crop: 'top' | image_tag: loading: 'lazy', widths: '200, 300, 400', sizes: '(min-width: 990px) 12vw, 28vw', alt: '' }}
+          {{ p.featured_media | image_url: width: 500, height: 500, crop: 'top' | image_tag: loading: 'lazy', widths: '250, 350, 500', sizes: '(min-width: 990px) 14vw, 30vw', alt: '' }}
         {%- endif -%}
       </span>
     {%- endfor -%}
   </div>
   <div class="fcol__copy">
-    <p class="ppk__count">MIXPIX · 20×20 cm</p>
+    <p class="ppk__count">MIXPIX · {{ n }} cuadros de 20×20</p>
     <h3 class="ppk__name">{{ b.title }}</h3>
+    {%- if names != '' -%}<p class="ppk__styles">{{ names }}{% if n > 3 %} y más{% endif %}</p>{%- endif -%}
     {%- if b.text != blank -%}<p class="fcol__text">{{ b.text }}</p>{%- endif -%}
-    {%- if first != blank -%}
-      <table class="mxpk__prices">
-        <thead><tr><th></th><th>Sin marco</th><th>Con marco</th></tr></thead>
-        <tbody>
-          {%- for pk in packs -%}
-            {%- liquid
-              assign size = 'MIXPIX 20×20 · ' | append: pk
-              assign bare = nil
-              assign framed = nil
-              for v in first.variants
-                if v.option1 == size and v.option2 == 'Sin marco'
-                  assign bare = v.price
-                elsif v.option1 == size and v.option2 == 'Marco negro'
-                  assign framed = v.price
-                endif
-              endfor
-              assign label = pk | capitalize
-              if pk == 'suelto'
-                assign label = '1 suelto'
-              endif
-            -%}
-            {%- if bare or framed -%}
-              <tr><th scope="row">{{ label }}</th><td>{{ bare | money }}</td><td>{{ framed | money }}</td></tr>
-            {%- endif -%}
-          {%- endfor -%}
-        </tbody>
-      </table>
+    {%- if bare -%}
+      <p class="ppk__price"><b>{{ bare | money }}</b> <span>· sin marco</span>{% if framed %} <span>· con marco {{ framed | money }}</span>{% endif %}</p>
     {%- endif -%}
     <div class="fcol__actions">
-      <a class="fcol__btn" href="{{ first.url | default: '/collections/personalizalo' }}">{{ b.button_label | default: 'Crear mi MIXPIX' }}</a>
+      <a class="fcol__btn" href="{{ first.url | default: '/collections/personalizalo' }}{% if bare_id %}?variant={{ bare_id }}{% endif %}">{{ b.button_label | default: 'Crear mi pack' }}</a>
     </div>
-    <p class="fcol__note">Elige el pack en «Tamaño» y marca los estilos. Usamos la misma foto para todos y la ves gratis antes de pagar.</p>
+    <p class="fcol__note">Se pegan a la pared sin clavos y se pueden mover. Eliges los estilos en la ficha, usamos la misma foto para todos y la ves gratis antes de pagar.</p>
   </div>
 </div>
