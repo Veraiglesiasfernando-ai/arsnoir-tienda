@@ -653,22 +653,50 @@
       }
     },
     "compon": {
-      "type": "feature-collage",
+      "type": "pet-packs",
+      "blocks": {
+        "k1": {
+          "type": "pack",
+          "settings": {
+            "title": "Pack Dúo",
+            "product_1": "retrato-comic",
+            "product_2": "retrato-glam",
+            "image": "shopify://shop_images/retrato-comic-salon.jpg",
+            "text": "Tu mascota en cómic y en glam: dos cuadros que juntos quedan brutales.",
+            "button_label": "Crear el pack"
+          }
+        },
+        "k2": {
+          "type": "pack",
+          "settings": {
+            "title": "Pack Clásico",
+            "product_1": "oleo-vintage",
+            "product_2": "tu-mascota-en-acuarela",
+            "product_3": "retrato-con-nombre",
+            "text": "Acuarela, óleo y con su nombre: una pared elegante para el salón.",
+            "button_label": "Crear el pack"
+          }
+        },
+        "k3": {
+          "type": "pack",
+          "settings": {
+            "title": "Pack Navidad",
+            "product_1": "navidad-papa-noel",
+            "product_2": "navidad-verde",
+            "text": "Dos retratos navideños de tu mascota para decorar estas fiestas o regalar.",
+            "button_label": "Crear el pack"
+          }
+        }
+      },
+      "block_order": [
+        "k1",
+        "k2",
+        "k3"
+      ],
       "settings": {
-        "main_product": "retrato-comic",
-        "image": "shopify://shop_images/retrato-comic-salon.jpg",
-        "alt": "Retrato cómic de un perro enmarcado en un salón",
-        "product_1": "retrato-glam",
-        "product_2": "tu-mascota-en-acuarela",
-        "product_3": "navidad-papa-noel",
-        "show_names": true,
-        "eyebrow": "RETRATOS DE MASCOTAS",
-        "heading": "Compón tu pared\ncon tu mascota.",
-        "text": "Elige su estilo —cómic, glam, acuarela o Navidad—, sube su foto y míralo gratis antes de pagar. Lo imprimimos en el tamaño y el marco que elijas.",
-        "pack_button": false,
-        "button_label": "Crear su retrato",
-        "button_link": "/collections/personalizalo",
-        "bg": "#FFFFFF"
+        "eyebrow": "PACKS DE MASCOTA",
+        "heading": "Compón tu pared.",
+        "text": "Tu mascota en varios estilos, pensados para colgarse juntos."
       }
     }
   },

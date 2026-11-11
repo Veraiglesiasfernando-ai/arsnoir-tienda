@@ -1,0 +1,131 @@
+{%- comment -%}
+  «Compón tu pared» with pet portraits: several packs (e.g. the same pet in comic + glam), each shown as a
+  collage (a big room photo + the portraits floating around) with its name, styles, price from and a button.
+  Chips on top switch between packs. Each portrait is created on its own page (with the same photo: it is
+  kept when switching style), so the button opens the first one. No pack discount is promised here.
+{%- endcomment -%}
+{%- assign s = section.settings -%}
+<section class="ppk" id="PetPacks-{{ section.id }}">
+  <div class="page-width">
+    <header class="ppk__head">
+      {%- if s.eyebrow != blank -%}<p class="fcol__eyebrow">{{ s.eyebrow }}</p>{%- endif -%}
+      {%- if s.heading != blank -%}<h2 class="fcol__title">{{ s.heading | newline_to_br }}</h2>{%- endif -%}
+      {%- if s.text != blank -%}<p class="ppk__sub">{{ s.text }}</p>{%- endif -%}
+    </header>
+
+    {%- if section.blocks.size > 1 -%}
+      <div class="ppk__chips" role="tablist" aria-label="Packs">
+        {%- for block in section.blocks -%}
+          <button type="button" class="ppk__chip{% if forloop.first %} is-active{% endif %}" role="tab" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}" data-ppk-tab="{{ forloop.index0 }}">{{ block.settings.title }}</button>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {%- for block in section.blocks -%}
+      {%- liquid
+        assign b = block.settings
+        assign first = nil
+        assign total = 0
+        assign n = 0
+        assign names = ''
+        for i in (1..3)
+          assign key = 'product_' | append: i
+          assign p = b[key]
+          if p != blank
+            if n == 0
+              assign first = p
+            endif
+            assign total = total | plus: p.price_min
+            assign n = n | plus: 1
+            if names != ''
+              assign names = names | append: ' + '
+            endif
+            assign names = names | append: p.title
+          endif
+        endfor
+        assign main_img = b.image
+        if main_img == blank and n > 0
+          assign main_img = first.featured_media
+          for m in first.media
+            if m.preview_image.src contains '-salon'
+              assign main_img = m
+              break
+            endif
+          endfor
+        endif
+      -%}
+      <div class="ppk__panel fcol__grid{% if forloop.first %} is-active{% endif %}" role="tabpanel" data-ppk-panel="{{ forloop.index0 }}"{% unless forloop.first %} hidden{% endunless %} {{ block.shopify_attributes }}>
+        <div class="fcol__art">
+          {%- for i in (1..3) -%}
+            {%- assign key = 'product_' | append: i -%}
+            {%- assign p = b[key] -%}
+            <a class="fcol__card fcol__card--{{ i }}"{% if p != blank %} href="{{ p.url }}" aria-label="{{ p.title | escape }}"{% else %} aria-hidden="true" tabindex="-1"{% endif %}>
+              {%- if p.featured_media != blank -%}
+                {{ p.featured_media | image_url: width: 700 | image_tag: loading: 'lazy', widths: '300, 500, 700', sizes: '(min-width: 990px) 18vw, 36vw', alt: '' }}
+              {%- endif -%}
+              {%- if p != blank -%}<span class="fcol__name">{{ p.title }}</span>{%- endif -%}
+            </a>
+          {%- endfor -%}
+          <a class="fcol__main" href="{{ first.url | default: '/collections/personalizalo' }}" tabindex="-1" aria-hidden="true">
+            {%- if main_img != blank -%}
+              {{ main_img | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '600, 900, 1200, 1400', sizes: '(min-width: 990px) 30vw, 70vw', alt: '' }}
+            {%- endif -%}
+          </a>
+        </div>
+        <div class="fcol__copy">
+          <p class="ppk__count">{{ n }} retratos</p>
+          <h3 class="ppk__name">{{ b.title }}</h3>
+          {%- if names != '' -%}<p class="ppk__styles">{{ names }}</p>{%- endif -%}
+          {%- if b.text != blank -%}<p class="fcol__text">{{ b.text }}</p>{%- endif -%}
+          {%- if n > 0 -%}<p class="ppk__price">{{ 'general.from' | t }} <b>{{ total | money }}</b> <span>· {{ n }} láminas A4</span></p>{%- endif -%}
+          <div class="fcol__actions">
+            <a class="fcol__btn" href="{{ first.url | default: '/collections/personalizalo' }}">{{ b.button_label | default: 'Crear el pack' }}</a>
+          </div>
+          <p class="fcol__note">Creas cada retrato con la misma foto (se mantiene al cambiar de estilo) y los ves gratis antes de pagar.</p>
+        </div>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+<script>
+  (function () {
+    var root = document.getElementById('PetPacks-{{ section.id }}');
+    if (!root) return;
+    root.addEventListener('click', function (e) {
+      var t = e.target.closest('[data-ppk-tab]');
+      if (!t) return;
+      var i = t.dataset.ppkTab;
+      root.querySelectorAll('[data-ppk-tab]').forEach(function (c) { var on = c === t; c.classList.toggle('is-active', on); c.setAttribute('aria-selected', on); });
+      root.querySelectorAll('[data-ppk-panel]').forEach(function (p) { var on = p.dataset.ppkPanel === i; p.hidden = !on; p.classList.toggle('is-active', on); });
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Packs de mascota (collage)",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "PACKS DE MASCOTA" },
+    { "type": "textarea", "id": "heading", "label": "Título", "default": "Compón tu pared." },
+    { "type": "text", "id": "text", "label": "Texto", "default": "Tu mascota en varios estilos, pensados para colgarse juntos." }
+  ],
+  "blocks": [
+    {
+      "type": "pack",
+      "name": "Pack",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Nombre", "default": "Pack Dúo" },
+        { "type": "product", "id": "product_1", "label": "Retrato 1" },
+        { "type": "product", "id": "product_2", "label": "Retrato 2" },
+        { "type": "product", "id": "product_3", "label": "Retrato 3 (opcional)" },
+        { "type": "image_picker", "id": "image", "label": "Foto grande (opcional)", "info": "Vacío = la foto en el salón del retrato 1." },
+        { "type": "textarea", "id": "text", "label": "Texto" },
+        { "type": "text", "id": "button_label", "label": "Botón", "default": "Crear el pack" }
+      ]
+    }
+  ],
+  "max_blocks": 5,
+  "presets": [{ "name": "Packs de mascota (collage)" }]
+}
+{% endschema %}
