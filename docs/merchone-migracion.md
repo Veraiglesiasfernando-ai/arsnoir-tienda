@@ -122,3 +122,13 @@ La API ya funciona (200) con el secreto del entorno Default.
   - El Worker recibe el webhook de pedido pagado y crea el pedido en la API de merchOne (`product_sku` + URL del archivo de impresión).
   - Los pedidos se quedan en «manual» hasta revisarlos. No hace falta ninguna app de pago.
 - El texto de las fichas dice «200 g/m²» (el papel de Gelato). Con merchOne hay que poner «Papel fotográfico Fujifilm mate» hasta confirmar el gramaje.
+
+## MIXPIX (después de obras, marcos y lienzos)
+- Solo para retratos personalizados (mascota, pareja, familia). No para las obras: son cuadradas y se recortarían.
+- Formatos: **suelto, pack de 2, pack de 3 y pack de 6**. Con o sin marco (blanco o negro).
+- En la portada, sección «Compón tu pared» (`pet-packs`): añadir una pestaña **«Pack MIXPIX»** con una cuadrícula de cuadrados de 20×20 de los estilos.
+- Requisitos antes de enseñarlo en la web:
+  - el producto existe en Shopify y está conectado a merchOne;
+  - el envío está confirmado;
+  - hay una muestra recibida.
+- Precios propuestos (sin aprobar): 24,95 suelto · pack de 3 54,95 · pack de 6 99,95. **Pack de 2: proponer.** Con marco: unos +5 € por cuadro.
