@@ -1,0 +1,110 @@
+{%- comment -%}
+  MIXPIX packs (2, 3 or 6 tiles of 20×20): the same pet / couple / family in several styles.
+  Shown only when a «MIXPIX … pack de N» variant is selected. This page's style is the first tile;
+  the customer ticks the other N−1 styles (same photo: the studio keeps it when switching styles).
+  The choice goes to the order as the line-item property «Estilos del pack»; orders are made by hand
+  in merchOne. Styles offered: the other portrait templates of the same family (mascotas, parejas, familia).
+  - product, form_id
+{%- endcomment -%}
+{%- liquid
+  assign has_mixpix = false
+  for v in product.variants
+    if v.title contains 'MIXPIX'
+      assign has_mixpix = true
+      break
+    endif
+  endfor
+  assign fam = ''
+  if product.tags contains 'mascotas'
+    assign fam = 'mascotas'
+  elsif product.tags contains 'parejas' or product.tags contains 'pareja'
+    assign fam = 'parejas'
+  elsif product.tags contains 'familia'
+    assign fam = 'familia'
+  endif
+-%}
+{%- if has_mixpix and fam != '' -%}
+  <div class="mxp" data-mixpix data-form="{{ form_id }}" hidden>
+    <p class="mxp__title">Elige los estilos del pack <span data-mixpix-count></span></p>
+    <p class="mxp__sub">El primero es este, <b>{{ product.title }}</b>. Usamos la misma foto para todos.</p>
+    <ul class="mxp__list">
+      <li><label class="mxp__opt is-fixed"><input type="checkbox" checked disabled value="{{ product.title | escape }}"><span>{{ product.title }}</span></label></li>
+      {%- for p in collections['personalizalo'].products limit: 50 -%}
+        {%- if p.id == product.id -%}{%- continue -%}{%- endif -%}
+        {%- liquid
+          assign same = false
+          if fam == 'mascotas' and p.tags contains 'mascotas'
+            assign same = true
+          elsif fam == 'parejas' and p.tags contains 'parejas'
+            assign same = true
+          elsif fam == 'parejas' and p.tags contains 'pareja'
+            assign same = true
+          elsif fam == 'familia' and p.tags contains 'familia'
+            assign same = true
+          endif
+        -%}
+        {%- if same -%}
+          <li><label class="mxp__opt">
+            <input type="checkbox" value="{{ p.title | escape }}" data-mixpix-style>
+            {%- if p.featured_media -%}{{ p.featured_media | image_url: width: 120 | image_tag: loading: 'lazy', alt: '' }}{%- endif -%}
+            <span>{{ p.title }}</span>
+          </label></li>
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+    <p class="mxp__hint" data-mixpix-hint></p>
+    <input type="hidden" name="properties[Estilos del pack]" form="{{ form_id }}" disabled data-mixpix-value>
+  </div>
+  <script>
+    (function () {
+      var box = document.querySelector('[data-mixpix]');
+      if (!box || box.dataset.ready) return;
+      box.dataset.ready = '1';
+      var form = document.getElementById(box.dataset.form);
+      if (!form) return;
+      var idInput = form.querySelector('input[name="id"]');
+      var button = form.querySelector('[type="submit"]');
+      var value = box.querySelector('[data-mixpix-value]');
+      var hint = box.querySelector('[data-mixpix-hint]');
+      var count = box.querySelector('[data-mixpix-count]');
+      var fixed = box.querySelector('.is-fixed input').value;
+      var json = document.querySelector('variant-picker script[data-variants]') || document.querySelector('variant-picker script[type="application/json"]:not([data-sizes]):not([data-labels])');
+      var variants = json ? JSON.parse(json.textContent) : [];
+      var need = 0;
+      function packSize() {
+        var v = variants.find(function (x) { return String(x.id) === String(idInput.value); });
+        var m = v && /MIXPIX.*pack de (\d+)/i.exec(v.title || (v.options || []).join(' '));
+        return m ? parseInt(m[1], 10) : 0;
+      }
+      function boxes() { return Array.prototype.slice.call(box.querySelectorAll('[data-mixpix-style]')); }
+      function update() {
+        var picked = boxes().filter(function (b) { return b.checked; });
+        var left = need - 1 - picked.length;
+        boxes().forEach(function (b) { b.disabled = !b.checked && left <= 0; });
+        count.textContent = '(' + (picked.length + 1) + ' de ' + need + ')';
+        hint.textContent = left > 0 ? 'Elige ' + left + (left === 1 ? ' estilo más.' : ' estilos más.') : '';
+        value.value = [fixed].concat(picked.map(function (b) { return b.value; })).join(' · ');
+        if (button && need) button.disabled = left > 0;
+      }
+      function sync() {
+        need = packSize();
+        box.hidden = need < 2;
+        value.disabled = need < 2;
+        /* The pack is already priced: hide «1 obra / 2 obras −15 %» and keep quantity 1 */
+        var pp = document.querySelector('[data-pack-picker]');
+        if (pp) pp.style.display = need >= 2 ? 'none' : '';
+        var qty = form.querySelector('input[name="quantity"]');
+        if (need >= 2 && qty && qty.value !== '1') { qty.value = '1'; qty.dispatchEvent(new Event('change', { bubbles: true })); }
+        if (need < 2) return;
+        /* Too many ticked after a smaller pack: keep the first ones */
+        var picked = boxes().filter(function (b) { return b.checked; });
+        picked.slice(Math.max(0, need - 1)).forEach(function (b) { b.checked = false; });
+        update();
+      }
+      box.addEventListener('change', update);
+      document.addEventListener('change', function (e) { if (e.target.closest && e.target.closest('variant-picker')) setTimeout(sync, 0); });
+      document.querySelectorAll('variant-picker .ftile').forEach(function (t) { t.addEventListener('click', function () { setTimeout(sync, 0); }); });
+      sync();
+    })();
+  </script>
+{%- endif -%}

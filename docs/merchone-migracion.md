@@ -142,3 +142,20 @@ La API ya funciona (200) con el secreto del entorno Default.
 ## Originales (11/11/2026)
 Recibidos en Drive. Análisis completo en `docs/merchone-originales.md`: 36 de las 54 obras tienen original y ninguna necesita ampliarse. Faltan 18 (lista en ese documento).
 La API de pedidos (`POST /orders`) pide `is_test` y `shipping_type`; los valores válidos de `shipping_type` no salen probando. Hace falta la documentación de la API (merchone.com no está permitido en la red de la sesión) [CONFIRMAR].
+
+## MIXPIX en los retratos (11/11/2026)
+- Envío de MIXPIX visto en el panel: **6,99 €** a España.
+- Coste por la API (blueprint 34, sin IVA): sin marco 5,64 €; con marco blanco o negro 7,75 €.
+- Precios de venta aprobados por el dueño:
+
+  | | Suelto | Pack de 2 | Pack de 3 | Pack de 6 |
+  |---|---|---|---|---|
+  | Sin marco | 24,95 | 39,95 | 54,95 | 99,95 |
+  | Con marco (negro o blanco) | 29,95 | 49,95 | 69,95 | 124,95 |
+
+- **Hecho en Shopify:** los 16 retratos de mascota, pareja y familia tienen 12 variantes nuevas: Tamaño «MIXPIX 20×20 · suelto / pack de 2 / pack de 3 / pack de 6» × Acabado «Sin marco / Marco negro / Marco blanco».
+  - SKU = SKU de merchOne + `-P{n}` (unidades del pack): `MPS0200201-P3` (sin marco), `MPS0200201MB-P3` (marco negro), `MPS0200201MW-P3` (marco blanco).
+  - Pedido en merchOne: n unidades del SKU base, una por estilo.
+- **Pack = la misma mascota (o pareja o familia) en varios estilos.** En la ficha, al elegir un pack, el cliente marca los estilos (`snippets/mixpix-styles.liquid`). El estilo de la página es el primero. Llegan al pedido como propiedad «Estilos del pack». Mientras hay un pack elegido se oculta el «2 obras −15 %».
+- Pestaña «Pack MIXPIX» en «Compón tu pared» de la portada (`sections/pet-packs.liquid`, bloque `mixpix`, `snippets/mixpix-pack-panel.liquid`). Los precios salen de las variantes, no van escritos a mano.
+- Pedidos de MIXPIX: **a mano en merchOne** (Gelato no los sirve). Margen más justo: pack de 6 sin marco con envío de 6,99 € por unidad, unos 17 €; si es 6,99 € por pedido, unos 52 €. [CONFIRMAR si el envío es por pedido o por unidad]
