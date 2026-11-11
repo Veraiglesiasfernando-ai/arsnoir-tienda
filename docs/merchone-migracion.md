@@ -105,3 +105,20 @@ La API ya funciona (200) con el secreto del entorno Default.
   - Bordes: espejo, doblado, blanco o negro; 2 o 4 cm.
 - **MixPix 20×20**: sin marco 5,64; con marco blanco o negro 7,75. También versión MAGNOFIX, mismo precio.
 - El JSON completo está en el scratchpad de la sesión (no está en el repositorio). Para regenerarlo: `GET /blueprints/{2,47,58,34}/variants` y `.../options`.
+
+## Decisiones del dueño (11/11/2026)
+- **Láminas**: mismos tamaños A (A4, A3, A2, A1). 50×70 pasa a 70×50 y 60×90 a 91×61 o 100×70 [decidir]. **Mismos precios de venta que ahora.**
+- **Póster con marco**: 30×20, 40×30, 60×40 y 80×60, con **margen blanco** alrededor (la obra entera, sin recortar).
+- **Lienzo** (sin marco y con marco flotante): 40×30, 60×40 y 80×60 en lugar de 30×40, 45×60 y 60×80, **con los mismos precios de venta**.
+
+## Lo que bloquea el paso de las obras
+- **Faltan los archivos originales en alta resolución.**
+  - En Shopify solo hay imágenes de muestra («-obra.jpg», unos 1390×1972 px, de unos 118 ppp en A3). No sirven para A2 ni A1.
+  - La API de Gelato solo da vistas previas («preview»), no los archivos de impresión.
+  - El dueño tiene que pasar los originales: carpeta de Drive, Canva o donde los creó.
+- **Cómo funcionarían los pedidos (propuesta):**
+  - Shopify se queda con sus productos.
+  - Cada variante lleva el SKU de merchOne en un metafield.
+  - El Worker recibe el webhook de pedido pagado y crea el pedido en la API de merchOne (`product_sku` + URL del archivo de impresión).
+  - Los pedidos se quedan en «manual» hasta revisarlos. No hace falta ninguna app de pago.
+- El texto de las fichas dice «200 g/m²» (el papel de Gelato). Con merchOne hay que poner «Papel fotográfico Fujifilm mate» hasta confirmar el gramaje.
