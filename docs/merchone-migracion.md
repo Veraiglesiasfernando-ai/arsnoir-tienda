@@ -84,3 +84,24 @@ La API ya funciona (200) con el secreto del entorno Default.
   - lienzo 3,99 (+0,99 cada adicional);
   - póster 6,99 (+1,99);
   - enmarcado 6,99 (+1,99) los pequeños y 10,99 (+2,50) los grandes.
+
+## Catálogo completo (API, sin IVA, sin envío)
+- **Lienzo**, sin marco / con marco flotante:
+
+  | Tamaño | Sin marco | Con marco flotante |
+  |---|---|---|
+  | 20×20 | 4,33 | 11,78 |
+  | 30×20 | 6,69 | 14,90 |
+  | 40×30 | 14,89 | 25,88 |
+  | 40×40 | 16,30 | 29,02 |
+  | 60×40 | 20,53 | 36,61 |
+  | 75×50 | 25,46 | 44,47 |
+  | 80×60 | 29,42 | 49,16 |
+  | 90×60 | 32,04 | 55,31 |
+  | 100×75 | 50,02 | 78,96 |
+  | 120×80 | 57,40 | 104,22 |
+
+  - Marcos: negro, blanco, plata, nogal, roble y pino.
+  - Bordes: espejo, doblado, blanco o negro; 2 o 4 cm.
+- **MixPix 20×20**: sin marco 5,64; con marco blanco o negro 7,75. También versión MAGNOFIX, mismo precio.
+- El JSON completo está en el scratchpad de la sesión (no está en el repositorio). Para regenerarlo: `GET /blueprints/{2,47,58,34}/variants` y `.../options`.
