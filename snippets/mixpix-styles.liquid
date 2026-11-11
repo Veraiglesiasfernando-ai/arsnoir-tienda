@@ -24,7 +24,10 @@
   endif
 -%}
 {%- if has_mixpix and fam != '' -%}
-  <p class="mxp__square" data-mixpix-square hidden>MIXPIX es cuadrado (20×20 cm): colocamos tu retrato entero y centrado, con su mismo fondo alrededor. No se recorta.</p>
+  <div class="mxp__square" data-mixpix-square hidden>
+    <canvas class="mxp__sqimg" width="480" height="480" data-mixpix-sqimg hidden></canvas>
+    <p>MIXPIX es cuadrado (20×20 cm). Lo encuadramos sin cortar su cara ni su nombre.<span data-mixpix-sqhint> Cuando crees tu vista previa, aquí verás cómo queda.</span></p>
+  </div>
   <div class="mxp" data-mixpix data-form="{{ form_id }}" hidden>
     <p class="mxp__title">Elige los estilos del pack <span data-mixpix-count></span></p>
     <p class="mxp__sub">El primero es este, <b>{{ product.title }}</b>. Usamos la misma foto para todos.</p>
@@ -103,6 +106,7 @@
         if (sq) {
           var cur = variants.find(function (x) { return String(x.id) === String(idInput.value); });
           sq.hidden = !(cur && /MIXPIX/i.test(cur.title || (cur.options || []).join(' ')));
+          if (!sq.hidden) drawSquare();
         }
         box.hidden = need < 2;
         value.disabled = need < 2;
@@ -120,6 +124,61 @@
         picked.slice(Math.max(0, need - 1)).forEach(function (b) { b.checked = false; });
         update();
       }
+      /* «Así quedará tu MIXPIX»: the studio preview framed as a square with the same rule as
+         tools/mixpix-cuadrado.js (crop when the drawing runs off the frame or fits; pad on a plain background
+         otherwise), watermarked like the preview */
+      var lastSrc = '';
+      function drawSquare() {
+        var art = document.querySelector('[data-tstudio-img]');
+        var cv = document.querySelector('[data-mixpix-sqimg]');
+        var hintEl = document.querySelector('[data-mixpix-sqhint]');
+        if (!art || !cv || !art.src || art.closest('[hidden]') || !window.createImageBitmap) return;
+        if (art.src === lastSrc) return;
+        lastSrc = art.src;
+        fetch(art.src, { mode: 'cors' }).then(function (r) { if (!r.ok) throw 0; return r.blob(); })
+          .then(function (bl) { return createImageBitmap(bl); })
+          .then(function (bm) {
+            var W = 360, H = Math.round(bm.height * W / bm.width);
+            var t = document.createElement('canvas'); t.width = W; t.height = H;
+            var tx = t.getContext('2d'); tx.drawImage(bm, 0, 0, W, H);
+            var px = tx.getImageData(0, 0, W, H).data, bins = {}, i, k, e, x0, y0, x1, y1;
+            function add(x, y) { i = (y * W + x) * 4; k = (px[i] >> 4) + ',' + (px[i + 1] >> 4) + ',' + (px[i + 2] >> 4); e = bins[k] || (bins[k] = [0, 0, 0, 0]); e[0] += px[i]; e[1] += px[i + 1]; e[2] += px[i + 2]; e[3]++; }
+            for (x0 = 0; x0 < W; x0++) { add(x0, 1); add(x0, H - 2); }
+            for (y0 = 0; y0 < H; y0++) { add(1, y0); add(W - 2, y0); }
+            var top = Object.keys(bins).map(function (q) { return bins[q]; }).sort(function (a, c) { return c[3] - a[3]; })[0];
+            var bg = [top[0] / top[3], top[1] / top[3], top[2] / top[3]];
+            var rows = new Array(H).fill(0), cols = new Array(W).fill(0);
+            for (var y = 0; y < H; y++) for (var x = 0; x < W; x++) { i = (y * W + x) * 4; if (Math.abs(px[i] - bg[0]) + Math.abs(px[i + 1] - bg[1]) + Math.abs(px[i + 2] - bg[2]) > 60) { rows[y]++; cols[x]++; } }
+            y0 = 0; y1 = H - 1; x0 = 0; x1 = W - 1;
+            while (y0 < H - 1 && rows[y0] <= W * 0.01) y0++;
+            while (y1 > y0 && rows[y1] <= W * 0.01) y1--;
+            while (x0 < W - 1 && cols[x0] <= H * 0.01) x0++;
+            while (x1 > x0 && cols[x1] <= H * 0.01) x1--;
+            var bw = x1 - x0 + 1, bh = y1 - y0 + 1, sMin = Math.min(W, H), S = cv.width, ctx = cv.getContext('2d');
+            var bleeds = x0 <= 1 || y0 <= 1 || x1 >= W - 2 || y1 >= H - 2;
+            ctx.fillStyle = 'rgb(' + (bg[0] | 0) + ',' + (bg[1] | 0) + ',' + (bg[2] | 0) + ')'; ctx.fillRect(0, 0, S, S);
+            var sx, sy, sd;
+            if (Math.max(bw, bh) <= sMin || bleeds) {
+              sd = sMin;
+              sx = Math.min(Math.max((x0 + x1) / 2 - sd / 2, 0), W - sd);
+              sy = Math.min(Math.max(bh <= sd ? (y0 + y1) / 2 - sd / 2 : y0 - sd * 0.03, 0), H - sd);
+              ctx.drawImage(t, sx, sy, sd, sd, 0, 0, S, S);
+            } else {
+              sd = Math.max(bw, bh) * 1.03; sx = (x0 + x1) / 2 - sd / 2; sy = (y0 + y1) / 2 - sd / 2;
+              var kk = S / sd; ctx.drawImage(t, -sx * kk, -sy * kk, W * kk, H * kk);
+            }
+            ctx.save(); ctx.font = '700 16px Arial, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+            ctx.lineWidth = 2; ctx.strokeStyle = 'rgba(0,0,0,.3)'; ctx.fillStyle = 'rgba(255,255,255,.66)';
+            ctx.translate(S / 2, S / 2); ctx.rotate(-28 * Math.PI / 180);
+            for (var row = 0, yy = -S; yy < S; yy += 80, row++) for (var xx = -S + (row % 2 ? 120 : 0); xx < S; xx += 240) { ctx.strokeText('ARSNOIR · VISTA PREVIA', xx, yy); ctx.fillText('ARSNOIR · VISTA PREVIA', xx, yy); }
+            ctx.restore();
+            cv.hidden = false;
+            if (hintEl) hintEl.textContent = ' Así quedará tu MIXPIX.';
+          })
+          .catch(function () { lastSrc = ''; });
+      }
+      var artEl = document.querySelector('[data-tstudio-img]');
+      if (artEl && window.MutationObserver) new MutationObserver(function () { var sq = document.querySelector('[data-mixpix-square]'); if (sq && !sq.hidden) drawSquare(); }).observe(artEl, { attributes: true, attributeFilter: ['src'] });
       box.addEventListener('change', update);
       document.addEventListener('change', function (e) { if (e.target.closest && e.target.closest('variant-picker')) setTimeout(sync, 0); });
       document.querySelectorAll('variant-picker .ftile').forEach(function (t) { t.addEventListener('click', function () { setTimeout(sync, 0); }); });

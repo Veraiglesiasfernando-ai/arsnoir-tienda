@@ -163,5 +163,5 @@ La API de pedidos (`POST /orders`) pide `is_test` y `shipping_type`; los valores
 - **Packs con pocos estilos (arreglado):** parejas y familia solo tienen 3 estilos.
   - Si el pack pide más, el cliente elige todos los que hay y el resto repite el estilo de la página. La propiedad «Estilos del pack» lleva la lista completa.
   - El botón ya no se queda bloqueado al volver a un tamaño normal.
-- **MIXPIX es cuadrado:** la ficha avisa de que el retrato va entero y centrado, sin recortar.
-  - Para preparar el archivo: `node tools/mixpix-cuadrado.js retrato.png mixpix.png`. Saca un PNG de 2400×2400 con el fondo del retrato alrededor.
+- **MIXPIX es cuadrado:** al elegir MIXPIX, la ficha enseña «Así quedará tu MIXPIX» (la vista previa en cuadrado, con marca de agua), con la misma regla que la herramienta.
+  - Para preparar el archivo: `node tools/mixpix-cuadrado.js retrato.png mixpix.png`. Saca un PNG de 2400×2400. Recorta si el dibujo se sale del marco o cabe; si flota sobre un fondo liso (acuarelas con nombre), rellena con ese fondo. Probado con los 16 retratos: no se corta ningún nombre ni ninguna cara.
