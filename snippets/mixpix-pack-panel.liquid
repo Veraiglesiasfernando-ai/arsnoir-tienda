@@ -29,45 +29,23 @@
   assign shown = 0
 -%}
 <div class="ppk__panel mxpk mxpk--{{ n }}{% if active %} is-active{% endif %}" role="tabpanel" data-ppk-panel="{{ index }}"{% unless active %} hidden{% endunless %} {{ block.shopify_attributes }}>
-  {%- liquid
-    # Big room photo: the block's image, else the first «-salon» / «-dormitorio» photo of its styles
-    assign room = b.image
-    if room == blank
-      for k in (1..n)
-        assign key = 'product_' | append: k
-        assign rp = b[key]
-        if rp == blank
-          continue
-        endif
-        for m in rp.media
-          if m.preview_image.src contains '-salon' or m.preview_image.src contains '-dormitorio'
-            assign room = m
-            break
-          endif
-        endfor
-        if room != blank
-          break
-        endif
-      endfor
-    endif
-  -%}
   <a class="mxpk__art" href="{{ first.url | default: '/collections/personalizalo' }}{% if bare_id %}?variant={{ bare_id }}{% endif %}" tabindex="-1" aria-hidden="true">
-    {%- if room != blank -%}
-      {{ room | image_url: width: 1400 | image_tag: class: 'mxpk__room', loading: 'lazy', widths: '600, 900, 1200, 1400', sizes: '(min-width: 990px) 46vw, 92vw', alt: '' }}
-    {%- endif -%}
-    <span class="mxpk__wall">
-      {%- for k in (1..n) -%}
-        {%- liquid
-          assign key = 'product_' | append: k
-          assign p = b[key] | default: first
-          if b[key] != blank and shown < 3
-            if names != ''
-              assign names = names | append: ' · '
-            endif
-            assign names = names | append: p.title
-            assign shown = shown | plus: 1
+    {%- for k in (1..n) -%}
+      {%- liquid
+        assign key = 'product_' | append: k
+        assign p = b[key] | default: first
+        if b[key] != blank and shown < 3
+          if names != ''
+            assign names = names | append: ' · '
           endif
-          # The clean illustration («-obra»), never the framed mock-up
+          assign names = names | append: p.title
+          assign shown = shown | plus: 1
+        endif
+        # The square MIXPIX version of the style (Files: «mixpix-<handle>.jpg», framed without cutting
+        # faces or names by tools/mixpix-cuadrado.js); else the clean illustration («-obra»)
+        assign fname = 'mixpix-' | append: p.handle | append: '.jpg'
+        assign art = images[fname]
+        if art == blank
           assign art = p.featured_media
           for m in p.media
             if m.preview_image.src contains '-obra'
@@ -75,15 +53,14 @@
               break
             endif
           endfor
-        -%}
-        <span class="mxpk__tile">
-          {%- if art != blank -%}
-            {{ art | image_url: width: 500 | image_tag: loading: 'lazy', widths: '250, 350, 500', sizes: '(min-width: 990px) 12vw, 26vw', alt: '' }}
-          {%- endif -%}
-        </span>
-      {%- endfor -%}
-    </span>
-    <span class="mxpk__tag">MIXPIX · 20×20</span>
+        endif
+      -%}
+      <span class="mxpk__tile mxpk__tile--{{ k }}">
+        {%- if art != blank -%}
+          {{ art | image_url: width: 700 | image_tag: loading: 'lazy', widths: '350, 500, 700', sizes: '(min-width: 990px) 20vw, 45vw', alt: '' }}
+        {%- endif -%}
+      </span>
+    {%- endfor -%}
   </a>
   <div class="fcol__copy">
     <p class="ppk__count">MIXPIX · {{ n }} cuadros de 20×20</p>

@@ -663,8 +663,7 @@
             "product_1": "retrato-comic",
             "product_2": "retrato-glam",
             "text": "Tu mascota en cómic y en glam: dos cuadros que juntos quedan brutales. Cuadros de 20×20 que se pegan a la pared sin clavos.",
-            "button_label": "Crear mi pack de 2",
-            "image": "shopify://shop_images/arsnoir-salon-pared-mixpix.jpg"
+            "button_label": "Crear mi pack de 2"
           }
         },
         "m3": {
@@ -672,12 +671,11 @@
           "settings": {
             "title": "Pack de 3",
             "pack": "3",
-            "product_1": "tu-mascota-en-acuarela",
-            "product_2": "oleo-vintage",
+            "product_1": "oleo-vintage",
+            "product_2": "tu-mascota-en-acuarela",
             "product_3": "retrato-con-nombre",
-            "text": "Acuarela, óleo y con su nombre: una fila elegante sobre el sofá o la cama. Cuadros de 20×20 que se pegan a la pared sin clavos.",
-            "button_label": "Crear mi pack de 3",
-            "image": "shopify://shop_images/arsnoir-salon-pared-mixpix.jpg"
+            "text": "Óleo, acuarela y con su nombre: una fila elegante sobre el sofá o la cama. Cuadros de 20×20 que se pegan a la pared sin clavos.",
+            "button_label": "Crear mi pack de 3"
           }
         },
         "m6": {
@@ -692,8 +690,7 @@
             "product_5": "navidad-papa-noel",
             "product_6": "ilustracion-plana",
             "text": "Seis estilos de tu mascota en una cuadrícula: una pared de fotos entera. Cuadros de 20×20 que se pegan a la pared sin clavos.",
-            "button_label": "Crear mi pack de 6",
-            "image": "shopify://shop_images/arsnoir-salon-pared-mixpix.jpg"
+            "button_label": "Crear mi pack de 6"
           }
         }
       },

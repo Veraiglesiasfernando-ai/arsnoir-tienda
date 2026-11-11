@@ -4255,18 +4255,36 @@ html:not(.is-scrolled) body:has(main > .shopify-section:first-child .vhero) .gla
 .mxp__square p { margin: 0; }
 .mxp__sqimg { width: 96px; height: 96px; flex: none; border-radius: 4px; box-shadow: 0 3px 10px rgba(0,0,0,.18); }
 .mxp__sqimg[hidden] { display: none; }
-/* MIXPIX tabs: a big room photo with the 20×20 tiles hung on its wall (2 side by side, 3 in a row, 6 in 3×2) */
-.mxpk__art { position: relative; display: block; border-radius: 18px; overflow: hidden; aspect-ratio: 1208 / 1500; background: #EAE3D8; box-shadow: 0 18px 40px rgba(0,0,0,.12); }
-.mxpk__room { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.mxpk__art::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.08), transparent 45%); pointer-events: none; }
-.mxpk .mxpk__wall { position: absolute; z-index: 1; left: 56%; top: 27%; transform: translateX(-50%); width: 76%; display: grid; gap: 4%; padding: 0; background: none; border-radius: 0; min-height: 0; justify-content: center; }
-.mxpk--2 .mxpk__wall { grid-template-columns: repeat(2, 30%); }
-.mxpk--3 .mxpk__wall { grid-template-columns: repeat(3, 24%); top: 29%; }
-.mxpk--6 .mxpk__wall { grid-template-columns: repeat(3, 21%); gap: 3%; top: 20%; }
-.mxpk .mxpk__tile { aspect-ratio: 1; background: #fff; padding: 5%; box-shadow: 0 10px 22px rgba(0,0,0,.28), 0 2px 4px rgba(0,0,0,.18); overflow: hidden; }
-.mxpk .mxpk__tile img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 0; display: block; }
-.mxpk.is-active .mxpk__tile { animation: ppk-in .55s ease both; }
-.mxpk.is-active .mxpk__tile:nth-child(2) { animation-delay: .07s; } .mxpk.is-active .mxpk__tile:nth-child(3) { animation-delay: .14s; }
-.mxpk.is-active .mxpk__tile:nth-child(4) { animation-delay: .21s; } .mxpk.is-active .mxpk__tile:nth-child(5) { animation-delay: .28s; } .mxpk.is-active .mxpk__tile:nth-child(6) { animation-delay: .35s; }
-.mxpk__tag { position: absolute; z-index: 1; left: 14px; bottom: 14px; padding: 7px 12px; border-radius: 999px; background: rgba(255,255,255,.92); font-size: 12px; font-weight: 700; letter-spacing: .02em; color: #0a0a0a; }
-
+/* MIXPIX tabs: only the tiles, stacked one over another like real 20×20 foam tiles (1 cm thick edge,
+   soft layered shadow), slightly turned. No background. Positions depend on the pack size. */
+.mxpk__art { position: relative; display: block; aspect-ratio: 1; width: 100%; max-width: 620px; margin: 0 auto; }
+.mxpk .mxpk__tile { position: absolute; width: var(--s); aspect-ratio: 1; left: var(--x); top: var(--y); transform: rotate(var(--r)); z-index: var(--z, 1);
+  background: #fff; border-radius: 3px; overflow: hidden; padding: 0;
+  box-shadow: 1px 1px 0 #e4e1dc, 2px 2px 0 #dcd8d2, 3px 3px 0 #d4d0c9, 4px 4px 0 #cdc8c0, 5px 5px 0 #c6c1b8,
+              8px 12px 18px rgba(0,0,0,.22), 24px 34px 60px rgba(0,0,0,.18);
+  transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s; }
+.mxpk .mxpk__tile::after { content: ""; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(255,255,255,.22), rgba(255,255,255,0) 38%, rgba(0,0,0,.05)); pointer-events: none; }
+.mxpk .mxpk__tile img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.mxpk__art:hover .mxpk__tile { transform: rotate(calc(var(--r) * .6)) translateY(-6px); }
+.mxpk.is-active .mxpk__tile { animation: mxpk-drop .6s cubic-bezier(.2,.8,.2,1) both; }
+.mxpk.is-active .mxpk__tile--2 { animation-delay: .08s; } .mxpk.is-active .mxpk__tile--3 { animation-delay: .16s; }
+.mxpk.is-active .mxpk__tile--4 { animation-delay: .24s; } .mxpk.is-active .mxpk__tile--5 { animation-delay: .32s; } .mxpk.is-active .mxpk__tile--6 { animation-delay: .4s; }
+@keyframes mxpk-drop { from { opacity: 0; transform: translateY(-28px) rotate(calc(var(--r) * 2)) scale(1.04); } to { opacity: 1; transform: rotate(var(--r)); } }
+/* 2 tiles: one over the other, diagonal */
+.mxpk--2 .mxpk__tile { --s: 54%; }
+.mxpk--2 .mxpk__tile--1 { --x: 4%; --y: 8%; --r: -6deg; --z: 1; }
+.mxpk--2 .mxpk__tile--2 { --x: 40%; --y: 36%; --r: 5deg; --z: 2; }
+/* 3 tiles: a fan */
+.mxpk--3 .mxpk__tile { --s: 46%; }
+.mxpk--3 .mxpk__tile--1 { --x: 2%; --y: 30%; --r: -9deg; --z: 1; }
+.mxpk--3 .mxpk__tile--2 { --x: 27%; --y: 6%; --r: 2deg; --z: 3; }
+.mxpk--3 .mxpk__tile--3 { --x: 53%; --y: 36%; --r: 8deg; --z: 4; }
+/* 6 tiles: a loose pile */
+.mxpk--6 .mxpk__tile { --s: 37%; }
+.mxpk--6 .mxpk__tile--1 { --x: 1%; --y: 4%; --r: -8deg; --z: 1; }
+.mxpk--6 .mxpk__tile--2 { --x: 32%; --y: 0%; --r: 4deg; --z: 2; }
+.mxpk--6 .mxpk__tile--3 { --x: 62%; --y: 7%; --r: -3deg; --z: 1; }
+.mxpk--6 .mxpk__tile--4 { --x: 4%; --y: 50%; --r: 6deg; --z: 3; }
+.mxpk--6 .mxpk__tile--5 { --x: 33%; --y: 38%; --r: -5deg; --z: 4; }
+.mxpk--6 .mxpk__tile--6 { --x: 61%; --y: 52%; --r: 7deg; --z: 3; }
+@media (max-width: 899px) { .mxpk__art { max-width: 440px; margin-bottom: 12px; } }
