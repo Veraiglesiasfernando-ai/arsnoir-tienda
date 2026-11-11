@@ -47,8 +47,13 @@
         <span class="mq__bubble">
           {%- if is_review -%}
             <span class="mq__stars" aria-hidden="true">{% for i in (1..5) %}<span{% if sample == false and i > b.rating %} class="is-off"{% endif %}>★</span>{% endfor %}</span>
+            {%- if sample -%}{%- assign sq = 'Queda precioso en el salón, los colores son tal cual la vista previa.|Lo regalé por su cumpleaños y lloró de la emoción. Llegó muy bien embalado.|La calidad del marco me sorprendió, se ve mucho más caro de lo que es.|Me encanta cómo quedó mi perro, todo el mundo me pregunta dónde lo compré.|Fácil de pedir y llegó en una semana. Repetiré seguro.|El tamaño A3 es perfecto encima del sofá.' | split: '|' -%}{%- endif -%}
+            <span class="mq__quote">{% if sample %}{{ sq[si] }}{% else %}{{ b.quote }}{% endif %}</span>
             <span class="mq__who">{% if sample %}{{ sample_names[si] }} · EJEMPLO{% else %}{{ b.author }}{% endif %}</span>
+            <span class="mq__prod">{{ label }}</span>
           {%- else -%}
+            <span class="mq__stars mq__stars--none" aria-hidden="true">★★★★★</span>
+            <span class="mq__quote mq__quote--muted">Aún sin reseñas de esta obra.</span>
             <span class="mq__name">{{ label }}</span>
             {%- if p != blank -%}<span class="mq__price">{{ 'general.print_from' | t }} {{ p.price_min | money }}</span>{%- endif -%}
           {%- endif -%}
