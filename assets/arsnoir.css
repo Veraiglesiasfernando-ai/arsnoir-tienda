@@ -4305,3 +4305,14 @@ a.trust__pill:hover .trust__arrow { transform: translateX(3px); }
   .trust--pills .trust__item { scroll-snap-align: start; font-size: 13px; }
   .trust--pills .trust__item:first-child { margin-left: 16px; } .trust--pills .trust__item:last-child { padding-right: 16px; }
 }
+/* Marquee: phrases split at «·», each followed by a small four-point star. Light blue by default. */
+.marquee__group { align-items: center; }
+.marquee .marquee__group span.marquee__item { padding: 0; }
+.marquee__sep { display: inline-grid; place-items: center; margin: 0 22px; }
+.marquee__sep svg { width: 12px; height: 12px; fill: currentColor; }
+.marquee:hover .marquee__track { animation-play-state: paused; }
+.marquee--celeste { background: #CFE8F9; color: #0B3954; border-top: 1px solid #B9DDF5; border-bottom: 1px solid #B9DDF5; }
+.marquee--celeste .marquee__sep { color: #1F7BB8; }
+.marquee--celeste .marquee__group span.marquee__item { font-weight: 700; }
+.marquee--dark { background: #0a0a0a; color: #fff; }
+.marquee .marquee__group span.marquee__sep { padding: 0; }

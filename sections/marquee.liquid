@@ -1,9 +1,15 @@
 {%- assign s = section.settings -%}
-<section class="marquee" aria-label="{{ s.text | escape }}">
+<section class="marquee marquee--{{ s.style | default: 'celeste' }}" aria-label="{{ s.text | escape }}">
   <div class="marquee__track" style="--marquee-speed: {{ s.speed }}s" aria-hidden="true">
     {%- for i in (1..2) -%}
       <div class="marquee__group">
-        {%- for j in (1..4) -%}<span>{{ s.text }}</span>{%- endfor -%}
+        {%- assign parts = s.text | split: '·' -%}
+        {%- for j in (1..3) -%}
+          {%- for t in parts -%}
+            {%- assign tt = t | strip -%}
+            {%- if tt != '' -%}<span class="marquee__item">{{ tt }}</span><span class="marquee__sep" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2l2.2 7.8L22 12l-7.8 2.2L12 22l-2.2-7.8L2 12l7.8-2.2z"/></svg></span>{%- endif -%}
+          {%- endfor -%}
+        {%- endfor -%}
       </div>
     {%- endfor -%}
   </div>
@@ -14,6 +20,7 @@
   "name": "Marquesina",
   "settings": [
     { "type": "text", "id": "text", "label": "Texto", "default": "ARTE QUE NO VERÁS EN NINGÚN OTRO SITIO · 100% ORIGINAL · SOLO EN ARSNOIR ·" },
+    { "type": "select", "id": "style", "label": "Estilo", "default": "celeste", "options": [{ "value": "celeste", "label": "Celeste" }, { "value": "dark", "label": "Negro" }] },
     { "type": "range", "id": "speed", "label": "Duración de una vuelta", "min": 10, "max": 80, "step": 5, "unit": "s", "default": 35 }
   ],
   "presets": [{ "name": "Marquesina" }]
