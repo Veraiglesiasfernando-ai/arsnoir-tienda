@@ -160,3 +160,8 @@ La API de pedidos (`POST /orders`) pide `is_test` y `shipping_type`; los valores
 - Pestaña «Pack MIXPIX» en «Compón tu pared» de la portada (`sections/pet-packs.liquid`, bloque `mixpix`, `snippets/mixpix-pack-panel.liquid`). Los precios salen de las variantes, no van escritos a mano.
 - Pedidos de MIXPIX: **a mano en merchOne** (Gelato no los sirve). Margen más justo: pack de 6 sin marco con envío de 6,99 € por unidad, unos 17 €; si es 6,99 € por pedido, unos 52 €. **Envío confirmado en el panel: 6,99 € el primero y 1,99 € cada adicional**, así que el pack de 6 sin marco deja unos 22 €.
 - **Envío en Shopify (arreglado el 11/11/2026):** las 192 variantes MIXPIX estaban en «Perfil general» (gratis a la UE). Se pasaron a «ARSNOIR · Envío estándar (España y UE)»: 4,95 €, gratis desde 80 €.
+- **Packs con pocos estilos (arreglado):** parejas y familia solo tienen 3 estilos.
+  - Si el pack pide más, el cliente elige todos los que hay y el resto repite el estilo de la página. La propiedad «Estilos del pack» lleva la lista completa.
+  - El botón ya no se queda bloqueado al volver a un tamaño normal.
+- **MIXPIX es cuadrado:** la ficha avisa de que el retrato va entero y centrado, sin recortar.
+  - Para preparar el archivo: `node tools/mixpix-cuadrado.js retrato.png mixpix.png`. Saca un PNG de 2400×2400 con el fondo del retrato alrededor.

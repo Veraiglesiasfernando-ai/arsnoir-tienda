@@ -4250,3 +4250,4 @@ html:not(.is-scrolled) body:has(main > .shopify-section:first-child .vhero) .gla
 .mxpk__prices thead th { font-weight: 500; opacity: .7; font-size: .8rem; }
 .mxpk__prices td { font-variant-numeric: tabular-nums; }
 @media (max-width: 899px) { .mxpk { grid-template-columns: 1fr; } .mxpk__wall { max-width: 560px; width: 100%; margin: 0 auto; } }
+.mxp__square { margin: 10px 0 0; padding: 10px 12px; border-radius: 10px; background: #F4F4F3; font-size: 13px; line-height: 1.45; color: #3a3a3a; }

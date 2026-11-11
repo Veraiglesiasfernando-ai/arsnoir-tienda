@@ -24,6 +24,7 @@
   endif
 -%}
 {%- if has_mixpix and fam != '' -%}
+  <p class="mxp__square" data-mixpix-square hidden>MIXPIX es cuadrado (20×20 cm): colocamos tu retrato entero y centrado, con su mismo fondo alrededor. No se recorta.</p>
   <div class="mxp" data-mixpix data-form="{{ form_id }}" hidden>
     <p class="mxp__title">Elige los estilos del pack <span data-mixpix-count></span></p>
     <p class="mxp__sub">El primero es este, <b>{{ product.title }}</b>. Usamos la misma foto para todos.</p>
@@ -79,15 +80,30 @@
       function boxes() { return Array.prototype.slice.call(box.querySelectorAll('[data-mixpix-style]')); }
       function update() {
         var picked = boxes().filter(function (b) { return b.checked; });
-        var left = need - 1 - picked.length;
+        /* Fewer styles than tiles (parejas, familia): pick every style, the rest repeat this page's style */
+        var distinct = Math.min(need, boxes().length + 1);
+        var left = distinct - 1 - picked.length;
+        var repeat = need - 1 - picked.length;
         boxes().forEach(function (b) { b.disabled = !b.checked && left <= 0; });
         count.textContent = '(' + (picked.length + 1) + ' de ' + need + ')';
-        hint.textContent = left > 0 ? 'Elige ' + left + (left === 1 ? ' estilo más.' : ' estilos más.') : '';
-        value.value = [fixed].concat(picked.map(function (b) { return b.value; })).join(' · ');
-        if (button && need) button.disabled = left > 0;
+        if (left > 0) hint.textContent = 'Elige ' + left + (left === 1 ? ' estilo más.' : ' estilos más.');
+        else if (repeat > 0) hint.textContent = 'Los otros ' + repeat + ' van en ' + fixed + ' (este estilo, repetido).';
+        else hint.textContent = '';
+        var list = [fixed].concat(picked.map(function (b) { return b.value; }));
+        for (var i = 0; i < repeat && left <= 0; i++) list.push(fixed);
+        value.value = list.join(' · ');
+        if (button) {
+          if (left > 0) { button.disabled = true; button.dataset.mixpixLock = '1'; }
+          else if (button.dataset.mixpixLock) { button.disabled = false; delete button.dataset.mixpixLock; }
+        }
       }
       function sync() {
         need = packSize();
+        var sq = document.querySelector('[data-mixpix-square]');
+        if (sq) {
+          var cur = variants.find(function (x) { return String(x.id) === String(idInput.value); });
+          sq.hidden = !(cur && /MIXPIX/i.test(cur.title || (cur.options || []).join(' ')));
+        }
         box.hidden = need < 2;
         value.disabled = need < 2;
         /* The pack is already priced: hide «1 obra / 2 obras −15 %» and keep quantity 1 */
@@ -95,7 +111,10 @@
         if (pp) pp.style.display = need >= 2 ? 'none' : '';
         var qty = form.querySelector('input[name="quantity"]');
         if (need >= 2 && qty && qty.value !== '1') { qty.value = '1'; qty.dispatchEvent(new Event('change', { bubbles: true })); }
-        if (need < 2) return;
+        if (need < 2) {
+          if (button && button.dataset.mixpixLock) { button.disabled = false; delete button.dataset.mixpixLock; }
+          return;
+        }
         /* Too many ticked after a smaller pack: keep the first ones */
         var picked = boxes().filter(function (b) { return b.checked; });
         picked.slice(Math.max(0, need - 1)).forEach(function (b) { b.checked = false; });
