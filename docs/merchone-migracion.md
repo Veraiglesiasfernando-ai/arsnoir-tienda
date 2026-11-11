@@ -141,4 +141,4 @@ La API ya funciona (200) con el secreto del entorno Default.
   | Pack de 3 | 54,95 | 69,95 |
   | Pack de 6 | 99,95 | 124,95 |
 
-  Si el envío de MIXPIX es más caro que 6,99 + 1,99 por cuadro adicional, volver a calcular y preguntar al dueño.
+  **Envío confirmado en el panel (11/11/2026): 6,99 € el primero y 1,99 € cada adicional**, a España. Los cálculos de margen son buenos.
