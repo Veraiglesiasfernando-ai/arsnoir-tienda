@@ -19,9 +19,24 @@
           {%- if p != blank and s.show_names -%}<span class="fcol__name">{{ p.title }}</span>{%- endif -%}
         </a>
       {%- endfor -%}
-      <a class="fcol__main" href="{{ s.button_link | default: '/collections/personalizalo' }}" tabindex="-1" aria-hidden="true">
-        {%- if s.image != blank -%}
-          {{ s.image | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '600, 900, 1200, 1400', sizes: '(min-width: 990px) 30vw, 70vw', alt: s.alt }}
+      {%- liquid
+        # Big photo: the uploaded one, else the main artwork's room photo (file «…-salon»), else its photo
+        assign mp = s.main_product
+        assign main_img = s.image
+        if main_img == blank and mp != blank
+          assign main_img = mp.featured_media
+          for m in mp.media
+            if m.preview_image.src contains '-salon'
+              assign main_img = m
+              break
+            endif
+          endfor
+        endif
+        assign main_url = mp.url | default: s.button_link | default: '/collections/personalizalo'
+      -%}
+      <a class="fcol__main" href="{{ main_url }}"{% if mp != blank %} aria-label="{{ mp.title | escape }}"{% else %} tabindex="-1" aria-hidden="true"{% endif %}>
+        {%- if main_img != blank -%}
+          {{ main_img | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '600, 900, 1200, 1400', sizes: '(min-width: 990px) 30vw, 70vw', alt: s.alt }}
         {%- endif -%}
       </a>
     </div>
@@ -29,9 +44,49 @@
       {%- if s.eyebrow != blank -%}<p class="fcol__eyebrow">{{ s.eyebrow }}</p>{%- endif -%}
       {%- if s.heading != blank -%}<h2 class="fcol__title">{{ s.heading | newline_to_br }}</h2>{%- endif -%}
       {%- if s.text != blank -%}<p class="fcol__text">{{ s.text }}</p>{%- endif -%}
-      {%- if s.button_label != blank -%}
-        <a class="fcol__btn" href="{{ s.button_link | default: '/collections/personalizalo' }}">{{ s.button_label }}</a>
-      {%- endif -%}
+      {%- liquid
+        # «Add them all»: the cheapest available size of every artwork shown (main + cards), in one click
+        assign ids = ''
+        assign total = 0
+        assign n = 0
+        assign all_ok = true
+        if s.pack_button
+          for i in (0..3)
+            if i == 0
+              assign p = s.main_product
+            else
+              assign key = 'product_' | append: i
+              assign p = s[key]
+            endif
+            if p != blank
+              assign v = p.selected_or_first_available_variant
+              for x in p.variants
+                if x.available and x.price < v.price
+                  assign v = x
+                endif
+              endfor
+              if v.available == false
+                assign all_ok = false
+              endif
+              assign total = total | plus: v.price
+              assign n = n | plus: 1
+              if ids != ''
+                assign ids = ids | append: ','
+              endif
+              assign ids = ids | append: v.id
+            endif
+          endfor
+        endif
+      -%}
+      <div class="fcol__actions">
+        {%- if s.pack_button and n > 1 -%}
+          <button type="button" class="fcol__btn" data-pack-add="{{ ids }}"{% unless all_ok %} disabled{% endunless %}>{{ s.pack_label | replace: '[N]', n }} · {{ total | money }}</button>
+        {%- endif -%}
+        {%- if s.button_label != blank -%}
+          <a class="fcol__btn{% if s.pack_button and n > 1 %} fcol__btn--ghost{% endif %}" href="{{ s.button_link | default: '/collections/personalizalo' }}">{{ s.button_label }}</a>
+        {%- endif -%}
+      </div>
+      {%- if s.pack_button and n > 1 and s.pack_note != blank -%}<p class="fcol__note">{{ s.pack_note | replace: '[N]', n }}</p>{%- endif -%}
     </div>
   </div>
 </section>
@@ -41,7 +96,8 @@
   "name": "Destacado con collage",
   "tag": "section",
   "settings": [
-    { "type": "image_picker", "id": "image", "label": "Foto grande (centro)" },
+    { "type": "product", "id": "main_product", "label": "Obra de la foto grande", "info": "Sin foto subida, se usa su foto en el salón." },
+    { "type": "image_picker", "id": "image", "label": "Foto grande (centro, opcional)" },
     { "type": "text", "id": "alt", "label": "Descripción de la foto grande" },
     { "type": "header", "content": "Tarjetas flotantes" },
     { "type": "paragraph", "content": "Cada tarjeta enseña la foto del producto. Si subes una imagen, se usa esa en su lugar." },
@@ -58,6 +114,10 @@
     { "type": "textarea", "id": "text", "label": "Texto", "default": "Sube su foto, elige el estilo y míralo gratis antes de pagar. Lo imprimimos en el tamaño y el marco que elijas, y te llega en 4–10 días hábiles." },
     { "type": "text", "id": "button_label", "label": "Botón", "default": "Crear su retrato" },
     { "type": "url", "id": "button_link", "label": "Enlace del botón", "info": "Vacío = Personalízalo." },
+    { "type": "header", "content": "Botón «añadir todas»" },
+    { "type": "checkbox", "id": "pack_button", "label": "Botón para añadir todas las obras de una vez", "default": false },
+    { "type": "text", "id": "pack_label", "label": "Texto del botón ([N] = número de obras)", "default": "Añadir las [N] obras" },
+    { "type": "text", "id": "pack_note", "label": "Nota bajo el botón", "default": "[N] láminas A4 sin marco. Puedes añadir marco en el carrito." },
     { "type": "header", "content": "Diseño" },
     { "type": "checkbox", "id": "reverse", "label": "Collage a la derecha", "default": false },
     { "type": "color", "id": "bg", "label": "Fondo", "default": "#FFFFFF" }

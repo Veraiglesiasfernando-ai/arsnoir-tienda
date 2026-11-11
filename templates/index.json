@@ -509,7 +509,8 @@
         "p2",
         "p3"
       ],
-      "settings": {}
+      "settings": {},
+      "disabled": true
     },
     "q4": {
       "type": "q4-campaign",
@@ -651,18 +652,23 @@
         "button_link": "/collections/personalizalo#ctpl-navidad"
       }
     },
-    "collage": {
+    "compon": {
       "type": "feature-collage",
       "settings": {
-        "image": "shopify://shop_images/retrato-comic-salon.jpg",
-        "alt": "Retrato cómic de un perro enmarcado en un salón",
-        "product_1": "retrato-glam",
-        "product_2": "tu-mascota-en-acuarela",
-        "product_3": "navidad-papa-noel",
-        "eyebrow": "RETRATOS PERSONALIZADOS",
-        "heading": "Tu mascota,\nen tu pared.",
-        "text": "Sube su foto, elige el estilo y míralo gratis antes de pagar. Lo imprimimos en el tamaño y el marco que elijas, y te llega en 4–10 días hábiles.",
-        "button_label": "Crear su retrato",
+        "main_product": "limonero",
+        "product_1": "flores-amarillas",
+        "product_2": "cactus",
+        "product_3": "flowers-blue",
+        "alt": "Obra Limonero colgada en un salón",
+        "show_names": true,
+        "eyebrow": "PACKS",
+        "heading": "Compón\ntu pared.",
+        "text": "Obras pensadas para colgarse juntas. Elige tu combinación favorita y llévate la pared entera con un clic.",
+        "pack_button": true,
+        "pack_label": "Añadir las [N] obras",
+        "pack_note": "[N] láminas A4 sin marco. Puedes añadir marco en el carrito.",
+        "button_label": "Ver todas las obras",
+        "button_link": "/collections/all",
         "bg": "#FFFFFF"
       }
     }
@@ -672,7 +678,6 @@
     "vhero",
     "q4",
     "welcome",
-    "collage",
     "navidad",
     "marquee",
     "trust",
@@ -683,6 +688,7 @@
     "walls",
     "founder",
     "rooms",
+    "compon",
     "packs",
     "reviews",
     "guarantees",
