@@ -132,3 +132,13 @@ La API ya funciona (200) con el secreto del entorno Default.
   - el envío está confirmado;
   - hay una muestra recibida.
 - Precios propuestos (sin aprobar): 24,95 suelto · pack de 3 54,95 · pack de 6 99,95. **Pack de 2: proponer.** Con marco: unos +5 € por cuadro.
+- **Precios de MIXPIX APROBADOS por el dueño (11/11/2026)**, pendientes de confirmar el envío real:
+
+  | Formato | Sin marco | Con marco |
+  |---|---|---|
+  | Suelto | 24,95 | 29,95 |
+  | Pack de 2 | 39,95 | 49,95 |
+  | Pack de 3 | 54,95 | 69,95 |
+  | Pack de 6 | 99,95 | 124,95 |
+
+  Si el envío de MIXPIX es más caro que 6,99 + 1,99 por cuadro adicional, volver a calcular y preguntar al dueño.
