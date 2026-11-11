@@ -655,20 +655,19 @@
     "compon": {
       "type": "feature-collage",
       "settings": {
-        "main_product": "limonero",
-        "product_1": "flores-amarillas",
-        "product_2": "cactus",
-        "product_3": "flowers-blue",
-        "alt": "Obra Limonero colgada en un salón",
+        "main_product": "retrato-comic",
+        "image": "shopify://shop_images/retrato-comic-salon.jpg",
+        "alt": "Retrato cómic de un perro enmarcado en un salón",
+        "product_1": "retrato-glam",
+        "product_2": "tu-mascota-en-acuarela",
+        "product_3": "navidad-papa-noel",
         "show_names": true,
-        "eyebrow": "PACKS",
-        "heading": "Compón\ntu pared.",
-        "text": "Obras pensadas para colgarse juntas. Elige tu combinación favorita y llévate la pared entera con un clic.",
-        "pack_button": true,
-        "pack_label": "Añadir las [N] obras",
-        "pack_note": "[N] láminas A4 sin marco. Puedes añadir marco en el carrito.",
-        "button_label": "Ver todas las obras",
-        "button_link": "/collections/all",
+        "eyebrow": "RETRATOS DE MASCOTAS",
+        "heading": "Compón tu pared\ncon tu mascota.",
+        "text": "Elige su estilo —cómic, glam, acuarela o Navidad—, sube su foto y míralo gratis antes de pagar. Lo imprimimos en el tamaño y el marco que elijas.",
+        "pack_button": false,
+        "button_label": "Crear su retrato",
+        "button_link": "/collections/personalizalo",
         "bg": "#FFFFFF"
       }
     }
