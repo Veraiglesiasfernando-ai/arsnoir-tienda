@@ -59,6 +59,7 @@
           {%- for i in (1..3) -%}
             {%- assign key = 'product_' | append: i -%}
             {%- assign p = b[key] -%}
+            {%- if p == blank -%}{%- continue -%}{%- endif -%}
             <a class="fcol__card fcol__card--{{ i }}"{% if p != blank %} href="{{ p.url }}" aria-label="{{ p.title | escape }}"{% else %} aria-hidden="true" tabindex="-1"{% endif %}>
               {%- if p.featured_media != blank -%}
                 {{ p.featured_media | image_url: width: 700 | image_tag: loading: 'lazy', widths: '300, 500, 700', sizes: '(min-width: 990px) 18vw, 36vw', alt: '' }}
