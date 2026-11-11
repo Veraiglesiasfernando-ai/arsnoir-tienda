@@ -79,7 +79,7 @@ h1, h2, h3, .h1, .h2 { font-weight: 700; letter-spacing: -0.03em; }
 
 /* Welcome hero ------------------------------------------------------------ */
 
-.welcome { position: relative; overflow: hidden; padding: clamp(40px, 6vw, 80px) 0 clamp(56px, 8vw, 112px); }
+.welcome { position: relative; overflow: hidden; padding: clamp(32px, 5vw, 64px) 0 clamp(32px, 5vw, 64px); }
 .welcome__glow {
   position: absolute;
   inset: 0;
@@ -508,7 +508,7 @@ main > .shopify-section:first-child .vhero { margin-top: -76px; }
 
 /* Newsletter (black) ------------------------------------------------------- */
 
-.join { background: #0a0a0a; color: #fff; padding: clamp(64px, 9vw, 128px) 0; }
+.join { background: #0a0a0a; color: #fff; padding: clamp(48px, 6vw, 88px) 0; }
 .join__inner { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px, 5vw, 80px); align-items: end; }
 .join__title { font-size: clamp(2.4rem, 6vw, 5.4rem); line-height: 0.92; letter-spacing: -0.05em; margin: 0; }
 .join__text { color: rgba(255,255,255,0.7); font-size: clamp(16px, 1.5vw, 19px); margin: 16px 0 0; max-width: 36ch; }
@@ -3510,8 +3510,9 @@ html.is-scrolled .glass-header { grid-template-columns: auto 1fr auto; gap: 18px
 body { font-family: var(--font-body); -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; letter-spacing: -0.005em; }
 h1, h2, h3, h4, .h1, .h2, .h3 { letter-spacing: -0.03em; line-height: 1.06; }
 
-/* More breathing room between sections */
-.section { padding: clamp(64px, 10vw, 136px) 0; }
+/* Space between sections: compact (two sections touching no longer leave a big empty band) */
+.section { padding: clamp(32px, 4.5vw, 64px) 0; }
+.section-footer { margin-top: clamp(24px, 3vw, 40px); }
 
 /* Big section titles: lighter, sentence case, balanced lines */
 .featured__title, .mats__title, .join__title, .q4__title, .wstories__title, .vhero__heading {
