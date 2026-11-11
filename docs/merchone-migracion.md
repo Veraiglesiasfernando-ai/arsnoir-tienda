@@ -122,3 +122,19 @@ La API ya funciona (200) con el secreto del entorno Default.
   - El Worker recibe el webhook de pedido pagado y crea el pedido en la API de merchOne (`product_sku` + URL del archivo de impresión).
   - Los pedidos se quedan en «manual» hasta revisarlos. No hace falta ninguna app de pago.
 - El texto de las fichas dice «200 g/m²» (el papel de Gelato). Con merchOne hay que poner «Papel fotográfico Fujifilm mate» hasta confirmar el gramaje.
+
+## Sesión siguiente (11/11/2026): tabla de SKU
+- La API sigue funcionando (200).
+- Correspondencia variante de Shopify → SKU de merchOne en `data/merchone-skus.json`.
+  - Láminas: A4, A3, A2, A1 y 70×50 ya tienen SKU, con los mismos precios de venta.
+  - Lienzo: «Slim» = bastidor 2 cm y «Thick» = bastidor 4 cm. 30×40 → 40×30, 45×60 → 60×40, 60×80 → 80×60.
+  - Lienzo con marco flotante (solo bastidor 2 cm): negro y, para «Wood frame», roble [CONFIRMAR color].
+- **Resuelto el [CONFIRMAR] del lienzo:** el panel enseña el bastidor de 4 cm (40×30 = 18,93) y la API lista primero el de 2 cm (14,89). No es una diferencia de precio.
+- Aviso: los tamaños de merchOne vienen en horizontal (p. ej. 40×30). Hay que comprobar en el pedido de prueba que acepta el archivo en vertical [CONFIRMAR].
+
+## Falta que decida el dueño
+1. **Dónde están los originales en alta resolución.** Sigue siendo lo que bloquea. En el repositorio solo hay imágenes de muestra (`media/products/*-obra.jpg`, ~900–1400 px de ancho).
+2. Lámina 60×90 → ¿100×70 (coste 13,86, misma proporción que las obras, no recorta) o 91×61 (6,12, recorta)? Recomendación: **100×70**.
+3. Lienzo 20×25 (con y sin marco): merchOne no lo tiene. ¿Quitarlo o pasarlo a 30×20?
+4. Póster con marco: hoy hay 6 tamaños y merchOne tiene 4. Qué tamaño va a cuál y a qué precio.
+5. Color del marco «Wood»: roble, nogal o pino.
