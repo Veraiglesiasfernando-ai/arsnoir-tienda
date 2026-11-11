@@ -75,32 +75,47 @@
         "t1": {
           "type": "item",
           "settings": {
-            "text": "Arte 100% original"
+            "text": "Arte 100% original",
+            "icon": "spark",
+            "link": "/pages/la-historia"
+          }
+        },
+        "t5": {
+          "type": "item",
+          "settings": {
+            "text": "Míralo gratis antes de pagar",
+            "icon": "eye",
+            "link": "/collections/personalizalo"
           }
         },
         "t2": {
           "type": "item",
           "settings": {
-            "text": "Impreso en Europa"
+            "text": "Impreso en Europa",
+            "icon": "print"
           }
         },
-        "t3": {
+        "t6": {
           "type": "item",
           "settings": {
-            "text": "Envío a España y Europa"
+            "text": "Envío gratis desde 80 €",
+            "icon": "truck",
+            "link": "/pages/envios-y-devoluciones"
           }
         },
         "t4": {
           "type": "item",
           "settings": {
-            "text": "Solo en ARSNOIR"
+            "text": "Solo en ARSNOIR",
+            "icon": "heart"
           }
         }
       },
       "block_order": [
         "t1",
+        "t5",
         "t2",
-        "t3",
+        "t6",
         "t4"
       ],
       "settings": {}

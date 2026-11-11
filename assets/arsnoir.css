@@ -4288,3 +4288,20 @@ html:not(.is-scrolled) body:has(main > .shopify-section:first-child .vhero) .gla
 .mxpk--6 .mxpk__tile--5 { --x: 33%; --y: 38%; --r: -5deg; --z: 4; }
 .mxpk--6 .mxpk__tile--6 { --x: 61%; --y: 52%; --r: 7deg; --z: 3; }
 @media (max-width: 899px) { .mxpk__art { max-width: 440px; margin-bottom: 12px; } }
+/* Trust strip as light-blue pill buttons with icons (one scrolling line on mobile) */
+.trust--pills { background: #fff; }
+.trust--pills .trust__list { gap: 10px; padding-top: 16px; padding-bottom: 16px; }
+.trust--pills .trust__item::before { display: none; }
+.trust--pills .trust__item { letter-spacing: 0; text-transform: none; font-size: 14px; }
+.trust__pill { display: inline-flex; align-items: center; gap: 9px; padding: 9px 16px 9px 9px; border-radius: 999px; background: #E3F2FC; color: #0B3954; border: 1px solid #C9E5F8; font-weight: 600; white-space: nowrap; text-decoration: none; transition: background .2s, transform .2s, box-shadow .2s; }
+a.trust__pill:hover { background: #CDE8FA; transform: translateY(-1px); box-shadow: 0 6px 16px rgba(11,57,84,.12); }
+.trust__ico { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(11,57,84,.15); }
+.trust__ico svg { width: 15px; height: 15px; fill: none; stroke: #1F7BB8; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.trust__arrow { font-weight: 700; color: #1F7BB8; transition: transform .2s; }
+a.trust__pill:hover .trust__arrow { transform: translateX(3px); }
+@media (max-width: 749px) {
+  .trust--pills .trust__list { flex-wrap: nowrap; justify-content: flex-start; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; scroll-snap-type: x proximity; scroll-padding-left: 16px; padding-left: 0; padding-right: 0; }
+  .trust--pills .trust__list::-webkit-scrollbar { display: none; }
+  .trust--pills .trust__item { scroll-snap-align: start; font-size: 13px; }
+  .trust--pills .trust__item:first-child { margin-left: 16px; } .trust--pills .trust__item:last-child { padding-right: 16px; }
+}
