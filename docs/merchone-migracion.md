@@ -53,3 +53,34 @@ Decisión del dueño: pasar toda la tienda de Gelato a merchOne. Gelato se queda
 5. Las 55 obras. Los 16 retratos personalizados, de momento con pedidos manuales en merchOne (imagen ampliada antes); más adelante automáticos por la API desde el Worker.
 6. Quitar Gelato (app y bloque de personalización en el tema) cuando todo funcione.
 7. MIXPIX (cuadrados de 20×20 adhesivos) en enero para los retratos, sueltos y en pack.
+
+## Precios por la API (11/11/2026, sin IVA, sin envío)
+La API ya funciona (200) con el secreto del entorno Default.
+- **Póster (blueprint 47) tiene tamaños DIN A**, así que las obras no se recortan:
+
+  | Tamaño | Precio | Variante |
+  |---|---|---|
+  | A4 | 3,35 | 480 |
+  | A3 | 5,68 | 479, SKU PSD0420291 |
+  | A2 | 6,93 | 478 |
+  | A1 | 9,84 | 477 |
+  | A0 | 17,90 | 476 |
+
+  Además: 70×50 7,26 · 100×70 13,86 · 60×40 6,89 · 80×60 9,58 · 90×60 10,82.
+- **Póster enmarcado (58)**: solo 30×20 (10,70), 40×30 (12,12), 60×40 (24,35) y 80×60 (37,64). Marcos Deco negro, blanco, plata, nogal y roble al mismo precio; con colgador +1 €. No hay tamaños A.
+- **Lienzo (2)**, sin marco, borde espejo 2 cm:
+
+  | Tamaño | Precio |
+  |---|---|
+  | 30×20 | 6,69 |
+  | 40×30 | 14,89 |
+  | 60×40 | 20,53 |
+  | 80×60 | 29,42 |
+  | 90×60 | 32,04 |
+
+  Con marco flotante negro: 14,90 / 25,88 / 36,61 / 49,16 / 55,31. La API da precios más bajos que el panel (40×30: 14,89 frente a 18,93) [CONFIRMAR].
+- **MixPix (34)**: 20×20, 5,64.
+- Envío visto en el panel:
+  - lienzo 3,99 (+0,99 cada adicional);
+  - póster 6,99 (+1,99);
+  - enmarcado 6,99 (+1,99) los pequeños y 10,99 (+2,50) los grandes.
