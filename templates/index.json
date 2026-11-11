@@ -473,6 +473,7 @@
           "settings": {
             "title": "Pack Botánico",
             "layout": "trio",
+            "wall": "sage",
             "button_label": "Añadir el pack",
             "product_1": "limonero",
             "product_2": "flores-amarillas",
@@ -484,6 +485,7 @@
           "settings": {
             "title": "Pack Motor",
             "layout": "stack",
+            "wall": "dark",
             "button_label": "Añadir el pack",
             "product_1": "ferrari",
             "product_2": "revuelto",
@@ -495,6 +497,7 @@
           "settings": {
             "title": "Pack Amor",
             "layout": "duo",
+            "wall": "blush",
             "button_label": "Añadir el pack",
             "product_1": "love-you",
             "product_2": "you-and-me"
