@@ -16,109 +16,94 @@
   </div>
 
   {%- if request.design_mode -%}<p class="page-width wst__editor-note">👀 Solo lo ves tú en el editor: reseñas de EJEMPLO para ver el diseño. Los clientes ven solo las reseñas reales.</p>{%- endif -%}
-  <div class="wst-row" role="list">
+  {%- comment -%}
+    Infinite carousel: the tiles are printed twice in one track that slides left forever (the second copy
+    is hidden from screen readers). It pauses on hover / touch. Tap a photo = full-screen viewer.
+  {%- endcomment -%}
+  {%- capture tiles -%}
     {%- for block in section.blocks -%}
       {%- liquid
         assign b = block.settings
         assign p = b.product
-        assign url = p.url | default: routes.all_products_collection_url
         assign label = b.caption | default: p.title
+        assign img = b.image | default: p.featured_media
         assign is_review = false
         if b.quote != blank
           assign is_review = true
         endif
-        assign img = b.image | default: p.featured_media
-        # Theme editor only (request.design_mode): sample reviews so the layout can be judged.
-        # Customers never see them.
         assign sample = false
         if is_review == false and request.design_mode
           assign sample = true
           assign is_review = true
-          assign sample_quotes = 'Queda precioso en el salón, los colores son tal cual la vista previa.|Lo regalé por su cumpleaños y lloró de la emoción. Llegó muy bien embalado.|La calidad del marco me sorprendió, se ve mucho más caro de lo que es.|Me encanta cómo quedó mi perro, todo el mundo me pregunta dónde lo compré.|Fácil de pedir y llegó en una semana. Repetiré seguro.|El tamaño A3 es perfecto encima del sofá.' | split: '|'
           assign sample_names = 'Laura M.|Carlos R.|Marta G.|Javier P.|Lucía S.|Andrea V.' | split: '|'
           assign si = forloop.index0 | modulo: 6
         endif
       -%}
-      {%- liquid
-        if sample
-          assign r_author = sample_names[si] | append: ' · EJEMPLO'
-          assign r_rating = 5
-          assign r_quote = sample_quotes[si]
-        else
-          assign r_author = b.author
-          assign r_rating = b.rating
-          assign r_quote = b.quote
-        endif
-      -%}
-      <div class="wst rc" role="listitem" {{ block.shopify_attributes }}>
-        <button type="button" class="rc__media" data-wst-open="{{ forloop.index0 }}" aria-label="Ver en grande: {{ label | escape }}">
-          {%- if img != blank -%}
-            {{ img | image_url: width: 900 | image_tag: loading: 'lazy', widths: '360, 540, 720, 900', sizes: '(min-width: 990px) 24vw, 72vw', alt: '' }}
-          {%- endif -%}
-          {%- unless is_review -%}<span class="rc__tag">Imagen de ambiente</span>{%- endunless -%}
-        </button>
-        <div class="rc__body">
+      <button type="button" class="mq__tile" data-wst-open="{{ forloop.index0 }}" aria-label="Ver en grande: {{ label | escape }}" {{ block.shopify_attributes }}>
+        {%- if img != blank -%}
+          {{ img | image_url: width: 800 | image_tag: loading: 'lazy', widths: '360, 540, 800', sizes: '(min-width: 990px) 22vw, 62vw', alt: '' }}
+        {%- endif -%}
+        {%- unless is_review -%}<span class="mq__tag">Imagen de ambiente</span>{%- endunless -%}
+        <span class="mq__bubble">
           {%- if is_review -%}
-            <span class="rc__stars" aria-label="{{ r_rating }} de 5 estrellas">{% for i in (1..5) %}<span{% if i > r_rating %} class="is-off"{% endif %}>★</span>{% endfor %}</span>
-            <p class="rc__quote">{{ r_quote }}</p>
-            <p class="rc__author">{{ r_author }}{% if b.verified and sample == false %} <span class="rc__verified">· Compra verificada</span>{% endif %}</p>
-            <a class="rc__product" href="{{ url }}">{{ label }}</a>
+            <span class="mq__stars" aria-hidden="true">{% for i in (1..5) %}<span{% if sample == false and i > b.rating %} class="is-off"{% endif %}>★</span>{% endfor %}</span>
+            <span class="mq__who">{% if sample %}{{ sample_names[si] }} · EJEMPLO{% else %}{{ b.author }}{% endif %}</span>
           {%- else -%}
-            {%- comment -%}
-              No review on this card: the artwork's REAL Judge.me rating (read from the badge Judge.me keeps
-              on the product), or an invite to write the first review. Nothing is invented.
-            {%- endcomment -%}
-            {%- if p != blank -%}
-              {%- liquid
-                assign jm = p.metafields.judgeme.badge | append: ''
-                assign jm_n = 0
-                assign jm_avg = '0'
-                if jm contains 'data-number-of-reviews='
-                  assign jm_n = jm | split: 'data-number-of-reviews=' | last | remove: '"' | remove: "'" | split: ' ' | first | split: '>' | first | plus: 0
-                  assign jm_avg = jm | split: 'data-average-rating=' | last | remove: '"' | remove: "'" | split: ' ' | first | split: '>' | first
-                endif
-                assign jm_avg_n = jm_avg | plus: 0
-                assign jm_full = jm_avg_n | round
-              -%}
-              {%- if jm_n > 0 -%}
-                <span class="rc__stars" aria-hidden="true">{% for i in (1..5) %}<span{% if i > jm_full %} class="is-off"{% endif %}>★</span>{% endfor %}</span>
-                <p class="rc__quote rc__quote--meta"><b>{{ jm_avg_n | round: 1 | replace: '.', ',' }}</b> de 5 · {{ jm_n }} {% if jm_n == 1 %}reseña{% else %}reseñas{% endif %}</p>
-              {%- else -%}
-                <span class="rc__stars rc__stars--empty" aria-hidden="true">★★★★★</span>
-                <p class="rc__quote rc__quote--meta">Aún sin reseñas de esta obra.</p>
-              {%- endif -%}
-              <a class="rc__product" href="{{ url }}">{{ label }}</a>
-              <a class="rc__first" href="{{ p.url }}#Reviews">{% if jm_n > 0 %}Leer las reseñas{% else %}Sé el primero en opinar{% endif %} →</a>
-            {%- endif -%}
+            <span class="mq__name">{{ label }}</span>
+            {%- if p != blank -%}<span class="mq__price">{{ 'general.print_from' | t }} {{ p.price_min | money }}</span>{%- endif -%}
           {%- endif -%}
-        </div>
-        {%- comment -%} Data for the full-screen viewer {%- endcomment -%}
-        <template data-wst-item>
-          <div class="wstv__slide"
-            data-url="{{ url }}"
-            data-label="{{ label | escape }}"
-            data-review="{{ is_review }}"
-            data-author="{% if sample %}{{ sample_names[si] }} · EJEMPLO{% else %}{{ b.author | escape }}{% endif %}"
-            data-verified="{% if sample %}false{% else %}{{ b.verified }}{% endif %}"
-            data-rating="{% if sample %}5{% else %}{{ b.rating }}{% endif %}">
-            {%- if img != blank -%}{{ img | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '720, 1080, 1400', sizes: '100vw', alt: label }}{%- endif -%}
-            {%- if is_review -%}<p class="wstv__quote">«{% if sample %}{{ sample_quotes[si] }}{% else %}{{ b.quote }}{% endif %}»</p>{%- endif -%}
-          </div>
-        </template>
-      </div>
+        </span>
+      </button>
     {%- endfor -%}
-
-    {%- if s.upload_title != blank -%}
-      <div class="wst" role="listitem">
-        <a class="rc__upload" href="{{ s.upload_link | default: '/pages/contacto' }}">
-          <span class="wst__plus" aria-hidden="true">+</span>
-          <span class="wst__up-title">{{ s.upload_title }}</span>
-          {%- if s.upload_text != blank -%}<span class="wst__up-text">{{ s.upload_text }}</span>{%- endif -%}
-          {%- if s.upload_button != blank -%}<span class="wst__up-btn">{{ s.upload_button }}</span>{%- endif -%}
-        </a>
-      </div>
-    {%- endif -%}
+  {%- endcapture -%}
+  <div class="mq" style="--mq-n: {{ section.blocks.size | at_least: 1 }}; --mq-speed: {{ s.speed | default: 40 }}s;">
+    <div class="mq__track">
+      <div class="mq__set">{{ tiles }}</div>
+      <div class="mq__set" aria-hidden="true" data-mq-copy>{{ tiles }}</div>
+    </div>
   </div>
+
+  {%- comment -%} Data for the full-screen viewer (one per photo, not duplicated) {%- endcomment -%}
+  {%- for block in section.blocks -%}
+    {%- liquid
+      assign b = block.settings
+      assign p = b.product
+      assign url = p.url | default: routes.all_products_collection_url
+      assign label = b.caption | default: p.title
+      assign img = b.image | default: p.featured_media
+      assign is_review = false
+      if b.quote != blank
+        assign is_review = true
+      endif
+      assign sample = false
+      if is_review == false and request.design_mode
+        assign sample = true
+        assign is_review = true
+        assign sample_quotes = 'Queda precioso en el salón, los colores son tal cual la vista previa.|Lo regalé por su cumpleaños y lloró de la emoción. Llegó muy bien embalado.|La calidad del marco me sorprendió, se ve mucho más caro de lo que es.|Me encanta cómo quedó mi perro, todo el mundo me pregunta dónde lo compré.|Fácil de pedir y llegó en una semana. Repetiré seguro.|El tamaño A3 es perfecto encima del sofá.' | split: '|'
+        assign sample_names = 'Laura M.|Carlos R.|Marta G.|Javier P.|Lucía S.|Andrea V.' | split: '|'
+        assign si = forloop.index0 | modulo: 6
+      endif
+    -%}
+    <template data-wst-item>
+      <div class="wstv__slide"
+        data-url="{{ url }}"
+        data-label="{{ label | escape }}"
+        data-review="{{ is_review }}"
+        data-author="{% if sample %}{{ sample_names[si] }} · EJEMPLO{% else %}{{ b.author | escape }}{% endif %}"
+        data-verified="{% if sample %}false{% else %}{{ b.verified }}{% endif %}"
+        data-rating="{% if sample %}5{% else %}{{ b.rating }}{% endif %}">
+        {%- if img != blank -%}{{ img | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '720, 1080, 1400', sizes: '100vw', alt: label }}{%- endif -%}
+        {%- if is_review -%}<p class="wstv__quote">«{% if sample %}{{ sample_quotes[si] }}{% else %}{{ b.quote }}{% endif %}»</p>{%- endif -%}
+      </div>
+    </template>
+  {%- endfor -%}
+
+  {%- if s.upload_title != blank -%}
+    <div class="page-width mq__cta">
+      <p class="mq__cta-text"><b>{{ s.upload_title }}.</b> {{ s.upload_text }}</p>
+      {%- if s.upload_button != blank -%}<a class="mq__cta-btn" href="{{ s.upload_link | default: '/pages/contacto' }}">{{ s.upload_button }} →</a>{%- endif -%}
+    </div>
+  {%- endif -%}
 
   {%- comment -%} Full-screen story viewer (filled from the templates above) {%- endcomment -%}
   <div class="wstv" data-wst-viewer hidden role="dialog" aria-modal="true" aria-label="Historias de paredes">
@@ -149,6 +134,13 @@
     var cta = root.querySelector('[data-wst-cta]');
     var items = Array.prototype.map.call(root.querySelectorAll('template[data-wst-item]'), function (t) { return t; });
     var cur = 0, timer = null, DUR = 5000;
+    /* Infinite carousel: the copy is for the loop only (no keyboard focus), pause while touching */
+    Array.prototype.forEach.call(root.querySelectorAll('[data-mq-copy] button'), function (b) { b.tabIndex = -1; });
+    var mq = root.querySelector('.mq');
+    if (mq) {
+      mq.addEventListener('touchstart', function () { mq.classList.add('is-paused'); }, { passive: true });
+      mq.addEventListener('touchend', function () { setTimeout(function () { mq.classList.remove('is-paused'); }, 1200); }, { passive: true });
+    }
 
     function stars(n) { var s = ''; for (var i = 1; i <= 5; i++) s += i <= n ? '★' : '☆'; return s; }
     function show(i) {
@@ -210,9 +202,10 @@
     { "type": "textarea", "id": "heading", "label": "Titular (una línea por renglón)", "default": "Una buena decoración\nlo cambia todo.\nTu pared\npodría ser la siguiente." },
     { "type": "text", "id": "text", "label": "Texto", "default": "Ideas para cada rincón de tu casa. Toca una foto para verla en grande." },
     { "type": "text", "id": "note", "label": "(antiguo, sin uso)" },
-    { "type": "header", "content": "Última tarjeta: «sube tu pared»" },
+    { "type": "range", "id": "speed", "label": "Velocidad del carrusel (segundos por vuelta)", "min": 20, "max": 90, "step": 5, "default": 40 },
+    { "type": "header", "content": "Invitación: «sube tu pared»" },
     { "type": "text", "id": "upload_title", "label": "Título", "default": "Tu pared aquí" },
-    { "type": "textarea", "id": "upload_text", "label": "Texto", "default": "¿Ya tienes tu cuadro? Escribe tu reseña con una foto de tu pared en la ficha de tu obra, o mándanosla y la compartimos aquí (con tu permiso)." },
+    { "type": "textarea", "id": "upload_text", "label": "Texto", "default": "¿Ya tienes tu cuadro? Mándanos la foto de tu pared o déjala en tu reseña y la compartimos aquí (con tu permiso)." },
     { "type": "text", "id": "upload_button", "label": "Botón", "default": "Enviar mi foto" },
     { "type": "url", "id": "upload_link", "label": "Enlace del botón", "info": "Vacío = página de contacto." }
   ],
