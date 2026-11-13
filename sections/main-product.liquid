@@ -41,6 +41,7 @@
 <section class="page-width" data-product-handle="{{ product.handle }}">
   <div class="product{% if rail %} product--rail{% endif %}">
     <div class="product__gallery">
+      {%- if rail -%}{% render 'fav-button', handle: product.handle, class: 'fav-btn--media' %}{%- endif -%}
       {%- liquid
         # Gelato attaches one near-identical mockup per variant (alt = a UUID, or «…: vista N»). When the product
         # has our own photos ("… con marco negro"), show only ours; otherwise just a few of Gelato's.
