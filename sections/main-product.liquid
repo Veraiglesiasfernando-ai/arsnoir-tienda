@@ -150,7 +150,40 @@
             nav.appendChild(b);
           });
           g.insertBefore(nav, g.firstChild);
+          /* The framed photo (it swaps colour with the frame) only shows once a frame is chosen;
+             until then the big photo is the print on its own */
+          var thumbs = nav.querySelectorAll('button');
+          var fi = -1;
+          items.forEach(function (m, i) { if (fi < 0 && m.querySelector('img[data-black]')) fi = i; });
+          var KIND = { negro: 'black', blanco: 'white', madera: 'wood' };
+          var current = function () { for (var k = 0; k < items.length; k++) if (items[k].classList.contains('is-shown')) return k; return -1; };
+          var setFrame = function (frame) {
+            if (fi < 0) return;
+            var on = !!KIND[frame];
+            thumbs[fi].hidden = !on;
+            if (on) {
+              var img = items[fi].querySelector('img[data-black]');
+              var url = KIND[frame] === 'black' ? img.dataset.black : img.dataset[KIND[frame]];
+              var note = items[fi].querySelector('.pmedia__note');
+              if (note) note.remove();
+              if (url && img.getAttribute('src') !== url) {
+                img.removeAttribute('srcset');
+                img.onerror = function () { img.onerror = null; img.src = img.dataset.black; };
+                img.src = url;
+              }
+              show(fi);
+            } else if (current() === fi || current() < 0) {
+              show(fi === 0 ? 1 : 0);
+            }
+          };
           show(0);
+          var start = function () {
+            var box = document.querySelector('[data-pdc]');
+            if (!box) return;
+            setFrame(box.dataset.frame || 'sin');
+            new MutationObserver(function () { setFrame(box.dataset.frame || 'sin'); }).observe(box, { attributes: true, attributeFilter: ['data-frame'] });
+          };
+          if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
         })();
       </script>
     {%- endif -%}

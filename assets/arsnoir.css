@@ -4535,3 +4535,8 @@ body:has(.pdc) .product__tax { padding-bottom: 18px; border-bottom: 1px solid #e
 .pdc-off { display: inline-block; vertical-align: middle; margin-left: 6px; padding: 3px 7px; background: #b3261e; color: #fff; font-size: .45em; font-weight: 700; letter-spacing: .02em; line-height: 1.2; }
 .pdc__frame-img { position: relative; }
 .pdc__frame-off { position: absolute; top: 4px; left: 4px; padding: 2px 5px; background: #b3261e; color: #fff; font-size: 10.5px; font-weight: 700; line-height: 1.2; }
+/* Type buttons: a plain sheet (Lámina) and a canvas with its depth (Lienzo), filling the left of the button */
+.pdc__type .pdc__icon--paper { width: 60px; min-height: 60px; height: auto; align-self: stretch; padding: 0; background: #d6d6d4; display: block; }
+.pdc__type:not(.is-active) .pdc__icon--paper { opacity: .85; }
+@media (max-width: 420px) { .pdc__type .pdc__icon--paper { width: 50px; min-height: 54px; } }
+.prail__thumb[hidden] { display: none; }
