@@ -48,21 +48,20 @@
 
   {%- assign step = step | plus: 1 -%}
   <div class="pdc__step" data-pdc-step="size">
-    <div class="pdc__headrow">
-      <p class="pdc__head"><span class="pdc__num">{{ step }}</span><span class="pdc__title">Tamaño</span></p>
-      <a class="pdc__guide" href="{{ guide }}">
-        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2 7h16v6H2z" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M5 7v3M8 7v2M11 7v3M14 7v2" stroke="currentColor" stroke-width="1.5"/></svg>
-        Guía de tamaños
-      </a>
+    <p class="pdc__head"><span class="pdc__num">{{ step }}</span><span class="pdc__title">Tamaño</span></p>
+    <div class="pdc__sizerow">
+      <label class="pdc__select">
+        <select data-pdc-size aria-label="Elige un tamaño">
+          <option value="" disabled selected>Elige un tamaño</option>
+        </select>
+        <span class="pdc__selface" aria-hidden="true">
+          <span class="pdc__seltxt" data-pdc-seltxt>Elige un tamaño</span>
+          <span class="pdc__meta" data-pdc-sizemeta></span>
+        </span>
+        <svg class="pdc__caret" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+      </label>
+      <a class="pdc__guide" href="{{ guide }}">Guía de tamaños</a>
     </div>
-    <label class="pdc__select">
-      <span class="visually-hidden">Elige un tamaño</span>
-      <select data-pdc-size>
-        <option value="" disabled selected>Elige un tamaño</option>
-      </select>
-      <svg class="pdc__caret" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
-    </label>
-    <p class="pdc__meta" data-pdc-sizemeta></p>
   </div>
 
   {%- assign step = step | plus: 1 -%}
@@ -112,6 +111,7 @@
     var button = form && form.querySelector('[type="submit"]');
     var select = box.querySelector('[data-pdc-size]');
     var meta = box.querySelector('[data-pdc-sizemeta]');
+    var seltxt = box.querySelector('[data-pdc-seltxt]');
     var frameName = box.querySelector('[data-pdc-framename]');
     var lang = document.documentElement.lang || 'es';
     var currency = (window.Shopify && Shopify.currency && Shopify.currency.active) || 'EUR';
@@ -185,11 +185,13 @@
         select.appendChild(o);
       });
       select.value = state.size || '';
+      var picked = select.options[select.selectedIndex];
+      seltxt.textContent = state.size && picked ? picked.textContent.split(' — ')[0] : 'Elige un tamaño';
       var last = list.length ? (sizeInfo[list[list.length - 1]] || {}).label : '';
       var biggest = String(last).replace(/^[A-Z0-9]+ · /, '');
       var unit = state.type === 'mixpix' ? (list.length === 1 ? ' opción' : ' opciones') : (list.length === 1 ? ' tamaño disponible' : ' tamaños disponibles');
       meta.textContent = list.length + unit +
-        (state.type === 'mixpix' ? ' · Cuadros de 20 × 20 cm' : (last ? ' · Hasta ' + biggest : ''));
+        (state.type === 'mixpix' ? ' · Cuadros de 20 × 20 cm' : (last ? ' · Hasta\u00a0' + biggest.replace(/ /g, '\u00a0') : ''));
     }
 
     function renderFrames() {
