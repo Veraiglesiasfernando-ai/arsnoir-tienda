@@ -50,16 +50,17 @@
   <div class="pdc__step" data-pdc-step="size">
     <p class="pdc__head"><span class="pdc__num">{{ step }}</span><span class="pdc__title">Tamaño</span></p>
     <div class="pdc__sizerow">
-      <label class="pdc__select">
-        <select data-pdc-size aria-label="Elige un tamaño">
+      <div class="pdc__select" data-pdc-face role="button" tabindex="0" aria-haspopup="listbox" aria-expanded="false" aria-label="Elige un tamaño">
+        <select data-pdc-size hidden tabindex="-1" aria-hidden="true">
           <option value="" disabled selected>Elige un tamaño</option>
         </select>
-        <span class="pdc__selface" aria-hidden="true">
+        <span class="pdc__selface">
           <span class="pdc__seltxt" data-pdc-seltxt>Elige un tamaño</span>
           <span class="pdc__meta" data-pdc-sizemeta></span>
         </span>
         <svg class="pdc__caret" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
-      </label>
+        <ul class="pdc__list" data-pdc-list role="listbox" aria-label="Tamaños" hidden></ul>
+      </div>
       <a class="pdc__guide" href="{{ guide }}">Guía de tamaños</a>
     </div>
   </div>
@@ -112,6 +113,49 @@
     var select = box.querySelector('[data-pdc-size]');
     var meta = box.querySelector('[data-pdc-sizemeta]');
     var seltxt = box.querySelector('[data-pdc-seltxt]');
+    var face = box.querySelector('[data-pdc-face]');
+    var sizeList = box.querySelector('[data-pdc-list]');
+    var openList = function (on) {
+      sizeList.hidden = !on;
+      face.setAttribute('aria-expanded', String(on));
+      face.classList.toggle('is-open', on);
+      if (on) {
+        box.querySelector('[data-pdc-step="size"]').classList.remove('is-needed');
+        var act = sizeList.querySelector('.is-active') || sizeList.firstElementChild;
+        if (act) act.focus({ preventScroll: true });
+        var r = sizeList.getBoundingClientRect();
+        if (r.bottom > window.innerHeight) window.scrollBy({ top: r.bottom - window.innerHeight + 16, behavior: 'smooth' });
+      }
+    };
+    var pickSize = function (sz) {
+      select.value = sz;
+      openList(false);
+      face.focus({ preventScroll: true });
+      select.dispatchEvent(new Event('change'));
+    };
+    face.addEventListener('click', function (e) {
+      var row = e.target.closest('.pdc__row');
+      if (row) { pickSize(row.dataset.size); return; }
+      openList(sizeList.hidden);
+    });
+    face.addEventListener('keydown', function (e) {
+      var row = e.target.closest('.pdc__row');
+      if (e.key === 'Escape') { openList(false); face.focus(); return; }
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        if (row) pickSize(row.dataset.size); else openList(sizeList.hidden);
+        return;
+      }
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (sizeList.hidden) { openList(true); return; }
+        var rows = Array.prototype.slice.call(sizeList.children);
+        var i = rows.indexOf(row);
+        var next = rows[Math.max(0, Math.min(rows.length - 1, i + (e.key === 'ArrowDown' ? 1 : -1)))];
+        if (next) next.focus();
+      }
+    });
+    document.addEventListener('click', function (e) { if (!sizeList.hidden && !face.contains(e.target)) openList(false); });
     var frameName = box.querySelector('[data-pdc-framename]');
     var lang = document.documentElement.lang || 'es';
     var currency = (window.Shopify && Shopify.currency && Shopify.currency.active) || 'EUR';
@@ -191,6 +235,25 @@
         select.appendChild(o);
       });
       select.value = state.size || '';
+      /* The visible list: size, its paper format in grey, price on the right (red + old price when really reduced) */
+      sizeList.innerHTML = '';
+      list.forEach(function (sz) {
+        var c = cheapest(of(state.type, sz, state.frame)) || cheapest(of(state.type, sz));
+        var label = (sizeInfo[sz] || {}).label || sz;
+        var parts = String(label).split(' · ');
+        var main = label, hint = '';
+        if (parts.length > 1 && /^(A\d|XL)$/i.test(parts[0])) { main = parts.slice(1).join(' · '); hint = parts[0]; }
+        var li = document.createElement('li');
+        li.setAttribute('role', 'option');
+        li.setAttribute('aria-selected', String(sz === state.size));
+        li.tabIndex = -1;
+        li.className = 'pdc__row' + (sz === state.size ? ' is-active' : '');
+        li.dataset.size = sz;
+        var n = c ? pct(c.v) : 0;
+        li.innerHTML = '<span class="pdc__row-size">' + main + (hint ? ' <span class="pdc__row-hint">→ ' + hint + '</span>' : '') + '</span>' +
+          (c ? '<span class="pdc__row-price' + (n ? ' is-off' : '') + '"><b>' + money(c.v.price) + '</b>' + (n ? '<s>' + money(c.v.compare_at_price) + '</s>' : '') + '</span>' : '');
+        sizeList.appendChild(li);
+      });
       var picked = select.options[select.selectedIndex];
       seltxt.textContent = state.size && picked ? picked.textContent.split(' — ')[0] : 'Elige un tamaño';
       var last = list.length ? (sizeInfo[list[list.length - 1]] || {}).label : '';
@@ -293,10 +356,9 @@
       if (state.size) return;
       e.preventDefault(); e.stopImmediatePropagation();
       box.querySelector('[data-pdc-step="size"]').classList.add('is-needed');
-      select.focus();
-      select.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      face.focus({ preventScroll: true });
+      face.scrollIntoView({ block: 'center', behavior: 'smooth' });
     }, true);
-    select.addEventListener('focus', function () { box.querySelector('[data-pdc-step="size"]').classList.remove('is-needed'); });
 
     /* Start: a variant in the URL is shown as chosen; otherwise the cheapest type, no size yet */
     var cur = form && form.querySelector('input[name="id"]');
