@@ -26,7 +26,16 @@
     assign preselect = true
   endif
 -%}
-<div class="pdc" data-pdc data-picker="{{ picker_id }}" data-preselect="{{ preselect }}">
+{%- comment -%}
+  Black Friday: the shop's automatic discounts (Shopify → Descuentos, «Black Friday · Obras: 15 %») cover, in
+  every artwork (options Size / Product / Style), the prints in every size but A3 and the A4 and A3 frames.
+  The page shows that same price during the Black Week dates of the theme settings (Campaña Q4).
+{%- endcomment -%}
+{%- assign bf_on = false -%}
+{%- if settings.q4_enabled and settings.q4_bf_pdp and settings.q4_bf_start != blank and settings.q4_bf_end != blank -%}
+  {%- if product.options contains 'Product' and product.options contains 'Size' -%}{%- assign bf_on = true -%}{%- endif -%}
+{%- endif -%}
+<div class="pdc" data-pdc data-picker="{{ picker_id }}" data-preselect="{{ preselect }}"{% if bf_on %} data-bf-pct="{{ settings.q4_bf_pct | default: 15 }}" data-bf-start="{{ settings.q4_bf_start | strip }}" data-bf-end="{{ settings.q4_bf_end | strip }}"{% endif %}>
   {%- assign step = step | plus: 1 -%}
   <div class="pdc__step" data-pdc-step="type">
     <p class="pdc__head"><span class="pdc__num">{{ step }}</span><span class="pdc__title">Tipo</span></p>
@@ -186,6 +195,23 @@
       return { v: v, type: type, frame: frame, size: opts[sizeI] };
     });
 
+    /* Black Friday price on the eligible variants (same rule as the automatic discounts), Madrid dates */
+    var bfPct = parseFloat(box.dataset.bfPct) || 0;
+    if (bfPct) {
+      var now = Date.now();
+      var from = Date.parse(box.dataset.bfStart + 'T00:00:00+01:00');
+      var to = Date.parse(box.dataset.bfEnd + 'T23:59:59+01:00');
+      if (!(now >= from && now <= to)) bfPct = 0;
+    }
+    if (bfPct) items.forEach(function (x) {
+      var sz = String(x.size || '');
+      var isA3 = /^A3\b/i.test(sz), isA4 = /^21\s*x\s*29/i.test(sz);
+      var ok = x.type === 'lamina' && (x.frame === 'sin' ? !isA3 : (isA4 || isA3));
+      if (!ok) return;
+      x.bf = true;
+      x.v = Object.assign({}, x.v, { price: Math.round(x.v.price * (100 - bfPct) / 100), compare_at_price: x.v.price });
+    });
+
     var state = { type: null, size: null, frame: 'sin' };
     var of = function (t, s, f) {
       return items.filter(function (x) {
@@ -318,6 +344,7 @@
         if (fs) fs.querySelectorAll('input').forEach(function (inp) { inp.checked = inp.value === val; });
       });
       picker.dispatchEvent(new Event('change', { bubbles: true }));
+      if (x.bf) setPrice('<b class="pdc-now">' + money(x.v.price) + '</b>' + off(x.v));
     }
 
     box.addEventListener('click', function (e) {

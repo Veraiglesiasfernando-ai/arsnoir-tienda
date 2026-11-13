@@ -4577,3 +4577,4 @@ body:has(.pdc) .product__tax { padding-bottom: 18px; border-bottom: 1px solid #e
   .pdc__type .pdc__icon--paper, .pdc__type .pdc__icon--art { width: 28px; height: 28px; min-height: 0; }
   .pdc__type-name { font-size: 14px; }
 }
+.pdc-now { color: #b3261e; font-weight: inherit; }

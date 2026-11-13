@@ -322,6 +322,19 @@
         "info": "Ej.: BLACKFRIDAY. Créalo antes en Shopify → Descuentos."
       },
       {
+        "type": "checkbox",
+        "id": "q4_bf_pdp",
+        "label": "Mostrar el descuento de Black Friday en la ficha",
+        "default": true,
+        "info": "Del primer al último día de la Black Week, en las obras: láminas (salvo A3) y marcos A4 y A3 salen con el precio de hoy tachado y el rebajado en rojo. Debe coincidir con los descuentos automáticos de Shopify; si los paras, desmarca esto."
+      },
+      {
+        "type": "number",
+        "id": "q4_bf_pct",
+        "label": "Descuento de Black Friday (%)",
+        "default": 15
+      },
+      {
         "type": "header",
         "content": "Mensajes de la barra superior"
       },
