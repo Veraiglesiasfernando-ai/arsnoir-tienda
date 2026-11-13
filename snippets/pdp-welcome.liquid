@@ -1,0 +1,77 @@
+{%- comment -%}
+  Top of the product page: «−10 % en tu primer pedido». A click opens an email field right here (no pop-up,
+  nothing blocks the purchase). On sending, the email is saved as a newsletter customer, the code is shown
+  and applied to the cart (Shopify validates it at checkout). Already subscribed (this browser): the code.
+  - code (must exist in Shopify → Descuentos)
+{%- endcomment -%}
+<div class="pwel" data-pwel data-code="{{ code | escape }}">
+  <button type="button" class="pwel__bar" data-pwel-open aria-expanded="false" aria-controls="PdpWelcomeBox">
+    <span class="pwel__tag">−10 %</span>
+    <span class="pwel__txt">en tu primer pedido</span>
+    <span class="pwel__cta">Consíguelo <span aria-hidden="true">→</span></span>
+  </button>
+  <div class="pwel__box" id="PdpWelcomeBox" data-pwel-box hidden>
+    {%- form 'customer', id: 'PdpWelcomeForm', class: 'pwel__form' -%}
+      <input type="hidden" name="contact[tags]" value="newsletter,ficha">
+      <div class="pwel__row">
+        <label class="visually-hidden" for="PdpWelcomeEmail">{{ 'general.email' | t }}</label>
+        <input class="pwel__field" id="PdpWelcomeEmail" type="email" name="contact[email]" placeholder="Tu email" autocomplete="email" required>
+        <button class="pwel__send" type="submit">Quiero mi 10 %</button>
+      </div>
+    {%- endform -%}
+    <p class="pwel__legal">Te mandamos el código y novedades de ARSNOIR. Puedes darte de baja cuando quieras.</p>
+    <p class="pwel__error" data-pwel-error hidden>No se ha podido enviar. Prueba otra vez.</p>
+  </div>
+  <div class="pwel__done" data-pwel-done hidden>
+    <span class="pwel__check" aria-hidden="true"></span>
+    <span>Tu código <button type="button" class="pwel__code" data-pwel-copy>{{ code }}</button> ya está aplicado en tu carrito.</span>
+  </div>
+</div>
+<script>
+  (function () {
+    var box = document.currentScript.previousElementSibling;
+    if (!box || box.dataset.ready) return;
+    box.dataset.ready = '1';
+    var code = box.dataset.code;
+    var root = (window.Shopify && Shopify.routes && Shopify.routes.root) || '/';
+    var openBtn = box.querySelector('[data-pwel-open]');
+    var panel = box.querySelector('[data-pwel-box]');
+    var done = box.querySelector('[data-pwel-done]');
+    var form = box.querySelector('#PdpWelcomeForm') || box.querySelector('form');
+    var err = box.querySelector('[data-pwel-error]');
+    var subscribed = false;
+    try { subscribed = !!(JSON.parse(localStorage.getItem('arsnoir:npop') || '{}').subscribed); } catch (e) {}
+    var showDone = function () { openBtn.hidden = true; panel.hidden = true; done.hidden = false; };
+    var apply = function () {
+      var json = { 'Content-Type': 'application/json', 'Accept': 'application/json' };
+      return fetch(root + 'cart/update.js', { method: 'POST', headers: json, body: JSON.stringify({ discount: code }) })
+        .then(function (r) { if (!r.ok) return fetch(root + 'discount/' + encodeURIComponent(code) + '?redirect=' + encodeURIComponent(root + 'cart.js')); })
+        .catch(function () {});
+    };
+    if (subscribed) { showDone(); apply(); }
+    openBtn.addEventListener('click', function () {
+      var on = panel.hidden;
+      panel.hidden = !on;
+      openBtn.setAttribute('aria-expanded', String(on));
+      box.classList.toggle('is-open', on);
+      if (on) setTimeout(function () { var f = panel.querySelector('input[type="email"]'); if (f) f.focus({ preventScroll: true }); }, 50);
+    });
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      err.hidden = true;
+      var btn = form.querySelector('[type="submit"]');
+      btn.disabled = true;
+      fetch(form.action, { method: 'POST', body: new FormData(form) })
+        .then(function () { return apply(); })
+        .then(function () {
+          try { localStorage.setItem('arsnoir:npop', JSON.stringify({ subscribed: true })); } catch (x) {}
+          showDone();
+        })
+        .catch(function () { err.hidden = false; })
+        .finally(function () { btn.disabled = false; });
+    });
+    box.querySelector('[data-pwel-copy]').addEventListener('click', function (e) {
+      if (navigator.clipboard) navigator.clipboard.writeText(code).then(function () { e.target.textContent = '¡Copiado!'; setTimeout(function () { e.target.textContent = code; }, 1400); });
+    });
+  })();
+</script>

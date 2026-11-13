@@ -189,6 +189,7 @@
     {%- endif -%}
 
     <div class="product__info">
+      {%- if rail and section.settings.welcome_code != blank -%}{% render 'pdp-welcome', code: section.settings.welcome_code %}{%- endif -%}
       {% render 'breadcrumbs' %}
       {%- for block in section.blocks -%}
         {%- case block.type -%}
@@ -933,6 +934,7 @@
 {
   "name": "Obra",
   "settings": [
+    { "type": "text", "id": "welcome_code", "label": "Código de bienvenida arriba de la ficha", "default": "WELCOME10", "info": "Franja «−10 % en tu primer pedido»: pide el email ahí mismo, enseña el código y lo aplica al carrito. Debe existir en Shopify → Descuentos. Vacío = sin franja." },
     { "type": "text", "id": "brand_line", "label": "Marca encima del título", "default": "ARSNOIR", "info": "Vacío = sin línea." },
     { "type": "checkbox", "id": "quality_block", "label": "Bloque «Calidad que se nota de cerca» (lupa y acabados)", "default": true },
     { "type": "checkbox", "id": "pdp_v2", "label": "Ficha nueva: Tipo · Tamaño · Marco", "info": "Botones de tipo, tamaño en desplegable, marcos con foto y checklist bajo el botón.", "default": true },

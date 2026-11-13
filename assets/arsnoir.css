@@ -4579,3 +4579,25 @@ body:has(.pdc) .product__tax { padding-bottom: 18px; border-bottom: 1px solid #e
 }
 .pdc-now { color: #b3261e; font-weight: inherit; }
 .cwall__price span:has(+ s:not([hidden])) { color: #b3261e; }
+
+/* Product page: «−10 % en tu primer pedido» at the top (snippets/pdp-welcome.liquid) */
+.pwel { margin: 0 0 14px; background: #E3F2FC; color: #0B3954; }
+.pwel__bar { display: flex; align-items: center; gap: 10px; width: 100%; padding: 10px 14px; border: 0; background: none; color: inherit; font: inherit; font-size: 14px; text-align: left; cursor: pointer; }
+.pwel__bar[hidden] { display: none; }
+.pwel__tag { padding: 3px 8px; background: #0B3954; color: #fff; font-weight: 800; font-size: 13px; letter-spacing: .02em; }
+.pwel__txt { font-weight: 600; }
+.pwel__cta { margin-left: auto; font-weight: 700; color: #1F7BB8; white-space: nowrap; }
+.pwel.is-open .pwel__cta span { display: inline-block; transform: rotate(90deg); }
+.pwel__box { padding: 0 14px 12px; }
+.pwel__box[hidden], .pwel__done[hidden] { display: none; }
+.pwel__row { display: flex; gap: 8px; }
+.pwel__field { flex: 1; min-width: 0; height: 44px; padding: 0 12px; border: 1px solid #9cc8e6; border-radius: 0; background: #fff; font: inherit; font-size: 16px; }
+.pwel__field:focus { outline: none; border-color: #0B3954; }
+.pwel__send { flex: none; height: 44px; padding: 0 16px; border: 0; background: #0a0a0a; color: #fff; font: inherit; font-size: 13px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; cursor: pointer; }
+.pwel__send:disabled { opacity: .6; }
+.pwel__legal { margin: 6px 0 0; font-size: 11.5px; color: #3d6a88; }
+.pwel__error { margin: 6px 0 0; font-size: 12.5px; color: #b3261e; }
+.pwel__done { display: flex; align-items: center; gap: 10px; padding: 10px 14px; font-size: 14px; }
+.pwel__check { flex: none; width: 18px; height: 18px; border-radius: 50%; background: #1e9e48 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M3 6.2l2 2 4-4.4' fill='none' stroke='%23fff' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/11px no-repeat; }
+.pwel__code { padding: 2px 8px; border: 1px dashed #0B3954; background: #fff; color: #0B3954; font: inherit; font-weight: 800; letter-spacing: .06em; cursor: pointer; }
+@media (max-width: 420px) { .pwel__txt { font-size: 13px; } .pwel__send { padding: 0 12px; } }
