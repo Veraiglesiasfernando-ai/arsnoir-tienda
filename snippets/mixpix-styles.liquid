@@ -60,7 +60,8 @@
     <input type="hidden" name="properties[Estilos del pack]" form="{{ form_id }}" disabled data-mixpix-value>
   </div>
   <script>
-    (function () {
+    /* Runs once the page is parsed: the product form comes after this box */
+    document.addEventListener('DOMContentLoaded', function () {
       var box = document.querySelector('[data-mixpix]');
       if (!box || box.dataset.ready) return;
       box.dataset.ready = '1';
@@ -183,6 +184,6 @@
       document.addEventListener('change', function (e) { if (e.target.closest && e.target.closest('variant-picker')) setTimeout(sync, 0); });
       document.querySelectorAll('variant-picker .ftile').forEach(function (t) { t.addEventListener('click', function () { setTimeout(sync, 0); }); });
       sync();
-    })();
+    });
   </script>
 {%- endif -%}

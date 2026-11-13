@@ -42,3 +42,13 @@ El dueño quiere la ficha **ordenada como la de una tienda grande de láminas**:
 - Antes de subir, comparar las sumas de control con el editor.
 - Probar en móvil (390 px) y en ordenador.
 - Enseñar capturas al dueño **antes** de dar nada por terminado. **Nunca publicar el tema**: lo publica el dueño.
+
+## Estado (13/11/2026)
+- Hecho en la rama `claude/modest-turing-4r8uxx` (sin subir a ningún tema):
+  - `snippets/pdp-chooser.liquid`: Tipo (botones con dibujo y «Desde» real) · Tamaño (desplegable, «N tamaños disponibles · Hasta …», «Guía de tamaños») · Marco (tarjetas con foto en fila deslizable).
+  - Por debajo usa el `<variant-picker>` de siempre (oculto con `.vsteps--v2`): marca sus radios y lanza «change», así que precio, carrito, estudio y MIXPIX siguen igual.
+  - `main-product.liquid`: ajuste de sección «Ficha nueva» (`pdp_v2`, activado por defecto) para volver a la ficha antigua. Precio «Desde X €» hasta elegir tamaño (también en la barra fija). Botón negro «AÑADIR AL CARRITO» sin precio. Checklist de 4 líneas en dos columnas. El bloque «delivery» no se pinta (lo dice la checklist).
+  - Sin tamaño elegido, «Añadir al carrito» no añade: señala el desplegable.
+  - **Arreglado un fallo que ya existía:** el selector de estilos MIXPIX (`mixpix-styles.liquid`) se ejecutaba antes de que existiera el formulario y no aparecía nunca. Ahora espera a que cargue la página.
+- **El tema 201530278272 ya no es de prueba: ahora es el publicado (MAIN).** No se ha subido nada. Hace falta un tema de prueba nuevo (copia del publicado). Sus archivos coinciden con la rama principal (sumas de control comprobadas), así que en una copia se pueden subir los cambios sin pisar nada.
+- Banco de pruebas local reconstruido: `scratchpad/ltest/render-pdp.js <datos.txt> <handle> <plantilla.json> <salida.html> [variante]` + `shot.js` (capturas a 390 px con Playwright).

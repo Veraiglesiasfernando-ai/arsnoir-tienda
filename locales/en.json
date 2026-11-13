@@ -203,7 +203,11 @@
     "ship_rule_nofee": "Free shipping from {{ threshold }} (after discounts)",
     "pack_hint": "With {{ n }} works, −{{ pct }} % in the cart.",
     "reviews_empty": "No reviews published for this piece yet.",
-    "reviews_ask": "Questions? Write to us"
+    "reviews_ask": "Questions? Write to us",
+    "check_made": "Printed to order, just for you.",
+    "check_delivery": "Arrives in {{ min }}–{{ max }} working days.",
+    "check_free_ship": "Free shipping from €{{ threshold }}.",
+    "check_returns": "Returns policy"
   },
   "collection": {
     "all": "All",

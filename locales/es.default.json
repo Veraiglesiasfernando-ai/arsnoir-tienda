@@ -203,7 +203,11 @@
     "ship_rule_nofee": "Envío gratis desde {{ threshold }} (importe con descuentos)",
     "pack_hint": "Con {{ n }} obras, −{{ pct }} % en el carrito.",
     "reviews_empty": "Todavía no hay opiniones publicadas de esta pieza.",
-    "reviews_ask": "¿Tienes dudas? Escríbenos"
+    "reviews_ask": "¿Tienes dudas? Escríbenos",
+    "check_made": "Se imprime por encargo, solo para ti.",
+    "check_delivery": "Llega en {{ min }}–{{ max }} días hábiles.",
+    "check_free_ship": "Envío gratis desde {{ threshold }} €.",
+    "check_returns": "Política de devoluciones"
   },
   "collection": {
     "all": "Todas",

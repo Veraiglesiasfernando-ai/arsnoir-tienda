@@ -171,7 +171,11 @@
             {%- endcapture -%}
             {%- assign vs_finish_label = vs_finish_label | strip -%}
             <div class="product__price" id="{{ price_id }}" data-show-save {{ block.shopify_attributes }}>
-              {%- render 'price', product: product, variant: current_variant, show_save: true -%}
+              {%- if section.settings.pdp_v2 and product.selected_variant == blank and product.price_varies -%}
+                <span class="price"><span>{{ 'general.from' | t }} {{ product.price_min | money }}</span></span>
+              {%- else -%}
+                {%- render 'price', product: product, variant: current_variant, show_save: true -%}
+              {%- endif -%}
             </div>
             {%- comment -%}
               When the selected option has no earlier price but others do (e.g. «Sin marco» selected,
@@ -196,7 +200,7 @@
                 <span class="product__deal-go" aria-hidden="true">→</span>
               </button>
             {%- endif -%}
-            {%- if product.has_only_default_variant == false -%}
+            {%- if product.has_only_default_variant == false and section.settings.pdp_v2 != true -%}
               <p class="product__variant-summary" id="{{ price_id }}-summary" data-variant-summary>
                 {%- assign fl = vs_finish_label | downcase -%}
                 <span data-summary-size>{{ vs_size_label | strip }}</span>
@@ -283,7 +287,8 @@
                 {%- for sb in section.blocks -%}{%- if sb.type == 'size_compare' -%}{%- assign sc_block = sb -%}{%- endif -%}{%- endfor -%}
                 {%- assign simple_picker = false -%}
                 {%- for sb in section.blocks -%}{%- if sb.type == 'template_studio' -%}{%- assign simple_picker = true -%}{%- endif -%}{%- endfor -%}
-                <variant-picker class="vsteps{% if simple_picker %} vsteps--simple{% endif %}" data-form="{{ form_id }}" data-price="{{ price_id }}">
+                {%- assign picker_dom_id = 'VariantPicker-' | append: section.id -%}
+                <variant-picker id="VariantPicker-{{ section.id }}" class="vsteps{% if simple_picker %} vsteps--simple{% endif %}{% if section.settings.pdp_v2 %} vsteps--v2{% endif %}" data-form="{{ form_id }}" data-price="{{ price_id }}">
                   {%- for option in product.options_with_values -%}
                     {%- liquid
                       assign option_index = forloop.index0
@@ -492,7 +497,9 @@
                   {%- endfor -%}
                   <script type="application/json" data-variants>{{ product.variants | json }}</script>
                 </variant-picker>
-                {%- if section.settings.size_visual -%}
+                {%- if section.settings.pdp_v2 -%}
+                  {%- render 'pdp-chooser', product: product, picker_id: picker_dom_id, step_offset: step_offset, size_help: size_help -%}
+                {%- elsif section.settings.size_visual -%}
                   {% render 'size-visual', product: product %}
                   <script src="{{ 'size-visual.js' | asset_url }}" defer></script>
                 {%- endif -%}
@@ -502,12 +509,21 @@
               {%- render 'mixpix-styles', product: product, form_id: form_id -%}
               {%- form 'product', product, id: form_id, data-ajax-cart: 'true' -%}
                 <input type="hidden" name="id" value="{{ current_variant.id }}">
-                <div class="product__buy">
+                <div class="product__buy{% if section.settings.pdp_v2 %} product__buy--v2{% endif %}">
                   <div class="qty">
                     <button type="button" data-qty="-1" aria-label="{{ 'cart.less' | t }}">&minus;</button>
                     <input type="number" name="quantity" value="1" min="1" aria-label="{{ 'cart.quantity' | t }}">
                     <button type="button" data-qty="1" aria-label="{{ 'cart.more' | t }}">+</button>
                   </div>
+                  {%- if section.settings.pdp_v2 -%}
+                  <button type="submit" class="button pdc-add"
+                    data-add-text="{{ 'product.add_to_cart' | t }}"
+                    data-sold-out-text="{{ 'product.sold_out' | t }}"
+                    data-unavailable-text="{{ 'product.unavailable' | t }}"
+                    {% unless current_variant.available %}disabled{% endunless %}>
+                    {%- if current_variant.available -%}{{ 'product.add_to_cart' | t }}{%- else -%}{{ 'product.sold_out' | t }}{%- endif -%}
+                  </button>
+                  {%- else -%}
                   <button type="submit" class="button button--accent"
                     data-add-text="{{ 'product.add_to_cart' | t }}"
                     data-with-price
@@ -516,6 +532,7 @@
                     {% unless current_variant.available %}disabled{% endunless %}>
                     {%- if current_variant.available -%}{{ 'product.add_to_cart' | t }} · {{ current_variant.price | money }}{%- else -%}{{ 'product.sold_out' | t }}{%- endif -%}
                   </button>
+                  {%- endif -%}
                 </div>
                 {%- if block.settings.show_dynamic_checkout -%}
                   {{ form | payment_button }}
@@ -524,7 +541,15 @@
                   <div class="product__installments">{{ form | payment_terms }}</div>
                 {%- endif -%}
               {%- endform -%}
-              {%- if settings.free_shipping_threshold > 0 -%}
+              {%- if section.settings.pdp_v2 -%}
+                {%- comment -%} 4 lines with ✓ under the button (docs/ficha-producto-plan.md) {%- endcomment -%}
+                <ul class="pdc-checks">
+                  <li>{{ 'product.check_made' | t }}</li>
+                  <li>{{ 'product.check_delivery' | t: min: settings.delivery_min, max: settings.delivery_max }}</li>
+                  {%- if settings.free_shipping_threshold > 0 -%}<li>{{ 'product.check_free_ship' | t: threshold: settings.free_shipping_threshold }}</li>{%- endif -%}
+                  <li><a href="{{ shop.refund_policy.url | default: '/policies/refund-policy' }}">{{ 'product.check_returns' | t }}</a></li>
+                </ul>
+              {%- elsif settings.free_shipping_threshold > 0 -%}
                 {%- comment -%}
                   The shipping rule next to the button, from the theme settings (one source): prints and
                   framed prints have the flat rate of their Shopify delivery profiles; canvases have their
@@ -692,7 +717,9 @@
             {%- endif -%}
 
           {%- when 'delivery' -%}
-            {%- if block.settings.boxed -%}
+            {%- if section.settings.pdp_v2 -%}
+              {%- comment -%} New page: delivery is in the checklist under the button {%- endcomment -%}
+            {%- elsif block.settings.boxed -%}
               {%- comment -%} Info box: made to order + delivery estimate + free-shipping threshold (all real data) {%- endcomment -%}
               <div class="pinfo" {{ block.shopify_attributes }}>
                 {%- if block.settings.made_to_order != blank -%}<p class="pinfo__row pinfo__row--ok"><span class="pinfo__dot" aria-hidden="true"></span>{{ block.settings.made_to_order }}</p>{%- endif -%}
@@ -824,6 +851,7 @@
   "settings": [
     { "type": "text", "id": "brand_line", "label": "Marca encima del título", "default": "ARSNOIR", "info": "Vacío = sin línea." },
     { "type": "checkbox", "id": "quality_block", "label": "Bloque «Calidad que se nota de cerca» (lupa y acabados)", "default": true },
+    { "type": "checkbox", "id": "pdp_v2", "label": "Ficha nueva: Tipo · Tamaño · Marco", "info": "Botones de tipo, tamaño en desplegable, marcos con foto y checklist bajo el botón.", "default": true },
     { "type": "checkbox", "id": "size_visual", "label": "Vista a escala en la pared (bajo tamaño y acabado)", "default": true },
     { "type": "checkbox", "id": "size_boxes", "label": "Tamaños como botones (en vez de desplegable)", "default": true },
     {
