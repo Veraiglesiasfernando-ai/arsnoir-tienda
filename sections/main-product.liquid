@@ -734,8 +734,9 @@
             {%- endif -%}
 
           {%- when 'payments' -%}
-            {%- comment -%} Under the buy button: the payment methods really enabled in the shop + two short promises {%- endcomment -%}
-            <div class="paybar" {{ block.shopify_attributes }}>
+            {%- comment -%} Under the buy button: the payment methods really enabled in the shop + two short promises
+              (new page: icons and guarantee only; the promises are already in the checklist) {%- endcomment -%}
+            <div class="paybar{% if section.settings.pdp_v2 %} paybar--v2{% endif %}" {{ block.shopify_attributes }}>
               {%- if shop.enabled_payment_types.size > 0 -%}
                 <ul class="paybar__icons" aria-label="{{ block.settings.icons_label | escape }}">
                   {%- for type in shop.enabled_payment_types -%}
@@ -743,7 +744,7 @@
                   {%- endfor -%}
                 </ul>
               {%- endif -%}
-              {%- if block.settings.pill_1 != blank or block.settings.pill_2 != blank -%}
+              {%- if section.settings.pdp_v2 != true and block.settings.pill_1 != blank or section.settings.pdp_v2 != true and block.settings.pill_2 != blank -%}
                 <ul class="paybar__pills">
                   {%- if block.settings.pill_1 != blank -%}<li>{% render 'trust-icon', name: 'lock' %}<span>{{ block.settings.pill_1 }}</span></li>{%- endif -%}
                   {%- if block.settings.pill_2 != blank -%}<li>{% render 'trust-icon', name: block.settings.pill_2_icon %}<span>{{ block.settings.pill_2 | replace: '[DIAS]', settings.returns_days }}</span></li>{%- endif -%}
@@ -771,6 +772,8 @@
             {% render 'complete-wall', product: product, block: block %}
 
           {%- when 'trust' -%}
+            {%- comment -%} New page: same promises as the checklist under the button, so not repeated {%- endcomment -%}
+            {%- if section.settings.pdp_v2 -%}{%- continue -%}{%- endif -%}
             <ul class="product__trust" {{ block.shopify_attributes }}>
               <li>{% render 'trust-icon', name: 'print' %}<span>{{ block.settings.line_1 }}</span></li>
               <li>{% render 'trust-icon', name: 'truck' %}<span>{{ block.settings.line_2 }}</span></li>
@@ -779,6 +782,8 @@
             </ul>
 
           {%- when 'notes' -%}
+            {%- comment -%} New page: nothing between the price and the picker (the checklist says it under the button) {%- endcomment -%}
+            {%- if section.settings.pdp_v2 -%}{%- continue -%}{%- endif -%}
             <ul class="product__notes" {{ block.shopify_attributes }}>
               {%- if block.settings.note_1 != blank -%}<li>{{ block.settings.note_1 }}</li>{%- endif -%}
               {%- if block.settings.note_2 != blank -%}<li>{{ block.settings.note_2 }}</li>{%- endif -%}
