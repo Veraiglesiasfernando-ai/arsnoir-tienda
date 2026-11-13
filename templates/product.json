@@ -139,7 +139,7 @@
       "type": "reviews",
       "settings": {
         "eyebrow": "OPINIONES",
-        "heading": "Lo que dicen de esta obra",
+        "heading": "Opiniones de los clientes",
         "judgeme": true
       }
     },
@@ -260,10 +260,10 @@
   },
   "order": [
     "main",
+    "reviews",
     "features",
     "faq",
     "related",
-    "recent",
-    "reviews"
+    "recent"
   ]
 }

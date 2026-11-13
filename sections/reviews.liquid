@@ -20,7 +20,9 @@
     assign jm_count = jm_raw | plus: 0
   endif
 -%}
-{%- if s.judgeme and product != blank and jm_count == 0 -%}
+{%- if s.judgeme and product != blank -%}
+  {% render 'reviews-carousel', product: product, heading: s.heading %}
+{%- elsif false -%}
   {%- comment -%}
     No reviews yet: one honest line and Judge.me's own widget, so customers can already write the
     first review (Judge.me's «Escribir una reseña» button). No stars or numbers are invented.
