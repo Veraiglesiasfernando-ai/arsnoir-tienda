@@ -108,7 +108,9 @@
           <div class="cwall__info">
             <a class="cwall__name" href="{{ p.url }}">{{ p.title | strip }}</a>
             {%- if p.has_only_default_variant -%}
-              <input type="hidden" data-cwall-variant value="{{ chosen.id }}" data-price="{{ chosen.price }}">
+              {%- capture deal -%}{% render 'deal-price', variant: chosen, product: p %}{%- endcapture -%}
+              {%- assign deal = deal | strip | split: '|' -%}
+              <input type="hidden" data-cwall-variant value="{{ chosen.id }}" data-price="{{ deal[0] }}" data-compare="{{ deal[1] }}">
             {%- else -%}
               <div class="cwall__select">
                 <select data-cwall-variant aria-label="{{ p.title | escape }}">
@@ -126,15 +128,21 @@
                         assign label = v.title
                       endif
                     -%}
-                    <option value="{{ v.id }}" data-price="{{ v.price }}" data-compare="{{ v.compare_at_price | default: 0 }}" data-key="{{ v.title | escape }}"{% if v.id == chosen.id %} selected{% endif %}{% unless v.available %} disabled{% endunless %}>{{ label }}</option>
+                    {%- capture deal -%}{% render 'deal-price', variant: v, product: p %}{%- endcapture -%}
+                    {%- assign deal = deal | strip | split: '|' -%}
+                    <option value="{{ v.id }}" data-price="{{ deal[0] }}" data-compare="{{ deal[1] }}" data-key="{{ v.title | escape }}"{% if v.id == chosen.id %} selected{% endif %}{% unless v.available %} disabled{% endunless %}>{{ label }}</option>
                   {%- endfor -%}
                 </select>
                 <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
               </div>
             {%- endif -%}
+            {%- capture deal -%}{% render 'deal-price', variant: chosen, product: p %}{%- endcapture -%}
+            {%- assign deal = deal | strip | split: '|' -%}
+            {%- assign deal_p = deal[0] | plus: 0 -%}
+            {%- assign deal_c = deal[1] | plus: 0 -%}
             <p class="cwall__price">
-              <span data-cwall-price>{{ chosen.price | money }}</span>
-              <s data-cwall-compare{% unless chosen.compare_at_price > chosen.price %} hidden{% endunless %}>{{ chosen.compare_at_price | money }}</s>
+              <span data-cwall-price>{{ deal_p | money }}</span>
+              <s data-cwall-compare{% unless deal_c > deal_p %} hidden{% endunless %}>{{ deal_c | money }}</s>
             </p>
           </div>
         </li>

@@ -4578,3 +4578,4 @@ body:has(.pdc) .product__tax { padding-bottom: 18px; border-bottom: 1px solid #e
   .pdc__type-name { font-size: 14px; }
 }
 .pdc-now { color: #b3261e; font-weight: inherit; }
+.cwall__price span:has(+ s:not([hidden])) { color: #b3261e; }

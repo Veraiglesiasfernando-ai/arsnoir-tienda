@@ -1,0 +1,91 @@
+{%- comment -%}
+  Price to show for an artwork variant, and the struck-through price beside it, as «price|compare» (cents).
+  Same rules as the product page (snippets/pdp-chooser.liquid):
+  - Black Week (theme settings, Campaña Q4): −N % on the prints in every size but A3 and the A4 and A3 frames,
+    like the shop's automatic discounts; struck price = today's price.
+  - Otherwise, until «prev_prices_until»: the price before the 4/11/2026 reduction, only while the variant
+    still has the new price.
+  - Otherwise: the variant's own compare-at price, when higher.
+  - variant, product
+{%- endcomment -%}
+{%- liquid
+  assign v = variant
+  assign price = v.price
+  assign compare = 0
+  if v.compare_at_price > v.price
+    assign compare = v.compare_at_price
+  endif
+  assign art = false
+  if product.options contains 'Product' and product.options contains 'Size'
+    if v.option2 contains 'Poster'
+      assign art = true
+    endif
+  endif
+  if art
+    assign today = 'now' | date: '%Y-%m-%d'
+    assign o1 = v.option1 | strip
+    assign k = ''
+    assign p5 = o1 | slice: 0, 5
+    assign p2 = o1 | slice: 0, 2
+    if p5 == '21x29'
+      assign k = 'A4'
+    elsif p5 == '50x70'
+      assign k = '50x70'
+    elsif p5 == '60x90'
+      assign k = '60x90'
+    elsif p2 == 'A3' or p2 == 'A2' or p2 == 'A1'
+      assign k = p2
+    endif
+    assign framed = true
+    if v.option3 == '-'
+      assign framed = false
+    endif
+    assign bf = false
+    if settings.q4_enabled and settings.q4_bf_pdp and settings.q4_bf_start != blank and today >= settings.q4_bf_start and today <= settings.q4_bf_end
+      if framed
+        if k == 'A4' or k == 'A3'
+          assign bf = true
+        endif
+      elsif k != '' and k != 'A3'
+        assign bf = true
+      endif
+    endif
+    if bf
+      assign pct = settings.q4_bf_pct | default: 15
+      assign keep = 100 | minus: pct
+      assign compare = v.price
+      assign price = v.price | times: keep | divided_by: 100.0 | round
+    elsif settings.prev_prices_on and today <= settings.prev_prices_until
+      assign row = 'x'
+      if framed
+        case k
+          when 'A4'
+            assign row = '3495:5495'
+          when 'A3'
+            assign row = '4495:6995'
+        endcase
+      else
+        case k
+          when 'A4'
+            assign row = '1695:2495'
+          when 'A2'
+            assign row = '3295:4995'
+          when '50x70'
+            assign row = '3995:5995'
+          when 'A1'
+            assign row = '4995:6995'
+          when '60x90'
+            assign row = '5995:8095'
+        endcase
+      endif
+      assign parts = row | split: ':'
+      if parts.size == 2
+        assign now_c = parts[0] | plus: 0
+        if v.price == now_c
+          assign compare = parts[1] | plus: 0
+        endif
+      endif
+    endif
+  endif
+-%}
+{{- price -}}|{{- compare -}}
