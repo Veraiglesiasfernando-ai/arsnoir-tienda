@@ -4521,3 +4521,17 @@ body:has(.pdc) .product__tax { padding-bottom: 18px; border-bottom: 1px solid #e
 .pdc[data-frame]:not([data-frame="sin"]) .pdc__paper { filter: none; }
 .pdc__type:not(.is-active) .pdc__icon--art { opacity: .75; }
 @media (max-width: 420px) { .pdc__type .pdc__icon--art { width: 40px; height: 40px; padding: 2px; } }
+/* Type buttons: the drawing fills the left side of the button (bigger, edge to edge) */
+.pdc__type { padding: 0 14px 0 0; min-height: 62px; gap: 14px; overflow: hidden; }
+.pdc__type .pdc__icon--art { width: 62px; height: 62px; padding: 5px 4px; background: #eeeeec; align-self: stretch; height: auto; min-height: 60px; }
+.pdc__type-name { font-size: 16px; }
+@media (max-width: 420px) {
+  .pdc__type { padding-right: 8px; gap: 8px; min-height: 56px; }
+  .pdc__type .pdc__icon--art { width: 50px; min-height: 54px; padding: 4px 3px; }
+  .pdc__type-name { font-size: 14.5px; }
+}
+/* Real discounts (compare-at price set in Shopify) */
+.pdc-was { font-size: .62em; color: #8a8a8a; font-weight: 400; margin-left: 6px; }
+.pdc-off { display: inline-block; vertical-align: middle; margin-left: 6px; padding: 3px 7px; background: #b3261e; color: #fff; font-size: .45em; font-weight: 700; letter-spacing: .02em; line-height: 1.2; }
+.pdc__frame-img { position: relative; }
+.pdc__frame-off { position: absolute; top: 4px; left: 4px; padding: 2px 5px; background: #b3261e; color: #fff; font-size: 10.5px; font-weight: 700; line-height: 1.2; }
