@@ -4509,3 +4509,15 @@ body:has(.pdc) .product__tax { padding-bottom: 18px; border-bottom: 1px solid #e
   .product--rail .fav-btn--media { display: grid; position: absolute; z-index: 3; top: 16px; right: 16px; left: auto; width: 48px; height: 48px; grid-column: 2; grid-row: 1; justify-self: end; background: #fff; border: 0; box-shadow: 0 4px 14px rgba(0,0,0,.14); }
   .product--rail .fav-btn--inline { display: none; }
 }
+/* Type buttons: a small drawn print that takes the chosen frame (Sin marco · negro · blanco · madera) */
+.pdc__type .pdc__icon--art { width: 46px; height: 46px; padding: 3px; background: #f2f2f0; color: inherit; }
+.pdc__icon--art .pdc__fr { fill: transparent; transition: fill .2s ease; }
+.pdc__icon--art .pdc__paper { filter: drop-shadow(0 1px 1.2px rgba(0,0,0,.25)); }
+.pdc__icon--art .pdc__gap { fill: transparent; }
+.pdc[data-frame="negro"] .pdc__fr { fill: #151515; }
+.pdc[data-frame="blanco"] .pdc__fr { fill: #fff; stroke: #cfcfcf; stroke-width: .7; }
+.pdc[data-frame="madera"] .pdc__fr { fill: #b5834f; }
+.pdc[data-frame="negro"] .pdc__gap, .pdc[data-frame="madera"] .pdc__gap, .pdc[data-frame="blanco"] .pdc__gap { fill: #f7f7f5; }
+.pdc[data-frame]:not([data-frame="sin"]) .pdc__paper { filter: none; }
+.pdc__type:not(.is-active) .pdc__icon--art { opacity: .75; }
+@media (max-width: 420px) { .pdc__type .pdc__icon--art { width: 40px; height: 40px; padding: 2px; } }
