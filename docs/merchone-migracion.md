@@ -170,4 +170,17 @@ La API de pedidos (`POST /orders`) pide `is_test` y `shipping_type`; los valores
 - Los lienzos que seguían en perfiles de Gelato (116 de obras en «Gelato: Small Posters» y 12 de «Tu foto en un cuadro» en los perfiles de lienzo) se pasaron a «ARSNOIR · Envío estándar (España y UE)».
 - Ya no queda ninguna variante fuera de ese perfil: un pedido con varios cuadros (lámina + lienzo + MIXPIX…) paga un solo envío de 4,95 €, y gratis desde 80 € con el descuento automático.
 - La ficha ya no dice que el envío del lienzo depende del tamaño.
-- Ojo margen: el envío real de un lienzo grande cuesta más que 4,95 € [CONFIRMAR con las tarifas de merchOne].
+- Envío de merchOne a España (panel, lienzo): 6,99 € el primero y 1,99 € cada uno más.
+- Ganancia de los lienzos de las obras con el envío a 4,95 € (gratis desde 80 €), precio ÷1,21, coste de merchOne sin IVA:
+
+  | Lienzo | Precio | Coste + envío | Ganas |
+  |---|---|---|---|
+  | 20×25 (→30×20) | 39,95 | 10,92 + 6,99 | 19,20 € |
+  | 30×40 (→40×30) | 59,95 | 18,93 + 6,99 | 27,72 € |
+  | 45×60 (→60×40) | 74,95 | 20,53 + 6,99 | 38,51 € (bastidor 2 cm; el de 4 cm, sin ver) |
+  | 60×80 (→80×60) | 99,95 | 29,42 + 6,99 | 46,19 € |
+  | Con marco 20×25 | 59,95 | 14,90 + 6,99 | 31,75 € |
+  | Con marco 30×40 | 84,95 | 25,88 + 6,99 | 37,34 € |
+  | Con marco 45×60 | 109,95 | 36,61 + 6,99 | 47,27 € |
+  | Con marco 60×80 | 149,95 | 49,16 + 6,99 | 67,78 € |
+
