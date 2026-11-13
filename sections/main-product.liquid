@@ -639,9 +639,8 @@
                 {%- assign threshold_money = settings.free_shipping_threshold | times: 100 | money_without_trailing_zeros -%}
                 {%- assign cv_t = current_variant.title | downcase -%}
                 {%- assign is_canvas = false -%}
-                {%- comment -%} Illustrations ship on their own flat-rate profile (canvas included): no separate canvas line there {%- endcomment -%}
-                {%- assign canvas_own_rate = true -%}
-                {%- if product.template_suffix contains 'ilustracion' -%}{%- assign canvas_own_rate = false -%}{%- endif -%}
+                {%- comment -%} Since 13/11/2026 every variant, canvas included, is in the one flat-rate profile: no separate canvas line {%- endcomment -%}
+                {%- assign canvas_own_rate = false -%}
                 {%- if canvas_own_rate -%}{%- if cv_t contains 'canvas' or cv_t contains 'lienzo' -%}{%- assign is_canvas = true -%}{%- endif -%}{%- endif -%}
                 {%- if cart.currency.iso_code == shop.currency -%}
                   <p class="product__ship-hint" data-ship-rule{% unless canvas_own_rate %} data-flat{% endunless %}>

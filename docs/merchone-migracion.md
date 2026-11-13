@@ -165,3 +165,9 @@ La API de pedidos (`POST /orders`) pide `is_test` y `shipping_type`; los valores
   - El botón ya no se queda bloqueado al volver a un tamaño normal.
 - **MIXPIX es cuadrado:** al elegir MIXPIX, la ficha enseña «Así quedará tu MIXPIX» (la vista previa en cuadrado, con marca de agua), con la misma regla que la herramienta.
   - Para preparar el archivo: `node tools/mixpix-cuadrado.js retrato.png mixpix.png`. Saca un PNG de 2400×2400. Recorta si el dibujo se sale del marco o cabe; si flota sobre un fondo liso (acuarelas con nombre), rellena con ese fondo. Probado con los 16 retratos: no se corta ningún nombre ni ninguna cara.
+
+## Envío unificado (13/11/2026)
+- Los lienzos que seguían en perfiles de Gelato (116 de obras en «Gelato: Small Posters» y 12 de «Tu foto en un cuadro» en los perfiles de lienzo) se pasaron a «ARSNOIR · Envío estándar (España y UE)».
+- Ya no queda ninguna variante fuera de ese perfil: un pedido con varios cuadros (lámina + lienzo + MIXPIX…) paga un solo envío de 4,95 €, y gratis desde 80 € con el descuento automático.
+- La ficha ya no dice que el envío del lienzo depende del tamaño.
+- Ojo margen: el envío real de un lienzo grande cuesta más que 4,95 € [CONFIRMAR con las tarifas de merchOne].
