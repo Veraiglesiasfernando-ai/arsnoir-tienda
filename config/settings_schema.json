@@ -329,6 +329,19 @@
         "info": "Del primer al último día de la Black Week, en las obras: láminas (salvo A3) y marcos A4 y A3 salen con el precio de hoy tachado y el rebajado en rojo. Debe coincidir con los descuentos automáticos de Shopify; si los paras, desmarca esto."
       },
       {
+        "type": "checkbox",
+        "id": "prev_prices_on",
+        "label": "Tachar el precio anterior a la bajada del 4/11 en las obras",
+        "default": true,
+        "info": "Láminas A4 24,95 → 16,95 · A2 49,95 → 32,95 · 50×70 59,95 → 39,95 · A1 69,95 → 49,95 · 60×90 80,95 → 59,95 · Marcos A4 54,95 → 34,95 · A3 69,95 → 44,95. Solo si el precio de la variante sigue siendo el nuevo. Durante el Black Friday se tacha el precio de hoy."
+      },
+      {
+        "type": "text",
+        "id": "prev_prices_until",
+        "label": "Último día que se tacha el precio anterior",
+        "default": "2026-12-31"
+      },
+      {
         "type": "number",
         "id": "q4_bf_pct",
         "label": "Descuento de Black Friday (%)",

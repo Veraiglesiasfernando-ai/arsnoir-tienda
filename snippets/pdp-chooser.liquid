@@ -31,11 +31,13 @@
   every artwork (options Size / Product / Style), the prints in every size but A3 and the A4 and A3 frames.
   The page shows that same price during the Black Week dates of the theme settings (Campaña Q4).
 {%- endcomment -%}
+{%- assign art_opts = false -%}
+{%- if product.options contains 'Product' and product.options contains 'Size' -%}{%- assign art_opts = true -%}{%- endif -%}
 {%- assign bf_on = false -%}
 {%- if settings.q4_enabled and settings.q4_bf_pdp and settings.q4_bf_start != blank and settings.q4_bf_end != blank -%}
   {%- if product.options contains 'Product' and product.options contains 'Size' -%}{%- assign bf_on = true -%}{%- endif -%}
 {%- endif -%}
-<div class="pdc" data-pdc data-picker="{{ picker_id }}" data-preselect="{{ preselect }}"{% if bf_on %} data-bf-pct="{{ settings.q4_bf_pct | default: 15 }}" data-bf-start="{{ settings.q4_bf_start | strip }}" data-bf-end="{{ settings.q4_bf_end | strip }}"{% endif %}>
+<div class="pdc" data-pdc data-picker="{{ picker_id }}" data-preselect="{{ preselect }}"{% if art_opts and settings.prev_prices_on %} data-prev-until="{{ settings.prev_prices_until | strip }}"{% endif %}{% if bf_on %} data-bf-pct="{{ settings.q4_bf_pct | default: 15 }}" data-bf-start="{{ settings.q4_bf_start | strip }}" data-bf-end="{{ settings.q4_bf_end | strip }}"{% endif %}>
   {%- assign step = step | plus: 1 -%}
   <div class="pdc__step" data-pdc-step="type">
     <p class="pdc__head"><span class="pdc__num">{{ step }}</span><span class="pdc__title">Tipo</span></p>
@@ -203,6 +205,25 @@
       var to = Date.parse(box.dataset.bfEnd + 'T23:59:59+01:00');
       if (!(now >= from && now <= to)) bfPct = 0;
     }
+    /* Prices lowered on 4/11/2026 (they had been higher for over a month): show the earlier price struck
+       through, only while the variant still has the new price, and not during Black Friday */
+    var SZ = function (sz) {
+      sz = String(sz || '');
+      return /^21\s*x\s*29/i.test(sz) ? 'A4' : /^A3\b/i.test(sz) ? 'A3' : /^A2\b/i.test(sz) ? 'A2' : /^50\s*x\s*70/i.test(sz) ? '50x70' :
+        /^A1\b/i.test(sz) ? 'A1' : /^60\s*x\s*90/i.test(sz) ? '60x90' : '';
+    };
+    var PREV = { sin: { A4: [1695, 2495], A2: [3295, 4995], '50x70': [3995, 5995], A1: [4995, 6995], '60x90': [5995, 8095] },
+                 marco: { A4: [3495, 5495], A3: [4495, 6995] } };
+    if (!bfPct && box.dataset.prevUntil !== undefined) {
+      var until = Date.parse((box.dataset.prevUntil || '2026-12-31') + 'T23:59:59+01:00');
+      if (Date.now() <= until) items.forEach(function (x) {
+        if (x.type !== 'lamina') return;
+        var row = (PREV[x.frame === 'sin' ? 'sin' : 'marco'] || {})[SZ(x.size)];
+        if (!row || x.v.price !== row[0]) return;
+        x.prev = true;
+        x.v = Object.assign({}, x.v, { compare_at_price: row[1] });
+      });
+    }
     if (bfPct) items.forEach(function (x) {
       var sz = String(x.size || '');
       var isA3 = /^A3\b/i.test(sz), isA4 = /^21\s*x\s*29/i.test(sz);
@@ -344,7 +365,7 @@
         if (fs) fs.querySelectorAll('input').forEach(function (inp) { inp.checked = inp.value === val; });
       });
       picker.dispatchEvent(new Event('change', { bubbles: true }));
-      if (x.bf) setPrice('<b class="pdc-now">' + money(x.v.price) + '</b>' + off(x.v));
+      if (x.bf || x.prev) setPrice('<b class="pdc-now">' + money(x.v.price) + '</b>' + off(x.v));
     }
 
     box.addEventListener('click', function (e) {
