@@ -353,7 +353,8 @@
       renderTypes(); renderSizes(); renderFrames();
       box.classList.toggle('is-incomplete', !state.size);
       if (!state.size) {
-        var c = cheapest(of(state.type));
+        /* No size yet: «Desde» of the chosen type and frame (e.g. Negro → the cheapest black frame) */
+        var c = cheapest(of(state.type, null, state.frame)) || cheapest(of(state.type));
         if (c) setPrice('Desde ' + money(c.v.price) + off(c.v));
         return;
       }
