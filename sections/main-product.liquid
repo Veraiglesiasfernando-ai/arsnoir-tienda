@@ -29,8 +29,17 @@
   assign price_id = 'Price-' | append: section.id
 -%}
 
+{%- comment -%}
+  New page on desktop: thumbnails in a column next to one big photo that fits the screen (portraits with
+  the photo studio keep their own gallery, which the studio drives)
+{%- endcomment -%}
+{%- assign rail = false -%}
+{%- if section.settings.pdp_v2 -%}
+  {%- assign rail = true -%}
+  {%- for sb in section.blocks -%}{%- if sb.type == 'template_studio' -%}{%- assign rail = false -%}{%- endif -%}{%- endfor -%}
+{%- endif -%}
 <section class="page-width" data-product-handle="{{ product.handle }}">
-  <div class="product">
+  <div class="product{% if rail %} product--rail{% endif %}">
     <div class="product__gallery">
       {%- liquid
         # Gelato attaches one near-identical mockup per variant (alt = a UUID, or «…: vista N»). When the product
@@ -107,6 +116,43 @@
       {%- endif -%}
       {%- if section.settings.size_visual -%}{% render 'size-visual', product: product, big: true %}{%- endif -%}
     </div>
+    {%- if rail -%}
+      <script>
+        (function () {
+          var g = document.currentScript.previousElementSibling;
+          if (!g || g.dataset.rail) return;
+          g.dataset.rail = '1';
+          var items = Array.prototype.filter.call(g.children, function (m) { return m.classList.contains('product__media'); });
+          if (items.length < 2) { if (items[0]) items[0].classList.add('is-shown'); return; }
+          var nav = document.createElement('div');
+          nav.className = 'prail';
+          nav.setAttribute('aria-label', 'Fotos');
+          var show = function (i) {
+            items.forEach(function (m, k) { m.classList.toggle('is-shown', k === i); });
+            nav.querySelectorAll('button').forEach(function (b, k) { b.classList.toggle('is-active', k === i); b.setAttribute('aria-current', k === i ? 'true' : 'false'); });
+          };
+          items.forEach(function (m, i) {
+            var img = m.querySelector('img');
+            var vid = m.querySelector('video');
+            var b = document.createElement('button');
+            b.type = 'button';
+            b.className = 'prail__thumb';
+            b.setAttribute('aria-label', 'Foto ' + (i + 1));
+            var src = img ? (img.currentSrc || img.src) : (vid && vid.getAttribute('poster'));
+            if (src) { var t = document.createElement('img'); t.src = src; t.alt = ''; t.loading = 'lazy'; b.appendChild(t); }
+            else b.classList.add('prail__thumb--play');
+            b.addEventListener('click', function () {
+              show(i);
+              if (vid && vid.dataset.src && !vid.src) { vid.src = vid.dataset.src; }
+              if (vid) vid.play && vid.play().catch(function () {});
+            });
+            nav.appendChild(b);
+          });
+          g.insertBefore(nav, g.firstChild);
+          show(0);
+        })();
+      </script>
+    {%- endif -%}
 
     <div class="product__info">
       {% render 'breadcrumbs' %}
