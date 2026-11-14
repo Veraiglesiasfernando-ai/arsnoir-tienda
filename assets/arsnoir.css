@@ -4762,3 +4762,10 @@ body:has(.pdc) .product__tax { padding-bottom: 18px; border-bottom: 1px solid #e
   .npop__legal { margin-top: 8px; }
 }
 .npop .button--accent { background: #0a0a0a; color: #fff; border-color: #0a0a0a; }
+
+/* Cart: offers struck through on each line, «Te ahorras», and what was personalised */
+.cartx-item__price.is-off { color: #b3261e; }
+.cartx-item__price s { margin-right: 6px; color: #8a8a8a; font-weight: 400; font-size: .85em; }
+.cartx-item__custom { display: flex; align-items: center; gap: 6px; margin: 2px 0 0; font-size: 12.5px; color: #444; line-height: 1.35; }
+.cartx-item__custom .cartx-check { width: 14px; height: 14px; flex: none; }
+.cartx__row--save { color: #b3261e; font-weight: 600; }

@@ -136,6 +136,7 @@
       {%- endif -%}
 
       <div class="cartx__scroll">
+        {%- assign offer_saved = 0 -%}
         <ul class="cartx__items">
           {%- for item in cart.items -%}
             {%- liquid
@@ -215,6 +216,13 @@
                 {%- elsif item.product.has_only_default_variant == false -%}
                   <p class="cartx-item__variant">{% render 'variant-label', variant: item.variant, product: item.product %}</p>
                 {%- endif -%}
+                {%- comment -%} «Tu foto»: what the customer personalised, so they can check it {%- endcomment -%}
+                {%- if item.properties['Imagen'] != blank -%}
+                  <p class="cartx-item__custom"><span class="cartx-check" aria-hidden="true"></span>Tu foto subida{% if item.properties['Borde'] != blank %} · {{ item.properties['Borde'] | downcase }}{% endif %}</p>
+                {%- endif -%}
+                {%- if item.properties['Texto'] != blank -%}
+                  <p class="cartx-item__custom">Texto: «{{ item.properties['Texto'] | escape }}»{% if item.properties['Tipografía'] != blank %} · {{ item.properties['Tipografía'] }}{% endif %}{% if item.properties['Color del texto'] != blank %}, {{ item.properties['Color del texto'] | downcase }}{% endif %}{% if item.properties['Posición del texto'] != blank %}, {{ item.properties['Posición del texto'] | downcase }}{% endif %}</p>
+                {%- endif -%}
                 {%- if is_gift == false and ed_size > 0 and ed_left > 0 -%}
                   <p class="cartx-item__edition">
                     {%- if ed_left == 1 -%}{{ 'cart.edition_last' | t }}{%- else -%}{{ 'cart.edition_left' | t: left: ed_left, total: ed_size }}{%- endif -%}
@@ -230,8 +238,23 @@
                       <button type="button" data-cart-change data-line="{{ line }}" data-quantity="{{ item.quantity | plus: 1 }}" aria-label="{{ 'cart.more' | t }}">+</button>
                     </div>
                   {%- endif -%}
-                  <span class="cartx-item__price">
-                    {%- if item.original_line_price > item.final_line_price -%}<s>{{ item.original_line_price | money }}</s>{%- endif -%}
+                  {%- liquid
+                    # Earlier price struck through, as on the product page (snippets/deal-price.liquid)
+                    assign line_was = 0
+                    unless is_gift
+                      capture dl
+                        render 'deal-price', variant: item.variant, product: item.product
+                      endcapture
+                      assign dl = dl | strip | split: '|'
+                      assign dl_c = dl[1] | plus: 0
+                      if item.original_line_price <= item.final_line_price and dl_c > item.final_price
+                        assign line_was = dl_c | times: item.quantity
+                        assign offer_saved = offer_saved | plus: line_was | minus: item.final_line_price
+                      endif
+                    endunless
+                  -%}
+                  <span class="cartx-item__price{% if line_was > 0 or item.original_line_price > item.final_line_price %} is-off{% endif %}">
+                    {%- if item.original_line_price > item.final_line_price -%}<s>{{ item.original_line_price | money }}</s>{%- elsif line_was > 0 -%}<s>{{ line_was | money }}</s>{%- endif -%}
                     {%- if is_gift and item.final_line_price == 0 -%}<strong class="cartx-free">{{ 'cart.free' | t }}</strong>{%- else -%}{{ item.final_line_price | money }}{%- endif -%}
                   </span>
                 </div>
@@ -290,6 +313,9 @@
             {%- endunless -%}
           {%- endif -%}
         {%- endfor -%}
+        {%- if offer_saved > 0 -%}
+          <div class="cartx__row cartx__row--save"><span>Te ahorras con las ofertas</span><span>&minus;{{ offer_saved | money }}</span></div>
+        {%- endif -%}
         {%- assign ship_free = false -%}
         {%- if ship_threshold > 0 and cart.total_price >= ship_threshold -%}{%- assign ship_free = true -%}{%- endif -%}
         <div class="cartx__row cartx__row--ship">
