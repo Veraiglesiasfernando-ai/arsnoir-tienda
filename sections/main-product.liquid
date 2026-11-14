@@ -222,6 +222,28 @@
           window.addEventListener('load', place);
           if (window.ResizeObserver) new ResizeObserver(place).observe(g);
           setTimeout(place, 0);
+
+          /* Other scripts can add a photo first in the gallery (the customer's own photo) */
+          window.arsnoirGallery = {
+            add: function (media, thumbEl) {
+              media.classList.add('product__media');
+              var firstMedia = items[0];
+              g.insertBefore(media, firstMedia || null);
+              items.push(media);
+              var b = document.createElement('button');
+              b.type = 'button';
+              b.className = 'prail__thumb prail__thumb--first';
+              b.setAttribute('aria-label', 'Tu foto');
+              if (thumbEl) b.appendChild(thumbEl);
+              var k = items.length - 1;
+              b.addEventListener('click', function () { show(k); place(); });
+              nav.appendChild(b);
+              thumbs = nav.querySelectorAll('button');
+              if (wide.matches) { show(k); place(); } else { g.scrollTo({ left: 0, behavior: 'smooth' }); }
+              return { show: function () { if (wide.matches) { show(k); place(); } else { g.scrollTo({ left: 0, behavior: 'smooth' }); } } };
+            }
+          };
+          document.dispatchEvent(new CustomEvent('arsnoir:gallery-ready'));
         })();
       </script>
     {%- endif -%}
@@ -731,6 +753,41 @@
                   </div>
                   {%- if block.settings.text_option -%}{% render 'photo-text', form_id: form_id %}{%- endif -%}
                 </div>
+              {%- endif -%}
+              {%- if show_upload -%}
+                <script>
+                  (function () {
+                    /* The uploaded photo (with frame, border and text) also shows big in the gallery, first */
+                    var guard = document.currentScript.closest('[data-cguard]');
+                    var wall = guard && guard.querySelector('.cupload__wall');
+                    if (!wall) return;
+                    var media = null, handle = null, thumb = null;
+                    var sync = function () {
+                      if (!media) return;
+                      var copy = wall.cloneNode(true);
+                      copy.removeAttribute('data-cupload-wall');
+                      media.replaceChildren(copy);
+                      var src = wall.querySelector('[data-cupload-img]');
+                      if (thumb && src) thumb.src = src.src;
+                    };
+                    var start = function () {
+                      if (media || !window.arsnoirGallery) return;
+                      media = document.createElement('div');
+                      media.className = 'product__media--upload';
+                      thumb = document.createElement('img');
+                      thumb.alt = '';
+                      handle = window.arsnoirGallery.add(media, thumb);
+                      sync();
+                      new MutationObserver(sync).observe(wall, { subtree: true, attributes: true, childList: true, characterData: true });
+                    };
+                    document.addEventListener('change', function (e) {
+                      var t = e.target;
+                      if (t.matches && t.matches('input[data-cupload]') && t.files && t.files[0]) {
+                        setTimeout(function () { start(); sync(); if (handle) handle.show(); }, 120);
+                      }
+                    });
+                  })();
+                </script>
               {%- endif -%}
               <p class="cguard__check" data-cguard-result hidden></p>
               {%- comment -%} No box to tick: adding to the cart is the confirmation, and it is still saved in the order {%- endcomment -%}
