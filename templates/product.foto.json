@@ -39,7 +39,7 @@
           "type": "collapsible",
           "settings": {
             "heading": "Detalles de impresión",
-            "content": "<p>Papel fotográfico Fujifilm de 230 g/m², con acabado satinado: colores intensos y mucho detalle. Los lienzos, en tela blanca de textura fina tensada a mano sobre bastidor de abeto. Todo se imprime en Europa cuando lo pides.</p>",
+            "content": "<p>Láminas en papel fotográfico Fujifilm de 230 g/m² y, en los cuadros con marco, papel satinado de 275 g/m²: colores intensos y mucho detalle. Los lienzos, en tela blanca de textura fina tensada a mano sobre bastidor de abeto. Todo se imprime en Europa cuando lo pides.</p>",
             "open": false
           }
         },
@@ -70,7 +70,7 @@
           "type": "material",
           "settings": {
             "material": "Papel fotográfico Fujifilm de 230 g/m², acabado satinado.",
-            "frame": "de galería en negro, blanco o madera, con cristal acrílico y colgador."
+            "frame": "de galería en negro, blanco o madera, con cristal acrílico y colgador. Lámina en papel satinado de 275 g/m²."
           }
         },
         "wall": {
@@ -174,14 +174,14 @@
           "type": "question",
           "settings": {
             "question": "¿En qué material se imprime?",
-            "answer": "<p>Papel fotográfico Fujifilm de 230 g/m², con acabado satinado: colores intensos y mucho detalle. Los lienzos, en tela blanca de textura fina tensada a mano sobre bastidor de abeto. Todo se imprime en Europa cuando lo pides.</p>"
+            "answer": "<p>Láminas en papel fotográfico Fujifilm de 230 g/m² y, en los cuadros con marco, papel satinado de 275 g/m²: colores intensos y mucho detalle. Los lienzos, en tela blanca de textura fina tensada a mano sobre bastidor de abeto. Todo se imprime en Europa cuando lo pides.</p>"
           }
         },
         "q3": {
           "type": "question",
           "settings": {
             "question": "¿Cómo son los marcos?",
-            "answer": "<p>Marcos de galería en negro, blanco o madera, con cristal acrílico delante que protege la lámina y colgador detrás para ponerlo en la pared.</p>"
+            "answer": "<p>Marcos de galería en negro, blanco o madera. Dentro, la lámina en papel fotográfico satinado de 275 g/m², con cristal acrílico delante que la protege y colgador detrás para ponerlo en la pared.</p>"
           }
         },
         "q4": {
@@ -226,7 +226,7 @@
             "image_right": false,
             "heading": "Marco de galería, listo para colgar",
             "text": "Un marco de galería que deja hablar a la obra: cristal acrílico delante para proteger tu lámina y colgador detrás.",
-            "items": "Marco de galería clásico\nCristal acrílico que protege la impresión\nCon colgador para la pared\nEn negro, blanco o madera"
+            "items": "Lámina en papel satinado de 275 g/m²\nCristal acrílico que protege la impresión\nCon colgador para la pared\nEn negro, blanco o madera"
           }
         },
         "canvas": {

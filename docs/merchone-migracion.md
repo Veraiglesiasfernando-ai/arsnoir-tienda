@@ -204,7 +204,7 @@ La API de pedidos (`POST /orders`) pide `is_test` y `shipping_type`; los valores
 - Para fabricar en merchOne los lienzos de las obras faltan los archivos originales en alta resolución.
 
 ## Textos de calidad (14/11/2026)
-- Datos de merchOne: póster en papel fotográfico satinado de **230 g/m²** (UE, visto en el panel por el dueño; la API dice «Fujifilm»). Póster con marco: marco de galería y cristal acrílico. Lienzo: tela blanca de textura fina, tensada a mano sobre bastidor de abeto, tintas HP Latex. Lienzo con marco: marco flotante.
+- Datos de merchOne: póster en papel fotográfico satinado de **230 g/m²** (UE, visto en el panel por el dueño; la API dice «Fujifilm»). Póster con marco: papel satinado de **275 g/m²**, marco de galería y cristal acrílico; desde 60×40 el marco va pegado. Lienzo: tela blanca de textura fina, tensada a mano sobre bastidor de abeto, tintas HP Latex. Lienzo con marco: marco flotante.
 - **Decisión del dueño: los marcos se piden con colgador** (SKU con sufijo HC, +1 € de coste). Hay que usar esos SKU al crear los pedidos.
 - Interruptor del tema «Producción con merchOne (textos de calidad)» (`settings.prod_merchone`, apagado). Al activarlo, `snippets/qtext.liquid` cambia los textos de Gelato por los de merchOne en fichas, preguntas frecuentes, inicio y el bloque «Calidad que se nota de cerca», y oculta «Así llega con marco» (embalaje de Gelato).
 - **Activarlo el mismo día que las obras pasen a merchOne.** Tu foto y Personalízalo ya llevan los textos de merchOne fijos.
