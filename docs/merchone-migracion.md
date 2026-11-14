@@ -212,5 +212,7 @@ La API de pedidos (`POST /orders`) pide `is_test` y `shipping_type`; los valores
 
 ## Retratos al precio de las obras (14/11/2026)
 - Por decisión del dueño, los 16 retratos e ilustraciones tienen los mismos precios que las obras: lámina 16,95–59,95; marco 34,95–109,95; lienzo 29,95–64,95; lienzo con marco 39,95–94,95. MIXPIX sin cambios.
-- Precio tachado (compare-at) = el precio que tenían hasta hoy, el más bajo de los últimos 30 días. **Quitar los tachados de los retratos el 31/12**, igual que los de los lienzos.
+- **Tachados corregidos el mismo día:** los retratos estaban a 16,95 € (A4) hasta la subida del 10/11, así que el precio más bajo de los últimos 30 días es el de ahora. Láminas y marcos de los retratos van **sin tachado**. Solo los lienzos llevan tachado, con su precio de antes del 10/11 (39,95 / 59,95 / 74,95 / 94,95; con marco 59,95 / 84,95 / 109,95 / 149,95), que es una bajada real.
+- No se puede tachar el precio «original» de octubre (24,95 €…): hubo una subida en medio (10/11) y la referencia legal es el precio más bajo de los 30 días anteriores.
+- **Quitar los tachados de los lienzos de los retratos el 31/12**, igual que los de las obras.
 - Descripciones SEO: «Desde 16,95 €».
