@@ -184,3 +184,21 @@ La API de pedidos (`POST /orders`) pide `is_test` y `shipping_type`; los valores
   | Con marco 45×60 | 109,95 | 36,61 + 6,99 | 47,27 € |
   | Con marco 60×80 | 149,95 | 49,16 + 6,99 | 67,78 € |
 
+
+## Lienzos más baratos (14/11/2026, aprobado por el dueño)
+- 10 obras con lienzo (blue-corner-1, perro-amarillo, blush, cactus, flowers-blue, red-horse, flores-amarillas, muralla-china, gato, cisnes), 116 variantes:
+
+  | Lienzo | Antes (tachado) | Ahora | Ganas con merchOne |
+  |---|---|---|---|
+  | 20×25 | 39,95 | 29,95 | 10,93 € |
+  | 30×40 | 59,95 | 39,95 | 11,19 € |
+  | 45×60 | 74,95 | 49,95 | 17,85 € |
+  | 60×80 | 94,95 (precio del 4 al 10/11; luego 99,95) | 64,95 | 21,36 € |
+  | Con marco 20×25 | 59,95 | 39,95 | 15,22 € |
+  | Con marco 30×40 | 84,95 | 54,95 | 16,63 € |
+  | Con marco 45×60 | 109,95 | 69,95 | 18,30 € |
+  | Con marco 60×80 | 149,95 | 94,95 | 22,32 € |
+
+- Tachado = precio más bajo de los 30 días anteriores (precios del 4/11). Quitar el precio de comparación cuando deje de ser una rebaja reciente [decidir fecha; propuesta 31/12/2026].
+- No se han tocado: «Tu foto en un cuadro» (lo fabrica Gelato con su personalizador) ni los lienzos de los retratos (pendiente de decidir: iguales o +5 €).
+- Para fabricar en merchOne los lienzos de las obras faltan los archivos originales en alta resolución.
