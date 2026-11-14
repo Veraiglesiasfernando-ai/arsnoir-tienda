@@ -2671,7 +2671,7 @@ html.is-scrolled .glass-header { background: rgba(255, 255, 255, 0.95); }
 .mats__item { display: flex; }
 .mats__card { display: flex; flex-direction: column; width: 100%; color: inherit; text-decoration: none; background: #fff; border-radius: 18px; overflow: hidden; box-shadow: 0 1px 0 rgba(0,0,0,.04), 0 10px 30px -18px rgba(0,0,0,.25); transition: transform .35s ease, box-shadow .35s ease; }
 .mats__media { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: #e9e9e7; }
-.mats__media img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .7s cubic-bezier(.2,.7,.2,1); }
+.mats__media img { width: 100%; height: 100%; object-fit: cover; display: block; transform-origin: var(--zo, center); transition: transform .8s cubic-bezier(.2,.7,.2,1); }
 .mats__media::after { content: ""; position: absolute; inset: 45% 0 0; background: linear-gradient(to top, rgba(0,0,0,.72), rgba(0,0,0,0)); pointer-events: none; }
 .mats__num { position: absolute; top: 12px; left: 12px; z-index: 1; padding: 4px 9px; border-radius: 999px; background: rgba(255,255,255,.9); color: #111; font-size: 11px; font-weight: 700; letter-spacing: .08em; }
 .mats__over { position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; padding: 16px 16px 14px; color: #fff; }
@@ -2687,7 +2687,7 @@ html.is-scrolled .glass-header { background: rgba(255, 255, 255, 0.95); }
 .mats__go span { display: inline-block; transition: transform .25s ease; }
 @media (hover: hover) {
   .mats__card:hover { transform: translateY(-4px); box-shadow: 0 1px 0 rgba(0,0,0,.04), 0 22px 40px -20px rgba(0,0,0,.35); }
-  .mats__card:hover .mats__media img { transform: scale(1.06); }
+  .mats__card:hover .mats__media img { transform: scale(1.35); }
   .mats__card:hover .mats__go span { transform: translateX(4px); }
 }
 @media (max-width: 989px) {

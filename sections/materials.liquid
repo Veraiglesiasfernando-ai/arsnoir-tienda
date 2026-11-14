@@ -32,7 +32,7 @@
         {%- endif -%}
         <li class="mats__item reveal" {{ block.shopify_attributes }}>
           <a class="mats__card" href="{{ link | default: '#' }}">
-            <div class="mats__media">
+            <div class="mats__media"{% if b.zoom != blank %} style="--zo: {{ b.zoom }}"{% endif %}>
               {%- if b.image != blank -%}
                 {{ b.image | image_url: width: 1000 | image_tag: loading: 'lazy', widths: '360, 540, 720, 1000', sizes: '(min-width: 990px) 25vw, 75vw', alt: b.title }}
               {%- endif -%}
@@ -86,6 +86,9 @@
         { "type": "textarea", "id": "specs", "label": "Etiquetas", "info": "Una por línea. Solo datos reales del producto." },
         { "type": "text", "id": "price", "label": "Precio", "info": "Por ejemplo: Desde 16,95 €" },
         { "type": "text", "id": "was", "label": "Precio anterior (tachado)", "info": "Precio real anterior del tamaño más pequeño, p. ej. 24,95 €. Solo se tacha mientras esté activo «Mostrar precio anterior» y hasta su fecha." },
+        { "type": "select", "id": "zoom", "label": "Zoom al pasar el ratón (ordenador)", "default": "center", "options": [
+          { "value": "center", "label": "Centro" }, { "value": "left top", "label": "Arriba a la izquierda" }, { "value": "right top", "label": "Arriba a la derecha" },
+          { "value": "left bottom", "label": "Abajo a la izquierda" }, { "value": "right bottom", "label": "Abajo a la derecha" } ] },
         { "type": "url", "id": "link", "label": "Enlace" },
         { "type": "text", "id": "cta", "label": "Texto del enlace", "default": "Ver obras" }
       ]
