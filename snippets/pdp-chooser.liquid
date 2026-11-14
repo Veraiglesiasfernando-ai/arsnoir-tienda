@@ -327,7 +327,10 @@
         var n = b.querySelector('.pdc__frame-name');
         if (n && n.dataset.nameLamina) n.textContent = state.type === 'lienzo' ? n.dataset.nameLienzo : n.dataset.nameLamina;
         var c = here.length ? cheapest(here) : cheapest(of(state.type, null, f));
-        b.querySelector('[data-price]').textContent = c ? (here.length ? '' : 'desde ') + money(c.v.price) : '';
+        var pe = b.querySelector('[data-price]');
+        var cut = c ? pct(c.v) : 0;
+        pe.innerHTML = c ? (here.length ? '' : 'desde ') + money(c.v.price) + (cut ? ' <s>' + money(c.v.compare_at_price) + '</s>' : '') : '';
+        pe.classList.toggle('is-off', !!cut);
         /* «-N %» on the frame photo when that frame really has a lower price than before (this size, or any) */
         var best = (here.length ? here : of(state.type, null, f)).reduce(function (m, x) { return Math.max(m, pct(x.v)); }, 0);
         var tag = b.querySelector('.pdc__frame-off');
@@ -358,7 +361,7 @@
         /* No size yet: «Desde» of the chosen type and frame (e.g. Negro → the cheapest black frame) */
         var c = cheapest(of(state.type, null, state.frame)) || cheapest(of(state.type));
         if (c) setPrice('Desde ' + money(c.v.price) + off(c.v));
-        if (button) button.textContent = (button.dataset.addText || 'Añadir al carrito') + (c ? ' · desde ' + money(c.v.price) : '');
+        if (button) button.innerHTML = (button.dataset.addText || 'Añadir al carrito') + (c ? ' · desde ' + money(c.v.price) + (pct(c.v) ? ' <s class="pdc-add__was">' + money(c.v.compare_at_price) + '</s>' : '') : '');
         return;
       }
       var hit = of(state.type, state.size, state.frame);
@@ -370,7 +373,7 @@
       });
       picker.dispatchEvent(new Event('change', { bubbles: true }));
       /* The price of the choice also on the button, so it is in view while choosing further down */
-      if (button && x.v.available !== false) button.textContent = (button.dataset.addText || 'Añadir al carrito') + ' · ' + money(x.v.price);
+      if (button && x.v.available !== false) button.innerHTML = (button.dataset.addText || 'Añadir al carrito') + ' · ' + money(x.v.price) + (pct(x.v) ? ' <s class="pdc-add__was">' + money(x.v.compare_at_price) + '</s>' : '');
       if (x.bf || x.prev) setPrice('<b class="pdc-now">' + money(x.v.price) + '</b>' + off(x.v));
     }
 
