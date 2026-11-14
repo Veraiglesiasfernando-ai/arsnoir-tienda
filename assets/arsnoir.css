@@ -4729,3 +4729,13 @@ body:has(.pdc) .product__tax { padding-bottom: 18px; border-bottom: 1px solid #e
   .cookie__actions .cookie__accept, .cookie__actions .cookie__save { background: #0a0a0a; color: #fff; border: 1px solid #0a0a0a; }
   .cookie__actions .cookie__reject { background: #fff; color: #0a0a0a; border: 1px solid #0a0a0a; }
 }
+/* Mobile, owner's choice: «Aceptar y cerrar» and «Ajustes» side by side; no reject button in the first layer
+   (the X still closes without accepting, and «Ajustes» lets each kind be switched off) */
+@media (max-width: 749px) {
+  .cookie__actions .cookie__reject { display: none; }
+  .cookie__actions .cookie__accept { order: 1; }
+  .cookie__actions .cookie__config { order: 2; min-height: 42px; padding: 0 10px; border: 1px solid #0a0a0a; border-radius: 999px; background: #fff; color: #0a0a0a; font-size: 12.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; text-decoration: none; }
+  .cookie__actions .cookie__config, .cookie__actions .cookie__save { grid-column: auto; }
+  .cookie.is-config .cookie__actions .cookie__save { grid-column: 1 / -1; }
+}
+@media (max-width: 749px) { .cookie.is-config .cookie__actions .cookie__accept { grid-column: 1 / -1; } }
