@@ -4708,3 +4708,24 @@ body:has(.pdc) .product__tax { padding-bottom: 18px; border-bottom: 1px solid #e
 .pdc__frame.is-active .pdc__frame-price.is-off { color: #b3261e; }
 .pdc-add { white-space: normal; line-height: 1.25; padding: 8px 14px; }
 @media (max-width: 420px) { .pdc-add { font-size: 13px; letter-spacing: .05em; } .pdc-add__was { margin-left: 4px; } }
+
+/* Cookie banner on mobile: a compact bar. «Rechazar» and «Aceptar y cerrar» side by side at the same size
+   (AEPD: rejecting as easy as accepting), «Ajustes» as a link under them */
+@media (max-width: 749px) {
+  .cookie__card { padding: 14px 16px 12px; border-radius: 18px; }
+  .cookie__close { top: 8px; right: 8px; width: 32px; height: 32px; }
+  .cookie__title { margin: 0 34px 4px 0; font-size: 16px; }
+  .cookie__text { margin: 0 0 12px; font-size: 12.5px; line-height: 1.45; }
+  .cookie__actions { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .cookie__actions .button { min-height: 42px; padding: 0 10px; font-size: 12.5px; letter-spacing: .06em; }
+  .cookie__actions .cookie__reject { order: 1; }
+  .cookie__actions .cookie__accept { order: 2; }
+  .cookie__actions .cookie__config { order: 3; min-height: 0; padding: 4px 0 0; border: 0; background: none; color: inherit; font-size: 13px; font-weight: 600; letter-spacing: 0; text-transform: none; text-decoration: underline; text-underline-offset: 3px; }
+  .cookie__actions .cookie__save { order: 4; }
+  .cookie__policy { margin-top: 6px; font-size: 12px; }
+  .cookie.is-config .cookie__card { max-height: 80vh; overflow-y: auto; }
+}
+@media (max-width: 749px) {
+  .cookie__actions .cookie__accept, .cookie__actions .cookie__save { background: #0a0a0a; color: #fff; border: 1px solid #0a0a0a; }
+  .cookie__actions .cookie__reject { background: #fff; color: #0a0a0a; border: 1px solid #0a0a0a; }
+}
