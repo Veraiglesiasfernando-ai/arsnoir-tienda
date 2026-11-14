@@ -4640,3 +4640,17 @@ body:has(.pdc) .product__tax { padding-bottom: 18px; border-bottom: 1px solid #e
   .rvc__row { grid-template-columns: 1fr; }
   .rvc__arrow { display: none; }
 }
+
+/* Arrows over the product photo (sections/main-product.liquid, rail script) */
+.product--rail { position: relative; }
+.parrows { position: absolute; z-index: 4; pointer-events: none; }
+.parrows__btn { position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; display: grid; place-items: center; padding: 0; border: 0; border-radius: 50%; background: rgba(255,255,255,.92); color: #0a0a0a; box-shadow: 0 4px 14px rgba(0,0,0,.16); cursor: pointer; pointer-events: auto; transition: background .15s ease, transform .15s ease; }
+.parrows__btn:hover { background: #fff; transform: translateY(-50%) scale(1.06); }
+.parrows__btn svg { width: 22px; height: 22px; }
+.parrows__btn--prev { left: 12px; }
+.parrows__btn--next { right: 12px; }
+@media (max-width: 989px) {
+  .parrows__btn { width: 38px; height: 38px; }
+  .parrows__btn--prev { left: 8px; }
+  .parrows__btn--next { right: 8px; }
+}

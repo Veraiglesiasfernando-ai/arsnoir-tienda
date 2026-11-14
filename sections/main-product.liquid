@@ -184,6 +184,44 @@
             new MutationObserver(function () { setFrame(box.dataset.frame || 'sin'); }).observe(box, { attributes: true, attributeFilter: ['data-frame'] });
           };
           if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
+
+          /* Arrows over the big photo: desktop shows the previous / next photo (skipping hidden ones),
+             mobile scrolls the photo strip by one */
+          var host = g.parentElement;
+          var arrows = document.createElement('div');
+          arrows.className = 'parrows';
+          arrows.innerHTML = '<button type="button" class="parrows__btn parrows__btn--prev" aria-label="Foto anterior"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></button>' +
+            '<button type="button" class="parrows__btn parrows__btn--next" aria-label="Foto siguiente"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></button>';
+          host.appendChild(arrows);
+          var wide = window.matchMedia('(min-width: 990px)');
+          var place = function () {
+            var target = wide.matches ? items[current()] : g;
+            if (!target) return;
+            var hr = host.getBoundingClientRect(), tr = target.getBoundingClientRect();
+            arrows.style.top = (tr.top - hr.top) + 'px';
+            arrows.style.left = (tr.left - hr.left) + 'px';
+            arrows.style.width = tr.width + 'px';
+            arrows.style.height = tr.height + 'px';
+          };
+          var go = function (d) {
+            if (wide.matches) {
+              var vis = [];
+              items.forEach(function (m, k) { if (!thumbs[k].hidden) vis.push(k); });
+              var at = vis.indexOf(current());
+              show(vis[(at + d + vis.length) % vis.length]);
+              place();
+            } else {
+              var w = (items[0] && items[0].offsetWidth) || g.clientWidth;
+              g.scrollBy({ left: d * (w + 12), behavior: 'smooth' });
+            }
+          };
+          arrows.querySelector('.parrows__btn--prev').addEventListener('click', function () { go(-1); });
+          arrows.querySelector('.parrows__btn--next').addEventListener('click', function () { go(1); });
+          nav.addEventListener('click', function () { setTimeout(place, 0); });
+          window.addEventListener('resize', place);
+          window.addEventListener('load', place);
+          if (window.ResizeObserver) new ResizeObserver(place).observe(g);
+          setTimeout(place, 0);
         })();
       </script>
     {%- endif -%}
