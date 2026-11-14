@@ -157,8 +157,9 @@
           items.forEach(function (m, i) { if (fi < 0 && m.querySelector('img[data-black]')) fi = i; });
           var KIND = { negro: 'black', blanco: 'white', madera: 'wood' };
           var current = function () { for (var k = 0; k < items.length; k++) if (items[k].classList.contains('is-shown')) return k; return -1; };
+          var upIdx = -1; /* the customer's own photo, once uploaded: it stays the big photo */
           var setFrame = function (frame) {
-            if (fi < 0) return;
+            if (fi < 0) { if (upIdx >= 0) show(upIdx); return; }
             var on = !!KIND[frame];
             thumbs[fi].hidden = !on;
             if (on) {
@@ -171,10 +172,11 @@
                 img.onerror = function () { img.onerror = null; img.src = img.dataset.black; };
                 img.src = url;
               }
-              show(fi);
-            } else if (current() === fi || current() < 0) {
+              if (upIdx < 0) show(fi);
+            } else if (upIdx < 0 && (current() === fi || current() < 0)) {
               show(fi === 0 ? 1 : 0);
             }
+            if (upIdx >= 0) show(upIdx);
           };
           show(0);
           var start = function () {
@@ -236,6 +238,7 @@
               b.setAttribute('aria-label', 'Tu foto');
               if (thumbEl) b.appendChild(thumbEl);
               var k = items.length - 1;
+              upIdx = k;
               b.addEventListener('click', function () { show(k); place(); });
               nav.appendChild(b);
               thumbs = nav.querySelectorAll('button');

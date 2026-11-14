@@ -108,6 +108,8 @@
 
 <script>
   (function () {
+  /* Runs once the page is parsed: the buy form comes after this snippet */
+  var init = function () {
     var box = document.querySelector('[data-pdc]');
     if (!box || box.dataset.ready) return;
     box.dataset.ready = '1';
@@ -356,6 +358,7 @@
         /* No size yet: «Desde» of the chosen type and frame (e.g. Negro → the cheapest black frame) */
         var c = cheapest(of(state.type, null, state.frame)) || cheapest(of(state.type));
         if (c) setPrice('Desde ' + money(c.v.price) + off(c.v));
+        if (button) button.textContent = button.dataset.addText || 'Añadir al carrito';
         return;
       }
       var hit = of(state.type, state.size, state.frame);
@@ -366,6 +369,8 @@
         if (fs) fs.querySelectorAll('input').forEach(function (inp) { inp.checked = inp.value === val; });
       });
       picker.dispatchEvent(new Event('change', { bubbles: true }));
+      /* The price of the choice also on the button, so it is in view while choosing further down */
+      if (button && x.v.available !== false) button.textContent = (button.dataset.addText || 'Añadir al carrito') + ' · ' + money(x.v.price);
       if (x.bf || x.prev) setPrice('<b class="pdc-now">' + money(x.v.price) + '</b>' + off(x.v));
     }
 
@@ -419,5 +424,7 @@
       state = { type: first, size: null, frame: of(first, null, 'sin').length ? 'sin' : ((of(first)[0] || {}).frame || 'sin') };
     }
     apply();
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
   })();
 </script>

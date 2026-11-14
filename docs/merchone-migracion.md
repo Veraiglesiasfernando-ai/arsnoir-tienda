@@ -200,5 +200,5 @@ La API de pedidos (`POST /orders`) pide `is_test` y `shipping_type`; los valores
   | Con marco 60×80 | 149,95 | 94,95 | 22,32 € |
 
 - Tachado = precio más bajo de los 30 días anteriores (precios del 4/11). Quitar el precio de comparación cuando deje de ser una rebaja reciente [decidir fecha; propuesta 31/12/2026].
-- No se han tocado: «Tu foto en un cuadro» (lo fabrica Gelato con su personalizador) ni los lienzos de los retratos (pendiente de decidir: iguales o +5 €).
+- «Tu foto en un cuadro» también, desde el 14/11 (ya va con merchOne y subida propia). No se han tocado los lienzos de los retratos (pendiente de decidir: iguales o +5 €).
 - Para fabricar en merchOne los lienzos de las obras faltan los archivos originales en alta resolución.
