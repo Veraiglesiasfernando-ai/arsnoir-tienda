@@ -342,6 +342,13 @@
         "default": "2026-12-31"
       },
       {
+        "type": "checkbox",
+        "id": "prod_merchone",
+        "label": "Producción con merchOne (textos de calidad)",
+        "default": false,
+        "info": "Actívalo el día que las obras pasen a imprimirse en merchOne. Cambia los textos de papel, marcos y lienzo (fichas, preguntas frecuentes, inicio) a los de merchOne: papel Fujifilm 230 g/m² satinado, marco de galería con cristal acrílico y colgador, lienzo sobre bastidor de abeto. Mientras esté apagado se ven los de Gelato."
+      },
+      {
         "type": "number",
         "id": "q4_bf_pct",
         "label": "Descuento de Black Friday (%)",

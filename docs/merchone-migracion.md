@@ -202,3 +202,10 @@ La API de pedidos (`POST /orders`) pide `is_test` y `shipping_type`; los valores
 - Tachado = precio más bajo de los 30 días anteriores (precios del 4/11). Quitar el precio de comparación cuando deje de ser una rebaja reciente [decidir fecha; propuesta 31/12/2026].
 - «Tu foto en un cuadro» también, desde el 14/11 (ya va con merchOne y subida propia). No se han tocado los lienzos de los retratos (pendiente de decidir: iguales o +5 €).
 - Para fabricar en merchOne los lienzos de las obras faltan los archivos originales en alta resolución.
+
+## Textos de calidad (14/11/2026)
+- Datos de merchOne: póster en papel fotográfico satinado de **230 g/m²** (UE, visto en el panel por el dueño; la API dice «Fujifilm»). Póster con marco: marco de galería y cristal acrílico. Lienzo: tela blanca de textura fina, tensada a mano sobre bastidor de abeto, tintas HP Latex. Lienzo con marco: marco flotante.
+- **Decisión del dueño: los marcos se piden con colgador** (SKU con sufijo HC, +1 € de coste). Hay que usar esos SKU al crear los pedidos.
+- Interruptor del tema «Producción con merchOne (textos de calidad)» (`settings.prod_merchone`, apagado). Al activarlo, `snippets/qtext.liquid` cambia los textos de Gelato por los de merchOne en fichas, preguntas frecuentes, inicio y el bloque «Calidad que se nota de cerca», y oculta «Así llega con marco» (embalaje de Gelato).
+- **Activarlo el mismo día que las obras pasen a merchOne.** Tu foto y Personalízalo ya llevan los textos de merchOne fijos.
+- [CONFIRMAR] Madera del marco y embalaje de merchOne. Las fotos del bloque de marcos de la ficha son de Gelato: cambiarlas por fotos reales cuando llegue una muestra.

@@ -23,7 +23,7 @@
         "notes": {
           "type": "notes",
           "settings": {
-            "note_1": "Tu foto impresa en papel mate o en lienzo, con o sin marco.",
+            "note_1": "Tu foto impresa en papel fotográfico satinado o en lienzo, con o sin marco.",
             "note_2": "Impresa bajo pedido en Europa, solo para ti.",
             "note_3": "Envío gratis desde 80 € (importe con descuentos)."
           }
@@ -39,7 +39,7 @@
           "type": "collapsible",
           "settings": {
             "heading": "Detalles de impresión",
-            "content": "<p>Papel Premium Matte de 200 g/m², acabado mate sin reflejos. Impresión giclée de 12 colores para un color fiel y negros profundos. Papel de origen sostenible y certificado FSC, con tintas al agua.</p>",
+            "content": "<p>Papel fotográfico Fujifilm de 230 g/m², con acabado satinado: colores intensos y mucho detalle. Los lienzos, en tela blanca de textura fina tensada a mano sobre bastidor de abeto. Todo se imprime en Europa cuando lo pides.</p>",
             "open": false
           }
         },
@@ -55,7 +55,7 @@
           "type": "collapsible",
           "settings": {
             "heading": "Envío y devoluciones",
-            "content": "<p>Cada pieza se imprime cuando la pides, en el centro de producción más cercano a ti, y se envía con seguimiento: en la Península llega en 4-10 días hábiles; a las islas, Ceuta, Melilla y el resto de Europa puede tardar algo más. Láminas y láminas con marco: 4,95 € a España y la UE; los lienzos tienen su propia tarifa según el tamaño. Desde 80 € (importe con descuentos), el envío es gratis. El importe exacto lo ves en el pago antes de confirmar.</p><p>Al hacerse con tu foto, no admite devolución por desistimiento, salvo que llegue dañada o con un defecto de impresión.</p>",
+            "content": "<p>Cada pieza se imprime cuando la pides, en Europa, y se envía con seguimiento: en la Península llega en 4-10 días hábiles; a las islas, Ceuta, Melilla y el resto de Europa puede tardar algo más. Láminas y láminas con marco: 4,95 € a España y la UE; los lienzos tienen su propia tarifa según el tamaño. Desde 80 € (importe con descuentos), el envío es gratis. El importe exacto lo ves en el pago antes de confirmar.</p><p>Al hacerse con tu foto, no admite devolución por desistimiento, salvo que llegue dañada o con un defecto de impresión.</p>",
             "open": false
           }
         },
@@ -68,7 +68,10 @@
         },
         "material": {
           "type": "material",
-          "settings": {}
+          "settings": {
+            "material": "Papel fotográfico Fujifilm de 230 g/m², acabado satinado.",
+            "frame": "de galería en negro, blanco o madera, con cristal acrílico y colgador."
+          }
         },
         "wall": {
           "type": "wall_preview",
@@ -164,21 +167,21 @@
           "type": "question",
           "settings": {
             "question": "¿Cuánto tarda el envío?",
-            "answer": "<p>Enviamos a España y toda Europa, con seguimiento. Cada obra se imprime cuando la pides, en el centro de producción más cercano a ti. En la Península llega en 4-10 días hábiles; a Baleares, Canarias, Ceuta y Melilla puede tardar algo más y al resto de Europa, según el país. Láminas y láminas con marco: 4,95 € a España y la UE; los lienzos tienen su propia tarifa según el tamaño. Desde 80 € (importe con descuentos), el envío es gratis. El importe exacto lo ves en el pago antes de confirmar.</p>"
+            "answer": "<p>Enviamos a España y toda Europa, con seguimiento. Cada obra se imprime cuando la pides, en Europa. En la Península llega en 4-10 días hábiles; a Baleares, Canarias, Ceuta y Melilla puede tardar algo más y al resto de Europa, según el país. Láminas y láminas con marco: 4,95 € a España y la UE; los lienzos tienen su propia tarifa según el tamaño. Desde 80 € (importe con descuentos), el envío es gratis. El importe exacto lo ves en el pago antes de confirmar.</p>"
           }
         },
         "q2": {
           "type": "question",
           "settings": {
             "question": "¿En qué material se imprime?",
-            "answer": "<p>Papel Premium Matte de 200 g/m², acabado mate sin reflejos. Impresión giclée de 12 colores para un color fiel y negros profundos. Papel de origen sostenible y certificado FSC, con tintas al agua.</p>"
+            "answer": "<p>Papel fotográfico Fujifilm de 230 g/m², con acabado satinado: colores intensos y mucho detalle. Los lienzos, en tela blanca de textura fina tensada a mano sobre bastidor de abeto. Todo se imprime en Europa cuando lo pides.</p>"
           }
         },
         "q3": {
           "type": "question",
           "settings": {
             "question": "¿Cómo son los marcos?",
-            "answer": "<p>Marcos de madera en negro, blanco o natural, con plexiglás irrompible delante y trasera rígida. Incluyen kit para colgar: tres colgadores dentados para ponerlo en vertical u horizontal (los clavos o tornillos no van incluidos).</p>"
+            "answer": "<p>Marcos de galería en negro, blanco o madera, con cristal acrílico delante que protege la lámina y colgador detrás para ponerlo en la pared.</p>"
           }
         },
         "q4": {
@@ -221,9 +224,9 @@
             "zoom_wood": "shopify://shop_images/arsnoir-marco-wood-detalle.webp",
             "show_with": "poster",
             "image_right": false,
-            "heading": "Marcos de madera, con todo para colgar",
-            "text": "Un marco fino y actual que deja hablar a la obra. Así es por dentro: cada pieza protege tu lámina y la trasera trae todo para colgarla.",
-            "items": "Madera de pino, perfil fino\nPlexiglás irrompible que protege la impresión\nTres colgadores dentados: vertical u horizontal\nEn negro, blanco o madera natural"
+            "heading": "Marco de galería, listo para colgar",
+            "text": "Un marco de galería que deja hablar a la obra: cristal acrílico delante para proteger tu lámina y colgador detrás.",
+            "items": "Marco de galería clásico\nCristal acrílico que protege la impresión\nCon colgador para la pared\nEn negro, blanco o madera"
           }
         },
         "canvas": {
@@ -235,15 +238,15 @@
             "image_right": false,
             "heading": "Lienzo sobre bastidor de madera",
             "text": "La obra impresa sobre tela de lienzo y tensada en un bastidor de madera. Sin cristal ni reflejos: textura de cuadro de verdad.",
-            "items": "Tela de lienzo de algodón y poliéster\nBastidor de madera de origen sostenible (FSC)\nSin cristal: cero reflejos\nCantos limpios, no necesita marco"
+            "items": "Tela de lienzo blanca de textura fina\nTensado a mano sobre bastidor de abeto\nSin cristal: cero reflejos\nTintas HP Latex: color intenso y nítido"
           }
         },
         "paper": {
           "type": "feature",
           "settings": {
             "heading": "Calidad de impresión",
-            "text": "Cada lámina se imprime en Europa solo cuando la pides: giclée de 12 colores sobre papel mate premium. Las A4 viajan en plano con cartón rígido; las más grandes, enrolladas con papel protector en tubo de cartón.",
-            "items": "Papel Premium Matte de 200 g/m²\nGiclée de 12 colores: color fiel y negros profundos\nAcabado mate, sin reflejos\nPapel certificado FSC y tintas al agua",
+            "text": "Cada lámina se imprime en Europa solo cuando la pides, sobre papel fotográfico Fujifilm de 230 g/m² con acabado satinado.",
+            "items": "Papel fotográfico Fujifilm de 230 g/m²\nAcabado satinado: colores intensos\nMucho detalle, incluso en tamaños grandes\nImpreso en Europa cuando lo pides",
             "image_right": true,
             "show_with": "poster",
             "video_url": "https://cdn.shopify.com/videos/c/vp/9b7eecdda40044c59f6700c025248458/9b7eecdda40044c59f6700c025248458.HD-1080p-2.5Mbps-96595824.mp4",
@@ -260,7 +263,8 @@
             "show_with": "poster",
             "video_url": "https://cdn.shopify.com/videos/c/vp/9c356c31e191416eae3719678f3bf053/9c356c31e191416eae3719678f3bf053.HD-1080p-2.5Mbps-97089859.mp4",
             "video_poster": "shopify://shop_images/arsnoir-llega-con-marco-poster.jpg"
-          }
+          },
+          "disabled": true
         }
       },
       "block_order": [

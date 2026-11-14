@@ -48,11 +48,11 @@
               </div>
             </div>
             <div class="mats__body">
-              {%- if b.text != blank -%}<p class="mats__desc">{{ b.text }}</p>{%- endif -%}
+              {%- if b.text != blank -%}<p class="mats__desc">{% render 'qtext', t: b.text %}</p>{%- endif -%}
               {%- if b.specs != blank -%}
                 <ul class="mats__specs" role="list">
                   {%- assign lines = b.specs | newline_to_br | split: '<br />' -%}
-                  {%- for l in lines -%}{%- assign l = l | strip -%}{%- if l != blank -%}<li>{{ l }}</li>{%- endif -%}{%- endfor -%}
+                  {%- for l in lines -%}{%- assign l0 = l | strip -%}{%- capture l -%}{% render 'qtext', t: l0 %}{%- endcapture -%}{%- if l != blank -%}<li>{{ l }}</li>{%- endif -%}{%- endfor -%}
                 </ul>
               {%- endif -%}
               {%- if b.cta != blank -%}<span class="mats__go">{{ b.cta }} <span aria-hidden="true">→</span></span>{%- endif -%}

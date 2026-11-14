@@ -41,6 +41,8 @@
       {%- assign hide = false -%}
       {%- if show_with == 'canvas' and is_canvas == false -%}{%- assign hide = true -%}{%- endif -%}
       {%- if show_with == 'poster' and is_canvas -%}{%- assign hide = true -%}{%- endif -%}
+      {%- capture q_heading -%}{% render 'qtext', t: b.heading %}{%- endcapture -%}
+      {%- if b.heading != blank and q_heading == blank -%}{%- continue -%}{%- endif -%}
       {%- assign items = b.items | newline_to_br | split: '<br />' -%}
       {%- assign alt_text = b.image.alt | default: b.heading -%}
       <div class="pfeat__row{% if b.image_right %} pfeat__row--right{% endif %} reveal" data-show-with="{{ show_with }}"{% if hide %} hidden{% endif %} {{ block.shopify_attributes }}>
@@ -71,11 +73,11 @@
           {%- endif -%}
         </div>
         <div class="pfeat__copy">
-          <h2 class="pfeat__title">{{ b.heading }}</h2>
-          {%- if b.text != blank -%}<p class="pfeat__text">{{ b.text }}</p>{%- endif -%}
+          <h2 class="pfeat__title">{{ q_heading }}</h2>
+          {%- if b.text != blank -%}<p class="pfeat__text">{% render 'qtext', t: b.text %}</p>{%- endif -%}
           <ul class="pfeat__list">
             {%- for item in items -%}
-              {%- assign t = item | strip -%}
+              {%- assign t0 = item | strip -%}{%- capture t -%}{% render 'qtext', t: t0 %}{%- endcapture -%}
               {%- if t != blank -%}
                 <li><span class="pfeat__check" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></span>{{ t }}</li>
               {%- endif -%}

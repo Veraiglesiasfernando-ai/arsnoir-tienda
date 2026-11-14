@@ -946,8 +946,8 @@
 
           {%- when 'material' -%}
             <div class="product__material" {{ block.shopify_attributes }}>
-              {%- if block.settings.material != blank -%}<p><strong>{{ 'product.material' | t }}</strong> {{ block.settings.material }}</p>{%- endif -%}
-              {%- if block.settings.frame != blank -%}<p><strong>{{ 'product.frame' | t }}</strong> {{ block.settings.frame }}</p>{%- endif -%}
+              {%- if block.settings.material != blank -%}<p><strong>{{ 'product.material' | t }}</strong> {% render 'qtext', t: block.settings.material %}</p>{%- endif -%}
+              {%- if block.settings.frame != blank -%}<p><strong>{{ 'product.frame' | t }}</strong> {% render 'qtext', t: block.settings.frame %}</p>{%- endif -%}
             </div>
 
           {%- when 'complete_wall' -%}
@@ -980,7 +980,7 @@
                   {%- if block.settings.video_url != blank -%}
                     <video class="accordion__video" src="{{ block.settings.video_url }}" muted loop playsinline preload="none"{% if block.settings.video_poster != blank %} poster="{{ block.settings.video_poster | image_url: width: 900 }}"{% endif %} aria-label="{{ block.settings.heading | escape }}"></video>
                   {%- endif -%}
-                  {{ block.settings.content }}
+                  {% render 'qtext', t: block.settings.content %}
                   {%- if block.settings.page != blank -%}{{ block.settings.page.content }}{%- endif -%}
                 </div>
               </details>

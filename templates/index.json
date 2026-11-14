@@ -352,7 +352,7 @@
           "settings": {
             "icon": "truck",
             "title": "Envío a España y Europa",
-            "text": "Con seguimiento: 4-10 días hábiles en la Península. Láminas y marcos: 4,95 € a España y la UE; lienzos según tamaño. Gratis desde 80 € (importe con descuentos)."
+            "text": "Con seguimiento: 4-10 días hábiles en la Península. 4,95 € por pedido a España y la UE, compres lo que compres. Gratis desde 80 € (importe con descuentos)."
           }
         },
         "g2": {
@@ -584,10 +584,10 @@
           "settings": {
             "image": "shopify://shop_images/arsnoir-material-poster.jpg",
             "title": "Póster",
-            "text": "Papel fotográfico Fujifilm de 230 g/m² con acabado satinado: colores intensos y mucho detalle.",
+            "text": "Papel mate de 200 g/m² con impresión giclée de 12 colores.",
             "price": "Desde 16,95 €",
             "was": "24,95 €",
-            "specs": "230 g/m²\nAcabado satinado\nDe A4 a 60×90 cm",
+            "specs": "200 g/m²\nAcabado mate\nDe A4 a 60×90 cm",
             "link": "shopify://collections/obras",
             "cta": "Ver obras",
             "zoom": "left top"
@@ -598,10 +598,10 @@
           "settings": {
             "image": "shopify://shop_images/arsnoir-material-poster-con-marco.jpg",
             "title": "Póster con marco",
-            "text": "Marco de galería con cristal acrílico que protege la lámina. En negro, blanco o madera.",
+            "text": "Marco de madera en negro, blanco o natural, con plexiglás y kit para colgar.",
             "price": "Desde 34,95 €",
             "was": "54,95 €",
-            "specs": "Cristal acrílico\nMarco de galería\nNegro, blanco o madera",
+            "specs": "Marco de madera\nPlexiglás\nListo para colgar",
             "link": "shopify://collections/obras",
             "cta": "Ver obras",
             "zoom": "right top"
@@ -612,10 +612,10 @@
           "settings": {
             "image": "shopify://shop_images/arsnoir-material-lienzo.jpg",
             "title": "Lienzo",
-            "text": "Lienzo blanco de textura fina, tensado a mano sobre bastidor de abeto. Impreso con tintas HP Latex.",
+            "text": "Tela de lienzo tensada sobre bastidor de madera. Sin cristal ni reflejos.",
             "price": "Desde 29,95 €",
             "was": "39,95 €",
-            "specs": "Tensado a mano\nBastidor de abeto\nSin reflejos",
+            "specs": "Bastidor de madera\nSin reflejos\nDe 20×25 a 60×80 cm",
             "link": "shopify://collections/lienzos",
             "cta": "Ver obras",
             "zoom": "left bottom"
@@ -626,10 +626,10 @@
           "settings": {
             "image": "shopify://shop_images/arsnoir-material-lienzo-con-marco.jpg",
             "title": "Lienzo con marco",
-            "text": "El lienzo dentro de un marco flotante, con un pequeño hueco de sombra alrededor. En negro o madera.",
+            "text": "El lienzo dentro de un marco de madera, en negro o natural.",
             "price": "Desde 39,95 €",
             "was": "59,95 €",
-            "specs": "Marco flotante\nNegro o madera\nDe 20×25 a 60×80 cm",
+            "specs": "Marco de madera para lienzo\nNegro o natural\nDe 20×25 a 60×80 cm",
             "link": "shopify://collections/lienzos",
             "cta": "Ver obras",
             "zoom": "right top"
