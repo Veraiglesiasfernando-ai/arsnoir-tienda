@@ -103,20 +103,21 @@
             "text": "Producto personalizado: no admite devolución por desistimiento, salvo defecto."
           }
         },
-        "photo": {
-          "type": "photo_step",
+        "guard": {
+          "type": "custom_guard",
           "settings": {
-            "title": "Sube tu foto",
-            "text": "Se abre el editor: sube la foto desde tu móvil u ordenador, colócala y guarda el diseño. Después eliges tamaño y acabado y lo añades al carrito.",
-            "button": "Sube tu foto",
-            "steps": "Foto → ajuste y vista previa → tamaño y acabado → carrito"
+            "heading": "",
+            "notice": "",
+            "note": "No cambiamos tu foto: la imprimimos tal cual. Si tiene poca resolución para el tamaño elegido, te avisamos aquí antes de comprar.",
+            "upload": true,
+            "min_ppi": 150
           }
         }
       },
       "block_order": [
         "title",
         "price",
-        "photo",
+        "guard",
         "notes",
         "buy",
         "payments",
