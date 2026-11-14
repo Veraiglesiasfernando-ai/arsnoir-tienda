@@ -366,6 +366,7 @@
                 {%- if cart.taxes_included -%}{{ 'cart.taxes_included' | t }}{%- endif -%}
                 {%- if settings.free_shipping_threshold == 0 and settings.shipping_message != blank -%}
                   {%- if shop.shipping_policy.body != blank %} <a href="{{ shop.shipping_policy.url }}" style="text-decoration:underline">{{ 'product.free_shipping' | t }}</a>.{% else %} {{ 'product.free_shipping' | t }}.{% endif -%}
+                {%- elsif settings.shipping_rate_print != blank and settings.free_shipping_threshold > 0 %} · Envío {{ settings.shipping_rate_print }}, gratis desde {{ settings.free_shipping_threshold }} €.
                 {%- elsif shop.shipping_policy.body != blank %} <a href="{{ shop.shipping_policy.url }}" style="text-decoration:underline">{{ 'product.shipping' | t }}</a> · {{ 'cart.shipping_at_checkout' | t }}{%- endif -%}
               </div>
             {%- endif -%}

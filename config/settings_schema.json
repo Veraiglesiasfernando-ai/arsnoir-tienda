@@ -160,7 +160,7 @@
         "id": "shipping_rate_print",
         "label": "Envío de láminas y marcos (España y UE)",
         "default": "4,95 €",
-        "info": "Tarifa real de los perfiles de envío de Shopify para láminas y láminas con marco. Los lienzos tienen tarifas propias según tamaño y se muestran como «se calcula en el pago». Déjalo vacío para no mostrar tarifa."
+        "info": "La tarifa única de Shopify («ARSNOIR · Envío estándar»), para todos los productos a España y la UE. Se muestra en la ficha y se suma al total del carrito. Vacío = «se calcula en el pago»."
       },
       {
         "type": "header",

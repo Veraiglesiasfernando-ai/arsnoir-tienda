@@ -318,21 +318,34 @@
         {%- endif -%}
         {%- assign ship_free = false -%}
         {%- if ship_threshold > 0 and cart.total_price >= ship_threshold -%}{%- assign ship_free = true -%}{%- endif -%}
+        {%- comment -%}
+          One flat rate for every order to Spain and the EU (Shopify delivery profile «ARSNOIR · Envío estándar»,
+          theme setting «Envío de láminas y marcos»): shown and added to the total; free from the threshold.
+        {%- endcomment -%}
+        {%- assign ship_cents = 0 -%}
+        {%- if ship_free == false and settings.shipping_rate_print != blank -%}
+          {%- assign ship_cents = settings.shipping_rate_print | remove: '€' | strip | replace: ',', '.' | times: 100 | round -%}
+        {%- endif -%}
+        {%- assign grand = cart.total_price | plus: ship_cents -%}
         <div class="cartx__row cartx__row--ship">
           <span>{{ 'cart.shipping' | t }}</span>
           {%- if ship_free -%}
             <strong class="cartx-free">{{ 'cart.free' | t }}</strong>
+          {%- elsif ship_cents > 0 -%}
+            <span>{{ ship_cents | money }}</span>
           {%- else -%}
             <span data-ship-estimate data-country="{{ localization.country.iso_code }}">{{ 'cart.shipping_at_checkout' | t }}</span>
           {%- endif -%}
         </div>
-        {%- comment -%} With free shipping this is what they pay; otherwise shipping is added at checkout {%- endcomment -%}
-        <div class="cartx__row cartx__row--sub"><span>{% if ship_free %}{{ 'cart.total' | t }}{% else %}{{ 'cart.subtotal' | t }}{% endif %}</span><span>{{ cart.total_price | money }}</span></div>
+        {%- if ship_free == false and ship_cents > 0 and ship_threshold > cart.total_price -%}
+          {%- assign ship_left = ship_threshold | minus: cart.total_price -%}
+        {%- endif -%}
+        <div class="cartx__row cartx__row--sub"><span>{% if ship_free or ship_cents > 0 %}{{ 'cart.total' | t }}{% else %}{{ 'cart.subtotal' | t }}{% endif %}</span><span>{{ grand | money }}</span></div>
         <form action="{{ routes.cart_url }}" method="post" class="cartx__form">
           <button type="submit" name="checkout" class="button button--accent button--full cartx__checkout">
             {% render 'trust-icon', name: 'lock' %}
             <span>{{ 'cart.checkout' | t }}</span>
-            <span class="cartx__checkout-total">{{ cart.total_price | money }}</span>
+            <span class="cartx__checkout-total">{{ grand | money }}</span>
           </button>
         </form>
         <button type="button" class="cartx__continue" data-drawer-close>{{ 'cart.continue_shopping' | t }}</button>
