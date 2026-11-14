@@ -4744,3 +4744,21 @@ body:has(.pdc) .product__tax { padding-bottom: 18px; border-bottom: 1px solid #e
   .cookie__actions .cookie__reject { display: inline-flex; order: 3; grid-column: 1 / -1; justify-self: center; min-height: 0; padding: 4px 6px 0; border: 0; border-radius: 0; background: none; color: #555; font-size: 12.5px; font-weight: 500; letter-spacing: 0; text-transform: none; text-decoration: underline; text-underline-offset: 3px; }
   .cookie.is-config .cookie__actions .cookie__reject { order: 5; }
 }
+
+/* Email pop-up on mobile: a bottom sheet where the whole form fits (short photo strip on top) */
+@media (max-width: 749px) {
+  .npop__card { max-height: 92svh; overflow-y: auto; border-radius: 18px 18px 0 0; }
+  .npop__card--image .npop__media { height: min(26svh, 200px); }
+  .npop__card--image .npop__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 40%; }
+  .npop__card--image .npop__body { padding: 16px 18px 14px; }
+  .npop__card--image .npop__close { top: 10px; right: 10px; width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,.92); box-shadow: 0 2px 8px rgba(0,0,0,.15); z-index: 2; }
+  .npop__card--image .npop__close { position: absolute; }
+  .npop__eyebrow { margin-bottom: 8px; font-size: 10.5px; }
+  .npop__card--image .npop__title { font-size: 1.55rem; }
+  .npop__card--image .npop__text { margin-bottom: 12px; font-size: 13.5px; line-height: 1.45; }
+  .npop__field { height: 48px; }
+  .npop .button { height: 48px; }
+  .npop__skip { margin-top: 8px; }
+  .npop__legal { margin-top: 8px; }
+}
+.npop .button--accent { background: #0a0a0a; color: #fff; border-color: #0a0a0a; }
