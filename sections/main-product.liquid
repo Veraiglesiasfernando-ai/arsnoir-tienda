@@ -307,6 +307,8 @@
                 {%- if deal_v == nil or v.price < deal_v.price -%}{%- assign deal_v = v -%}{%- endif -%}
               {%- endif -%}
             {%- endfor -%}
+            {%- comment -%} New page: discounts already show in the price, the size list and the frame cards {%- endcomment -%}
+            {%- if section.settings.pdp_v2 -%}{%- assign deal_v = nil -%}{%- endif -%}
             {%- if deal_v -%}
               {%- assign deal_save = deal_v.compare_at_price | minus: deal_v.price -%}
               <button type="button" class="product__deal" data-product-deal data-pick-frame{% if current_variant.compare_at_price > current_variant.price %} hidden{% endif %}>
