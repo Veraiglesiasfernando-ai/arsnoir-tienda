@@ -584,10 +584,10 @@
           "settings": {
             "image": "shopify://shop_images/arsnoir-material-poster.jpg",
             "title": "Póster",
-            "text": "Papel fotográfico Fujifilm con acabado mate: colores intensos y sin brillos.",
+            "text": "Papel fotográfico Fujifilm de 230 g/m² con acabado satinado: colores intensos y mucho detalle.",
             "price": "Desde 16,95 €",
             "was": "24,95 €",
-            "specs": "Papel Fujifilm\nAcabado mate\nDe A4 a 60×90 cm",
+            "specs": "230 g/m²\nAcabado satinado\nDe A4 a 60×90 cm",
             "link": "shopify://collections/obras",
             "cta": "Ver obras",
             "zoom": "left top"
