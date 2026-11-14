@@ -209,3 +209,8 @@ La API de pedidos (`POST /orders`) pide `is_test` y `shipping_type`; los valores
 - Interruptor del tema «Producción con merchOne (textos de calidad)» (`settings.prod_merchone`, apagado). Al activarlo, `snippets/qtext.liquid` cambia los textos de Gelato por los de merchOne en fichas, preguntas frecuentes, inicio y el bloque «Calidad que se nota de cerca», y oculta «Así llega con marco» (embalaje de Gelato).
 - **Activarlo el mismo día que las obras pasen a merchOne.** Tu foto y Personalízalo ya llevan los textos de merchOne fijos.
 - [CONFIRMAR] Madera del marco y embalaje de merchOne. Las fotos del bloque de marcos de la ficha son de Gelato: cambiarlas por fotos reales cuando llegue una muestra.
+
+## Retratos al precio de las obras (14/11/2026)
+- Por decisión del dueño, los 16 retratos e ilustraciones tienen los mismos precios que las obras: lámina 16,95–59,95; marco 34,95–109,95; lienzo 29,95–64,95; lienzo con marco 39,95–94,95. MIXPIX sin cambios.
+- Precio tachado (compare-at) = el precio que tenían hasta hoy, el más bajo de los últimos 30 días. **Quitar los tachados de los retratos el 31/12**, igual que los de los lienzos.
+- Descripciones SEO: «Desde 16,95 €».

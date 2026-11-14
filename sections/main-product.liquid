@@ -316,7 +316,24 @@
             {%- assign vs_finish_label = vs_finish_label | strip -%}
             <div class="product__price" id="{{ price_id }}" data-show-save {{ block.shopify_attributes }}>
               {%- if section.settings.pdp_v2 and product.selected_variant == blank and product.price_varies -%}
-                <span class="price"><span>{{ 'general.from' | t }} {{ product.price_min | money }}</span></span>
+                {%- comment -%} «Desde» = the cheapest price today (offers included), with its earlier price struck through when there is one {%- endcomment -%}
+                {%- assign from_p = 0 -%}{%- assign from_c = 0 -%}
+                {%- for v in product.variants -%}
+                  {%- unless v.available -%}{%- continue -%}{%- endunless -%}
+                  {%- capture dp -%}{% render 'deal-price', variant: v, product: product %}{%- endcapture -%}
+                  {%- assign dps = dp | strip | split: '|' -%}
+                  {%- assign dpp = dps[0] | plus: 0 -%}
+                  {%- if from_p == 0 or dpp < from_p -%}{%- assign from_p = dpp -%}{%- assign from_c = dps[1] | plus: 0 -%}{%- endif -%}
+                {%- endfor -%}
+                {%- if from_p == 0 -%}{%- assign from_p = product.price_min -%}{%- endif -%}
+                <span class="price">
+                  {%- if from_c > from_p -%}
+                    {%- assign from_pct = from_c | minus: from_p | times: 100.0 | divided_by: from_c | round -%}
+                    <b class="pdc-now">{{ 'general.from' | t }} {{ from_p | money }}</b> <s class="pdc-was">{{ from_c | money }}</s> <span class="pdc-off">-{{ from_pct }} %</span>
+                  {%- else -%}
+                    <span>{{ 'general.from' | t }} {{ from_p | money }}</span>
+                  {%- endif -%}
+                </span>
               {%- else -%}
                 {%- render 'price', product: product, variant: current_variant, show_save: true -%}
               {%- endif -%}

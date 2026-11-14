@@ -374,7 +374,7 @@
       picker.dispatchEvent(new Event('change', { bubbles: true }));
       /* The price of the choice also on the button, so it is in view while choosing further down */
       if (button && x.v.available !== false) button.innerHTML = (button.dataset.addText || 'Añadir al carrito') + ' · ' + money(x.v.price) + (pct(x.v) ? ' <s class="pdc-add__was">' + money(x.v.compare_at_price) + '</s>' : '');
-      if (x.bf || x.prev) setPrice('<b class="pdc-now">' + money(x.v.price) + '</b>' + off(x.v));
+      if (x.bf || x.prev || pct(x.v)) setPrice('<b class="pdc-now">' + money(x.v.price) + '</b>' + off(x.v));
     }
 
     box.addEventListener('click', function (e) {
