@@ -110,7 +110,8 @@
             "notice": "",
             "note": "No cambiamos tu foto: la imprimimos tal cual. Si tiene poca resolución para el tamaño elegido, te avisamos aquí antes de comprar.",
             "upload": true,
-            "min_ppi": 150
+            "min_ppi": 150,
+            "text_option": true
           }
         }
       },

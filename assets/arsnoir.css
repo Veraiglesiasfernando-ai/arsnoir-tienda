@@ -4654,3 +4654,33 @@ body:has(.pdc) .product__tax { padding-bottom: 18px; border-bottom: 1px solid #e
   .parrows__btn--prev { left: 8px; }
   .parrows__btn--next { right: 8px; }
 }
+
+/* «Tu foto en un cuadro»: optional text over the photo (snippets/photo-text.liquid) */
+.ptext { margin-top: 14px; }
+.ptext__label { display: block; margin-bottom: 6px; font-size: 14px; font-weight: 700; }
+.ptext__label span { font-weight: 400; color: #777; }
+.ptext__field { width: 100%; height: 46px; padding: 0 12px; border: 1px solid #b5b5b5; border-radius: 0; font: inherit; font-size: 16px; background: #fff; }
+.ptext__field:focus { outline: none; border-color: #0a0a0a; }
+.ptext__opts { display: grid; gap: 8px; margin-top: 10px; }
+.ptext__opts[hidden] { display: none; }
+.ptext__row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.ptext__row-label { flex: 0 0 74px; font-size: 13px; color: #555; }
+.ptext__chip { position: relative; cursor: pointer; }
+.ptext__chip input { position: absolute; opacity: 0; pointer-events: none; }
+.ptext__chip span { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border: 1px solid #ccc; font-size: 13px; background: #fff; }
+.ptext__chip input:checked + span { border-color: #0a0a0a; box-shadow: inset 0 0 0 1px #0a0a0a; font-weight: 700; }
+.ptext__chip input:focus-visible + span { outline: 2px solid #1F7BB8; }
+.ptext__chip--manuscrita span { font-family: 'Great Vibes', cursive; font-size: 17px; font-weight: 400 !important; }
+.ptext__chip--clasica span { font-family: 'Playfair Display', serif; }
+.ptext__chip--moderna span { font-family: 'Montserrat', sans-serif; letter-spacing: .04em; }
+.ptext__chip--pincel span { font-family: 'Permanent Marker', cursive; font-weight: 400 !important; }
+.ptext__dot { width: 12px; height: 12px; border-radius: 50%; border: 1px solid #999; }
+.ptext__dot--white { background: #fff; }
+.ptext__dot--black { background: #111; }
+.cupload__frame { position: relative; container-type: inline-size; }
+.cupload__text { position: absolute; left: 5%; right: 5%; z-index: 2; text-align: center; font-size: var(--fs, 6cqw); line-height: 1.1; white-space: nowrap; overflow: hidden; text-overflow: clip; pointer-events: none; }
+.cupload__text[hidden] { display: none; }
+.cupload__text[data-pos="bottom"] { bottom: 6%; }
+.cupload__text[data-pos="top"] { top: 6%; }
+.cupload__text[data-color="white"] { color: #fff; text-shadow: 0 1px 6px rgba(0,0,0,.35); }
+.cupload__text[data-color="black"] { color: #111; }

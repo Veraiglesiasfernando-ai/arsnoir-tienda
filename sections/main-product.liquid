@@ -729,6 +729,7 @@
                     <label class="tstudio__font"><input type="radio" name="properties[Borde]" value="A sangre" form="{{ form_id }}" checked><span>A sangre</span></label>
                     <label class="tstudio__font"><input type="radio" name="properties[Borde]" value="Con borde blanco" form="{{ form_id }}" data-white><span>Con borde blanco</span></label>
                   </div>
+                  {%- if block.settings.text_option -%}{% render 'photo-text', form_id: form_id %}{%- endif -%}
                 </div>
               {%- endif -%}
               <p class="cguard__check" data-cguard-result hidden></p>
@@ -1068,6 +1069,7 @@
         { "type": "text", "id": "rights_label", "label": "Casilla de derechos", "default": "Confirmo que tengo los derechos para imprimir esta imagen." },
         { "type": "textarea", "id": "note", "label": "Nota de calidad", "default": "No cambiamos el estilo de tu imagen. Si tiene poca resolución para el tamaño elegido, te avisamos aquí antes de comprar: elige un tamaño menor o sube una foto mejor." },
         { "type": "checkbox", "id": "upload", "label": "Subida de imagen del tema", "default": true, "info": "Campo para subir la imagen (se guarda en el pedido) con vista previa. Desactívalo si usas el editor de Gelato o de una app. Nunca aparece en productos con la etiqueta «plantilla»." },
+        { "type": "checkbox", "id": "text_option", "label": "Texto opcional sobre la foto", "default": false, "info": "El cliente escribe un texto y elige tipografía, color y posición. Se ve en la vista previa y llega al pedido, con el archivo listo para imprimir." },
         { "type": "range", "id": "min_ppi", "label": "Avisar de pixelado por debajo de", "min": 100, "max": 300, "step": 10, "unit": "ppp", "default": 150, "info": "Solo cuando la imagen se sube en esta ficha y el navegador puede leer su tamaño." }
       ]
     },

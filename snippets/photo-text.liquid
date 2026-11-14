@@ -1,0 +1,139 @@
+{%- comment -%}
+  «Tu foto en un cuadro»: optional text on the photo with a choice of lettering, colour and position.
+  - Saved in the order as properties (Texto, Tipografía, Color del texto, Posición del texto).
+  - The live preview draws it over the uploaded photo.
+  - When there is a text, the browser also makes the print file (photo cropped to the chosen size, white
+    border if chosen, text on top) and attaches it as «Archivo para imprimir», ready to send to merchOne.
+  - form_id
+{%- endcomment -%}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@600&family=Permanent+Marker&family=Playfair+Display:wght@600&display=swap">
+<div class="ptext" data-ptext>
+  <label class="ptext__label" for="PhotoText">Añade un texto <span>(opcional)</span></label>
+  <input class="ptext__field" id="PhotoText" type="text" name="properties[Texto]" form="{{ form_id }}" maxlength="40" placeholder="Ej.: Nuestro primer viaje · 2026" autocomplete="off" data-ptext-input>
+  <div class="ptext__opts" data-ptext-opts hidden>
+    <div class="ptext__row" role="radiogroup" aria-label="Tipografía">
+      <span class="ptext__row-label">Tipografía</span>
+      <label class="ptext__chip ptext__chip--manuscrita"><input type="radio" name="properties[Tipografía]" value="Manuscrita" form="{{ form_id }}" checked><span>Manuscrita</span></label>
+      <label class="ptext__chip ptext__chip--clasica"><input type="radio" name="properties[Tipografía]" value="Clásica" form="{{ form_id }}"><span>Clásica</span></label>
+      <label class="ptext__chip ptext__chip--moderna"><input type="radio" name="properties[Tipografía]" value="Moderna" form="{{ form_id }}"><span>Moderna</span></label>
+      <label class="ptext__chip ptext__chip--pincel"><input type="radio" name="properties[Tipografía]" value="Pincel" form="{{ form_id }}"><span>Pincel</span></label>
+    </div>
+    <div class="ptext__row" role="radiogroup" aria-label="Color del texto">
+      <span class="ptext__row-label">Color</span>
+      <label class="ptext__chip"><input type="radio" name="properties[Color del texto]" value="Blanco" form="{{ form_id }}" checked><span><i class="ptext__dot ptext__dot--white"></i>Blanco</span></label>
+      <label class="ptext__chip"><input type="radio" name="properties[Color del texto]" value="Negro" form="{{ form_id }}"><span><i class="ptext__dot ptext__dot--black"></i>Negro</span></label>
+    </div>
+    <div class="ptext__row" role="radiogroup" aria-label="Posición del texto">
+      <span class="ptext__row-label">Posición</span>
+      <label class="ptext__chip"><input type="radio" name="properties[Posición del texto]" value="Abajo" form="{{ form_id }}" checked><span>Abajo</span></label>
+      <label class="ptext__chip"><input type="radio" name="properties[Posición del texto]" value="Arriba" form="{{ form_id }}"><span>Arriba</span></label>
+    </div>
+  </div>
+  <input type="file" name="properties[Archivo para imprimir]" form="{{ form_id }}" hidden disabled tabindex="-1" aria-hidden="true" data-ptext-file>
+</div>
+<script>
+  (function () {
+    var box = document.currentScript.previousElementSibling;
+    if (!box || box.dataset.ready) return;
+    box.dataset.ready = '1';
+    var guard = box.closest('[data-cguard]') || document;
+    var up = guard.querySelector('.cupload');
+    var frame = up && up.querySelector('[data-cupload-frame]');
+    var input = box.querySelector('[data-ptext-input]');
+    var opts = box.querySelector('[data-ptext-opts]');
+    var fileOut = box.querySelector('[data-ptext-file]');
+    var FONTS = { 'Manuscrita': ['Great Vibes', 400, 0.11], 'Clásica': ['Playfair Display', 600, 0.065], 'Moderna': ['Montserrat', 600, 0.055], 'Pincel': ['Permanent Marker', 400, 0.07] };
+    var overlay = null;
+    if (frame) {
+      overlay = document.createElement('span');
+      overlay.className = 'cupload__text';
+      overlay.setAttribute('aria-hidden', 'true');
+      frame.appendChild(overlay);
+    }
+    var val = function (name) { var c = box.querySelector('input[name="properties[' + name + ']"]:checked'); return c ? c.value : ''; };
+    var photo = null; /* the uploaded File */
+
+    var paint = function () {
+      var text = input.value.trim();
+      opts.hidden = !text;
+      /* No text: nothing about lettering goes to the order */
+      opts.querySelectorAll('input').forEach(function (r) { r.disabled = !text; });
+      if (!overlay) return;
+      var f = FONTS[val('Tipografía')] || FONTS['Manuscrita'];
+      overlay.textContent = text;
+      overlay.style.fontFamily = '"' + f[0] + '", serif';
+      overlay.style.fontWeight = f[1];
+      overlay.style.setProperty('--fs', (f[2] * 100) + 'cqw');
+      overlay.dataset.color = val('Color del texto') === 'Negro' ? 'black' : 'white';
+      overlay.dataset.pos = val('Posición del texto') === 'Arriba' ? 'top' : 'bottom';
+      overlay.hidden = !text;
+    };
+
+    /* Print file: photo cropped to the chosen size (like the preview), white border if chosen, text on top */
+    var timer = null;
+    var build = function () {
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        var text = input.value.trim();
+        if (!text || !photo || !window.DataTransfer) { try { fileOut.value = ''; } catch (e) {} fileOut.disabled = true; return; }
+        var ratio = 21 / 29.7;
+        var ar = frame && frame.style.aspectRatio;
+        if (ar) { var p = ar.split('/'); ratio = parseFloat(p[0]) / parseFloat(p[1]); }
+        var url = URL.createObjectURL(photo);
+        var img = new Image();
+        img.onload = function () {
+          var W = img.naturalWidth, H = img.naturalHeight;
+          var cw, ch; if (W / H > ratio) { ch = H; cw = Math.round(H * ratio); } else { cw = W; ch = Math.round(W / ratio); }
+          var scale = Math.min(1, 6000 / Math.max(cw, ch));
+          var c = document.createElement('canvas');
+          c.width = Math.round(cw * scale); c.height = Math.round(ch * scale);
+          var x = c.getContext('2d');
+          var white = !!up.querySelector('.cupload__border input[data-white]:checked');
+          var pad = white ? Math.round(c.width * 0.07) : 0;
+          x.fillStyle = '#fff'; x.fillRect(0, 0, c.width, c.height);
+          /* cover-crop into the inner area */
+          var iw = c.width - pad * 2, ih = c.height - pad * 2;
+          var s = Math.max(iw / W, ih / H);
+          var dw = W * s, dh = H * s;
+          x.save(); x.beginPath(); x.rect(pad, pad, iw, ih); x.clip();
+          x.drawImage(img, pad + (iw - dw) / 2, pad + (ih - dh) / 2, dw, dh);
+          x.restore();
+          var f = FONTS[val('Tipografía')] || FONTS['Manuscrita'];
+          var size = Math.round(iw * f[2]);
+          var draw = function () {
+            x.font = f[1] + ' ' + size + 'px "' + f[0] + '"';
+            x.textAlign = 'center';
+            x.textBaseline = 'middle';
+            var black = val('Color del texto') === 'Negro';
+            var top = val('Posición del texto') === 'Arriba';
+            var y = top ? pad + ih * 0.1 : pad + ih * 0.9;
+            if (!black) { x.shadowColor = 'rgba(0,0,0,.35)'; x.shadowBlur = size * 0.15; }
+            x.fillStyle = black ? '#111' : '#fff';
+            x.fillText(text, c.width / 2, y, iw * 0.9);
+            c.toBlob(function (blob) {
+              URL.revokeObjectURL(url);
+              if (!blob) return;
+              var dt = new DataTransfer();
+              dt.items.add(new File([blob], 'para-imprimir.jpg', { type: 'image/jpeg' }));
+              fileOut.files = dt.files;
+              fileOut.disabled = false;
+            }, 'image/jpeg', 0.92);
+          };
+          if (document.fonts && document.fonts.load) document.fonts.load(f[1] + ' ' + size + 'px "' + f[0] + '"').then(draw, draw); else draw();
+        };
+        img.src = url;
+      }, 500);
+    };
+
+    input.addEventListener('input', function () { paint(); build(); });
+    box.addEventListener('change', function () { paint(); build(); });
+    document.addEventListener('change', function (e) {
+      var t = e.target;
+      if (t.matches && t.matches('input[data-cupload]') && t.files && t.files[0]) { photo = t.files[0]; build(); }
+      else if (t.closest && (t.closest('variant-picker') || t.closest('.cupload__border'))) { setTimeout(build, 50); }
+    });
+    paint();
+  })();
+</script>
