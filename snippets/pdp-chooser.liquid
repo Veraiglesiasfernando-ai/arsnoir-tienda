@@ -358,7 +358,7 @@
         /* No size yet: «Desde» of the chosen type and frame (e.g. Negro → the cheapest black frame) */
         var c = cheapest(of(state.type, null, state.frame)) || cheapest(of(state.type));
         if (c) setPrice('Desde ' + money(c.v.price) + off(c.v));
-        if (button) button.textContent = button.dataset.addText || 'Añadir al carrito';
+        if (button) button.textContent = (button.dataset.addText || 'Añadir al carrito') + (c ? ' · desde ' + money(c.v.price) : '');
         return;
       }
       var hit = of(state.type, state.size, state.frame);
