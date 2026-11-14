@@ -585,7 +585,11 @@
             "image": "shopify://shop_images/arsnoir-material-poster.jpg",
             "title": "Póster",
             "text": "Papel mate de 200 g/m² con impresión giclée de 12 colores.",
-            "price": "Desde 16,95 €"
+            "price": "Desde 16,95 €",
+            "was": "24,95 €",
+            "specs": "Papel mate\nDe A4 a 60×90 cm",
+            "link": "shopify://collections/obras",
+            "cta": "Ver obras"
           }
         },
         "poster_marco": {
@@ -594,7 +598,11 @@
             "image": "shopify://shop_images/arsnoir-material-poster-con-marco.jpg",
             "title": "Póster con marco",
             "text": "Marco de madera en negro, blanco o natural, con plexiglás y kit para colgar.",
-            "price": "Desde 34,95 €"
+            "price": "Desde 34,95 €",
+            "was": "54,95 €",
+            "specs": "Marco de madera\nListo para colgar",
+            "link": "shopify://collections/obras",
+            "cta": "Ver obras"
           }
         },
         "lienzo": {
@@ -603,7 +611,11 @@
             "image": "shopify://shop_images/arsnoir-material-lienzo.jpg",
             "title": "Lienzo",
             "text": "Tela de lienzo tensada sobre bastidor de madera. Sin cristal ni reflejos.",
-            "price": "Desde 39,95 €"
+            "price": "Desde 29,95 €",
+            "was": "39,95 €",
+            "specs": "Bastidor de madera\nSin reflejos\nDe 20×25 a 60×80 cm",
+            "link": "shopify://collections/lienzos",
+            "cta": "Ver obras"
           }
         },
         "lienzo_marco": {
@@ -612,7 +624,11 @@
             "image": "shopify://shop_images/arsnoir-material-lienzo-con-marco.jpg",
             "title": "Lienzo con marco",
             "text": "El lienzo dentro de un marco de madera, en negro o natural.",
-            "price": "Desde 59,95 €"
+            "price": "Desde 39,95 €",
+            "was": "59,95 €",
+            "specs": "Marco de madera\nDe 20×25 a 60×80 cm",
+            "link": "shopify://collections/lienzos",
+            "cta": "Ver obras"
           }
         }
       },

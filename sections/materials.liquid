@@ -1,8 +1,13 @@
 {%- comment -%}
-  Materials: the four formats (poster, framed poster, canvas, framed canvas), each with a photo,
-  a short text and a "from" price, with a button above to browse the works.
+  Materials: the four formats (poster, framed poster, canvas, framed canvas).
+  Each card: photo with the name and "from" price over it, the previous price struck through
+  (only while «prev_prices_on» and until «prev_prices_until»), a short text, feature chips
+  (one per line) and a link. Mobile: horizontal swipe.
 {%- endcomment -%}
 {%- assign s = section.settings -%}
+{%- assign today = 'now' | date: '%Y-%m-%d' -%}
+{%- assign show_was = false -%}
+{%- if settings.prev_prices_on and today <= settings.prev_prices_until -%}{%- assign show_was = true -%}{%- endif -%}
 <section class="mats">
   <div class="page-width">
     <div class="mats__head">
@@ -15,18 +20,44 @@
         <a class="button mats__btn" href="{{ s.button_link }}">{{ s.button_label }}</a>
       {%- endif -%}
     </div>
-    <ul class="mats__grid">
+    <ul class="mats__grid" role="list">
       {%- for block in section.blocks -%}
         {%- assign b = block.settings -%}
+        {%- assign link = b.link | default: s.button_link -%}
+        {%- assign from_c = b.price | remove: 'Desde' | remove: 'desde' | remove: '€' | strip | replace: ',', '.' | times: 100 | round -%}
+        {%- assign was_c = b.was | remove: '€' | strip | replace: ',', '.' | times: 100 | round -%}
+        {%- assign pct = 0 -%}
+        {%- if show_was and was_c > from_c and from_c > 0 -%}
+          {%- assign pct = was_c | minus: from_c | times: 100.0 | divided_by: was_c | floor -%}
+        {%- endif -%}
         <li class="mats__item reveal" {{ block.shopify_attributes }}>
-          <div class="mats__media">
-            {%- if b.image != blank -%}
-              {{ b.image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '360, 540, 720, 900', sizes: '(min-width: 990px) 25vw, 50vw', alt: b.title }}
-            {%- endif -%}
-          </div>
-          <h3 class="mats__name">{{ b.title }}</h3>
-          {%- if b.text != blank -%}<p class="mats__desc">{{ b.text }}</p>{%- endif -%}
-          {%- if b.price != blank -%}<p class="mats__price">{{ b.price }}</p>{%- endif -%}
+          <a class="mats__card" href="{{ link | default: '#' }}">
+            <div class="mats__media">
+              {%- if b.image != blank -%}
+                {{ b.image | image_url: width: 1000 | image_tag: loading: 'lazy', widths: '360, 540, 720, 1000', sizes: '(min-width: 990px) 25vw, 75vw', alt: b.title }}
+              {%- endif -%}
+              <span class="mats__num">{{ forloop.index | prepend: '0' }}</span>
+              <div class="mats__over">
+                <h3 class="mats__name">{{ b.title }}</h3>
+                {%- if b.price != blank -%}
+                  <p class="mats__price">
+                    <span>{{ b.price }}</span>
+                    {%- if pct > 0 -%}<s>{{ b.was }}</s><em>-{{ pct }} %</em>{%- endif -%}
+                  </p>
+                {%- endif -%}
+              </div>
+            </div>
+            <div class="mats__body">
+              {%- if b.text != blank -%}<p class="mats__desc">{{ b.text }}</p>{%- endif -%}
+              {%- if b.specs != blank -%}
+                <ul class="mats__specs" role="list">
+                  {%- assign lines = b.specs | newline_to_br | split: '<br />' -%}
+                  {%- for l in lines -%}{%- assign l = l | strip -%}{%- if l != blank -%}<li>{{ l }}</li>{%- endif -%}{%- endfor -%}
+                </ul>
+              {%- endif -%}
+              {%- if b.cta != blank -%}<span class="mats__go">{{ b.cta }} <span aria-hidden="true">→</span></span>{%- endif -%}
+            </div>
+          </a>
         </li>
       {%- endfor -%}
     </ul>
@@ -52,7 +83,11 @@
         { "type": "image_picker", "id": "image", "label": "Foto" },
         { "type": "text", "id": "title", "label": "Nombre", "default": "Póster" },
         { "type": "textarea", "id": "text", "label": "Texto" },
-        { "type": "text", "id": "price", "label": "Precio", "info": "Por ejemplo: Desde 24,95 €" }
+        { "type": "textarea", "id": "specs", "label": "Etiquetas", "info": "Una por línea. Solo datos reales del producto." },
+        { "type": "text", "id": "price", "label": "Precio", "info": "Por ejemplo: Desde 16,95 €" },
+        { "type": "text", "id": "was", "label": "Precio anterior (tachado)", "info": "Precio real anterior del tamaño más pequeño, p. ej. 24,95 €. Solo se tacha mientras esté activo «Mostrar precio anterior» y hasta su fecha." },
+        { "type": "url", "id": "link", "label": "Enlace" },
+        { "type": "text", "id": "cta", "label": "Texto del enlace", "default": "Ver obras" }
       ]
     }
   ],
