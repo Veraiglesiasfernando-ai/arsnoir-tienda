@@ -79,7 +79,7 @@
   }
   /* «¿Te gusta? Elige tamaño»: from the preview straight to the size step */
   const next = studio.querySelector('[data-tstudio-next]');
-  const showNext = function () { if (next) { next.hidden = false; if (typeof syncChoice === 'function') syncChoice(); } };
+  const showNext = function () { if (next) { next.hidden = false; if (typeof syncChoice === 'function') syncChoice(); } document.dispatchEvent(new CustomEvent('arsnoir:studio-ready')); };
   if (next) next.querySelector('[data-tstudio-next-go]').addEventListener('click', function () {
     const step = document.querySelector('variant-picker[data-form="' + (form && form.id) + '"]') || document.querySelector('variant-picker') || form;
     if (step) step.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -394,6 +394,7 @@
     if (colorProp) colorProp.value = '';
     result.hidden = true;
     if (next) next.hidden = true;
+    document.dispatchEvent(new CustomEvent('arsnoir:studio-reset'));
     if (sendBox) sendBox.hidden = true;
     sendId = '';
     if (live) live.hidden = true;

@@ -265,7 +265,15 @@
       </script>
     {%- endif -%}
 
-    <div class="product__info">
+    {%- liquid
+      assign studio_page = false
+      for sb in section.blocks
+        if sb.type == 'template_studio'
+          assign studio_page = true
+        endif
+      endfor
+    -%}
+    <div class="product__info{% if studio_page %} is-studio is-studio-a{% endif %}">
       {%- if rail and section.settings.welcome_code != blank -%}{% render 'pdp-welcome', code: section.settings.welcome_code %}{%- endif -%}
       {% render 'breadcrumbs' %}
       {%- for block in section.blocks -%}
@@ -678,13 +686,43 @@
                 {%- if section.settings.pdp_v2 -%}
                   {%- render 'pdp-chooser', product: product, picker_id: picker_dom_id, step_offset: step_offset, size_help: size_help -%}
                   {%- if simple_picker -%}
-                    {%- comment -%} Portraits: Tipo · Tamaño · Marco right under the price (as on the artworks), the photo studio after it, then the button {%- endcomment -%}
+                    {%- comment -%}
+                      Portraits in two steps, each one fitting the screen: first the illustration (photo, name, colour,
+                      «Ver mi ilustración»); once it is made, the studio folds into one line and Tipo · Tamaño · Marco
+                      and the button show. «Cambiar» opens the studio again.
+                    {%- endcomment -%}
                     <script>
-                      (function () {
+                      document.addEventListener('DOMContentLoaded', function () {
+                        var info = document.querySelector('.product__info');
+                        var studio = document.querySelector('[data-tstudio]');
                         var pdc = document.querySelector('[data-pdc]');
-                        var tax = document.querySelector('.product__info .product__tax') || document.querySelector('.product__info .product__price');
-                        if (pdc && tax && tax.parentNode) { tax.parentNode.insertBefore(pdc, tax.nextSibling); pdc.classList.add('pdc--top'); }
-                      })();
+                        if (!info || !studio || !pdc) { if (info) info.classList.remove('is-studio-a'); return; }
+                        var after = document.createElement('p');
+                        after.className = 'tafter';
+                        after.innerHTML = 'Después eliges <b>póster, lienzo o MIXPIX</b>, con o sin marco · Desde {{ product.price_min | money | escape }}';
+                        studio.appendChild(after);
+                        var bar = document.createElement('div');
+                        bar.className = 'tready';
+                        bar.innerHTML = '<span class="tready__ok">✓ Tu retrato está listo</span><button type="button" class="tready__edit">Cambiar foto o nombre</button>';
+                        pdc.parentNode.insertBefore(bar, pdc);
+                        var send = studio.querySelector('[data-tstudio-send]');
+                        var buy = document.querySelector('.product__info .pdc-checks') || document.querySelector('.product__info .product__buy');
+                        var done = function () {
+                          info.classList.remove('is-studio-a'); info.classList.add('is-studio-b');
+                          if (send && buy && buy.parentNode) buy.parentNode.insertBefore(send, buy.nextSibling);
+                          var r = bar.getBoundingClientRect();
+                          if (r.top < 0 || r.top > window.innerHeight * 0.6) bar.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        };
+                        document.addEventListener('arsnoir:studio-ready', done);
+                        document.addEventListener('arsnoir:studio-reset', function () { info.classList.remove('is-studio-b'); info.classList.add('is-studio-a'); });
+                        bar.querySelector('.tready__edit').addEventListener('click', function () {
+                          info.classList.remove('is-studio-b'); info.classList.add('is-studio-a');
+                          studio.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        });
+                        /* A portrait already made before this ran (e.g. from «Pruébala en todos los estilos») */
+                        var nx = studio.querySelector('[data-tstudio-next]');
+                        if (nx && !nx.hidden) done();
+                      });
                     </script>
                   {%- endif -%}
                 {%- elsif section.settings.size_visual -%}

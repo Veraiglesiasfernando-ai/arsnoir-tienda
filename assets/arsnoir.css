@@ -4864,12 +4864,18 @@ body:has(.pdc) .product__tax { padding-bottom: 18px; border-bottom: 1px solid #e
   .product--rail .product__gallery > .product__media.tlive .tlive__wall { height: 100%; aspect-ratio: auto; }
 }
 
-/* Portraits: the picker moved up under the price */
-.pdc.pdc--top { margin: 12px 0 14px; padding-bottom: 14px; border-bottom: 1px solid var(--color-line, #e2e2e0); gap: 10px; }
-/* Portraits: picker + photo studio compact enough to see «Sube tu foto» on the first screen */
+/* Portraits in two steps (sections/main-product.liquid): A = make the illustration, B = choose format and buy */
+.product__info.is-studio-a .pdc, .product__info.is-studio-a .product__buy, .product__info.is-studio-a .pdc-checks, .product__info.is-studio-a .tready { display: none !important; }
+.product__info.is-studio-b .tstudio > .vstep__head, .product__info.is-studio-b .tstudio__drop, .product__info.is-studio-b .tstudio__hint,
+.product__info.is-studio-b .tstudio__name, .product__info.is-studio-b .tstudio__opts, .product__info.is-studio-b .tstudio__go,
+.product__info.is-studio-b .tstudio__result, .product__info.is-studio-b .tnext, .product__info.is-studio-b .tafter,
+.product__info.is-studio-b .tstudio__status, .product__info.is-studio-b .tstudio .cguard__rights-note { display: none !important; }
+.tafter { margin: 10px 0 0; padding: 10px 12px; border-radius: 10px; background: #f2f0ec; font-size: 13px; color: #4a4642; }
+.tready { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 6px 0 14px; padding: 12px 14px; border-radius: 12px; background: #eaf5ec; }
+.tready__ok { font-size: 15px; font-weight: 700; color: #1d6b34; }
+.tready__edit { padding: 0; border: 0; background: none; color: #0a0a0a; font: inherit; font-size: 13px; text-decoration: underline; cursor: pointer; }
+.product__info.is-studio .tsend { margin-top: 16px; }
 @media (min-width: 990px) {
-  .pdc--top .pdc__frame-img { aspect-ratio: 2 / 1; }
-  .pdc--top .pdc__frames { gap: 10px; }
   .product--rail .tstudio .vstep__head { margin: 4px 0 6px; }
   .product--rail .tstudio__drop { min-height: 68px; padding: 8px 14px; border-radius: 12px; }
   .product--rail .tstudio__hint { margin: 2px 0 4px; font-size: 11.5px; }
