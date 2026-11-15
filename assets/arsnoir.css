@@ -4887,3 +4887,8 @@ body:has(.pdc) .product__tax { padding-bottom: 18px; border-bottom: 1px solid #e
   .product--rail .tstudio__font span { height: 34px; padding: 0 12px; font-size: 14px; }
   .product--rail .tstudio__go { min-height: 46px; margin-top: 8px; }
 }
+/* Under «Desde»: the real reduction of another format (sections/main-product.liquid) */
+.pdc-deal { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 8px; margin-top: 8px; font-size: 16px; color: #0a0a0a; }
+.pdc-deal b { color: #b3261e; font-weight: 700; }
+.pdc-deal s { color: #8a8a8a; }
+.pdc-deal .pdc-off { margin-left: 0; font-size: 12px; }

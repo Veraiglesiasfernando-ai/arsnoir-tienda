@@ -356,6 +356,31 @@
                     <span>{{ 'general.from' | t }} {{ from_p | money }}</span>
                   {%- endif -%}
                 </span>
+                {%- comment -%}
+                  The cheapest price has no earlier price but another format does (e.g. portraits: prints at 16,95 €
+                  with no strike, canvas reduced): show that real reduction under the price.
+                {%- endcomment -%}
+                {%- if from_c <= from_p -%}
+                  {%- assign od_p = 0 -%}{%- assign od_c = 0 -%}{%- assign od_v = nil -%}
+                  {%- for v in product.variants -%}
+                    {%- unless v.available -%}{%- continue -%}{%- endunless -%}
+                    {%- capture dp -%}{% render 'deal-price', variant: v, product: product %}{%- endcapture -%}
+                    {%- assign dps = dp | strip | split: '|' -%}
+                    {%- assign dpp = dps[0] | plus: 0 -%}{%- assign dpc = dps[1] | plus: 0 -%}
+                    {%- if dpc > dpp -%}
+                      {%- if od_v == nil or dpp < od_p -%}{%- assign od_p = dpp -%}{%- assign od_c = dpc -%}{%- assign od_v = v -%}{%- endif -%}
+                    {%- endif -%}
+                  {%- endfor -%}
+                  {%- if od_v -%}
+                    {%- assign od_t = od_v.title -%}
+                    {%- if od_t contains 'Lienzo con marco' or od_t contains 'Framed Canvas' -%}{%- assign od_l = 'Lienzo con marco' -%}
+                    {%- elsif od_t contains 'Lienzo' or od_t contains 'Canvas' -%}{%- assign od_l = 'Lienzo' -%}
+                    {%- elsif od_t contains 'arco' or od_t contains 'Framed' -%}{%- assign od_l = 'Con marco' -%}
+                    {%- else -%}{%- assign od_l = 'Lámina' -%}{%- endif -%}
+                    {%- assign od_pct = od_c | minus: od_p | times: 100.0 | divided_by: od_c | round -%}
+                    <span class="pdc-deal"><span class="pdc-off">-{{ od_pct }} %</span> {{ od_l }} desde <b>{{ od_p | money }}</b> <s>{{ od_c | money }}</s></span>
+                  {%- endif -%}
+                {%- endif -%}
               {%- else -%}
                 {%- render 'price', product: product, variant: current_variant, show_save: true -%}
               {%- endif -%}
