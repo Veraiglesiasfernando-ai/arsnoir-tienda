@@ -768,6 +768,23 @@
                           var r = bar.getBoundingClientRect();
                           if (r.top < 0 || r.top > window.innerHeight * 0.6) bar.scrollIntoView({ behavior: 'smooth', block: 'start' });
                         };
+                        /* Mobile bar at the bottom: before the illustration exists it can't add anything, so it
+                           says «Crear mi ilustración» and takes the customer up to the photo */
+                        var sticky = document.querySelector('[data-sticky-buy] .button');
+                        var stickyText = sticky ? sticky.textContent : '';
+                        var syncSticky = function () {
+                          if (!sticky) return;
+                          sticky.textContent = info.classList.contains('is-studio-a') ? 'Crear mi ilustración' : stickyText;
+                        };
+                        if (sticky) {
+                          sticky.addEventListener('click', function (e) {
+                            if (!info.classList.contains('is-studio-a')) return;
+                            e.preventDefault();
+                            studio.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                          });
+                          new MutationObserver(syncSticky).observe(info, { attributes: true, attributeFilter: ['class'] });
+                          syncSticky();
+                        }
                         document.addEventListener('arsnoir:studio-ready', done);
                         document.addEventListener('arsnoir:studio-reset', function () { info.classList.remove('is-studio-b'); info.classList.add('is-studio-a'); });
                         bar.querySelector('.tready__edit').addEventListener('click', function () {

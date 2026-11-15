@@ -4894,3 +4894,14 @@ body:has(.pdc) .product__tax { padding-bottom: 18px; border-bottom: 1px solid #e
 .pdc-deal .pdc-off { margin-left: 0; font-size: 12px; }
 /* The example painted while the illustration is made must go once it is done (it sat over the customer's one) */
 .tlive:not(.is-loading) .tload__sketch, .tlive:not(.is-loading) .tload__color { display: none !important; }
+/* Portrait studio: what happens (free preview, quick, format after), clearer photo box, live button */
+.tpromise { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 0 0 14px; padding: 0; list-style: none; font-size: 13px; color: #2b2925; }
+.tpromise li { display: flex; align-items: center; gap: 6px; }
+.tpromise li::before { content: ''; flex: 0 0 16px; width: 16px; height: 16px; border-radius: 50%; background: #1d6b34 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.2l2.6 2.6L12 5.4' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 12px no-repeat; }
+.product__info.is-studio-b .tpromise { display: none; }
+.tstudio__drop { flex-direction: column; gap: 4px; background: #fff; }
+.tstudio__drop-icon { color: #0a0a0a; }
+.tstudio__drop-text { font-size: 15px; }
+.tstudio__drop-sub { font-size: 12px; font-weight: 400; color: var(--color-muted, #6b6b6b); }
+.tstudio__thumb:not([hidden]) ~ .tstudio__drop-icon, .tstudio__thumb:not([hidden]) ~ .tstudio__drop-sub { display: none; }
+.tstudio__go.is-wait { opacity: 1; background: #0a0a0a; color: #fff; }

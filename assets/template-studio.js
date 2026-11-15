@@ -401,8 +401,11 @@
     artUrl = '';
     paintRooms();
   };
+  /* The button stays clickable: without a photo it opens the photo picker, without a name it goes to
+     the name box (a greyed-out button looked broken). Only the limit really disables it. */
   const ready = function () {
-    go.disabled = !photo || (needsName && !nameInput.value.trim()) || used() >= max;
+    go.disabled = used() >= max;
+    go.classList.toggle('is-wait', !photo || (needsName && !nameInput.value.trim()));
   };
 
   /* Switching style (the «Otros estilos» strip) keeps the photo and the name already given */
@@ -485,6 +488,8 @@
 
   go.addEventListener('click', function () {
     if (go.disabled) return;
+    if (!photo) { fileInput.click(); return; }
+    if (needsName && !nameInput.value.trim()) { nameInput.focus(); if (d.tMissing) say(d.tMissing); return; }
     go.disabled = true;
     go.classList.add('is-loading');
     startLoading();

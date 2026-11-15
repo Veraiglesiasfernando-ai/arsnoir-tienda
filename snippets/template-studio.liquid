@@ -28,11 +28,19 @@
   {%- if b.endpoint == blank -%}
     <p class="tstudio__soon">{{ b.soon_text }}</p>
   {%- else -%}
+    {%- comment -%} What happens, before anything is asked: the preview is free, quick, and the format comes after {%- endcomment -%}
+    <ul class="tpromise" role="list">
+      <li><span>Ves tu ilustración <b>gratis</b> antes de pagar</span></li>
+      <li>Suele estar en menos de un minuto</li>
+      <li>Después eliges póster, lienzo y marco</li>
+    </ul>
     <p class="vstep__head"><span class="vstep__num">1</span><span class="vstep__title">{{ b.photo_label }}</span></p>
     <label class="tstudio__drop" for="TStudio-{{ section_id }}">
       <input class="tstudio__file" id="TStudio-{{ section_id }}" type="file" accept="image/jpeg,image/png,image/webp" data-tstudio-file>
       <img class="tstudio__thumb" alt="" width="128" height="160" data-tstudio-thumb hidden>
+      <svg class="tstudio__drop-icon" viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path d="M4 7h3l2-2h6l2 2h3v12H4z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="13" r="3.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
       <span class="tstudio__drop-text" data-tstudio-drop-text>{{ b.photo_cta }}</span>
+      <span class="tstudio__drop-sub">Desde la galería del móvil o el ordenador</span>
     </label>
     {%- comment -%} One short line: pet templates work with any furry pet (the prompts say «the pet / the animal») {%- endcomment -%}
     {%- capture pets_ok -%}{%- unless b.template_id contains 'familia' or b.template_id contains 'momento' or b.template_id contains 'pareja' -%}Perros, gatos, conejos… cualquier mascota.{%- endunless -%}{%- endcapture -%}
