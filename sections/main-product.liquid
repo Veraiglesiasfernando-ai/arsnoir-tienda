@@ -757,9 +757,11 @@
                         var done = function () {
                           info.classList.remove('is-studio-a'); info.classList.add('is-studio-b');
                           /* «Sin marco» card: the customer's illustration instead of the example */
-                          var art = document.querySelector('.tlive .tlive__art');
-                          var none = pdc.querySelector('[data-frame="sin"] .pdc__frame-img img');
-                          if (art && art.src && none) { none.removeAttribute('srcset'); none.src = art.src; }
+                          setTimeout(function () { /* template-studio.js sets the big picture right after this event */
+                            var art = document.querySelector('.tlive .tlive__art');
+                            var none = pdc.querySelector('[data-frame="sin"] .pdc__frame-img img');
+                            if (art && art.src && none) { none.removeAttribute('srcset'); none.src = art.src; }
+                          }, 50);
                           if (send && buy && buy.parentNode) buy.parentNode.insertBefore(send, buy.nextSibling);
                           var r = bar.getBoundingClientRect();
                           if (r.top < 0 || r.top > window.innerHeight * 0.6) bar.scrollIntoView({ behavior: 'smooth', block: 'start' });
