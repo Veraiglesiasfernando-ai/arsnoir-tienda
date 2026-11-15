@@ -386,17 +386,19 @@
               with no strike, canvas reduced): show that real reduction under the price.
             {%- endcomment -%}
             {%- if studio_page and product.price_varies -%}
-              {%- assign od_p = 0 -%}{%- assign od_c = 0 -%}{%- assign od_v = nil -%}
+              {%- assign od_p = 0 -%}{%- assign od_c = 0 -%}{%- assign od_v = nil -%}{%- assign od_min = 0 -%}
               {%- for v in product.variants -%}
                 {%- unless v.available -%}{%- continue -%}{%- endunless -%}
                 {%- capture dp -%}{% render 'deal-price', variant: v, product: product %}{%- endcapture -%}
                 {%- assign dps = dp | strip | split: '|' -%}
                 {%- assign dpp = dps[0] | plus: 0 -%}{%- assign dpc = dps[1] | plus: 0 -%}
+                {%- if od_min == 0 or dpp < od_min -%}{%- assign od_min = dpp -%}{%- endif -%}
                 {%- if dpc > dpp -%}
                   {%- if od_v == nil or dpp < od_p -%}{%- assign od_p = dpp -%}{%- assign od_c = dpc -%}{%- assign od_v = v -%}{%- endif -%}
                 {%- endif -%}
               {%- endfor -%}
-              {%- if od_v -%}
+              {%- comment -%} Not when the cheapest price is the reduced one: «Desde» above already shows it struck {%- endcomment -%}
+              {%- if od_v and od_p > od_min -%}
                 {%- assign od_t = od_v.title -%}
                 {%- if od_t contains 'Lienzo con marco' or od_t contains 'Framed Canvas' -%}{%- assign od_l = 'Lienzo con marco' -%}
                 {%- elsif od_t contains 'Lienzo' or od_t contains 'Canvas' -%}{%- assign od_l = 'Lienzo' -%}
