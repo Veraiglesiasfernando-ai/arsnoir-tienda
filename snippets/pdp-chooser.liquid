@@ -36,6 +36,7 @@
 {%- assign bf_on = false -%}
 {%- if settings.q4_enabled and settings.q4_bf_pdp and settings.q4_bf_start != blank and settings.q4_bf_end != blank -%}
   {%- if product.options contains 'Product' and product.options contains 'Size' -%}{%- assign bf_on = true -%}{%- endif -%}
+  {%- if product.options contains 'Tamaño' and product.options contains 'Acabado' -%}{%- assign bf_on = true -%}{%- endif -%}
 {%- endif -%}
 <div class="pdc" data-pdc data-picker="{{ picker_id }}" data-preselect="{{ preselect }}"{% if art_opts and settings.prev_prices_on %} data-prev-until="{{ settings.prev_prices_until | strip }}"{% endif %}{% if bf_on %} data-bf-pct="{{ settings.q4_bf_pct | default: 15 }}" data-bf-start="{{ settings.q4_bf_start | strip }}" data-bf-end="{{ settings.q4_bf_end | strip }}"{% endif %}>
   {%- assign step = step | plus: 1 -%}
@@ -228,7 +229,7 @@
     }
     if (bfPct) items.forEach(function (x) {
       var sz = String(x.size || '');
-      var isA3 = /^A3\b/i.test(sz), isA4 = /^21\s*x\s*29/i.test(sz);
+      var isA3 = /^A3\b/i.test(sz), isA4 = /^21\s*x\s*29/i.test(sz) || /^A4\b/i.test(sz);
       var ok = x.type === 'lamina' && (x.frame === 'sin' ? !isA3 : (isA4 || isA3));
       if (!ok) return;
       x.bf = true;
