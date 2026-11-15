@@ -4813,3 +4813,40 @@ body:has(.pdc) .product__tax { padding-bottom: 18px; border-bottom: 1px solid #e
 .cartx-item__custom .cartx-check { width: 14px; height: 14px; flex: none; }
 .cartx__row--save { color: #b3261e; font-weight: 600; }
 .cartx__ship-left { margin: -2px 0 6px; font-size: 12.5px; color: #555; }
+
+
+/* Style rows, more visual: each style on a warm tile, the framed illustration floating on it, the same
+   portrait in a room on hover (and by itself, slowly, on phones), «from» price and a clear button */
+.ctpl__row > .ctpl__item { flex-basis: calc((100% - 3 * clamp(14px, 1.8vw, 24px)) / 4.15); padding-right: 0; }
+.ctpl__row { padding-top: 6px; padding-bottom: 10px; }
+.ctpl__group--row .ctpl__media { aspect-ratio: 4 / 5; border-radius: 18px; overflow: hidden; background: radial-gradient(120% 90% at 50% 20%, #f6f1ea, #e7dccd); transform: none; box-shadow: 0 1px 0 rgba(0,0,0,.03); transition: box-shadow .5s, transform .5s cubic-bezier(.2,.7,.2,1) !important; }
+.ctpl__group--row .ctpl__media img.ctpl__art { position: absolute; inset: 9% 13% 13%; width: 74%; height: 78%; object-fit: contain; box-shadow: none; filter: drop-shadow(0 18px 18px rgba(40,25,10,.28)); transition: transform 1s cubic-bezier(.2,.7,.2,1), opacity .6s; }
+.ctpl__group--row .ctpl__media img.ctpl__room { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; box-shadow: none; transition: opacity .7s ease, transform 1.2s cubic-bezier(.2,.7,.2,1); }
+.ctpl__price { position: absolute; left: 12px; bottom: 12px; z-index: 2; padding: 7px 12px; border-radius: 999px; background: rgba(255,255,255,.94); color: #0a0a0a; font-size: 12.5px; font-weight: 500; box-shadow: 0 6px 16px -10px rgba(0,0,0,.4); }
+.ctpl__price b { font-weight: 700; }
+.ctpl__group--row .ctpl__badge { top: 12px; left: 12px; }
+.ctpl__group--row .ctpl__go { display: none; }
+.ctpl__group--row .ctpl__name { margin-top: 14px; font-size: 17px; font-weight: 700; letter-spacing: -0.01em; }
+.ctpl__group--row .ctpl__tagline { margin-top: 4px; }
+.ctpl--gallery .ctpl__group--row .ctpl__cta { display: inline-flex; align-items: center; gap: 6px; align-self: flex-start; margin-top: 12px; padding: 10px 16px; border: 0; border-radius: 999px; background: #0a0a0a; color: #fff; font-size: 13px; font-weight: 600; letter-spacing: 0; text-transform: none; transition: background .25s; }
+.ctpl--gallery .ctpl__group--row .ctpl__card:hover .ctpl__cta { background: #490B1A; }
+.ctpl__group--row .ctpl__group-head { border-bottom: 0; padding-bottom: 0; }
+.ctpl__group--row .ctpl__group-title { font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 600; letter-spacing: -0.035em; text-transform: none; }
+.ctpl__group--row .ctpl__group-title span { display: inline-block; margin-left: 12px; padding: 5px 10px; border-radius: 999px; background: #fff; font-size: 11px; font-weight: 600; letter-spacing: .08em; color: #6b6660; vertical-align: middle; }
+@media (hover: hover) {
+  .ctpl__group--row .ctpl__card:hover .ctpl__media { transform: translateY(-4px) !important; box-shadow: 0 26px 40px -26px rgba(40,30,20,.45); }
+  .ctpl__group--row .ctpl__card:hover .ctpl__media img.ctpl__art { transform: scale(1.04); }
+  .ctpl__group--row .has-room .ctpl__card:hover .ctpl__media img.ctpl__room { opacity: 1; transform: scale(1.03); }
+}
+@keyframes ctplRoom { 0%, 42% { opacity: 0; } 50%, 92% { opacity: 1; } 100% { opacity: 0; } }
+@media (hover: none) {
+  .ctpl__group--row .has-room .ctpl__media img.ctpl__room { animation: ctplRoom 9s ease-in-out infinite; }
+  .ctpl__group--row .has-room:nth-child(2n) .ctpl__media img.ctpl__room { animation-delay: -4.5s; }
+}
+@media (prefers-reduced-motion: reduce) { .ctpl__group--row .ctpl__media img.ctpl__room { animation: none !important; } }
+@media (max-width: 989px) { .ctpl__row > .ctpl__item { flex-basis: calc((100% - 2 * clamp(14px, 1.8vw, 24px)) / 2.6); } }
+@media (max-width: 749px) {
+  .ctpl__row > .ctpl__item { flex-basis: 72vw; }
+  .ctpl__group--row .ctpl__group-title span { display: inline-block; margin: 0 0 0 10px; }
+  .ctpl__group--row .ctpl__name { font-size: 16px; }
+}

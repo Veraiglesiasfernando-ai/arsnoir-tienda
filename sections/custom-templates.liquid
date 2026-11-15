@@ -60,13 +60,11 @@
     {%- if s.layout == 'rows' or s.layout == 'sections' and cat_list.size > 1 -%}
       {%- comment -%} One block per theme (Mascotas, Familia, Pareja…) with its own title; chips jump to each.
         «rows»: each theme is a horizontal, swipeable row with arrows. {%- endcomment -%}
-      {%- unless s.layout == 'rows' -%}
       <nav class="ctpl__tabs ctpl__tabs--jump" aria-label="{{ s.heading | escape }}">
         {%- for c in cat_list -%}
           <a class="ctpl__tab" href="#ctpl-{{ c | handleize }}">{{ c }}</a>
         {%- endfor -%}
       </nav>
-      {%- endunless -%}
       {%- for c in cat_list -%}
         {%- assign n = 0 -%}
         {%- for block in section.blocks -%}

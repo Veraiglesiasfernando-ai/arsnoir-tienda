@@ -1,10 +1,31 @@
 {%- comment -%} One style card of sections/custom-templates.liquid (block, s = section settings) {%- endcomment -%}
 {%- assign b = block.settings -%}
-<li class="ctpl__item reveal" data-cat="{{ b.category | strip | handleize }}" {{ block.shopify_attributes }}>
+{%- comment -%} The style's product (from its link): a photo of it in a room, shown on hover (and by itself on phones), and its «from» price {%- endcomment -%}
+{%- assign c_prod = nil -%}{%- assign c_room = nil -%}
+{%- if b.link != blank and b.link contains '/products/' -%}
+  {%- assign c_handle = b.link | split: '/products/' | last | split: '?' | first -%}
+  {%- assign c_prod = all_products[c_handle] -%}
+  {%- if c_prod != blank and c_prod.id -%}
+    {%- for m in c_prod.media -%}
+      {%- assign ma = m.alt | downcase -%}
+      {%- if ma contains 'salón' or ma contains 'salon' -%}{%- assign c_room = m -%}{%- break -%}{%- endif -%}
+    {%- endfor -%}
+    {%- unless c_room -%}
+      {%- for m in c_prod.media -%}
+        {%- assign ma = m.alt | downcase -%}
+        {%- if ma contains 'dormitorio' or ma contains 'estudio' -%}{%- assign c_room = m -%}{%- break -%}{%- endif -%}
+      {%- endfor -%}
+    {%- endunless -%}
+  {%- else -%}
+    {%- assign c_prod = nil -%}
+  {%- endif -%}
+{%- endif -%}
+<li class="ctpl__item reveal{% if c_room %} has-room{% endif %}" data-cat="{{ b.category | strip | handleize }}" {{ block.shopify_attributes }}>
   {%- capture card_inner -%}
     <span class="ctpl__media">
       {%- if b.image != blank -%}
-        {{ b.image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '360, 540, 720, 900', sizes: '(min-width: 990px) 25vw, 50vw', alt: b.name }}
+        {{ b.image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '360, 540, 720, 900', sizes: '(min-width: 990px) 25vw, 70vw', alt: b.name, class: 'ctpl__art' }}
+        {%- if c_room -%}{{ c_room | image_url: width: 900 | image_tag: loading: 'lazy', widths: '360, 540, 720, 900', sizes: '(min-width: 990px) 25vw, 70vw', alt: c_room.alt, class: 'ctpl__room' }}{%- endif -%}
       {%- else -%}
         <span class="ctpl__ph" aria-hidden="true"></span>
       {%- endif -%}
@@ -15,6 +36,7 @@
         </span>
       {%- endif -%}
       {%- if b.badge != blank -%}<span class="ctpl__badge">{{ b.badge }}</span>{%- endif -%}
+      {%- if c_prod -%}<span class="ctpl__price">{{ 'general.from' | t }} <b>{{ c_prod.price_min | money }}</b></span>{%- endif -%}
       {%- if b.link != blank -%}<span class="ctpl__go" aria-hidden="true">→</span>{%- endif -%}
       {%- if b.link == blank and b.image != blank -%}<span class="ctpl__soon">{{ s.soon_label }}</span>{%- endif -%}
       {%- if b.link == blank and b.image == blank -%}<span class="ctpl__draft">{{ s.no_link_label }}</span>{%- endif -%}
