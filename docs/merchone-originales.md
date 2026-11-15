@@ -53,3 +53,11 @@ Además, las plantillas de retratos personalizados no necesitan original: se imp
 | tu-vs-tu | ARSNOIR_YOU_VS_YOU_UPSCALE_ULTRA_MAX.png | 8245x10240 | 1.242 | 309 | 260 |
 | ultima-marcha | ARSNOIR_COUNTACH_SUNSET_UPSCALE_X4_MAX.png | 6596x8192 | 1.242 | 247 | 208 |
 | you-and-me | ARSNOIR_YOU_AND_ME_X8_ULTRA_MAX_300DPI.png | 8192x12288 | 1.5 | 350 | 297 |
+
+## Láminas A4 sin bordes (15/11/2026)
+Decisión del dueño: **nunca bordes blancos**; la obra llena el papel y no se corta nada importante.
+Revisadas las 36 obras con original (hoja de prueba enseñada al dueño):
+- **Alargar el fondo** cuando el borde es liso (cielo, negro, color plano): arriba, abajo o a los lados, continuando el propio borde (espejo o repetición del borde; en fondos con grano, repitiendo una tira del fondo para que no salgan rayas). 22 obras.
+- **Recortar** cuando el borde tiene dibujo: ferrari, flowers-blue, hollywood, italiano, koi, limonero, obsesion, pajaro, rally, samurai (3–13 %). Ninguna pierde nada importante.
+- **Encajan tal cual**: blue-corner-1, flamingo, gato, muralla-china.
+Scripts: `tools/merchone-a4-sin-bordes.py` y `tools/merchone-a4-grano.py` (trabajan con copias de 1400 px; para imprimir hay que pasarlos sobre el original a tamaño completo). Seguridad y Ferrari tienen el coche saliendo por el borde en el propio original.
