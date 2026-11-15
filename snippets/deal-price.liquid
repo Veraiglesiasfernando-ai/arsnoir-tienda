@@ -7,8 +7,8 @@
     still has the new price.
   - Otherwise: the variant's own compare-at price, when higher.
   - Black Friday also on the 20×25 and 30×40 canvas (no frame), artworks and portraits.
-  - Portraits (Tamaño / Acabado): Black Friday only, same sizes, from «q4_bf_start_portraits» (their discounts
-    started earlier) or else the Black Week start.
+  - Portraits (Tamaño / Acabado): Black Friday only, same sizes, from «q4_bf_start_portraits» (blank = no
+    Black Friday on portraits; their Shopify discounts are switched on separately).
   - variant, product
 {%- endcomment -%}
 {%- liquid
@@ -117,7 +117,7 @@
       endif
     endif
     assign today = 'now' | date: '%Y-%m-%d'
-    assign r_start = settings.q4_bf_start_portraits | strip | default: settings.q4_bf_start
+    assign r_start = settings.q4_bf_start_portraits | strip
     if r_size != '' and settings.q4_enabled and settings.q4_bf_pdp and r_start != blank and today >= r_start and today <= settings.q4_bf_end
       assign r_bf = false
       if r_size == 'LIENZO'

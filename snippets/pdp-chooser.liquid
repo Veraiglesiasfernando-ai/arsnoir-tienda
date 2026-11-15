@@ -35,12 +35,14 @@
 {%- if product.options contains 'Product' and product.options contains 'Size' -%}{%- assign art_opts = true -%}{%- endif -%}
 {%- assign bf_on = false -%}
 {%- assign bf_start = settings.q4_bf_start | strip -%}
+{%- assign portrait_opts = false -%}
 {%- if product.options contains 'Tamaño' and product.options contains 'Acabado' -%}
-  {%- assign bf_start = settings.q4_bf_start_portraits | strip | default: bf_start -%}
+  {%- assign portrait_opts = true -%}
+  {%- assign bf_start = settings.q4_bf_start_portraits | strip -%}
 {%- endif -%}
 {%- if settings.q4_enabled and settings.q4_bf_pdp and settings.q4_bf_start != blank and settings.q4_bf_end != blank -%}
   {%- if product.options contains 'Product' and product.options contains 'Size' -%}{%- assign bf_on = true -%}{%- endif -%}
-  {%- if product.options contains 'Tamaño' and product.options contains 'Acabado' -%}{%- assign bf_on = true -%}{%- endif -%}
+  {%- if portrait_opts and bf_start != blank -%}{%- assign bf_on = true -%}{%- endif -%}
 {%- endif -%}
 <div class="pdc" data-pdc data-picker="{{ picker_id }}" data-preselect="{{ preselect }}"{% if art_opts and settings.prev_prices_on %} data-prev-until="{{ settings.prev_prices_until | strip }}"{% endif %}{% if bf_on %} data-bf-pct="{{ settings.q4_bf_pct | default: 15 }}" data-bf-start="{{ bf_start }}" data-bf-end="{{ settings.q4_bf_end | strip }}"{% endif %}>
   {%- assign step = step | plus: 1 -%}
