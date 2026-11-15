@@ -28,7 +28,7 @@
 -%}
 {%- comment -%}
   Black Friday: the shop's automatic discounts (Shopify → Descuentos, «Black Friday · Obras: 15 %») cover, in
-  every artwork (options Size / Product / Style), the prints in every size but A3 and the A4 and A3 frames.
+  every artwork and portrait, the prints in every size but A3, the A4 and A3 frames and the 20×25 and 30×40 canvas.
   The page shows that same price during the Black Week dates of the theme settings (Campaña Q4).
 {%- endcomment -%}
 {%- assign art_opts = false -%}
@@ -230,7 +230,9 @@
     if (bfPct) items.forEach(function (x) {
       var sz = String(x.size || '');
       var isA3 = /^A3\b/i.test(sz), isA4 = /^21\s*x\s*29/i.test(sz) || /^A4\b/i.test(sz);
-      var ok = x.type === 'lamina' && (x.frame === 'sin' ? !isA3 : (isA4 || isA3));
+      /* canvas without frame in 20×25 and 30×40 too, like the shop's discounts */
+      var smallCanvas = x.type === 'lienzo' && x.frame === 'sin' && /^(20\s*[x×]\s*25|30\s*[x×]\s*40)\b/i.test(sz);
+      var ok = (x.type === 'lamina' && (x.frame === 'sin' ? !isA3 : (isA4 || isA3))) || smallCanvas;
       if (!ok) return;
       x.bf = true;
       x.v = Object.assign({}, x.v, { price: Math.round(x.v.price * (100 - bfPct) / 100), compare_at_price: x.v.price });

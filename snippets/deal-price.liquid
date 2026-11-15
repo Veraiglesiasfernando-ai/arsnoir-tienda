@@ -6,6 +6,7 @@
   - Otherwise, until «prev_prices_until»: the price before the 4/11/2026 reduction, only while the variant
     still has the new price.
   - Otherwise: the variant's own compare-at price, when higher.
+  - Black Friday also on the 20×25 and 30×40 canvas (no frame), artworks and portraits.
   - Portraits (Tamaño / Acabado): Black Friday only, same sizes.
   - variant, product
 {%- endcomment -%}
@@ -20,6 +21,18 @@
   if product.options contains 'Product' and product.options contains 'Size'
     if v.option2 contains 'Poster'
       assign art = true
+    endif
+  endif
+  if product.options contains 'Product' and product.options contains 'Size' and v.option2 == 'Canvas'
+    assign c5 = v.option1 | strip | slice: 0, 5
+    if c5 == '20x25' or c5 == '30x40'
+      assign today = 'now' | date: '%Y-%m-%d'
+      if settings.q4_enabled and settings.q4_bf_pdp and settings.q4_bf_start != blank and today >= settings.q4_bf_start and today <= settings.q4_bf_end
+        assign pct = settings.q4_bf_pct | default: 15
+        assign keep = 100 | minus: pct
+        assign compare = v.price
+        assign price = v.price | times: keep | divided_by: 100.0 | round
+      endif
     endif
   endif
   if art
@@ -93,13 +106,21 @@
   if art == false and product.options contains 'Tamaño' and product.options contains 'Acabado'
     assign r_fin = v.option2 | downcase
     assign r_size = v.option1 | strip | split: ' ' | first
-    if r_fin contains 'lienzo' or v.option1 contains 'MIXPIX'
+    if v.option1 contains 'MIXPIX'
       assign r_size = ''
+    elsif r_fin contains 'lienzo'
+      if r_fin == 'lienzo' and r_size == '20×25' or r_fin == 'lienzo' and r_size == '30×40'
+        assign r_size = 'LIENZO'
+      else
+        assign r_size = ''
+      endif
     endif
     assign today = 'now' | date: '%Y-%m-%d'
     if r_size != '' and settings.q4_enabled and settings.q4_bf_pdp and settings.q4_bf_start != blank and today >= settings.q4_bf_start and today <= settings.q4_bf_end
       assign r_bf = false
-      if r_fin == 'sin marco'
+      if r_size == 'LIENZO'
+        assign r_bf = true
+      elsif r_fin == 'sin marco'
         if r_size != 'A3'
           assign r_bf = true
         endif
