@@ -4819,17 +4819,18 @@ body:has(.pdc) .product__tax { padding-bottom: 18px; border-bottom: 1px solid #e
    «from» price, the real offer (e.g. canvas) in red, and «Personalízalo» on hover */
 .ctpl__row > .ctpl__item { flex-basis: calc((100% - 3 * clamp(14px, 1.8vw, 24px)) / 4.15); padding-right: 0; }
 .ctpl__row { padding-top: 6px; padding-bottom: 10px; }
-.ctpl__group--row .ctpl__media { aspect-ratio: 4 / 5; border-radius: 18px; overflow: hidden; background: radial-gradient(120% 90% at 50% 20%, #f6f1ea, #e7dccd); transform: none; box-shadow: 0 1px 0 rgba(0,0,0,.03); transition: box-shadow .5s, transform .5s cubic-bezier(.2,.7,.2,1) !important; }
-.ctpl__group--row .ctpl__media img.ctpl__art { position: absolute; inset: 7% 10% 15%; width: 80%; height: 78%; object-fit: contain; box-shadow: none; filter: drop-shadow(0 16px 16px rgba(40,25,10,.25)); transition: transform 1s cubic-bezier(.2,.7,.2,1); }
-.ctpl__price { position: absolute; left: 12px; bottom: 12px; z-index: 2; padding: 7px 12px; border-radius: 999px; background: rgba(255,255,255,.95); color: #0a0a0a; font-size: 12.5px; font-weight: 500; box-shadow: 0 6px 16px -10px rgba(0,0,0,.4); }
+.ctpl__group--row .ctpl__media { aspect-ratio: 4 / 5; border-radius: 0; overflow: hidden; background: transparent; transform: none; box-shadow: none !important; transition: transform .5s cubic-bezier(.2,.7,.2,1) !important; }
+.ctpl__group--row .ctpl__media img.ctpl__art { position: absolute; left: 50%; top: 50%; width: 100%; height: 100%; object-fit: contain; box-shadow: none; filter: drop-shadow(0 16px 16px rgba(40,25,10,.25)); transform: translate(-50%, -50%); transition: transform 1s cubic-bezier(.2,.7,.2,1); }
+.ctpl__group--row .ctpl__media img.ctpl__art--clear { width: 118%; height: 118%; max-width: none; }
+.ctpl__price { position: absolute; left: 0; bottom: 0; z-index: 2; padding: 7px 12px; border-radius: 999px; background: rgba(255,255,255,.95); color: #0a0a0a; font-size: 12.5px; font-weight: 500; box-shadow: 0 6px 16px -10px rgba(0,0,0,.4); }
 .ctpl__price b { font-weight: 700; }
-.ctpl__deal { position: absolute; right: 12px; top: 12px; z-index: 2; padding: 6px 10px; border-radius: 999px; background: #b3261e; color: #fff; font-size: 11.5px; font-weight: 500; box-shadow: 0 6px 16px -10px rgba(0,0,0,.4); white-space: nowrap; }
+.ctpl__deal { position: absolute; right: 0; top: 0; z-index: 2; padding: 6px 10px; border-radius: 999px; background: #b3261e; color: #fff; font-size: 11.5px; font-weight: 500; box-shadow: 0 6px 16px -10px rgba(0,0,0,.4); white-space: nowrap; }
 .ctpl__deal b { font-weight: 700; }
 .ctpl__deal s { opacity: .75; margin-left: 2px; }
 .ctpl__deal em { font-style: normal; font-weight: 700; margin-left: 2px; }
-.ctpl__group--row .ctpl__badge { top: 12px; left: 12px; }
+.ctpl__group--row .ctpl__badge { top: 0; left: 0; }
 .ctpl__group--row .ctpl__go { display: none; }
-.ctpl__hover { position: absolute; inset: 0; z-index: 3; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 20px; text-align: center; color: #fff; background: rgba(73, 11, 26, .82); opacity: 0; transition: opacity .35s ease; pointer-events: none; }
+.ctpl__hover { position: absolute; inset: 5.7%; z-index: 1; border-radius: 3px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 20px; text-align: center; color: #fff; background: rgba(73, 11, 26, .82); opacity: 0; transition: opacity .35s ease; pointer-events: none; }
 .ctpl__hover-icon { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,.7); margin-bottom: 4px; transform: translateY(8px); transition: transform .45s cubic-bezier(.2,.7,.2,1); }
 .ctpl__hover-title { font-size: clamp(1.4rem, 2vw, 1.9rem); font-weight: 700; letter-spacing: -0.02em; transform: translateY(8px); transition: transform .45s cubic-bezier(.2,.7,.2,1) .03s; }
 .ctpl__hover-text { font-size: 13.5px; opacity: .9; transform: translateY(8px); transition: transform .45s cubic-bezier(.2,.7,.2,1) .06s; }
@@ -4841,8 +4842,8 @@ body:has(.pdc) .product__tax { padding-bottom: 18px; border-bottom: 1px solid #e
 .ctpl__group--row .ctpl__group-title { font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 600; letter-spacing: -0.035em; text-transform: none; }
 .ctpl__group--row .ctpl__group-title span { display: inline-block; margin-left: 12px; padding: 5px 10px; border-radius: 999px; background: #fff; font-size: 11px; font-weight: 600; letter-spacing: .08em; color: #6b6660; vertical-align: middle; }
 @media (hover: hover) {
-  .ctpl__group--row .ctpl__card:hover .ctpl__media { transform: translateY(-4px) !important; box-shadow: 0 26px 40px -26px rgba(40,30,20,.45); }
-  .ctpl__group--row .ctpl__card:hover .ctpl__media img.ctpl__art { transform: scale(1.04); }
+  .ctpl__group--row .ctpl__card:hover .ctpl__media { transform: none !important; }
+  .ctpl__group--row .ctpl__card:hover .ctpl__media img.ctpl__art { transform: translate(-50%, -50%) scale(1.03); }
   .ctpl__card:hover .ctpl__hover { opacity: 1; }
   .ctpl__card:hover .ctpl__hover > span { transform: none; }
 }
