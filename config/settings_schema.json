@@ -278,7 +278,6 @@
         "type": "text",
         "id": "q4_bf_start_portraits",
         "label": "Retratos: el −15 % empieza",
-        "default": "",
         "info": "Fecha (AAAA-MM-DD) desde la que la ficha, las tarjetas y el carrito enseñan el −15 % de los retratos. Tiene que coincidir con el inicio de los descuentos de Shopify «Black Friday · Retratos» (que tienen que estar activos). Vacío = sin Black Friday en los retratos."
       },
       {
