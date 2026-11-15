@@ -29,10 +29,17 @@
     {%- for p in collection.products limit: s.limit -%}
       {%- liquid
         assign canvas_v = nil
+        assign cframe_v = nil
         for v in p.variants
           unless v.available
             continue
           endunless
+          if v.title contains 'Framed Canvas' or v.title contains 'Lienzo con marco'
+            if cframe_v == nil or v.price < cframe_v.price
+              assign cframe_v = v
+            endif
+            continue
+          endif
           if v.title contains 'Framed' or v.title contains 'marco'
             continue
           endif
@@ -69,7 +76,18 @@
         </div>
         <a href="{{ url }}" class="lienzos__info">
           <span class="lienzos__title">{{ p.title }}</span>
-          <span class="lienzos__price">{{ 'general.from' | t }} {{ canvas_v.price | money }}</span>
+          {%- comment -%} Price of what the photo shows (canvas / framed canvas), earlier price struck through when there is one {%- endcomment -%}
+          {%- for lv in (1..2) -%}
+            {%- if lv == 1 -%}{%- assign pv = canvas_v -%}{%- else -%}{%- assign pv = cframe_v -%}{%- endif -%}
+            {%- if pv == nil -%}{%- continue -%}{%- endif -%}
+            {%- capture dp -%}{% render 'deal-price', variant: pv, product: p %}{%- endcapture -%}
+            {%- assign dps = dp | strip | split: '|' -%}
+            {%- assign lp = dps[0] | plus: 0 -%}{%- assign lc = dps[1] | plus: 0 -%}
+            <span class="lienzos__price{% if lv == 2 %} lienzos__price--framed{% endif %}{% if lc > lp %} is-off{% endif %}">
+              {{- 'general.from' | t }} <b>{{ lp | money }}</b>
+              {%- if lc > lp %} <s>{{ lc | money }}</s> <em>-{{ lc | minus: lp | times: 100.0 | divided_by: lc | round }} %</em>{%- endif -%}
+            </span>
+          {%- endfor -%}
         </a>
       </li>
     {%- endfor -%}
@@ -87,6 +105,7 @@
     const items = document.querySelectorAll('#shopify-section-{{ section.id }} [data-lienzo]');
     const show = function (m, i) {
       m.classList.toggle('is-framed', i === 1);
+      const li = m.closest('.lienzos__item'); if (li) li.classList.toggle('is-framed', i === 1);
       m.querySelectorAll('[data-lienzo-show]').forEach(function (b) {
         const on = parseInt(b.dataset.lienzoShow, 10) === i;
         b.classList.toggle('is-on', on);

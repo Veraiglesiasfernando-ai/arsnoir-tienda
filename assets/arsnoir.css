@@ -3120,6 +3120,12 @@ html.sguide-lock { overflow: hidden; }
 .lienzos__info { display: flex; flex-direction: column; gap: 2px; padding: 8px 2px 0; color: inherit; text-decoration: none; }
 .lienzos__title { font-size: 14px; font-weight: 700; }
 .lienzos__price { font-size: 13px; color: var(--color-muted); }
+.lienzos__price b { font-weight: 400; }
+.lienzos__price.is-off b { color: #b3261e; font-weight: 700; }
+.lienzos__price s { margin-left: 4px; color: #8a8a8a; }
+.lienzos__price em { display: inline-block; margin-left: 6px; padding: 1px 6px; background: #b3261e; color: #fff; font-style: normal; font-size: 11px; font-weight: 700; border-radius: 3px; }
+.lienzos__price--framed, .lienzos__item.is-framed .lienzos__price:not(.lienzos__price--framed) { display: none; }
+.lienzos__item.is-framed .lienzos__price--framed { display: block; }
 
 /* ==========================================================================
    Cart, clean and clear (white sheet): «Carrito (n)», gift bar in a grey pill
