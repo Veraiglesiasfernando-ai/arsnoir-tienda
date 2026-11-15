@@ -4524,8 +4524,8 @@ body:has(.pdc) .product__tax { padding-bottom: 18px; border-bottom: 1px solid #e
   .prail__thumb--play { background: #e9e9e6 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M8 5v14l11-7z' fill='%230a0a0a'/%3E%3C/svg%3E") center/26px no-repeat; }
   .product--rail .product__gallery > .product__media { grid-column: 2; grid-row: 1; display: none; aspect-ratio: auto !important; border-radius: 0; background: #f6f6f4; height: calc(100vh - 210px); max-height: 860px; min-height: 460px; align-items: center; justify-content: center; padding: clamp(16px, 3vw, 48px); }
   .product--rail .product__gallery > .product__media.is-shown { display: flex; }
-  .product--rail .product__gallery > .product__media > *, .product--rail .product__gallery > .product__media img { max-height: 100%; max-width: 100%; }
-  .product--rail .product__gallery > .product__media img { width: auto; height: auto; object-fit: contain; }
+  .product--rail .product__gallery > .product__media:not(.tlive) > *, .product--rail .product__gallery > .product__media:not(.tlive) img { max-height: 100%; max-width: 100%; }
+  .product--rail .product__gallery > .product__media:not(.tlive) img { width: auto; height: auto; object-fit: contain; }
   .product--rail .product__gallery > .product__media--lifestyle { padding: 0; }
   .product--rail .product__gallery > .product__media--lifestyle img, .product--rail .product__gallery > .product__media--lead img { width: 100%; height: 100%; object-fit: cover; }
   .product--rail .product__gallery > .product__media--video video { width: 100%; height: 100%; object-fit: cover; }
@@ -4547,7 +4547,7 @@ body:has(.pdc) .product__tax { padding-bottom: 18px; border-bottom: 1px solid #e
 /* v2 desktop: the big photo always fills its box (also after the frame photo is swapped), heart on the photo */
 .fav-btn--media { display: none; }
 @media (min-width: 990px) {
-  .product--rail .product__gallery > .product__media img { width: 100% !important; height: 100% !important; max-width: none; max-height: none; object-fit: contain; }
+  .product--rail .product__gallery > .product__media:not(.tlive) img { width: 100% !important; height: 100% !important; max-width: none; max-height: none; object-fit: contain; }
   .product--rail .product__gallery { position: sticky; }
   .product--rail .fav-btn--media { display: grid; position: absolute; z-index: 3; top: 16px; right: 16px; left: auto; width: 48px; height: 48px; grid-column: 2; grid-row: 1; justify-self: end; background: #fff; border: 0; box-shadow: 0 4px 14px rgba(0,0,0,.14); }
   .product--rail .fav-btn--inline { display: none; }
@@ -4854,4 +4854,12 @@ body:has(.pdc) .product__tax { padding-bottom: 18px; border-bottom: 1px solid #e
   .ctpl__row > .ctpl__item { flex-basis: 72vw; }
   .ctpl__group--row .ctpl__group-title span { display: inline-block; margin: 0 0 0 10px; }
   .ctpl__group--row .ctpl__name { font-size: 16px; }
+}
+
+/* Portrait pages use the same gallery: photos the studio hides stay hidden, and the customer's
+   illustration (.tlive) shows as one more big photo */
+.product--rail .product__gallery > .product__media[hidden] { display: none !important; }
+@media (min-width: 990px) {
+  .product--rail .product__gallery > .product__media.tlive.is-shown { display: block; padding: 0; }
+  .product--rail .product__gallery > .product__media.tlive .tlive__wall { height: 100%; aspect-ratio: auto; }
 }

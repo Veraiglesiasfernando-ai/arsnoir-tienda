@@ -30,13 +30,12 @@
 -%}
 
 {%- comment -%}
-  New page on desktop: thumbnails in a column next to one big photo that fits the screen (portraits with
-  the photo studio keep their own gallery, which the studio drives)
+  New page on desktop: thumbnails in a column next to one big photo that fits the screen (also on the
+  portraits: the photo studio adds the customer's illustration to it through window.arsnoirGallery)
 {%- endcomment -%}
 {%- assign rail = false -%}
 {%- if section.settings.pdp_v2 -%}
   {%- assign rail = true -%}
-  {%- for sb in section.blocks -%}{%- if sb.type == 'template_studio' -%}{%- assign rail = false -%}{%- endif -%}{%- endfor -%}
 {%- endif -%}
 <section class="page-width" data-product-handle="{{ product.handle }}">
   <div class="product{% if rail %} product--rail{% endif %}">
@@ -179,6 +178,20 @@
             if (upIdx >= 0) show(upIdx);
           };
           show(0);
+          var syncHidden = function () {
+            items.forEach(function (m, k) {
+              if (!thumbs[k]) return;
+              if (m.hidden) thumbs[k].hidden = true;
+              else if (k !== fi || upIdx >= 0) thumbs[k].hidden = false;
+            });
+            if (upIdx >= 0 && items[upIdx] && items[upIdx].hidden) upIdx = -1;
+            var c = current();
+            if (c < 0 || items[c].hidden || (thumbs[c] && thumbs[c].hidden)) {
+              for (var k = 0; k < items.length; k++) { if (!items[k].hidden && thumbs[k] && !thumbs[k].hidden) { show(k); break; } }
+            }
+          };
+          var hideWatch = new MutationObserver(syncHidden);
+          items.forEach(function (m) { hideWatch.observe(m, { attributes: true, attributeFilter: ['hidden'] }); });
           var start = function () {
             var box = document.querySelector('[data-pdc]');
             if (!box) return;
@@ -239,11 +252,12 @@
               if (thumbEl) b.appendChild(thumbEl);
               var k = items.length - 1;
               upIdx = k;
+              hideWatch.observe(media, { attributes: true, attributeFilter: ['hidden'] });
               b.addEventListener('click', function () { show(k); place(); });
               nav.appendChild(b);
               thumbs = nav.querySelectorAll('button');
               if (wide.matches) { show(k); place(); } else { g.scrollTo({ left: 0, behavior: 'smooth' }); }
-              return { show: function () { if (wide.matches) { show(k); place(); } else { g.scrollTo({ left: 0, behavior: 'smooth' }); } } };
+              return { show: function () { upIdx = k; b.hidden = false; if (wide.matches) { show(k); place(); } else { g.scrollTo({ left: 0, behavior: 'smooth' }); } } };
             }
           };
           document.dispatchEvent(new CustomEvent('arsnoir:gallery-ready'));

@@ -131,6 +131,8 @@
   /* The illustration on a wall, first in the gallery: follows the chosen size and finish */
   const gallery = document.querySelector('.product__gallery');
   let live = null;
+  let liveApi = null; /* the product page gallery (thumbnails + one big photo), when it is there */
+  let liveThumb = null;
   const sizeOf = function (text) {
     const m = String(text || '').replace(/,/g, '.').match(/(\d+(?:\.\d+)?)\s*[x×]\s*(\d+(?:\.\d+)?)/);
     return m ? [parseFloat(m[1]), parseFloat(m[2])] : [21, 29.7];
@@ -180,7 +182,13 @@
         (d.tWait ? '<p class="tload__sub">' + d.tWait + '</p>' : '') + '</div>' +
         '<p class="treveal" aria-hidden="true">' + (d.tReady || '¡Listo!') + '</p>' +
         '</div><p class="tlive__cap"></p>';
-      gallery.insertBefore(live, gallery.firstChild);
+      if (window.arsnoirGallery) {
+        liveThumb = document.createElement('img');
+        liveThumb.alt = '';
+        liveApi = window.arsnoirGallery.add(live, liveThumb);
+      } else {
+        gallery.insertBefore(live, gallery.firstChild);
+      }
     }
     return live;
   };
@@ -210,7 +218,8 @@
     void el.offsetWidth; /* restart the animations */
     el.classList.add('is-loading');
     syncLive();
-    gallery.scrollTo({ left: 0, top: 0, behavior: 'smooth' });
+    if (liveThumb) liveThumb.src = photo;
+    if (liveApi) liveApi.show(); else gallery.scrollTo({ left: 0, top: 0, behavior: 'smooth' });
     const r = el.getBoundingClientRect();
     if (r.bottom < 0 || r.top > window.innerHeight) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
   };
@@ -293,7 +302,8 @@
     /* «Verlo en mi pared» shows the customer's illustration (falls back to the example if it can't load it) */
     document.querySelectorAll('size-compare').forEach(function (el) { el.dataset.art = url; });
     syncLive();
-    gallery.scrollTo({ left: 0, top: 0, behavior: 'smooth' });
+    if (liveThumb) liveThumb.src = url;
+    if (liveApi) liveApi.show(); else gallery.scrollTo({ left: 0, top: 0, behavior: 'smooth' });
   };
   document.addEventListener('change', function (event) {
     if (event.target.closest && event.target.closest('variant-picker')) requestAnimationFrame(syncLive);
