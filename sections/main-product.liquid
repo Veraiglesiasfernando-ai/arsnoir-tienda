@@ -190,6 +190,27 @@
               for (var k = 0; k < items.length; k++) { if (!items[k].hidden && thumbs[k] && !thumbs[k].hidden) { show(k); break; } }
             }
           };
+          /* A room photo repainted with the customer's illustration (template-studio.js draws it on a
+             canvas.tart): its thumbnail shows that one too */
+          var paintWatch = new MutationObserver(function () {
+            items.forEach(function (m, k) {
+              var c = m.querySelector('canvas.tart');
+              var b = thumbs[k];
+              if (!c || !b || b.dataset.painted) return;
+              b.dataset.painted = '1';
+              var n = 0;
+              var copy = function () {
+                /* wait until the photo is drawn (a new canvas is 300×150 and holds nothing yet) */
+                if (c.width === 300 && c.height === 150 && n++ < 20) return setTimeout(copy, 300);
+                var tc = document.createElement('canvas');
+                tc.width = 240; tc.height = Math.round(240 * c.height / (c.width || 1));
+                try { tc.getContext('2d').drawImage(c, 0, 0, tc.width, tc.height); } catch (e) { return; }
+                var old = b.querySelector('img, canvas'); if (old) b.replaceChild(tc, old); else b.appendChild(tc);
+              };
+              setTimeout(copy, 300);
+            });
+          });
+          items.forEach(function (m) { paintWatch.observe(m, { childList: true }); });
           var hideWatch = new MutationObserver(syncHidden);
           items.forEach(function (m) { hideWatch.observe(m, { attributes: true, attributeFilter: ['hidden'] }); });
           var start = function () {
@@ -735,6 +756,10 @@
                         var buy = document.querySelector('.product__info .pdc-checks') || document.querySelector('.product__info .product__buy');
                         var done = function () {
                           info.classList.remove('is-studio-a'); info.classList.add('is-studio-b');
+                          /* «Sin marco» card: the customer's illustration instead of the example */
+                          var art = document.querySelector('.tlive .tlive__art');
+                          var none = pdc.querySelector('[data-frame="sin"] .pdc__frame-img img');
+                          if (art && art.src && none) { none.removeAttribute('srcset'); none.src = art.src; }
                           if (send && buy && buy.parentNode) buy.parentNode.insertBefore(send, buy.nextSibling);
                           var r = bar.getBoundingClientRect();
                           if (r.top < 0 || r.top > window.innerHeight * 0.6) bar.scrollIntoView({ behavior: 'smooth', block: 'start' });

@@ -4518,7 +4518,7 @@ body:has(.pdc) .product__tax { padding-bottom: 18px; border-bottom: 1px solid #e
   .product--rail .prail { display: flex; flex-direction: column; gap: 12px; grid-column: 1; grid-row: 1; max-height: calc(100vh - 210px); overflow-y: auto; scrollbar-width: none; }
   .product--rail .prail::-webkit-scrollbar { display: none; }
   .prail__thumb { flex: none; display: block; width: 88px; aspect-ratio: 4 / 5; padding: 0; border: 1px solid transparent; background: #f3f3f1; cursor: pointer; overflow: hidden; }
-  .prail__thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .prail__thumb img, .prail__thumb canvas { width: 100%; height: 100%; object-fit: cover; display: block; }
   .prail__thumb.is-active { border-color: #0a0a0a; box-shadow: inset 0 0 0 1px #0a0a0a; }
   .prail__thumb:hover { border-color: #888; }
   .prail__thumb--play { background: #e9e9e6 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M8 5v14l11-7z' fill='%230a0a0a'/%3E%3C/svg%3E") center/26px no-repeat; }
@@ -4892,3 +4892,5 @@ body:has(.pdc) .product__tax { padding-bottom: 18px; border-bottom: 1px solid #e
 .pdc-deal b { color: #b3261e; font-weight: 700; }
 .pdc-deal s { color: #8a8a8a; }
 .pdc-deal .pdc-off { margin-left: 0; font-size: 12px; }
+/* The example painted while the illustration is made must go once it is done (it sat over the customer's one) */
+.tlive:not(.is-loading) .tload__sketch, .tlive:not(.is-loading) .tload__color { display: none !important; }
