@@ -1,31 +1,45 @@
 {%- comment -%} One style card of sections/custom-templates.liquid (block, s = section settings) {%- endcomment -%}
 {%- assign b = block.settings -%}
-{%- comment -%} The style's product (from its link): a photo of it in a room, shown on hover (and by itself on phones), and its «from» price {%- endcomment -%}
-{%- assign c_prod = nil -%}{%- assign c_room = nil -%}
+{%- comment -%}
+  The style's product (from its link): its framed picture with a clear background (no grey around the frame),
+  its «from» price, and its best real offer (a variant with an earlier price, e.g. the canvas).
+{%- endcomment -%}
+{%- assign c_prod = nil -%}{%- assign c_art = nil -%}{%- assign c_deal = nil -%}
 {%- if b.link != blank and b.link contains '/products/' -%}
   {%- assign c_handle = b.link | split: '/products/' | last | split: '?' | first -%}
   {%- assign c_prod = all_products[c_handle] -%}
   {%- if c_prod != blank and c_prod.id -%}
     {%- for m in c_prod.media -%}
       {%- assign ma = m.alt | downcase -%}
-      {%- if ma contains 'salón' or ma contains 'salon' -%}{%- assign c_room = m -%}{%- break -%}{%- endif -%}
+      {%- if ma contains 'con marco' -%}{%- assign c_art = m -%}{%- break -%}{%- endif -%}
     {%- endfor -%}
-    {%- unless c_room -%}
-      {%- for m in c_prod.media -%}
-        {%- assign ma = m.alt | downcase -%}
-        {%- if ma contains 'dormitorio' or ma contains 'estudio' -%}{%- assign c_room = m -%}{%- break -%}{%- endif -%}
-      {%- endfor -%}
-    {%- endunless -%}
+    {%- assign c_best = 0 -%}
+    {%- for v in c_prod.variants -%}
+      {%- if v.available and v.compare_at_price > v.price -%}
+        {%- assign v_pct = v.compare_at_price | minus: v.price | times: 100.0 | divided_by: v.compare_at_price | round -%}
+        {%- if c_deal == nil or v.price < c_deal.price -%}{%- assign c_deal = v -%}{%- assign c_best = v_pct -%}{%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
   {%- else -%}
     {%- assign c_prod = nil -%}
   {%- endif -%}
 {%- endif -%}
-<li class="ctpl__item reveal{% if c_room %} has-room{% endif %}" data-cat="{{ b.category | strip | handleize }}" {{ block.shopify_attributes }}>
+<li class="ctpl__item reveal" data-cat="{{ b.category | strip | handleize }}" {{ block.shopify_attributes }}>
   {%- capture card_inner -%}
     <span class="ctpl__media">
       {%- if b.image != blank -%}
-        {{ b.image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '360, 540, 720, 900', sizes: '(min-width: 990px) 25vw, 70vw', alt: b.name, class: 'ctpl__art' }}
-        {%- if c_room -%}{{ c_room | image_url: width: 900 | image_tag: loading: 'lazy', widths: '360, 540, 720, 900', sizes: '(min-width: 990px) 25vw, 70vw', alt: c_room.alt, class: 'ctpl__room' }}{%- endif -%}
+        {%- if c_art -%}
+          {{ c_art | image_url: width: 900 | image_tag: loading: 'lazy', widths: '360, 540, 720, 900', sizes: '(min-width: 990px) 25vw, 70vw', alt: b.name, class: 'ctpl__art ctpl__art--clear' }}
+        {%- else -%}
+          {{ b.image | image_url: width: 900 | image_tag: loading: 'lazy', widths: '360, 540, 720, 900', sizes: '(min-width: 990px) 25vw, 70vw', alt: b.name, class: 'ctpl__art' }}
+        {%- endif -%}
+        {%- if b.link != blank -%}
+          <span class="ctpl__hover" aria-hidden="true">
+            <span class="ctpl__hover-icon"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 16V4m0 0-4.5 4.5M12 4l4.5 4.5"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg></span>
+            <span class="ctpl__hover-title">Personalízalo</span>
+            <span class="ctpl__hover-text">Sube tu foto y míralo gratis</span>
+          </span>
+        {%- endif -%}
       {%- else -%}
         <span class="ctpl__ph" aria-hidden="true"></span>
       {%- endif -%}
@@ -37,6 +51,11 @@
       {%- endif -%}
       {%- if b.badge != blank -%}<span class="ctpl__badge">{{ b.badge }}</span>{%- endif -%}
       {%- if c_prod -%}<span class="ctpl__price">{{ 'general.from' | t }} <b>{{ c_prod.price_min | money }}</b></span>{%- endif -%}
+      {%- if c_deal -%}
+        {%- assign dt = c_deal.title | downcase -%}
+        {%- if dt contains 'lienzo' or dt contains 'canvas' -%}{%- assign d_label = 'Lienzo' -%}{%- elsif dt contains 'marco' or dt contains 'frame' -%}{%- assign d_label = 'Con marco' -%}{%- else -%}{%- assign d_label = '' -%}{%- endif -%}
+        <span class="ctpl__deal">{% if d_label != '' %}{{ d_label }} {% endif %}<b>{{ c_deal.price | money }}</b> <s>{{ c_deal.compare_at_price | money }}</s> <em>-{{ c_best }} %</em></span>
+      {%- endif -%}
       {%- if b.link != blank -%}<span class="ctpl__go" aria-hidden="true">→</span>{%- endif -%}
       {%- if b.link == blank and b.image != blank -%}<span class="ctpl__soon">{{ s.soon_label }}</span>{%- endif -%}
       {%- if b.link == blank and b.image == blank -%}<span class="ctpl__draft">{{ s.no_link_label }}</span>{%- endif -%}
