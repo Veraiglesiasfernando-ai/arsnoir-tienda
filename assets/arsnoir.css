@@ -4863,3 +4863,6 @@ body:has(.pdc) .product__tax { padding-bottom: 18px; border-bottom: 1px solid #e
   .product--rail .product__gallery > .product__media.tlive.is-shown { display: block; padding: 0; }
   .product--rail .product__gallery > .product__media.tlive .tlive__wall { height: 100%; aspect-ratio: auto; }
 }
+
+/* Portraits: the picker moved up under the price */
+.pdc.pdc--top { margin: 16px 0 22px; padding-bottom: 20px; border-bottom: 1px solid var(--color-line, #e2e2e0); }

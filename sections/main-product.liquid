@@ -677,6 +677,16 @@
                 </variant-picker>
                 {%- if section.settings.pdp_v2 -%}
                   {%- render 'pdp-chooser', product: product, picker_id: picker_dom_id, step_offset: step_offset, size_help: size_help -%}
+                  {%- if simple_picker -%}
+                    {%- comment -%} Portraits: Tipo · Tamaño · Marco right under the price (as on the artworks), the photo studio after it, then the button {%- endcomment -%}
+                    <script>
+                      (function () {
+                        var pdc = document.querySelector('[data-pdc]');
+                        var tax = document.querySelector('.product__info .product__tax') || document.querySelector('.product__info .product__price');
+                        if (pdc && tax && tax.parentNode) { tax.parentNode.insertBefore(pdc, tax.nextSibling); pdc.classList.add('pdc--top'); }
+                      })();
+                    </script>
+                  {%- endif -%}
                 {%- elsif section.settings.size_visual -%}
                   {% render 'size-visual', product: product %}
                   <script src="{{ 'size-visual.js' | asset_url }}" defer></script>
