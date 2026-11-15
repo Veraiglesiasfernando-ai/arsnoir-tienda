@@ -4822,6 +4822,7 @@ body:has(.pdc) .product__tax { padding-bottom: 18px; border-bottom: 1px solid #e
 .ctpl__group--row .ctpl__media { aspect-ratio: 4 / 5; border-radius: 0; overflow: hidden; background: transparent; transform: none; box-shadow: none !important; transition: transform .5s cubic-bezier(.2,.7,.2,1) !important; }
 .ctpl__group--row .ctpl__media img.ctpl__art { position: absolute; left: 50%; top: 50%; width: 100%; height: 100%; object-fit: contain; box-shadow: none; filter: drop-shadow(0 16px 16px rgba(40,25,10,.25)); transform: translate(-50%, -50%); transition: transform 1s cubic-bezier(.2,.7,.2,1); }
 .ctpl__group--row .ctpl__media img.ctpl__art--clear { width: 118%; height: 118%; max-width: none; }
+.ctpl__group--row .ctpl__media img.ctpl__art:not(.ctpl__art--clear) { width: 89%; height: 89%; object-fit: cover; }
 .ctpl__price { position: absolute; left: 0; bottom: 0; z-index: 2; padding: 7px 12px; border-radius: 999px; background: rgba(255,255,255,.95); color: #0a0a0a; font-size: 12.5px; font-weight: 500; box-shadow: 0 6px 16px -10px rgba(0,0,0,.4); }
 .ctpl__price b { font-weight: 700; }
 .ctpl__deal { position: absolute; right: 0; top: 0; z-index: 2; padding: 6px 10px; border-radius: 999px; background: #b3261e; color: #fff; font-size: 11.5px; font-weight: 500; box-shadow: 0 6px 16px -10px rgba(0,0,0,.4); white-space: nowrap; }

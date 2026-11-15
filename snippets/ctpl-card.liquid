@@ -24,6 +24,10 @@
     {%- assign c_prod = nil -%}
   {%- endif -%}
 {%- endif -%}
+{%- comment -%} A style whose product is not on sale (draft or hidden) would lead to a missing page: hidden on the store, shown in the editor {%- endcomment -%}
+{%- assign c_missing = false -%}
+{%- if b.link != blank and b.link contains '/products/' and c_prod == nil -%}{%- assign c_missing = true -%}{%- endif -%}
+{%- unless c_missing and request.design_mode == false -%}
 <li class="ctpl__item reveal" data-cat="{{ b.category | strip | handleize }}" {{ block.shopify_attributes }}>
   {%- capture card_inner -%}
     <span class="ctpl__media">
@@ -70,3 +74,4 @@
     <div class="ctpl__card is-soon">{{ card_inner }}</div>
   {%- endif -%}
 </li>
+{%- endunless -%}
