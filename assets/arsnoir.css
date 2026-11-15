@@ -3680,6 +3680,22 @@ h1, h2, h3, h4, .h1, .h2, .h3 { letter-spacing: -0.03em; line-height: 1.06; }
   .pzm__tile { aspect-ratio: 1 / 1; }
   .pzm__tile:first-child { grid-column: span 2; grid-row: auto; aspect-ratio: 4 / 3; }
 }
+/* The whole mosaic (title, tiles and steps line) fits in one screen, on computer and phone */
+.pzm { padding: clamp(14px, 2vw, 24px) 0 clamp(18px, 2.4vw, 28px); }
+.pzm__head { margin-bottom: clamp(12px, 1.6vw, 20px); }
+.pzm__eyebrow { margin-bottom: 6px; }
+.pzm__title { font-size: clamp(1.7rem, 3.3vw, 3rem); }
+.pzm__steps { margin-top: 12px; }
+@media (min-width: 750px) {
+  .pzm__grid { grid-template-rows: repeat(2, minmax(0, 1fr)); height: clamp(360px, calc(100svh - 250px), 720px); }
+}
+@media (max-width: 749px) {
+  .pzm__grid { grid-template-rows: 1.25fr 1fr 1fr; height: clamp(400px, calc(100svh - 230px), 640px); }
+  .pzm__tile, .pzm__tile:first-child { aspect-ratio: auto; }
+  .pzm__name { font-size: 1.15rem; }
+  .pzm__tile:first-child .pzm__name { font-size: 1.9rem; }
+  .pzm__sub { font-size: 12px; }
+}
 
 /* Logo: keep the original ARSNOIR wordmark (Space Grotesk), untouched by the new site font */
 .glass-header__logo, .mobile-menu__brand, .footer__brand { font-family: 'Space Grotesk', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif; }
