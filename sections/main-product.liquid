@@ -984,6 +984,44 @@
                     var photoFilter = 'Original';
                     var editor = null;
                     var modal = null, modalView = null;
+                    var fbar = null, qmodal = null, photoW = 0, photoH = 0;
+                    var placeBar = function () {
+                      if (!fbar) return;
+                      var gal = document.querySelector('.product__gallery');
+                      if (!gal) return;
+                      if (window.matchMedia('(min-width: 990px)').matches) { if (fbar.parentElement !== gal) gal.appendChild(fbar); }
+                      else if (fbar.previousElementSibling !== gal) gal.parentNode.insertBefore(fbar, gal.nextSibling);
+                    };
+                    /* Print quality by size: pixels per inch of the photo at that size (long and short side).
+                       A wall print is seen from a distance: about 85 ppi or more prints sharp. */
+                    var sizeOf = function (txt) {
+                      var m = String(txt || '').replace(/,/g, '.').match(/(\d+(?:\.\d+)?)\s*[x×]\s*(\d+(?:\.\d+)?)/i);
+                      return m ? [parseFloat(m[1]), parseFloat(m[2])] : null;
+                    };
+                    var rate = function (sz) {
+                      if (!photoW || !sz) return '';
+                      var L = Math.max(sz[0], sz[1]) / 2.54, S = Math.min(sz[0], sz[1]) / 2.54;
+                      var ppi = Math.min(Math.max(photoW, photoH) / L, Math.min(photoW, photoH) / S);
+                      return ppi >= 85 ? 'ok' : ppi >= 65 ? 'good' : ppi >= 40 ? 'mid' : 'low';
+                    };
+                    var fmt = function (sz) { return sz.map(function (n) { return String(Math.round(n * 10) / 10).replace('.', ','); }).join('×') + ' cm'; };
+                    var renderQuality = function () {
+                      if (!fbar) return;
+                      var sel = document.querySelector('[data-pdc-size]');
+                      var opts = sel ? [].slice.call(sel.options).filter(function (o) { return o.value; }) : [];
+                      var sizes = []; var seen = {};
+                      opts.forEach(function (o) { var s = sizeOf(o.value); if (s && !seen[fmt(s)]) { seen[fmt(s)] = 1; sizes.push(s); } });
+                      if (!sizes.length) sizes = [[21, 29.7], [29.7, 42], [42, 59.4], [50, 70], [59.4, 84.1], [60, 90]];
+                      var chosen = sel && sel.value ? sizeOf(sel.value) : sizes[0];
+                      var lvl = rate(chosen);
+                      fbar.querySelector('.fbar__q').dataset.level = lvl;
+                      if (qmodal) {
+                        var ICON = { ok: '✓', good: '–', mid: '×', low: '×' };
+                        qmodal.querySelector('[data-qlist]').innerHTML = sizes.map(function (s) {
+                          var l = rate(s); return '<li data-level="' + l + '"><i>' + (ICON[l] || '') + '</i><b>' + fmt(s) + '</b></li>';
+                        }).join('');
+                      }
+                    };
                     /* the controls live either under the photo or in the edit window */
                     var ed = function (sel) { return (editor && editor.querySelector(sel)) || (modal && modal.querySelector(sel)); };
                     var edAll = function (sel) { var a = []; if (editor) a = a.concat([].slice.call(editor.querySelectorAll(sel))); if (modal) a = a.concat([].slice.call(modal.querySelectorAll(sel))); return a; };
@@ -1258,6 +1296,27 @@
                       editor.insertBefore(accT, accF.nextSibling);
                       /* only one open at a time keeps the button on screen */
                       [accF, accT].forEach(function (d) { d.addEventListener('toggle', function () { if (d.open) [accF, accT].forEach(function (o) { if (o !== d) o.open = false; }); }); });
+                      /* Under the photo: «Calidad» (small meter; opens which sizes suit the photo) and «Recortar / nueva» */
+                      fbar = document.createElement('div');
+                      fbar.className = 'fbar';
+                      fbar.innerHTML = '<button type="button" class="fbar__btn fbar__q" data-qopen><span>Calidad</span><i class="fbar__meter"><b data-qmeter></b></i></button>' +
+                        '<button type="button" class="fbar__btn" data-fedit-open>' + ico('M12 3v18M3 12h18M12 3l-3 3M12 3l3 3M12 21l-3-3M12 21l3-3M3 12l3-3M3 12l3 3M21 12l-3-3M21 12l-3 3') + '<span>Recortar / nueva</span></button>';
+                      fbar.querySelector('[data-fedit-open]').addEventListener('click', openModal);
+                      qmodal = document.createElement('div');
+                      qmodal.className = 'fqmodal';
+                      qmodal.hidden = true;
+                      qmodal.setAttribute('role', 'dialog');
+                      qmodal.setAttribute('aria-modal', 'true');
+                      qmodal.innerHTML = '<div class="fqmodal__card"><div class="fqmodal__head"><b>Calidad de la imagen</b><button type="button" class="fqmodal__x" aria-label="Cerrar" data-qclose>×</button></div>' +
+                        '<div class="fqmodal__body"><p>Si subes una imagen de baja resolución, el cuadro puede salir borroso. Mira qué tamaños van bien con tu foto:</p><ul class="fqmodal__list" data-qlist></ul>' +
+                        '<p class="fqmodal__note">En naranja o rojo: si eliges ese tamaño, revisamos tu foto y la mejoramos antes de imprimir. Si tienes una con más resolución, mejor súbela.</p></div></div>';
+                      document.body.appendChild(qmodal);
+                      var closeQ = function () { qmodal.hidden = true; document.documentElement.classList.remove('has-fmodal'); };
+                      qmodal.addEventListener('click', function (e) { if (e.target === qmodal || e.target.closest('[data-qclose]')) closeQ(); });
+                      fbar.querySelector('[data-qopen]').addEventListener('click', function () { renderQuality(); qmodal.hidden = false; document.documentElement.classList.add('has-fmodal'); });
+                      placeBar();
+                      window.addEventListener('resize', placeBar);
+                      document.addEventListener('change', function (e) { if (e.target.matches && e.target.matches('[data-pdc-size]')) renderQuality(); });
                       sync();
                       /* quality: mirrors the resolution check of the upload box */
                       var res = guard.querySelector('[data-cguard-result]');
@@ -1279,7 +1338,7 @@
                       if (!editor || !photoUrl) return;
                       editor.querySelectorAll('.fedit__flt img').forEach(function (im) { im.src = photoUrl; });
                       var probe = new Image();
-                      probe.onload = function () { orient = probe.naturalWidth > probe.naturalHeight ? 'h' : 'v'; applyOrient(); sync(); paintRoomsSoon(); };
+                      probe.onload = function () { photoW = probe.naturalWidth; photoH = probe.naturalHeight; orient = probe.naturalWidth > probe.naturalHeight ? 'h' : 'v'; applyOrient(); sync(); paintRoomsSoon(); renderQuality(); };
                       probe.src = photoUrl;
                       applyCrop();
                     };
