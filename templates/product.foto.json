@@ -55,7 +55,7 @@
           "type": "collapsible",
           "settings": {
             "heading": "Envío y devoluciones",
-            "content": "<p>Cada pieza se imprime cuando la pides, en Europa, y se envía con seguimiento: en la Península llega en 4-10 días hábiles; a las islas, Ceuta, Melilla y el resto de Europa puede tardar algo más. Láminas y láminas con marco: 4,95 € a España y la UE; los lienzos tienen su propia tarifa según el tamaño. Desde 80 € (importe con descuentos), el envío es gratis. El importe exacto lo ves en el pago antes de confirmar.</p><p>Al hacerse con tu foto, no admite devolución por desistimiento, salvo que llegue dañada o con un defecto de impresión.</p>",
+            "content": "<p>Cada pieza se imprime cuando la pides, en Europa, y se envía con seguimiento: en la Península llega en 4-10 días hábiles; a las islas, Ceuta, Melilla y el resto de Europa puede tardar algo más. Un solo envío de 4,95 € por pedido a España y la UE, compres lo que compres: láminas, marcos o lienzos. Desde 80 € (importe con descuentos), el envío es gratis. El importe exacto lo ves en el pago antes de confirmar.</p><p>Al hacerse con tu foto, no admite devolución por desistimiento, salvo que llegue dañada o con un defecto de impresión.</p>",
             "open": false
           }
         },
@@ -167,7 +167,7 @@
           "type": "question",
           "settings": {
             "question": "¿Cuánto tarda el envío?",
-            "answer": "<p>Enviamos a España y toda Europa, con seguimiento. Cada obra se imprime cuando la pides, en Europa. En la Península llega en 4-10 días hábiles; a Baleares, Canarias, Ceuta y Melilla puede tardar algo más y al resto de Europa, según el país. Láminas y láminas con marco: 4,95 € a España y la UE; los lienzos tienen su propia tarifa según el tamaño. Desde 80 € (importe con descuentos), el envío es gratis. El importe exacto lo ves en el pago antes de confirmar.</p>"
+            "answer": "<p>Enviamos a España y toda Europa, con seguimiento. Cada obra se imprime cuando la pides, en Europa. En la Península llega en 4-10 días hábiles; a Baleares, Canarias, Ceuta y Melilla puede tardar algo más y al resto de Europa, según el país. Un solo envío de 4,95 € por pedido a España y la UE, compres lo que compres: láminas, marcos o lienzos. Desde 80 € (importe con descuentos), el envío es gratis. El importe exacto lo ves en el pago antes de confirmar.</p>"
           }
         },
         "q2": {
