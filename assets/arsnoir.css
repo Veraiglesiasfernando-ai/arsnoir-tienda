@@ -4945,3 +4945,4 @@ body:has(.pdc) .product__tax { padding-bottom: 18px; border-bottom: 1px solid #e
 .cupload__mini[hidden] { display: none !important; }
 .cupload__mini:not([hidden]) ~ .cupload__icon { display: none; }
 .cupload__btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; min-height: 54px; border-radius: 0; font-size: 15px; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; }
+.product__gallery > .product__media--upload .cupload__frame[data-kind="black"], .product__gallery > .product__media--upload .cupload__frame[data-kind="white"], .product__gallery > .product__media--upload .cupload__frame[data-kind="wood"] { box-sizing: border-box; border-width: clamp(10px, 1.6vw, 18px); padding: 0; }
