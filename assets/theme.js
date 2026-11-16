@@ -576,6 +576,7 @@
         const link = document.querySelector('.glass-header__cart:hover');
         if (pinned || !hoverOpen || link || over(panel)) return;
         hoverOpen = false;
+        document.documentElement.classList.remove('cart-hover');
         closeDrawerNow();
       }, 350);
     }
@@ -584,7 +585,7 @@
       if (!link) return;
       clearTimeout(t);
       const d = drawer();
-      if (d && !d.classList.contains('is-open')) { pinned = false; hoverOpen = openDrawer(); }
+      if (d && !d.classList.contains('is-open')) { pinned = false; hoverOpen = openDrawer(); if (hoverOpen) document.documentElement.classList.add('cart-hover'); }
     });
     document.addEventListener('mouseout', function (e) {
       if (!hoverOpen || pinned) return;
@@ -593,8 +594,8 @@
     });
     document.addEventListener('click', function (e) {
       if (!e.target.closest) return;
-      if (e.target.closest('[data-drawer-close], .drawer__close, .drawer__overlay')) { pinned = false; hoverOpen = false; return; }
-      if (e.target.closest('.glass-header__cart, .drawer__panel')) pinned = true;
+      if (e.target.closest('[data-drawer-close], .drawer__close, .drawer__overlay')) { pinned = false; hoverOpen = false; document.documentElement.classList.remove('cart-hover'); return; }
+      if (e.target.closest('.glass-header__cart, .drawer__panel')) { pinned = true; document.documentElement.classList.remove('cart-hover'); }
     }, true);
   })();
 
