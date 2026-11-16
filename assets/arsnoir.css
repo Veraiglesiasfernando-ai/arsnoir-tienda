@@ -5286,3 +5286,5 @@ html.has-fmodal { overflow: hidden; }
 .glass-header .mobile-menu__panel .mm-main li { border-bottom: 1px solid #eee; }
 .glass-header .mobile-menu__panel .mm-main a { display: block; padding: 16px 0; font-size: 16px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
 .glass-header .mobile-menu__panel .mm-main .nav-hot a { color: #b3122e; }
+/* Home «Lienzos»: no grey box behind the canvas, it sits on the page background */
+.lienzos__pics { background: transparent; border-radius: 0; }
