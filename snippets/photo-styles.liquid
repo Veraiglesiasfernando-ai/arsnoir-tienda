@@ -1,0 +1,73 @@
+{%- comment -%}
+  «Tu foto en un cuadro»: ready-made looks under the product (border colour, filter, a short text and its
+  lettering). Each card shows an example photo until the customer uploads theirs, then their photo.
+  Choosing one applies it to the editor (the same fields the customer can change by hand) and goes up to
+  the photo; before a photo is uploaded it opens the photo picker first and applies it afterwards.
+{%- endcomment -%}
+{%- liquid
+  assign ex1 = 'arsnoir-card-tu-foto-familia.jpg' | file_url | append: '&width=600'
+  assign ex2 = product.media[2] | image_url: width: 600
+  # name | border (blanco, negro, arena, sin) | filter | text | lettering | colour | position | example
+  assign looks = 'Minimalista|blanco|Original|Nuestro gran día · 2026|Clásica|Negro|Abajo|1;Contraste|negro|Blanco y negro|Un futuro brillante|Clásica|Blanco|Abajo|1;Paseo|blanco|Cálido|Al mejor papá del mundo|Moderna|Negro|Abajo|2;Arena|arena|Suave|Mejores amigos|Manuscrita|Granate|Abajo|2;Blanco y negro|blanco|Blanco y negro|Veranos contigo|Moderna|Negro|Abajo|1;A sangre|sin|Intenso|Verano 2026|Manuscrita|Blanco|Abajo|2' | split: ';'
+-%}
+<section class="pstyles" id="Estilos" data-pstyles>
+  <div class="page-width">
+    <div class="pstyles__head">
+      <h2 class="pstyles__title">Pon tus recuerdos en la pared</h2>
+      <p class="pstyles__text">Tienes cientos de fotos en el móvil. Elige un estilo y conviértelas en un cuadro: luego puedes cambiar el texto, el borde y el filtro.</p>
+    </div>
+    <ul class="pstyles__grid" role="list">
+      {%- for l in looks -%}
+        {%- assign f = l | split: '|' -%}
+        {%- if f[7] == '1' -%}{%- assign ex = ex1 -%}{%- else -%}{%- assign ex = ex2 -%}{%- endif -%}
+        <li>
+          <button type="button" class="pstyles__card" data-look="{{ f[0] | escape }}" data-border="{{ f[1] }}" data-filter="{{ f[2] | escape }}" data-text="{{ f[3] | escape }}" data-font="{{ f[4] }}" data-color="{{ f[5] }}" data-pos="{{ f[6] }}">
+            <span class="pstyles__frame pstyles__frame--{{ f[1] }}">
+              <img src="{{ ex }}" alt="" loading="lazy" data-pstyles-img class="pstyles__img pstyles__img--{{ f[2] | handleize }}">
+              <span class="pstyles__cap pstyles__cap--{{ f[4] | handleize }} pstyles__cap--{{ f[5] | handleize }}">{{ f[3] }}</span>
+            </span>
+            <span class="pstyles__name">{{ f[0] }}</span>
+            <span class="pstyles__go">Usar este estilo →</span>
+          </button>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+<script>
+  (function () {
+    var box = document.querySelector('[data-pstyles]');
+    if (!box) return;
+    var BORDER = { blanco: 'Con borde blanco', negro: 'Con borde negro', arena: 'Con borde arena', sin: 'A sangre' };
+    var pending = null;
+    var pick = function (sel) { var i = document.querySelector(sel); if (i && !i.checked) { i.checked = true; i.dispatchEvent(new Event('change', { bubbles: true })); } };
+    var apply = function (b) {
+      pick('input[name="properties[Borde]"][value="' + BORDER[b.dataset.border] + '"]');
+      var flt = document.querySelector('.fedit__flt[data-filter="' + b.dataset.filter + '"]');
+      if (flt) flt.click();
+      var tx = document.getElementById('PhotoText');
+      if (tx) { tx.value = b.dataset.text; tx.dispatchEvent(new Event('input', { bubbles: true })); }
+      pick('input[name="properties[Tipografía]"][value="' + b.dataset.font + '"]');
+      pick('input[name="properties[Color del texto]"][value="' + b.dataset.color + '"]');
+      pick('input[name="properties[Posición del texto]"][value="' + b.dataset.pos + '"]');
+      if (tx) tx.dispatchEvent(new Event('input', { bubbles: true }));
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+    box.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-look]');
+      if (!b) return;
+      if (document.querySelector('.fedit')) { apply(b); return; }
+      /* no photo yet: choose one first, the look is applied once the photo is in */
+      pending = b;
+      var f = document.querySelector('[data-fintro-file]') || document.querySelector('input[data-cupload]');
+      if (f) f.click();
+    });
+    document.addEventListener('change', function (e) {
+      var t = e.target;
+      if (!(t.matches && t.matches('input[data-cupload]') && t.files && t.files[0])) return;
+      var url = URL.createObjectURL(t.files[0]);
+      box.querySelectorAll('[data-pstyles-img]').forEach(function (im) { im.src = url; });
+      if (pending) { var b = pending; pending = null; setTimeout(function () { apply(b); }, 900); }
+    });
+  })();
+</script>

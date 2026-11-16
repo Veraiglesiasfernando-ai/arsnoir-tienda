@@ -962,7 +962,9 @@
                   <div class="tstudio__opts cupload__border" role="radiogroup" aria-label="Acabado de la imagen">
                     <span class="tstudio__opts-label">Acabado de la imagen</span>
                     <label class="tstudio__font"><input type="radio" name="properties[Borde]" value="A sangre" form="{{ form_id }}" checked><span>A sangre</span></label>
-                    <label class="tstudio__font"><input type="radio" name="properties[Borde]" value="Con borde blanco" form="{{ form_id }}" data-white><span>Con borde blanco</span></label>
+                    <label class="tstudio__font"><input type="radio" name="properties[Borde]" value="Con borde blanco" form="{{ form_id }}" data-white data-bd="#ffffff"><span>Blanco</span></label>
+                    <label class="tstudio__font"><input type="radio" name="properties[Borde]" value="Con borde negro" form="{{ form_id }}" data-white data-bd="#141414"><span>Negro</span></label>
+                    <label class="tstudio__font"><input type="radio" name="properties[Borde]" value="Con borde arena" form="{{ form_id }}" data-white data-bd="#efe8dc"><span>Arena</span></label>
                   </div>
                   {%- if block.settings.text_option -%}{% render 'photo-text', form_id: form_id %}{%- endif -%}
                 </div>
@@ -984,6 +986,21 @@
                     var photoFilter = 'Original';
                     var editor = null;
                     var modal = null, modalView = null;
+                    /* border: colour of the chosen «Borde» (none = full bleed); a text goes in a wider margin */
+                    var bdInput = function () { return guard.querySelector('input[name="properties[Borde]"][data-white]:checked'); };
+                    var bdColor = function () { var i = bdInput(); return (i && i.dataset.bd) || '#ffffff'; };
+                    var capPos = function () {
+                      var tx = document.getElementById('PhotoText');
+                      if (!bdInput() || !tx || !tx.value.trim()) return '';
+                      var top = document.querySelector('input[name="properties[Posición del texto]"][value="Arriba"]:checked');
+                      return top ? 'top' : 'bottom';
+                    };
+                    var dressFrame = function (fr) {
+                      if (!fr) return;
+                      fr.classList.toggle('has-white', !!bdInput());
+                      fr.style.setProperty('--bd', bdColor());
+                      fr.dataset.cap = capPos();
+                    };
                     var fbar = null, qmodal = null, photoW = 0, photoH = 0;
                     var placeBar = function () {
                       if (!fbar) return;
@@ -1073,7 +1090,7 @@
                               var f = Math.min(w, h) * 0.035; x += f; y += f; w -= f * 2; h -= f * 2;
                             }
                             if (white) {
-                              g.fillStyle = '#fbfbfa'; g.fillRect(x, y, w, h);
+                              g.fillStyle = bdColor(); g.fillRect(x, y, w, h);
                               var mg = Math.min(w, h) * 0.06; x += mg; y += mg; w -= mg * 2; h -= mg * 2;
                             }
                             /* same framing as the big preview: moved (crop.x, crop.y) and zoomed (crop.z) */
@@ -1095,15 +1112,15 @@
                       var copy = wall.cloneNode(true);
                       copy.removeAttribute('data-cupload-wall');
                       var fr = copy.querySelector('[data-cupload-frame]');
-                      var whiteB = !!guard.querySelector('input[name="properties[Borde]"][data-white]:checked');
-                      if (fr) { fr.dataset.kind = kind(); turn(fr); fr.classList.toggle('has-white', whiteB); }
+                      if (fr) { fr.dataset.kind = kind(); turn(fr); dressFrame(fr); }
+                      dressFrame(wall.querySelector('[data-cupload-frame]'));
                       turn(wall.querySelector('[data-cupload-frame]'));
                       media.replaceChildren(copy);
                       if (modalView) {
                         var c2 = wall.cloneNode(true);
                         c2.removeAttribute('data-cupload-wall');
                         var f2 = c2.querySelector('[data-cupload-frame]');
-                        if (f2) { f2.dataset.kind = kind(); turn(f2); f2.classList.toggle('has-white', whiteB); }
+                        if (f2) { f2.dataset.kind = kind(); turn(f2); dressFrame(f2); }
                         modalView.replaceChildren(c2);
                       }
                       var src = wall.querySelector('[data-cupload-img]');
@@ -1390,6 +1407,7 @@
                       if (pdc) new MutationObserver(function () { sync(); paintRooms(); var fr = wall.querySelector('[data-cupload-frame]'); if (fr) fr.dataset.kind = kind(); }).observe(pdc, { attributes: true, attributeFilter: ['data-frame', 'data-cur-type'] });
                     };
                     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', watch); else watch();
+                    document.addEventListener('input', function (e) { if (e.target.id === 'PhotoText') sync(); });
                     document.addEventListener('change', function (e) {
                       var t = e.target;
                       if (t.matches && t.matches('input[data-cupload]') && t.files && t.files[0]) {
@@ -1398,6 +1416,8 @@
                         if (ed('[data-crop-zoom]')) ed('[data-crop-zoom]').value = 1;
                         setTimeout(applyCrop, 200);
                         setTimeout(function () { start(); sync(); paintRooms(); refreshEditor(); if (handle) handle.show(); openModal(); }, 120);
+                      } else if (t.matches && t.matches('input[name="properties[Posición del texto]"]')) {
+                        sync();
                       } else if (t.matches && t.matches('input[name="properties[Borde]"]')) {
                         sync(); applyCrop(); paintRooms();
                       }
@@ -1616,7 +1636,7 @@
   </button>
 </div>
 
-{%- if section.settings.quality_block -%}{% render 'product-quality', product: product %}{%- endif -%}
+{%- if template.suffix == 'foto' -%}{% render 'photo-styles' %}{%- elsif section.settings.quality_block -%}{% render 'product-quality', product: product %}{%- endif -%}
 
 <script type="application/ld+json">
   {

@@ -95,18 +95,23 @@
           var c = document.createElement('canvas');
           c.width = Math.round(cw * scale); c.height = Math.round(ch * scale);
           var x = c.getContext('2d');
-          var white = !!document.querySelector('.cupload__border input[data-white]:checked');
-          var pad = white ? Math.round(c.width * 0.07) : 0;
-          x.fillStyle = '#fff'; x.fillRect(0, 0, c.width, c.height);
+          var bdIn = document.querySelector('.cupload__border input[data-white]:checked');
+          var bd = bdIn ? (bdIn.dataset.bd || '#ffffff') : '#ffffff';
+          var pad = bdIn ? Math.round(c.width * 0.06) : 0;
+          /* with a border, the text goes in a wider margin (like the preview) */
+          var capTop = val('Posición del texto') === 'Arriba';
+          var capM = bdIn && text ? Math.round(c.width * 0.18) : pad;
+          var padT = capTop ? capM : pad, padB = capTop ? pad : capM;
+          x.fillStyle = bd; x.fillRect(0, 0, c.width, c.height);
           /* cover-crop into the inner area */
-          var iw = c.width - pad * 2, ih = c.height - pad * 2;
+          var iw = c.width - pad * 2, ih = c.height - padT - padB;
           /* the framing chosen under the photo (moved / zoomed), centred if none */
           var cr = window.arsnoirCrop || { x: 50, y: 50, z: 1 };
           var s = Math.max(iw / W, ih / H) * cr.z;
           var dw = W * s, dh = H * s;
-          x.save(); x.beginPath(); x.rect(pad, pad, iw, ih); x.clip();
+          x.save(); x.beginPath(); x.rect(pad, padT, iw, ih); x.clip();
           if (flt) x.filter = flt;
-          x.drawImage(img, pad + (iw - dw) * cr.x / 100, pad + (ih - dh) * cr.y / 100, dw, dh);
+          x.drawImage(img, pad + (iw - dw) * cr.x / 100, padT + (ih - dh) * cr.y / 100, dw, dh);
           x.filter = 'none';
           x.restore();
           var f = FONTS[val('Tipografía')] || FONTS['Manuscrita'];
@@ -119,8 +124,11 @@
             var col = val('Color del texto');
             var black = col === 'Negro' || col === 'Granate';
             var top = val('Posición del texto') === 'Arriba';
-            var y = top ? pad + ih * 0.1 : pad + ih * 0.9;
-            if (!black) { x.shadowColor = 'rgba(0,0,0,.35)'; x.shadowBlur = size * 0.15; }
+            var inMargin = !!bdIn;
+            var y = inMargin ? (top ? padT / 2 : c.height - padB / 2) : (top ? padT + ih * 0.1 : padT + ih * 0.9);
+            /* white letters on a light border would not show: dark grey instead */
+            if (inMargin && col !== 'Negro' && col !== 'Granate' && bd !== '#141414') { black = true; col = 'Negro'; }
+            if (!black && !inMargin) { x.shadowColor = 'rgba(0,0,0,.35)'; x.shadowBlur = size * 0.15; }
             x.fillStyle = col === 'Granate' ? '#6e1423' : black ? '#111' : '#fff';
             x.fillText(text, c.width / 2, y, iw * 0.9);
             save();
