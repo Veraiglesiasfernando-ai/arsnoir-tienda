@@ -5015,3 +5015,30 @@ body:has(.pdc) .product__tax { padding-bottom: 18px; border-bottom: 1px solid #e
   background-image: linear-gradient(to right, transparent calc(33.33% - .5px), rgba(255,255,255,.75) calc(33.33% - .5px), rgba(255,255,255,.75) calc(33.33% + .5px), transparent calc(33.33% + .5px), transparent calc(66.66% - .5px), rgba(255,255,255,.75) calc(66.66% - .5px), rgba(255,255,255,.75) calc(66.66% + .5px), transparent calc(66.66% + .5px)),
                     linear-gradient(to bottom, transparent calc(33.33% - .5px), rgba(255,255,255,.75) calc(33.33% - .5px), rgba(255,255,255,.75) calc(33.33% + .5px), transparent calc(33.33% + .5px), transparent calc(66.66% - .5px), rgba(255,255,255,.75) calc(66.66% - .5px), rgba(255,255,255,.75) calc(66.66% + .5px), transparent calc(66.66% + .5px)); }
 .product__gallery > .product__media--upload .cupload__frame.is-land { width: 100%; height: auto; max-height: 100%; }
+/* Photo editor fits one screen with the photo (desktop), no grey box behind the photo */
+.product__media--upload .cupload__wall, .product--rail .product__gallery > .product__media--upload { background: transparent !important; }
+.product__media--upload .cupload__wall { padding: 0 !important; }
+.fedit__ctrls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; }
+.fedit__ctrls .fedit__zoomrow { flex: 1 1 200px; }
+.fedit__ctrls .fedit__tools { flex: 0 0 auto; display: flex; gap: 6px; }
+.fedit__ctrls .fedit__tool { flex-direction: row; gap: 6px; padding: 7px 10px; border-radius: 99px; font-size: 12.5px; }
+.fedit__ctrls .fedit__tool svg { width: 18px; height: 18px; }
+@media (min-width: 990px) {
+  .product--rail .product__gallery:has(> .fedit) > .product__media { height: calc(100svh - 470px); min-height: 300px; max-height: 640px; padding: 12px; }
+  .product--rail .product__gallery:has(> .fedit) .prail { max-height: calc(100svh - 470px); }
+  .product--rail .product__gallery > .fedit { gap: 8px; margin-top: 10px; padding: 10px 14px; }
+  .fedit__q { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 2px 12px; }
+  .fedit__q .fedit__qhead { gap: 8px; justify-content: flex-start; font-size: 13px; }
+  .fedit__q .fedit__bar { margin: 0; }
+  .fedit__q .fedit__qtext { grid-column: 1 / -1; font-size: 11.5px; }
+  .fedit__hint { margin: 0; font-size: 11.5px; }
+  .fedit__flts { gap: 6px; }
+  .fedit__flt { flex-basis: 58px; gap: 3px; padding: 2px; font-size: 11px; }
+  .fedit__flt img { width: 50px; height: 50px; }
+  .fedit .ptext__label { font-size: 13px; }
+  .fedit .ptext__field { height: 40px; }
+  .fedit__new { font-size: 13px; }
+}
+/* Right column once the photo is in: the upload box is not repeated (the editor has «Subir otra foto») */
+.has-fedit .cguard__head, .has-fedit .cupload__drop, .has-fedit .cupload__btn, .has-fedit .cupload__hint--below, .has-fedit .cupload__meta, .has-fedit .cguard__notice { display: none !important; }
+.has-fedit .cupload { margin-bottom: 4px; }

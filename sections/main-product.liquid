@@ -1102,14 +1102,14 @@
                       editor.innerHTML =
                         '<div class="fedit__q" data-q hidden><div class="fedit__qhead"><b>Calidad de impresión</b><span data-q-label></span></div>' +
                         '<div class="fedit__bar"><span data-q-fill></span></div><p class="fedit__qtext" data-q-text></p></div>' +
-                        '<div class="fedit__zoomrow">' + ico('M10.5 17a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13zM20 20l-4.8-4.8M7.5 10.5h6') +
+                        '<div class="fedit__ctrls"><div class="fedit__zoomrow">' + ico('M10.5 17a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13zM20 20l-4.8-4.8M7.5 10.5h6') +
                         '<input type="range" min="1" max="2.5" step="0.05" value="1" aria-label="Zoom" data-crop-zoom>' + ico('M10.5 17a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13zM20 20l-4.8-4.8M7.5 10.5h6M10.5 7.5v6') + '</div>' +
                         '<div class="fedit__tools">' +
                         '<button type="button" class="fedit__tool" data-orient="v">' + ico('M8 3h8v18H8z') + '<span>Vertical</span></button>' +
                         '<button type="button" class="fedit__tool" data-orient="h">' + ico('M3 8h18v8H3z') + '<span>Horizontal</span></button>' +
                         '<button type="button" class="fedit__tool" data-rotate>' + ico('M4 12a8 8 0 1 0 2.3-5.7M4 4v4h4') + '<span>Girar</span></button>' +
                         '<button type="button" class="fedit__tool" data-grid aria-pressed="false">' + ico('M9 3v18M15 3v18M3 9h18M3 15h18') + '<span>Cuadrícula</span></button>' +
-                        '</div>' +
+                        '</div></div>' +
                         '<p class="fedit__hint">Arrastra la foto para moverla dentro del cuadro. <button type="button" class="fedit__reset" data-crop-reset hidden>Centrar</button></p>' +
                         '<div class="fedit__flts" role="radiogroup" aria-label="Filtro">' + filters + '</div>' +
                         '<label class="fedit__new" for="Upload-{{ section.id }}">+ Subir otra foto</label>' +
