@@ -160,16 +160,14 @@ const TEMPLATES = {
   'navidad-pareja-perro': {
     needsName: false,
     aspectRatio: '4:5',
-    refFirst: true,
     reference: 'https://cdn.shopify.com/s/files/1/1020/8903/2064/files/estilo-navidad-pareja-perro.jpg',
     prompt:
-      'The first image is the finished Christmas watercolour template. The second image is the customer\'s photo of the people with their pet. ' +
-      'Edit the first image: replace the people and the dog with the people and the pet from the second image and keep everything else of the first image exactly as it is: ' +
-      'the same loose hand-painted watercolour technique on textured paper with soft washes and visible brush strokes, the same soft pink background with a deeper pink round wash behind them, ' +
-      'the same garland of warm fairy lights across the top with small bows, the same little snowflakes, the same laurel branches with red berries around the bottom and the same red ribbon bow at the bottom centre, ' +
-      'the same close cheek-to-cheek head-and-shoulders framing with the pet in front, centred, with a little space around the edges. ' +
-      'Paint them in the same warm illustrated style: rosy freckled cheeks, gentle smiles. ' +
-      'Keep every person and the pet from the second image recognisable: face shape, hair colour, length and style, beard and skin tone; the pet\'s breed or mix, head shape, ears, fur colours and markings. Draw glasses, earrings or other accessories only if that person wears them in the photo; never add any. Draw exactly the same people and animals as in the photo: never invent anyone; if there is no animal in the photo, draw no animal and do not put another person in its place. Leave out objects and background from the photo. ' +
+      'The first image is the customer\'s photo: these are the only people and the only pet to paint. The second image only shows the style and the Christmas decoration: none of its people, faces, hairstyles, beards, clothes or its dog may appear. ' +
+      'Paint a brand-new Christmas watercolour of the people and the pet from the first image in the style of the second image: loose hand-painted watercolour on textured paper with soft washes and visible brush strokes, warm illustrated faces with rosy freckled cheeks and gentle smiles. ' +
+      'Use the same decoration as the second image: soft pink background with a deeper pink round wash behind them, a garland of warm fairy lights across the top with small bows, little snowflakes, laurel branches with red berries around the bottom and a red ribbon bow at the bottom centre. ' +
+      'Keep the composition of the photo: the same people and pet in the same positions, close together, head-and-shoulders, centred, with a little space around the edges. ' +
+      'They must be instantly recognisable to their owners: each person\'s real face shape, hairstyle, hair length, texture and colour (straight hair stays straight, short stays short), beard or stubble exactly as in the photo, eye colour, skin tone and clothes; the pet\'s breed or mix, head shape, ears, fur colours and markings. ' +
+      'Draw glasses, earrings or other accessories only if that person wears them in the photo; never add any. Draw exactly the same people and animals as in the photo: never invent anyone; if there is no animal in the photo, draw no animal and do not put another person in its place. Leave out the photo background and objects. ' +
       'Everything painted with a brush, nothing photographic. No text, no logos, no border. Vertical 4:5.'
   },
   'retrato-glam': {
