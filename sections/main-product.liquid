@@ -1193,6 +1193,7 @@
                       if (ar.length < 2 || !ar[0] || !ar[1]) return;
                       var land = ar[0] > ar[1];
                       if ((orient === 'h') !== land) { var v = ar[1] + ' / ' + ar[0]; if (fr.style.aspectRatio !== v) fr.style.aspectRatio = v; }
+                      fr.classList.toggle('is-land', orient === 'h');
                     };
                     var applyOrient = function () {
                       turn(wall.querySelector('[data-cupload-frame]'));
