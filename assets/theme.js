@@ -563,6 +563,41 @@
     if (lastFocus) lastFocus.focus();
   }
 
+  /* Computer with a mouse: hovering the bag opens the cart, moving away closes it,
+     unless the customer clicked (the bag or inside the cart): then it stays until closed */
+  (function hoverCart() {
+    if (!window.matchMedia || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    let pinned = false, hoverOpen = false, t = null;
+    function over(el) { return el && el.matches(':hover'); }
+    function maybeClose() {
+      clearTimeout(t);
+      t = setTimeout(function () {
+        const d = drawer(), panel = d && d.querySelector('.drawer__panel');
+        const link = document.querySelector('.glass-header__cart:hover');
+        if (pinned || !hoverOpen || link || over(panel)) return;
+        hoverOpen = false;
+        closeDrawerNow();
+      }, 350);
+    }
+    document.addEventListener('mouseover', function (e) {
+      const link = e.target.closest && e.target.closest('.glass-header__cart');
+      if (!link) return;
+      clearTimeout(t);
+      const d = drawer();
+      if (d && !d.classList.contains('is-open')) { pinned = false; hoverOpen = openDrawer(); }
+    });
+    document.addEventListener('mouseout', function (e) {
+      if (!hoverOpen || pinned) return;
+      const from = e.target.closest && e.target.closest('.glass-header__cart, .drawer__panel');
+      if (from) maybeClose();
+    });
+    document.addEventListener('click', function (e) {
+      if (!e.target.closest) return;
+      if (e.target.closest('[data-drawer-close], .drawer__close, .drawer__overlay')) { pinned = false; hoverOpen = false; return; }
+      if (e.target.closest('.glass-header__cart, .drawer__panel')) pinned = true;
+    }, true);
+  })();
+
   function updateCount(count) {
     document.querySelectorAll('.glass-header__cart').forEach(function (link) {
       let badge = link.querySelector('.cart-count');
