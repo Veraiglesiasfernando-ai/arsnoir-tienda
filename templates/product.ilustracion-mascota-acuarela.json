@@ -62,7 +62,9 @@
             "show_fonts": false,
             "needs_name": true,
             "name_label": "Su nombre (va encima, en caligrafía)",
-            "name_placeholder": "Lina"
+            "name_placeholder": "Lina",
+            "ba_photo": "shopify://shop_images/ejemplo-retrato-nombre-foto_d9dbaddf-6261-436d-b7d2-420df48d3051.jpg",
+            "ba_result": "shopify://shop_images/antes-despues-mascota-acuarela.jpg"
           }
         },
         "delivery": {

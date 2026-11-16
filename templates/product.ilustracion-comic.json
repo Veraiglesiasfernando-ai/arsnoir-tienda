@@ -61,7 +61,9 @@
             "name_label": "Su nombre (va en la chapa del collar)",
             "name_placeholder": "Thor",
             "colors": "azul|Azul|#2F6FE0\nrojo|Rojo|#D62828\nrosa|Rosa|#FF4F9A\nverde|Verde|#2E9E4F\nnegro|Negro|#1A1A1A\nmorado|Morado|#7B4FC9",
-            "color_label": "Color del collar"
+            "color_label": "Color del collar",
+            "ba_photo": "shopify://shop_images/ejemplo-retrato-nombre-foto_d9dbaddf-6261-436d-b7d2-420df48d3051.jpg",
+            "ba_result": "shopify://shop_images/antes-despues-retrato-comic.jpg"
           }
         },
         "delivery": {

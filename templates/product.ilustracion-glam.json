@@ -59,7 +59,9 @@
             "max_previews": 2,
             "show_fonts": false,
             "name_label": "Su nombre (va en la chapa del collar)",
-            "name_placeholder": "Thor"
+            "name_placeholder": "Thor",
+            "ba_photo": "shopify://shop_images/ejemplo-retrato-nombre-foto_d9dbaddf-6261-436d-b7d2-420df48d3051.jpg",
+            "ba_result": "shopify://shop_images/antes-despues-retrato-glam.jpg"
           }
         },
         "delivery": {
