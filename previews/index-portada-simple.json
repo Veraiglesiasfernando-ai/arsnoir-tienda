@@ -1,0 +1,767 @@
+{
+  "sections": {
+    "welcome": {
+      "type": "hero-welcome",
+      "blocks": {
+        "left": {
+          "type": "card",
+          "settings": {
+            "tone": "light",
+            "placeholder_price": "Desde 16,95 €",
+            "product": "familia-en-acuarela",
+            "image": "shopify://shop_images/arsnoir-salon-familia-navidad.jpg",
+            "title": "Familia en acuarela",
+            "subtitle": "Vuestra foto, pintada en acuarela",
+            "link": "shopify://products/familia-en-acuarela",
+            "tag": "Novedad",
+            "black_frame": false
+          }
+        },
+        "center": {
+          "type": "card",
+          "settings": {
+            "featured": true,
+            "tone": "light",
+            "placeholder_price": "Desde 16,95 €",
+            "product": "retrato-comic",
+            "image": "shopify://shop_images/arsnoir-regalo-retrato-comic.jpg",
+            "title": "Tu perro, en cómic",
+            "subtitle": "Sube su foto · Míralo gratis antes de pagar",
+            "link": "shopify://products/retrato-comic",
+            "tag": "Personalizado",
+            "black_frame": false
+          }
+        },
+        "right": {
+          "type": "card",
+          "settings": {
+            "tone": "light",
+            "placeholder_price": "Desde 16,95 €",
+            "product": "tu-foto-en-un-cuadro",
+            "image": "shopify://shop_images/arsnoir-regalo-foto-familia.jpg",
+            "title": "Tu foto, en un cuadro",
+            "subtitle": "Sube tu imagen y la imprimimos",
+            "link": "shopify://products/tu-foto-en-un-cuadro",
+            "tag": "Tu foto",
+            "black_frame": false
+          }
+        }
+      },
+      "block_order": [
+        "left",
+        "center",
+        "right"
+      ],
+      "settings": {
+        "eyebrow": "BIENVENIDO A",
+        "title": "ARSNOIR",
+        "subtitle": "Arte que no verás en ningún otro sitio.",
+        "pz_photo_image": "shopify://shop_images/arsnoir-regalo-foto-familia.jpg",
+        "pz_tpl_image": "shopify://shop_images/arsnoir-regalo-retrato-comic.jpg",
+        "pz_tpl_soon": false,
+        "card_style": "tiles"
+      }
+    },
+    "marquee": {
+      "type": "marquee",
+      "settings": {
+        "text": "ARTE QUE NO VERÁS EN NINGÚN OTRO SITIO · 100% ORIGINAL · SOLO EN ARSNOIR ·",
+        "speed": 35
+      }
+    },
+    "trust": {
+      "type": "trust-strip",
+      "blocks": {
+        "t1": {
+          "type": "item",
+          "settings": {
+            "text": "Arte 100% original",
+            "icon": "spark",
+            "link": "/pages/la-historia"
+          }
+        },
+        "t5": {
+          "type": "item",
+          "settings": {
+            "text": "Míralo gratis antes de pagar",
+            "icon": "eye",
+            "link": "/collections/personalizalo"
+          }
+        },
+        "t2": {
+          "type": "item",
+          "settings": {
+            "text": "Impreso en Europa",
+            "icon": "print"
+          }
+        },
+        "t6": {
+          "type": "item",
+          "settings": {
+            "text": "Envío gratis desde 80 €",
+            "icon": "truck",
+            "link": "/pages/envios-y-devoluciones"
+          }
+        },
+        "t4": {
+          "type": "item",
+          "settings": {
+            "text": "Solo en ARSNOIR",
+            "icon": "heart"
+          }
+        }
+      },
+      "block_order": [
+        "t1",
+        "t5",
+        "t2",
+        "t6",
+        "t4"
+      ],
+      "settings": {}
+    },
+    "featured": {
+      "type": "featured-slider",
+      "settings": {
+        "eyebrow": "SELECCIÓN ARSNOIR",
+        "heading": "Obras destacadas",
+        "subtitle": "Una selección de obras para empezar.",
+        "collection": "obras",
+        "products": [
+          "revuelto",
+          "rose",
+          "tour",
+          "ataca",
+          "aleron",
+          "blue-corner-1",
+          "end-of-the-world-1",
+          "seguridad"
+        ],
+        "limit": 8,
+        "button_label": "VER TODAS",
+        "placeholder_price": "24,95 €"
+      }
+    },
+    "join": {
+      "type": "newsletter-dark",
+      "settings": {
+        "heading": "Únete a ARSNOIR",
+        "text": "10% en tu primera compra y acceso primero a cada obra nueva.",
+        "button_label": "UNIRME",
+        "success": "Ya estás dentro. Tu código de bienvenida: WELCOME10 (10% en tu primera compra)."
+      }
+    },
+    "hposter": {
+      "type": "hero-poster",
+      "settings": {
+        "image": "shopify://shop_images/arsnoir-hero-dalmatas.jpg",
+        "focus": "62% 60%",
+        "heading": "Tu perro,\nen tu pared.",
+        "sub_left": "Sube su foto. Míralo gratis.",
+        "sub_right": "Desde 16,95 €",
+        "mono": "Retratos de mascota · Envío gratis desde 80 €",
+        "button_label": "Crea el suyo",
+        "button_link": "/collections/personalizalo",
+        "vertical": "Cómic /01  Glam /02  Acuarela /03",
+        "note": "",
+        "accent": "#490B1A"
+      },
+      "disabled": true
+    },
+    "vhero": {
+      "type": "video-hero",
+      "blocks": {
+        "s1": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/arsnoir-hero-salon.jpg",
+            "image_mobile": "shopify://shop_images/arsnoir-hero-movil-sofa.jpg"
+          },
+          "disabled": true
+        },
+        "s2": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/arsnoir-hero-coche.jpg",
+            "image_mobile": "shopify://shop_images/arsnoir-hero-movil-coche.jpg",
+            "text_position": "top"
+          },
+          "disabled": true
+        },
+        "s3": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/arsnoir-hero-dalmatas_91dafa3e-61fb-4654-8cda-773d91c45b97.jpg",
+            "image_mobile": "shopify://shop_images/arsnoir-hero-movil-dalmatas.jpg",
+            "text_position": "bottom"
+          }
+        },
+        "s4": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/arsnoir-hero-silla-coches.jpg",
+            "image_mobile": "shopify://shop_images/arsnoir-hero-movil-silla-coches.jpg",
+            "text_position": "top"
+          }
+        },
+        "s5": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/arsnoir-hero-navidad-butaca.jpg",
+            "image_mobile": "shopify://shop_images/arsnoir-hero-movil-navidad-butaca.jpg",
+            "text_position": "bottom"
+          }
+        }
+      },
+      "block_order": [
+        "s4",
+        "s3",
+        "s5",
+        "s1",
+        "s2"
+      ],
+      "settings": {
+        "height": "full",
+        "overlay": 15,
+        "interval": 4,
+        "label_left": "(ARSNOIR)",
+        "label_right": "",
+        "show_seal": false,
+        "seal_text": "ARTE ORIGINAL · SOLO EN ARSNOIR · ",
+        "seal_center": "A",
+        "button_label": "Ver obras",
+        "button_link": "shopify://collections/all",
+        "button2_label": "Crea tu ilustración",
+        "button2_link": "shopify://collections/personalizalo",
+        "heading": "No decores tu espacio.\nCambia cómo se siente.",
+        "show_progress": false
+      }
+    },
+    "walls": {
+      "type": "wall-stories",
+      "blocks": {
+        "w1": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/rose-salon.jpg",
+            "product": "rose"
+          }
+        },
+        "w2": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/retrato-comic-salon.jpg",
+            "product": "retrato-comic"
+          }
+        },
+        "w3": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/arsnoir-room-dormitorio.jpg",
+            "product": "blue-corner-1"
+          }
+        },
+        "w4": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/retrato-glam-dormitorio.jpg",
+            "product": "retrato-glam"
+          }
+        },
+        "w5": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/arsnoir-room-estudio.jpg",
+            "product": "perro-amarillo"
+          }
+        },
+        "w6": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/rose-dormitorio.jpg",
+            "product": "rose"
+          }
+        }
+      },
+      "block_order": [
+        "w1",
+        "w2",
+        "w3",
+        "w4",
+        "w5",
+        "w6"
+      ],
+      "settings": {
+        "eyebrow": "INSPIRACIÓN",
+        "heading": "Una buena decoración\nlo cambia todo.\nTu pared\npodría ser la siguiente.",
+        "text": "Ideas para cada rincón de tu casa. Toca una foto para verla en grande.",
+        "note": "Imágenes de ambiente."
+      }
+    },
+    "rooms": {
+      "disabled": true,
+      "type": "room-mockups",
+      "blocks": {
+        "r1": {
+          "type": "room",
+          "settings": {
+            "image": "shopify://shop_images/arsnoir-room-salon.jpg",
+            "room": "Salón"
+          }
+        },
+        "r2": {
+          "type": "room",
+          "settings": {
+            "image": "shopify://shop_images/arsnoir-room-dormitorio.jpg",
+            "product": "blue-corner-1",
+            "room": "Dormitorio"
+          }
+        },
+        "r3": {
+          "type": "room",
+          "settings": {
+            "image": "shopify://shop_images/arsnoir-room-estudio.jpg",
+            "product": "perro-amarillo",
+            "room": "Estudio"
+          }
+        }
+      },
+      "block_order": [
+        "r1",
+        "r2",
+        "r3"
+      ],
+      "settings": {
+        "eyebrow": "EN TU PARED",
+        "heading": "Imagínala en casa",
+        "subtitle": "Así se ven nuestras obras en espacios reales."
+      }
+    },
+    "reviews": {
+      "type": "reviews",
+      "settings": {
+        "eyebrow": "OPINIONES",
+        "heading": "Lo que dicen de sus paredes"
+      }
+    },
+    "guarantees": {
+      "type": "guarantees",
+      "blocks": {
+        "g1": {
+          "type": "item",
+          "settings": {
+            "icon": "truck",
+            "title": "Envío a España y Europa",
+            "text": "Con seguimiento: 4-10 días hábiles en la Península. 4,95 € por pedido a España y la UE, compres lo que compres. Gratis desde 80 € (importe con descuentos)."
+          }
+        },
+        "g2": {
+          "type": "item",
+          "settings": {
+            "icon": "return",
+            "title": "[DIAS] días para devolver",
+            "text": "Si no encaja en tu pared, tienes [DIAS] días para devolverla. Las piezas personalizadas, hechas con tu foto, solo se cambian si llegan dañadas o con un defecto."
+          }
+        },
+        "g3": {
+          "type": "item",
+          "settings": {
+            "icon": "print",
+            "title": "Impresión de alta calidad",
+            "text": "Cada obra se imprime para ti con papeles y tintas profesionales."
+          }
+        },
+        "g4": {
+          "type": "item",
+          "settings": {
+            "icon": "lock",
+            "title": "Pago 100% seguro",
+            "text": "Pagos cifrados y protegidos a través de Shopify."
+          }
+        }
+      },
+      "block_order": [
+        "g1",
+        "g2",
+        "g3",
+        "g4"
+      ],
+      "settings": {
+        "heading": "Compra con total tranquilidad"
+      }
+    },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "q1": {
+          "type": "question",
+          "settings": {
+            "question": "¿Cuánto tarda el envío?",
+            "answer": "<p>Enviamos a España y toda Europa, con seguimiento. Cada obra se imprime cuando la pides, en el centro de producción más cercano a ti. En la Península llega en 4-10 días hábiles; a Baleares, Canarias, Ceuta y Melilla puede tardar algo más y al resto de Europa, según el país. Láminas y láminas con marco: 4,95 € a España y la UE; los lienzos tienen su propia tarifa según el tamaño. Desde 80 € (importe con descuentos), el envío es gratis. El importe exacto lo ves en el pago antes de confirmar.</p>"
+          }
+        },
+        "q2": {
+          "type": "question",
+          "settings": {
+            "question": "¿En qué material se imprime?",
+            "answer": "<p>Papel Premium Matte de 200 g/m², acabado mate sin reflejos. Impresión giclée de 12 colores para un color fiel y negros profundos. Papel de origen sostenible y certificado FSC, con tintas al agua.</p>"
+          }
+        },
+        "q3": {
+          "type": "question",
+          "settings": {
+            "question": "¿Cómo son los marcos?",
+            "answer": "<p>Marcos de madera en negro, blanco o natural, con plexiglás irrompible delante y trasera rígida. Incluyen kit para colgar: tres colgadores dentados para ponerlo en vertical u horizontal (los clavos o tornillos no van incluidos).</p>"
+          }
+        },
+        "q4": {
+          "type": "question",
+          "settings": {
+            "question": "¿El arte es exclusivo?",
+            "answer": "<p>Sí. Todas las piezas son originales y exclusivas de ARSNOIR — no se venden en ningún otro sitio.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4"
+      ],
+      "settings": {
+        "eyebrow": "FAQ",
+        "heading": "Preguntas frecuentes",
+        "text": "¿Tienes otra duda? Escríbenos y te respondemos.",
+        "button_label": "Contactar",
+        "button_link": "/pages/contacto"
+      }
+    },
+    "community": {
+      "type": "instagram",
+      "blocks": {
+        "i1": {
+          "type": "tile",
+          "settings": {}
+        },
+        "i2": {
+          "type": "tile",
+          "settings": {}
+        },
+        "i3": {
+          "type": "tile",
+          "settings": {}
+        },
+        "i4": {
+          "type": "tile",
+          "settings": {}
+        },
+        "i5": {
+          "type": "tile",
+          "settings": {}
+        },
+        "i6": {
+          "type": "tile",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "i1",
+        "i2",
+        "i3",
+        "i4",
+        "i5",
+        "i6"
+      ],
+      "settings": {
+        "eyebrow": "COMUNIDAD",
+        "heading": "Tu pared, en nuestro feed",
+        "text": "Cuelga tu obra, hazle una foto y etiquétanos con #ARSNOIR.",
+        "handle": "@arsnoir"
+      },
+      "disabled": true
+    },
+    "packs": {
+      "type": "gallery-packs",
+      "blocks": {
+        "p1": {
+          "type": "pack",
+          "settings": {
+            "title": "Pack Botánico",
+            "layout": "trio",
+            "wall": "sage",
+            "button_label": "Añadir el pack",
+            "product_1": "limonero",
+            "product_2": "flores-amarillas",
+            "product_3": "cactus"
+          }
+        },
+        "p2": {
+          "type": "pack",
+          "settings": {
+            "title": "Pack Motor",
+            "layout": "stack",
+            "wall": "dark",
+            "button_label": "Añadir el pack",
+            "product_1": "ferrari",
+            "product_2": "revuelto",
+            "product_3": "aleron"
+          }
+        },
+        "p3": {
+          "type": "pack",
+          "settings": {
+            "title": "Pack Amor",
+            "layout": "duo",
+            "wall": "blush",
+            "button_label": "Añadir el pack",
+            "product_1": "love-you",
+            "product_2": "you-and-me"
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3"
+      ],
+      "settings": {},
+      "disabled": true
+    },
+    "q4": {
+      "type": "q4-campaign",
+      "settings": {}
+    },
+    "gifts": {
+      "type": "gift-guide",
+      "blocks": {
+        "g1": {
+          "type": "price",
+          "settings": {
+            "title": "Menos de 50 €",
+            "min": 0,
+            "max": 50,
+            "tone": "light"
+          }
+        },
+        "g2": {
+          "type": "price",
+          "settings": {
+            "title": "De 50 a 100 €",
+            "min": 50,
+            "max": 100,
+            "tone": "light"
+          }
+        },
+        "g3": {
+          "type": "price",
+          "settings": {
+            "title": "Más de 100 €",
+            "min": 100,
+            "max": 0,
+            "tone": "dark"
+          }
+        },
+        "g4": {
+          "type": "gift_card",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "g1",
+        "g2",
+        "g3",
+        "g4"
+      ],
+      "settings": {
+        "season_only": true
+      }
+    },
+    "materials": {
+      "type": "materials",
+      "blocks": {
+        "poster": {
+          "type": "material",
+          "settings": {
+            "image": "shopify://shop_images/arsnoir-material-poster.jpg",
+            "title": "Póster",
+            "text": "Papel mate de 200 g/m² con impresión giclée de 12 colores.",
+            "price": "Desde 16,95 €",
+            "was": "24,95 €",
+            "specs": "200 g/m²\nAcabado mate\nDe A4 a 60×90 cm",
+            "link": "shopify://collections/obras",
+            "cta": "Ver obras",
+            "zoom": "left top"
+          }
+        },
+        "poster_marco": {
+          "type": "material",
+          "settings": {
+            "image": "shopify://shop_images/arsnoir-material-poster-con-marco.jpg",
+            "title": "Póster con marco",
+            "text": "Marco de madera en negro, blanco o natural, con plexiglás y kit para colgar.",
+            "price": "Desde 34,95 €",
+            "was": "54,95 €",
+            "specs": "Marco de madera\nPlexiglás\nKit para colgar incluido",
+            "link": "shopify://collections/obras",
+            "cta": "Ver obras",
+            "zoom": "right top"
+          }
+        },
+        "lienzo": {
+          "type": "material",
+          "settings": {
+            "image": "shopify://shop_images/arsnoir-material-lienzo.jpg",
+            "title": "Lienzo",
+            "text": "Tela de lienzo tensada sobre bastidor de madera. Sin cristal ni reflejos.",
+            "price": "Desde 29,95 €",
+            "was": "39,95 €",
+            "specs": "Bastidor de madera\nSin reflejos\nDe 20×25 a 60×80 cm",
+            "link": "shopify://collections/lienzos",
+            "cta": "Ver obras",
+            "zoom": "left bottom"
+          }
+        },
+        "lienzo_marco": {
+          "type": "material",
+          "settings": {
+            "image": "shopify://shop_images/arsnoir-material-lienzo-con-marco.jpg",
+            "title": "Lienzo con marco",
+            "text": "El lienzo dentro de un marco de madera, en negro o natural.",
+            "price": "Desde 39,95 €",
+            "was": "59,95 €",
+            "specs": "Marco de madera para lienzo\nNegro o natural\nDe 20×25 a 60×80 cm",
+            "link": "shopify://collections/lienzos",
+            "cta": "Ver obras",
+            "zoom": "right top"
+          }
+        }
+      },
+      "block_order": [
+        "poster",
+        "poster_marco",
+        "lienzo",
+        "lienzo_marco"
+      ],
+      "settings": {
+        "eyebrow": "MATERIALES",
+        "heading": "Elige cómo la quieres",
+        "text": "Póster o lienzo, con o sin marco. En cada obra ves los formatos disponibles.",
+        "button_label": "Ver las obras",
+        "button_link": "shopify://collections/obras"
+      }
+    },
+    "lienzos": {
+      "type": "canvas-showcase",
+      "settings": {
+        "collection": "lienzos",
+        "limit": 10
+      }
+    },
+    "founder": {
+      "type": "founder-story",
+      "settings": {
+        "eyebrow": "DETRÁS DE LA MARCA",
+        "heading": "EL FUNDADOR.",
+        "as_quote": true,
+        "text": "<p>Fundé ARSNOIR con una idea sencilla: que las paredes de tu casa cuenten algo tuyo. Tu perro, tu pareja, tu familia o ese momento que no quieres olvidar. Es una marca pequeña y la llevo yo: si tienes cualquier duda con tu cuadro, escríbeme y te contesto personalmente.</p>",
+        "name": "Vera",
+        "role": "Fundador, ARSNOIR",
+        "button_label": "Escríbeme",
+        "button_link": "/pages/contacto",
+        "alt": "Vera, fundador de ARSNOIR",
+        "bg": "#EEF0F3"
+      }
+    },
+    "navidad": {
+      "type": "pz-feature",
+      "settings": {
+        "image": "shopify://shop_images/arsnoir-christmas-sillon.jpg",
+        "alt": "Retrato de dálmata con gorro de Papá Noel y foto familiar en blanco y negro, enmarcados junto a una cortina burdeos",
+        "eyebrow": "ARSNOIR CHRISTMAS",
+        "heading": "Este año,\nregala su retrato.",
+        "text": "Tu mascota con gorro de Papá Noel o vuestra foto en blanco y negro, enmarcada. Sube tu foto y mira el resultado gratis antes de comprar.",
+        "button_label": "Ver estilos de Navidad",
+        "tab": "Navidad",
+        "bg": "#490B1A",
+        "fg": "#FFFFFF",
+        "button_link": "/collections/personalizalo#ctpl-navidad"
+      }
+    },
+    "compon": {
+      "type": "pet-packs",
+      "blocks": {
+        "m2": {
+          "type": "mixpix",
+          "settings": {
+            "title": "Pack de 2",
+            "pack": "2",
+            "product_1": "retrato-comic",
+            "product_2": "retrato-glam",
+            "text": "Tu mascota en cómic y en glam: dos cuadros que juntos quedan brutales. Cuadros de 20×20 que se pegan a la pared sin clavos.",
+            "button_label": "Crear mi pack de 2"
+          }
+        },
+        "m3": {
+          "type": "mixpix",
+          "settings": {
+            "title": "Pack de 3",
+            "pack": "3",
+            "product_1": "oleo-vintage",
+            "product_2": "tu-mascota-en-acuarela",
+            "product_3": "retrato-con-nombre",
+            "text": "Óleo, acuarela y con su nombre: una fila elegante sobre el sofá o la cama. Cuadros de 20×20 que se pegan a la pared sin clavos.",
+            "button_label": "Crear mi pack de 3"
+          }
+        },
+        "m6": {
+          "type": "mixpix",
+          "settings": {
+            "title": "Pack de 6",
+            "pack": "6",
+            "product_1": "retrato-comic",
+            "product_2": "retrato-glam",
+            "product_3": "tu-mascota-en-acuarela",
+            "product_4": "oleo-vintage",
+            "product_5": "navidad-papa-noel",
+            "product_6": "ilustracion-plana",
+            "text": "Seis estilos de tu mascota en una cuadrícula: una pared de fotos entera. Cuadros de 20×20 que se pegan a la pared sin clavos.",
+            "button_label": "Crear mi pack de 6"
+          }
+        }
+      },
+      "block_order": [
+        "m2",
+        "m3",
+        "m6"
+      ],
+      "settings": {
+        "eyebrow": "PACKS MIXPIX",
+        "heading": "Compón tu pared.",
+        "text": "Tu mascota en varios estilos, en cuadros de 20×20 que se pegan sin clavos."
+      }
+    }
+  },
+  "order": [
+    "hposter",
+    "vhero",
+    "q4",
+    "welcome",
+    "featured",
+    "navidad",
+    "marquee",
+    "trust",
+    "lienzos",
+    "materials",
+    "gifts",
+    "walls",
+    "founder",
+    "rooms",
+    "packs",
+    "reviews",
+    "guarantees",
+    "faq",
+    "community",
+    "compon",
+    "join"
+  ]
+}
