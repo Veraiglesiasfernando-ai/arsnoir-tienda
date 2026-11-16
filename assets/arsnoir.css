@@ -4968,3 +4968,4 @@ body:has(.pdc) .product__tax { padding-bottom: 18px; border-bottom: 1px solid #e
   .fintro__panel { padding: 28px 16px 36px; }
   .fintro__drop { width: 140px; height: 140px; margin-bottom: 20px; }
 }
+.fintro .fintro__btn, .fintro .fintro__btn:hover { background: #0a0a0a; color: #fff; border-color: #0a0a0a; }
