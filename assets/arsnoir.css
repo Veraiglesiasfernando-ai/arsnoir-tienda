@@ -5211,5 +5211,5 @@ html.has-fmodal { overflow: hidden; }
 /* Canvas chosen: the band that goes round the sides of the frame is shaded, as on the printed canvas */
 .cupload__frame.is-canvas { position: relative; }
 .cupload__frame.is-canvas::before { content: ''; position: absolute; inset: 0; z-index: 3; pointer-events: none; border: 26px solid rgba(235,235,235,.72); }
-.cupload__frame.is-canvas::after { content: 'La zona clara va en los laterales del lienzo'; position: absolute; left: 0; right: 0; bottom: -26px; z-index: 3; text-align: center; font-size: 11.5px; color: #6b6b6b; pointer-events: none; }
-.fmodal__view .cupload__frame.is-canvas::before { border-width: 22px; } .cupload__wall .cupload__frame.is-canvas { overflow: visible; }
+.cupload__frame.is-canvas::after { content: 'La zona clara va en los laterales del lienzo'; position: absolute; left: 0; right: 0; bottom: 5px; z-index: 4; text-align: center; font-size: 11px; color: #3a3631; pointer-events: none; }
+.fmodal__view .cupload__frame.is-canvas::before { border-width: 22px; }
