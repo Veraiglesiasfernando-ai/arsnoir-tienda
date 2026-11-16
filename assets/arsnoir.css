@@ -5154,3 +5154,9 @@ html.has-fmodal { overflow: hidden; }
 /* «Tu foto en un cuadro» intro photo: the frame on the wall is never cut (crop from the bottom, not the top) */
 .fintro__media img { object-position: center top; }
 @media (max-width: 989px) { .fintro__media { aspect-ratio: 4 / 5; } }
+/* Intro photo shown almost whole (frame and sofa): the photo column takes the photo's shape */
+@media (min-width: 990px) {
+  .fintro { grid-template-columns: auto minmax(0, 1fr); }
+  .fintro__media { height: max(520px, calc(100svh - 170px)); aspect-ratio: 3 / 4; max-width: 55vw; }
+  .fintro__media img { object-position: center 30%; }
+}
