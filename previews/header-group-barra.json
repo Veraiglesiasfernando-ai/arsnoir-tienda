@@ -42,7 +42,65 @@
         "menu": "arsnoir-menu-cro",
         "bar_menu": "arsnoir-barra",
         "bar_highlight": "Navidad"
-      }
+      },
+      "blocks": {
+        "c1": {
+          "type": "drawer_card",
+          "settings": {
+            "title": "Navidad",
+            "image": "shopify://shop_images/arsnoir-hero-navidad-butaca.jpg",
+            "link": "/collections/personalizalo#ctpl-navidad"
+          }
+        },
+        "c2": {
+          "type": "drawer_card",
+          "settings": {
+            "title": "Ilustraciones",
+            "image": "shopify://shop_images/arsnoir-regalo-retrato-comic.jpg",
+            "link": "/collections/personalizalo"
+          }
+        },
+        "c3": {
+          "type": "drawer_card",
+          "settings": {
+            "title": "Tu foto",
+            "image": "shopify://shop_images/arsnoir-regalo-foto-familia.jpg",
+            "link": "/products/tu-foto-en-un-cuadro"
+          }
+        },
+        "c4": {
+          "type": "drawer_card",
+          "settings": {
+            "title": "MIXPIX",
+            "image": "shopify://shop_images/retrato-comic-salon.jpg",
+            "link": "/#mixpix"
+          }
+        },
+        "c5": {
+          "type": "drawer_card",
+          "settings": {
+            "title": "Obras",
+            "image": "shopify://shop_images/rose-salon.jpg",
+            "link": "/collections/obras"
+          }
+        },
+        "c6": {
+          "type": "drawer_card",
+          "settings": {
+            "title": "Lienzos",
+            "image": "shopify://shop_images/arsnoir-material-lienzo.jpg",
+            "link": "/collections/lienzos"
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4",
+        "c5",
+        "c6"
+      ]
     }
   },
   "order": [

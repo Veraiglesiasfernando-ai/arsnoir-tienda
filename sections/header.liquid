@@ -20,6 +20,26 @@
           {%- comment -%} Side drawer (Sklum-like): close button + big logo on top {%- endcomment -%}
           <button type="button" class="mobile-menu__close" aria-label="{{ 'general.close' | t }}" onclick="this.closest('details').removeAttribute('open')">{% render 'icon', name: 'close' %}</button>
           <p class="mobile-menu__brand">{{ s.logo_text | default: shop.name | strip | downcase }}</p>
+          {%- if section.blocks.size > 0 -%}
+            <div class="mm-trend">
+              {%- if s.drawer_heading != blank -%}<p class="mm-trend__title">{{ s.drawer_heading }}</p>{%- endif -%}
+              <ul class="mm-trend__row">
+                {%- for b in section.blocks -%}
+                  <li {{ b.shopify_attributes }}><a class="mm-trend__card" href="{{ b.settings.link | default: '#' }}">
+                    {%- if b.settings.image != blank -%}{{ b.settings.image | image_url: width: 400 | image_tag: loading: 'lazy', widths: '200, 300, 400', sizes: '150px', alt: b.settings.title, class: 'mm-trend__img' }}{%- else -%}<span class="mm-trend__img mm-trend__img--ph"></span>{%- endif -%}
+                    <span class="mm-trend__name">{{ b.settings.title }}</span>
+                  </a></li>
+                {%- endfor -%}
+              </ul>
+            </div>
+          {%- endif -%}
+          {%- if s.bar_menu != blank and bar.links.size > 0 -%}
+            <ul class="mm-main">
+              {%- for link in bar.links -%}
+                <li{% if link.title == s.bar_highlight and s.bar_highlight != blank %} class="nav-hot"{% endif %}><a href="{{ link.url }}">{{ link.title }}</a></li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
           <ul>
             {%- if settings.q4_enabled and settings.q4_gift_page != blank -%}
               <li data-q4="prebf bf xmas reyes late" hidden><a href="{{ settings.q4_gift_page.url }}">{{ 'q4.gifts' | t }}</a></li>
@@ -146,10 +166,22 @@
     { "type": "link_list", "id": "menu", "label": "Menú", "default": "main-menu", "info": "Se muestra en el centro en escritorio y en el menú hamburguesa en móvil. Los elementos con subelementos se abren como desplegable de cristal." },
     { "type": "link_list", "id": "bar_menu", "label": "Barra de escritorio", "info": "Opcional. Si eliges un menú, se ve como barra en el centro en ordenador (el menú de arriba sigue en la hamburguesa y en móvil)." },
     { "type": "text", "id": "bar_highlight", "label": "Elemento destacado en rojo", "info": "Nombre exacto de un elemento de la barra, p. ej. Navidad." },
+    { "type": "text", "id": "drawer_heading", "label": "Título de las tarjetas del menú móvil", "default": "Lo más buscado" },
     { "type": "page", "id": "favorites_page", "label": "Página de favoritos", "info": "Página con la plantilla «page.favoritos». Por defecto, /pages/favoritos." },
     { "type": "header", "content": "Buscador" },
     { "type": "text", "id": "search_placeholder", "label": "Texto del buscador", "default": "Busca una obra, un estilo, un color…" },
     { "type": "text", "id": "popular_searches", "label": "Búsquedas populares", "default": "Motor, Urban, Abstract, Minimalista, Blanco y negro, Salón", "info": "Separadas por comas. Se muestran al abrir el buscador." }
+  ],
+  "blocks": [
+    {
+      "type": "drawer_card",
+      "name": "Tarjeta del menú",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Imagen" },
+        { "type": "text", "id": "title", "label": "Nombre", "default": "Navidad" },
+        { "type": "url", "id": "link", "label": "Enlace" }
+      ]
+    }
   ]
 }
 {% endschema %}
