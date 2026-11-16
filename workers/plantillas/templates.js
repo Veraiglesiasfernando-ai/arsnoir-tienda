@@ -169,6 +169,35 @@ export const TEMPLATES = {
       'Draw glasses, earrings or other accessories only if that person wears them in the photo; never add any. Draw exactly the same people and animals as in the photo: never invent anyone; if there is no animal in the photo, draw no animal and do not put another person in its place. Leave out the photo background and objects. ' +
       'Everything painted with a brush, nothing photographic. No text, no logos, no border. Vertical 4:5.'
   },
+  'mascota-lazo-nombre': {
+    needsName: true,
+    font: 'manuscrita',
+    aspectRatio: '4:5',
+    refFirst: true,
+    reference: 'https://cdn.shopify.com/s/files/1/1020/8903/2064/files/estilo-mascota-lazo-nombre.jpg',
+    prompt:
+      'The first image is the finished illustration template. The second image is the customer\'s photo of their pet. ' +
+      'Edit the first image: replace its animal with the pet from the second image and keep everything else of the first image exactly as it is: ' +
+      'the same soft textured gouache and coloured-pencil painting style, the same pink and pale pink vertical stripes background, the same cream scalloped label with little red dots and red hand-drawn outline, ' +
+      'the same big red bow on top with its ribbons running down both sides, the same head-only portrait centred inside the label, looking at the viewer. ' +
+      'The pet must be fully repainted in the same textured painterly style: never keep photographic pixels, photo fur texture or anything of the photo background. Exactly one animal with one head. ' +
+      'It must be the very same individual animal as in the second image, instantly recognisable to its owner: same breed or mix, head and muzzle shape, ear shape and colour, fur length, colours, every spot and marking and eye colour. Nothing of the template animal\'s breed, colours or markings may remain. ' +
+      'Replace the name under the portrait: write exactly "{NAME}" (letter by letter: {SPELL}) in the same red flowing handwritten script with the same little dashes on both sides. Never copy the template\'s name. ' +
+      'No other text, no logos, no border. Vertical 4:5.'
+  },
+  'pareja-mascota-bn': {
+    needsName: false,
+    aspectRatio: '4:5',
+    reference: 'https://cdn.shopify.com/s/files/1/1020/8903/2064/files/estilo-pareja-mascota-bn.jpg',
+    prompt:
+      'The first image is the customer\'s photo: these are the only people and the only pet to paint. The second image only shows the style: none of its people, faces, hairstyles, beards, clothes or its dog may appear. ' +
+      'Paint a brand-new portrait of the people and the pet from the first image in the style of the second image: realistic black-and-white graphite and charcoal drawing with soft grey washes and fine detailed shading, ' +
+      'fading out at the edges into loose grey watercolour strokes, on a soft pink watercolour background with irregular darker pink patches. Only the background is pink; the people and the pet are in black, white and grey. ' +
+      'Keep the composition of the photo: the same people and pet in the same positions, close together, head-and-shoulders, centred, with a little space around the edges. ' +
+      'They must be instantly recognisable to their owners: each person\'s real face shape, expression, hairstyle, hair length and texture, beard or stubble exactly as in the photo, and clothes; the pet\'s breed or mix, head shape, ears, fur and markings. ' +
+      'Draw glasses, earrings or other accessories only if that person wears them in the photo; never add any. Draw exactly the same people and animals as in the photo: never invent anyone; if there is no animal in the photo, draw no animal and do not put another person in its place. Leave out the photo background and objects. ' +
+      'It must look hand-drawn, never like a filtered photo. No text, no logos, no border. Vertical 4:5.'
+  },
   'retrato-glam': {
     needsName: true,
     font: 'manuscrita', /* keeps the name as typed («Thor», not «THOR») on the tag */
