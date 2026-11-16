@@ -91,7 +91,7 @@
       {%- assign dfs = dpf | strip | split: '|' -%}
       {%- assign fp = dfs[0] | plus: 0 -%}{%- assign fc = dfs[1] | plus: 0 -%}
       {%- if fc > fp -%}
-        <span class="price__deal">{{ 'general.framed_from' | t | default: 'Con marco' | split: ' desde' | first }} <s>{{ fc | money }}</s> <b>{{ fp | money }}</b></span>
+        <span class="price__deal">{{ 'general.framed_from' | t | default: 'Con marco desde' }} {{ fp | money }} <s>{{ fc | money }}</s></span>
       {%- endif -%}
     {%- endif -%}
   {%- else -%}

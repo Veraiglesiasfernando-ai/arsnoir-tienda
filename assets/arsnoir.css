@@ -5249,3 +5249,5 @@ html.has-fmodal { overflow: hidden; }
 .price__deal b { color: var(--color-fg); }
 .welcome--tiles .price__deal s, .welcome--tiles .price s.muted { color: #fff; text-decoration-color: #fff; }
 .welcome--tiles .price__deal b { color: #fff; }
+/* Framed line written like the print line above it: «Con marco desde 34,95 € 54,95 €» */
+.price__deal { font-size: inherit; font-weight: inherit; color: inherit; }
