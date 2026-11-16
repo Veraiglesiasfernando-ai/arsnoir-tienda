@@ -5104,3 +5104,10 @@ html.has-fmodal { overflow: hidden; }
   .is-upfirst .pdc__frame-img { aspect-ratio: 2 / 1; }
   .is-upfirst .pdc { gap: 10px; }
 }
+@media (min-width: 990px) {
+  .is-upfirst .has-fedit.cguard { padding: 12px 16px 8px; }
+  .is-upfirst .cguard .fedit__edit, .is-upfirst .facc > summary { padding: 9px 0; }
+  .is-upfirst .has-fedit .cguard__rights-note { margin-top: 4px; padding-top: 6px; }
+  .is-upfirst .pdc__frame-img { aspect-ratio: 5 / 2; }
+  .is-upfirst .product__title { margin-bottom: 4px; }
+}
