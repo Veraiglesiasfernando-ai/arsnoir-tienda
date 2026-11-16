@@ -11,7 +11,7 @@ const TEMPLATES = {
     needsName: true,
     font: 'moderna',
     colors: { crema: 'warm off-white', rosa: 'soft pastel pink', azul: 'pale powder blue', verde: 'soft sage green', arena: 'warm sand beige' },
-    aspectRatio: '4:5',
+    aspectRatio: '3:4',
     reference: 'https://cdn.shopify.com/s/files/1/1020/8903/2064/files/estilo-mascotas-nombre.jpg',
     prompt:
       'The first image is the customer\'s photo: it is the subject. The second image is only a style reference: never copy its animal, people, breed or face. ' +
@@ -21,13 +21,13 @@ const TEMPLATES = {
       'the animal facing forward and centred, framed from the chest up, happy expression. ' +
       'It must be the very same individual animal as in the first image, instantly recognisable to its owner: same breed or mix, head and muzzle shape, ear shape, size and position, fur length, colours, every marking and eye colour. No clothes or accessories. ' +
       'Write the name "{NAME}" small in {FONT}, in black, centred at the top, spelled exactly. ' +
-      'No other text, no logos, no border. Vertical 4:5.'
+      'No other text, no logos, no border. Vertical 3:4, with a little empty background around the subject.'
   },
   'retrato-sudadera': {
     needsName: true,
     font: 'pincel',
     colors: { rosa: 'pink', azul: 'blue', verde: 'sage green', amarillo: 'butter yellow', lila: 'lilac' },
-    aspectRatio: '4:5',
+    aspectRatio: '3:4',
     reference: 'https://cdn.shopify.com/s/files/1/1020/8903/2064/files/plantilla-retrato-nombre.jpg',
     prompt:
       'The first image is the customer\'s photo: it is the subject. The second image is only a style reference: never copy its animal, people, breed or face. ' +
@@ -37,11 +37,11 @@ const TEMPLATES = {
       'happy expression, wearing a {COLOR} hoodie in a slightly deeper shade than the background, with white drawstrings, framed from the chest up. ' +
       'It must be the very same individual animal as in the first image, instantly recognisable to its owner: same breed or mix, head and muzzle shape, ear shape, size and position, fur length, colours, every marking and eye colour. ' +
       'Write the name "{NAME}" large, in {FONT}, in white, centred at the top, spelled exactly. ' +
-      'No other text, no logos, no border. Vertical 4:5.'
+      'No other text, no logos, no border. Vertical 3:4, with a little empty background around the subject.'
   },
   'oleo-vintage': {
     needsName: false,
-    aspectRatio: '4:5',
+    aspectRatio: '3:4',
     refFirst: true,
     reference: 'https://cdn.shopify.com/s/files/1/1020/8903/2064/files/estilo-mascotas-oleo.jpg',
     prompt:
@@ -51,12 +51,12 @@ const TEMPLATES = {
       'the same cream headscarf with small blue flowers tied under the chin, the same pose, head tilt, angle, size and chest-up framing. ' +
       'The pet must be fully repainted in oil brushstrokes like the rest of the painting: never keep photographic pixels, photo fur texture, photo lighting or anything of the photo background (bed, sheets, room). Exactly one animal with one head. ' +
       'It must be the very same individual animal as in the second image, instantly recognisable to its owner: same breed or mix, head and muzzle shape, ear shape, size and position, fur length, colours, every spot and marking and eye colour. Nothing of the template animal\'s breed, colours or markings may remain. ' +
-      'No text, no logos, no border. Vertical 4:5.'
+      'No text, no logos, no border. Vertical 3:4, with a little empty background around the subject.'
   },
 
   'en-su-rincon': {
     needsName: false,
-    aspectRatio: '4:5',
+    aspectRatio: '3:4',
     reference: 'https://cdn.shopify.com/s/files/1/1020/8903/2064/files/estilo-mascotas-en-casa.jpg',
     prompt:
       'The first image is the customer\'s photo: it is the subject. The second image is only a style reference: never copy its animal, people, breed or face. ' +
@@ -65,7 +65,7 @@ const TEMPLATES = {
       'textured painterly brushwork, the pet lying relaxed on a soft pale blue sofa with its head resting on a blue cushion, ' +
       'plain warm off-white wall behind, calm cosy mood, looking at the viewer. ' +
       'It must be the very same individual animal as in the first image, instantly recognisable to its owner: same breed or mix, head and muzzle shape, ear shape, size and position, fur length, colours, every marking and eye colour. ' +
-      'No text, no logos, no border. Vertical 4:5.'
+      'No text, no logos, no border. Vertical 3:4, with a little empty background around the subject.'
   },
   'retrato-pastel': {
     needsName: false,
@@ -102,7 +102,7 @@ const TEMPLATES = {
 
   'navidad-verde': {
     needsName: false,
-    aspectRatio: '4:5',
+    aspectRatio: '3:4',
     refFirst: true,
     reference: 'https://cdn.shopify.com/s/files/1/1020/8903/2064/files/estilo-mascotas-navidad-verde.jpg',
     prompt:
@@ -113,11 +113,11 @@ const TEMPLATES = {
       'The pet\'s ears stick out of the hood like in the template if it has them. ' +
       'The pet must be fully redrawn in the illustration style: never keep photographic pixels, photo fur texture or anything of the photo background. Exactly one animal with one head. ' +
       'It must be the very same individual animal as in the second image, instantly recognisable to its owner: same breed or mix, head and muzzle shape, ear shape and colour, fur length, colours, every spot and marking and eye colour. Nothing of the template animal\'s breed, colours or markings may remain. ' +
-      'No text, no logos, no border. Vertical 4:5.'
+      'No text, no logos, no border. Vertical 3:4, with a little empty background around the subject.'
   },
   'navidad-papa-noel': {
     needsName: false,
-    aspectRatio: '4:5',
+    aspectRatio: '3:4',
     refFirst: true,
     reference: 'https://cdn.shopify.com/s/files/1/1020/8903/2064/files/estilo-mascotas-navidad-papa-noel.jpg',
     prompt:
@@ -127,7 +127,7 @@ const TEMPLATES = {
       'the same red and white striped candy cane held sideways in the mouth, the same flat pale sky-blue background with round white snow dots, the same pose, angle, size and head-and-chest framing, looking at the viewer. ' +
       'The pet must be fully redrawn in the illustration style: never keep photographic pixels, photo fur texture or anything of the photo background. Exactly one animal with one head. ' +
       'It must be the very same individual animal as in the second image, instantly recognisable to its owner: same breed or mix, head and muzzle shape, ear shape and colour, fur length, colours, every spot and marking and eye colour. Nothing of the template animal\'s breed, colours or markings may remain. ' +
-      'No text, no logos, no border. Vertical 4:5.'
+      'No text, no logos, no border. Vertical 3:4, with a little empty background around the subject.'
   },
   'navidad-gorro-lapiz': {
     needsName: false,
@@ -145,7 +145,7 @@ const TEMPLATES = {
   },
   'navidad-pareja-corona': {
     needsName: false,
-    aspectRatio: '4:5',
+    aspectRatio: '3:4',
     refFirst: true,
     reference: 'https://cdn.shopify.com/s/files/1/1020/8903/2064/files/estilo-navidad-pareja-corona.jpg',
     prompt:
@@ -155,11 +155,11 @@ const TEMPLATES = {
       'the same red ribbon banner across the bottom with the words "Merry Christmas" in the same cream lettering, the same plain warm cream paper background, the same head-and-shoulders framing inside the wreath. ' +
       'Dress the people in cosy patterned Christmas jumpers like in the template. Draw them in the same simple cute style: round faces, small dot eyes, rosy freckled cheeks, gentle smiles. ' +
       'Keep every person from the second image recognisable: face shape, hair colour, length and style, beard and skin tone. Draw glasses, earrings or other accessories only if that person wears them in the photo; never add any. Draw exactly the same number of people as in the photo: never invent or remove anyone. Leave out objects and background from the photo. ' +
-      'Everything drawn, nothing photographic. No other text, no brand logos, no border. Vertical 4:5.'
+      'Everything drawn, nothing photographic. No other text, no brand logos, no border. Vertical 3:4, with a little empty background around the subject.'
   },
   'navidad-pareja-perro': {
     needsName: false,
-    aspectRatio: '4:5',
+    aspectRatio: '3:4',
     reference: 'https://cdn.shopify.com/s/files/1/1020/8903/2064/files/estilo-navidad-pareja-perro.jpg',
     prompt:
       'The first image is the customer\'s photo: these are the only people and the only pet to paint. The second image only shows the style and the Christmas decoration: none of its people, faces, hairstyles, beards, clothes or its dog may appear. ' +
@@ -168,12 +168,12 @@ const TEMPLATES = {
       'Keep the composition of the photo: the same people and pet in the same positions, close together, head-and-shoulders, centred, with a little space around the edges. ' +
       'They must be instantly recognisable to their owners: each person\'s real face shape, hairstyle, hair length, texture and colour (straight hair stays straight, short stays short), beard or stubble exactly as in the photo, eye colour, skin tone and clothes; the pet\'s breed or mix, head shape, ears, fur colours and markings. ' +
       'Draw glasses, earrings or other accessories only if that person wears them in the photo; never add any. Draw exactly the same people and animals as in the photo: never invent anyone; if there is no animal in the photo, draw no animal and do not put another person in its place. Leave out the photo background and objects. ' +
-      'Everything painted with a brush, nothing photographic. No text, no logos, no border. Vertical 4:5.'
+      'Everything painted with a brush, nothing photographic. No text, no logos, no border. Vertical 3:4, with a little empty background around the subject.'
   },
   'mascota-lazo-nombre': {
     needsName: true,
     font: 'manuscrita',
-    aspectRatio: '4:5',
+    aspectRatio: '3:4',
     refFirst: true,
     reference: 'https://cdn.shopify.com/s/files/1/1020/8903/2064/files/estilo-mascota-lazo-nombre.jpg',
     prompt:
@@ -184,11 +184,11 @@ const TEMPLATES = {
       'The pet must be fully repainted in the same textured painterly style: never keep photographic pixels, photo fur texture or anything of the photo background. Exactly one animal with one head. ' +
       'It must be the very same individual animal as in the second image, instantly recognisable to its owner: same breed or mix, head and muzzle shape, ear shape and colour, fur length, colours, every spot and marking and eye colour. Nothing of the template animal\'s breed, colours or markings may remain. ' +
       'Replace the name under the portrait: write exactly "{NAME}" (letter by letter: {SPELL}) in the same red flowing handwritten script with the same little dashes on both sides. Never copy the template\'s name. ' +
-      'No other text, no logos, no border. Vertical 4:5.'
+      'No other text, no logos, no border. Vertical 3:4, with a little empty background around the subject.'
   },
   'pareja-mascota-bn': {
     needsName: false,
-    aspectRatio: '4:5',
+    aspectRatio: '3:4',
     reference: 'https://cdn.shopify.com/s/files/1/1020/8903/2064/files/estilo-pareja-mascota-bn.jpg',
     prompt:
       'The first image is the customer\'s photo: these are the only people and the only pet to paint. The second image only shows the style: none of its people, faces, hairstyles, beards, clothes or its dog may appear. ' +
@@ -197,12 +197,12 @@ const TEMPLATES = {
       'Keep the composition of the photo: the same people and pet in the same positions, close together, head-and-shoulders, centred, with a little space around the edges. ' +
       'They must be instantly recognisable to their owners: each person\'s real face shape, expression, hairstyle, hair length and texture, beard or stubble exactly as in the photo, and clothes; the pet\'s breed or mix, head shape, ears, fur and markings. ' +
       'Draw glasses, earrings or other accessories only if that person wears them in the photo; never add any. Draw exactly the same people and animals as in the photo: never invent anyone; if there is no animal in the photo, draw no animal and do not put another person in its place. Leave out the photo background and objects. ' +
-      'It must look hand-drawn, never like a filtered photo. No text, no logos, no border. Vertical 4:5.'
+      'It must look hand-drawn, never like a filtered photo. No text, no logos, no border. Vertical 3:4, with a little empty background around the subject.'
   },
   'retrato-glam': {
     needsName: true,
     font: 'manuscrita', /* keeps the name as typed («Thor», not «THOR») on the tag */
-    aspectRatio: '4:5',
+    aspectRatio: '3:4',
     refFirst: true,
     reference: 'https://cdn.shopify.com/s/files/1/1020/8903/2064/files/estilo-mascotas-glam.jpg',
     prompt:
@@ -214,13 +214,13 @@ const TEMPLATES = {
       'The heart tag shows the name "{NAME}" in white, spelled exactly, with a small white star under it. No other text. ' +
       'The pet must be fully redrawn in the illustration style: never keep photographic pixels, photo fur texture or anything of the photo background. Exactly one animal with one head. ' +
       'It must be the very same individual animal as in the second image, instantly recognisable to its owner: same breed or mix, head and muzzle shape, ear shape and colour, fur length, colours, every spot and marking. Nothing of the template animal\'s breed, colours or markings may remain. ' +
-      'No logos, no border. Vertical 4:5.'
+      'No logos, no border. Vertical 3:4, with a little empty background around the subject.'
   },
   'retrato-comic': {
     needsName: true,
     font: 'manuscrita',
     colors: { azul: 'bright blue', rojo: 'bright red', rosa: 'hot pink', verde: 'green', negro: 'black', morado: 'purple' },
-    aspectRatio: '4:5',
+    aspectRatio: '3:4',
     refFirst: true,
     reference: 'https://cdn.shopify.com/s/files/1/1020/8903/2064/files/estilo-mascotas-comic.jpg',
     prompt:
@@ -232,12 +232,12 @@ const TEMPLATES = {
       'The heart tag shows the name "{NAME}" in white, spelled exactly, with a small white star under it. No other text. ' +
       'The pet must be fully redrawn in the illustration style: never keep photographic pixels, photo fur texture or anything of the photo background. Exactly one animal with one head. ' +
       'It must be the very same individual animal as in the second image, instantly recognisable to its owner: same breed or mix, head and muzzle shape, ear shape and colour, fur length, colours, every spot and marking. Nothing of the template animal\'s breed, colours or markings may remain. ' +
-      'No logos, no border. Vertical 4:5.'
+      'No logos, no border. Vertical 3:4, with a little empty background around the subject.'
   },
   'momento-ilustrado': {
     needsName: false,
     font: 'manuscrita',
-    aspectRatio: '4:5',
+    aspectRatio: '3:4',
     reference: 'https://cdn.shopify.com/s/files/1/1020/8903/2064/files/estilo-momento-ilustrado.jpg',
     textPrompt: 'Add the text "{NAME}" in {FONT}, dark charcoal, small and centred at the bottom on the white background, spelled exactly. ',
     prompt:
@@ -247,18 +247,18 @@ const TEMPLATES = {
       'no background scene: the people and the main objects of the photo float on a plain warm off-white background, with a loose painted brush stroke under them as a base. ' +
       'Keep every person and pet from the first image, with their faces, hair, expressions, clothes and poses recognisable, and keep meaningful objects (a cake, flowers, a gift). ' +
       'It must be a completely new hand-made illustration: never keep or paste photographic pixels. Do not add or remove people. ' +
-      'No other text, no logos, no border. Vertical 4:5.'
+      'No other text, no logos, no border. Vertical 3:4, with a little empty background around the subject.'
   },
   'acuarela-familia': {
     needsName: false,
-    aspectRatio: '4:5',
+    aspectRatio: '3:4',
     reference: 'https://cdn.shopify.com/s/files/1/1020/8903/2064/files/plantilla-acuarela-familia.jpg',
     prompt:
       'The first image is the customer\'s photo: it is the subject. The second image is only a style reference: never copy its animal, people, breed or face. ' +
       'Repaint the first image as a watercolour illustration in exactly the same style as the second image: ' +
       'soft watercolour on textured white paper, warm cosy light, gentle outlines, irregular painted edges fading into the white paper. ' +
       'Keep every person and pet from the first image, their faces, hair, clothes, poses and the setting, recognisable. ' +
-      'Do not add or remove people. No text, no logos, no border. Vertical 4:5.'
+      'Do not add or remove people. No text, no logos, no border. Vertical 3:4, with a little empty background around the subject.'
   },
   'pareja-acuarela': {
     needsName: true,
@@ -538,7 +538,7 @@ export default {
       const model = env.MODEL || 'google/nano-banana';
       const res = await replicate('/models/' + model + '/predictions', {
         method: 'POST',
-        body: JSON.stringify({ input: { prompt, image_input: (retry === 2 ? !tpl.refFirst : tpl.refFirst) ? [tpl.reference, image] : [image, tpl.reference], output_format: 'png', aspect_ratio: tpl.aspectRatio || '4:5' } })
+        body: JSON.stringify({ input: { prompt, image_input: (retry === 2 ? !tpl.refFirst : tpl.refFirst) ? [tpl.reference, image] : [image, tpl.reference], output_format: 'png', aspect_ratio: tpl.aspectRatio || '3:4' } })
       });
       const data = await res.json();
       if (!res.ok || !data.id) return json({ error: 'replicate', detail: data.detail || null }, 502);

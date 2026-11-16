@@ -216,7 +216,7 @@ export default {
       const model = env.MODEL || 'google/nano-banana';
       const res = await replicate('/models/' + model + '/predictions', {
         method: 'POST',
-        body: JSON.stringify({ input: { prompt, image_input: (retry === 2 ? !tpl.refFirst : tpl.refFirst) ? [tpl.reference, image] : [image, tpl.reference], output_format: 'png', aspect_ratio: tpl.aspectRatio || '4:5' } })
+        body: JSON.stringify({ input: { prompt, image_input: (retry === 2 ? !tpl.refFirst : tpl.refFirst) ? [tpl.reference, image] : [image, tpl.reference], output_format: 'png', aspect_ratio: tpl.aspectRatio || '3:4' } })
       });
       const data = await res.json();
       if (!res.ok || !data.id) return json({ error: 'replicate', detail: data.detail || null }, 502);
