@@ -129,6 +129,49 @@ const TEMPLATES = {
       'It must be the very same individual animal as in the second image, instantly recognisable to its owner: same breed or mix, head and muzzle shape, ear shape and colour, fur length, colours, every spot and marking and eye colour. Nothing of the template animal\'s breed, colours or markings may remain. ' +
       'No text, no logos, no border. Vertical 4:5.'
   },
+  'navidad-gorro-lapiz': {
+    needsName: false,
+    aspectRatio: '3:4',
+    refFirst: true,
+    reference: 'https://cdn.shopify.com/s/files/1/1020/8903/2064/files/estilo-navidad-gorro-lapiz.jpg',
+    prompt:
+      'The first image is the finished Christmas illustration template. The second image is the customer\'s photo of their pet. ' +
+      'Edit the first image: replace its animal with the pet from the second image and keep everything else of the first image exactly as it is: ' +
+      'the same hand-drawn coloured-pencil and crayon style with loose scribbled strokes and soft textured shading, the same red Santa hat with fluffy white scribbled trim and pompom worn slightly tilted on the head, ' +
+      'the same plain white background, the same head-and-chest framing fading out at the bottom in loose strokes, the same pose and angle, looking at the viewer. ' +
+      'The pet must be fully redrawn in coloured pencil: never keep photographic pixels, photo fur texture or anything of the photo background. Exactly one animal with one head. ' +
+      'It must be the very same individual animal as in the second image, instantly recognisable to its owner: same breed or mix, head and muzzle shape, ear shape and colour, fur length, colours, every spot and marking and eye colour. Nothing of the template animal\'s breed, colours or markings may remain. ' +
+      'No text, no logos, no border. Vertical 3:4.'
+  },
+  'navidad-pareja-corona': {
+    needsName: false,
+    aspectRatio: '4:5',
+    refFirst: true,
+    reference: 'https://cdn.shopify.com/s/files/1/1020/8903/2064/files/estilo-navidad-pareja-corona.jpg',
+    prompt:
+      'The first image is the finished Christmas illustration template. The second image is the customer\'s photo. ' +
+      'Edit the first image: replace the two people with the people from the second image and keep everything else of the first image exactly as it is: ' +
+      'the same flat textured gouache-style illustration with soft grain, the same round green Christmas wreath with holly, red berries, yellow stars and white flowers, the same big red and white striped bow on top, ' +
+      'the same red ribbon banner across the bottom with the words "Merry Christmas" in the same cream lettering, the same plain warm cream paper background, the same head-and-shoulders framing inside the wreath. ' +
+      'Dress the people in cosy patterned Christmas jumpers like in the template. Draw them in the same simple cute style: round faces, small dot eyes, rosy freckled cheeks, gentle smiles. ' +
+      'Keep every person from the second image recognisable: face shape, hair colour, length and style, beard, skin tone, glasses and earrings. Do not add or remove people, and leave out objects and background from the photo. ' +
+      'Everything drawn, nothing photographic. No other text, no brand logos, no border. Vertical 4:5.'
+  },
+  'navidad-pareja-perro': {
+    needsName: false,
+    aspectRatio: '4:5',
+    refFirst: true,
+    reference: 'https://cdn.shopify.com/s/files/1/1020/8903/2064/files/estilo-navidad-pareja-perro.jpg',
+    prompt:
+      'The first image is the finished Christmas watercolour template. The second image is the customer\'s photo of the people with their pet. ' +
+      'Edit the first image: replace the people and the dog with the people and the pet from the second image and keep everything else of the first image exactly as it is: ' +
+      'the same loose hand-painted watercolour technique on textured paper with soft washes and visible brush strokes, the same soft pink background with a deeper pink round wash behind them, ' +
+      'the same garland of warm fairy lights across the top with small bows, the same little snowflakes, the same laurel branches with red berries around the bottom and the same red ribbon bow at the bottom centre, ' +
+      'the same close cheek-to-cheek head-and-shoulders framing with the pet in front, centred, with a little space around the edges. ' +
+      'Paint them in the same warm illustrated style: rosy freckled cheeks, gentle smiles. ' +
+      'Keep every person and the pet from the second image recognisable: face shape, hair colour, length and style, beard, skin tone, earrings; the pet\'s breed or mix, head shape, ears, fur colours and markings. Do not add or remove people or animals, and leave out objects and background from the photo. ' +
+      'Everything painted with a brush, nothing photographic. No text, no logos, no border. Vertical 4:5.'
+  },
   'retrato-glam': {
     needsName: true,
     font: 'manuscrita', /* keeps the name as typed («Thor», not «THOR») on the tag */
