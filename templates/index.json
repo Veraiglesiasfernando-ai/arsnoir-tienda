@@ -360,7 +360,7 @@
           "settings": {
             "icon": "return",
             "title": "[DIAS] días para devolver",
-            "text": "Si no encaja en tu pared, tienes [DIAS] días para devolverla."
+            "text": "Si no encaja en tu pared, tienes [DIAS] días para devolverla. Las piezas personalizadas, hechas con tu foto, solo se cambian si llegan dañadas o con un defecto."
           }
         },
         "g3": {
@@ -601,7 +601,7 @@
             "text": "Marco de madera en negro, blanco o natural, con plexiglás y kit para colgar.",
             "price": "Desde 34,95 €",
             "was": "54,95 €",
-            "specs": "Marco de madera\nPlexiglás\nListo para colgar",
+            "specs": "Marco de madera\nPlexiglás\nKit para colgar incluido",
             "link": "shopify://collections/obras",
             "cta": "Ver obras",
             "zoom": "right top"

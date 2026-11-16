@@ -64,7 +64,7 @@
     <span class="ctpl__name">{{ b.name }}</span>
     {%- if c_deal -%}
         {%- assign dt = c_deal.title | downcase -%}
-        {%- if dt contains 'lienzo' or dt contains 'canvas' -%}{%- assign d_label = 'Lienzo' -%}{%- elsif dt contains 'marco' or dt contains 'frame' -%}{%- assign d_label = 'Con marco' -%}{%- else -%}{%- assign d_label = '' -%}{%- endif -%}
+        {%- if dt contains 'lienzo' or dt contains 'canvas' -%}{%- assign d_label = 'Lienzo' -%}{%- elsif dt contains 'sin marco' or dt contains 'unframed' -%}{%- assign d_label = 'Lámina' -%}{%- elsif dt contains 'marco' or dt contains 'frame' -%}{%- assign d_label = 'Con marco' -%}{%- else -%}{%- assign d_label = '' -%}{%- endif -%}
         <span class="ctpl__deal">{% if d_label != '' %}{{ d_label }} {% endif %}<b>{{ c_deal.price | money }}</b> <s>{{ c_deal.compare_at_price | money }}</s> <em>-{{ c_best }} %</em></span>
       {%- endif -%}
     {%- if b.tagline != blank -%}<span class="ctpl__tagline">{{ b.tagline }}</span>{%- endif -%}
