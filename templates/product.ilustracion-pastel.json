@@ -56,7 +56,7 @@
             "template_id": "retrato-pastel",
             "template_name": "Retrato en color pastel",
             "needs_name": false,
-            "max_previews": 1,
+            "max_previews": 2,
             "colors": "azul|Azul cielo|#A9CDF2\nrosa|Rosa|#F4C6D0\nverde|Menta|#C6E3D2\namarillo|Amarillo|#F6E3A1\nlila|Lila|#D9CCF0\nmelocoton|Melocotón|#F7D2BC",
             "color_label": "Color de fondo"
           }

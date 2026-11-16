@@ -2,13 +2,16 @@
   Quality texts by maker. Usage: {% render 'qtext', t: some_text %}
   While «Producción con merchOne» (settings.prod_merchone) is off, the text is printed as is
   (the Gelato texts, true for the works still printed by Gelato).
+  Pages already printed by merchOne (Tu foto en un cuadro, Personalízalo, the portraits) always use them.
   When it is on, each known Gelato text (whole paragraph, or one line of a list) is swapped
   for the merchOne one. A text mapped to '' is hidden. Unknown texts are printed as is.
   merchOne data (11/2026): poster 230 g/m² satin photo paper (Fujifilm); framed poster:
   gallery frame, acrylic glass, hanger; canvas: fine-textured white canvas, hand-stretched on
   a spruce frame, HP Latex inks; framed canvas: floating frame.
 {%- endcomment -%}
-{%- if settings.prod_merchone -%}
+{%- assign q_mo = settings.prod_merchone -%}
+{%- if template.suffix == 'foto' or template.suffix == 'personalizalo' or template.suffix contains 'ilustracion' -%}{%- assign q_mo = true -%}{%- endif -%}
+{%- if q_mo -%}
   {%- case t -%}
     {%- when '<p>Papel Premium Matte de 200 g/m², acabado mate sin reflejos. Impresión giclée de 12 colores para un color fiel y negros profundos. Papel de origen sostenible y certificado FSC, con tintas al agua.</p>' -%}
       <p>Láminas en papel fotográfico Fujifilm de 230 g/m² y, en los cuadros con marco, papel satinado de 275 g/m²: colores intensos y mucho detalle. Los lienzos, en tela blanca de textura fina tensada a mano sobre bastidor de abeto. Todo se imprime en Europa cuando lo pides.</p>

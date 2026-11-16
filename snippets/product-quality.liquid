@@ -31,7 +31,8 @@
       {%- endif -%}
       <div class="pq__cards">
         {%- assign q_m1 = settings.prod_merchone -%}
-        {%- if template.suffix == 'foto' or template.suffix == 'personalizalo' -%}{%- assign q_m1 = true -%}{%- endif -%}
+        {%- comment -%} Already printed by merchOne: «Tu foto en un cuadro», Personalízalo and the personalised portraits (ilustracion-*) {%- endcomment -%}
+        {%- if template.suffix == 'foto' or template.suffix == 'personalizalo' or template.suffix contains 'ilustracion' -%}{%- assign q_m1 = true -%}{%- endif -%}
         {%- if q_m1 -%}
           {%- assign q_items = 'poster|Póster|Papel fotográfico Fujifilm de 230 g/m² con acabado satinado: colores intensos y mucho detalle.|230 g/m²,Satinado,Fujifilm;poster-con-marco|Póster con marco|Lámina en papel satinado de 275 g/m², con marco de galería, cristal acrílico y colgador. En negro, blanco o madera.|275 g/m²,Cristal acrílico,Con colgador;lienzo|Lienzo|Lienzo blanco de textura fina, tensado a mano sobre bastidor de abeto. Impreso con tintas HP Latex.|Bastidor de abeto,Tensado a mano,Sin reflejos;lienzo-con-marco|Lienzo con marco|El lienzo dentro de un marco flotante, con un pequeño hueco de sombra alrededor. En negro o madera.|Marco flotante,Negro o madera' | split: ';' -%}
         {%- else -%}
