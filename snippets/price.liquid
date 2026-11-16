@@ -84,14 +84,17 @@
       {%- assign dps = dp | strip | split: '|' -%}
       {%- assign from_p = dps[0] | plus: 0 -%}{%- assign from_c = dps[1] | plus: 0 -%}
     {%- endif -%}
-    {% if min_framed %}{{ 'general.from' | t }}{% else %}{{ 'general.print_from' | t }}{% endif %} {{ from_p | money }}
-    {%- if from_c > from_p %} <s class="muted">{{ from_c | money }}</s>{%- endif -%}
+    <span class="price__row">{% if min_framed %}{{ 'general.from' | t }}{% else %}{{ 'general.print_from' | t }}{% endif %}
+    {%- if from_c > from_p -%}
+      {%- assign off = from_c | minus: from_p | times: 100.0 | divided_by: from_c | round %} <b class="price__now">{{ from_p | money }}</b> <s class="muted">{{ from_c | money }}</s> <span class="price__off">-{{ off }} %</span>
+    {%- else %} {{ from_p | money }}{%- endif -%}</span>
     {%- if fv and min_framed == false -%}
       {%- capture dpf -%}{% render 'deal-price', variant: fv, product: product %}{%- endcapture -%}
       {%- assign dfs = dpf | strip | split: '|' -%}
       {%- assign fp = dfs[0] | plus: 0 -%}{%- assign fc = dfs[1] | plus: 0 -%}
       {%- if fc > fp -%}
-        <span class="price__deal">{{ 'general.framed_from' | t | default: 'Con marco desde' }} {{ fp | money }} <s>{{ fc | money }}</s></span>
+        {%- assign foff = fc | minus: fp | times: 100.0 | divided_by: fc | round -%}
+        <span class="price__deal price__row">{{ 'general.framed_from' | t | default: 'Con marco desde' }} <b class="price__now">{{ fp | money }}</b> <s>{{ fc | money }}</s> <span class="price__off">-{{ foff }} %</span></span>
       {%- endif -%}
     {%- endif -%}
   {%- else -%}

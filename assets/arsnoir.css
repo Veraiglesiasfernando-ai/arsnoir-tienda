@@ -5251,3 +5251,9 @@ html.has-fmodal { overflow: hidden; }
 .welcome--tiles .price__deal b { color: #fff; }
 /* Framed line written like the print line above it: «Con marco desde 34,95 € 54,95 €» */
 .price__deal { font-size: inherit; font-weight: inherit; color: inherit; }
+/* Card prices like the product page: «Desde» grey, today's price bold red, earlier price struck grey, red % badge */
+.price__row { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 7px; margin-top: 3px; color: var(--color-muted); }
+.price__row .price__now { color: #A8322A; font-weight: 700; }
+.price__row s, .price__row s.muted { color: #8a8a8a; text-decoration-color: #8a8a8a; font-weight: 400; }
+.price__off { display: inline-block; padding: 2px 6px; border-radius: 3px; background: #A8322A; color: #fff; font-size: .78em; font-weight: 700; line-height: 1.3; }
+.welcome--tiles .price__row, .welcome--tiles .price__row .price__now, .welcome--tiles .price__row s { color: #fff; text-decoration-color: #fff; }
