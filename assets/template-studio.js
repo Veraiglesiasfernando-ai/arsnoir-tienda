@@ -239,8 +239,8 @@
   };
   /* The room photos show the template's example: once there is an illustration, paint it into
      their frame (same spot in every product, measured on the photos) and hide the example-only ones */
-  /* the artwork area inside the passe-partout (the frame and mat of the photo stay) */
-  const ROOMS = { 'despacho': [29.65, 27.62, 29.47, 27.97], 'salón con sofá': [36.65, 16.78, 26.43, 28.59], 'salón con sillones': [29.47, 15.06, 27.99, 30.39],
+  /* the whole area inside the frame (no passe-partout: the illustration fills the frame, as it arrives) */
+  const ROOMS = { 'despacho': [27.72, 26.17, 33.33, 30.94], 'salón con sofá': [35.17, 15.68, 29.47, 30.8], 'salón con sillones': [28.08, 13.81, 30.76, 32.73],
     'salón': [41.72, 24, 29.22, 29.73], 'dormitorio': [37.75, 16.93, 24.83, 28.93], 'estudio': [34.77, 13.2, 36.26, 37.47] };
   let artUrl = '';
   const roomOf = function (img) {
