@@ -15,6 +15,10 @@
     <div class="pstyles__head">
       <h2 class="pstyles__title">Pon tus recuerdos en la pared</h2>
       <p class="pstyles__text">Tienes cientos de fotos en el móvil. Elige un estilo y conviértelas en un cuadro: luego puedes cambiar el texto, el borde y el filtro.</p>
+      <div class="pstyles__ori" role="group" aria-label="Orientación">
+        <button type="button" class="pstyles__obtn is-on" data-pori="v" aria-pressed="true"><span class="pstyles__oico pstyles__oico--v"></span>Vertical</button>
+        <button type="button" class="pstyles__obtn" data-pori="h" aria-pressed="false"><span class="pstyles__oico pstyles__oico--h"></span>Horizontal</button>
+      </div>
     </div>
     <ul class="pstyles__grid" role="list">
       {%- for l in looks -%}
@@ -40,6 +44,15 @@
     if (!box) return;
     var BORDER = { blanco: 'Con borde blanco', negro: 'Con borde negro', arena: 'Con borde arena', sin: 'A sangre' };
     var pending = null;
+    var ori = 'v';
+    var grid = box.querySelector('.pstyles__grid');
+    /* Vertical / Horizontal: the cards turn at once, and the chosen one goes to the editor with the look */
+    var setOri = function (o) {
+      ori = o;
+      grid.classList.toggle('is-h', o === 'h');
+      box.querySelectorAll('[data-pori]').forEach(function (b) { var on = b.dataset.pori === o; b.classList.toggle('is-on', on); b.setAttribute('aria-pressed', on); });
+    };
+    box.querySelectorAll('[data-pori]').forEach(function (b) { b.addEventListener('click', function () { setOri(b.dataset.pori); }); });
     var pick = function (sel) { var i = document.querySelector(sel); if (i && !i.checked) { i.checked = true; i.dispatchEvent(new Event('change', { bubbles: true })); } };
     var apply = function (b) {
       pick('input[name="properties[Borde]"][value="' + BORDER[b.dataset.border] + '"]');
@@ -51,6 +64,8 @@
       pick('input[name="properties[Color del texto]"][value="' + b.dataset.color + '"]');
       pick('input[name="properties[Posición del texto]"][value="' + b.dataset.pos + '"]');
       if (tx) tx.dispatchEvent(new Event('input', { bubbles: true }));
+      var ob = document.querySelector('[data-orient="' + ori + '"]');
+      if (ob && !ob.classList.contains('is-on')) ob.click();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     };
     box.addEventListener('click', function (e) {
@@ -67,6 +82,9 @@
       if (!(t.matches && t.matches('input[data-cupload]') && t.files && t.files[0])) return;
       var url = URL.createObjectURL(t.files[0]);
       box.querySelectorAll('[data-pstyles-img]').forEach(function (im) { im.src = url; });
+      var probe = new Image();
+      probe.onload = function () { if (!pending) setOri(probe.naturalWidth > probe.naturalHeight ? 'h' : 'v'); };
+      probe.src = url;
       if (pending) { var b = pending; pending = null; setTimeout(function () { apply(b); }, 900); }
     });
   })();

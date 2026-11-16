@@ -5179,6 +5179,17 @@ html.has-fmodal { overflow: hidden; }
 .pstyles__head { max-width: 720px; margin: 0 auto 36px; text-align: center; }
 .pstyles__title { margin: 0 0 12px; font-size: clamp(30px, 3.6vw, 46px); line-height: 1.05; letter-spacing: -.02em; }
 .pstyles__text { margin: 0; color: #4a4642; font-size: 15px; }
+.pstyles__ori { display: inline-flex; gap: 6px; margin-top: 18px; padding: 4px; border: 1px solid #e3ded6; border-radius: 999px; background: #fff; }
+.pstyles__obtn { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border: 0; border-radius: 999px; background: none; font: inherit; font-size: 14px; color: #4a4642; cursor: pointer; }
+.pstyles__obtn.is-on { background: #141414; color: #fff; }
+.pstyles__oico { display: inline-block; border: 1.5px solid currentColor; border-radius: 2px; }
+.pstyles__oico--v { width: 10px; height: 14px; }
+.pstyles__oico--h { width: 14px; height: 10px; }
+.pstyles__grid.is-h { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.pstyles__grid.is-h .pstyles__frame { aspect-ratio: 29.7 / 21; padding: 4% 4% 11%; }
+.pstyles__grid.is-h .pstyles__frame--sin { padding: 0; }
+.pstyles__grid.is-h .pstyles__cap { left: 4%; right: 4%; height: 11%; }
+.pstyles__grid.is-h .pstyles__frame--sin .pstyles__cap { height: auto; }
 .pstyles__grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 20px; margin: 0; padding: 0; list-style: none; }
 .pstyles__card { display: flex; flex-direction: column; gap: 10px; width: 100%; padding: 0; border: 0; background: none; text-align: left; font: inherit; cursor: pointer; }
 .pstyles__frame { position: relative; display: flex; flex-direction: column; aspect-ratio: 21 / 29.7; padding: 6% 6% 16%; background: #fff; box-shadow: 0 10px 24px -14px rgba(0,0,0,.35); transition: transform .2s; }
@@ -5205,6 +5216,7 @@ html.has-fmodal { overflow: hidden; }
   .pstyles { padding: 44px 0; }
   .pstyles__grid { display: flex; overflow-x: auto; gap: 14px; padding-bottom: 6px; scroll-snap-type: x mandatory; }
   .pstyles__grid li { flex: 0 0 46%; scroll-snap-align: start; }
+  .pstyles__grid.is-h li { flex-basis: 78%; }
   .pstyles__cap { font-size: 9px; }
 }
 .pstyles__img { flex: 1 1 0; height: 0; }
