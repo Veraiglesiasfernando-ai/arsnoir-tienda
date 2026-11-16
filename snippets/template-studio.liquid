@@ -37,9 +37,9 @@
     {%- if b.ba_photo != blank and b.ba_result != blank -%}
       {%- comment -%} Before / after: a real photo and the illustration this style made from it {%- endcomment -%}
       <div class="tba">
-        <figure class="tba__pic">{{ b.ba_photo | image_url: width: 240 | image_tag: loading: 'lazy', alt: 'Foto original' }}<figcaption>Foto</figcaption></figure>
+        <figure class="tba__pic">{{ b.ba_photo | image_url: width: 240 | image_tag: loading: 'lazy', alt: 'Foto original' }}<figcaption>Antes</figcaption></figure>
         <span class="tba__arrow" aria-hidden="true">→</span>
-        <figure class="tba__pic tba__pic--art">{{ b.ba_result | image_url: width: 240 | image_tag: loading: 'lazy', alt: 'La ilustración hecha con esa foto' }}<figcaption>Ilustración</figcaption></figure>
+        <figure class="tba__pic tba__pic--art">{{ b.ba_result | image_url: width: 240 | image_tag: loading: 'lazy', alt: 'La ilustración hecha con esa foto' }}<figcaption>Después</figcaption></figure>
         {%- if b.ba_note != blank -%}<p class="tba__note">{{ b.ba_note }}</p>{%- endif -%}
       </div>
     {%- endif -%}

@@ -4914,3 +4914,9 @@ body:has(.pdc) .product__tax { padding-bottom: 18px; border-bottom: 1px solid #e
 .tba__arrow { font-size: 18px; color: #6b6b6b; }
 .tba__note { flex: 1 1 auto; margin: 0 0 0 4px; font-size: 13px; line-height: 1.35; color: #2b2925; }
 .product__info.is-studio-b .tba { display: none; }
+@media (min-width: 990px) {
+  .product--rail .tpromise { margin-bottom: 10px; }
+  .product--rail .tba { margin-bottom: 8px; padding: 6px 10px; }
+  .product--rail .tba__pic { flex-basis: 52px; }
+  .product--rail .tba__pic img { width: 52px; height: 65px; }
+}
