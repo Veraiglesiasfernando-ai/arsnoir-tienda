@@ -398,9 +398,14 @@
         "bg": "#490B1A",
         "fg": "#FFFFFF"
       }
+    },
+    "pzupload": {
+      "type": "pz-upload",
+      "settings": {}
     }
   },
   "order": [
+    "pzupload",
     "pzmosaic",
     "pznavidad",
     "templates",

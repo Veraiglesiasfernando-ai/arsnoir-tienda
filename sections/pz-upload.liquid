@@ -1,0 +1,79 @@
+{%- comment -%}
+  Personalízalo · upload first: a big «Sube tu foto» box at the top. The photo is resized like the
+  studio does (max 1536 px, JPEG) and kept in this tab (sessionStorage «arsnoir-pz-photo»), then the
+  page scrolls to the styles (#Plantillas). Any style opened next already has the photo
+  (assets/template-studio.js reads the same key), so nothing is sent to the AI until a style is chosen.
+{%- endcomment -%}
+{%- assign s = section.settings -%}
+<section class="pzup" id="SubeTuFoto">
+  <div class="page-width">
+    <div class="pzup__box" data-pzup>
+      {%- if s.heading != blank -%}<h2 class="pzup__title">{{ s.heading }}</h2>{%- endif -%}
+      {%- if s.text != blank -%}<p class="pzup__text">{{ s.text }}</p>{%- endif -%}
+      <label class="pzup__drop" for="PzUp-{{ section.id }}">
+        <input class="pzup__file" id="PzUp-{{ section.id }}" type="file" accept="image/jpeg,image/png,image/webp" data-pzup-file>
+        <span class="pzup__plus" aria-hidden="true" data-pzup-plus>+</span>
+        <img class="pzup__thumb" alt="Tu foto" data-pzup-thumb hidden>
+      </label>
+      <label class="button pzup__btn" for="PzUp-{{ section.id }}" data-pzup-btn>+ {{ s.button_label }}</label>
+      <p class="pzup__ok" data-pzup-ok hidden><b>✓ {{ s.ready_text }}</b> <a href="#Plantillas" data-pzup-go>{{ s.next_text }} ↓</a></p>
+      {%- if s.note != blank -%}<p class="pzup__note">{{ s.note }}</p>{%- endif -%}
+    </div>
+  </div>
+</section>
+<script>
+  (function () {
+    var box = document.querySelector('#shopify-section-{{ section.id }} [data-pzup]');
+    if (!box) return;
+    var KEY = 'arsnoir-pz-photo';
+    var file = box.querySelector('[data-pzup-file]');
+    var thumb = box.querySelector('[data-pzup-thumb]');
+    var plus = box.querySelector('[data-pzup-plus]');
+    var ok = box.querySelector('[data-pzup-ok]');
+    var btn = box.querySelector('[data-pzup-btn]');
+    var goStyles = function () {
+      var t = document.getElementById('Plantillas');
+      if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+    var show = function (src) {
+      thumb.src = src; thumb.hidden = false; plus.hidden = true; ok.hidden = false;
+      btn.lastChild.textContent = ' {{ s.change_label | escape }}';
+      document.documentElement.classList.add('has-pz-photo');
+    };
+    try { var saved = sessionStorage.getItem(KEY); if (saved) show(saved); } catch (e) {}
+    file.addEventListener('change', function () {
+      var f = file.files && file.files[0];
+      if (!f) return;
+      var img = new Image();
+      img.onload = function () {
+        var k = Math.min(1, 1536 / Math.max(img.naturalWidth, img.naturalHeight));
+        var c = document.createElement('canvas');
+        c.width = Math.round(img.naturalWidth * k); c.height = Math.round(img.naturalHeight * k);
+        c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+        var photo = c.toDataURL('image/jpeg', 0.9);
+        try { sessionStorage.setItem(KEY, photo); } catch (e) {}
+        URL.revokeObjectURL(img.src);
+        show(photo);
+        setTimeout(goStyles, 700);
+      };
+      img.src = URL.createObjectURL(f);
+    });
+    box.querySelector('[data-pzup-go]').addEventListener('click', function (e) { e.preventDefault(); goStyles(); });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Sube tu foto (primero)",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Título", "default": "Personaliza tu cuadro" },
+    { "type": "text", "id": "text", "label": "Texto", "default": "Sube una foto y elige el estilo. Ves tu ilustración gratis antes de pagar." },
+    { "type": "text", "id": "button_label", "label": "Botón", "default": "Sube tu foto" },
+    { "type": "text", "id": "change_label", "label": "Botón con foto", "default": "Cambiar foto" },
+    { "type": "text", "id": "ready_text", "label": "Foto lista", "default": "Foto lista." },
+    { "type": "text", "id": "next_text", "label": "Siguiente paso", "default": "Ahora elige el estilo" },
+    { "type": "text", "id": "note", "label": "Nota", "default": "Mascota, pareja o familia · JPG o PNG desde el móvil o el ordenador" }
+  ],
+  "presets": [{ "name": "Sube tu foto (primero)" }]
+}
+{% endschema %}

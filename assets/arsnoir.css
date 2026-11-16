@@ -4920,3 +4920,19 @@ body:has(.pdc) .product__tax { padding-bottom: 18px; border-bottom: 1px solid #e
   .product--rail .tba__pic { flex-basis: 52px; }
   .product--rail .tba__pic img { width: 52px; height: 65px; }
 }
+/* Personalízalo · upload first (sections/pz-upload.liquid) */
+.pzup { padding: 40px 0 8px; }
+.pzup__box { max-width: 640px; margin: 0 auto; text-align: center; }
+.pzup__title { margin: 0 0 8px; font-size: clamp(30px, 4vw, 44px); line-height: 1.05; letter-spacing: -.02em; }
+.pzup__text { margin: 0 0 22px; color: var(--color-muted, #6b6b6b); font-size: 15px; }
+.pzup__drop { position: relative; display: flex; align-items: center; justify-content: center; width: 180px; height: 180px; margin: 0 auto 20px; border: 2px dashed #cfcdc6; border-radius: 18px; background: #fff; cursor: pointer; overflow: hidden; transition: border-color .2s; }
+.pzup__drop:hover { border-color: #0a0a0a; }
+.pzup__file { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.pzup__plus { font-size: 64px; font-weight: 200; line-height: 1; color: #0a0a0a; pointer-events: none; }
+.pzup__thumb { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+.pzup__btn { display: flex; align-items: center; justify-content: center; width: 100%; max-width: 420px; min-height: 56px; margin: 0 auto; border-radius: 0; font-size: 15px; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; }
+.pzup__ok { margin: 14px 0 0; font-size: 15px; }
+.pzup__ok b { color: #1d6b34; }
+.pzup__ok a { margin-left: 6px; color: #0a0a0a; text-decoration: underline; }
+.pzup__note { margin: 12px 0 0; font-size: 13px; color: var(--color-muted, #6b6b6b); }
+@media (max-width: 749px) { .pzup { padding-top: 28px; } .pzup__drop { width: 150px; height: 150px; } }
