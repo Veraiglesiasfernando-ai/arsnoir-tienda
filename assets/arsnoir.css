@@ -5051,3 +5051,32 @@ body:has(.pdc) .product__tax { padding-bottom: 18px; border-bottom: 1px solid #e
   .has-fedit.cguard { padding-top: 12px; padding-bottom: 12px; }
 }
 .has-fedit .cguard__note { display: none !important; }
+/* Edit window after uploading the photo (sections/main-product.liquid) */
+.fmodal { position: fixed; inset: 0; z-index: 1200; display: flex; align-items: center; justify-content: center; padding: 16px; background: rgba(10,10,10,.6); }
+.fmodal[hidden] { display: none !important; }
+html.has-fmodal { overflow: hidden; }
+.fmodal__card { position: relative; display: flex; flex-direction: column; width: min(440px, 100%); max-height: calc(100svh - 32px); }
+.fmodal__view { flex: 1 1 auto; display: flex; align-items: center; justify-content: center; min-height: 0; height: min(60svh, 560px); cursor: grab; touch-action: none; }
+.fmodal__view.is-dragging { cursor: grabbing; }
+.fmodal__view .cupload__wall { width: 100%; height: 100%; padding: 0 !important; background: transparent !important; border-radius: 0; display: flex; align-items: center; justify-content: center; }
+.fmodal__view .cupload__frame { height: 100%; max-height: 100%; max-width: 100%; box-shadow: 0 20px 40px -18px rgba(0,0,0,.6); }
+.fmodal__view .cupload__frame.is-land { width: 100%; height: auto; }
+.fmodal__view .cupload__frame img { width: 100% !important; height: 100% !important; object-fit: cover !important; }
+.fmodal__view.has-grid [data-cupload-frame] { position: relative; }
+.fmodal__view.has-grid [data-cupload-frame]::after { content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 2;
+  background-image: linear-gradient(to right, transparent calc(33.33% - .5px), rgba(255,255,255,.8) calc(33.33% - .5px), rgba(255,255,255,.8) calc(33.33% + .5px), transparent calc(33.33% + .5px), transparent calc(66.66% - .5px), rgba(255,255,255,.8) calc(66.66% - .5px), rgba(255,255,255,.8) calc(66.66% + .5px), transparent calc(66.66% + .5px)),
+                    linear-gradient(to bottom, transparent calc(33.33% - .5px), rgba(255,255,255,.8) calc(33.33% - .5px), rgba(255,255,255,.8) calc(33.33% + .5px), transparent calc(33.33% + .5px), transparent calc(66.66% - .5px), rgba(255,255,255,.8) calc(66.66% - .5px), rgba(255,255,255,.8) calc(66.66% + .5px), transparent calc(66.66% + .5px)); }
+.fmodal__gridbtn { position: absolute; top: -14px; right: -14px; z-index: 3; display: grid; place-items: center; width: 52px; height: 52px; border: 0; border-radius: 50%; background: #fff; color: #0a0a0a; box-shadow: 0 6px 18px rgba(0,0,0,.25); cursor: pointer; }
+.fmodal__gridbtn.is-on { background: #0a0a0a; color: #fff; }
+.fmodal__panel { display: grid; gap: 14px; margin-top: 16px; padding: 18px 20px 16px; background: #fff; }
+.fmodal__panel .fedit__ctrls { display: grid; gap: 14px; }
+.fmodal__panel .fedit__tools { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.fmodal__panel .fedit__tool { flex-direction: column; gap: 6px; padding: 8px 4px; border: 0; border-radius: 10px; font-size: 14px; }
+.fmodal__panel .fedit__tool svg { width: 26px; height: 26px; }
+.fmodal__panel .fedit__tool.is-on { background: #0a0a0a; color: #fff; }
+.fmodal__panel .fedit__hint { margin: 0; text-align: center; }
+.fmodal__ok { width: 100%; min-height: 54px; border-radius: 0; background: #0a0a0a; color: #fff; font-size: 15px; letter-spacing: .08em; text-transform: uppercase; }
+.fmodal__panel .fedit__new { justify-self: center; }
+.fedit__edit { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 9px 12px; border: 1px solid #0a0a0a; border-radius: 99px; background: #fff; color: #0a0a0a; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; }
+.fedit__edit svg { width: 18px; height: 18px; }
+@media (max-width: 749px) { .fmodal__view { height: 52svh; } .fmodal__gridbtn { top: 6px; right: 6px; width: 44px; height: 44px; } }
