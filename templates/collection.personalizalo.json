@@ -125,6 +125,36 @@
             "link": "shopify://products/navidad-papa-noel"
           }
         },
+        "nav3": {
+          "type": "template",
+          "settings": {
+            "category": "Navidad",
+            "name": "Navidad a lápiz",
+            "tagline": "Lápiz de color, gorro de Papá Noel y fondo blanco.",
+            "image": "shopify://shop_images/navidad-a-lapiz-marco.png",
+            "link": "shopify://products/navidad-a-lapiz"
+          }
+        },
+        "nav4": {
+          "type": "template",
+          "settings": {
+            "category": "Navidad",
+            "name": "Pareja en corona de Navidad",
+            "tagline": "Vosotros con jerséis navideños en una corona.",
+            "image": "shopify://shop_images/pareja-en-corona-de-navidad-marco.png",
+            "link": "shopify://products/pareja-en-corona-de-navidad"
+          }
+        },
+        "nav5": {
+          "type": "template",
+          "settings": {
+            "category": "Navidad",
+            "name": "Pareja y mascota en Navidad",
+            "tagline": "Los tres en acuarela con luces y lazo rojo.",
+            "image": "shopify://shop_images/pareja-y-mascota-en-navidad-marco.png",
+            "link": "shopify://products/pareja-y-mascota-en-navidad"
+          }
+        },
         "mas6": {
           "type": "template",
           "settings": {
@@ -204,7 +234,7 @@
         "fam5",
         "fam2",
         "fam1",
-        "nav2",
+        "nav2", "nav3", "nav4", "nav5",
         "nav1"
       ],
       "settings": {
@@ -277,6 +307,30 @@
             "needs_name": false
           }
         },
+        "s7a": {
+          "type": "style",
+          "settings": {
+            "product": "navidad-a-lapiz",
+            "template_id": "navidad-gorro-lapiz",
+            "needs_name": false
+          }
+        },
+        "s7b": {
+          "type": "style",
+          "settings": {
+            "product": "pareja-en-corona-de-navidad",
+            "template_id": "navidad-pareja-corona",
+            "needs_name": false
+          }
+        },
+        "s7c": {
+          "type": "style",
+          "settings": {
+            "product": "pareja-y-mascota-en-navidad",
+            "template_id": "navidad-pareja-perro",
+            "needs_name": false
+          }
+        },
         "s8": {
           "type": "style",
           "settings": {
@@ -296,7 +350,7 @@
       },
       "block_order": [
         "s6",
-        "s7",
+        "s7", "s7a", "s7b", "s7c",
         "s8",
         "s9",
         "s1",
