@@ -155,6 +155,26 @@
             "link": "shopify://products/pareja-y-mascota-en-navidad"
           }
         },
+        "mas9": {
+          "type": "template",
+          "settings": {
+            "category": "Mascotas",
+            "name": "Mascota con lazo y nombre",
+            "tagline": "Rayas rosas, lazo rojo y su nombre.",
+            "image": "shopify://shop_images/mascota-con-lazo-y-nombre-marco.png",
+            "link": "shopify://products/mascota-con-lazo-y-nombre"
+          }
+        },
+        "fam9": {
+          "type": "template",
+          "settings": {
+            "category": "Familia y pareja",
+            "name": "Pareja y mascota en blanco y negro",
+            "tagline": "Lápiz y carboncillo sobre acuarela rosa.",
+            "image": "shopify://shop_images/pareja-y-mascota-en-blanco-y-negro-marco.png",
+            "link": "shopify://products/pareja-y-mascota-en-blanco-y-negro"
+          }
+        },
         "mas6": {
           "type": "template",
           "settings": {
@@ -234,7 +254,7 @@
         "fam5",
         "fam2",
         "fam1",
-        "nav2", "nav3", "nav4", "nav5",
+        "nav2", "nav3", "nav4", "nav5", "mas9", "fam9",
         "nav1"
       ],
       "settings": {
@@ -331,6 +351,22 @@
             "needs_name": false
           }
         },
+        "s7d": {
+          "type": "style",
+          "settings": {
+            "product": "mascota-con-lazo-y-nombre",
+            "template_id": "mascota-lazo-nombre",
+            "needs_name": true
+          }
+        },
+        "s7e": {
+          "type": "style",
+          "settings": {
+            "product": "pareja-y-mascota-en-blanco-y-negro",
+            "template_id": "pareja-mascota-bn",
+            "needs_name": false
+          }
+        },
         "s8": {
           "type": "style",
           "settings": {
@@ -350,7 +386,7 @@
       },
       "block_order": [
         "s6",
-        "s7", "s7a", "s7b", "s7c",
+        "s7", "s7a", "s7b", "s7c", "s7d", "s7e",
         "s8",
         "s9",
         "s1",
