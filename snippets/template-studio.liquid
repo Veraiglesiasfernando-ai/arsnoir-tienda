@@ -34,6 +34,15 @@
       <li>Suele estar en menos de un minuto</li>
       <li>Después eliges póster, lienzo y marco</li>
     </ul>
+    {%- if b.ba_photo != blank and b.ba_result != blank -%}
+      {%- comment -%} Before / after: a real photo and the illustration this style made from it {%- endcomment -%}
+      <div class="tba">
+        <figure class="tba__pic">{{ b.ba_photo | image_url: width: 240 | image_tag: loading: 'lazy', alt: 'Foto original' }}<figcaption>Foto</figcaption></figure>
+        <span class="tba__arrow" aria-hidden="true">→</span>
+        <figure class="tba__pic tba__pic--art">{{ b.ba_result | image_url: width: 240 | image_tag: loading: 'lazy', alt: 'La ilustración hecha con esa foto' }}<figcaption>Ilustración</figcaption></figure>
+        {%- if b.ba_note != blank -%}<p class="tba__note">{{ b.ba_note }}</p>{%- endif -%}
+      </div>
+    {%- endif -%}
     <p class="vstep__head"><span class="vstep__num">1</span><span class="vstep__title">{{ b.photo_label }}</span></p>
     <label class="tstudio__drop" for="TStudio-{{ section_id }}">
       <input class="tstudio__file" id="TStudio-{{ section_id }}" type="file" accept="image/jpeg,image/png,image/webp" data-tstudio-file>
