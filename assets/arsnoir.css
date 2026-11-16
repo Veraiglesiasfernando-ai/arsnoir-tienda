@@ -5331,3 +5331,4 @@ html.has-fmodal { overflow: hidden; }
 .cartx__payicons { flex-wrap: nowrap; overflow-x: auto; gap: 4px; margin-top: 8px; scrollbar-width: none; }
 .cartx__payicons::-webkit-scrollbar { display: none; }
 .cartx__payicons .cartx__payicon { width: 30px; height: auto; }
+.cartx__saved { margin: 2px 0 4px; font-size: 12px; color: #A8322A; }

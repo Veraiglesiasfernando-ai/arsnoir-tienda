@@ -321,7 +321,7 @@
           {%- endif -%}
         {%- endfor -%}
         {%- if offer_saved > 0 -%}
-          <div class="cartx__row cartx__row--save"><span>Te ahorras con las ofertas</span><span>&minus;{{ offer_saved | money }}</span></div>
+          <p class="cartx__saved">Con los precios rebajados de la tienda ya ahorras {{ offer_saved | money }}</p>
         {%- endif -%}
         {%- assign ship_free = false -%}
         {%- if ship_threshold > 0 and cart.total_price >= ship_threshold -%}{%- assign ship_free = true -%}{%- endif -%}
