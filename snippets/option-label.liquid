@@ -7,7 +7,7 @@
 {%- endcomment -%}
 {%- liquid
   assign v = value | strip
-  assign low = v | downcase | replace: ' ', ''
+  assign low = v | downcase | replace: ' ', '' | replace: '×', 'x'
   case kind
     when 'size'
       if low contains '21x29.7' or low contains '21x29,7'
@@ -24,6 +24,10 @@
         echo '50 × 70 cm'
       elsif low contains '20x25'
         echo '20 × 25 cm'
+      elsif low contains '20x30'
+        echo '20 × 30 cm'
+      elsif low contains '40x60'
+        echo '40 × 60 cm'
       elsif low contains '30x40'
         echo '30 × 40 cm'
       elsif low contains '45x60'
@@ -63,24 +67,28 @@
       # Sort key for sizes, small to large
       if low contains '20x25'
         echo 1
-      elsif low contains '21x29'
+      elsif low contains '20x30'
         echo 2
-      elsif low contains '29.7x42' or low contains '29,7x42'
+      elsif low contains '21x29'
         echo 3
       elsif low contains '30x40'
         echo 4
-      elsif low contains '42x59'
+      elsif low contains '29.7x42' or low contains '29,7x42'
         echo 5
-      elsif low contains '45x60'
+      elsif low contains '40x60'
         echo 6
-      elsif low contains '50x70'
+      elsif low contains '42x59'
         echo 7
-      elsif low contains '59.4x84' or low contains '59,4x84'
+      elsif low contains '45x60'
         echo 8
-      elsif low contains '60x80'
+      elsif low contains '50x70'
         echo 9
-      elsif low contains '60x90'
+      elsif low contains '60x80'
         echo 10
+      elsif low contains '59.4x84' or low contains '59,4x84'
+        echo 11
+      elsif low contains '60x90'
+        echo 12
       elsif low contains 'mixpix' and low contains 'packde6'
         echo 24
       elsif low contains 'mixpix' and low contains 'packde3'
