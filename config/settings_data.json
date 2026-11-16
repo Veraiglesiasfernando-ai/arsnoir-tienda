@@ -25,6 +25,7 @@
     "returns_days": "14",
     "favicon": "shopify://shop_images/arsnoir-favicon.png",
     "q4_start": "2026-11-20",
+    "q4_bf_start_portraits": "2026-11-20",
     "q4_bf_offer": "−15 % en obras y en «Tu foto en un cuadro»: láminas (salvo A3), marcos A4 y A3 y lienzos 20×25 y 30×40. Se aplica solo en el carrito.",
     "q4_msg_bf": "BLACK FRIDAY · −15 % en tamaños seleccionados · Hasta el [FIN_BF]",
     "q4_gift_page": "regalos",
@@ -77,10 +78,10 @@
         "settings": {
           "preview": false,
           "title": "Usamos cookies",
-          "text": "Usamos cookies propias y de terceros (como Meta y Google) para que la tienda funcione, saber qué se visita y mostrarte anuncios que encajen contigo. Tú decides: acéptalas, recházalas o elige cuáles.",
-          "accept_label": "Aceptar",
+          "text": "Usamos cookies propias y de terceros (Meta, Google) para que la tienda funcione, medir visitas y mostrarte anuncios. Tú eliges.",
+          "accept_label": "Aceptar y cerrar",
           "reject_label": "Rechazar",
-          "config_label": "Configurar",
+          "config_label": "Ajustes",
           "save_label": "Guardar mi elección",
           "policy_label": "Política de privacidad y cookies",
           "policy_link": ""
@@ -91,7 +92,7 @@
     "blocks": {
       "13851756539466573627": {
         "type": "shopify://apps/gelato-print-on-demand/blocks/product-personalizer/9f8f1130-ec83-4e2f-a417-5e69fb8f6e45",
-        "disabled": false,
+        "disabled": true,
         "settings": {
           "hidden-selector": "",
           "in-page-personalization-preview-selector": "",
@@ -115,3 +116,4 @@
     }
   }
 }
+
