@@ -491,6 +491,7 @@
     },
     "pzupload": {
       "type": "pz-upload",
+      "disabled": true,
       "settings": {}
     }
   },
