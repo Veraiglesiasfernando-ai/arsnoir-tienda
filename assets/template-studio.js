@@ -239,10 +239,12 @@
   };
   /* The room photos show the template's example: once there is an illustration, paint it into
      their frame (same spot in every product, measured on the photos) and hide the example-only ones */
-  const ROOMS = { 'salón': [41.72, 24, 29.22, 29.73], 'dormitorio': [37.75, 16.93, 24.83, 28.93], 'estudio': [34.77, 13.2, 36.26, 37.47] };
+  /* the artwork area inside the passe-partout (the frame and mat of the photo stay) */
+  const ROOMS = { 'despacho': [29.65, 27.62, 29.47, 27.97], 'salón con sofá': [36.65, 16.78, 26.43, 28.59], 'salón con sillones': [29.47, 15.06, 27.99, 30.39],
+    'salón': [41.72, 24, 29.22, 29.73], 'dormitorio': [37.75, 16.93, 24.83, 28.93], 'estudio': [34.77, 13.2, 36.26, 37.47] };
   let artUrl = '';
   const roomOf = function (img) {
-    const m = (img.alt || '').match(/ en un (salón|dormitorio|estudio)$/i);
+    const m = (img.alt || '').match(/ en un (despacho|salón con sofá|salón con sillones|salón|dormitorio|estudio)$/i);
     return m ? ROOMS[m[1].toLowerCase()] : null;
   };
   const exampleOnly = function (img) {

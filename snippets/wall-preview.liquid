@@ -5,8 +5,8 @@
 {%- liquid
   assign bs = block.settings
   assign art = product.featured_media
-  assign room_keys = 'salón,dormitorio,estudio' | split: ','
-  assign room_labels = 'Salón,Dormitorio,Estudio' | split: ','
+  assign room_keys = 'despacho,salón con sofá,salón con sillones' | split: ','
+  assign room_labels = 'Despacho,Salón,Sala' | split: ','
   assign room_photos = 0
   for key in room_keys
     assign needle = 'en un ' | append: key
@@ -20,7 +20,7 @@
   endfor
 -%}
 {%- if room_photos > 0 -%}
-{%- comment -%} The artwork's own room photos (alt «… en un salón / dormitorio / estudio»). {%- endcomment -%}
+{%- comment -%} The artwork's own room photos (alt «… en un despacho / salón con sofá / salón con sillones»). {%- endcomment -%}
 <wall-preview class="wallp wallp--photos" data-photos {{ block.shopify_attributes }}>
   <div class="wallp__head">
     <p class="wallp__title">{{ bs.heading }}</p>
