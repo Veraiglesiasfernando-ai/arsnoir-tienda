@@ -94,7 +94,7 @@
           var c = document.createElement('canvas');
           c.width = Math.round(cw * scale); c.height = Math.round(ch * scale);
           var x = c.getContext('2d');
-          var white = !!up.querySelector('.cupload__border input[data-white]:checked');
+          var white = !!document.querySelector('.cupload__border input[data-white]:checked');
           var pad = white ? Math.round(c.width * 0.07) : 0;
           x.fillStyle = '#fff'; x.fillRect(0, 0, c.width, c.height);
           /* cover-crop into the inner area */

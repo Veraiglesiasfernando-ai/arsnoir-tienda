@@ -349,8 +349,10 @@
       endfor
     -%}
     <div class="product__info{% if studio_page %} is-studio is-studio-a{% endif %}">
+      {%- unless up_first -%}
       {%- if rail and section.settings.welcome_code != blank -%}{% render 'pdp-welcome', code: section.settings.welcome_code %}{%- endif -%}
       {% render 'breadcrumbs' %}
+      {%- endunless -%}
       {%- for block in section.blocks -%}
         {%- case block.type -%}
           {%- when 'vendor' -%}
@@ -1055,14 +1057,15 @@
                       var copy = wall.cloneNode(true);
                       copy.removeAttribute('data-cupload-wall');
                       var fr = copy.querySelector('[data-cupload-frame]');
-                      if (fr) { fr.dataset.kind = kind(); turn(fr); }
+                      var whiteB = !!guard.querySelector('input[name="properties[Borde]"][data-white]:checked');
+                      if (fr) { fr.dataset.kind = kind(); turn(fr); fr.classList.toggle('has-white', whiteB); }
                       turn(wall.querySelector('[data-cupload-frame]'));
                       media.replaceChildren(copy);
                       if (modalView) {
                         var c2 = wall.cloneNode(true);
                         c2.removeAttribute('data-cupload-wall');
                         var f2 = c2.querySelector('[data-cupload-frame]');
-                        if (f2) { f2.dataset.kind = kind(); turn(f2); }
+                        if (f2) { f2.dataset.kind = kind(); turn(f2); f2.classList.toggle('has-white', whiteB); }
                         modalView.replaceChildren(c2);
                       }
                       var src = wall.querySelector('[data-cupload-img]');
@@ -1103,10 +1106,9 @@
                     };
                     var placeEditor = function () {
                       if (!editor) return;
-                      var gal = document.querySelector('.product__gallery');
-                      if (!gal) return;
-                      if (window.matchMedia('(min-width: 990px)').matches) { if (editor.parentElement !== gal) gal.appendChild(editor); }
-                      else if (editor.previousElementSibling !== gal) gal.parentElement.insertBefore(editor, gal.nextSibling);
+                      /* in the right column, right above Tipo · Tamaño · Marco and the button (like one grouped block) */
+                      var upBox = guard.querySelector('.cupload');
+                      if (upBox && editor.previousElementSibling !== upBox) upBox.parentNode.insertBefore(editor, upBox.nextSibling);
                     };
                     /* Photo filters: the same CSS filter on the preview, the rooms and the print file */
                     var FILTERS = [['Original', 'none'], ['Blanco y negro', 'grayscale(1)'], ['Cálido', 'sepia(.22) saturate(1.15) brightness(1.02)'],
@@ -1238,6 +1240,24 @@
                       editBtn.innerHTML = ico('M4 20h4L19 9l-4-4L4 16v4zM13.5 6.5l4 4') + '<span>Editar foto: encuadre, zoom y girar</span>';
                       editBtn.addEventListener('click', openModal);
                       editor.insertBefore(editBtn, editor.querySelector('.fedit__flts'));
+                      var mkAcc = function (title, icon) {
+                        var d = document.createElement('details');
+                        d.className = 'facc';
+                        d.innerHTML = '<summary>' + ico(icon) + '<span>' + title + '</span></summary><div class="facc__body"></div>';
+                        return d;
+                      };
+                      var accF = mkAcc('Elige un filtro', 'M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8zM19 15l.8 1.7 1.7.8-1.7.8L19 20l-.8-1.7-1.7-.8 1.7-.8z');
+                      accF.querySelector('.facc__body').appendChild(editor.querySelector('.fedit__flts'));
+                      var accT = mkAcc('Personaliza tu texto y borde', 'M4 20h4L19 9l-4-4L4 16v4z');
+                      var tBody = accT.querySelector('.facc__body');
+                      var brd = guard.querySelector('.cupload__border');
+                      if (brd) tBody.appendChild(brd);
+                      var ptx = editor.querySelector('[data-ptext]');
+                      if (ptx) tBody.appendChild(ptx);
+                      editor.insertBefore(accF, editBtn.nextSibling);
+                      editor.insertBefore(accT, accF.nextSibling);
+                      /* only one open at a time keeps the button on screen */
+                      [accF, accT].forEach(function (d) { d.addEventListener('toggle', function () { if (d.open) [accF, accT].forEach(function (o) { if (o !== d) o.open = false; }); }); });
                       sync();
                       /* quality: mirrors the resolution check of the upload box */
                       var res = guard.querySelector('[data-cguard-result]');
@@ -1320,7 +1340,7 @@
                         setTimeout(applyCrop, 200);
                         setTimeout(function () { start(); sync(); paintRooms(); refreshEditor(); if (handle) handle.show(); openModal(); }, 120);
                       } else if (t.matches && t.matches('input[name="properties[Borde]"]')) {
-                        paintRooms();
+                        sync(); applyCrop(); paintRooms();
                       }
                     });
                   })();

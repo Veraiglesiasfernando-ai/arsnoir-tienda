@@ -5081,3 +5081,26 @@ html.has-fmodal { overflow: hidden; }
 .fedit__edit svg { width: 18px; height: 18px; }
 @media (max-width: 749px) { .fmodal__view { height: 52svh; } .fmodal__gridbtn { top: 6px; right: 6px; width: 44px; height: 44px; } }
 .fmodal__view { height: min(calc(100svh - 380px), 560px); } @media (max-width: 749px) { .fmodal__view { height: min(calc(100svh - 360px), 52svh); } }
+/* «Tu foto en un cuadro» v3: editor grouped in the right column (quality, edit, filter, text & border), white border preview */
+.cguard .fedit { gap: 0; margin: 0; padding: 0; background: none; box-shadow: none; }
+.cguard .fedit .fedit__q { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 2px 12px; padding: 0 0 10px; }
+.cguard .fedit .fedit__qhead { gap: 8px; justify-content: flex-start; font-size: 13px; }
+.cguard .fedit .fedit__bar { margin: 0; }
+.cguard .fedit .fedit__qtext { grid-column: 1 / -1; font-size: 11.5px; line-height: 1.35; }
+.cguard .fedit__edit, .facc > summary { display: flex; align-items: center; justify-content: flex-start; gap: 10px; width: 100%; padding: 12px 0; border: 0; border-top: 1px solid #e6e5e1; border-radius: 0; background: none; color: #0a0a0a; font: inherit; font-size: 13.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; cursor: pointer; list-style: none; }
+.facc > summary::-webkit-details-marker { display: none; }
+.facc > summary::after, .cguard .fedit__edit::after { content: ''; width: 9px; height: 9px; margin-left: auto; border-right: 2px solid #0a0a0a; border-bottom: 2px solid #0a0a0a; transform: rotate(45deg) translate(-2px, -2px); }
+.cguard .fedit__edit::after { transform: rotate(-45deg); }
+.facc[open] > summary::after { transform: rotate(-135deg) translate(-2px, -2px); }
+.facc > summary svg, .cguard .fedit__edit svg { width: 20px; height: 20px; flex: none; }
+.facc__body { display: grid; gap: 12px; padding: 2px 0 12px; }
+.facc__body .fedit__flts { margin: 0; }
+.facc__body .cupload__border { margin: 0; }
+.has-fedit .cguard__rights-note { margin: 8px 0 0; padding-top: 10px; border-top: 1px solid #e6e5e1; font-size: 11.5px; }
+.cupload__frame.has-white { background: #fff !important; padding: 6% !important; box-sizing: border-box; }
+.product__media--upload .cupload__wall { min-height: 0 !important; height: 100%; }
+@media (min-width: 990px) {
+  .is-upfirst .product__brand { display: none; }
+  .is-upfirst .pdc__frame-img { aspect-ratio: 2 / 1; }
+  .is-upfirst .pdc { gap: 10px; }
+}
