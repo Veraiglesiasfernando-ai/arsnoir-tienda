@@ -4946,3 +4946,25 @@ body:has(.pdc) .product__tax { padding-bottom: 18px; border-bottom: 1px solid #e
 .cupload__mini:not([hidden]) ~ .cupload__icon { display: none; }
 .cupload__btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; min-height: 54px; border-radius: 0; font-size: 15px; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; }
 .product__gallery > .product__media--upload .cupload__frame[data-kind="black"], .product__gallery > .product__media--upload .cupload__frame[data-kind="white"], .product__gallery > .product__media--upload .cupload__frame[data-kind="wood"] { box-sizing: border-box; border-width: clamp(10px, 1.6vw, 18px); padding: 0; }
+/* «Tu foto en un cuadro»: upload first, next to a big room photo (sections/main-product.liquid) */
+.is-upfirst:not(.is-up-done) > .product { display: none; }
+.is-upfirst.is-up-done > .fintro { display: none; }
+.fintro { display: grid; grid-template-columns: 1fr 1fr; min-height: calc(100svh - 170px); margin: 0 calc(var(--page-gutter, 0px) * -1); background: #fbfaf8; }
+.fintro__media { position: relative; overflow: hidden; }
+.fintro__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.fintro__panel { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 24px; text-align: center; }
+.fintro__title { margin: 0 0 10px; font-size: clamp(30px, 3.4vw, 46px); line-height: 1.05; letter-spacing: -.02em; }
+.fintro__text { margin: 0 0 28px; max-width: 420px; color: var(--color-muted, #6b6b6b); font-size: 15px; }
+.fintro__drop { position: relative; display: flex; align-items: center; justify-content: center; width: 180px; height: 180px; margin-bottom: 28px; border: 2px dashed #cfcdc6; border-radius: 16px; background: #fff; cursor: pointer; }
+.fintro__drop:hover { border-color: #0a0a0a; }
+.fintro__file { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.fintro__plus { font-size: 72px; font-weight: 200; line-height: 1; pointer-events: none; }
+.fintro__btn { display: flex; align-items: center; justify-content: center; width: 100%; max-width: 440px; min-height: 58px; border-radius: 0; font-size: 15px; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; }
+.fintro__note { margin: 12px 0 0; font-size: 13px; color: var(--color-muted, #6b6b6b); }
+.fintro__note + .fintro__note { margin-top: 4px; }
+@media (max-width: 989px) {
+  .fintro { grid-template-columns: 1fr; min-height: 0; }
+  .fintro__media { aspect-ratio: 4 / 3; }
+  .fintro__panel { padding: 28px 16px 36px; }
+  .fintro__drop { width: 140px; height: 140px; margin-bottom: 20px; }
+}

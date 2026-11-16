@@ -37,7 +37,61 @@
 {%- if section.settings.pdp_v2 -%}
   {%- assign rail = true -%}
 {%- endif -%}
-<section class="page-width" data-product-handle="{{ product.handle }}">
+{%- comment -%}
+  «Tu foto en un cuadro» (template product.foto): it opens with only «Sube tu foto», next to a big room
+  photo; the product page (gallery, Tipo · Tamaño · Marco, button) shows once a photo is chosen, with
+  the photo already in the frame and hung in the rooms.
+{%- endcomment -%}
+{%- assign up_first = false -%}
+{%- if template.suffix == 'foto' -%}{%- assign up_first = true -%}{%- endif -%}
+<section class="page-width{% if up_first %} is-upfirst{% endif %}" data-product-handle="{{ product.handle }}">
+  {%- if up_first -%}
+    {%- liquid
+      assign intro_img = nil
+      for m in product.media
+        if m.alt contains 'Navidad'
+          assign intro_img = m
+          break
+        endif
+      endfor
+      if intro_img == nil
+        assign intro_img = product.media[1] | default: product.featured_media
+      endif
+    -%}
+    <div class="fintro" data-fintro>
+      <div class="fintro__media">
+        {%- if intro_img -%}{{ intro_img | image_url: width: 1400 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '600, 900, 1200, 1400', sizes: '(min-width: 990px) 50vw, 100vw', alt: intro_img.alt }}{%- endif -%}
+      </div>
+      <div class="fintro__panel">
+        <h1 class="fintro__title">{{ product.title }}</h1>
+        <p class="fintro__text">Tu foto impresa tal cual, con marco o en lienzo. Desde {{ product.price_min | money }}</p>
+        <label class="fintro__drop" for="FIntro-{{ section.id }}">
+          <input class="fintro__file" id="FIntro-{{ section.id }}" type="file" accept="image/jpeg,image/png" data-fintro-file>
+          <span class="fintro__plus" aria-hidden="true">+</span>
+        </label>
+        <label class="button fintro__btn" for="FIntro-{{ section.id }}">+ Sube tu foto</label>
+        <p class="fintro__note">Archivos admitidos: JPG y PNG</p>
+        <p class="fintro__note">Después eliges tamaño y marco, y la ves colgada en la pared.</p>
+      </div>
+    </div>
+    <script>
+      (function () {
+        var sec = document.currentScript.closest('section');
+        var pick = sec.querySelector('[data-fintro-file]');
+        pick.addEventListener('change', function () {
+          var real = sec.querySelector('input[data-cupload]');
+          if (!pick.files || !pick.files[0]) return;
+          sec.classList.add('is-up-done');
+          window.scrollTo({ top: 0 });
+          /* hand the photo to the real upload box (it goes with the order) */
+          if (real) {
+            try { var dt = new DataTransfer(); dt.items.add(pick.files[0]); real.files = dt.files; } catch (e) {}
+            real.dispatchEvent(new Event('change', { bubbles: true }));
+          }
+        });
+      })();
+    </script>
+  {%- endif -%}
   <div class="product{% if rail %} product--rail{% endif %}">
     <div class="product__gallery">
       {%- if rail -%}{% render 'fav-button', handle: product.handle, class: 'fav-btn--media' %}{%- endif -%}
