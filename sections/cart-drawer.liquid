@@ -253,15 +253,16 @@
                       endcapture
                       assign dl = dl | strip | split: '|'
                       assign dl_c = dl[1] | plus: 0
-                      if item.original_line_price <= item.final_line_price and dl_c > item.final_price
+                      if dl_c > item.original_price
                         assign line_was = dl_c | times: item.quantity
-                        assign offer_saved = offer_saved | plus: line_was | minus: item.final_line_price
+                        assign offer_saved = offer_saved | plus: line_was | minus: item.original_line_price
                       endif
                     endunless
                   -%}
-                  <span class="cartx-item__price{% if line_was > 0 or item.original_line_price > item.final_line_price %} is-off{% endif %}">
-                    {%- if item.original_line_price > item.final_line_price -%}<s>{{ item.original_line_price | money }}</s>{%- elsif line_was > 0 -%}<s>{{ line_was | money }}</s>{%- endif -%}
-                    {%- if is_gift and item.final_line_price == 0 -%}<strong class="cartx-free">{{ 'cart.free' | t }}</strong>{%- else -%}{{ item.final_line_price | money }}{%- endif -%}
+                  {%- comment -%} The shop price (earlier price struck, today's price); the Pack de 2 or a code is taken off below, in its own line {%- endcomment -%}
+                  <span class="cartx-item__price{% if line_was > 0 %} is-off{% endif %}">
+                    {%- if line_was > 0 -%}<s>{{ line_was | money }}</s>{%- endif -%}
+                    {%- if is_gift and item.final_line_price == 0 -%}<strong class="cartx-free">{{ 'cart.free' | t }}</strong>{%- else -%}{{ item.original_line_price | money }}{%- endif -%}
                   </span>
                 </div>
                 {%- if frame_count > 0 -%}
