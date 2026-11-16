@@ -77,7 +77,11 @@
       clearTimeout(timer);
       timer = setTimeout(function () {
         var text = input.value.trim();
-        if (!text || !photo || !window.DataTransfer) { try { fileOut.value = ''; } catch (e) {} fileOut.disabled = true; return; }
+        /* A print file is made when there is a text, a filter or a framing (moved / zoomed) */
+        var crx = window.arsnoirCrop || { x: 50, y: 50, z: 1 };
+        var flt = window.arsnoirFilter && window.arsnoirFilter !== 'none' ? window.arsnoirFilter : '';
+        var framed = crx.x !== 50 || crx.y !== 50 || crx.z !== 1;
+        if ((!text && !flt && !framed) || !photo || !window.DataTransfer) { try { fileOut.value = ''; } catch (e) {} fileOut.disabled = true; return; }
         var ratio = 21 / 29.7;
         var ar = frame && frame.style.aspectRatio;
         if (ar) { var p = ar.split('/'); ratio = parseFloat(p[0]) / parseFloat(p[1]); }
@@ -100,11 +104,14 @@
           var s = Math.max(iw / W, ih / H) * cr.z;
           var dw = W * s, dh = H * s;
           x.save(); x.beginPath(); x.rect(pad, pad, iw, ih); x.clip();
+          if (flt) x.filter = flt;
           x.drawImage(img, pad + (iw - dw) * cr.x / 100, pad + (ih - dh) * cr.y / 100, dw, dh);
+          x.filter = 'none';
           x.restore();
           var f = FONTS[val('Tipografía')] || FONTS['Manuscrita'];
           var size = Math.round(iw * f[2]);
           var draw = function () {
+            if (!text) return save();
             x.font = f[1] + ' ' + size + 'px "' + f[0] + '"';
             x.textAlign = 'center';
             x.textBaseline = 'middle';
@@ -114,6 +121,9 @@
             if (!black) { x.shadowColor = 'rgba(0,0,0,.35)'; x.shadowBlur = size * 0.15; }
             x.fillStyle = black ? '#111' : '#fff';
             x.fillText(text, c.width / 2, y, iw * 0.9);
+            save();
+          };
+          var save = function () {
             c.toBlob(function (blob) {
               URL.revokeObjectURL(url);
               if (!blob) return;

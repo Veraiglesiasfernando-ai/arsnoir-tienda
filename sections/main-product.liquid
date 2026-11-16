@@ -979,6 +979,7 @@
                     var kind = function () { var pdc = document.querySelector('[data-pdc]'); return (pdc && KIND[pdc.dataset.frame]) || 'none'; };
                     var media = null, handle = null, thumb = null, photoUrl = '';
                     var crop = { x: 50, y: 50, z: 1 };
+                    var photoFilter = 'Original';
                     var editor = null;
                     /* Where the frame hangs in each room photo (% of the photo: left, top, width, height, outer frame) */
                     var ROOMS = [
@@ -1022,7 +1023,9 @@
                             /* same framing as the big preview: moved (crop.x, crop.y) and zoomed (crop.z) */
                             var s = Math.max(w / art.naturalWidth, h / art.naturalHeight) * crop.z;
                             var sw = w / s, sh = h / s;
+                            if (filterCss() !== 'none') g.filter = filterCss();
                             g.drawImage(art, (art.naturalWidth - sw) * crop.x / 100, (art.naturalHeight - sh) * crop.y / 100, sw, sh, x, y, w, h);
+                            g.filter = 'none';
                             img.hidden = true;
                           };
                           img.loading = 'eager';
@@ -1036,7 +1039,8 @@
                       var copy = wall.cloneNode(true);
                       copy.removeAttribute('data-cupload-wall');
                       var fr = copy.querySelector('[data-cupload-frame]');
-                      if (fr) fr.dataset.kind = kind();
+                      if (fr) { fr.dataset.kind = kind(); turn(fr); }
+                      turn(wall.querySelector('[data-cupload-frame]'));
                       media.replaceChildren(copy);
                       var src = wall.querySelector('[data-cupload-img]');
                       if (thumb && src) thumb.src = src.src;
@@ -1063,6 +1067,7 @@
                         src.style.objectPosition = crop.x + '% ' + crop.y + '%';
                         src.style.transformOrigin = crop.x + '% ' + crop.y + '%';
                         src.style.transform = crop.z > 1 ? 'scale(' + crop.z + ')' : '';
+                        src.style.filter = filterCss() === 'none' ? '' : filterCss();
                       }
                       window.arsnoirCrop = crop;
                       document.dispatchEvent(new CustomEvent('arsnoir:crop'));
@@ -1080,25 +1085,63 @@
                       if (window.matchMedia('(min-width: 990px)').matches) { if (editor.parentElement !== gal) gal.appendChild(editor); }
                       else if (editor.previousElementSibling !== gal) gal.parentElement.insertBefore(editor, gal.nextSibling);
                     };
+                    /* Photo filters: the same CSS filter on the preview, the rooms and the print file */
+                    var FILTERS = [['Original', 'none'], ['Blanco y negro', 'grayscale(1)'], ['Cálido', 'sepia(.22) saturate(1.15) brightness(1.02)'],
+                      ['Frío', 'saturate(.9) hue-rotate(-10deg) brightness(1.04)'], ['Suave', 'contrast(.9) brightness(1.06) saturate(.9)'], ['Intenso', 'contrast(1.15) saturate(1.25)']];
+                    var filterCss = function () { for (var k = 0; k < FILTERS.length; k++) if (FILTERS[k][0] === photoFilter) return FILTERS[k][1]; return 'none'; };
+                    var orient = '';
                     var buildEditor = function () {
                       if (editor) return;
                       editor = document.createElement('div');
                       editor.className = 'fedit';
                       guard.classList.add('has-fedit');
+                      var ico = function (d) { return '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="' + d + '" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>'; };
+                      var filters = FILTERS.map(function (f) {
+                        return '<button type="button" class="fedit__flt' + (f[0] === 'Original' ? ' is-on' : '') + '" data-filter="' + f[0] + '"><img alt="" style="filter:' + f[1] + '"><span>' + f[0] + '</span></button>';
+                      }).join('');
                       editor.innerHTML =
                         '<div class="fedit__q" data-q hidden><div class="fedit__qhead"><b>Calidad de impresión</b><span data-q-label></span></div>' +
                         '<div class="fedit__bar"><span data-q-fill></span></div><p class="fedit__qtext" data-q-text></p></div>' +
-                        '<div class="fedit__row"><span class="fedit__lbl">Encuadre</span><span class="fedit__hint">Arrastra la foto para moverla</span>' +
-                        '<label class="fedit__zoom">Zoom <input type="range" min="1" max="2.5" step="0.05" value="1" data-crop-zoom></label>' +
-                        '<button type="button" class="fedit__reset" data-crop-reset hidden>Centrar</button></div>' +
-                        '<input type="hidden" name="properties[Encuadre]" form="{{ form_id }}" disabled data-crop-prop>';
-                      /* the text box (and its lettering) moves here, under the photo */
+                        '<div class="fedit__zoomrow">' + ico('M10.5 17a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13zM20 20l-4.8-4.8M7.5 10.5h6') +
+                        '<input type="range" min="1" max="2.5" step="0.05" value="1" aria-label="Zoom" data-crop-zoom>' + ico('M10.5 17a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13zM20 20l-4.8-4.8M7.5 10.5h6M10.5 7.5v6') + '</div>' +
+                        '<div class="fedit__tools">' +
+                        '<button type="button" class="fedit__tool" data-orient="v">' + ico('M8 3h8v18H8z') + '<span>Vertical</span></button>' +
+                        '<button type="button" class="fedit__tool" data-orient="h">' + ico('M3 8h18v8H3z') + '<span>Horizontal</span></button>' +
+                        '<button type="button" class="fedit__tool" data-rotate>' + ico('M4 12a8 8 0 1 0 2.3-5.7M4 4v4h4') + '<span>Girar</span></button>' +
+                        '<button type="button" class="fedit__tool" data-grid aria-pressed="false">' + ico('M9 3v18M15 3v18M3 9h18M3 15h18') + '<span>Cuadrícula</span></button>' +
+                        '</div>' +
+                        '<p class="fedit__hint">Arrastra la foto para moverla dentro del cuadro. <button type="button" class="fedit__reset" data-crop-reset hidden>Centrar</button></p>' +
+                        '<div class="fedit__flts" role="radiogroup" aria-label="Filtro">' + filters + '</div>' +
+                        '<label class="fedit__new" for="Upload-{{ section.id }}">+ Subir otra foto</label>' +
+                        '<input type="hidden" name="properties[Encuadre]" form="{{ form_id }}" disabled data-crop-prop>' +
+                        '<input type="hidden" name="properties[Filtro]" form="{{ form_id }}" disabled data-filter-prop>' +
+                        '<input type="hidden" name="properties[Orientación]" form="{{ form_id }}" data-orient-prop>';
+                      /* the text box (and its lettering) moves here, under the photo, before «Subir otra foto» */
                       var ptext = guard.querySelector('[data-ptext]');
-                      if (ptext) editor.appendChild(ptext);
+                      if (ptext) editor.insertBefore(ptext, editor.querySelector('.fedit__new'));
                       placeEditor();
                       window.addEventListener('resize', placeEditor);
                       editor.querySelector('[data-crop-zoom]').addEventListener('input', function (e) { crop.z = parseFloat(e.target.value) || 1; applyCrop(); paintRoomsSoon(); });
                       editor.querySelector('[data-crop-reset]').addEventListener('click', function () { crop = { x: 50, y: 50, z: 1 }; editor.querySelector('[data-crop-zoom]').value = 1; applyCrop(); paintRoomsSoon(); });
+                      editor.querySelectorAll('[data-orient]').forEach(function (b) {
+                        b.addEventListener('click', function () { orient = b.dataset.orient; applyOrient(); sync(); applyCrop(); paintRoomsSoon(); });
+                      });
+                      editor.querySelector('[data-rotate]').addEventListener('click', rotatePhoto);
+                      editor.querySelector('[data-grid]').addEventListener('click', function (e) {
+                        var on = media.classList.toggle('has-grid');
+                        e.currentTarget.setAttribute('aria-pressed', on ? 'true' : 'false');
+                        e.currentTarget.classList.toggle('is-on', on);
+                      });
+                      editor.querySelectorAll('[data-filter]').forEach(function (b) {
+                        b.addEventListener('click', function () {
+                          photoFilter = b.dataset.filter;
+                          editor.querySelectorAll('[data-filter]').forEach(function (x) { x.classList.toggle('is-on', x === b); });
+                          var fp = editor.querySelector('[data-filter-prop]');
+                          fp.disabled = photoFilter === 'Original'; fp.value = photoFilter;
+                          window.arsnoirFilter = filterCss();
+                          applyCrop(); paintRoomsSoon();
+                        });
+                      });
                       /* drag on the big photo */
                       var drag = null;
                       media.addEventListener('pointerdown', function (e) {
@@ -1112,7 +1155,6 @@
                       media.addEventListener('pointermove', function (e) {
                         if (!drag) return;
                         e.preventDefault();
-                        /* moving the photo right shows more of its left side */
                         crop.x = Math.max(0, Math.min(100, drag.x - (e.clientX - drag.sx) / drag.w * 100 / crop.z));
                         crop.y = Math.max(0, Math.min(100, drag.y - (e.clientY - drag.sy) / drag.h * 100 / crop.z));
                         applyCrop();
@@ -1133,7 +1175,56 @@
                       };
                       if (res) new MutationObserver(showQ).observe(res, { attributes: true, childList: true, characterData: true, subtree: true });
                       showQ();
+                      refreshEditor();
+                    };
+                    /* New photo: filter thumbnails, orientation from the photo, framing back to the centre */
+                    var refreshEditor = function () {
+                      if (!editor || !photoUrl) return;
+                      editor.querySelectorAll('.fedit__flt img').forEach(function (im) { im.src = photoUrl; });
+                      var probe = new Image();
+                      probe.onload = function () { orient = probe.naturalWidth > probe.naturalHeight ? 'h' : 'v'; applyOrient(); sync(); paintRoomsSoon(); };
+                      probe.src = photoUrl;
                       applyCrop();
+                    };
+                    /* Vertical / horizontal print: the frame keeps the size's proportions, turned the chosen way */
+                    var turn = function (fr) {
+                      if (!fr || !orient) return;
+                      var ar = (fr.style.aspectRatio || '21 / 29.7').split('/').map(parseFloat);
+                      if (ar.length < 2 || !ar[0] || !ar[1]) return;
+                      var land = ar[0] > ar[1];
+                      if ((orient === 'h') !== land) { var v = ar[1] + ' / ' + ar[0]; if (fr.style.aspectRatio !== v) fr.style.aspectRatio = v; }
+                    };
+                    var applyOrient = function () {
+                      turn(wall.querySelector('[data-cupload-frame]'));
+                      if (!editor) return;
+                      editor.querySelectorAll('[data-orient]').forEach(function (b) { b.classList.toggle('is-on', b.dataset.orient === orient); });
+                      editor.querySelector('[data-orient-prop]').value = orient === 'h' ? 'Horizontal' : 'Vertical';
+                    };
+                    /* Turn the photo 90°: a new file goes into the upload box (and so to the order) */
+                    var rotatePhoto = function () {
+                      var real = guard.querySelector('input[data-cupload]');
+                      var f = real && real.files && real.files[0];
+                      if (!f || !window.DataTransfer) return;
+                      var im = new Image();
+                      var u = URL.createObjectURL(f);
+                      im.onload = function () {
+                        var k = Math.min(1, 7000 / Math.max(im.naturalWidth, im.naturalHeight));
+                        var c = document.createElement('canvas');
+                        c.width = Math.round(im.naturalHeight * k); c.height = Math.round(im.naturalWidth * k);
+                        var g = c.getContext('2d');
+                        g.translate(c.width, 0); g.rotate(Math.PI / 2);
+                        g.drawImage(im, 0, 0, c.height, c.width);
+                        URL.revokeObjectURL(u);
+                        c.toBlob(function (blob) {
+                          if (!blob) return;
+                          var name = (f.name || 'foto').replace(/\.[a-z0-9]+$/i, '') + '-girada.jpg';
+                          var dt = new DataTransfer();
+                          dt.items.add(new File([blob], name, { type: 'image/jpeg' }));
+                          real.files = dt.files;
+                          real.dispatchEvent(new Event('change', { bubbles: true }));
+                        }, 'image/jpeg', 0.95);
+                      };
+                      im.src = u;
                     };
                     var roomsTimer = null;
                     var paintRoomsSoon = function () { clearTimeout(roomsTimer); roomsTimer = setTimeout(paintRooms, 250); };
@@ -1149,7 +1240,7 @@
                         crop = { x: 50, y: 50, z: 1 };
                         if (editor) editor.querySelector('[data-crop-zoom]').value = 1;
                         setTimeout(applyCrop, 200);
-                        setTimeout(function () { start(); sync(); paintRooms(); if (handle) handle.show(); }, 120);
+                        setTimeout(function () { start(); sync(); paintRooms(); refreshEditor(); if (handle) handle.show(); }, 120);
                       } else if (t.matches && t.matches('input[name="properties[Borde]"]')) {
                         paintRooms();
                       }
