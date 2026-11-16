@@ -982,6 +982,9 @@
                     var photoFilter = 'Original';
                     var editor = null;
                     var modal = null, modalView = null;
+                    /* the controls live either under the photo or in the edit window */
+                    var ed = function (sel) { return (editor && editor.querySelector(sel)) || (modal && modal.querySelector(sel)); };
+                    var edAll = function (sel) { var a = []; if (editor) a = a.concat([].slice.call(editor.querySelectorAll(sel))); if (modal) a = a.concat([].slice.call(modal.querySelectorAll(sel))); return a; };
                     var openModal = function () {
                       if (!modal) return;
                       modal.hidden = false;
@@ -1096,7 +1099,7 @@
                       var prop = editor.querySelector('[data-crop-prop]');
                       prop.disabled = !moved;
                       prop.value = 'Horizontal ' + Math.round(crop.x) + ' % · Vertical ' + Math.round(crop.y) + ' % · Zoom ' + crop.z.toFixed(2) + '×';
-                      editor.querySelector('[data-crop-reset]').hidden = !moved;
+                      var rb = ed('[data-crop-reset]'); if (rb) rb.hidden = !moved;
                     };
                     var placeEditor = function () {
                       if (!editor) return;
@@ -1142,7 +1145,7 @@
                       placeEditor();
                       window.addEventListener('resize', placeEditor);
                       editor.querySelector('[data-crop-zoom]').addEventListener('input', function (e) { crop.z = parseFloat(e.target.value) || 1; applyCrop(); paintRoomsSoon(); });
-                      editor.querySelector('[data-crop-reset]').addEventListener('click', function () { crop = { x: 50, y: 50, z: 1 }; editor.querySelector('[data-crop-zoom]').value = 1; applyCrop(); paintRoomsSoon(); });
+                      editor.querySelector('[data-crop-reset]').addEventListener('click', function () { crop = { x: 50, y: 50, z: 1 }; ed('[data-crop-zoom]').value = 1; applyCrop(); paintRoomsSoon(); });
                       editor.querySelectorAll('[data-orient]').forEach(function (b) {
                         b.addEventListener('click', function () { orient = b.dataset.orient; applyOrient(); sync(); applyCrop(); paintRoomsSoon(); });
                       });
@@ -1272,7 +1275,7 @@
                     var applyOrient = function () {
                       turn(wall.querySelector('[data-cupload-frame]'));
                       if (!editor) return;
-                      editor.querySelectorAll('[data-orient]').forEach(function (b) { b.classList.toggle('is-on', b.dataset.orient === orient); });
+                      edAll('[data-orient]').forEach(function (b) { b.classList.toggle('is-on', b.dataset.orient === orient); });
                       editor.querySelector('[data-orient-prop]').value = orient === 'h' ? 'Horizontal' : 'Vertical';
                     };
                     /* Turn the photo 90°: a new file goes into the upload box (and so to the order) */
@@ -1313,7 +1316,7 @@
                       if (t.matches && t.matches('input[data-cupload]') && t.files && t.files[0]) {
                         photoUrl = URL.createObjectURL(t.files[0]);
                         crop = { x: 50, y: 50, z: 1 };
-                        if (editor) editor.querySelector('[data-crop-zoom]').value = 1;
+                        if (ed('[data-crop-zoom]')) ed('[data-crop-zoom]').value = 1;
                         setTimeout(applyCrop, 200);
                         setTimeout(function () { start(); sync(); paintRooms(); refreshEditor(); if (handle) handle.show(); openModal(); }, 120);
                       } else if (t.matches && t.matches('input[name="properties[Borde]"]')) {
