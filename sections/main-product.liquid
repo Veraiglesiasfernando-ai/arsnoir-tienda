@@ -1002,7 +1002,7 @@
                       if (!photoW || !sz) return '';
                       var L = Math.max(sz[0], sz[1]) / 2.54, S = Math.min(sz[0], sz[1]) / 2.54;
                       var ppi = Math.min(Math.max(photoW, photoH) / L, Math.min(photoW, photoH) / S);
-                      return ppi >= 85 ? 'ok' : ppi >= 65 ? 'good' : ppi >= 40 ? 'mid' : 'low';
+                      return ppi >= 85 ? 'ok' : ppi >= 60 ? 'good' : ppi >= 33 ? 'mid' : 'low';
                     };
                     var fmt = function (sz) { return sz.map(function (n) { return String(Math.round(n * 10) / 10).replace('.', ','); }).join('×') + ' cm'; };
                     var renderQuality = function () {
