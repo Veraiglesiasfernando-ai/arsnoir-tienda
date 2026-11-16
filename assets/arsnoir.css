@@ -5042,3 +5042,12 @@ body:has(.pdc) .product__tax { padding-bottom: 18px; border-bottom: 1px solid #e
 /* Right column once the photo is in: the upload box is not repeated (the editor has «Subir otra foto») */
 .has-fedit .cguard__head, .has-fedit .cupload__drop, .has-fedit .cupload__btn, .has-fedit .cupload__hint--below, .has-fedit .cupload__meta, .has-fedit .cguard__notice { display: none !important; }
 .has-fedit .cupload { margin-bottom: 4px; }
+@media (min-width: 990px) {
+  .product--rail .product__gallery:has(> .fedit) > .product__media { height: calc(100svh - 520px); min-height: 280px; }
+  .product--rail .product__gallery:has(> .fedit) .prail { max-height: calc(100svh - 520px); }
+  .fedit .ptext { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 6px 10px; }
+  .fedit .ptext__label { margin: 0; }
+  .fedit .ptext__opts { grid-column: 1 / -1; }
+  .has-fedit.cguard { padding-top: 12px; padding-bottom: 12px; }
+}
+.has-fedit .cguard__note { display: none !important; }
