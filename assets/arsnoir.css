@@ -4936,3 +4936,4 @@ body:has(.pdc) .product__tax { padding-bottom: 18px; border-bottom: 1px solid #e
 .pzup__ok a { margin-left: 6px; color: #0a0a0a; text-decoration: underline; }
 .pzup__note { margin: 12px 0 0; font-size: 13px; color: var(--color-muted, #6b6b6b); }
 @media (max-width: 749px) { .pzup { padding-top: 28px; } .pzup__drop { width: 150px; height: 150px; } }
+.pzup__thumb[hidden], .pzup__plus[hidden], .pzup__ok[hidden] { display: none !important; }
