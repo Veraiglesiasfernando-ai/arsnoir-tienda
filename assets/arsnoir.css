@@ -5151,3 +5151,6 @@ html.has-fmodal { overflow: hidden; }
 .cupload__frame.has-white .cupload__text { left: 10%; right: 10%; }
 .cupload__text[data-color="wine"] { color: #6e1423; }
 .ptext__dot--wine { background: #6e1423; }
+/* «Tu foto en un cuadro» intro photo: the frame on the wall is never cut (crop from the bottom, not the top) */
+.fintro__media img { object-position: center top; }
+@media (max-width: 989px) { .fintro__media { aspect-ratio: 4 / 5; } }
