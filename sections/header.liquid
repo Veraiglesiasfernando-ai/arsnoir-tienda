@@ -45,6 +45,7 @@
               <li data-q4="prebf bf xmas reyes late" hidden><a href="{{ settings.q4_gift_page.url }}">{{ 'q4.gifts' | t }}</a></li>
             {%- endif -%}
             {%- for link in menu.links -%}
+              {%- if s.bar_menu != blank and bar.links.size > 0 -%}{%- break -%}{%- endif -%}
               <li>
                 <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a>
                 {%- if link.links.size > 0 -%}
