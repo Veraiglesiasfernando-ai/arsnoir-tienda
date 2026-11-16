@@ -364,7 +364,7 @@
     /* Tick the hidden radios of the chosen variant and let the picker do the rest */
     function apply() {
       box.dataset.frame = state.frame;
-      box.dataset.type = state.type || '';
+      box.dataset.curType = state.type || '';
       renderTypes(); renderSizes(); renderFrames();
       box.classList.toggle('is-incomplete', !state.size);
       if (!state.size) {

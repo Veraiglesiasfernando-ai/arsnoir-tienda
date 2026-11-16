@@ -994,7 +994,7 @@
                       sync();
                       new MutationObserver(sync).observe(wall, { subtree: true, attributes: true, childList: true, characterData: true });
                     };
-                    if (pdc) new MutationObserver(function () { sync(); paintRooms(); var fr = wall.querySelector('[data-cupload-frame]'); if (fr) fr.dataset.kind = kind(); }).observe(pdc, { attributes: true, attributeFilter: ['data-frame', 'data-type'] });
+                    if (pdc) new MutationObserver(function () { sync(); paintRooms(); var fr = wall.querySelector('[data-cupload-frame]'); if (fr) fr.dataset.kind = kind(); }).observe(pdc, { attributes: true, attributeFilter: ['data-frame', 'data-cur-type'] });
                     document.addEventListener('change', function (e) {
                       var t = e.target;
                       if (t.matches && t.matches('input[data-cupload]') && t.files && t.files[0]) {
