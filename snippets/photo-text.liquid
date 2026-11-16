@@ -95,10 +95,12 @@
           x.fillStyle = '#fff'; x.fillRect(0, 0, c.width, c.height);
           /* cover-crop into the inner area */
           var iw = c.width - pad * 2, ih = c.height - pad * 2;
-          var s = Math.max(iw / W, ih / H);
+          /* the framing chosen under the photo (moved / zoomed), centred if none */
+          var cr = window.arsnoirCrop || { x: 50, y: 50, z: 1 };
+          var s = Math.max(iw / W, ih / H) * cr.z;
           var dw = W * s, dh = H * s;
           x.save(); x.beginPath(); x.rect(pad, pad, iw, ih); x.clip();
-          x.drawImage(img, pad + (iw - dw) / 2, pad + (ih - dh) / 2, dw, dh);
+          x.drawImage(img, pad + (iw - dw) * cr.x / 100, pad + (ih - dh) * cr.y / 100, dw, dh);
           x.restore();
           var f = FONTS[val('Tipografía')] || FONTS['Manuscrita'];
           var size = Math.round(iw * f[2]);
@@ -128,6 +130,7 @@
     };
 
     input.addEventListener('input', function () { paint(); build(); });
+    document.addEventListener('arsnoir:crop', build);
     box.addEventListener('change', function () { paint(); build(); });
     document.addEventListener('change', function (e) {
       var t = e.target;

@@ -214,7 +214,7 @@
           var setFrame = function (frame) {
             if (fi < 0) { if (upIdx >= 0) show(upIdx); return; }
             var on = !!KIND[frame];
-            thumbs[fi].hidden = !on;
+            thumbs[fi].hidden = !on || !!items[fi].hidden;
             if (on) {
               var img = items[fi].querySelector('img[data-black]');
               var url = KIND[frame] === 'black' ? img.dataset.black : img.dataset[KIND[frame]];
@@ -978,6 +978,8 @@
                     /* the picker comes after this block in the page: look it up when needed */
                     var kind = function () { var pdc = document.querySelector('[data-pdc]'); return (pdc && KIND[pdc.dataset.frame]) || 'none'; };
                     var media = null, handle = null, thumb = null, photoUrl = '';
+                    var crop = { x: 50, y: 50, z: 1 };
+                    var editor = null;
                     /* Where the frame hangs in each room photo (% of the photo: left, top, width, height, outer frame) */
                     var ROOMS = [
                       [/ en un salón de Navidad$/i, [31.49, 12.64, 33.61, 39.09]],
@@ -1017,9 +1019,10 @@
                               g.fillStyle = '#fbfbfa'; g.fillRect(x, y, w, h);
                               var mg = Math.min(w, h) * 0.06; x += mg; y += mg; w -= mg * 2; h -= mg * 2;
                             }
-                            var s = Math.max(w / art.naturalWidth, h / art.naturalHeight);
+                            /* same framing as the big preview: moved (crop.x, crop.y) and zoomed (crop.z) */
+                            var s = Math.max(w / art.naturalWidth, h / art.naturalHeight) * crop.z;
                             var sw = w / s, sh = h / s;
-                            g.drawImage(art, (art.naturalWidth - sw) / 2, (art.naturalHeight - sh) / 2, sw, sh, x, y, w, h);
+                            g.drawImage(art, (art.naturalWidth - sw) * crop.x / 100, (art.naturalHeight - sh) * crop.y / 100, sw, sh, x, y, w, h);
                             img.hidden = true;
                           };
                           img.loading = 'eager';
@@ -1047,7 +1050,93 @@
                       handle = window.arsnoirGallery.add(media, thumb);
                       sync();
                       new MutationObserver(sync).observe(wall, { subtree: true, attributes: true, childList: true, characterData: true });
+                      /* The example photos of the husky go: from now on only the customer's photo and its rooms */
+                      document.querySelectorAll('.product__gallery > .product__media > img').forEach(function (img) {
+                        if (/ con marco negro$|, la obra$/i.test(img.alt || '')) img.parentElement.hidden = true;
+                      });
+                      buildEditor();
                     };
+                    /* Under the photo: move / zoom it inside the frame, write a text, and how well it will print */
+                    var applyCrop = function () {
+                      var src = wall.querySelector('[data-cupload-img]');
+                      if (src) {
+                        src.style.objectPosition = crop.x + '% ' + crop.y + '%';
+                        src.style.transformOrigin = crop.x + '% ' + crop.y + '%';
+                        src.style.transform = crop.z > 1 ? 'scale(' + crop.z + ')' : '';
+                      }
+                      window.arsnoirCrop = crop;
+                      document.dispatchEvent(new CustomEvent('arsnoir:crop'));
+                      if (!editor) return;
+                      var moved = crop.x !== 50 || crop.y !== 50 || crop.z !== 1;
+                      var prop = editor.querySelector('[data-crop-prop]');
+                      prop.disabled = !moved;
+                      prop.value = 'Horizontal ' + Math.round(crop.x) + ' % · Vertical ' + Math.round(crop.y) + ' % · Zoom ' + crop.z.toFixed(2) + '×';
+                      editor.querySelector('[data-crop-reset]').hidden = !moved;
+                    };
+                    var placeEditor = function () {
+                      if (!editor) return;
+                      var gal = document.querySelector('.product__gallery');
+                      if (!gal) return;
+                      if (window.matchMedia('(min-width: 990px)').matches) { if (editor.parentElement !== gal) gal.appendChild(editor); }
+                      else if (editor.previousElementSibling !== gal) gal.parentElement.insertBefore(editor, gal.nextSibling);
+                    };
+                    var buildEditor = function () {
+                      if (editor) return;
+                      editor = document.createElement('div');
+                      editor.className = 'fedit';
+                      guard.classList.add('has-fedit');
+                      editor.innerHTML =
+                        '<div class="fedit__q" data-q hidden><div class="fedit__qhead"><b>Calidad de impresión</b><span data-q-label></span></div>' +
+                        '<div class="fedit__bar"><span data-q-fill></span></div><p class="fedit__qtext" data-q-text></p></div>' +
+                        '<div class="fedit__row"><span class="fedit__lbl">Encuadre</span><span class="fedit__hint">Arrastra la foto para moverla</span>' +
+                        '<label class="fedit__zoom">Zoom <input type="range" min="1" max="2.5" step="0.05" value="1" data-crop-zoom></label>' +
+                        '<button type="button" class="fedit__reset" data-crop-reset hidden>Centrar</button></div>' +
+                        '<input type="hidden" name="properties[Encuadre]" form="{{ form_id }}" disabled data-crop-prop>';
+                      /* the text box (and its lettering) moves here, under the photo */
+                      var ptext = guard.querySelector('[data-ptext]');
+                      if (ptext) editor.appendChild(ptext);
+                      placeEditor();
+                      window.addEventListener('resize', placeEditor);
+                      editor.querySelector('[data-crop-zoom]').addEventListener('input', function (e) { crop.z = parseFloat(e.target.value) || 1; applyCrop(); paintRoomsSoon(); });
+                      editor.querySelector('[data-crop-reset]').addEventListener('click', function () { crop = { x: 50, y: 50, z: 1 }; editor.querySelector('[data-crop-zoom]').value = 1; applyCrop(); paintRoomsSoon(); });
+                      /* drag on the big photo */
+                      var drag = null;
+                      media.addEventListener('pointerdown', function (e) {
+                        var fr = media.querySelector('[data-cupload-frame]');
+                        if (!fr) return;
+                        var r = fr.getBoundingClientRect();
+                        drag = { sx: e.clientX, sy: e.clientY, x: crop.x, y: crop.y, w: r.width, h: r.height };
+                        media.setPointerCapture(e.pointerId);
+                        media.classList.add('is-dragging');
+                      });
+                      media.addEventListener('pointermove', function (e) {
+                        if (!drag) return;
+                        e.preventDefault();
+                        /* moving the photo right shows more of its left side */
+                        crop.x = Math.max(0, Math.min(100, drag.x - (e.clientX - drag.sx) / drag.w * 100 / crop.z));
+                        crop.y = Math.max(0, Math.min(100, drag.y - (e.clientY - drag.sy) / drag.h * 100 / crop.z));
+                        applyCrop();
+                      });
+                      var end = function () { if (!drag) return; drag = null; media.classList.remove('is-dragging'); paintRoomsSoon(); };
+                      media.addEventListener('pointerup', end);
+                      media.addEventListener('pointercancel', end);
+                      /* quality: mirrors the resolution check of the upload box */
+                      var res = guard.querySelector('[data-cguard-result]');
+                      var showQ = function () {
+                        var q = editor.querySelector('[data-q]');
+                        if (!res || res.hidden || !res.textContent) { q.hidden = true; return; }
+                        var lvl = /--low/.test(res.className) ? 'low' : /--mid/.test(res.className) ? 'mid' : 'ok';
+                        q.hidden = false;
+                        q.dataset.level = lvl;
+                        editor.querySelector('[data-q-label]').textContent = { low: 'Baja', mid: 'Buena', ok: 'Excelente' }[lvl];
+                        editor.querySelector('[data-q-text]').textContent = res.textContent + (lvl === 'mid' ? ' Si hace falta, la mejoramos nosotros antes de imprimir.' : '');
+                      };
+                      if (res) new MutationObserver(showQ).observe(res, { attributes: true, childList: true, characterData: true, subtree: true });
+                      showQ();
+                      applyCrop();
+                    };
+                    var roomsTimer = null;
+                    var paintRoomsSoon = function () { clearTimeout(roomsTimer); roomsTimer = setTimeout(paintRooms, 250); };
                     var watch = function () {
                       var pdc = document.querySelector('[data-pdc]');
                       if (pdc) new MutationObserver(function () { sync(); paintRooms(); var fr = wall.querySelector('[data-cupload-frame]'); if (fr) fr.dataset.kind = kind(); }).observe(pdc, { attributes: true, attributeFilter: ['data-frame', 'data-cur-type'] });
@@ -1057,6 +1146,9 @@
                       var t = e.target;
                       if (t.matches && t.matches('input[data-cupload]') && t.files && t.files[0]) {
                         photoUrl = URL.createObjectURL(t.files[0]);
+                        crop = { x: 50, y: 50, z: 1 };
+                        if (editor) editor.querySelector('[data-crop-zoom]').value = 1;
+                        setTimeout(applyCrop, 200);
                         setTimeout(function () { start(); sync(); paintRooms(); if (handle) handle.show(); }, 120);
                       } else if (t.matches && t.matches('input[name="properties[Borde]"]')) {
                         paintRooms();

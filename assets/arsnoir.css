@@ -4969,3 +4969,30 @@ body:has(.pdc) .product__tax { padding-bottom: 18px; border-bottom: 1px solid #e
   .fintro__drop { width: 140px; height: 140px; margin-bottom: 20px; }
 }
 .fintro .fintro__btn, .fintro .fintro__btn:hover { background: #0a0a0a; color: #fff; border-color: #0a0a0a; }
+/* «Tu foto en un cuadro»: editor under the customer's photo (sections/main-product.liquid) */
+.fedit { display: grid; gap: 14px; margin-top: 16px; padding: 16px; border-radius: 14px; background: #fff; box-shadow: 0 1px 0 rgba(0,0,0,.04); }
+.product--rail .product__gallery > .fedit { grid-column: 2; }
+.product--rail .product__gallery:has(> .fedit) { position: static; }
+.fedit__qhead { display: flex; justify-content: space-between; align-items: baseline; font-size: 14px; }
+.fedit__qhead span { font-weight: 700; }
+.fedit__bar { height: 8px; margin: 8px 0; border-radius: 99px; background: #ecebe7; overflow: hidden; }
+.fedit__bar span { display: block; height: 100%; width: 0; border-radius: 99px; transition: width .4s ease; }
+.fedit__q[data-level="low"] .fedit__bar span { width: 30%; background: #c0392b; }
+.fedit__q[data-level="mid"] .fedit__bar span { width: 66%; background: #e0a100; }
+.fedit__q[data-level="ok"] .fedit__bar span { width: 100%; background: #1d6b34; }
+.fedit__q[data-level="low"] .fedit__qhead span { color: #c0392b; }
+.fedit__q[data-level="mid"] .fedit__qhead span { color: #a87600; }
+.fedit__q[data-level="ok"] .fedit__qhead span { color: #1d6b34; }
+.fedit__qtext { margin: 0; font-size: 12.5px; line-height: 1.4; color: #4a4642; }
+.fedit__row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; font-size: 13px; }
+.fedit__lbl { font-weight: 700; }
+.fedit__hint { color: var(--color-muted, #6b6b6b); }
+.fedit__zoom { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+.fedit__zoom input { width: 130px; accent-color: #0a0a0a; }
+.fedit__reset { padding: 4px 10px; border: 1px solid #0a0a0a; border-radius: 99px; background: none; font: inherit; font-size: 12px; cursor: pointer; }
+.fedit__reset[hidden], .fedit__q[hidden] { display: none !important; }
+.fedit .ptext { margin: 0; }
+.has-fedit [data-cguard-result] { display: none !important; }
+.product__media--upload { cursor: grab; touch-action: none; }
+.product__media--upload.is-dragging { cursor: grabbing; }
+.product__media--upload .cupload__frame img { transition: transform .12s ease; }
