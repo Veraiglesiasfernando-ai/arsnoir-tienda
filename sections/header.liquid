@@ -1,6 +1,10 @@
 {%- liquid
   assign s = section.settings
   assign menu = linklists[s.menu]
+  assign bar = linklists[s.bar_menu]
+  if s.bar_menu == blank or bar.links.size == 0
+    assign bar = menu
+  endif
   assign fav_url = s.favorites_page.url
   if fav_url == blank
     assign fav_url = routes.root_url | append: '/pages/favoritos' | replace: '//', '/'
@@ -8,7 +12,7 @@
 -%}
 
 <div class="glass-header-wrap">
-  <header class="glass-header">
+  <header class="glass-header{% if s.bar_menu != blank %} has-bar{% endif %}">
     <div class="glass-header__start">
       <details class="mobile-menu">
         <summary aria-label="{{ 'general.menu' | t }}">{% render 'icon', name: 'menu' %}</summary>
@@ -56,7 +60,7 @@
         {%- if settings.q4_enabled and settings.q4_gift_page != blank -%}
           <li class="nav-gifts" data-q4="prebf bf xmas reyes late" hidden><a href="{{ settings.q4_gift_page.url }}"{% if page.id == settings.q4_gift_page.id %} aria-current="page"{% endif %}>{{ 'q4.gifts' | t }}</a></li>
         {%- endif -%}
-        {%- for link in menu.links -%}
+        {%- for link in bar.links -%}
           {%- if link.links.size > 0 -%}
             <li class="nav-drop">
               <a href="{{ link.url }}" class="nav-drop__toggle" aria-haspopup="true"{% if link.current or link.child_active %} aria-current="page"{% endif %}>
@@ -73,7 +77,7 @@
               </div>
             </li>
           {%- else -%}
-            <li><a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a></li>
+            <li{% if link.title == s.bar_highlight and s.bar_highlight != blank %} class="nav-hot"{% endif %}><a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a></li>
           {%- endif -%}
         {%- endfor -%}
       </ul>
@@ -140,6 +144,8 @@
     { "type": "image_picker", "id": "logo", "label": "Logo (imagen)", "info": "Opcional. Si subes una imagen, sustituye al texto." },
     { "type": "range", "id": "logo_width", "label": "Ancho del logo", "min": 60, "max": 300, "step": 10, "unit": "px", "default": 140 },
     { "type": "link_list", "id": "menu", "label": "Menú", "default": "main-menu", "info": "Se muestra en el centro en escritorio y en el menú hamburguesa en móvil. Los elementos con subelementos se abren como desplegable de cristal." },
+    { "type": "link_list", "id": "bar_menu", "label": "Barra de escritorio", "info": "Opcional. Si eliges un menú, se ve como barra en el centro en ordenador (el menú de arriba sigue en la hamburguesa y en móvil)." },
+    { "type": "text", "id": "bar_highlight", "label": "Elemento destacado en rojo", "info": "Nombre exacto de un elemento de la barra, p. ej. Navidad." },
     { "type": "page", "id": "favorites_page", "label": "Página de favoritos", "info": "Página con la plantilla «page.favoritos». Por defecto, /pages/favoritos." },
     { "type": "header", "content": "Buscador" },
     { "type": "text", "id": "search_placeholder", "label": "Texto del buscador", "default": "Busca una obra, un estilo, un color…" },

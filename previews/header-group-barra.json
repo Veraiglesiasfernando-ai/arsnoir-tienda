@@ -1,0 +1,52 @@
+{
+  "type": "header",
+  "name": "Cabecera",
+  "sections": {
+    "announcement": {
+      "type": "announcement-bar",
+      "blocks": {
+        "m1": {
+          "type": "message",
+          "settings": {
+            "text": "ENVÍO GRATIS DESDE 80 €"
+          }
+        },
+        "m3": {
+          "type": "message",
+          "settings": {
+            "text": "2 OBRAS: -15 %",
+            "until": "2026-11-09"
+          }
+        },
+        "m5": {
+          "type": "message",
+          "settings": {
+            "text": "-10 % EN TU PRIMERA COMPRA AL SUSCRIBIRTE"
+          }
+        }
+      },
+      "block_order": [
+        "m3",
+        "m1",
+        "m5"
+      ],
+      "settings": {
+        "interval": 4
+      }
+    },
+    "header": {
+      "type": "header",
+      "settings": {
+        "logo_text": "arsnoir",
+        "logo_width": 140,
+        "menu": "arsnoir-menu-cro",
+        "bar_menu": "arsnoir-barra",
+        "bar_highlight": "Navidad"
+      }
+    }
+  },
+  "order": [
+    "announcement",
+    "header"
+  ]
+}
