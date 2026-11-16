@@ -5244,3 +5244,8 @@ html.has-fmodal { overflow: hidden; }
   .glass-header.has-bar .glass-header__links a { font-family: 'Space Grotesk', system-ui, -apple-system, 'Helvetica Neue', Arial, sans-serif; font-size: 16px; font-weight: 500; letter-spacing: .04em; text-transform: lowercase; line-height: 1; padding: 0; }
   .glass-header.has-bar .glass-header__links a[aria-current]::after { bottom: -8px; }
 }
+/* Cards: both earlier prices (print and framed) struck in red, today's price in the text colour */
+.poster__price s, .poster__price s.muted, .price s.muted, .price__deal s { color: #C8102E; text-decoration-color: #C8102E; }
+.price__deal b { color: var(--color-fg); }
+.welcome--tiles .price__deal s, .welcome--tiles .price s.muted { color: #fff; text-decoration-color: #fff; }
+.welcome--tiles .price__deal b { color: #fff; }
