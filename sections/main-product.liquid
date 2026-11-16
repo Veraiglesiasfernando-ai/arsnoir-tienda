@@ -866,7 +866,7 @@
                       {%- if settings.shipping_rate_print != blank -%}{{ 'product.ship_rule' | t: rate: settings.shipping_rate_print, threshold: threshold_money }}{%- else -%}{{ 'product.ship_rule_nofee' | t: threshold: threshold_money }}{%- endif -%}
                     </span>
                     <span data-ship-rule-canvas{% unless is_canvas %} hidden{% endunless %}>{{ 'product.ship_rule_canvas' | t: threshold: threshold_money }}</span>
-                    {%- if settings.gift_enabled -%}{%- assign gift_money = settings.gift_tier1 | times: 100 | money_without_trailing_zeros %} · {{ 'product.gift_from' | t: amount: gift_money }}{%- endif -%}
+                    {%- capture gift_flag -%}{% render 'gift-on' %}{%- endcapture -%}{%- if gift_flag == '1' -%}{%- assign gift_money = settings.gift_tier1 | times: 100 | money_without_trailing_zeros %} · {{ 'product.gift_from' | t: amount: gift_money }}{%- endif -%}
                   </p>
                 {%- endif -%}
               {%- elsif settings.shipping_message != blank -%}

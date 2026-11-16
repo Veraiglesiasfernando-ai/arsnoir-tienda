@@ -465,6 +465,18 @@
         "default": false
       },
       {
+        "type": "text",
+        "id": "gift_from",
+        "label": "Regalo desde (AAAA-MM-DD)",
+        "info": "Primer día del regalo. La misma fecha que los descuentos «Regalo …» de Shopify. Vacío = desde ya."
+      },
+      {
+        "type": "text",
+        "id": "gift_until",
+        "label": "Regalo hasta (AAAA-MM-DD)",
+        "info": "Último día del regalo. Vacío = sin fecha de fin."
+      },
+      {
         "type": "collection",
         "id": "gift_collection",
         "label": "Obras que se pueden elegir de regalo",

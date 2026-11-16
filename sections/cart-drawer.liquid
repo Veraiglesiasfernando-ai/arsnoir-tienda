@@ -10,7 +10,13 @@
 {%- endcomment -%}
 {%- liquid
   # Gift lines are real artworks (gift size, no frame) marked with the hidden property _regalo
-  assign gift_on = settings.gift_enabled
+  capture gift_flag
+    render 'gift-on'
+  endcapture
+  assign gift_on = false
+  if gift_flag == '1'
+    assign gift_on = true
+  endif
 
   # Shopify weighs each automatic discount on the cart before discounts (pack and gift don't
   # combine), so the gift tiers count the works at their own price, before the pack.

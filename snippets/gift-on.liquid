@@ -1,0 +1,18 @@
+{%- comment -%}
+  Prints 1 while the gift is on: «Activar obra de regalo» ticked and today between «Regalo desde» and
+  «Regalo hasta» (Theme settings → Carrito: regalo, pack y bienvenida; blank = no limit). Must match the
+  dates of the Shopify gift discounts. Usage: {% capture g %}{% render 'gift-on' %}{% endcapture %}
+{%- endcomment -%}
+{%- liquid
+  assign today = 'now' | date: '%Y-%m-%d'
+  assign on = settings.gift_enabled
+  if settings.gift_from != blank and today < settings.gift_from
+    assign on = false
+  endif
+  if settings.gift_until != blank and today > settings.gift_until
+    assign on = false
+  endif
+  if on
+    echo '1'
+  endif
+-%}

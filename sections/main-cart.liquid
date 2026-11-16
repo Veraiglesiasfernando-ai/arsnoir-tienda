@@ -14,7 +14,7 @@
         endif
       endfor
     -%}
-    {%- if settings.gift_enabled -%}<div class="cart-page__gifts">{% render 'gift-tiers', eligible: eligible %}</div>{%- endif -%}
+    {%- capture gift_flag -%}{% render 'gift-on' %}{%- endcapture -%}{%- if gift_flag == '1' -%}<div class="cart-page__gifts">{% render 'gift-tiers', eligible: eligible %}</div>{%- endif -%}
     {% render 'free-shipping-bar' %}
     {% render 'delivery-estimate' %}
     <form action="{{ routes.cart_url }}" method="post" class="cart" novalidate>
