@@ -5160,3 +5160,9 @@ html.has-fmodal { overflow: hidden; }
   .fintro__media { height: max(520px, calc(100svh - 170px)); aspect-ratio: 3 / 4; max-width: 55vw; }
   .fintro__media img { object-position: center 30%; }
 }
+/* Intro: photo takes the left half of the screen, frame whole and part of the sofa */
+@media (min-width: 990px) {
+  .fintro { grid-template-columns: 1fr 1fr; }
+  .fintro__media { width: auto; max-width: none; aspect-ratio: auto; height: max(520px, calc(100svh - 170px)); }
+  .fintro__media img { object-position: center 28%; }
+}
