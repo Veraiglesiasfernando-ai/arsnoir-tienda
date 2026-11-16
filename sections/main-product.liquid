@@ -914,15 +914,72 @@
               {%- if show_upload -%}
                 <script>
                   (function () {
-                    /* The uploaded photo (with frame, border and text) also shows big in the gallery, first */
+                    /* The uploaded photo (with frame, border and text) also shows big in the gallery, first,
+                       in the frame chosen in Tipo · Tamaño · Marco; and it is hung in the room photos */
                     var guard = document.currentScript.closest('[data-cguard]');
                     var wall = guard && guard.querySelector('.cupload__wall');
                     if (!wall) return;
-                    var media = null, handle = null, thumb = null;
+                    var pdc = document.querySelector('[data-pdc]');
+                    var KIND = { negro: 'black', blanco: 'white', madera: 'wood' };
+                    var COLOR = { black: '#151515', white: '#fbfbfa', wood: '#b98d5e' };
+                    var kind = function () { return (pdc && KIND[pdc.dataset.frame]) || 'none'; };
+                    var media = null, handle = null, thumb = null, photoUrl = '';
+                    /* Where the frame hangs in each room photo (% of the photo: left, top, width, height, outer frame) */
+                    var ROOMS = [
+                      [/ en un salón de Navidad$/i, [31.49, 12.64, 33.61, 39.09]],
+                      [/ en un salón$/i, [41.72, 24, 29.22, 29.73]],
+                      [/ en un dormitorio$/i, [37.75, 16.93, 24.83, 28.93]],
+                      [/ en un estudio$/i, [34.77, 13.2, 36.26, 37.47]]
+                    ];
+                    var roomOf = function (img) {
+                      for (var k = 0; k < ROOMS.length; k++) if (ROOMS[k][0].test(img.alt || '')) return ROOMS[k][1];
+                      return null;
+                    };
+                    var paintRooms = function () {
+                      if (!photoUrl) return;
+                      var white = !!guard.querySelector('input[name="properties[Borde]"][data-white]:checked');
+                      var art = new Image();
+                      art.onload = function () {
+                        document.querySelectorAll('.product__gallery > .product__media > img').forEach(function (img) {
+                          var r = roomOf(img);
+                          if (!r) return;
+                          var m = img.parentElement;
+                          var draw = function () {
+                            if (!img.naturalWidth) return;
+                            var c = m.querySelector('canvas.tart');
+                            if (!c) { c = document.createElement('canvas'); c.className = 'tart'; c.setAttribute('role', 'img'); m.appendChild(c); }
+                            c.setAttribute('aria-label', img.alt);
+                            c.width = img.naturalWidth; c.height = img.naturalHeight;
+                            var g = c.getContext('2d');
+                            g.drawImage(img, 0, 0, c.width, c.height);
+                            var x = r[0] / 100 * c.width, y = r[1] / 100 * c.height, w = r[2] / 100 * c.width, h = r[3] / 100 * c.height;
+                            var k = kind();
+                            if (k !== 'none') {
+                              /* the frame in the chosen colour, then the photo inside */
+                              g.fillStyle = COLOR[k]; g.fillRect(x, y, w, h);
+                              var f = Math.min(w, h) * 0.035; x += f; y += f; w -= f * 2; h -= f * 2;
+                            }
+                            if (white) {
+                              g.fillStyle = '#fbfbfa'; g.fillRect(x, y, w, h);
+                              var mg = Math.min(w, h) * 0.06; x += mg; y += mg; w -= mg * 2; h -= mg * 2;
+                            }
+                            var s = Math.max(w / art.naturalWidth, h / art.naturalHeight);
+                            var sw = w / s, sh = h / s;
+                            g.drawImage(art, (art.naturalWidth - sw) / 2, (art.naturalHeight - sh) / 2, sw, sh, x, y, w, h);
+                            img.hidden = true;
+                          };
+                          img.loading = 'eager';
+                          if (img.complete) draw(); else img.addEventListener('load', draw, { once: true });
+                        });
+                      };
+                      art.src = photoUrl;
+                    };
                     var sync = function () {
                       if (!media) return;
                       var copy = wall.cloneNode(true);
                       copy.removeAttribute('data-cupload-wall');
+                      var fr = copy.querySelector('[data-cupload-frame]');
+                      if (fr) fr.dataset.kind = kind();
                       media.replaceChildren(copy);
                       var src = wall.querySelector('[data-cupload-img]');
                       if (thumb && src) thumb.src = src.src;
@@ -937,10 +994,14 @@
                       sync();
                       new MutationObserver(sync).observe(wall, { subtree: true, attributes: true, childList: true, characterData: true });
                     };
+                    if (pdc) new MutationObserver(function () { sync(); paintRooms(); var fr = wall.querySelector('[data-cupload-frame]'); if (fr) fr.dataset.kind = kind(); }).observe(pdc, { attributes: true, attributeFilter: ['data-frame', 'data-type'] });
                     document.addEventListener('change', function (e) {
                       var t = e.target;
                       if (t.matches && t.matches('input[data-cupload]') && t.files && t.files[0]) {
-                        setTimeout(function () { start(); sync(); if (handle) handle.show(); }, 120);
+                        photoUrl = URL.createObjectURL(t.files[0]);
+                        setTimeout(function () { start(); sync(); paintRooms(); if (handle) handle.show(); }, 120);
+                      } else if (t.matches && t.matches('input[name="properties[Borde]"]')) {
+                        paintRooms();
                       }
                     });
                   })();
