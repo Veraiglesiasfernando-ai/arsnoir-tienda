@@ -5336,3 +5336,5 @@ html.has-fmodal { overflow: hidden; }
 html.cart-hover .drawer__overlay { opacity: 0 !important; pointer-events: none !important; }
 html.cart-hover .drawer { pointer-events: none; }
 html.cart-hover .drawer__panel { pointer-events: auto; }
+/* Size list: «Solo póster, sin marco» / «Solo con marco» under the size */
+.pdc__row-only { display: block; margin-top: 2px; font-size: 11.5px; font-weight: 400; letter-spacing: .01em; color: var(--color-muted); }

@@ -308,7 +308,15 @@
         li.className = 'pdc__row' + (sz === state.size ? ' is-active' : '');
         li.dataset.size = sz;
         var n = c ? pct(c.v) : 0;
-        li.innerHTML = '<span class="pdc__row-size">' + main + (hint ? ' <span class="pdc__row-hint">→ ' + hint + '</span>' : '') + '</span>' +
+        /* Prints: say when a size is only made as a poster (no frame) or only with a frame (merchOne frame sizes) */
+        var only = '';
+        if (state.type === 'lamina') {
+          var fs = of('lamina', sz).map(function (x) { return x.frame; });
+          var hasSin = fs.indexOf('sin') > -1, hasFr = fs.some(function (f) { return f !== 'sin'; });
+          if (hasSin && !hasFr) only = 'Solo póster, sin marco';
+          else if (hasFr && !hasSin) only = 'Solo con marco';
+        }
+        li.innerHTML = '<span class="pdc__row-size">' + main + (hint ? ' <span class="pdc__row-hint">→ ' + hint + '</span>' : '') + (only ? '<span class="pdc__row-only">' + only + '</span>' : '') + '</span>' +
           (c ? '<span class="pdc__row-price' + (n ? ' is-off' : '') + '"><b>' + money(c.v.price) + '</b>' + (n ? '<s>' + money(c.v.compare_at_price) + '</s>' : '') + '</span>' : '');
         sizeList.appendChild(li);
       });
