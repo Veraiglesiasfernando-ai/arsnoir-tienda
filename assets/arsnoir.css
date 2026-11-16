@@ -5207,3 +5207,4 @@ html.has-fmodal { overflow: hidden; }
   .pstyles__grid li { flex: 0 0 46%; scroll-snap-align: start; }
   .pstyles__cap { font-size: 9px; }
 }
+.pstyles__img { flex: 1 1 0; height: 0; }

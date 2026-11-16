@@ -997,9 +997,11 @@
                     };
                     var dressFrame = function (fr) {
                       if (!fr) return;
-                      fr.classList.toggle('has-white', !!bdInput());
-                      fr.style.setProperty('--bd', bdColor());
-                      fr.dataset.cap = capPos();
+                      /* only real changes: the wall is watched for changes and would loop */
+                      var on = !!bdInput(), col = bdColor(), cap = capPos();
+                      if (fr.classList.contains('has-white') !== on) fr.classList.toggle('has-white', on);
+                      if (fr.style.getPropertyValue('--bd') !== col) fr.style.setProperty('--bd', col);
+                      if ((fr.dataset.cap || '') !== cap) fr.dataset.cap = cap;
                     };
                     var fbar = null, qmodal = null, photoW = 0, photoH = 0;
                     var placeBar = function () {

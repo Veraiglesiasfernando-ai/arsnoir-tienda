@@ -8,7 +8,7 @@
   assign ex1 = 'arsnoir-card-tu-foto-familia.jpg' | file_url | append: '&width=600'
   assign ex2 = product.media[2] | image_url: width: 600
   # name | border (blanco, negro, arena, sin) | filter | text | lettering | colour | position | example
-  assign looks = 'Minimalista|blanco|Original|Nuestro gran día · 2026|Clásica|Negro|Abajo|1;Contraste|negro|Blanco y negro|Un futuro brillante|Clásica|Blanco|Abajo|1;Paseo|blanco|Cálido|Al mejor papá del mundo|Moderna|Negro|Abajo|2;Arena|arena|Suave|Mejores amigos|Manuscrita|Granate|Abajo|2;Blanco y negro|blanco|Blanco y negro|Veranos contigo|Moderna|Negro|Abajo|1;A sangre|sin|Intenso|Verano 2026|Manuscrita|Blanco|Abajo|2' | split: ';'
+  assign looks = 'Minimalista|blanco|Original|Nuestro gran día · 2026|Clásica|Negro|Abajo|1;Contraste|negro|Blanco y negro|Un futuro brillante|Clásica|Blanco|Abajo|1;Paseo|blanco|Cálido|Te quiero, papá|Moderna|Negro|Abajo|2;Arena|arena|Suave|Mejores amigos|Manuscrita|Granate|Abajo|2;Blanco y negro|blanco|Blanco y negro|Veranos contigo|Moderna|Negro|Abajo|1;A sangre|sin|Intenso|Verano 2026|Manuscrita|Blanco|Abajo|2' | split: ';'
 -%}
 <section class="pstyles" id="Estilos" data-pstyles>
   <div class="page-width">
