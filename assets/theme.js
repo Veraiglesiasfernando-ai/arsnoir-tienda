@@ -1101,6 +1101,8 @@
         shownUrl = url;
         up.querySelector('[data-cupload-img]').src = url;
         up.querySelector('[data-cupload-label]').textContent = up.dataset.changeText;
+        const mini = up.querySelector('[data-cupload-mini]');
+        if (mini) { mini.src = url; mini.hidden = false; }
         up.querySelector('[data-cupload-meta]').textContent = up.dataset.metaText.replace('[NAME]', file.name).replace('[W]', last.w).replace('[H]', last.h);
         box.hidden = false;
       }

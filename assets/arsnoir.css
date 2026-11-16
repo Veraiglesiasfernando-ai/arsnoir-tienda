@@ -4937,3 +4937,11 @@ body:has(.pdc) .product__tax { padding-bottom: 18px; border-bottom: 1px solid #e
 .pzup__note { margin: 12px 0 0; font-size: 13px; color: var(--color-muted, #6b6b6b); }
 @media (max-width: 749px) { .pzup { padding-top: 28px; } .pzup__drop { width: 150px; height: 150px; } }
 .pzup__thumb[hidden], .pzup__plus[hidden], .pzup__ok[hidden] { display: none !important; }
+/* «Tu foto en un cuadro»: big square upload + wide black button (sections/main-product.liquid, custom_guard) */
+.cupload .cupload__drop--big { flex-direction: column; justify-content: center; width: 168px; height: 168px; margin: 6px auto 16px; padding: 0; border: 2px dashed #cfcdc6; border-radius: 16px; background: #fff; overflow: hidden; }
+.cupload .cupload__drop--big:hover { border-color: #0a0a0a; background: #fff; }
+.cupload__drop--big .cupload__icon { width: auto; height: auto; border-radius: 0; background: none; color: #0a0a0a; font-size: 64px; font-weight: 200; }
+.cupload__mini { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+.cupload__mini[hidden] { display: none !important; }
+.cupload__mini:not([hidden]) ~ .cupload__icon { display: none; }
+.cupload__btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; min-height: 54px; border-radius: 0; font-size: 15px; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; }

@@ -888,11 +888,13 @@
               {%- if block.settings.notice != blank -%}<p class="cguard__notice">{{ block.settings.notice }}</p>{%- endif -%}
               {%- if show_upload -%}
                 <div class="cupload" data-change-text="{{ 'product.upload_change' | t | escape }}" data-meta-text="{{ 'product.upload_meta' | t | escape }}">
-                  <label class="cupload__drop" for="Upload-{{ section.id }}">
+                  {%- comment -%} Big square with «+» (the photo shows in it once chosen), wide black button, formats below {%- endcomment -%}
+                  <label class="cupload__drop cupload__drop--big" for="Upload-{{ section.id }}">
                     <input class="cupload__input" id="Upload-{{ section.id }}" type="file" name="properties[Imagen]" form="{{ form_id }}" accept="image/jpeg,image/png" required data-cupload>
+                    <img class="cupload__mini" alt="" data-cupload-mini hidden>
                     <span class="cupload__icon" aria-hidden="true">+</span>
-                    <span class="cupload__label" data-cupload-label>{{ 'product.upload_cta' | t }}</span>
                   </label>
+                  <label class="button cupload__btn" for="Upload-{{ section.id }}"><span aria-hidden="true">+</span> <span data-cupload-label>{{ 'product.upload_cta' | t }}</span></label>
                   <p class="cupload__hint cupload__hint--below">{{ 'product.upload_hint' | t }}</p>
                   <div class="cupload__preview" data-cupload-preview hidden>
                     <div class="cupload__wall">
