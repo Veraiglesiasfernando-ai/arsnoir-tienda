@@ -4972,7 +4972,7 @@ body:has(.pdc) .product__tax { padding-bottom: 18px; border-bottom: 1px solid #e
 /* «Tu foto en un cuadro»: editor under the customer's photo (sections/main-product.liquid) */
 .fedit { display: grid; gap: 14px; margin-top: 16px; padding: 16px; border-radius: 14px; background: #fff; box-shadow: 0 1px 0 rgba(0,0,0,.04); }
 .product--rail .product__gallery > .fedit { grid-column: 2; }
-.product--rail .product__gallery:has(> .fedit) { position: static; }
+.product--rail .product__gallery:has(> .fedit) { position: relative; top: auto; }
 .fedit__qhead { display: flex; justify-content: space-between; align-items: baseline; font-size: 14px; }
 .fedit__qhead span { font-weight: 700; }
 .fedit__bar { height: 8px; margin: 8px 0; border-radius: 99px; background: #ecebe7; overflow: hidden; }

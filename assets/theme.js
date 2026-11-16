@@ -845,7 +845,8 @@
     const t = String(text).toLowerCase().replace(',', '.');
     const m = t.match(/(\d+(?:\.\d+)?)\s*[x×*]\s*(\d+(?:\.\d+)?)/);
     if (m) {
-      const k = /\bin\b|pulg|"/.test(t) ? 2.54 : 1;
+      /* «21x29.7 cm / 8x12"»: the centimetres come first, the inches are only a note */
+      const k = /cm/.test(t) ? 1 : /\bin\b|pulg|"/.test(t) ? 2.54 : 1;
       return [parseFloat(m[1]) * k, parseFloat(m[2]) * k];
     }
     const a = t.match(/\ba([0-5])\b/);
@@ -1085,7 +1086,7 @@
       const shortPx = Math.min(last.w, last.h);
       const ppi = Math.floor(Math.min(longPx / (Math.max(size[0], size[1]) / 2.54), shortPx / (Math.min(size[0], size[1]) / 2.54)));
       const key = ppi < minPpi ? 'low' : ppi < goodPpi ? 'mid' : 'ok';
-      result.textContent = guard.dataset[key + 'Text'].replace('[W]', last.w).replace('[H]', last.h).replace('[SIZE]', label).replace('[PPI]', ppi);
+      result.textContent = guard.dataset[key + 'Text'].replace('[W]', last.w).replace('[H]', last.h).replace('[SIZE]', String(label).split(' / ')[0]).replace('[PPI]', ppi);
       result.className = 'cguard__check cguard__check--' + key;
       result.hidden = false;
     };
