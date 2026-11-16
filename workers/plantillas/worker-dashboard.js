@@ -154,7 +154,7 @@ const TEMPLATES = {
       'the same flat textured gouache-style illustration with soft grain, the same round green Christmas wreath with holly, red berries, yellow stars and white flowers, the same big red and white striped bow on top, ' +
       'the same red ribbon banner across the bottom with the words "Merry Christmas" in the same cream lettering, the same plain warm cream paper background, the same head-and-shoulders framing inside the wreath. ' +
       'Dress the people in cosy patterned Christmas jumpers like in the template. Draw them in the same simple cute style: round faces, small dot eyes, rosy freckled cheeks, gentle smiles. ' +
-      'Keep every person from the second image recognisable: face shape, hair colour, length and style, beard, skin tone, glasses and earrings. Do not add or remove people, and leave out objects and background from the photo. ' +
+      'Keep every person from the second image recognisable: face shape, hair colour, length and style, beard and skin tone. Draw glasses, earrings or other accessories only if that person wears them in the photo; never add any. Draw exactly the same number of people as in the photo: never invent or remove anyone. Leave out objects and background from the photo. ' +
       'Everything drawn, nothing photographic. No other text, no brand logos, no border. Vertical 4:5.'
   },
   'navidad-pareja-perro': {
@@ -169,7 +169,7 @@ const TEMPLATES = {
       'the same garland of warm fairy lights across the top with small bows, the same little snowflakes, the same laurel branches with red berries around the bottom and the same red ribbon bow at the bottom centre, ' +
       'the same close cheek-to-cheek head-and-shoulders framing with the pet in front, centred, with a little space around the edges. ' +
       'Paint them in the same warm illustrated style: rosy freckled cheeks, gentle smiles. ' +
-      'Keep every person and the pet from the second image recognisable: face shape, hair colour, length and style, beard, skin tone, earrings; the pet\'s breed or mix, head shape, ears, fur colours and markings. Do not add or remove people or animals, and leave out objects and background from the photo. ' +
+      'Keep every person and the pet from the second image recognisable: face shape, hair colour, length and style, beard and skin tone; the pet\'s breed or mix, head shape, ears, fur colours and markings. Draw glasses, earrings or other accessories only if that person wears them in the photo; never add any. Draw exactly the same people and animals as in the photo: never invent anyone; if there is no animal in the photo, draw no animal and do not put another person in its place. Leave out objects and background from the photo. ' +
       'Everything painted with a brush, nothing photographic. No text, no logos, no border. Vertical 4:5.'
   },
   'retrato-glam': {
