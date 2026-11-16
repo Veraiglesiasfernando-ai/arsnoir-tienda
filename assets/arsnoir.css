@@ -5288,3 +5288,28 @@ html.has-fmodal { overflow: hidden; }
 .glass-header .mobile-menu__panel .mm-main .nav-hot a { color: #b3122e; }
 /* Home «Lienzos»: no grey box behind the canvas, it sits on the page background */
 .lienzos__pics { background: transparent; border-radius: 0; }
+/* =========================================================================
+   Cart drawer, clean gallery-shop look: centred title, thin shipping bar,
+   simple lines with square − / + buttons, one black «Tramitar pedido» button
+   ========================================================================= */
+.drawer__panel.cartx { background: #fbfaf8; }
+.cartx .drawer__head { justify-content: center; position: relative; padding: 20px 24px 14px; border-bottom: 2px solid #0a0a0a; }
+.cartx .drawer__head h2, .cartx .drawer__head .drawer__title { font-size: 16px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; }
+.cartx .drawer__close { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); }
+.cartx__ship { padding: 16px 24px 4px; text-align: center; font-size: 14px; }
+.cartx__ship progress, .cartx__ship .fsb__bar, .cartx__ship [class*="bar"] { border-radius: 0 !important; }
+.cartx-item { gap: 18px; padding: 22px 24px; border-bottom: 1px solid #ece9e4; }
+.cartx-item__media { flex: 0 0 96px; }
+.cartx-item__media img { box-shadow: 0 6px 16px rgba(0,0,0,.12); border-radius: 0; background: #fff; }
+.cartx-item__title, .cartx-item__title a { font-family: Georgia, 'Times New Roman', serif; font-size: 17px; font-weight: 400; color: #0a0a0a; }
+.cartx-item__variant { font-size: 13px; color: #555; letter-spacing: .02em; }
+.cartx .drawer-qty { display: inline-flex; align-items: stretch; height: 30px; border: 0; border-radius: 0; background: none; gap: 0; }
+.cartx .drawer-qty button { width: 30px; height: 30px; border: 0; border-radius: 0; background: #0a0a0a; color: #fff; font-size: 18px; line-height: 1; padding: 0; }
+.cartx .drawer-qty span { min-width: 56px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid #ddd; border-left: 0; border-right: 0; background: #f4f1ec; font-size: 15px; }
+.cartx-item__price { font-size: 15px; font-weight: 500; }
+.cartx .drawer__upsell, .cartx-upgrade, .cartx__continue, .cartx__pills { display: none !important; }
+.cartx__foot { padding: 18px 24px 22px; background: #fbfaf8; border-top: 1px solid #ece9e4; }
+.cartx__row--sub { font-size: 17px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+.cartx__checkout { border-radius: 0 !important; background: #0a0a0a !important; color: #fff !important; min-height: 58px; font-size: 15px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; justify-content: center; }
+.cartx__checkout .trust-icon, .cartx__checkout svg, .cartx__checkout-total { display: none; }
+.cartx__payicons { justify-content: center; opacity: .8; margin-top: 12px; }
