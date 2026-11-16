@@ -5313,3 +5313,21 @@ html.has-fmodal { overflow: hidden; }
 .cartx__checkout { border-radius: 0 !important; background: #0a0a0a !important; color: #fff !important; min-height: 58px; font-size: 15px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; justify-content: center; }
 .cartx__checkout .trust-icon, .cartx__checkout svg, .cartx__checkout-total { display: none; }
 .cartx__payicons { justify-content: center; opacity: .8; margin-top: 12px; }
+/* Cart drawer, compact so two or three works fit above the total without being cut */
+.cartx .drawer__head { padding: 14px 24px 10px; }
+.cartx__ship { padding: 10px 24px 2px; font-size: 13px; }
+.cartx-item { gap: 14px; padding: 14px 4px; }
+.cartx-item__media { flex: 0 0 72px; }
+.cartx-item__title, .cartx-item__title a { font-size: 15px; }
+.cartx-item__variant { font-size: 12px; }
+.cartx .drawer-qty, .cartx .drawer-qty button { height: 28px; }
+.cartx .drawer-qty button { width: 28px; font-size: 16px; }
+.cartx .drawer-qty span { min-width: 44px; font-size: 14px; }
+.cartx-item__price { font-size: 14px; }
+.cartx__foot { padding: 10px 22px 12px; }
+.cartx__foot .cartx__row { padding: 2px 0; font-size: 14px; }
+.cartx__row--sub { font-size: 16px; margin-top: 2px; }
+.cartx__checkout { min-height: 50px; margin-top: 8px; }
+.cartx__payicons { flex-wrap: nowrap; overflow-x: auto; gap: 4px; margin-top: 8px; scrollbar-width: none; }
+.cartx__payicons::-webkit-scrollbar { display: none; }
+.cartx__payicons .cartx__payicon { width: 30px; height: auto; }
