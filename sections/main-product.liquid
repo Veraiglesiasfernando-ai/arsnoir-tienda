@@ -1002,6 +1002,10 @@
                       if (fr.classList.contains('has-white') !== on) fr.classList.toggle('has-white', on);
                       if (fr.style.getPropertyValue('--bd') !== col) fr.style.setProperty('--bd', col);
                       if ((fr.dataset.cap || '') !== cap) fr.dataset.cap = cap;
+                      /* canvas: the outer band of the photo wraps round the sides of the stretcher */
+                      var pd = document.querySelector('[data-pdc]');
+                      var cv = !!(pd && pd.dataset.curType === 'lienzo');
+                      if (fr.classList.contains('is-canvas') !== cv) fr.classList.toggle('is-canvas', cv);
                     };
                     var fbar = null, qmodal = null, photoW = 0, photoH = 0;
                     var placeBar = function () {

@@ -5208,3 +5208,8 @@ html.has-fmodal { overflow: hidden; }
   .pstyles__cap { font-size: 9px; }
 }
 .pstyles__img { flex: 1 1 0; height: 0; }
+/* Canvas chosen: the band that goes round the sides of the frame is shaded, as on the printed canvas */
+.cupload__frame.is-canvas { position: relative; }
+.cupload__frame.is-canvas::before { content: ''; position: absolute; inset: 0; z-index: 3; pointer-events: none; border: solid rgba(235,235,235,.72); border-width: 6.5% 6.5%; border-width: clamp(10px, 6.5cqw, 40px); }
+.cupload__frame.is-canvas { container-type: inline-size; }
+.cupload__frame.is-canvas::after { content: 'La zona clara va en los laterales del lienzo'; position: absolute; left: 0; right: 0; bottom: -26px; z-index: 3; text-align: center; font-size: 11.5px; color: #6b6b6b; pointer-events: none; }
