@@ -5080,3 +5080,4 @@ html.has-fmodal { overflow: hidden; }
 .fedit__edit { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 9px 12px; border: 1px solid #0a0a0a; border-radius: 99px; background: #fff; color: #0a0a0a; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; }
 .fedit__edit svg { width: 18px; height: 18px; }
 @media (max-width: 749px) { .fmodal__view { height: 52svh; } .fmodal__gridbtn { top: 6px; right: 6px; width: 44px; height: 44px; } }
+.fmodal__view { height: min(calc(100svh - 380px), 560px); } @media (max-width: 749px) { .fmodal__view { height: min(calc(100svh - 360px), 52svh); } }
