@@ -24,6 +24,7 @@
       <span class="ptext__row-label">Color</span>
       <label class="ptext__chip"><input type="radio" name="properties[Color del texto]" value="Blanco" form="{{ form_id }}" checked><span><i class="ptext__dot ptext__dot--white"></i>Blanco</span></label>
       <label class="ptext__chip"><input type="radio" name="properties[Color del texto]" value="Negro" form="{{ form_id }}"><span><i class="ptext__dot ptext__dot--black"></i>Negro</span></label>
+      <label class="ptext__chip"><input type="radio" name="properties[Color del texto]" value="Granate" form="{{ form_id }}"><span><i class="ptext__dot ptext__dot--wine"></i>Granate</span></label>
     </div>
     <div class="ptext__row" role="radiogroup" aria-label="Posición del texto">
       <span class="ptext__row-label">Posición</span>
@@ -66,7 +67,7 @@
       overlay.style.fontFamily = '"' + f[0] + '", serif';
       overlay.style.fontWeight = f[1];
       overlay.style.setProperty('--fs', (f[2] * 100) + 'cqw');
-      overlay.dataset.color = val('Color del texto') === 'Negro' ? 'black' : 'white';
+      overlay.dataset.color = { 'Negro': 'black', 'Granate': 'wine' }[val('Color del texto')] || 'white';
       overlay.dataset.pos = val('Posición del texto') === 'Arriba' ? 'top' : 'bottom';
       overlay.hidden = !text;
     };
@@ -115,11 +116,12 @@
             x.font = f[1] + ' ' + size + 'px "' + f[0] + '"';
             x.textAlign = 'center';
             x.textBaseline = 'middle';
-            var black = val('Color del texto') === 'Negro';
+            var col = val('Color del texto');
+            var black = col === 'Negro' || col === 'Granate';
             var top = val('Posición del texto') === 'Arriba';
             var y = top ? pad + ih * 0.1 : pad + ih * 0.9;
             if (!black) { x.shadowColor = 'rgba(0,0,0,.35)'; x.shadowBlur = size * 0.15; }
-            x.fillStyle = black ? '#111' : '#fff';
+            x.fillStyle = col === 'Granate' ? '#6e1423' : black ? '#111' : '#fff';
             x.fillText(text, c.width / 2, y, iw * 0.9);
             save();
           };
