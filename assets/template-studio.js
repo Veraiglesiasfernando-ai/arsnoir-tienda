@@ -142,8 +142,11 @@
     if (!gallery) return;
     const sizeIn = document.querySelector('fieldset[data-option-kind="size"] input:checked');
     const finIn = document.querySelector('fieldset[data-option-kind="frame"] input:checked');
-    const sizeText = sizeIn ? (sizeIn.dataset.display || sizeIn.value) : '';
-    const finText = finIn ? (finIn.dataset.display || finIn.value) : '';
+    /* Nothing chosen yet in the picker (it still says «Elige un tamaño»): show the illustration whole, 3:4, no caption */
+    const seltxt = document.querySelector('[data-pdc-seltxt]');
+    const picked = !seltxt || !/elige/i.test(seltxt.textContent || '');
+    const sizeText = picked && sizeIn ? (sizeIn.dataset.display || sizeIn.value) : '30x40';
+    const finText = picked && finIn ? (finIn.dataset.display || finIn.value) : '';
     const f = finText.toLowerCase();
     let kind = 'none';
     if (/negr|black/.test(f)) kind = 'black';
@@ -155,14 +158,17 @@
     const fw = kind === 'none' ? 0 : 2.5;
     const fwW = w + fw * 2, fwH = h + fw * 2;
     const share = Math.min(0.8, (0.8 * 1.25 * fwW) / fwH); /* of the 4:5 wall's width */
-    const cap = [sizeText, finText].filter(Boolean).join(' · ');
+    const cap = picked ? [sizeText, finText].filter(Boolean).join(' · ') : '';
     gallery.querySelectorAll('.tlive:not([hidden])').forEach(function (el) {
       const wall = el.querySelector('.tlive__wall');
       const frame = el.querySelector('.tlive__frame');
-      const px = ((wall.clientWidth || 600) * share) / fwW;
+      /* Fit inside the wall both ways (the wall is not always 4:5), leaving room for the caption */
+      const ww = wall.clientWidth || 600, wh = wall.clientHeight || ww * 1.25;
+      const sh = Math.min(share, (0.84 * wh * fwW) / (fwH * ww));
+      const px = (ww * sh) / fwW;
       frame.dataset.kind = kind;
       frame.classList.toggle('is-canvas', /lienzo|canvas/.test(f));
-      frame.style.width = share * 100 + '%';
+      frame.style.width = sh * 100 + '%';
       frame.style.aspectRatio = fwW + ' / ' + fwH;
       frame.style.borderWidth = fw ? Math.max(1, fw * px) + 'px' : '0';
       const c = el.querySelector('.tlive__cap');
@@ -307,8 +313,9 @@
     if (liveThumb) liveThumb.src = url;
     if (liveApi) liveApi.show(); else gallery.scrollTo({ left: 0, top: 0, behavior: 'smooth' });
   };
-  document.addEventListener('change', function (event) {
-    if (event.target.closest && event.target.closest('variant-picker')) requestAnimationFrame(syncLive);
+  document.addEventListener('change', function () { requestAnimationFrame(syncLive); });
+  document.addEventListener('click', function (event) {
+    if (event.target.closest && event.target.closest('.pdc, variant-picker')) setTimeout(syncLive, 60);
   });
   window.addEventListener('resize', syncLive);
   syncLive();
