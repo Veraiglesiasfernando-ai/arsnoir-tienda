@@ -5520,3 +5520,16 @@ html.sgp-open { overflow: hidden; }
   .ctpl__swipe span { font-size: 15px; letter-spacing: 0; animation: pstyles-nudge 1.6s ease-in-out infinite; }
 }
 @media (prefers-reduced-motion: reduce) { .ctpl__swipe span { animation: none; } }
+/* Style rows: no fade/slide-in — the cards are simply there (it read as the cards moving) */
+.js .ctpl__item.reveal { opacity: 1; transform: none; transition: none; }
+/* Price chip and deal line never cut: the -32 % stays in one piece, the deal wraps as a whole */
+.ctpl__deal { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 2px 6px; max-width: 100%; border-radius: 10px; }
+.ctpl__deal em, .ctpl__deal s { white-space: nowrap; margin-left: 0; }
+@media (max-width: 749px) {
+  .ctpl__price { bottom: 6px; left: 6px; }
+  /* «Otros estilos» under the button: bigger pictures */
+  .pzstrip__list { gap: 12px; }
+  .pzstrip__list li { flex-basis: 38vw; }
+  .pzstrip__item img { width: 100%; height: auto; aspect-ratio: 4 / 5; }
+  .pzstrip__item span { font-size: 13px; margin-top: 8px; }
+}
