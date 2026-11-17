@@ -79,7 +79,7 @@
         <div class="ctpl__group{% if s.layout == 'rows' %} ctpl__group--row{% endif %}" id="ctpl-{{ c | handleize }}">
           <div class="ctpl__group-head">
             <h3 class="ctpl__group-title">{{ c }}<span>{{ n }} {% if n == 1 %}estilo{% else %}estilos{% endif %}</span></h3>
-            {%- if s.layout == 'rows' and n > 3 -%}
+            {%- if s.layout == 'rows' and n > 2 -%}
               <div class="ctpl__arrows">
                 <button type="button" class="ctpl__arrow" data-row-step="-1" aria-label="Anterior">←</button>
                 <button type="button" class="ctpl__arrow" data-row-step="1" aria-label="Siguiente">→</button>
@@ -93,6 +93,7 @@
               {%- if bc == c -%}{%- render 'ctpl-card', block: block, s: s -%}{%- endif -%}
             {%- endfor -%}
           </ul>
+          {%- if s.layout == 'rows' and n > 2 -%}<p class="ctpl__swipe" aria-hidden="true">Desliza para ver los {{ n }} <span>→</span></p>{%- endif -%}
         </div>
       {%- endfor -%}
     {%- else -%}
