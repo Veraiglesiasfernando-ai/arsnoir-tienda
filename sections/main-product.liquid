@@ -156,6 +156,9 @@
               sizes: '(min-width: 900px) 55vw, 90vw',
               alt: media.alt | default: product.title
             }}
+          {%- elsif media.media_type == 'video' -%}
+            {%- comment -%} «Cómo funciona» videos: play on their own, muted and looping, like a screen recording {%- endcomment -%}
+            {{ media | video_tag: autoplay: true, loop: true, muted: true, playsinline: true, controls: false, preload: 'metadata', image_size: '1200x', class: 'product__howto' }}
           {%- else -%}
             {{ media | media_tag: image_size: '1600x' }}
           {%- endif -%}
