@@ -5533,3 +5533,9 @@ html.sgp-open { overflow: hidden; }
   .pzstrip__item img { width: 100%; height: auto; aspect-ratio: 4 / 5; }
   .pzstrip__item span { font-size: 13px; margin-top: 8px; }
 }
+/* «Crear el mío» lined up across a row: cards same height, button pinned to the bottom, text a fixed 2 lines */
+.ctpl__row > .ctpl__item { display: flex; }
+.ctpl__row .ctpl__card { flex: 1; height: auto; }
+.ctpl--gallery .ctpl__group--row .ctpl__cta { margin-top: auto; }
+.ctpl__group--row .ctpl__tagline { min-height: 2.8em; margin-bottom: 12px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.ctpl__group--row .ctpl__name { min-height: 1.25em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
