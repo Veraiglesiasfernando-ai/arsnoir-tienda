@@ -1,0 +1,28 @@
+{%- comment -%}
+  «Ver cómo funciona»: a small button that opens the product's how-it-works video (its first video media) in a panel.
+  - product
+{%- endcomment -%}
+{%- assign howto = nil -%}
+{%- for m in product.media -%}{%- if m.media_type == 'video' -%}{%- assign howto = m -%}{%- break -%}{%- endif -%}{%- endfor -%}
+{%- if howto -%}
+  <button type="button" class="howto-btn" data-howto-open>
+    <span class="howto-btn__play" aria-hidden="true"></span>
+    <span><b>Guía rápida:</b> mira cómo funciona <em>({{ howto.duration | divided_by: 1000 }} s)</em></span>
+  </button>
+  <div class="howto" data-howto hidden role="dialog" aria-modal="true" aria-label="Cómo funciona">
+    <div class="howto__box">
+      <button type="button" class="howto__close" data-howto-close aria-label="Cerrar">✕</button>
+      <p class="howto__title">Así funciona, paso a paso</p>
+      {{ howto | video_tag: muted: true, playsinline: true, controls: true, loop: true, preload: 'none', image_size: '800x', class: 'howto__video' }}
+    </div>
+  </div>
+  <script>
+    (function () {
+      var p = document.currentScript.previousElementSibling, b = p.previousElementSibling, v = p.querySelector('video');
+      var close = function () { p.hidden = true; document.documentElement.style.overflow = ''; if (v) v.pause(); };
+      b.addEventListener('click', function () { p.hidden = false; document.documentElement.style.overflow = 'hidden'; if (v) { v.currentTime = 0; var pr = v.play(); if (pr && pr.catch) pr.catch(function () {}); } });
+      p.addEventListener('click', function (e) { if (e.target === p || e.target.closest('[data-howto-close]')) close(); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !p.hidden) close(); });
+    })();
+  </script>
+{%- endif -%}

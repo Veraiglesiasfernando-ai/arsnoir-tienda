@@ -43,6 +43,7 @@
         {%- if b.ba_note != blank -%}<p class="tba__note">{{ b.ba_note }}</p>{%- endif -%}
       </div>
     {%- endif -%}
+    {%- render 'howto-button', product: product -%}
     <p class="vstep__head"><span class="vstep__num">1</span><span class="vstep__title">{{ b.photo_label }}</span></p>
     {%- comment -%} Upload, plain and big: a dashed square with a + (the photo shows inside once chosen), a black button, the formats {%- endcomment -%}
     <label class="tstudio__drop" for="TStudio-{{ section_id }}">
