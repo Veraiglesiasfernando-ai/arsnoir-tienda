@@ -110,9 +110,9 @@
         "payments",
         "delivery",
         "trust",
+        "description",
         "complete_wall",
         "compare",
-        "description",
         "details",
         "sizes",
         "shipping"

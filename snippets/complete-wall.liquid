@@ -10,6 +10,15 @@
   assign skip_handles = skip_handles | split: ','
   assign style = nil
   for c in product.collections
+    if c.handle == 'sport' and c.products_count > 1
+      assign style = c
+      break
+    endif
+  endfor
+  for c in product.collections
+    if style
+      break
+    endif
     if skip_handles contains c.handle
       continue
     endif
