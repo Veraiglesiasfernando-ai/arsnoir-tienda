@@ -56,7 +56,9 @@
             "template_id": "navidad-verde",
             "template_name": "Navidad verde",
             "needs_name": false,
-            "max_previews": 2
+            "max_previews": 2,
+            "ba_photo": "shopify://shop_images/ejemplo-retrato-nombre-foto_d9dbaddf-6261-436d-b7d2-420df48d3051.jpg",
+            "ba_result": "shopify://shop_images/antes-despues-navidad-verde.jpg"
           }
         },
         "delivery": {

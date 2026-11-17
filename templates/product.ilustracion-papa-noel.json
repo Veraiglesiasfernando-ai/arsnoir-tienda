@@ -56,7 +56,9 @@
             "template_id": "navidad-papa-noel",
             "template_name": "Gorro de Papá Noel",
             "needs_name": false,
-            "max_previews": 2
+            "max_previews": 2,
+            "ba_photo": "shopify://shop_images/ejemplo-retrato-nombre-foto_d9dbaddf-6261-436d-b7d2-420df48d3051.jpg",
+            "ba_result": "shopify://shop_images/antes-despues-navidad-papa-noel.jpg"
           }
         },
         "delivery": {
