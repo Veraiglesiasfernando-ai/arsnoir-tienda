@@ -159,7 +159,7 @@
             }}
           {%- elsif media.media_type == 'video' -%}
             {%- comment -%} «Cómo funciona» videos: play on their own, muted and looping, like a screen recording {%- endcomment -%}
-            {{ media | video_tag: autoplay: true, loop: true, muted: true, playsinline: true, controls: false, preload: 'metadata', image_size: '1200x', class: 'product__howto' }}
+            {{ media | video_tag: loop: true, muted: true, playsinline: true, controls: false, preload: 'none', image_size: '1200x', class: 'product__howto' }}
           {%- else -%}
             {{ media | media_tag: image_size: '1600x' }}
           {%- endif -%}
@@ -167,6 +167,17 @@
       {%- else -%}
         <div class="product__media">{% render 'frame-placeholder' %}</div>
       {%- endfor -%}
+      <script>
+        /* The how-it-works video only downloads and plays when it comes into view (it's the last photo) */
+        (function () {
+          var vs = document.querySelectorAll('video.product__howto');
+          if (!vs.length || !('IntersectionObserver' in window)) return;
+          var io = new IntersectionObserver(function (es) {
+            es.forEach(function (e) { var v = e.target; if (e.isIntersecting) { var p = v.play(); if (p && p.catch) p.catch(function () {}); } else v.pause(); });
+          }, { threshold: 0.4 });
+          vs.forEach(function (v) { io.observe(v); });
+        })();
+      </script>
       {%- if section.settings.gallery_video != blank and lead == blank -%}
         {%- comment -%} Looping "how the frame is made" video under the photos (fills the column on desktop) {%- endcomment -%}
         <div class="product__media product__media--video">
