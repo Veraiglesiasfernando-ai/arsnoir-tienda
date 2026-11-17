@@ -333,7 +333,6 @@
           var hasSin = fs.indexOf('sin') > -1, hasFr = fs.some(function (f) { return f !== 'sin'; });
           if (hasSin && !hasFr) only = 'Solo póster, sin marco';
           else if (hasFr && !hasSin) only = 'Solo con marco';
-          else if (hasSin && hasFr) only = 'Sin marco o con marco';
         }
         var two = '';
         li.innerHTML = '<span class="pdc__row-size">' + main + (hint ? ' <span class="pdc__row-hint">→ ' + hint + '</span>' : '') + (only && !useMode() ? '<span class="pdc__row-only">' + only + '</span>' : '') + '</span>' +
