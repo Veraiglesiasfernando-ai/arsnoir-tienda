@@ -5360,3 +5360,6 @@ html.cart-hover .drawer__panel { pointer-events: auto; }
 .product__gallery > .product__media:has(> img[data-black]) { overflow: hidden; }
 .product__gallery > .product__media > img[data-black] { transform: scale(1.32); transform-origin: 50% 48%; }
 .pdc__mode[hidden] { display: none !important; }
+/* Quality photo: a still, big picture (no magnifier) */
+.pq__zoom--static { cursor: default; }
+.pq__zoom--static img { aspect-ratio: 4 / 5; object-fit: cover; }
