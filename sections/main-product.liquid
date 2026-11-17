@@ -277,7 +277,9 @@
 
           /* Arrows over the big photo: desktop shows the previous / next photo (skipping hidden ones),
              mobile scrolls the photo strip by one */
-          var host = g.parentElement;
+          /* Desktop: inside the sticky gallery, so they scroll with the photo and never slide over it.
+             Mobile: next to the photo strip (inside it they would scroll away) */
+          var host = window.matchMedia('(min-width: 990px)').matches ? g : g.parentElement;
           var arrows = document.createElement('div');
           arrows.className = 'parrows';
           arrows.innerHTML = '<button type="button" class="parrows__btn parrows__btn--prev" aria-label="Foto anterior"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></button>' +
