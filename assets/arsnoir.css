@@ -5405,3 +5405,23 @@ html.sgp-open { overflow: hidden; }
 .tready { flex-wrap: wrap; scroll-margin-top: 80px; }
 .tready__img { display: block; order: 3; flex: 0 0 100%; width: 100%; max-width: 420px; margin: 10px auto 0; aspect-ratio: 3 / 4; object-fit: contain; background: #fff; border-radius: 8px; box-shadow: 0 14px 28px -16px rgba(0,0,0,0.4); }
 @media (min-width: 990px) { .tready__img { display: none; } }
+/* Upload like a photo shop: dashed square with a big +, black full-width button, formats underneath */
+.tstudio__drop { width: 150px; height: 150px; min-height: 0; margin: 6px auto 0; padding: 8px; border: 2px dashed #cfccd6; border-radius: 10px; background: transparent; }
+.tstudio__drop:has(.tstudio__thumb:not([hidden])) { width: 170px; height: auto; border-style: solid; border-color: #0a0a0a; }
+.tstudio__plus { position: relative; width: 46px; height: 46px; }
+.tstudio__plus::before, .tstudio__plus::after { content: ''; position: absolute; left: 50%; top: 50%; background: #0a0a0a; transform: translate(-50%, -50%); }
+.tstudio__plus::before { width: 46px; height: 2.5px; }
+.tstudio__plus::after { width: 2.5px; height: 46px; }
+.tstudio__thumb:not([hidden]) ~ .tstudio__plus { display: none; }
+.tstudio__thumb { max-height: 200px; border-radius: 6px; }
+.tstudio__pick { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; min-height: 54px; margin-top: 18px; background: #0a0a0a; color: #fff; font-size: 15px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; cursor: pointer; }
+.tstudio__pick span:first-child { font-size: 24px; font-weight: 300; line-height: 1; }
+.tstudio__pick:focus-within, .tstudio__pick:hover { background: #262626; }
+.tstudio__formats { margin: 10px 0 4px; text-align: center; font-size: 13px; color: var(--color-muted, #6b6b6b); letter-spacing: .02em; }
+.product__info.is-studio-b .tstudio__pick, .product__info.is-studio-b .tstudio__formats { display: none; }
+@media (max-width: 749px) {
+  /* Phone: one clear path — short promise line, then the upload */
+  .tpromise { justify-content: center; gap: 6px 12px; font-size: 12.5px; }
+  .tpromise li:nth-child(3) { display: none; }
+  .tstudio > .vstep__head { justify-content: center; }
+}
