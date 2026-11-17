@@ -53,7 +53,9 @@
           "type": "template_studio",
           "settings": {
             "endpoint": "https://arsnoir-plantillas.veraiglesiasfernando.workers.dev",
-            "template_id": "en-su-rincon",
+            "template_id": "en-su-rincon"
+            "ba_photo": "shopify://shop_images/ejemplo-retrato-nombre-foto_d9dbaddf-6261-436d-b7d2-420df48d3051.jpg",
+            "ba_result": "shopify://shop_images/antes-despues-en-su-rincon.jpg",
             "template_name": "En su rincón",
             "needs_name": false,
             "max_previews": 2
