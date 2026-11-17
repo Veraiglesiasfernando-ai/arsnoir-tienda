@@ -5347,3 +5347,7 @@ html.cart-hover .drawer__panel { pointer-events: auto; }
 .pdc__pp s { font-size: 12px; color: #777; }
 .pdc__pp.is-none b { color: #c4c4c4; font-weight: 400; }
 @media (max-width: 749px) { .pdc__two { gap: 10px; grid-template-columns: repeat(2, minmax(72px, auto)); } .pdc__pp b { font-size: 14px; } }
+/* «Sin marco | Con marco» switch above the size list */
+.pdc__mode { display: inline-flex; gap: 4px; margin: 2px 0 12px; padding: 3px; border-radius: 999px; background: #ecebe7; }
+.pdc__mode button { padding: 9px 18px; border: 0; border-radius: 999px; background: none; color: var(--color-muted); font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; }
+.pdc__mode button.is-active { background: #0a0a0a; color: #fff; }
