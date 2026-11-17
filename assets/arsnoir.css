@@ -5460,3 +5460,13 @@ html.sgp-open { overflow: hidden; }
 .fintro__steps li { display: flex; align-items: center; gap: 7px; }
 .fintro__steps b { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border: 1px solid #0a0a0a; border-radius: 50%; font-size: 11px; }
 @media (max-width: 989px) { .fintro__drop { border-radius: 0; background-color: #fff; } }
+/* Personalised templates: same ARSNOIR upload box as «Tu foto» */
+.tstudio__drop { border: 1px solid #d9d6cf; border-radius: 0; background:
+  linear-gradient(#0a0a0a,#0a0a0a) left top / 20px 2px no-repeat, linear-gradient(#0a0a0a,#0a0a0a) left top / 2px 20px no-repeat,
+  linear-gradient(#0a0a0a,#0a0a0a) right top / 20px 2px no-repeat, linear-gradient(#0a0a0a,#0a0a0a) right top / 2px 20px no-repeat,
+  linear-gradient(#0a0a0a,#0a0a0a) left bottom / 20px 2px no-repeat, linear-gradient(#0a0a0a,#0a0a0a) left bottom / 2px 20px no-repeat,
+  linear-gradient(#0a0a0a,#0a0a0a) right bottom / 20px 2px no-repeat, linear-gradient(#0a0a0a,#0a0a0a) right bottom / 2px 20px no-repeat, #fff; }
+.tstudio__drop:hover, .tstudio__drop:focus-within { border-color: #490B1A; }
+.tstudio__plus::before, .tstudio__plus::after { background: #0a0a0a; }
+.tstudio__plus::before { height: 1.5px; } .tstudio__plus::after { width: 1.5px; }
+.tstudio__pick span:first-child { font-size: inherit; font-weight: 700; } .tstudio__pick span[aria-hidden] { font-size: 18px; letter-spacing: 0; }
