@@ -285,12 +285,16 @@
           host.appendChild(arrows);
           var wide = window.matchMedia('(min-width: 990px)');
           var place = function () {
-            var target = wide.matches ? items[current()] : g;
-            if (!target) return;
-            var hr = host.getBoundingClientRect(), tr = target.getBoundingClientRect();
+            /* Always the whole photo area (not each photo, which differ in size): the arrows stay still */
+            var hr = host.getBoundingClientRect(), tr = g.getBoundingClientRect();
+            var left = tr.left, width = tr.width;
+            if (wide.matches) {
+              var nr = nav.getBoundingClientRect();
+              if (nr.width && nr.right <= tr.left + tr.width / 2) { left = nr.right; width = tr.right - nr.right; }
+            }
             arrows.style.top = (tr.top - hr.top) + 'px';
-            arrows.style.left = (tr.left - hr.left) + 'px';
-            arrows.style.width = tr.width + 'px';
+            arrows.style.left = (left - hr.left) + 'px';
+            arrows.style.width = width + 'px';
             arrows.style.height = tr.height + 'px';
           };
           var go = function (d) {

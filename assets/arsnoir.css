@@ -5356,3 +5356,6 @@ html.cart-hover .drawer__panel { pointer-events: auto; }
 .pwel__txt small { font-size: .82em; opacity: .75; font-weight: 400; }
 /* Phone: shorter page, only the first feature (the frame or canvas); print details stay in «Detalles de impresión» */
 @media (max-width: 749px) { .pfeat__row:not([hidden]) ~ .pfeat__row { display: none !important; } }
+/* Framed photo in the gallery: zoomed in so the artwork keeps the same size as the print on its own */
+.product__gallery > .product__media:has(> img[data-black]) { overflow: hidden; }
+.product__gallery > .product__media > img[data-black] { transform: scale(1.32); transform-origin: 50% 48%; }
