@@ -83,7 +83,22 @@
         <svg class="pdc__caret" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
         <ul class="pdc__list" data-pdc-list role="listbox" aria-label="Tamaños" hidden></ul>
       </div>
-      <a class="pdc__guide" href="{{ guide }}">Guía de tamaños</a>
+      <a class="pdc__guide" href="{{ guide }}" data-pdc-guide>Guía de tamaños</a>
+    </div>
+  </div>
+  <div class="sgp" data-sgp hidden role="dialog" aria-modal="true" aria-label="Guía de tamaños">
+    <div class="sgp__back" data-sgp-close></div>
+    <div class="sgp__panel">
+      <button type="button" class="sgp__x" data-sgp-close aria-label="Cerrar">&times;</button>
+      <p class="sgp__title">Guía de tamaños</p>
+      <div class="sgp__tabs" data-sgp-tabs></div>
+      <div class="sgp__stage">
+        <svg class="sgp__person" viewBox="0 0 60 200" aria-hidden="true"><circle cx="30" cy="13" r="11"/><path d="M18 28h24c5 0 8 3 8.5 8l3.5 56c.3 4-2 6-4.5 6l-3-48-1 42-3 104h-8l-3-70h-2l-3 70h-8l-3-104-1-42-3 48c-2.5 0-4.8-2-4.5-6L9.5 36c.5-5 3.5-8 8.5-8z"/></svg>
+        <div class="sgp__art" data-sgp-art></div>
+      </div>
+      <p class="sgp__cap"><span>Persona de 165 cm</span><b data-sgp-cap></b></p>
+      <div class="sgp__sizes" data-sgp-sizes></div>
+      <a class="sgp__all" href="{{ guide }}">Ver todas las medidas →</a>
     </div>
   </div>
 
@@ -460,6 +475,56 @@
       }
       apply();
     });
+
+    /* Size guide panel: a 165 cm person next to the chosen size, per format (poster / framed / canvas / framed canvas) */
+    (function () {
+      var p = box.querySelector('[data-sgp]'), link = box.querySelector('[data-pdc-guide]');
+      if (!p || !link) return;
+      document.body.appendChild(p);
+      var GROUPS = [
+        { k: 'ps', name: 'Póster sin marco', t: 'lamina', fr: false },
+        { k: 'pc', name: 'Póster con marco', t: 'lamina', fr: true },
+        { k: 'ls', name: 'Lienzo', t: 'lienzo', fr: false },
+        { k: 'lc', name: 'Lienzo con marco', t: 'lienzo', fr: true }
+      ];
+      var dims = function (txt) { var m = String(txt).replace(/,/g, '.').match(/(\d+(?:\.\d+)?)\s*[x×]\s*(\d+(?:\.\d+)?)/); return m ? [parseFloat(m[1]), parseFloat(m[2])] : null; };
+      var sizesFor = function (g) {
+        return sizesOf(g.t).filter(function (sz) { return of(g.t, sz).some(function (x) { return g.fr ? x.frame !== 'sin' : x.frame === 'sin'; }); });
+      };
+      var groups = GROUPS.filter(function (g) { return sizesFor(g).length; });
+      var cur = { g: null, sz: null };
+      var tabs = p.querySelector('[data-sgp-tabs]'), list = p.querySelector('[data-sgp-sizes]'), art = p.querySelector('[data-sgp-art]'), cap = p.querySelector('[data-sgp-cap]');
+      function draw() {
+        tabs.innerHTML = groups.map(function (g) { return '<button type="button" data-g="' + g.k + '" class="' + (g === cur.g ? 'is-on' : '') + '">' + g.name + '</button>'; }).join('');
+        var sz = sizesFor(cur.g);
+        if (sz.indexOf(cur.sz) < 0) cur.sz = sz[0];
+        list.innerHTML = sz.map(function (s2) { return '<button type="button" data-s="' + s2.replace(/"/g, '&quot;') + '" class="' + (s2 === cur.sz ? 'is-on' : '') + '">' + ((sizeInfo[s2] || {}).label || s2) + '</button>'; }).join('');
+        var PX = (p.querySelector('.sgp__person').getBoundingClientRect().height || 264) / 165; /* same scale as the 165 cm person */
+        var d = dims((sizeInfo[cur.sz] || {}).label || cur.sz) || [21, 29.7];
+        var w = Math.min(d[0], d[1]), h = Math.max(d[0], d[1]);
+        art.style.width = (w * PX) + 'px'; art.style.height = (h * PX) + 'px';
+        art.className = 'sgp__art' + (cur.g.fr ? ' is-framed' : '') + (cur.g.t === 'lienzo' ? ' is-canvas' : '');
+        cap.textContent = cur.g.name + ' · ' + String((sizeInfo[cur.sz] || {}).label || cur.sz).replace(/^[A-Z0-9]+ · /, '');
+      }
+      function open(e) {
+        if (!groups.length) return;
+        e.preventDefault();
+        var fr = state.frame !== 'sin';
+        cur.g = groups.filter(function (g) { return g.t === (state.type === 'lienzo' ? 'lienzo' : 'lamina') && g.fr === fr; })[0] || groups[0];
+        cur.sz = state.size;
+        p.hidden = false; document.documentElement.classList.add('sgp-open');
+        draw();
+      }
+      function close() { p.hidden = true; document.documentElement.classList.remove('sgp-open'); }
+      link.addEventListener('click', open);
+      p.addEventListener('click', function (e) {
+        if (e.target.closest('[data-sgp-close]')) return close();
+        var gb = e.target.closest('[data-g]'), sb = e.target.closest('[data-s]');
+        if (gb) { cur.g = groups.filter(function (g) { return g.k === gb.dataset.g; })[0]; draw(); }
+        if (sb) { cur.sz = sb.dataset.s; draw(); }
+      });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !p.hidden) close(); });
+    })();
 
     /* Add to cart without a size: point at the dropdown instead */
     if (form) form.addEventListener('submit', function (e) {
