@@ -5494,3 +5494,19 @@ html.sgp-open { overflow: hidden; }
   .mq__set[aria-hidden] { display: none; }
   .mq__tile { scroll-snap-align: start; }
 }
+/* Phone: style cards smaller (two and a bit on screen) and still — no zoom, lift or overlay when a finger touches them */
+@media (max-width: 749px) {
+  .ctpl__row > .ctpl__item { flex-basis: 44vw; }
+  .ctpl__group--row .ctpl__name { font-size: 14px; margin-top: 10px; }
+  .ctpl__group--row .ctpl__tagline { font-size: 12px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .ctpl__deal { font-size: 11px; padding: 4px 8px; white-space: normal; }
+  .ctpl--gallery .ctpl__group--row .ctpl__cta { padding: 8px 12px; font-size: 12px; }
+  .ctpl__price { padding: 5px 9px; font-size: 11px; }
+}
+@media (hover: none) {
+  .ctpl__card:hover .ctpl__hover { opacity: 0; }
+  .ctpl__card .ctpl__media, .ctpl__card:hover .ctpl__media, .ctpl__card .ctpl__media img, .ctpl__group--row .ctpl__media img.ctpl__art { transition: none !important; }
+  .ctpl__card:hover .ctpl__media { transform: none !important; }
+  .ctpl__group--row .ctpl__card:hover .ctpl__media img.ctpl__art { transform: translate(-50%, -50%) !important; }
+  .ctpl__card:hover .ctpl__media img:not(.ctpl__art) { transform: none !important; }
+}
