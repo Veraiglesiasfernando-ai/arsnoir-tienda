@@ -63,15 +63,16 @@
         {%- if intro_img -%}{{ intro_img | image_url: width: 1400 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '600, 900, 1200, 1400', sizes: '(min-width: 990px) 50vw, 100vw', alt: intro_img.alt }}{%- endif -%}
       </div>
       <div class="fintro__panel">
+        <p class="fintro__eyebrow">ARSNOIR · Con tu foto</p>
         <h1 class="fintro__title">{{ product.title }}</h1>
         <p class="fintro__text">Tu foto impresa tal cual, con marco o en lienzo. Desde {{ product.price_min | money }}</p>
         <label class="fintro__drop" for="FIntro-{{ section.id }}">
           <input class="fintro__file" id="FIntro-{{ section.id }}" type="file" accept="image/jpeg,image/png" data-fintro-file>
           <span class="fintro__plus" aria-hidden="true">+</span>
         </label>
-        <label class="button fintro__btn" for="FIntro-{{ section.id }}">+ Sube tu foto</label>
-        <p class="fintro__note">Archivos admitidos: JPG y PNG</p>
-        <p class="fintro__note">Después eliges tamaño y marco, y la ves colgada en la pared.</p>
+        <label class="button fintro__btn" for="FIntro-{{ section.id }}">Sube tu foto <span aria-hidden="true">→</span></label>
+        <p class="fintro__note">JPG o PNG · Desde la galería del móvil</p>
+        <ol class="fintro__steps"><li><b>1</b>Sube tu foto</li><li><b>2</b>Elige tamaño y marco</li><li><b>3</b>La ves en tu pared</li></ol>
       </div>
     </div>
     <script>

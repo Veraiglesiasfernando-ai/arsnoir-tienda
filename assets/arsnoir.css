@@ -5446,3 +5446,17 @@ html.sgp-open { overflow: hidden; }
   .fintro__drop { width: 136px; height: 136px; margin-bottom: 22px; border-radius: 10px; background: transparent; }
   .fintro__plus { font-size: 64px; }
 }
+/* «Tu foto», ARSNOIR style: eyebrow, the drop box as an empty frame (black mat corners), black button with arrow, 3 steps */
+.fintro__eyebrow { margin: 0 0 10px; font-size: 11px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: #490B1A; }
+.fintro__drop { border: 1px solid #d9d6cf; border-radius: 0; background:
+  linear-gradient(#0a0a0a,#0a0a0a) left top / 22px 2px no-repeat, linear-gradient(#0a0a0a,#0a0a0a) left top / 2px 22px no-repeat,
+  linear-gradient(#0a0a0a,#0a0a0a) right top / 22px 2px no-repeat, linear-gradient(#0a0a0a,#0a0a0a) right top / 2px 22px no-repeat,
+  linear-gradient(#0a0a0a,#0a0a0a) left bottom / 22px 2px no-repeat, linear-gradient(#0a0a0a,#0a0a0a) left bottom / 2px 22px no-repeat,
+  linear-gradient(#0a0a0a,#0a0a0a) right bottom / 22px 2px no-repeat, linear-gradient(#0a0a0a,#0a0a0a) right bottom / 2px 22px no-repeat, #fff; transition: border-color .2s; }
+.fintro__drop:hover { border-color: #490B1A; }
+.fintro__plus { font-weight: 100; color: #0a0a0a; }
+.fintro__btn span { margin-left: 10px; font-size: 18px; letter-spacing: 0; }
+.fintro__steps { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px 18px; margin: 22px 0 0; padding: 0; list-style: none; font-size: 12.5px; color: #2b2925; }
+.fintro__steps li { display: flex; align-items: center; gap: 7px; }
+.fintro__steps b { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border: 1px solid #0a0a0a; border-radius: 50%; font-size: 11px; }
+@media (max-width: 989px) { .fintro__drop { border-radius: 0; background-color: #fff; } }
