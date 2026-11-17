@@ -5569,3 +5569,6 @@ html.sgp-open { overflow: hidden; }
 .howto__close:hover { background: #490B1A; }
 @media (max-width: 480px) { .howto__close { top: 6px; right: 6px; } }
 .howto__close-text { display: block; margin: 10px auto 0; padding: 10px 18px; border: 1px solid #0a0a0a; background: #fff; font: inherit; font-size: 13px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; cursor: pointer; }
+/* MIXPIX pack: what is being bought, in one clear line */
+.mxp__head { margin: 0 0 10px; padding: 10px 12px; background: #0a0a0a; color: #fff; font-size: 14px; font-weight: 700; letter-spacing: .02em; }
+.mxp__head:empty { display: none; }

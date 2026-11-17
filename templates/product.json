@@ -133,7 +133,8 @@
         "limit": 8,
         "button_label": "VER TODAS",
         "placeholder_price": "24,95 €"
-      }
+      },
+      "disabled": true
     },
     "reviews": {
       "type": "reviews",

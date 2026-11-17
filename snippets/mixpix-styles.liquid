@@ -29,6 +29,7 @@
     <p>MIXPIX es cuadrado (20×20 cm). Lo encuadramos sin cortar su cara ni su nombre.<span data-mixpix-sqhint> Cuando crees tu vista previa, aquí verás cómo queda.</span></p>
   </div>
   <div class="mxp" data-mixpix data-form="{{ form_id }}" hidden>
+    <p class="mxp__head" data-mixpix-head></p>
     <p class="mxp__title">Elige los estilos del pack <span data-mixpix-count></span></p>
     <p class="mxp__sub">El primero es este, <b>{{ product.title }}</b>. Usamos la misma foto para todos.</p>
     <ul class="mxp__list">
@@ -111,6 +112,12 @@
         }
         box.hidden = need < 2;
         value.disabled = need < 2;
+        /* Clear title of what is being bought: «Pack de 2 MIXPIX · 20×20 cm · 39,95 €» */
+        var head = box.querySelector('[data-mixpix-head]');
+        if (head && need >= 2) {
+          var cv = variants.find(function (x) { return String(x.id) === String(idInput.value); });
+          head.textContent = 'Pack de ' + need + ' MIXPIX · 20×20 cm' + (cv ? ' · ' + new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(cv.price / 100) : '');
+        }
         /* The pack is already priced: hide «1 obra / 2 obras −15 %» and keep quantity 1 */
         var pp = document.querySelector('[data-pack-picker]');
         if (pp) pp.style.display = need >= 2 ? 'none' : '';
@@ -184,6 +191,16 @@
       document.addEventListener('change', function (e) { if (e.target.closest && e.target.closest('variant-picker')) setTimeout(sync, 0); });
       document.querySelectorAll('variant-picker .ftile').forEach(function (t) { t.addEventListener('click', function () { setTimeout(sync, 0); }); });
       sync();
+      /* Arriving from a pack on the home page: its styles come already ticked (they can still be changed) */
+      try {
+        var pre = new URLSearchParams(location.search).get('mx');
+        if (pre && need >= 2) {
+          pre.split('|').forEach(function (t) { boxes().forEach(function (bx) { if (bx.value === t && !bx.checked) bx.checked = true; }); });
+          var picked0 = boxes().filter(function (bx) { return bx.checked; });
+          picked0.slice(Math.max(0, need - 1)).forEach(function (bx) { bx.checked = false; });
+          update();
+        }
+      } catch (e) {}
     });
   </script>
 {%- endif -%}

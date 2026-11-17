@@ -405,7 +405,7 @@
           "type": "question",
           "settings": {
             "question": "¿En qué material se imprime?",
-            "answer": "<p>Papel Premium Matte de 200 g/m², acabado mate sin reflejos. Impresión giclée de 12 colores para un color fiel y negros profundos. Papel de origen sostenible y certificado FSC, con tintas al agua.</p>"
+            "answer": "<p><b>Obras:</b> papel Premium Matte de 200 g/m², acabado mate sin reflejos, impresión giclée de 12 colores y papel con certificado FSC.</p><p><b>Ilustraciones personalizadas</b> (retratos y «Tu foto»): papel satinado de 230 g/m², y de 275 g/m² en las versiones con marco.</p>"
           }
         },
         "q3": {
@@ -585,10 +585,10 @@
           "settings": {
             "image": "shopify://shop_images/arsnoir-material-poster.jpg",
             "title": "Póster",
-            "text": "Papel mate de 200 g/m² con impresión giclée de 12 colores.",
+            "text": "Obras: papel mate de 200 g/m² con impresión giclée. Ilustraciones personalizadas: papel satinado de 230 g/m².",
             "price": "Desde 16,95 €",
             "was": "24,95 €",
-            "specs": "200 g/m²\nAcabado mate\nDe A4 a 60×90 cm",
+            "specs": "Obras: mate 200 g/m²\nIlustraciones: satinado 230 g/m²\nDe A4 a 60×90 cm",
             "link": "shopify://collections/obras",
             "cta": "Ver obras",
             "zoom": "left top"

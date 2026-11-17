@@ -27,9 +27,28 @@
   endfor
   assign names = ''
   assign shown = 0
+  # The other styles of this pack, ticked for the customer on arrival (mixpix-styles reads ?mx=)
+  assign mx = ''
+  assign extra = b.product_2.title | append: '|' | append: b.product_3.title | append: '|' | append: b.product_4.title | append: '|' | append: b.product_5.title | append: '|' | append: b.product_6.title
+  assign extra = extra | split: '|'
+  for t in extra limit: 5
+    if forloop.index >= n
+      break
+    endif
+    if t != blank
+      if mx != ''
+        assign mx = mx | append: '|'
+      endif
+      assign mx = mx | append: t
+    endif
+  endfor
+  assign mx_q = ''
+  if mx != ''
+    assign mx_q = 'mx=' | append: mx | url_encode
+  endif
 -%}
 <div class="ppk__panel mxpk mxpk--{{ n }}{% if active %} is-active{% endif %}" role="tabpanel" data-ppk-panel="{{ index }}"{% unless active %} hidden{% endunless %} {{ block.shopify_attributes }}>
-  <a class="mxpk__art" href="{{ first.url | default: '/collections/personalizalo' }}{% if bare_id %}?variant={{ bare_id }}{% endif %}" tabindex="-1" aria-hidden="true">
+  <a class="mxpk__art" href="{{ first.url | default: '/collections/personalizalo' }}{% if bare_id %}?variant={{ bare_id }}{% if mx_q != '' %}&{{ mx_q }}{% endif %}{% elsif mx_q != '' %}?{{ mx_q }}{% endif %}" tabindex="-1" aria-hidden="true">
     {%- for k in (1..n) -%}
       {%- liquid
         assign key = 'product_' | append: k
@@ -71,7 +90,7 @@
       <p class="ppk__price"><b>{{ bare | money }}</b> <span>· sin marco</span>{% if framed %} <span>· con marco {{ framed | money }}</span>{% endif %}</p>
     {%- endif -%}
     <div class="fcol__actions">
-      <a class="fcol__btn" href="{{ first.url | default: '/collections/personalizalo' }}{% if bare_id %}?variant={{ bare_id }}{% endif %}">{{ b.button_label | default: 'Crear mi pack' }}</a>
+      <a class="fcol__btn" href="{{ first.url | default: '/collections/personalizalo' }}{% if bare_id %}?variant={{ bare_id }}{% if mx_q != '' %}&{{ mx_q }}{% endif %}{% elsif mx_q != '' %}?{{ mx_q }}{% endif %}">{{ b.button_label | default: 'Crear mi pack' }}</a>
     </div>
     <p class="fcol__note">Se pegan a la pared sin clavos y se pueden mover. Eliges los estilos en la ficha, usamos la misma foto para todos y la ves gratis antes de pagar.</p>
   </div>
