@@ -93,10 +93,10 @@
       <p class="sgp__title">Guía de tamaños</p>
       <div class="sgp__tabs" data-sgp-tabs></div>
       <div class="sgp__stage">
-        <svg class="sgp__person" viewBox="0 0 60 200" aria-hidden="true"><circle cx="30" cy="13" r="11"/><path d="M18 28h24c5 0 8 3 8.5 8l3.5 56c.3 4-2 6-4.5 6l-3-48-1 42-3 104h-8l-3-70h-2l-3 70h-8l-3-104-1-42-3 48c-2.5 0-4.8-2-4.5-6L9.5 36c.5-5 3.5-8 8.5-8z"/></svg>
+        <svg class="sgp__person" viewBox="0 0 60 170" aria-hidden="true"><ellipse cx="30" cy="12" rx="9" ry="11"/><rect x="26" y="21" width="8" height="8" rx="2"/><path d="M17 28Q30 25 43 28Q47 29 47 34L45 62Q44 80 46 92H14Q16 80 15 62L13 34Q13 29 17 28Z"/><path d="M12 31Q8 32 7.5 38L5 88Q5 92 8 92Q10 92 10.5 88L13 44Z"/><path d="M48 31Q52 32 52.5 38L55 88Q55 92 52 92Q50 92 49.5 88L47 44Z"/><path d="M15 90H29L28 166Q28 170 24 170H21Q18 170 18 166Z"/><path d="M31 90H45L42 166Q42 170 39 170H36Q32 170 32 166Z"/></svg>
         <div class="sgp__art" data-sgp-art></div>
       </div>
-      <p class="sgp__cap"><span>Persona de 165 cm</span><b data-sgp-cap></b></p>
+      <p class="sgp__cap"><span>Persona de 1,70 m</span><b data-sgp-cap></b></p>
       <div class="sgp__sizes" data-sgp-sizes></div>
       <a class="sgp__all" href="{{ guide }}">Ver todas las medidas →</a>
     </div>
@@ -476,7 +476,7 @@
       apply();
     });
 
-    /* Size guide panel: a 165 cm person next to the chosen size, per format (poster / framed / canvas / framed canvas) */
+    /* Size guide panel: a 170 cm person next to the chosen size, per format (poster / framed / canvas / framed canvas) */
     (function () {
       var p = box.querySelector('[data-sgp]'), link = box.querySelector('[data-pdc-guide]');
       if (!p || !link) return;
@@ -499,7 +499,7 @@
         var sz = sizesFor(cur.g);
         if (sz.indexOf(cur.sz) < 0) cur.sz = sz[0];
         list.innerHTML = sz.map(function (s2) { return '<button type="button" data-s="' + s2.replace(/"/g, '&quot;') + '" class="' + (s2 === cur.sz ? 'is-on' : '') + '">' + ((sizeInfo[s2] || {}).label || s2) + '</button>'; }).join('');
-        var PX = (p.querySelector('.sgp__person').getBoundingClientRect().height || 264) / 165; /* same scale as the 165 cm person */
+        var PX = (p.querySelector('.sgp__person').getBoundingClientRect().height || 264) / 170; /* same scale as the 170 cm person */
         var d = dims((sizeInfo[cur.sz] || {}).label || cur.sz) || [21, 29.7];
         var w = Math.min(d[0], d[1]), h = Math.max(d[0], d[1]);
         art.style.width = (w * PX) + 'px'; art.style.height = (h * PX) + 'px';

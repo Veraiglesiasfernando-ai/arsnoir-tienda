@@ -5379,7 +5379,7 @@ html.cart-hover .drawer__panel { pointer-events: auto; }
 .sgp__tabs button, .sgp__sizes button { padding: 8px 12px; border: 1px solid #ddd; border-radius: 999px; background: #fff; font: inherit; font-size: 13px; cursor: pointer; }
 .sgp__tabs button.is-on, .sgp__sizes button.is-on { background: #0a0a0a; border-color: #0a0a0a; color: #fff; }
 .sgp__stage { display: flex; align-items: flex-end; justify-content: center; gap: 28px; height: 300px; padding-bottom: 6px; border-bottom: 2px solid #e5e5e5; }
-.sgp__person { height: 264px; width: auto; fill: #0a0a0a; flex: none; }
+.sgp__person { height: 264px; width: auto; fill: #c8c2b8; flex: none; }
 .sgp__art { flex: none; align-self: center; background: #c9c9c9; transition: width .3s ease, height .3s ease; box-sizing: border-box; }
 .sgp__art.is-framed { border: 4px solid #1a1a1a; background: #d6d6d6; }
 .sgp__art.is-canvas { background: #bdbdbd; box-shadow: 4px 4px 0 rgba(0,0,0,.12); }
