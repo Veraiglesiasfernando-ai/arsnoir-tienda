@@ -5425,3 +5425,9 @@ html.sgp-open { overflow: hidden; }
   .tpromise li:nth-child(3) { display: none; }
   .tstudio > .vstep__head { justify-content: center; }
 }
+/* Phone: keep the frame visible on the framed photo, so it doesn't look like a copy of the next one */
+@media (max-width: 989px) { .product__gallery > .product__media > img[data-black] { transform: none; } }
+/* Upload square: the empty thumbnail never takes space; the + always centred inside the square */
+.tstudio__thumb[hidden] { display: none !important; }
+.tstudio__drop { box-sizing: border-box; flex: none; }
+.tstudio__plus { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
