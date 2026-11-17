@@ -285,7 +285,10 @@
 
     /* Prints made both ways: the size list shows only the sizes (and prices) of «Sin marco» or of «Con marco» */
     function hasMode(m) { return of('lamina').some(function (x) { return m === 'sin' ? x.frame === 'sin' : x.frame !== 'sin'; }); }
-    function useMode() { return state.type === 'lamina' && hasMode('sin') && hasMode('con'); }
+    /* Only when the sizes really differ between «Sin marco» and «Con marco» (merchOne: portraits, Tu foto).
+       Works made the same way in every size (Gelato) choose the frame with the frame cards, like the big poster shops */
+    function sameSizes() { var a = sizesOf('lamina'); return a.every(function (sz) { return inMode(sz, 'sin') && inMode(sz, 'con'); }); }
+    function useMode() { return state.type === 'lamina' && hasMode('sin') && hasMode('con') && !sameSizes(); }
     function inMode(sz, m) { return of('lamina', sz).some(function (x) { return m === 'sin' ? x.frame === 'sin' : x.frame !== 'sin'; }); }
     function renderSizes() {
       var list = sizesOf(state.type);
