@@ -1,0 +1,333 @@
+{%- comment -%}
+  «Crea tu póster» (template product.poster): the customer picks a design (collage, canción, tipográfico,
+  revista, fotomatón), uploads photos and writes the texts, and sees it live in its frame. On «Añadir al
+  carrito» the browser draws the print file at full size and sends it with the order as the line-item file
+  «Archivo para imprimir» (plus «Diseño» and «Textos» as properties), like «Tu foto». Plain form post
+  to /cart/add (no ajax) so the file always travels with it.
+  Variants: same structure as «Tu foto» — Size / Product (Premium Matte Paper Poster | … Wooden Framed Poster) / Style.
+{%- endcomment -%}
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Caveat:wght@600&family=Inter:wght@400;600;800&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Space+Mono:wght@400;700&display=swap">
+{%- liquid
+  assign posters = product.variants | where: 'option2', 'Premium Matte Paper Poster'
+  assign framed = product.variants | where: 'option2', 'Premium Matte Paper Wooden Framed Poster'
+-%}
+<section class="pst page-width" data-pst>
+  <div class="pst__grid">
+    <div class="pst__stage">
+      <div class="pst__wall">
+        <div class="pst__frame" data-pst-frame data-kind="none">
+          <canvas class="pst__canvas" data-pst-canvas width="600" height="800" aria-label="Vista previa de tu póster"></canvas>
+        </div>
+      </div>
+      <p class="pst__note">Vista previa. Se imprime así, en alta calidad, al tamaño que elijas.</p>
+    </div>
+
+    <div class="pst__panel">
+      <p class="pst__eyebrow">ARSNOIR · Crea tu póster</p>
+      <h1 class="pst__title">{{ product.title }}</h1>
+      <p class="pst__price"><span data-pst-price>{{ product.price_min | money }}</span> <small data-pst-from>desde</small></p>
+      <p class="pst__vat">IVA incluido · Envío 4,95 €, gratis desde 80 €.</p>
+
+      <p class="pst__step"><b>1</b> Elige el diseño</p>
+      <div class="pst__designs" role="radiogroup" aria-label="Diseño">
+        <button type="button" class="pst__design is-on" data-design="collage" aria-pressed="true"><span class="pst__dico pst__dico--collage"></span>Collage</button>
+        <button type="button" class="pst__design" data-design="cancion" aria-pressed="false"><span class="pst__dico pst__dico--cancion"></span>Canción</button>
+        <button type="button" class="pst__design" data-design="tipo" aria-pressed="false"><span class="pst__dico pst__dico--tipo"></span>Tipográfico</button>
+        <button type="button" class="pst__design" data-design="revista" aria-pressed="false"><span class="pst__dico pst__dico--revista"></span>Revista</button>
+        <button type="button" class="pst__design" data-design="fotomaton" aria-pressed="false"><span class="pst__dico pst__dico--fotomaton"></span>Fotomatón</button>
+      </div>
+
+      <p class="pst__step"><b>2</b> Tus fotos y tus textos</p>
+      <div class="pst__fields">
+        <div class="pst__f" data-for="collage cancion revista fotomaton">
+          <label class="pst__upload" for="PstPhotos">
+            <input id="PstPhotos" type="file" accept="image/jpeg,image/png,image/webp" multiple data-pst-photos>
+            <span class="pst__upload-plus" aria-hidden="true">+</span>
+            <span><b data-pst-uptxt>Sube tus fotos</b><small data-pst-uphint>De 2 a 6 fotos</small></span>
+          </label>
+          <div class="pst__thumbs" data-pst-thumbs></div>
+        </div>
+        <div class="pst__f" data-for="collage"><label for="PstCT">Título</label><input id="PstCT" data-k="c_title" maxlength="28" value="Nuestra familia"></div>
+        <div class="pst__f" data-for="collage"><label for="PstCS">Subtítulo</label><input id="PstCS" data-k="c_sub" maxlength="32" value="Navidad · 2026"></div>
+        <div class="pst__f" data-for="cancion"><label for="PstST">Canción</label><input id="PstST" data-k="s_title" maxlength="30" value="Nuestra canción"></div>
+        <div class="pst__f" data-for="cancion"><label for="PstSA">Artista o vuestros nombres</label><input id="PstSA" data-k="s_artist" maxlength="34" value="Álex & Sara · desde 2023"></div>
+        <div class="pst__f pst__f--row" data-for="cancion"><span class="pst__lbl">Fondo</span>
+          <label class="pst__chip"><input type="radio" name="pst_s_bg" data-k="s_bg" value="Negro" checked><span>Negro</span></label>
+          <label class="pst__chip"><input type="radio" name="pst_s_bg" data-k="s_bg" value="Crema"><span>Crema</span></label>
+        </div>
+        <div class="pst__f" data-for="tipo"><label for="PstT1">Primer nombre</label><input id="PstT1" data-k="t_n1" maxlength="16" value="Álex"></div>
+        <div class="pst__f" data-for="tipo"><label for="PstT2">Segundo nombre</label><input id="PstT2" data-k="t_n2" maxlength="16" value="Sara"></div>
+        <div class="pst__f" data-for="tipo"><label for="PstTD">Fecha</label><input id="PstTD" data-k="t_date" maxlength="20" value="14 · 02 · 2023"></div>
+        <div class="pst__f" data-for="tipo"><label for="PstTQ">Frase</label><input id="PstTQ" data-k="t_quote" maxlength="70" value="Contigo, todos los días son domingo."></div>
+        <div class="pst__f pst__f--row" data-for="tipo"><span class="pst__lbl">Colores</span>
+          <label class="pst__chip"><input type="radio" name="pst_t_th" data-k="t_theme" value="Crema" checked><span>Crema</span></label>
+          <label class="pst__chip"><input type="radio" name="pst_t_th" data-k="t_theme" value="Granate"><span>Granate</span></label>
+          <label class="pst__chip"><input type="radio" name="pst_t_th" data-k="t_theme" value="Negro"><span>Negro</span></label>
+          <label class="pst__chip"><input type="radio" name="pst_t_th" data-k="t_theme" value="Salvia"><span>Salvia</span></label>
+        </div>
+        <div class="pst__f" data-for="revista"><label for="PstMM">Nombre de la revista</label><input id="PstMM" data-k="m_mast" maxlength="10" value="ARSNOIR"></div>
+        <div class="pst__f" data-for="revista"><label for="PstMH">Titular (usa / para partir la línea)</label><input id="PstMH" data-k="m_head" maxlength="30" value="Familia/del año"></div>
+        <div class="pst__f" data-for="revista"><label for="PstMS">Frases del lado (separa con /)</label><input id="PstMS" data-k="m_side" maxlength="80" value="El año de Lía/Primeras palabras, primeros pasos/Especial Navidad"></div>
+        <div class="pst__f" data-for="revista"><label for="PstMD">Fecha</label><input id="PstMD" data-k="m_date" maxlength="14" value="DIC 2026"></div>
+        <div class="pst__f" data-for="fotomaton"><label for="PstF1">Texto de la tira</label><input id="PstF1" data-k="f_cap" maxlength="22" value="A&S · 14.02.26"></div>
+        <div class="pst__f" data-for="fotomaton"><label for="PstF2">Frase a mano</label><input id="PstF2" data-k="f_hand" maxlength="28" value="nuestros momentos"></div>
+      </div>
+
+      <p class="pst__step"><b>3</b> Tamaño y marco</p>
+      <div class="pst__types">
+        <button type="button" class="pst__type" data-type="poster" aria-pressed="false">Póster<small>sin marco</small></button>
+        <button type="button" class="pst__type is-on" data-type="framed" aria-pressed="true">Con marco<small>listo para colgar</small></button>
+      </div>
+      <div class="pst__f pst__f--row" data-pst-frames><span class="pst__lbl">Marco</span>
+        <label class="pst__chip"><input type="radio" name="pst_frame" value="Black frame" checked><span><i class="pst__sw pst__sw--black"></i>Negro</span></label>
+        <label class="pst__chip"><input type="radio" name="pst_frame" value="White frame"><span><i class="pst__sw pst__sw--white"></i>Blanco</span></label>
+        <label class="pst__chip"><input type="radio" name="pst_frame" value="Wood frame"><span><i class="pst__sw pst__sw--wood"></i>Madera</span></label>
+      </div>
+      <select class="pst__size" data-pst-size aria-label="Tamaño"></select>
+
+      {%- form 'product', product, class: 'pst__form', data-pst-form: '', enctype: 'multipart/form-data' -%}
+        <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" data-pst-variant>
+        <input type="hidden" name="quantity" value="1">
+        <input type="hidden" name="properties[Diseño]" data-pst-prop-design>
+        <input type="hidden" name="properties[Textos]" data-pst-prop-texts>
+        <input type="hidden" name="properties[Fotos subidas]" data-pst-prop-count>
+        <input type="file" name="properties[Archivo para imprimir]" hidden tabindex="-1" aria-hidden="true" data-pst-file>
+        <button type="submit" class="pst__add" data-pst-add>Añadir al carrito</button>
+        <p class="pst__err" data-pst-err hidden></p>
+      {%- endform -%}
+      <ul class="pst__trust">
+        <li>Impreso en Europa en papel mate de 200 g/m²</li>
+        <li>Lo ves tal cual antes de pagar</li>
+        <li>Envío con seguimiento · 4-10 días hábiles</li>
+      </ul>
+    </div>
+  </div>
+  <script type="application/json" data-pst-variants>
+    [{%- for v in posters -%}{"id":{{ v.id }},"size":{{ v.option1 | json }},"type":"poster","frame":"-","price":{{ v.price }},"available":{{ v.available }}},{%- endfor -%}{%- for v in framed -%}{"id":{{ v.id }},"size":{{ v.option1 | json }},"type":"framed","frame":{{ v.option3 | json }},"price":{{ v.price }},"available":{{ v.available }}}{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%}]
+  </script>
+</section>
+
+<script>
+(function () {
+  var root = document.querySelector('[data-pst]');
+  if (!root || root.dataset.ready) return; root.dataset.ready = '1';
+  var $ = function (s) { return root.querySelector(s); };
+  var VARS = JSON.parse(($('[data-pst-variants]').textContent || '[]').replace(/,\s*]$/, ']'));
+  var money = function (c) { return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(c / 100); };
+  var canvas = $('[data-pst-canvas]'), ctx = canvas.getContext('2d');
+  var S = { design: 'collage', type: 'framed', frame: 'Black frame', size: '', photos: [] };
+  /* ---------- sizes ---------- */
+  function dims(label) {
+    var a = /A(\d)/.exec(label); var A = { 1: [59.4, 84.1], 2: [42, 59.4], 3: [29.7, 42], 4: [21, 29.7] };
+    var m = /(\d+(?:\.\d+)?)\s*x\s*(\d+(?:\.\d+)?)/.exec(label);
+    if (/^A\d/.test(label) && a) return A[a[1]];
+    return m ? [parseFloat(m[1]), parseFloat(m[2])] : [30, 40];
+  }
+  function niceSize(label) { var d = dims(label); return (/^A\d/.test(label) ? label.slice(0, 2) + ' · ' : '') + String(d[0]).replace('.', ',') + '×' + String(d[1]).replace('.', ',') + ' cm'; }
+  function current() { return VARS.find(function (v) { return v.size === S.size && v.type === S.type && (S.type === 'poster' || v.frame === S.frame); }); }
+  function fillSizes() {
+    var sel = $('[data-pst-size]'), seen = {}, list = VARS.filter(function (v) { return v.type === S.type && (S.type === 'poster' || v.frame === S.frame); });
+    list.sort(function (a, b) { var x = dims(a.size), y = dims(b.size); return x[0] * x[1] - y[0] * y[1]; });
+    sel.innerHTML = '';
+    list.forEach(function (v) { if (seen[v.size]) return; seen[v.size] = 1; var o = document.createElement('option'); o.value = v.size; o.textContent = niceSize(v.size) + ' — ' + money(v.price); sel.appendChild(o); });
+    if (!seen[S.size]) { var pick = list.find(function (v) { return /30x40/.test(v.size); }) || list[0]; S.size = pick ? pick.size : ''; }
+    sel.value = S.size;
+  }
+  function syncVariant() {
+    var v = current();
+    $('[data-pst-frames]').hidden = S.type !== 'framed';
+    var fr = $('[data-pst-frame]'); fr.dataset.kind = S.type === 'framed' ? ({ 'Black frame': 'black', 'White frame': 'white', 'Wood frame': 'wood' }[S.frame] || 'black') : 'none';
+    if (v) { $('[data-pst-variant]').value = v.id; $('[data-pst-price]').textContent = money(v.price); $('[data-pst-from]').hidden = true; $('[data-pst-add]').textContent = 'Añadir al carrito · ' + money(v.price); }
+    draw();
+  }
+  /* ---------- texts ---------- */
+  function val(k) { var el = root.querySelector('[data-k="' + k + '"]:checked') || root.querySelector('input[data-k="' + k + '"]:not([type=radio])'); return el ? el.value.trim() : ''; }
+  /* ---------- photos ---------- */
+  var MAXP = { collage: 6, cancion: 1, revista: 1, fotomaton: 8 };
+  var MINP = { collage: 2, cancion: 1, revista: 1, fotomaton: 4 };
+  var DEMO = [{{ 'arsnoir-regalo-foto-familia.jpg' | file_img_url: '1200x' | json }}, {{ 'arsnoir-salon-familia-navidad.jpg' | file_img_url: '1200x' | json }}, {{ 'arsnoir-regalo-retrato-comic.jpg' | file_img_url: '1200x' | json }}];
+  var demoImgs = [];
+  DEMO.forEach(function (u) { var i = new Image(); i.crossOrigin = 'anonymous'; i.onload = draw; i.src = u; demoImgs.push(i); });
+  function photos() { var p = S.photos.length ? S.photos : demoImgs.filter(function (i) { return i.complete && i.naturalWidth; }); return p; }
+  function loadFile(f) {
+    return new Promise(function (res) {
+      var url = URL.createObjectURL(f), img = new Image();
+      img.onload = function () {
+        var k = Math.min(1, 2600 / Math.max(img.naturalWidth, img.naturalHeight));
+        if (k >= 1) return res(img);
+        var c = document.createElement('canvas'); c.width = Math.round(img.naturalWidth * k); c.height = Math.round(img.naturalHeight * k);
+        c.getContext('2d').drawImage(img, 0, 0, c.width, c.height); URL.revokeObjectURL(url); res(c);
+      };
+      img.onerror = function () { res(null); };
+      img.src = url;
+    });
+  }
+  $('[data-pst-photos]').addEventListener('change', function (e) {
+    var files = Array.prototype.slice.call(e.target.files || []).slice(0, 8);
+    Promise.all(files.map(loadFile)).then(function (list) {
+      S.photos = S.photos.concat(list.filter(Boolean)).slice(-8);
+      thumbs(); draw();
+    });
+    e.target.value = '';
+  });
+  function thumbs() {
+    var box = $('[data-pst-thumbs]'); box.innerHTML = '';
+    S.photos.forEach(function (p, i) {
+      var b = document.createElement('button'); b.type = 'button'; b.className = 'pst__thumb'; b.setAttribute('aria-label', 'Quitar foto ' + (i + 1));
+      var c = document.createElement('canvas'); c.width = 120; c.height = 120; cover(c.getContext('2d'), p, 0, 0, 120, 120); b.appendChild(c);
+      b.addEventListener('click', function () { S.photos.splice(i, 1); thumbs(); draw(); });
+      box.appendChild(b);
+    });
+    $('[data-pst-uptxt]').textContent = S.photos.length ? 'Añadir más fotos' : 'Sube tus fotos';
+  }
+  /* ---------- drawing helpers ---------- */
+  function W0(img) { return img.naturalWidth || img.width; } function H0(img) { return img.naturalHeight || img.height; }
+  /* cover crop; fy = vertical focus (faces sit in the upper part of most photos) */
+  function cover(c, img, x, y, w, h, fy, zoom) {
+    if (!img) { c.fillStyle = '#d9d4cb'; c.fillRect(x, y, w, h); return; }
+    fy = fy == null ? 0.32 : fy; zoom = zoom || 1;
+    var iw = W0(img), ih = H0(img), s = Math.max(w / iw, h / ih) * zoom, sw = w / s, sh = h / s;
+    var sx = (iw - sw) / 2, sy = Math.max(0, Math.min(ih - sh, ih * fy - sh / 2));
+    c.drawImage(img, sx, sy, sw, sh, x, y, w, h);
+  }
+  function txt(c, t, x, y, font, color, align, ls) {
+    c.font = font; c.fillStyle = color; c.textAlign = align || 'center'; c.textBaseline = 'alphabetic';
+    if ('letterSpacing' in c) c.letterSpacing = (ls || 0) + 'px';
+    c.fillText(t, x, y);
+    if ('letterSpacing' in c) c.letterSpacing = '0px';
+  }
+  function fit(c, t, font, max, size) { var s = size; do { c.font = font.replace('#', s); if (c.measureText(t).width <= max) break; s *= 0.94; } while (s > 6); return font.replace('#', s); }
+  function wrap(c, t, max) { var w = t.split(' '), lines = [], l = ''; w.forEach(function (x) { var tt = l ? l + ' ' + x : x; if (c.measureText(tt).width > max && l) { lines.push(l); l = x; } else l = tt; }); if (l) lines.push(l); return lines; }
+  /* black-and-white copy of a photo (cached), for the photo booth */
+  var BW = new WeakMap();
+  function bw(img) { if (!img) return img; if (BW.has(img)) return BW.get(img); var c2 = document.createElement('canvas'); c2.width = W0(img); c2.height = H0(img); var x = c2.getContext('2d'); x.drawImage(img, 0, 0); try { gray(x, 0, 0, c2.width, c2.height); } catch (e) { return img; } BW.set(img, c2); return c2; }
+  function hash(s) { var h = 7; for (var i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) % 2147483647; return h || 1; }
+  function gray(c, x, y, w, h) { var d = c.getImageData(x, y, w, h), p = d.data; for (var i = 0; i < p.length; i += 4) { var g = 0.3 * p[i] + 0.59 * p[i + 1] + 0.11 * p[i + 2]; g = Math.max(0, Math.min(255, (g - 128) * 1.15 + 132)); p[i] = p[i + 1] = p[i + 2] = g; } c.putImageData(d, x, y); }
+  /* ---------- designs ---------- */
+  var D = {};
+  D.collage = function (c, W, H) {
+    var P = photos(), n = Math.max(2, Math.min(6, P.length || 3)), m = W * 0.07, g = W * 0.022, top = m, aw = W - 2 * m, ah = H * 0.76 - m;
+    c.fillStyle = '#fbfaf7'; c.fillRect(0, 0, W, H);
+    var cells = [];
+    if (n === 2) cells = [[0, 0, 1, .5], [0, .5, 1, .5]];
+    else if (n === 3) cells = [[0, 0, 1, .58], [0, .58, .5, .42], [.5, .58, .5, .42]];
+    else if (n === 4) cells = [[0, 0, .5, .5], [.5, 0, .5, .5], [0, .5, .5, .5], [.5, .5, .5, .5]];
+    else if (n === 5) cells = [[0, 0, 1, .5], [0, .5, .5, .25], [.5, .5, .5, .25], [0, .75, .5, .25], [.5, .75, .5, .25]];
+    else cells = [[0, 0, .5, 1 / 3], [.5, 0, .5, 1 / 3], [0, 1 / 3, .5, 1 / 3], [.5, 1 / 3, .5, 1 / 3], [0, 2 / 3, .5, 1 / 3], [.5, 2 / 3, .5, 1 / 3]];
+    cells.forEach(function (q, i) { var l = q[0] > 0.001, r = q[0] + q[2] < 0.999, t = q[1] > 0.001, b2 = q[1] + q[3] < 0.999; var x = m + q[0] * aw + (l ? g / 2 : 0), y = top + q[1] * ah + (t ? g / 2 : 0), w = q[2] * aw - (l ? g / 2 : 0) - (r ? g / 2 : 0), h = q[3] * ah - (t ? g / 2 : 0) - (b2 ? g / 2 : 0); cover(c, P[i % (P.length || 1)], x, y, w, h); });
+    var t = val('c_title').toUpperCase(), s = val('c_sub').toUpperCase();
+    txt(c, t, W / 2, H * 0.87, fit(c, t, '400 #px "Playfair Display"', aw, W * 0.062), '#141414', 'center', W * 0.008);
+    txt(c, s, W / 2, H * 0.915, '400 ' + W * 0.022 + 'px Inter', '#8a8278', 'center', W * 0.012);
+  };
+  D.cancion = function (c, W, H) {
+    var dark = val('s_bg') !== 'Crema', bg = dark ? '#111' : '#f3eee6', fg = dark ? '#fff' : '#141414', mu = dark ? '#a3a3a3' : '#6b655d', P = photos();
+    c.fillStyle = bg; c.fillRect(0, 0, W, H);
+    var m = W * 0.08, pw = W - 2 * m, ph = Math.min(pw, H * 0.5);
+    c.save(); c.beginPath(); if (c.roundRect) c.roundRect(m, m, pw, ph, W * 0.012); else c.rect(m, m, pw, ph); c.clip(); cover(c, P[0], m, m, pw, ph, 0.08 + 0.2); c.restore();
+    var y = m + ph + H * 0.075, t = val('s_title');
+    txt(c, t, m, y, fit(c, t, '800 #px Inter', pw, W * 0.06), fg, 'left');
+    txt(c, val('s_artist'), m, y + H * 0.035, '400 ' + W * 0.03 + 'px Inter', mu, 'left');
+    var by = y + H * 0.075; c.fillStyle = dark ? '#3a3a3a' : '#d6cfc4'; c.fillRect(m, by, pw, W * 0.008); c.fillStyle = fg; c.fillRect(m, by, pw * 0.62, W * 0.008);
+    c.beginPath(); c.arc(m + pw * 0.62, by + W * 0.004, W * 0.016, 0, 7); c.fill();
+    txt(c, '2:14', m, by + H * 0.03, '400 ' + W * 0.024 + 'px Inter', mu, 'left'); txt(c, '3:38', m + pw, by + H * 0.03, '400 ' + W * 0.024 + 'px Inter', mu, 'right');
+    var cy = by + H * 0.085, r = W * 0.052; c.fillStyle = fg; c.beginPath(); c.arc(W / 2, cy, r, 0, 7); c.fill();
+    c.fillStyle = bg; c.beginPath(); c.moveTo(W / 2 - r * 0.32, cy - r * 0.45); c.lineTo(W / 2 + r * 0.5, cy); c.lineTo(W / 2 - r * 0.32, cy + r * 0.45); c.fill();
+    c.fillStyle = fg; [-1, 1].forEach(function (d) { var x = W / 2 + d * W * 0.2; c.beginPath(); c.moveTo(x - d * r * 0.3, cy - r * 0.35); c.lineTo(x + d * r * 0.2, cy); c.lineTo(x - d * r * 0.3, cy + r * 0.35); c.fill(); c.fillRect(x + d * r * 0.22 - (d > 0 ? 0 : W * 0.007), cy - r * 0.35, W * 0.007, r * 0.7); });
+    var wy = cy + H * 0.085, n = 26, bw = W * 0.011, gap = W * 0.006, tw = n * (bw + gap), x0 = W / 2 - tw / 2 + W * 0.03, h = hash(t + val('s_artist'));
+    c.beginPath(); c.arc(x0 - W * 0.045, wy, W * 0.018, 0, 7); c.fill();
+    for (var i = 0; i < n; i++) { h = (h * 16807) % 2147483647; var bh = H * (0.012 + (h / 2147483647) * 0.035); c.fillRect(x0 + i * (bw + gap), wy - bh / 2, bw, bh); }
+  };
+  D.tipo = function (c, W, H) {
+    var th = { Crema: ['#f1e7d8', '#490B1A', '#b98d5e', '#5a4636'], Granate: ['#490B1A', '#f5e9d6', '#e3bf96', '#ead8c3'], Negro: ['#121212', '#f2ede4', '#c9a26f', '#cfc8bd'], Salvia: ['#dfe3d3', '#2f3a2b', '#8a6b4a', '#4a5244'] }[val('t_theme')] || ['#f1e7d8', '#490B1A', '#b98d5e', '#5a4636'];
+    c.fillStyle = th[0]; c.fillRect(0, 0, W, H);
+    txt(c, 'NUESTRA HISTORIA EMPEZÓ', W / 2, H * 0.2, '400 ' + W * 0.024 + 'px Inter', th[2], 'center', W * 0.012);
+    var n1 = val('t_n1'), n2 = val('t_n2'), big = '400 italic #px "Playfair Display"';
+    txt(c, n1, W / 2, H * 0.38, fit(c, n1, 'italic 400 #px "Playfair Display"', W * 0.8, W * 0.2), th[1]);
+    txt(c, '&', W / 2, H * 0.47, '600 ' + W * 0.13 + 'px Caveat', th[2]);
+    txt(c, n2, W / 2, H * 0.6, fit(c, n2, 'italic 400 #px "Playfair Display"', W * 0.8, W * 0.2), th[1]);
+    txt(c, val('t_date'), W / 2, H * 0.69, '400 ' + W * 0.033 + 'px "Space Mono"', th[1], 'center', W * 0.012);
+    c.fillStyle = th[2]; c.fillRect(W / 2 - W * 0.06, H * 0.735, W * 0.12, Math.max(1, W * 0.003));
+    c.font = '400 ' + W * 0.04 + 'px "Playfair Display"'; var q = val('t_quote'); var L = wrap(c, q ? '«' + q + '»' : '', W * 0.7);
+    L.slice(0, 3).forEach(function (l, i) { txt(c, l, W / 2, H * 0.79 + i * W * 0.058, '400 ' + W * 0.04 + 'px "Playfair Display"', th[3]); });
+  };
+  D.revista = function (c, W, H) {
+    var P = photos(); cover(c, P[0], 0, 0, W, H, 0.3);
+    var gr = c.createLinearGradient(0, 0, 0, H); gr.addColorStop(0, 'rgba(0,0,0,.28)'); gr.addColorStop(.35, 'rgba(0,0,0,0)'); gr.addColorStop(.7, 'rgba(0,0,0,0)'); gr.addColorStop(1, 'rgba(0,0,0,.45)'); c.fillStyle = gr; c.fillRect(0, 0, W, H);
+    var mast = val('m_mast').toUpperCase() || 'ARSNOIR';
+    txt(c, mast, W / 2, H * 0.15, fit(c, mast, '900 #px "Playfair Display"', W * 0.9, W * 0.2), '#fff', 'center', W * 0.006);
+    txt(c, 'EDICIÓN Nº 01', W * 0.06, H * 0.19, '400 ' + W * 0.022 + 'px "Space Mono"', '#fff', 'left', W * 0.006);
+    txt(c, val('m_date').toUpperCase(), W * 0.94, H * 0.19, '400 ' + W * 0.022 + 'px "Space Mono"', '#fff', 'right', W * 0.006);
+    var side = val('m_side').split('/').map(function (s) { return s.trim(); }).filter(Boolean).slice(0, 3);
+    c.font = '600 ' + W * 0.03 + 'px Inter'; var y = H * 0.36;
+    side.forEach(function (s) { wrap(c, s, W * 0.3).forEach(function (l) { txt(c, l, W * 0.94, y, '600 ' + W * 0.03 + 'px Inter', '#fff', 'right'); y += W * 0.04; }); y += W * 0.035; });
+    var head = val('m_head').toUpperCase().split('/').map(function (s) { return s.trim(); }).filter(Boolean).slice(0, 2);
+    var hs = W * 0.11; head.forEach(function (l, i) { txt(c, l, W * 0.06, H * 0.82 + i * hs * 1.02 - (head.length - 1) * hs * 1.02 + hs, fit(c, l, '400 #px Anton', W * 0.62, hs), '#fff', 'left'); });
+    txt(c, 'NUESTRA HISTORIA · PÁG. 24', W * 0.06, H * 0.95, '600 ' + W * 0.024 + 'px Inter', '#fff', 'left', W * 0.008);
+  };
+  D.fotomaton = function (c, W, H) {
+    var P = photos(); c.fillStyle = '#efe8dc'; c.fillRect(0, 0, W, H);
+    var two = P.length > 4 || !S.photos.length, sw = Math.min(W * (two ? 0.4 : 0.5), H * 0.8 / 2.75), pad = sw * 0.08, cw = sw - 2 * pad, ch = cw * 0.68, sh = pad + 4 * (ch + pad * 0.7) + sw * 0.16;
+    var strips = two ? [[W * 0.3, -4], [W * 0.7, 5]] : [[W * 0.5, -3]];
+    strips.forEach(function (st, k) {
+      c.save(); c.translate(st[0], H * 0.45); c.rotate(st[1] * Math.PI / 180);
+      c.shadowColor = 'rgba(0,0,0,.35)'; c.shadowBlur = W * 0.03; c.shadowOffsetY = W * 0.012; c.fillStyle = '#fbfaf6'; c.fillRect(-sw / 2, -sh / 2, sw, sh); c.shadowColor = 'transparent';
+      for (var i = 0; i < 4; i++) { var img = P[(k * 4 + i) % (P.length || 1)], x = -sw / 2 + pad, y = -sh / 2 + pad + i * (ch + pad * 0.7); var zoom = [1.35, 1, 1.7, 1.6][i]; cover(c, bw(img), x, y, cw, ch, 0.3, zoom); }
+      var cap = val('f_cap').toUpperCase(); txt(c, cap, 0, sh / 2 - sw * 0.06, fit(c, cap, '400 #px "Space Mono"', sw * 0.78, sw * 0.068), '#4a4a4a', 'center', sw * 0.012);
+      c.restore();
+    });
+    txt(c, val('f_hand'), W / 2, H * 0.955, '600 ' + W * 0.075 + 'px Caveat', '#2a2622');
+  };
+  /* ---------- render ---------- */
+  function draw(target, w) {
+    var d = dims(S.size || '30x40 cm'), ratio = d[1] / d[0];
+    var cv = (target && target.getContext) ? target : canvas, W = w || 600, H = Math.round(W * ratio);
+    cv.width = W; cv.height = H;
+    var c = cv.getContext('2d'); c.clearRect(0, 0, W, H);
+    D[S.design](c, W, H);
+    return cv;
+  }
+  /* ---------- UI ---------- */
+  function showFields() {
+    root.querySelectorAll('[data-for]').forEach(function (el) { el.hidden = el.dataset.for.split(' ').indexOf(S.design) < 0; });
+    var mx = MAXP[S.design], mn = MINP[S.design];
+    $('[data-pst-uphint]').textContent = mx === 1 ? '1 foto' : 'De ' + mn + ' a ' + mx + ' fotos';
+  }
+  root.querySelectorAll('[data-design]').forEach(function (b) { b.addEventListener('click', function () { S.design = b.dataset.design; root.querySelectorAll('[data-design]').forEach(function (x) { x.classList.toggle('is-on', x === b); x.setAttribute('aria-pressed', x === b); }); showFields(); draw(); }); });
+  root.querySelectorAll('[data-type]').forEach(function (b) { b.addEventListener('click', function () { S.type = b.dataset.type; root.querySelectorAll('[data-type]').forEach(function (x) { x.classList.toggle('is-on', x === b); x.setAttribute('aria-pressed', x === b); }); fillSizes(); syncVariant(); }); });
+  root.querySelectorAll('input[name="pst_frame"]').forEach(function (r) { r.addEventListener('change', function () { S.frame = r.value; fillSizes(); syncVariant(); }); });
+  $('[data-pst-size]').addEventListener('change', function (e) { S.size = e.target.value; syncVariant(); });
+  root.addEventListener('input', function (e) { if (e.target.dataset.k) draw(); });
+  root.addEventListener('change', function (e) { if (e.target.dataset.k) draw(); });
+  /* ---------- add to cart: print file at full size ---------- */
+  var form = $('[data-pst-form]'), sending = false;
+  form.addEventListener('submit', function (e) {
+    if (sending) return; e.preventDefault();
+    var err = $('[data-pst-err]'); err.hidden = true;
+    var need = MINP[S.design] || 0;
+    if (S.design !== 'tipo' && S.photos.length < need) { err.textContent = need === 1 ? 'Sube tu foto para crear el póster.' : 'Sube al menos ' + need + ' fotos para este diseño.'; err.hidden = false; return; }
+    var btn = $('[data-pst-add]'); btn.disabled = true; btn.textContent = 'Preparando tu póster…';
+    var d = dims(S.size), long = 3200, W = d[1] >= d[0] ? Math.round(long * d[0] / d[1]) : long;
+    var big = draw(document.createElement('canvas'), W);
+    big.toBlob(function (blob) {
+      if (!blob) { btn.disabled = false; syncVariant(); err.textContent = 'No se ha podido preparar el archivo. Prueba otra vez.'; err.hidden = false; return; }
+      try {
+        var dt = new DataTransfer(); dt.items.add(new File([blob], 'poster-' + S.design + '.jpg', { type: 'image/jpeg' })); $('[data-pst-file]').files = dt.files;
+      } catch (x) { btn.disabled = false; syncVariant(); err.textContent = 'Tu navegador no deja adjuntar el archivo. Prueba desde otro navegador.'; err.hidden = false; return; }
+      var names = { collage: 'Collage', cancion: 'Portada de canción', tipo: 'Tipográfico', revista: 'Portada de revista', fotomaton: 'Fotomatón' };
+      $('[data-pst-prop-design]').value = names[S.design];
+      var texts = []; root.querySelectorAll('[data-for]:not([hidden]) input[data-k]').forEach(function (i) { if (i.type !== 'radio' || i.checked) texts.push(i.value.trim()); });
+      $('[data-pst-prop-texts]').value = texts.filter(Boolean).join(' | ');
+      $('[data-pst-prop-count]').value = String(S.photos.length);
+      sending = true; HTMLFormElement.prototype.submit.call(form);
+    }, 'image/jpeg', 0.92);
+  });
+  /* ---------- start ---------- */
+  fillSizes(); showFields();
+  (document.fonts && document.fonts.load ? Promise.all(['900 40px "Playfair Display"', 'italic 400 40px "Playfair Display"', '400 40px Anton', '600 40px Caveat', '400 20px "Space Mono"', '800 20px Inter'].map(function (f) { return document.fonts.load(f); })) : Promise.resolve()).then(syncVariant, syncVariant);
+  syncVariant();
+})();
+</script>
+
+{% schema %}
+{ "name": "Crea tu póster", "settings": [] }
+{% endschema %}

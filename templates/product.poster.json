@@ -1,0 +1,16 @@
+{
+  "sections": {
+    "main": {
+      "type": "poster-studio",
+      "settings": {}
+    },
+    "recent": {
+      "type": "recently-viewed",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main",
+    "recent"
+  ]
+}
