@@ -5486,3 +5486,11 @@ html.sgp-open { overflow: hidden; }
   .fintro__media { aspect-ratio: auto; display: flex; justify-content: center; background: #efebe5; }
   .fintro__media img { position: static; width: auto; max-width: 100%; height: auto; max-height: 56svh; object-fit: contain; }
 }
+/* Touch screens: the wall photos are a normal swipeable row (no auto-slide), snapping photo by photo */
+@media (hover: none) {
+  .mq { overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-left: 16px; padding-right: 16px; scroll-padding: 0 16px; -webkit-mask-image: none; mask-image: none; }
+  .mq::-webkit-scrollbar { display: none; }
+  .mq__track { animation: none; }
+  .mq__set[aria-hidden] { display: none; }
+  .mq__tile { scroll-snap-align: start; }
+}
