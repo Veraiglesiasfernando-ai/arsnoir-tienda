@@ -59,7 +59,8 @@
         "pz_photo_image": "shopify://shop_images/arsnoir-regalo-foto-familia.jpg",
         "pz_tpl_image": "shopify://shop_images/arsnoir-regalo-retrato-comic.jpg",
         "pz_tpl_soon": false,
-        "card_style": "tiles"
+        "card_style": "tiles",
+        "pz_show": false
       }
     },
     "marquee": {
