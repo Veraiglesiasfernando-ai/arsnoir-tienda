@@ -5470,3 +5470,19 @@ html.sgp-open { overflow: hidden; }
 .tstudio__plus::before, .tstudio__plus::after { background: #0a0a0a; }
 .tstudio__plus::before { height: 1.5px; } .tstudio__plus::after { width: 1.5px; }
 .tstudio__pick span:first-child { font-size: inherit; font-weight: 700; } .tstudio__pick span[aria-hidden] { font-size: 18px; letter-spacing: 0; }
+/* Phone: the third style peeks in from the right, and a hint says you can swipe */
+.pstyles__swipe { display: none; }
+@media (max-width: 749px) {
+  .pstyles__grid { margin-right: calc(-1 * max(16px, env(safe-area-inset-right))); padding-right: 16px; }
+  .pstyles__grid li { flex-basis: 40%; }
+  .pstyles__grid.is-h li { flex-basis: 70%; }
+  .pstyles__swipe { display: flex; justify-content: center; align-items: center; gap: 8px; margin: 14px 0 0; font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: #6b6b6b; }
+  .pstyles__swipe span { font-size: 16px; letter-spacing: 0; animation: pstyles-nudge 1.6s ease-in-out infinite; }
+}
+@keyframes pstyles-nudge { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(6px); } }
+@media (prefers-reduced-motion: reduce) { .pstyles__swipe span { animation: none; } }
+/* «Tu foto» on phones: the whole room photo, not cropped — natural shape, capped in height */
+@media (max-width: 989px) {
+  .fintro__media { aspect-ratio: auto; display: flex; justify-content: center; background: #efebe5; }
+  .fintro__media img { position: static; width: auto; max-width: 100%; height: auto; max-height: 56svh; object-fit: contain; }
+}
