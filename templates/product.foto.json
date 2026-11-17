@@ -89,7 +89,7 @@
           "type": "complete_wall",
           "settings": {
             "heading": "Completa tu pared",
-            "text": "Obras del mismo estilo. Márcalas y se añaden con esta.",
+            "text": "Más obras para combinar. Márcalas y se añaden con esta.",
             "limit": 6
           }
         },

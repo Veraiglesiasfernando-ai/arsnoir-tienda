@@ -5353,3 +5353,6 @@ html.cart-hover .drawer__panel { pointer-events: auto; }
 .pdc__mode button.is-active { background: #0a0a0a; color: #fff; }
 /* No detail circle over the frame photos */
 .pfeat__zoom { display: none !important; }
+.pwel__txt small { font-size: .82em; opacity: .75; font-weight: 400; }
+/* Phone: shorter page, only the first feature (the frame or canvas); print details stay in «Detalles de impresión» */
+@media (max-width: 749px) { .pfeat__row:not([hidden]) ~ .pfeat__row { display: none !important; } }

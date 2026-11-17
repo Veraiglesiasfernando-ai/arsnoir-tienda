@@ -55,7 +55,7 @@
           "type": "collapsible",
           "settings": {
             "heading": "Envío y devoluciones",
-            "content": "<p>Cada pieza se imprime cuando la pides, en el centro de producción más cercano a ti, y se envía con seguimiento: en la Península llega en 4-10 días hábiles; a las islas, Ceuta, Melilla y el resto de Europa puede tardar algo más. Envío 4,95 € en pedidos de menos de 80 €; desde 80 €, gratis.</p>",
+            "content": "<p>Cada pieza se imprime cuando la pides, en el centro de producción más cercano a ti, y se envía con seguimiento: en la Península llega en 4-10 días hábiles; a las islas, Ceuta, Melilla y el resto de Europa puede tardar algo más. Envío 4,95 € en pedidos de menos de 80 €; desde 80 €, gratis.</p><p>Tienes 14 días naturales desde que la recibes para devolverla. Todos los detalles en la <a href=\"/pages/politica-de-devoluciones\">política de devoluciones</a>.</p>",
             "open": false
           }
         },
@@ -89,7 +89,7 @@
           "type": "complete_wall",
           "settings": {
             "heading": "Completa tu pared",
-            "text": "Obras del mismo estilo. Márcalas y se añaden con esta.",
+            "text": "Más obras para combinar. Márcalas y se añaden con esta.",
             "limit": 6
           }
         },
