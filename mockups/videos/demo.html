@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:390px;height:844px;overflow:hidden;background:#f6f5f2;font-family:Inter,system-ui,sans-serif;color:#0a0a0a;-webkit-font-smoothing:antialiased}
+#bar{position:absolute;top:0;left:0;right:0;height:34px;background:#490B1A;color:#f5e9d6;font-size:11px;font-weight:600;letter-spacing:.14em;display:flex;align-items:center;justify-content:center;z-index:20}
+#hdr{position:absolute;top:34px;left:0;right:0;height:56px;background:#fff;border-bottom:1px solid #e6e4df;display:flex;align-items:center;padding:0 16px;gap:14px;z-index:20}
+#hdr .burger{width:22px;height:12px;border-top:2px solid #0a0a0a;border-bottom:2px solid #0a0a0a}
+#hdr .logo{font-size:21px;font-weight:700;letter-spacing:.12em;flex:1}
+#hdr .ic{width:20px;height:20px;border:2px solid #0a0a0a;border-radius:50%}
+#hdr .bag{width:18px;height:20px;border:2px solid #0a0a0a;border-radius:2px 2px 4px 4px;position:relative}
+#hdr .cnt{position:absolute;top:-8px;right:-9px;width:16px;height:16px;border-radius:50%;background:#490B1A;color:#fff;font-size:10px;font-weight:700;display:none;align-items:center;justify-content:center}
+#view{position:absolute;top:90px;left:0;right:0;bottom:0;overflow:hidden}
+#page{position:absolute;top:0;left:0;right:0;will-change:transform}
+.gal{position:relative;width:390px;height:488px;background:#ecebe7;overflow:hidden}
+.gal img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+#ex{opacity:1}
+#wall{position:absolute;inset:0;background:linear-gradient(#e9e2d8,#e2d9cc);opacity:0;display:flex;align-items:center;justify-content:center}
+#wall .fr{width:58%;aspect-ratio:3/4;background:#fff;box-shadow:0 26px 30px -18px rgba(0,0,0,.45);border:0 solid #111;padding:0;transition:none;position:relative}
+#wall .fr img{position:static;width:100%;height:100%;object-fit:cover;display:block}
+#wall .sofa{position:absolute;left:8%;right:8%;bottom:0;height:22%;background:#cfc3b2;border-radius:18px 18px 0 0}
+#loader{position:absolute;inset:0;opacity:0;background:#ecebe7}
+#loader .pol{position:absolute;left:50%;top:44%;width:56%;background:#fff;padding:8px 8px 0;box-shadow:0 18px 28px -14px rgba(0,0,0,.45);transform:translate(-50%,-50%) rotate(-3deg)}
+#loader .pol img{position:static;width:100%;aspect-ratio:4/5;object-fit:cover;display:block}
+#loader .pol p{font-size:9px;font-weight:700;letter-spacing:.14em;text-align:center;padding:6px 0 7px}
+#loader .st{position:absolute;left:0;right:0;bottom:38px;text-align:center;font-size:12px;font-weight:700;letter-spacing:.1em}
+#loader .bar{position:absolute;left:27%;right:27%;bottom:26px;height:2px;background:rgba(0,0,0,.12)}
+#loader .bar i{display:block;height:100%;width:0;background:#0a0a0a}
+#res{position:absolute;inset:0;background:#ecebe7;clip-path:inset(0 100% 0 0)}
+#res img{position:absolute;left:50%;top:50%;width:76%;height:auto;transform:translate(-50%,-50%);box-shadow:0 22px 30px -18px rgba(0,0,0,.45)}
+#listo{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:#fff;padding:10px 18px;font-weight:800;font-size:18px;opacity:0;box-shadow:0 10px 30px rgba(0,0,0,.2)}
+.info{padding:16px}
+.eye{font-size:11px;letter-spacing:.2em;font-weight:700;color:#6b6b6b}
+h1{font-size:30px;font-weight:800;letter-spacing:-.02em;text-transform:uppercase;margin:6px 0 8px;line-height:1.05}
+.price{display:flex;align-items:center;gap:10px;font-size:24px;font-weight:600;color:#C8102E}
+.price s{font-size:17px;color:#999;font-weight:500}
+.price b{font-size:13px;background:#A8322A;color:#fff;padding:3px 7px;border-radius:3px}
+.vat{font-size:12.5px;color:#6b6b6b;margin-top:6px}
+.prom{display:flex;flex-direction:column;align-items:center;gap:6px;margin:16px 0 14px;font-size:13px}
+.prom span::before{content:'✓';display:inline-flex;width:16px;height:16px;border-radius:50%;background:#1d6b34;color:#fff;font-size:10px;align-items:center;justify-content:center;margin-right:7px}
+.step{display:flex;align-items:center;gap:10px;font-size:17px;font-weight:600;margin:6px 0 10px}
+.step b{width:26px;height:26px;border-radius:50%;background:#e9e7e2;font-size:13px;display:flex;align-items:center;justify-content:center}
+.drop{position:relative;width:150px;height:150px;margin:4px auto 0;border:1px solid #d9d6cf;background:#fff;display:flex;align-items:center;justify-content:center}
+.drop::before,.drop::after{content:'';position:absolute;inset:-1px;pointer-events:none;background:
+ linear-gradient(#0a0a0a,#0a0a0a) left top/20px 2px no-repeat,linear-gradient(#0a0a0a,#0a0a0a) left top/2px 20px no-repeat,
+ linear-gradient(#0a0a0a,#0a0a0a) right top/20px 2px no-repeat,linear-gradient(#0a0a0a,#0a0a0a) right top/2px 20px no-repeat,
+ linear-gradient(#0a0a0a,#0a0a0a) left bottom/20px 2px no-repeat,linear-gradient(#0a0a0a,#0a0a0a) left bottom/2px 20px no-repeat,
+ linear-gradient(#0a0a0a,#0a0a0a) right bottom/20px 2px no-repeat,linear-gradient(#0a0a0a,#0a0a0a) right bottom/2px 20px no-repeat}
+.drop .plus{font-size:56px;font-weight:200;line-height:1}
+.drop img{position:absolute;inset:8px;width:calc(100% - 16px);height:calc(100% - 16px);object-fit:cover;opacity:0}
+.btn{display:flex;align-items:center;justify-content:center;gap:10px;height:52px;background:#0a0a0a;color:#fff;font-size:14px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;margin-top:16px}
+.fmt{text-align:center;font-size:12px;color:#6b6b6b;margin-top:9px}
+.lbl{font-size:13px;color:#555;margin:18px 0 6px}
+.inp{height:46px;border:1px solid #d6d3cc;background:#fff;display:flex;align-items:center;padding:0 14px;font-size:16px}
+.inp .cur{display:inline-block;width:1.5px;height:20px;background:#0a0a0a;margin-left:1px}
+.ready{display:flex;justify-content:space-between;align-items:center;background:#eaf5ec;padding:12px 14px;border-radius:12px;font-size:14px;font-weight:700;color:#1d6b34;margin-bottom:12px}
+.ready u{color:#0a0a0a;font-weight:400;font-size:12px}
+.mini{width:62%;margin:0 auto 14px;background:#fff;border:0 solid #111;box-shadow:0 14px 26px -16px rgba(0,0,0,.45)}
+.mini img{display:block;width:100%}
+.types{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.types div{height:48px;border:1px solid #d6d3cc;display:flex;align-items:center;justify-content:center;font-size:14px;background:#fff}
+.types .on{border:2px solid #0a0a0a;font-weight:700}
+.mode{display:inline-flex;margin-top:12px;background:#ebe9e4;border-radius:999px;padding:4px}
+.mode div{padding:9px 16px;border-radius:999px;font-size:14px;color:#555}
+.mode .on{background:#0a0a0a;color:#fff;font-weight:600}
+.sel{margin-top:12px;height:50px;border:1px solid #0a0a0a;background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 14px;font-size:15px}
+.sel i{font-style:normal;font-size:12px}
+#cart{position:absolute;top:0;right:0;bottom:0;width:340px;background:#fff;z-index:40;transform:translateX(100%);box-shadow:-20px 0 40px rgba(0,0,0,.18);padding:22px 18px;display:flex;flex-direction:column;gap:14px}
+#shade{position:absolute;inset:0;background:rgba(0,0,0,.35);z-index:35;opacity:0}
+#cart h3{font-size:18px;font-weight:800;display:flex;justify-content:space-between}
+.free{font-size:12px;color:#1d6b34;background:#eaf5ec;padding:8px 10px;border-radius:8px}
+.item{display:flex;gap:12px;padding:12px 0;border-top:1px solid #eee;border-bottom:1px solid #eee}
+.item .th{width:72px;flex:none;background:#fff;border:4px solid #111;box-shadow:0 6px 12px -6px rgba(0,0,0,.4)}
+.item .th img{display:block;width:100%}
+.item p{font-size:13.5px;font-weight:700;line-height:1.3}
+.item small{display:block;font-size:12px;color:#6b6b6b;margin-top:4px;font-weight:400}
+.item em{display:block;font-style:normal;font-size:14px;margin-top:8px;font-weight:600}
+.tot{display:flex;justify-content:space-between;font-size:15px;font-weight:700;margin-top:18px}
+#sheet{position:absolute;left:0;right:0;bottom:0;height:420px;background:#fff;border-radius:18px 18px 0 0;z-index:45;transform:translateY(105%);box-shadow:0 -10px 40px rgba(0,0,0,.25);padding:14px}
+#sheet .h{width:40px;height:5px;border-radius:3px;background:#ddd;margin:0 auto 12px}
+#sheet p{font-size:15px;font-weight:700;margin-bottom:10px}
+#sheet .g{display:grid;grid-template-columns:repeat(3,1fr);gap:3px}
+#sheet .g div{aspect-ratio:1;background:#d9d6d0;overflow:hidden}
+#sheet .g div:nth-child(2){background:#c8cfd6}#sheet .g div:nth-child(3){background:#d6cdbf}#sheet .g div:nth-child(4){background:#bfc8bb}#sheet .g div:nth-child(5){background:#d8c4c4}#sheet .g div:nth-child(6){background:#cbc6d8}
+#sheet .g img{width:100%;height:100%;object-fit:cover;display:block}
+#finger{position:absolute;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;background:rgba(10,10,10,.28);border:2px solid rgba(255,255,255,.9);z-index:60;opacity:0;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+#cap{position:absolute;left:16px;right:16px;bottom:22px;z-index:70;background:rgba(10,10,10,.9);color:#fff;border-radius:14px;padding:13px 16px;display:flex;align-items:center;gap:12px;font-size:15px;font-weight:600;opacity:0}
+#cap b{width:28px;height:28px;flex:none;border-radius:50%;background:#490B1A;display:flex;align-items:center;justify-content:center;font-size:14px}
+#end{position:absolute;inset:0;z-index:80;background:#0a0a0a;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;opacity:0;text-align:center;padding:30px}
+#end .l{font-size:38px;font-weight:700;letter-spacing:.14em}
+#end .t{font-size:20px;font-weight:600;line-height:1.3}
+#end .u{font-size:13px;letter-spacing:.2em;color:#d9c3a5;margin-top:10px}
+</style></head><body>
+<div id="bar">ENVÍO GRATIS DESDE 80 €</div>
+<div id="hdr"><div class="burger"></div><div class="logo">arsnoir</div><div class="ic"></div><div class="bag"><span class="cnt" id="cnt">1</span></div></div>
+<div id="view"><div id="page">
+  <div class="gal" id="gal">
+    <img id="ex" alt="">
+    <div id="wall"><div class="sofa"></div><div class="fr" id="wfr"><img id="wimg" alt=""></div></div>
+    <div id="loader"><div class="pol"><img id="limg" alt=""><p>TU FOTO</p></div><div class="st" id="lst">ANALIZANDO TU FOTO…</div><div class="bar"><i id="lbar"></i></div></div>
+    <div id="res"><img id="rimg" alt=""></div>
+    <div id="listo">¡Listo!</div>
+  </div>
+  <div class="info">
+    <div class="eye" id="eye">ARSNOIR</div>
+    <h1 id="title"></h1>
+    <div class="price" id="pr"><span id="prn">Desde 16,95 €</span><s>24,95 €</s><b>-32 %</b></div>
+    <div class="vat">IVA incluido · Envío 4,95 €, gratis desde 80 €.</div>
+    <div id="studio">
+      <div class="prom" id="prom"><span>Ves tu ilustración <b>gratis</b> antes de pagar</span><span>Suele estar en menos de un minuto</span></div>
+      <div class="step"><b>1</b>Sube tu foto</div>
+      <div class="drop" id="drop"><span class="plus" id="plus">+</span><img id="thumb" alt=""></div>
+      <div class="btn" id="upbtn"><span id="uptxt">Sube tu foto</span> →</div>
+      <div class="fmt">JPG o PNG · Desde la galería del móvil</div>
+      <div id="namewrap"><div class="lbl" id="nlbl">Nombre</div><div class="inp"><span id="ntxt"></span><span class="cur" id="ncur"></span></div></div>
+      <div class="btn" id="gobtn">Ver mi ilustración</div>
+    </div>
+    <div id="after" style="display:none">
+      <div class="ready" id="readybar"><span id="readytxt">✓ Tu retrato está listo</span><u>Cambiar foto</u></div>
+      <div class="mini" id="mini"><img id="mimg" alt=""></div>
+      <div class="types"><div class="on">Lámina</div><div>Lienzo</div><div id="t3">MIXPIX</div></div>
+      <div class="mode"><div class="on" id="msin">Sin marco</div><div id="mcon">Con marco</div></div>
+      <div class="sel" id="sel"><span id="seltxt">Elige un tamaño</span><i>▾</i></div>
+      <div class="btn" id="addbtn">Elige un tamaño</div>
+      <div style="height:300px"></div>
+    </div>
+  </div>
+</div></div>
+<div id="shade"></div>
+<div id="cart"><h3>Tu carrito <span>✕</span></h3><div class="free">Te faltan 35,05 € para el envío gratis</div>
+  <div class="item"><div class="th"><img id="cimg" alt=""></div><div><p id="ctitle"></p><small id="cvar"></small><em id="cprice"></em></div></div>
+  <div class="tot"><span>Total</span><span id="ctot"></span></div><div class="btn" style="margin-top:6px">Tramitar pedido</div></div>
+<div id="sheet"><div class="h"></div><p>Fotos recientes</p><div class="g"><div><img id="simg" alt=""></div><div></div><div></div><div></div><div></div><div></div></div></div>
+<div id="finger"></div>
+<div id="cap"><b id="capn">1</b><span id="capt"></span></div>
+<div id="end"><div class="l">arsnoir</div><div class="t" id="endt"></div><div class="u">ARSNOIR.COM</div></div>
+<script>
+const C = window.CFG;
+const $ = id => document.getElementById(id);
+$('ex').src = C.ex; $('limg').src = C.photo; $('thumb').src = C.photo; $('simg').src = C.photo;
+$('rimg').src = C.result; $('mimg').src = C.result; $('cimg').src = C.result; $('wimg').src = C.photo;
+$('title').textContent = C.title; $('ctitle').textContent = C.title; $('endt').innerHTML = C.end;
+$('cvar').textContent = C.variant; $('cprice').textContent = C.price; $('ctot').textContent = C.price;
+if (C.eyebrow) $('eye').textContent = C.eyebrow;
+if (!C.name) $('namewrap').style.display = 'none'; else $('nlbl').textContent = C.nameLabel;
+if (C.mode === 'foto') { $('prom').style.display = 'none'; $('gobtn').style.display = 'none'; $('readytxt').textContent = '✓ Tu foto está lista'; $('t3').textContent = 'MIXPIX'; }
+const clamp = (x) => Math.max(0, Math.min(1, x));
+const ease = (x) => x < .5 ? 4*x*x*x : 1 - Math.pow(-2*x + 2, 3) / 2;
+const seg = (t, a, b) => ease(clamp((t - a) / (b - a)));
+const view = $('view');
+function offY(el) { let y = 0; while (el && el !== $('page')) { y += el.offsetTop; el = el.offsetParent; } return y; }
+function center(el) { const r = el.getBoundingClientRect(); return [r.left + r.width / 2, r.top + r.height / 2]; }
+function caption(t, list) {
+  let cur = null; for (const c of list) if (t >= c[0] && t < c[1]) cur = c;
+  const cap = $('cap');
+  if (!cur) { cap.style.opacity = 0; return; }
+  const a = clamp((t - cur[0]) / .3), b = clamp((cur[1] - t) / .3);
+  cap.style.opacity = Math.min(a, b); cap.style.transform = 'translateY(' + (1 - Math.min(a, b)) * 12 + 'px)';
+  $('capn').textContent = cur[2]; $('capt').textContent = cur[3];
+}
+function taps(t, list) {
+  const f = $('finger'); let on = false;
+  for (const [tt, id] of list) {
+    if (t >= tt - .45 && t < tt + .35) {
+      const [x, y] = center($(id)); f.style.left = x + 'px'; f.style.top = y + 'px';
+      const k = t < tt ? clamp((t - (tt - .45)) / .3) : clamp((tt + .35 - t) / .2);
+      f.style.opacity = k; f.style.transform = 'scale(' + (Math.abs(t - tt) < .12 ? .78 : 1) + ')'; on = true;
+    }
+  }
+  if (!on) f.style.opacity = 0;
+}
+function scrollTo(y) { $('page').style.transform = 'translateY(' + (-y) + 'px)'; }
+function cart(t, a) {
+  const k = seg(t, a, a + .5); $('cart').style.transform = 'translateX(' + (1 - k) * 100 + '%)'; $('shade').style.opacity = k;
+  $('cnt').style.display = t > a ? 'flex' : 'none';
+}
+function endcard(t, a) { $('end').style.opacity = seg(t, a, a + .5); }
+function sheet(t, a, b) { const k = seg(t, a, a + .4) * (1 - seg(t, b, b + .35)); $('sheet').style.transform = 'translateY(' + (1 - k) * 105 + '%)'; $('shade').style.opacity = Math.max(+$('shade').style.opacity || 0, k * .8); }
+
+function renderIl(t) {
+  $('shade').style.opacity = 0;
+  const T = C.T;
+  // upload state
+  const up = t >= T.photo;
+  $('thumb').style.opacity = up ? 1 : 0; $('plus').style.opacity = up ? 0 : 1; $('uptxt').textContent = up ? 'Cambiar foto' : 'Sube tu foto';
+  // typing
+  if (C.name) { const n = Math.floor(clamp((t - T.type) / 1.3) * C.name.length); $('ntxt').textContent = C.name.slice(0, n); $('ncur').style.opacity = (t > T.type - .3 && t < T.go && Math.floor(t * 3) % 2 === 0) ? 1 : 0; }
+  // after result: studio swaps to the chooser
+  const done = t >= T.after;
+  $('studio').style.display = done ? 'none' : 'block'; $('after').style.display = done ? 'block' : 'none';
+  // gallery states
+  const loadK = seg(t, T.load, T.load + .4);
+  $('loader').style.opacity = t < T.reveal + 1 ? loadK : 0;
+  $('lbar').style.width = (clamp((t - T.load) / (T.reveal - T.load)) * 92) + '%';
+  const steps = ['ANALIZANDO TU FOTO…', 'DIBUJANDO…', 'PINTANDO…', 'ÚLTIMOS DETALLES…'];
+  $('lst').textContent = steps[Math.min(3, Math.floor(clamp((t - T.load) / (T.reveal - T.load)) * 4))];
+  const rv = seg(t, T.reveal, T.reveal + 1); $('res').style.clipPath = 'inset(0 ' + (100 - rv * 100) + '% 0 0)';
+  $('listo').style.opacity = t > T.reveal + .6 && t < T.reveal + 1.8 ? 1 : 0;
+  // chooser
+  const framed = t >= T.con; $('mcon').className = framed ? 'on' : ''; $('msin').className = framed ? '' : 'on';
+  $('mini').style.borderWidth = framed ? '9px' : '0';
+  const sized = t >= T.size; $('seltxt').textContent = sized ? C.size : 'Elige un tamaño';
+  $('addbtn').textContent = sized ? 'Añadir al carrito · ' + C.price : 'Elige un tamaño';
+  // scroll
+  const yStudio = offY($('drop')) - 190, yGo = offY($('gobtn')) - 420, yAfter = offY($('readybar')) - 10;
+  let y = 0;
+  y = seg(t, T.s1a, T.s1b) * yStudio;
+  if (C.name) y += seg(t, T.s2a, T.s2b) * (yGo - yStudio);
+  y = y * (1 - seg(t, T.top, T.top + .8));
+  if (done) y = seg(t, T.after, T.after + 1.1) * yAfter;
+  scrollTo(Math.max(0, y));
+  sheet(t, T.sheet, T.photo);
+  taps(t, [[T.tapUp, 'upbtn'], [T.photo - .15, 'simg'], [T.go, 'gobtn'], [T.con, 'mcon'], [T.size, 'sel'], [T.add, 'addbtn']]);
+  caption(t, C.caps);
+  if (t >= T.cart) cart(t, T.cart); else { $('cart').style.transform = 'translateX(100%)'; $('cnt').style.display = 'none'; }
+  endcard(t, T.end);
+}
+function renderFoto(t) {
+  $('shade').style.opacity = 0;
+  const T = C.T;
+  const up = t >= T.photo;
+  $('thumb').style.opacity = up ? 1 : 0; $('plus').style.opacity = up ? 0 : 1; $('uptxt').textContent = up ? 'Cambiar foto' : 'Sube tu foto';
+  const done = t >= T.wall;
+  $('wall').style.opacity = seg(t, T.wall, T.wall + .6);
+  $('studio').style.display = done ? 'none' : 'block'; $('after').style.display = done ? 'block' : 'none';
+  const framed = t >= T.con; $('mcon').className = framed ? 'on' : ''; $('msin').className = framed ? '' : 'on';
+  $('wfr').style.borderWidth = framed ? '10px' : '0'; $('wfr').style.padding = framed ? '0' : '0';
+  $('mini').style.borderWidth = framed ? '9px' : '0'; $('mimg').src = C.photo;
+  const sized = t >= T.size; $('seltxt').textContent = sized ? C.size : 'Elige un tamaño';
+  $('addbtn').textContent = sized ? 'Añadir al carrito · ' + C.price : 'Elige un tamaño';
+  if (sized) { $('wfr').style.width = '62%'; } else $('wfr').style.width = '58%';
+  const yStudio = offY($('drop')) - 190;
+  let y = seg(t, T.s1a, T.s1b) * yStudio;
+  y = y * (1 - seg(t, T.top, T.top + .8));
+  if (done) y = seg(t, T.after, T.after + 1.1) * (offY($('readybar')) - 10);
+  scrollTo(Math.max(0, y));
+  sheet(t, T.sheet, T.photo);
+  taps(t, [[T.tapUp, 'upbtn'], [T.photo - .15, 'simg'], [T.con, 'mcon'], [T.size, 'sel'], [T.add, 'addbtn']]);
+  caption(t, C.caps);
+  if (t >= T.cart) cart(t, T.cart); else { $('cart').style.transform = 'translateX(100%)'; $('cnt').style.display = 'none'; }
+  endcard(t, T.end);
+}
+window.render = t => (C.mode === 'foto' ? renderFoto : renderIl)(t);
+</script></body></html>
