@@ -825,10 +825,15 @@
                             var art = document.querySelector('.tlive .tlive__art');
                             var none = pdc.querySelector('[data-frame="sin"] .pdc__frame-img img');
                             if (art && art.src && none) { none.removeAttribute('srcset'); none.src = art.src; }
-                          }, 50);
+                            /* Phone: the gallery is far above, so show the portrait right here, over the size picker and the button */
+                            if (art && art.src && !window.matchMedia('(min-width: 990px)').matches) {
+                              var pv = bar.querySelector('.tready__img');
+                              if (!pv) { pv = document.createElement('img'); pv.className = 'tready__img'; pv.alt = 'Tu retrato'; bar.appendChild(pv); }
+                              pv.src = art.src;
+                            }
+                            bar.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                          }, 120);
                           if (send && buy && buy.parentNode) buy.parentNode.insertBefore(send, buy.nextSibling);
-                          var r = bar.getBoundingClientRect();
-                          if (r.top < 0 || r.top > window.innerHeight * 0.6) bar.scrollIntoView({ behavior: 'smooth', block: 'start' });
                         };
                         /* Mobile bar at the bottom: before the illustration exists it can't add anything, so it
                            says «Crear mi ilustración» and takes the customer up to the photo */

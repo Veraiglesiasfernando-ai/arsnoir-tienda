@@ -5402,3 +5402,7 @@ html.sgp-open { overflow: hidden; }
   .welcome__cards .poster:not(.poster--featured) .poster__price { display: block; margin-top: 4px; font-size: 13px; }
   .welcome__cards .poster:not(.poster--featured) .poster__price .price__row { flex-wrap: wrap; gap: 2px 6px; }
 }
+/* Phone: the finished portrait shown right above the size picker and the button */
+.tready { flex-wrap: wrap; scroll-margin-top: 80px; }
+.tready__img { display: block; order: 3; flex: 0 0 100%; width: 100%; max-width: 420px; margin: 10px auto 0; aspect-ratio: 3 / 4; object-fit: contain; background: #fff; border-radius: 8px; box-shadow: 0 14px 28px -16px rgba(0,0,0,0.4); }
+@media (min-width: 990px) { .tready__img { display: none; } }
