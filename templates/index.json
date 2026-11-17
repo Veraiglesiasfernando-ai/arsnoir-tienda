@@ -706,10 +706,10 @@
           "settings": {
             "title": "Pack de 3",
             "pack": "3",
-            "product_1": "oleo-vintage",
+            "product_1": "retrato-glam",
             "product_2": "tu-mascota-en-acuarela",
             "product_3": "retrato-con-nombre",
-            "text": "Óleo, acuarela y con su nombre: una fila elegante sobre el sofá o la cama. Cuadros de 20×20 que se pegan a la pared sin clavos.",
+            "text": "Glam, acuarela y con su nombre: una fila elegante sobre el sofá o la cama. Cuadros de 20×20 que se pegan a la pared sin clavos.",
             "button_label": "Crear mi pack de 3"
           }
         },
@@ -721,7 +721,7 @@
             "product_1": "retrato-comic",
             "product_2": "retrato-glam",
             "product_3": "tu-mascota-en-acuarela",
-            "product_4": "oleo-vintage",
+            "product_4": "en-su-rincon",
             "product_5": "navidad-papa-noel",
             "product_6": "ilustracion-plana",
             "text": "Seis estilos de tu mascota en una cuadrícula: una pared de fotos entera. Cuadros de 20×20 que se pegan a la pared sin clavos.",
