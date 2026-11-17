@@ -5359,3 +5359,4 @@ html.cart-hover .drawer__panel { pointer-events: auto; }
 /* Framed photo in the gallery: zoomed in so the artwork keeps the same size as the print on its own */
 .product__gallery > .product__media:has(> img[data-black]) { overflow: hidden; }
 .product__gallery > .product__media > img[data-black] { transform: scale(1.32); transform-origin: 50% 48%; }
+.pdc__mode[hidden] { display: none !important; }
