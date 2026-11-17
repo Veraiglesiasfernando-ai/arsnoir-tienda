@@ -5539,3 +5539,10 @@ html.sgp-open { overflow: hidden; }
 .ctpl--gallery .ctpl__group--row .ctpl__cta { margin-top: auto; }
 .ctpl__group--row .ctpl__tagline { min-height: 2.8em; margin-bottom: 12px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .ctpl__group--row .ctpl__name { min-height: 1.25em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* While the illustration is being made: no example, no frame — only the customer's photo and the progress.
+   The frame and the size come after, once their own illustration exists */
+.tlive.is-loading .tload__sketch, .tlive.is-loading .tload__color { display: none !important; }
+.tlive.is-loading .tlive__frame { border-width: 0 !important; background: transparent; box-shadow: none; }
+.tlive.is-loading .tload__photo { top: 50%; left: 50%; width: 56%; padding: 8px 8px 0; transform: translate(-50%, -58%) rotate(-3deg); animation: none; }
+.tlive.is-loading .tload__photo img { aspect-ratio: 4 / 5; filter: saturate(.85); }
+.tlive.is-loading .tload { bottom: 7%; }
