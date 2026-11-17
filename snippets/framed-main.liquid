@@ -6,8 +6,10 @@
 {%- liquid
   # The product's main picture is what the customer waits for: fetch it first
   assign priority = 'auto'
+  assign early = false
   if load == 'eager'
     assign priority = 'high'
+    assign early = true
   endif
   assign alt_l = media.alt | downcase
   assign base = product.handle | append: '-marco-'
@@ -24,8 +26,9 @@
   {{ media | image_url: width: 1600 | image_tag:
     loading: load,
     fetchpriority: priority,
+    preload: early,
     widths: '500, 800, 1100, 1400, 1600',
-    sizes: '(min-width: 900px) 55vw, 90vw',
+    sizes: '(min-width: 990px) 50vw, 92vw',
     alt: alt_text,
     data-black: black_src,
     data-white: white_src,
@@ -37,8 +40,9 @@
   {{ media | image_url: width: 1600 | image_tag:
     loading: load,
     fetchpriority: priority,
+    preload: early,
     widths: '500, 800, 1100, 1400, 1600',
-    sizes: '(min-width: 900px) 55vw, 90vw',
+    sizes: '(min-width: 990px) 50vw, 92vw',
     alt: alt_text
   }}
 {%- endif -%}
