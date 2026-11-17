@@ -5397,7 +5397,6 @@ html.sgp-open { overflow: hidden; }
 @media (max-width: 749px) {
   .welcome__cards .poster:not(.poster--featured) .poster__sub,
   .welcome__cards .poster:not(.poster--featured) .poster__plus,
-  .welcome__cards .poster:not(.poster--featured) .price__off { display: none; }
   .welcome__cards .poster:not(.poster--featured) .poster__title { white-space: normal; font-size: 14px; line-height: 1.2; }
   .welcome__cards .poster:not(.poster--featured) .poster__price { display: block; margin-top: 4px; font-size: 13px; }
   .welcome__cards .poster:not(.poster--featured) .poster__price .price__row { flex-wrap: wrap; gap: 2px 6px; }
