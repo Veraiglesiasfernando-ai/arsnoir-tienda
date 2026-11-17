@@ -14,6 +14,7 @@
       <button type="button" class="howto__close" data-howto-close aria-label="Cerrar">✕</button>
       <p class="howto__title">Así funciona, paso a paso</p>
       {{ howto | video_tag: muted: true, playsinline: true, controls: true, loop: true, preload: 'none', image_size: '800x', class: 'howto__video' }}
+      <button type="button" class="howto__close-text" data-howto-close>Cerrar vídeo</button>
     </div>
   </div>
   <script>
