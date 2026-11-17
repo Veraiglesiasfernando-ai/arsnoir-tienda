@@ -5351,3 +5351,5 @@ html.cart-hover .drawer__panel { pointer-events: auto; }
 .pdc__mode { display: inline-flex; gap: 4px; margin: 2px 0 12px; padding: 3px; border-radius: 999px; background: #ecebe7; }
 .pdc__mode button { padding: 9px 18px; border: 0; border-radius: 999px; background: none; color: var(--color-muted); font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; }
 .pdc__mode button.is-active { background: #0a0a0a; color: #fff; }
+/* No detail circle over the frame photos */
+.pfeat__zoom { display: none !important; }
