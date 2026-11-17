@@ -5363,3 +5363,6 @@ html.cart-hover .drawer__panel { pointer-events: auto; }
 /* Quality photo: a still, big picture (no magnifier) */
 .pq__zoom--static { cursor: default; }
 .pq__zoom--static img { aspect-ratio: 4 / 5; object-fit: cover; }
+/* Quality: just the material cards, four in a row on a computer */
+.pq__grid { grid-template-columns: 1fr !important; }
+@media (min-width: 990px) { .pq__cards { grid-template-columns: repeat(4, minmax(0, 1fr)); } }

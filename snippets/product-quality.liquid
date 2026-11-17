@@ -22,11 +22,6 @@
       <h2 class="pq__title">Calidad que se nota<br>de cerca.</h2>
     </header>
     <div class="pq__grid">
-      {%- if q_art -%}
-        <div class="pq__zoom pq__zoom--static">
-          <img src="{{ q_small }}" alt="{{ product.title | escape }}, detalle" loading="lazy" width="900" height="1125">
-        </div>
-      {%- endif -%}
       <div class="pq__cards">
         {%- assign q_m1 = settings.prod_merchone -%}
         {%- comment -%} Already printed by merchOne: «Tu foto en un cuadro», Personalízalo and the personalised portraits (ilustracion-*) {%- endcomment -%}
