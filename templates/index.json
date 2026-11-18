@@ -309,14 +309,14 @@
       },
       "block_order": [
         "w0",
-        "w0b",
-        "w0c",
         "w1",
-        "w2",
+        "w0b",
         "w3",
-        "w4",
+        "w0c",
         "w5",
-        "w6"
+        "w2",
+        "w6",
+        "w4"
       ],
       "settings": {
         "eyebrow": "INSPIRACIÓN",
