@@ -37,6 +37,27 @@
       {%- endfor -%}
     </ul>
     <p class="pstyles__swipe" aria-hidden="true">Desliza para ver los {{ looks.size }} estilos <span>→</span></p>
+    {%- assign cp = all_products['crea-tu-poster'] -%}
+    {%- if cp.id and cp.available -%}
+      {%- comment -%} The «Crea tu póster» designs: each card opens the editor with that design chosen {%- endcomment -%}
+      <div class="pmore">
+        <h3 class="pmore__title">Más diseños para tu póster</h3>
+        <p class="pmore__text">Sube tus fotos, escribe tus textos y míralo en directo antes de comprar.</p>
+        <ul class="pmore__grid" role="list">
+          {%- assign designs = 'collage|Collage|collage,cancion|Portada de canción|canción,revista|Portada de revista|revista,fotomaton|Fotomatón|fotomatón,tipo|Tipográfico|tipográfico,estrellas|Mapa de estrellas|estrellas,mapa|Mapa de un lugar|mapa' | split: ',' -%}
+          {%- for d in designs -%}
+            {%- assign p = d | split: '|' -%}
+            {%- assign img = nil -%}
+            {%- for m in cp.media -%}{%- assign al = m.alt | downcase -%}{%- if al contains p[2] -%}{%- assign img = m -%}{%- break -%}{%- endif -%}{%- endfor -%}
+            <li><a class="pmore__card" href="{{ cp.url }}#{{ p[0] }}">
+              <span class="pmore__media">{%- if img -%}{{ img | image_url: width: 500 | image_tag: loading: 'lazy', widths: '300, 500', sizes: '(min-width: 990px) 14vw, 44vw', alt: p[1] }}{%- else -%}<span class="pmore__ph"><b>{{ p[1] }}</b><small>Tu lugar · tus coordenadas</small></span>{%- endif -%}</span>
+              <span class="pmore__name">{{ p[1] }}</span>
+              <span class="pmore__go">Crear el mío →</span>
+            </a></li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    {%- endif -%}
   </div>
 </section>
 <script>

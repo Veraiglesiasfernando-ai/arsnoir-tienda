@@ -427,6 +427,8 @@
     }, 'image/jpeg', 0.92);
   });
   /* ---------- start ---------- */
+  /* Arriving from a design card (…/crea-tu-poster#revista): that design comes chosen */
+  var hb = location.hash && root.querySelector('[data-design="' + location.hash.slice(1) + '"]'); if (hb) hb.click();
   fillSizes(); showFields();
   (document.fonts && document.fonts.load ? Promise.all(['900 40px "Playfair Display"', 'italic 400 40px "Playfair Display"', '400 40px Anton', '600 40px Caveat', '400 20px "Space Mono"', '800 20px Inter'].map(function (f) { return document.fonts.load(f); })) : Promise.resolve()).then(syncVariant, syncVariant);
   syncVariant();
