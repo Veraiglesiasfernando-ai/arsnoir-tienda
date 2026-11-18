@@ -99,10 +99,26 @@
       if (!b) return;
       if (document.querySelector('.fedit')) { apply(b); return; }
       /* no photo yet: show the style big on its example, with its settings and an editable text, then «Sube tu foto» */
-      showOnPage(b);
+      /* No photo yet: its own page for that style (same product, ?estilo=…), with the style in the big picture */
+      location.href = location.pathname + '?estilo=' + encodeURIComponent(b.dataset.look) + (ori === 'h' ? '&o=h' : '');
     });
+    try {
+      var qs = new URLSearchParams(location.search), want = qs.get('estilo');
+      if (want) {
+        if (qs.get('o') === 'h') setOri('h');
+        var card = Array.prototype.find.call(box.querySelectorAll('[data-look]'), function (x) { return x.dataset.look === want; });
+        if (card) {
+          showOnPage(card, true);
+          document.documentElement.classList.add('is-style-page');
+          var t = document.querySelector('.fintro__title'); if (t) t.innerHTML = t.textContent + '<span class="fintro__style">Estilo «' + want + '»</span>';
+          var tx = document.querySelector('.fintro__text'); if (tx) tx.textContent = 'Sube tu foto y la verás con este estilo: «' + card.dataset.text + '», ' + BORDER[card.dataset.border].toLowerCase() + ', filtro ' + card.dataset.filter.toLowerCase() + '. Luego puedes cambiarlo todo.';
+          var back = document.createElement('a'); back.className = 'fintro__back'; back.href = location.pathname + '#Estilos'; back.textContent = '← Ver todos los estilos';
+          var panelEl = document.querySelector('.fintro__panel'); if (panelEl) panelEl.insertBefore(back, panelEl.firstChild);
+        }
+      }
+    } catch (e) {}
     /* No photo yet: the chosen style takes the big picture at the top of the page, with «Sube tu foto» on it */
-    function showOnPage(b) {
+    function showOnPage(b, noScroll) {
       pending = b;
       var media = document.querySelector('.fintro__media');
       if (!media) { var f0 = document.querySelector('input[data-cupload]'); if (f0) f0.click(); return; }
@@ -121,7 +137,7 @@
       box.classList.toggle('is-h', ori === 'h');
       stage.querySelector('[data-fs-name]').textContent = 'Con el estilo «' + b.dataset.look + '»';
       media.classList.add('has-style');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (!noScroll) window.scrollTo({ top: 0, behavior: 'smooth' });
     }
     document.addEventListener('change', function (e) {
       var t = e.target;

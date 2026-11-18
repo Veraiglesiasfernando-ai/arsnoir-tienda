@@ -5742,3 +5742,7 @@ html.sgp-open { overflow: hidden; }
 .fstyle__up b { font-size: 14px; letter-spacing: .14em; text-transform: uppercase; }
 .fstyle__up small { font-size: 11.5px; opacity: .8; }
 @media (max-width: 989px) { .fintro__media.has-style { min-height: 70svh; } .fintro__media.has-style > img { position: absolute; } }
+/* A style's own page (?estilo=…): the style in the big picture, its name under the title, other styles hidden */
+.is-style-page .pstyles { display: none; }
+.fintro__style { display: block; margin-top: 8px; font-size: .45em; font-weight: 600; letter-spacing: .02em; color: #490B1A; }
+.fintro__back { align-self: center; margin-bottom: 14px; font-size: 13px; color: #6b6b6b; text-decoration: underline; text-underline-offset: 3px; }
