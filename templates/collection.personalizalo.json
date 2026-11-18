@@ -238,6 +238,16 @@
             "link": "shopify://products/familia-en-acuarela",
             "badge": "Nuevo"
           }
+        },
+        "fam10": {
+          "type": "template",
+          "settings": {
+            "category": "Familia y pareja",
+            "name": "Retrato a lápices de colores",
+            "tagline": "Lápices de colores, cielo azul y mucho color.",
+            "image": "shopify://shop_images/retrato-lapices-color-marco.jpg",
+            "link": "shopify://products/retrato-a-lapices-de-colores"
+          }
         }
       },
       "block_order": [
@@ -254,7 +264,13 @@
         "fam5",
         "fam2",
         "fam1",
-        "nav2", "nav3", "nav4", "nav5", "mas9", "fam9",
+        "nav2",
+        "nav3",
+        "nav4",
+        "nav5",
+        "mas9",
+        "fam9",
+        "fam10",
         "nav1"
       ],
       "settings": {
@@ -382,11 +398,25 @@
             "template_id": "retrato-comic",
             "needs_name": true
           }
+        },
+        "s7f": {
+          "type": "style",
+          "settings": {
+            "product": "retrato-a-lapices-de-colores",
+            "template_id": "lapices-color",
+            "needs_name": false
+          }
         }
       },
       "block_order": [
         "s6",
-        "s7", "s7a", "s7b", "s7c", "s7d", "s7e",
+        "s7",
+        "s7a",
+        "s7b",
+        "s7c",
+        "s7d",
+        "s7e",
+        "s7f",
         "s8",
         "s9",
         "s1",

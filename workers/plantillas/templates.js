@@ -198,6 +198,19 @@ export const TEMPLATES = {
       'Draw glasses, earrings or other accessories only if that person wears them in the photo; never add any. Draw exactly the same people and animals as in the photo: never invent anyone; if there is no animal in the photo, draw no animal and do not put another person in its place. Leave out the photo background and objects. ' +
       'It must look hand-drawn, never like a filtered photo. No text, no logos, no border. Vertical 3:4, with a little empty background around the subject.'
   },
+  'lapices-color': {
+    needsName: false,
+    aspectRatio: '3:4',
+    reference: 'https://cdn.shopify.com/s/files/1/1020/8903/2064/files/estilo-lapices-color.jpg',
+    prompt:
+      'The first image is the customer\'s photo: these are the only people (and pets) to draw. The second image only shows the style: none of its people, faces, hairstyles, beards, glasses, clothes or background may appear. ' +
+      'Draw a brand-new portrait of the people from the first image in the style of the second image: a vivid hand-drawn coloured-pencil drawing on textured paper, with visible diagonal pencil strokes and hatching, warm natural skin tones and rich saturated colours. ' +
+      'Background: a bright blue sky drawn with dense diagonal pencil strokes, a few soft white clouds, and green and yellow trees and foliage along the bottom, all in coloured pencil. ' +
+      'Keep the composition of the photo: the same people in the same pose and positions, from about the waist up, centred, filling most of the picture. ' +
+      'They must be instantly recognisable: each person\'s real face shape, expression, hairstyle, hair colour and length, beard or stubble exactly as in the photo, and their clothes and patterns. ' +
+      'Draw glasses, jewellery, watches or other accessories only if that person wears them in the photo; never add any. Draw exactly the same people and animals as in the photo: never invent anyone. Replace the photo background with the pencil sky and trees. ' +
+      'It must look hand-drawn with coloured pencils, never like a filtered photo. No text, no logos, no border. Vertical 3:4.'
+  },
   'retrato-glam': {
     needsName: true,
     font: 'manuscrita', /* keeps the name as typed («Thor», not «THOR») on the tag */
