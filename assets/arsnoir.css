@@ -5672,3 +5672,13 @@ html.sgp-open { overflow: hidden; }
 .pmedia__note { display: none !important; }
 /* Hero: what ARSNOIR sells, in one line under the big phrase */
 .vhero__sub { margin: 10px 0 0; max-width: 34ch; font-size: clamp(15px, 1.4vw, 19px); font-weight: 500; line-height: 1.35; color: #fff; text-shadow: 0 1px 12px rgba(0,0,0,.35); }
+.pst__designs { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.pst__dico--mapa { background: repeating-linear-gradient(35deg, transparent 0 6px, #aaa 6px 7px), repeating-linear-gradient(-55deg, transparent 0 8px, #bbb 8px 9px), #efe9df; }
+.pst__dico--estrellas { background: radial-gradient(circle at 30% 30%, #fff 0 1px, transparent 1.5px), radial-gradient(circle at 70% 45%, #fff 0 1px, transparent 1.5px), radial-gradient(circle at 45% 70%, #fff 0 1px, transparent 1.5px), #16234a; }
+.pst__geo { display: flex; gap: 8px; }
+.pst__geo input { flex: 1; min-width: 0; }
+.pst__geo-btn { flex: none; padding: 0 16px; border: 0; background: #0a0a0a; color: #fff; font: inherit; font-size: 14px; font-weight: 700; cursor: pointer; }
+.pst__status { margin: 6px 0 0; font-size: 12.5px; color: #6b6b6b; }
+.pst__status:empty { display: none; }
+.pst__f--two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+@media (max-width: 989px) { .pst__designs { grid-template-columns: repeat(7, minmax(70px, 1fr)); } }
