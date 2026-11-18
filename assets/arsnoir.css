@@ -5663,3 +5663,8 @@ html.sgp-open { overflow: hidden; }
   .ctpl__price { padding: 4px 8px; font-size: 10.5px; }
   .ctpl__arrow { width: 32px; height: 32px; font-size: 14px; }
 }
+/* «Otros estilos»: no grey box — the framed picture alone, a bit bigger */
+.pzstrip__item img { background: transparent !important; border-radius: 0; border: 0; object-fit: contain; transform: scale(1.12); transform-origin: 50% 45%; }
+.pzstrip__list li { overflow: visible; }
+.pzstrip__item { padding-top: 4px; }
+.pzstrip__item.is-current img { border: 0; outline: 2px solid #490B1A; outline-offset: 2px; transform: none; }
