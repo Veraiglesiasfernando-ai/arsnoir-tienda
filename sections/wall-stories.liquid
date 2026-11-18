@@ -140,10 +140,26 @@
     var cur = 0, timer = null, DUR = 5000;
     /* Infinite carousel: the copy is for the loop only (no keyboard focus), pause while touching */
     Array.prototype.forEach.call(root.querySelectorAll('[data-mq-copy] button'), function (b) { b.tabIndex = -1; });
+    /* The row slides on its own, and the customer can always move it: finger, trackpad, wheel or mouse drag.
+       Any touch pauses the slide for a few seconds; the copy of the tiles makes it endless */
     var mq = root.querySelector('.mq');
     if (mq) {
-      mq.addEventListener('touchstart', function () { mq.classList.add('is-paused'); }, { passive: true });
-      mq.addEventListener('touchend', function () { setTimeout(function () { mq.classList.remove('is-paused'); }, 1200); }, { passive: true });
+      mq.classList.add('is-js');
+      var set = mq.querySelector('.mq__set'), hold = 0, dragging = false, moved = 0, sx = 0, sl = 0, last = 0;
+      var speed = 0.35; /* px per frame */
+      var wrap = function () { var w = set.getBoundingClientRect().width; if (w && mq.scrollLeft >= w) mq.scrollLeft -= w; else if (mq.scrollLeft <= 0) mq.scrollLeft += w; };
+      var pause = function (ms) { hold = Date.now() + (ms || 3500); };
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      (function tick() { if (!reduce && !dragging && Date.now() > hold) { mq.scrollLeft += speed; } wrap(); requestAnimationFrame(tick); })();
+      mq.addEventListener('mouseenter', function () { pause(600000); });
+      mq.addEventListener('mouseleave', function () { pause(1200); });
+      ['touchstart', 'wheel'].forEach(function (ev) { mq.addEventListener(ev, function () { pause(); }, { passive: true }); });
+      mq.addEventListener('scroll', function () { if (dragging) return; }, { passive: true });
+      mq.addEventListener('pointerdown', function (e) { if (e.pointerType !== 'mouse') return; dragging = true; moved = 0; sx = e.clientX; sl = mq.scrollLeft; mq.classList.add('is-drag'); });
+      window.addEventListener('pointermove', function (e) { if (!dragging) return; moved = Math.max(moved, Math.abs(e.clientX - sx)); mq.scrollLeft = sl - (e.clientX - sx); });
+      window.addEventListener('pointerup', function () { if (!dragging) return; dragging = false; mq.classList.remove('is-drag'); pause(); });
+      /* a drag is not a click on a photo */
+      mq.addEventListener('click', function (e) { if (moved > 6) { e.preventDefault(); e.stopPropagation(); moved = 0; } }, true);
     }
 
     function stars(n) { var s = ''; for (var i = 1; i <= 5; i++) s += i <= n ? '★' : '☆'; return s; }

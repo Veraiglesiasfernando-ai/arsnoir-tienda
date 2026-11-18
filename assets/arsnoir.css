@@ -5758,3 +5758,11 @@ html.sgp-open { overflow: hidden; }
 .has-example-photo .fedit__swap { border-color: #490B1A; box-shadow: inset 0 0 0 1px #490B1A; }
 .has-example-photo .fedit__swap b::before { content: 'Sube tu foto · '; }
 .has-example-photo .fedit__swap b { font-size: 0; } .has-example-photo .fedit__swap b::before { font-size: 14px; content: 'Sube tu foto'; }
+/* Wall photos row: always movable (JS slides it), on every device */
+.mq.is-js { overflow-x: auto; scrollbar-width: none; cursor: grab; scroll-snap-type: none !important; -webkit-mask-image: none; mask-image: none; }
+.mq.is-js::-webkit-scrollbar { display: none; }
+.mq.is-js .mq__track { animation: none !important; }
+.mq.is-js .mq__set[aria-hidden] { display: flex !important; }
+.mq.is-js.is-drag { cursor: grabbing; user-select: none; }
+.mq.is-js.is-drag img { pointer-events: none; }
+.mq.is-js .mq__tile { scroll-snap-align: none; }
