@@ -128,8 +128,8 @@
     function syncOk() {
       document.querySelectorAll('[data-fok]').forEach(function (ok) {
         if (!ok.dataset.label) ok.dataset.label = ok.textContent;
-        ok.textContent = EXAMPLE ? '+ Sube tu foto' : ok.dataset.label;
-        var nl = ok.parentNode && ok.parentNode.querySelector('.fedit__new'); if (nl) nl.hidden = EXAMPLE;
+        var want = EXAMPLE ? '+ Sube tu foto' : ok.dataset.label; if (ok.textContent !== want) ok.textContent = want;
+        var nl = ok.parentNode && ok.parentNode.querySelector('.fedit__new'); if (nl && nl.hidden !== EXAMPLE) nl.hidden = EXAMPLE;
       });
     }
     new MutationObserver(syncOk).observe(document.body, { childList: true, subtree: true });
