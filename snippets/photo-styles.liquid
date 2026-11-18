@@ -124,6 +124,21 @@
     document.addEventListener('change', function (e) {
       if (!feeding && e.target.matches && e.target.matches('input[data-cupload]') && e.target.files && e.target.files.length) { EXAMPLE = false; document.documentElement.classList.remove('has-example-photo'); }
     }, true);
+    /* In the photo window, «Confirmar» becomes «Sube tu foto» while the example is in */
+    function syncOk() {
+      document.querySelectorAll('[data-fok]').forEach(function (ok) {
+        if (!ok.dataset.label) ok.dataset.label = ok.textContent;
+        ok.textContent = EXAMPLE ? '+ Sube tu foto' : ok.dataset.label;
+        var nl = ok.parentNode && ok.parentNode.querySelector('.fedit__new'); if (nl) nl.hidden = EXAMPLE;
+      });
+    }
+    new MutationObserver(syncOk).observe(document.body, { childList: true, subtree: true });
+    document.addEventListener('change', function () { setTimeout(syncOk, 0); }, true);
+    document.addEventListener('click', function (e) {
+      var ok = EXAMPLE && e.target.closest && e.target.closest('[data-fok]'); if (!ok) return;
+      e.preventDefault(); e.stopImmediatePropagation();
+      var inp = ok.parentNode && ok.parentNode.querySelector('.fedit__new input'); if (inp) inp.click();
+    }, true);
     /* Never order the example: ask for their photo first */
     document.addEventListener('submit', function (e) {
       if (!EXAMPLE || !e.target.matches || !e.target.matches('form[action*="/cart/add"]')) return;
