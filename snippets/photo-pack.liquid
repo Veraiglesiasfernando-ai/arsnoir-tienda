@@ -1,0 +1,99 @@
+{%- comment -%}
+  MIXPIX pack of the customer's own photos (no illustration), on «Tu foto, en un cuadro» when the URL has
+  ?pack=2|3|6. One upload per 20×20 tile (square preview), no frame / black / white frame, and the photos go
+  with the order as line-item files «Foto 1…N». Plain form post (no ajax) so the files always travel.
+  Variants: Product (option2) = «MIXPIX», Size = «MIXPIX 20×20 · pack de N», Style = - / Black frame / White frame.
+  - product
+{%- endcomment -%}
+{%- assign mx = product.variants | where: 'option2', 'MIXPIX' -%}
+{%- if mx.size > 0 -%}
+<section class="ppack page-width" data-ppack hidden>
+  <div class="ppack__grid">
+    <div class="ppack__stage">
+      <div class="ppack__wall" data-ppack-wall></div>
+      <p class="ppack__note">Cada foto va en su cuadro de 20×20. Se pegan a la pared sin clavos y se pueden mover.</p>
+    </div>
+    <div class="ppack__panel">
+      <p class="ppack__eyebrow">MIXPIX · Tus fotos</p>
+      <h1 class="ppack__title">Pack de <span data-ppack-n>2</span> con tus fotos</h1>
+      <p class="ppack__price"><b data-ppack-price></b> <span>IVA incluido · Envío 4,95 €, gratis desde 80 €</span></p>
+      <p class="ppack__step"><b>1</b> Sube tus fotos <span data-ppack-count></span></p>
+      <div class="ppack__slots" data-ppack-slots></div>
+      <p class="ppack__hint">Usa fotos nítidas. Las recortamos en cuadrado por el centro.</p>
+      <p class="ppack__step"><b>2</b> ¿Con marco?</p>
+      <div class="ppack__frames" role="radiogroup" aria-label="Marco">
+        <label class="ppack__chip"><input type="radio" name="ppack_frame" value="-" checked><span>Sin marco</span></label>
+        <label class="ppack__chip"><input type="radio" name="ppack_frame" value="Black frame"><span><i class="ppack__sw ppack__sw--black"></i>Marco negro</span></label>
+        <label class="ppack__chip"><input type="radio" name="ppack_frame" value="White frame"><span><i class="ppack__sw ppack__sw--white"></i>Marco blanco</span></label>
+      </div>
+      <form class="ppack__form" action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data" data-ppack-form>
+        <input type="hidden" name="form_type" value="product">
+        <input type="hidden" name="utf8" value="✓">
+        <input type="hidden" name="id" data-ppack-variant>
+        <input type="hidden" name="quantity" value="1">
+        <input type="hidden" name="properties[Pack]" data-ppack-prop>
+        <div data-ppack-files hidden></div>
+        <button type="submit" class="ppack__add" data-ppack-add>Añadir al carrito</button>
+        <p class="ppack__err" data-ppack-err hidden></p>
+      </form>
+      <a class="ppack__back" href="{{ product.url }}">← Volver a «Tu foto, en un cuadro»</a>
+    </div>
+  </div>
+  <script type="application/json" data-ppack-variants>[{%- for v in mx -%}{"id":{{ v.id }},"size":{{ v.option1 | json }},"frame":{{ v.option3 | json }},"price":{{ v.price }}}{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%}]</script>
+</section>
+<script>
+(function () {
+  var root = document.querySelector('[data-ppack]'); if (!root) return;
+  var n = parseInt(new URLSearchParams(location.search).get('pack'), 10);
+  if ([2, 3, 6].indexOf(n) < 0) return;
+  document.documentElement.classList.add('is-photo-pack'); root.hidden = false;
+  var $ = function (s) { return root.querySelector(s); };
+  var VARS = JSON.parse($('[data-ppack-variants]').textContent || '[]');
+  var money = function (c) { return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(c / 100); };
+  var files = new Array(n), urls = new Array(n), frame = '-';
+  $('[data-ppack-n]').textContent = n;
+  var wall = $('[data-ppack-wall]'), slots = $('[data-ppack-slots]');
+  wall.className = 'ppack__wall ppack__wall--' + n;
+  for (var i = 0; i < n; i++) {
+    wall.insertAdjacentHTML('beforeend', '<div class="ppack__tile" data-tile="' + i + '"><span>' + (i + 1) + '</span></div>');
+    slots.insertAdjacentHTML('beforeend', '<label class="ppack__slot" data-slot="' + i + '"><input type="file" accept="image/jpeg,image/png" hidden><span class="ppack__slot-plus">+</span><span class="ppack__slot-n">Foto ' + (i + 1) + '</span></label>');
+  }
+  function sync() {
+    var v = VARS.find(function (x) { return x.size.indexOf('pack de ' + n) > -1 && x.frame === frame; });
+    if (v) { $('[data-ppack-variant]').value = v.id; $('[data-ppack-price]').textContent = money(v.price); $('[data-ppack-add]').textContent = 'Añadir al carrito · ' + money(v.price); }
+    var done = files.filter(Boolean).length;
+    $('[data-ppack-count]').textContent = done + '/' + n;
+    wall.dataset.frame = frame;
+    for (var i = 0; i < n; i++) {
+      var t = wall.querySelector('[data-tile="' + i + '"]'), s = slots.querySelector('[data-slot="' + i + '"]');
+      t.style.backgroundImage = urls[i] ? 'url(' + urls[i] + ')' : ''; t.classList.toggle('has-photo', !!urls[i]);
+      s.style.backgroundImage = urls[i] ? 'url(' + urls[i] + ')' : ''; s.classList.toggle('has-photo', !!urls[i]);
+    }
+  }
+  slots.addEventListener('change', function (e) {
+    var s = e.target.closest('[data-slot]'); if (!s || !e.target.files || !e.target.files[0]) return;
+    var i = +s.dataset.slot, f = e.target.files[0];
+    files[i] = f; if (urls[i]) URL.revokeObjectURL(urls[i]); urls[i] = URL.createObjectURL(f);
+    /* the next empty slot opens on its own for the next photo? no: the customer taps each one */
+    sync();
+  });
+  wall.addEventListener('click', function (e) { var t = e.target.closest('[data-tile]'); if (t) slots.querySelector('[data-slot="' + t.dataset.tile + '"] input').click(); });
+  root.querySelectorAll('input[name="ppack_frame"]').forEach(function (r) { r.addEventListener('change', function () { frame = r.value; sync(); }); });
+  var form = $('[data-ppack-form]'), sending = false;
+  form.addEventListener('submit', function (e) {
+    if (sending) return; e.preventDefault();
+    var err = $('[data-ppack-err]'), missing = files.filter(Boolean).length;
+    if (missing < n) { err.textContent = 'Te faltan ' + (n - missing) + ' foto' + (n - missing > 1 ? 's' : '') + ' por subir.'; err.hidden = false; return; }
+    var box = $('[data-ppack-files]'); box.innerHTML = '';
+    try {
+      files.forEach(function (f, i) { var inp = document.createElement('input'); inp.type = 'file'; inp.name = 'properties[Foto ' + (i + 1) + ']'; var dt = new DataTransfer(); dt.items.add(f); inp.files = dt.files; box.appendChild(inp); });
+    } catch (x) { err.textContent = 'Tu navegador no deja adjuntar las fotos. Prueba desde otro navegador.'; err.hidden = false; return; }
+    $('[data-ppack-prop]').value = 'Pack de ' + n + ' fotos sin ilustración · ' + ({ '-': 'Sin marco', 'Black frame': 'Marco negro', 'White frame': 'Marco blanco' }[frame]);
+    $('[data-ppack-add]').disabled = true; $('[data-ppack-add]').textContent = 'Subiendo tus fotos…';
+    sending = true; HTMLFormElement.prototype.submit.call(form);
+  });
+  sync();
+  window.scrollTo(0, 0);
+})();
+</script>
+{%- endif -%}

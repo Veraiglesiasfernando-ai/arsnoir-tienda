@@ -90,12 +90,12 @@
       <p class="ppk__price"><b>{{ bare | money }}</b> <span>· sin marco</span>{% if framed %} <span>· con marco {{ framed | money }}</span>{% endif %}</p>
     {%- endif -%}
     {%- comment -%} Choose the styles here: tap to tick (up to N); the button carries them to the product page {%- endcomment -%}
-    <div class="mxch" data-mxch hidden role="dialog" aria-modal="true" aria-label="Elige los estilos de tu pack" data-n="{{ n }}" data-base="{{ first.url }}{% if bare_id %}?variant={{ bare_id }}{% endif %}">
+    <div class="mxch" data-mxch hidden role="dialog" aria-modal="true" aria-label="Elige los estilos de tu pack" data-n="{{ n }}" data-photo="{{ all_products['tu-foto-en-un-cuadro'].url | default: '/products/tu-foto-en-un-cuadro' }}" data-base="{{ first.url }}{% if bare_id %}?variant={{ bare_id }}{% endif %}">
       <div class="mxch__box">
       <button type="button" class="mxch__x" data-mxch-close aria-label="Cerrar">✕</button>
       <p class="mxch__eyebrow">MIXPIX · Pack de {{ n }}</p>
       <p class="mxch__title">Elige tus {{ n }} estilos <span data-mxch-count></span></p>
-      <p class="mxch__sub">Usamos la misma foto para todos. Puedes meter también tu foto tal cual, sin ilustración. Después la subes y lo ves gratis antes de pagar.</p>
+      <p class="mxch__sub">Usamos la misma foto para todos. Puedes meter también tus fotos tal cual, sin ilustración (toca + las veces que quieras). Lo ves antes de pagar.</p>
       <ul class="mxch__list" role="list">
         {%- liquid
           assign picked_t = ''
@@ -141,21 +141,31 @@
     var next = box.querySelector('[data-mxch-next]');
     var label = go.textContent;
     function sync() {
-      opts.forEach(function (o) { var on = order.indexOf(o.dataset.title) > -1; o.classList.toggle('is-on', on); o.setAttribute('aria-pressed', on);  });
+      opts.forEach(function (o) { var on = order.indexOf(o.dataset.title) > -1; o.classList.toggle('is-on', on || (o.dataset.photo && order.indexOf(PH) > -1)); o.setAttribute('aria-pressed', on);  });
       box.querySelector('[data-mxch-count]').textContent = order.length + '/' + n;
       /* the product page is an illustration's: the first illustrated style leads, «Tu foto» goes with the others */
-      var ill = order.filter(function (t) { return t !== 'Tu foto, sin ilustración'; });
+      var ill = order.filter(function (t) { return t !== PH; }), nph = order.length - ill.length;
+      var q0 = box.querySelector('[data-qty]'); if (q0) q0.textContent = nph;
       var rest = order.filter(function (t) { return t !== ill[0]; });
       var first = opts.find(function (o) { return o.dataset.title === ill[0]; });
       var base = box.dataset.base, q = base.indexOf('?') > -1 ? base.slice(base.indexOf('?')) : '';
       var url = (first ? first.dataset.url : base.split('?')[0]) + q;
       if (rest.length) url += (q ? '&' : '?') + 'mx=' + encodeURIComponent(rest.join('|'));
       next.href = url + '#subir';
-      var bad = order.length < n || !ill.length;
+      if (!ill.length && nph === n) next.href = box.dataset.photo + '?pack=' + n;
+      var bad = order.length < n;
       next.classList.toggle('is-off', bad);
-      next.textContent = (order.length >= n && !ill.length) ? 'Elige al menos 1 ilustración' : order.length < n ? 'Elige ' + (n - order.length) + ' estilo' + (n - order.length > 1 ? 's' : '') + ' más' : 'Continuar · sube tu foto →';
+      next.textContent = order.length < n ? 'Elige ' + (n - order.length) + ' estilo' + (n - order.length > 1 ? 's' : '') + ' más' : 'Continuar · sube tu foto →';
     }
-    opts.forEach(function (o) { o.addEventListener('click', function () { var i = order.indexOf(o.dataset.title); if (i > -1) order.splice(i, 1); else { if (order.length >= n) order.shift(); order.push(o.dataset.title); } sync(); }); });
+    var PH = 'Tu foto, sin ilustración';
+    box.querySelector('.mxch__opt--photo').insertAdjacentHTML('beforeend', '<span class="mxch__qty"><span class="mxch__minus" data-minus role="button" aria-label="Quitar una foto">−</span><b data-qty>0</b><span class="mxch__plus">+</span></span>');
+    opts.forEach(function (o) { o.addEventListener('click', function (e) {
+      if (o.dataset.photo) {
+        if (e.target.closest('[data-minus]')) { var j = order.lastIndexOf(PH); if (j > -1) order.splice(j, 1); }
+        else { if (order.length >= n) order.splice(order.findIndex(function (t) { return t !== PH; }) > -1 ? order.findIndex(function (t) { return t !== PH; }) : 0, 1); order.push(PH); }
+        sync(); return;
+      }
+      var i = order.indexOf(o.dataset.title); if (i > -1) order.splice(i, 1); else { if (order.length >= n) order.shift(); order.push(o.dataset.title); } sync(); }); });
     next.addEventListener('click', function (e) { if (next.classList.contains('is-off')) e.preventDefault(); });
     var open = function (e) { e.preventDefault(); box.hidden = false; document.documentElement.style.overflow = 'hidden'; };
     var close = function () { box.hidden = true; document.documentElement.style.overflow = ''; };

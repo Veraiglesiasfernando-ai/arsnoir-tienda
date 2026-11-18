@@ -1684,7 +1684,7 @@
   </button>
 </div>
 
-{%- if template.suffix == 'foto' -%}{% render 'photo-styles' %}{%- elsif section.settings.quality_block -%}{% render 'product-quality', product: product %}{%- endif -%}
+{%- if template.suffix == 'foto' -%}{% render 'photo-pack', product: product %}{% render 'photo-styles' %}{%- elsif section.settings.quality_block -%}{% render 'product-quality', product: product %}{%- endif -%}
 
 <script type="application/ld+json">
   {
