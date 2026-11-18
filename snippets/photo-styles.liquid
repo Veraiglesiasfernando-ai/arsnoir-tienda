@@ -98,11 +98,47 @@
       var b = e.target.closest('[data-look]');
       if (!b) return;
       if (document.querySelector('.fedit')) { apply(b); return; }
-      /* no photo yet: choose one first, the look is applied once the photo is in */
-      pending = b;
-      var f = document.querySelector('[data-fintro-file]') || document.querySelector('input[data-cupload]');
-      if (f) f.click();
+      /* no photo yet: show the style big on its example, with its settings and an editable text, then «Sube tu foto» */
+      openPanel(b);
     });
+    var panel = document.createElement('div');
+    panel.className = 'pspanel'; panel.hidden = true; panel.setAttribute('role', 'dialog'); panel.setAttribute('aria-modal', 'true');
+    panel.innerHTML = '<div class="pspanel__box"><button type="button" class="pspanel__x" data-ps-close aria-label="Cerrar">✕</button>' +
+      '<div class="pspanel__stage"><div class="pspanel__frame" data-ps-frame></div><span class="pspanel__tag">Foto de ejemplo</span></div>' +
+      '<div class="pspanel__side"><p class="pspanel__eyebrow">Estilo</p><h3 class="pspanel__name" data-ps-name></h3>' +
+      '<ul class="pspanel__specs" data-ps-specs></ul>' +
+      '<label class="pspanel__lbl" for="PsText">Tu texto</label><input class="pspanel__in" id="PsText" maxlength="40" data-ps-text>' +
+      '<p class="pspanel__hint">Cuando subas tu foto podrás cambiar también el borde, el filtro, la letra y el color.</p>' +
+      '<button type="button" class="pspanel__go" data-ps-go>Sube tu foto <span aria-hidden="true">→</span></button>' +
+      '<p class="pspanel__fmt">JPG o PNG · La ves en directo antes de comprar</p></div></div>';
+    document.body.appendChild(panel);
+    var cur = null;
+    var close = function () { panel.hidden = true; document.documentElement.style.overflow = ''; };
+    function openPanel(b) {
+      cur = b;
+      var fr = b.querySelector('.pstyles__frame').cloneNode(true);
+      var box = panel.querySelector('[data-ps-frame]'); box.innerHTML = ''; box.appendChild(fr);
+      box.classList.toggle('is-h', ori === 'h');
+      panel.querySelector('[data-ps-name]').textContent = b.dataset.look;
+      var specs = [['Borde', BORDER[b.dataset.border].replace('Con borde ', '')], ['Filtro', b.dataset.filter], ['Letra', b.dataset.font], ['Color', b.dataset.color]];
+      panel.querySelector('[data-ps-specs]').innerHTML = specs.map(function (s) { return '<li><span>' + s[0] + '</span><b>' + s[1] + '</b></li>'; }).join('');
+      var inp = panel.querySelector('[data-ps-text]'); inp.value = b.dataset.text;
+      panel.hidden = false; document.documentElement.style.overflow = 'hidden';
+      setTimeout(function () { panel.querySelector('[data-ps-go]').focus(); }, 30);
+    }
+    panel.querySelector('[data-ps-text]').addEventListener('input', function (e) {
+      var cap = panel.querySelector('.pstyles__cap'); if (cap) cap.textContent = e.target.value;
+      if (cur) cur.dataset.text = e.target.value;
+    });
+    panel.addEventListener('click', function (e) {
+      if (e.target === panel || e.target.closest('[data-ps-close]')) { close(); return; }
+      if (e.target.closest('[data-ps-go]')) {
+        pending = cur; close();
+        var f = document.querySelector('[data-fintro-file]') || document.querySelector('input[data-cupload]');
+        if (f) f.click();
+      }
+    });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !panel.hidden) close(); });
     document.addEventListener('change', function (e) {
       var t = e.target;
       if (!(t.matches && t.matches('input[data-cupload]') && t.files && t.files[0])) return;
