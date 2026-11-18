@@ -5746,3 +5746,6 @@ html.sgp-open { overflow: hidden; }
 .is-style-page .pstyles { display: none; }
 .fintro__style { display: block; margin-top: 8px; font-size: .45em; font-weight: 600; letter-spacing: .02em; color: #490B1A; }
 .fintro__back { align-self: center; margin-bottom: 14px; font-size: 13px; color: #6b6b6b; text-decoration: underline; text-underline-offset: 3px; }
+/* Example photo loaded from a style: a clear note and nudge to upload theirs */
+.has-example-photo .cupload__frame::after, .has-example-photo [data-cupload-frame]::after { content: 'Foto de ejemplo · sube la tuya'; position: absolute; left: 50%; top: 14px; transform: translateX(-50%); z-index: 3; padding: 6px 12px; background: #0a0a0a; color: #fff; font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; white-space: nowrap; }
+.pex-msg { margin: 0 0 10px; padding: 10px 12px; background: #fbe9e7; color: #b3261e; font-size: 14px; font-weight: 600; }

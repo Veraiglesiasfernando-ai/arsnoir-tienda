@@ -99,23 +99,44 @@
       if (!b) return;
       if (document.querySelector('.fedit')) { apply(b); return; }
       /* no photo yet: show the style big on its example, with its settings and an editable text, then «Sube tu foto» */
-      /* No photo yet: its own page for that style (same product, ?estilo=…), with the style in the big picture */
-      location.href = location.pathname + '?estilo=' + encodeURIComponent(b.dataset.look) + (ori === 'h' ? '&o=h' : '');
+      /* No photo yet: open the editor right away with this style's example photo, ready to swap for theirs */
+      loadExample(b);
     });
+    var EXAMPLE = false, feeding = false;
+    function loadExample(b) {
+      var real = document.querySelector('input[data-cupload]');
+      var src = b.querySelector('[data-pstyles-img]').currentSrc || b.querySelector('[data-pstyles-img]').src;
+      if (!real || !src) return;
+      src = src.replace(/([?&])width=\d+/, '$1width=1600').replace(/_600x(\.|\?)/, '_1600x$1');
+      fetch(src, { mode: 'cors' }).then(function (r) { if (!r.ok) throw 0; return r.blob(); }).then(function (blob) {
+        var file = new File([blob], 'foto-de-ejemplo.jpg', { type: blob.type || 'image/jpeg' });
+        var dt = new DataTransfer(); dt.items.add(file);
+        pending = b; EXAMPLE = true; feeding = true;
+        real.files = dt.files;
+        var sec = real.closest('section'); if (sec) sec.classList.add('is-up-done');
+        real.dispatchEvent(new Event('change', { bubbles: true }));
+        feeding = false;
+        document.documentElement.classList.add('has-example-photo');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }).catch(function () { pending = b; real.click(); });
+    }
+    /* Their own photo replaces the example */
+    document.addEventListener('change', function (e) {
+      if (!feeding && e.target.matches && e.target.matches('input[data-cupload]') && e.target.files && e.target.files.length) { EXAMPLE = false; document.documentElement.classList.remove('has-example-photo'); }
+    }, true);
+    /* Never order the example: ask for their photo first */
+    document.addEventListener('submit', function (e) {
+      if (!EXAMPLE || !e.target.matches || !e.target.matches('form[action*="/cart/add"]')) return;
+      e.preventDefault(); e.stopImmediatePropagation();
+      var real = document.querySelector('input[data-cupload]');
+      var msg = document.querySelector('.pex-msg');
+      if (!msg) { msg = document.createElement('p'); msg.className = 'pex-msg'; msg.textContent = 'Esta es una foto de ejemplo. Sube la tuya para pedir tu cuadro.'; e.target.parentNode.insertBefore(msg, e.target); }
+      if (real) real.click();
+    }, true);
     try {
-      var qs = new URLSearchParams(location.search), want = qs.get('estilo');
-      if (want) {
-        if (qs.get('o') === 'h') setOri('h');
-        var card = Array.prototype.find.call(box.querySelectorAll('[data-look]'), function (x) { return x.dataset.look === want; });
-        if (card) {
-          showOnPage(card, true);
-          document.documentElement.classList.add('is-style-page');
-          var t = document.querySelector('.fintro__title'); if (t) t.innerHTML = t.textContent + '<span class="fintro__style">Estilo «' + want + '»</span>';
-          var tx = document.querySelector('.fintro__text'); if (tx) tx.textContent = 'Sube tu foto y la verás con este estilo: «' + card.dataset.text + '», ' + BORDER[card.dataset.border].toLowerCase() + ', filtro ' + card.dataset.filter.toLowerCase() + '. Luego puedes cambiarlo todo.';
-          var back = document.createElement('a'); back.className = 'fintro__back'; back.href = location.pathname + '#Estilos'; back.textContent = '← Ver todos los estilos';
-          var panelEl = document.querySelector('.fintro__panel'); if (panelEl) panelEl.insertBefore(back, panelEl.firstChild);
-        }
-      }
+      var want = new URLSearchParams(location.search).get('estilo');
+      var card = want && Array.prototype.find.call(box.querySelectorAll('[data-look]'), function (x) { return x.dataset.look === want; });
+      if (card) loadExample(card);
     } catch (e) {}
     /* No photo yet: the chosen style takes the big picture at the top of the page, with «Sube tu foto» on it */
     function showOnPage(b, noScroll) {
