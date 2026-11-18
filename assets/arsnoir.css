@@ -5653,3 +5653,13 @@ html.sgp-open { overflow: hidden; }
   .ctpl__deal .ctpl__deal-l { display: none; }
   .ctpl__deal em { padding: 1px 5px; font-size: 10px; }
 }
+/* Phone: style cards a size smaller — two full cards and a peek of the third */
+@media (max-width: 749px) {
+  .ctpl__row > .ctpl__item { flex: 0 0 39vw; max-width: 39vw; }
+  .ctpl__group--row .ctpl__group-title { font-size: 26px; }
+  .ctpl__group--row .ctpl__name { font-size: 13px; margin-top: 8px; }
+  .ctpl__group--row .ctpl__tagline { font-size: 11.5px; }
+  .ctpl--gallery .ctpl__group--row .ctpl__cta { padding: 7px 11px; font-size: 11.5px; }
+  .ctpl__price { padding: 4px 8px; font-size: 10.5px; }
+  .ctpl__arrow { width: 32px; height: 32px; font-size: 14px; }
+}
