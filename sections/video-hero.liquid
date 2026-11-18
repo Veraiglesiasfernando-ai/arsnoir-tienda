@@ -58,6 +58,7 @@
 
     {%- if s.heading != blank -%}
       <h1 class="vhero__heading">{{ s.heading | newline_to_br }}</h1>
+      {%- if s.subheading != blank -%}<p class="vhero__sub">{{ s.subheading }}</p>{%- endif -%}
     {%- endif -%}
 
     {%- if s.button_label != blank or s.button2_label != blank -%}
@@ -98,6 +99,7 @@
     { "type": "range", "id": "interval", "label": "Segundos por diapositiva", "min": 3, "max": 15, "step": 1, "unit": "s", "default": 6 },
     { "type": "text", "id": "label_left", "label": "Etiqueta izquierda", "default": "(ARSNOIR)" },
     { "type": "text", "id": "label_right", "label": "Etiqueta derecha", "default": "obra nº01" },
+    { "type": "text", "id": "subheading", "label": "Frase debajo (qué vendes)" },
     { "type": "textarea", "id": "heading", "label": "Frase principal", "default": "No decores tu espacio.\nCambia cómo se siente.", "info": "Cada salto de línea se respeta." },
     { "type": "checkbox", "id": "show_seal", "label": "Mostrar sello giratorio", "default": true },
     { "type": "text", "id": "seal_text", "label": "Texto del sello", "default": "ARTE ORIGINAL · SOLO EN ARSNOIR · " },

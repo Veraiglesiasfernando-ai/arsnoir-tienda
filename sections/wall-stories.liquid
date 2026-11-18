@@ -52,8 +52,7 @@
             <span class="mq__who">{% if sample %}{{ sample_names[si] }} · EJEMPLO{% else %}{{ b.author }}{% endif %}</span>
             <span class="mq__prod">{{ label }}</span>
           {%- else -%}
-            <span class="mq__stars mq__stars--none" aria-hidden="true">★★★★★</span>
-            <span class="mq__quote mq__quote--muted">Aún sin reseñas de esta obra.</span>
+            
             <span class="mq__name">{{ label }}</span>
             {%- if p != blank -%}<span class="mq__price">{{ 'general.print_from' | t }} {{ p.price_min | money }}</span>{%- endif -%}
           {%- endif -%}

@@ -68,7 +68,8 @@
       "settings": {
         "text": "ARTE QUE NO VERÁS EN NINGÚN OTRO SITIO · 100% ORIGINAL · SOLO EN ARSNOIR ·",
         "speed": 35
-      }
+      },
+      "disabled": true
     },
     "trust": {
       "type": "trust-strip",
@@ -235,7 +236,8 @@
         "button2_label": "Crea tu ilustración",
         "button2_link": "shopify://collections/personalizalo",
         "heading": "No decores tu espacio.\nCambia cómo se siente.",
-        "show_progress": false
+        "show_progress": false,
+        "subheading": "Láminas, lienzos y retratos personalizados para tu pared."
       }
     },
     "walls": {
@@ -343,7 +345,8 @@
       "settings": {
         "eyebrow": "OPINIONES",
         "heading": "Lo que dicen de sus paredes"
-      }
+      },
+      "disabled": true
     },
     "guarantees": {
       "type": "guarantees",
