@@ -1331,6 +1331,18 @@
                       editBtn.innerHTML = ico('M4 20h4L19 9l-4-4L4 16v4zM13.5 6.5l4 4') + '<span>Editar foto: encuadre, zoom y girar</span>';
                       editBtn.addEventListener('click', openModal);
                       editor.insertBefore(editBtn, editor.querySelector('.fedit__flts'));
+                      /* «Cambiar foto»: big and clear, first thing in the editor */
+                      var swap = document.createElement('label');
+                      swap.className = 'fedit__swap';
+                      swap.innerHTML = '<span class="fedit__swap-plus" aria-hidden="true">+</span><span><b>Cambiar foto</b><small>Sube otra foto desde tu móvil u ordenador</small></span><input type="file" accept="image/jpeg,image/png" hidden>';
+                      swap.querySelector('input').addEventListener('change', function (e) {
+                        var f = e.target.files && e.target.files[0], real = guard.querySelector('input[data-cupload]');
+                        if (!f || !real) return;
+                        try { var dt = new DataTransfer(); dt.items.add(f); real.files = dt.files; } catch (err) {}
+                        real.dispatchEvent(new Event('change', { bubbles: true }));
+                        e.target.value = '';
+                      });
+                      editor.insertBefore(swap, editBtn);
                       var mkAcc = function (title, icon) {
                         var d = document.createElement('details');
                         d.className = 'facc';

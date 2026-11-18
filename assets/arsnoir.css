@@ -5749,3 +5749,12 @@ html.sgp-open { overflow: hidden; }
 /* Example photo loaded from a style: a clear note and nudge to upload theirs */
 .has-example-photo .cupload__frame::after, .has-example-photo [data-cupload-frame]::after { content: 'Foto de ejemplo · sube la tuya'; position: absolute; left: 50%; top: 14px; transform: translateX(-50%); z-index: 3; padding: 6px 12px; background: #0a0a0a; color: #fff; font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; white-space: nowrap; }
 .pex-msg { margin: 0 0 10px; padding: 10px 12px; background: #fbe9e7; color: #b3261e; font-size: 14px; font-weight: 600; }
+/* «Cambiar foto» at the top of the photo editor */
+.fedit__swap { display: flex; align-items: center; gap: 14px; margin: 0 0 4px; padding: 12px 14px; border: 1px solid #0a0a0a; background: #fff; color: #0a0a0a; cursor: pointer; transition: background .2s; }
+.fedit__swap:hover { background: #f4f1ec; }
+.fedit__swap-plus { display: inline-flex; align-items: center; justify-content: center; flex: none; width: 40px; height: 40px; background: #0a0a0a; color: #fff; font-size: 24px; font-weight: 300; line-height: 1; }
+.fedit__swap b { display: block; font-size: 14px; letter-spacing: .08em; text-transform: uppercase; }
+.fedit__swap small { display: block; font-size: 12.5px; color: #6b6b6b; }
+.has-example-photo .fedit__swap { border-color: #490B1A; box-shadow: inset 0 0 0 1px #490B1A; }
+.has-example-photo .fedit__swap b::before { content: 'Sube tu foto · '; }
+.has-example-photo .fedit__swap b { font-size: 0; } .has-example-photo .fedit__swap b::before { font-size: 14px; content: 'Sube tu foto'; }
