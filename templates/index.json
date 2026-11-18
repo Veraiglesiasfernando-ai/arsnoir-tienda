@@ -298,11 +298,19 @@
             "image": "shopify://shop_images/arsnoir-ambiente-rulo.jpg",
             "product": "retrato-con-nombre"
           }
+        },
+        "w0c": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/arsnoir-ambiente-tu-foto-pareja.jpg",
+            "product": "tu-foto-en-un-cuadro"
+          }
         }
       },
       "block_order": [
         "w0",
         "w0b",
+        "w0c",
         "w1",
         "w2",
         "w3",
