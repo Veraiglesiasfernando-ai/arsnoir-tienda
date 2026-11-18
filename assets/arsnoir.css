@@ -5672,7 +5672,3 @@ html.sgp-open { overflow: hidden; }
 .pmedia__note { display: none !important; }
 /* Hero: what ARSNOIR sells, in one line under the big phrase */
 .vhero__sub { margin: 10px 0 0; max-width: 34ch; font-size: clamp(15px, 1.4vw, 19px); font-weight: 500; line-height: 1.35; color: #fff; text-shadow: 0 1px 12px rgba(0,0,0,.35); }
-/* Home on phones: tighter vertical rhythm between sections */
-@media (max-width: 749px) {
-  main > .shopify-section > section, main > .shopify-section > div > section { padding-top: 40px; padding-bottom: 40px; }
-}
