@@ -16,6 +16,7 @@
     <div class="ppack__panel">
       <p class="ppack__eyebrow">MIXPIX · Tus fotos</p>
       <h1 class="ppack__title">Pack de <span data-ppack-n>2</span> con tus fotos</h1>
+      <div class="ppack__sizes"><a href="?pack=2" data-size="2">Pack de 2</a><a href="?pack=3" data-size="3">Pack de 3</a><a href="?pack=6" data-size="6">Pack de 6</a></div>
       <p class="ppack__price"><b data-ppack-price></b> <span>IVA incluido · Envío 4,95 €, gratis desde 80 €</span></p>
       <p class="ppack__step"><b>1</b> Sube tus fotos <span data-ppack-count></span></p>
       <div class="ppack__slots" data-ppack-slots></div>
@@ -45,13 +46,18 @@
 (function () {
   var root = document.querySelector('[data-ppack]'); if (!root) return;
   var n = parseInt(new URLSearchParams(location.search).get('pack'), 10);
-  if ([2, 3, 6].indexOf(n) < 0) return;
+  if ([2, 3, 6].indexOf(n) < 0) {
+    /* On the normal page, «MIXPIX» opens the pack page (one upload per tile) instead of a single photo */
+    document.addEventListener('click', function (e) { var t = e.target.closest && e.target.closest('.pdc__type[data-type="mixpix"]'); if (!t) return; e.preventDefault(); e.stopImmediatePropagation(); location.href = location.pathname + '?pack=2'; }, true);
+    return;
+  }
   document.documentElement.classList.add('is-photo-pack'); root.hidden = false;
   var $ = function (s) { return root.querySelector(s); };
   var VARS = JSON.parse($('[data-ppack-variants]').textContent || '[]');
   var money = function (c) { return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(c / 100); };
   var files = new Array(n), urls = new Array(n), frame = '-';
   $('[data-ppack-n]').textContent = n;
+  root.querySelectorAll('[data-size]').forEach(function (a) { a.classList.toggle('is-on', +a.dataset.size === n); });
   var wall = $('[data-ppack-wall]'), slots = $('[data-ppack-slots]');
   wall.className = 'ppack__wall ppack__wall--' + n;
   for (var i = 0; i < n; i++) {
@@ -74,7 +80,6 @@
     var s = e.target.closest('[data-slot]'); if (!s || !e.target.files || !e.target.files[0]) return;
     var i = +s.dataset.slot, f = e.target.files[0];
     files[i] = f; if (urls[i]) URL.revokeObjectURL(urls[i]); urls[i] = URL.createObjectURL(f);
-    /* the next empty slot opens on its own for the next photo? no: the customer taps each one */
     sync();
   });
   wall.addEventListener('click', function (e) { var t = e.target.closest('[data-tile]'); if (t) slots.querySelector('[data-slot="' + t.dataset.tile + '"] input').click(); });
