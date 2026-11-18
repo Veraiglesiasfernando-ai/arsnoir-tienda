@@ -5848,3 +5848,6 @@ html.sgp-open { overflow: hidden; }
 @keyframes fmore-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
 @media (prefers-reduced-motion: reduce) { .fintro__more svg { animation: none; } }
 .pstyles { scroll-margin-top: 80px; }
+/* Tu foto: everything (incl. the templates arrow) fits on the first screen */
+.fintro__more { margin-top: 12px; margin-bottom: 4px; }
+@media (min-width: 990px) { .fintro__drop { width: 130px; height: 130px; margin-bottom: 20px; } .fintro__text { margin-bottom: 18px; } .fintro .howto-btn { margin-top: 10px; } }
