@@ -89,9 +89,55 @@
     {%- if bare -%}
       <p class="ppk__price"><b>{{ bare | money }}</b> <span>· sin marco</span>{% if framed %} <span>· con marco {{ framed | money }}</span>{% endif %}</p>
     {%- endif -%}
-    <div class="fcol__actions">
-      <a class="fcol__btn" href="{{ first.url | default: '/collections/personalizalo' }}{% if bare_id %}?variant={{ bare_id }}{% if mx_q != '' %}&{{ mx_q }}{% endif %}{% elsif mx_q != '' %}?{{ mx_q }}{% endif %}">{{ b.button_label | default: 'Crear mi pack' }}</a>
+    {%- comment -%} Choose the styles here: tap to tick (up to N); the button carries them to the product page {%- endcomment -%}
+    <div class="mxch" data-mxch data-n="{{ n }}" data-base="{{ first.url }}{% if bare_id %}?variant={{ bare_id }}{% endif %}">
+      <p class="mxch__title">Elige tus {{ n }} estilos <span data-mxch-count></span></p>
+      <ul class="mxch__list" role="list">
+        {%- liquid
+          assign picked_t = ''
+          for k in (1..n)
+            assign key = 'product_' | append: k
+            if b[key] != blank
+              assign picked_t = picked_t | append: '|' | append: b[key].title | append: '|'
+            endif
+          endfor
+        -%}
+        {%- for p in collections['personalizalo'].products limit: 40 -%}
+          {%- unless p.tags contains 'mascotas' and p.available -%}{%- continue -%}{%- endunless -%}
+          {%- assign tk = '|' | append: p.title | append: '|' -%}
+          <li><button type="button" class="mxch__opt{% if picked_t contains tk %} is-on{% endif %}" data-title="{{ p.title | escape }}" data-url="{{ p.url }}" aria-pressed="{% if picked_t contains tk %}true{% else %}false{% endif %}">
+            {%- if p.featured_media -%}{{ p.featured_media | image_url: width: 160 | image_tag: loading: 'lazy', alt: '' }}{%- endif -%}
+            <span>{{ p.title }}</span>
+          </button></li>
+        {%- endfor -%}
+      </ul>
     </div>
-    <p class="fcol__note">Se pegan a la pared sin clavos y se pueden mover. Eliges los estilos en la ficha, usamos la misma foto para todos y la ves gratis antes de pagar.</p>
+    <div class="fcol__actions">
+      <a class="fcol__btn" data-mxch-go href="{{ first.url | default: '/collections/personalizalo' }}{% if bare_id %}?variant={{ bare_id }}{% if mx_q != '' %}&{{ mx_q }}{% endif %}{% elsif mx_q != '' %}?{{ mx_q }}{% endif %}">{{ b.button_label | default: 'Crear mi pack' }}</a>
+    </div>
+    <p class="fcol__note">Se pegan a la pared sin clavos y se pueden mover. Usamos la misma foto para todos y la ves gratis antes de pagar.</p>
   </div>
 </div>
+<script>
+  (function () {
+    var box = document.currentScript.previousElementSibling.querySelector('[data-mxch]');
+    if (!box || box.dataset.ready) return; box.dataset.ready = '1';
+    var n = +box.dataset.n, panel = box.closest('.mxpk'), go = panel.querySelector('[data-mxch-go]'), art = panel.querySelector('.mxpk__art');
+    var opts = Array.prototype.slice.call(box.querySelectorAll('.mxch__opt'));
+    var order = opts.filter(function (o) { return o.classList.contains('is-on'); }).map(function (o) { return o.dataset.title; });
+    function sync() {
+      opts.forEach(function (o) { var on = order.indexOf(o.dataset.title) > -1; o.classList.toggle('is-on', on); o.setAttribute('aria-pressed', on); o.disabled = !on && order.length >= n; });
+      box.querySelector('[data-mxch-count]').textContent = order.length + '/' + n;
+      var first = opts.find(function (o) { return o.dataset.title === order[0]; });
+      var base = box.dataset.base, q = base.indexOf('?') > -1 ? base.slice(base.indexOf('?')) : '';
+      var url = (first ? first.dataset.url : base.split('?')[0]) + q;
+      if (order.length > 1) url += (q ? '&' : '?') + 'mx=' + encodeURIComponent(order.slice(1).join('|'));
+      go.href = url; if (art) art.href = url;
+      go.classList.toggle('is-off', order.length < n);
+      go.textContent = order.length < n ? 'Elige ' + (n - order.length) + ' estilo' + (n - order.length > 1 ? 's' : '') + ' más' : 'Crear mi pack de ' + n + ' →';
+    }
+    opts.forEach(function (o) { o.addEventListener('click', function () { var i = order.indexOf(o.dataset.title); if (i > -1) order.splice(i, 1); else if (order.length < n) order.push(o.dataset.title); sync(); }); });
+    go.addEventListener('click', function (e) { if (order.length < n) e.preventDefault(); });
+    sync();
+  })();
+</script>

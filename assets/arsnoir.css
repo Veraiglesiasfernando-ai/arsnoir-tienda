@@ -5771,3 +5771,13 @@ html.sgp-open { overflow: hidden; }
 .mxpk--2 .mxpk__tile { --s: 50%; }
 .mxpk--2 .mxpk__tile--1 { --x: 6%; --y: 6%; }
 .mxpk--2 .mxpk__tile--2 { --x: 42%; --y: 40%; }
+/* MIXPIX: choose the pack's styles on the home page */
+.mxch { margin: 6px 0 14px; }
+.mxch__title { margin: 0 0 8px; font-size: 13px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.mxch__title span { color: #490B1A; }
+.mxch__list { display: flex; gap: 8px; margin: 0; padding: 2px 0 6px; list-style: none; overflow-x: auto; scrollbar-width: thin; }
+.mxch__opt { display: flex; flex-direction: column; align-items: center; gap: 4px; width: 78px; padding: 5px; border: 1px solid #ddd8cf; background: #fff; font: inherit; font-size: 10.5px; line-height: 1.2; text-align: center; cursor: pointer; }
+.mxch__opt img { width: 66px; height: 66px; object-fit: cover; }
+.mxch__opt.is-on { border: 2px solid #0a0a0a; padding: 4px; font-weight: 700; }
+.mxch__opt:disabled { opacity: .4; cursor: default; }
+.fcol__btn.is-off { opacity: .55; }
