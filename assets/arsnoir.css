@@ -5697,3 +5697,5 @@ html.sgp-open { overflow: hidden; }
 .pmore__name { font-size: 14px; font-weight: 700; }
 .pmore__go { font-size: 12.5px; color: #490B1A; font-weight: 600; }
 @media (max-width: 989px) { .pmore__grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; } .pmore__grid li { flex: 0 0 40vw; scroll-snap-align: start; } }
+/* Handwritten caption sits optically centred in the bottom margin (the script font rides high) */
+.pstyles__frame:not(.pstyles__frame--sin) .pstyles__cap--manuscrita { line-height: 1; padding-top: .45em; }
