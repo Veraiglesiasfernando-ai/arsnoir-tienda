@@ -95,7 +95,7 @@
       <button type="button" class="mxch__x" data-mxch-close aria-label="Cerrar">✕</button>
       <p class="mxch__eyebrow">MIXPIX · Pack de {{ n }}</p>
       <p class="mxch__title">Elige tus {{ n }} estilos <span data-mxch-count></span></p>
-      <p class="mxch__sub">Usamos la misma foto para todos. Después subes tu foto y los ves gratis antes de pagar.</p>
+      <p class="mxch__sub">Usamos la misma foto para todos. Puedes meter también tu foto tal cual, sin ilustración. Después la subes y lo ves gratis antes de pagar.</p>
       <ul class="mxch__list" role="list">
         {%- liquid
           assign picked_t = ''
@@ -106,6 +106,10 @@
             endif
           endfor
         -%}
+        <li><button type="button" class="mxch__opt mxch__opt--photo" data-title="Tu foto, sin ilustración" data-photo="1" aria-pressed="false">
+          <span class="mxch__ph"><span>+</span>Tu foto tal cual</span>
+          <span>Tu foto, sin ilustración</span>
+        </button></li>
         {%- for p in collections['personalizalo'].products limit: 40 -%}
           {%- unless p.tags contains 'mascotas' and p.available -%}{%- continue -%}{%- endunless -%}
           {%- assign tk = '|' | append: p.title | append: '|' -%}
@@ -137,16 +141,20 @@
     function sync() {
       opts.forEach(function (o) { var on = order.indexOf(o.dataset.title) > -1; o.classList.toggle('is-on', on); o.setAttribute('aria-pressed', on); o.disabled = !on && order.length >= n; });
       box.querySelector('[data-mxch-count]').textContent = order.length + '/' + n;
-      var first = opts.find(function (o) { return o.dataset.title === order[0]; });
+      /* the product page is an illustration's: the first illustrated style leads, «Tu foto» goes with the others */
+      var ill = order.filter(function (t) { return t !== 'Tu foto, sin ilustración'; });
+      var rest = order.filter(function (t) { return t !== ill[0]; });
+      var first = opts.find(function (o) { return o.dataset.title === ill[0]; });
       var base = box.dataset.base, q = base.indexOf('?') > -1 ? base.slice(base.indexOf('?')) : '';
       var url = (first ? first.dataset.url : base.split('?')[0]) + q;
-      if (order.length > 1) url += (q ? '&' : '?') + 'mx=' + encodeURIComponent(order.slice(1).join('|'));
+      if (rest.length) url += (q ? '&' : '?') + 'mx=' + encodeURIComponent(rest.join('|'));
       next.href = url + '#subir';
-      next.classList.toggle('is-off', order.length < n);
-      next.textContent = order.length < n ? 'Elige ' + (n - order.length) + ' estilo' + (n - order.length > 1 ? 's' : '') + ' más' : 'Continuar · sube tu foto →';
+      var bad = order.length < n || !ill.length;
+      next.classList.toggle('is-off', bad);
+      next.textContent = (order.length >= n && !ill.length) ? 'Elige al menos 1 ilustración' : order.length < n ? 'Elige ' + (n - order.length) + ' estilo' + (n - order.length > 1 ? 's' : '') + ' más' : 'Continuar · sube tu foto →';
     }
     opts.forEach(function (o) { o.addEventListener('click', function () { var i = order.indexOf(o.dataset.title); if (i > -1) order.splice(i, 1); else if (order.length < n) order.push(o.dataset.title); sync(); }); });
-    next.addEventListener('click', function (e) { if (order.length < n) e.preventDefault(); });
+    next.addEventListener('click', function (e) { if (next.classList.contains('is-off')) e.preventDefault(); });
     var open = function (e) { e.preventDefault(); box.hidden = false; document.documentElement.style.overflow = 'hidden'; };
     var close = function () { box.hidden = true; document.documentElement.style.overflow = ''; };
     go.addEventListener('click', open); if (art) art.addEventListener('click', open);

@@ -5790,3 +5790,7 @@ html.sgp-open { overflow: hidden; }
 .mxch__go.is-off { background: #9a9590; pointer-events: auto; }
 @media (max-width: 749px) { .mxch { padding: 0; align-items: flex-end; } .mxch__box { max-height: 92svh; } .mxch__list { grid-template-columns: repeat(3, 1fr); gap: 8px; } }
 .tstudio { scroll-margin-top: 90px; }
+/* «Tu foto, sin ilustración» in MIXPIX packs */
+.mxch__ph { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; width: 100%; aspect-ratio: 1; background: #efe9df; border: 1px dashed #b9b0a2; font-size: 12px; font-weight: 600; color: #4a4036; }
+.mxch__ph span { font-size: 34px; font-weight: 200; line-height: 1; }
+.mxp__ph { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border: 1px dashed #b9b0a2; background: #efe9df; font-size: 22px; font-weight: 200; }
