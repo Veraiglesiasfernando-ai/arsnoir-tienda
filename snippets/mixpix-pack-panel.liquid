@@ -101,8 +101,10 @@
           assign picked_t = ''
           for k in (1..n)
             assign key = 'product_' | append: k
-            if b[key] != blank
-              assign picked_t = picked_t | append: '|' | append: b[key].title | append: '|'
+            assign pp = b[key]
+            if pp != blank
+              assign pt = pp.title
+              assign picked_t = picked_t | append: '|' | append: pt | append: '|'
             endif
           endfor
         -%}
