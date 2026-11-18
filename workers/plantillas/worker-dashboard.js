@@ -206,9 +206,9 @@ const TEMPLATES = {
     prompt:
       'The first image is the customer\'s photo: these are the only people (and pets) to draw. The second image is the style to copy exactly; none of its people, faces, glasses, clothes or poses may appear. ' +
       'Redraw the whole picture from scratch as a hand-made COLOURED-PENCIL DRAWING exactly like the second image: every surface, including faces, skin, hair and clothes, is made of clearly visible coloured-pencil strokes and diagonal hatching on rough textured white paper, with the paper grain showing through. ' +
-      'Nothing may look photographic: no photo pixels, no smooth photo skin, no photo lighting, no camera blur. Warm, saturated, slightly exaggerated pencil colours, as in the second image. ' +
-      'Background: replace everything behind the people with a bright blue sky made of dense diagonal blue pencil strokes, a few white clouds, and green and yellow pencil trees along the bottom, exactly like the second image. Leave out sofas, walls, furniture and any object from the photo. ' +
-      'Framing: crop to the people from about the waist or chest up, large and centred, like the second image, even if the photo shows more of their body. ' +
+      'Nothing may look photographic: no photo pixels, no smooth photo skin, no photo lighting, no camera blur. Keep the real colours of the photo, drawn with warm saturated pencil, as in the second image. ' +
+      'Background: keep the real background of the photo, the same place, objects and colours, but redrawn in coloured pencil too. Do not add a sky, clouds, trees or anything that is not in the photo, and do not take the second image\'s blue sky. ' +
+      'Framing: keep the same framing and composition as the photo. ' +
       'Keep the people recognisable: same face shape, expression, hairstyle, hair colour and length, beard, caps or hats, and the same clothes and colours as in the photo. Draw glasses, jewellery or watches only if that person wears them in the photo; never add any. Never invent people or animals. ' +
       'No text, no logos, no border. Vertical 3:4.'
   },
