@@ -136,12 +136,12 @@
     if (!box || box.dataset.ready) return; box.dataset.ready = '1';
     var n = +box.dataset.n, panel = box.closest('.mxpk'), go = panel.querySelector('[data-mxch-go]'), art = panel.querySelector('.mxpk__art');
     var opts = Array.prototype.slice.call(box.querySelectorAll('.mxch__opt'));
-    var order = opts.filter(function (o) { return o.classList.contains('is-on'); }).map(function (o) { return o.dataset.title; });
+    var order = []; /* the panel opens empty: the customer picks the styles they want */
     document.body.appendChild(box); /* outside the tabs, so the panel covers the whole screen */
     var next = box.querySelector('[data-mxch-next]');
     var label = go.textContent;
     function sync() {
-      opts.forEach(function (o) { var on = order.indexOf(o.dataset.title) > -1; o.classList.toggle('is-on', on); o.setAttribute('aria-pressed', on); o.disabled = !on && order.length >= n; });
+      opts.forEach(function (o) { var on = order.indexOf(o.dataset.title) > -1; o.classList.toggle('is-on', on); o.setAttribute('aria-pressed', on);  });
       box.querySelector('[data-mxch-count]').textContent = order.length + '/' + n;
       /* the product page is an illustration's: the first illustrated style leads, «Tu foto» goes with the others */
       var ill = order.filter(function (t) { return t !== 'Tu foto, sin ilustración'; });
@@ -155,7 +155,7 @@
       next.classList.toggle('is-off', bad);
       next.textContent = (order.length >= n && !ill.length) ? 'Elige al menos 1 ilustración' : order.length < n ? 'Elige ' + (n - order.length) + ' estilo' + (n - order.length > 1 ? 's' : '') + ' más' : 'Continuar · sube tu foto →';
     }
-    opts.forEach(function (o) { o.addEventListener('click', function () { var i = order.indexOf(o.dataset.title); if (i > -1) order.splice(i, 1); else if (order.length < n) order.push(o.dataset.title); sync(); }); });
+    opts.forEach(function (o) { o.addEventListener('click', function () { var i = order.indexOf(o.dataset.title); if (i > -1) order.splice(i, 1); else { if (order.length >= n) order.shift(); order.push(o.dataset.title); } sync(); }); });
     next.addEventListener('click', function (e) { if (next.classList.contains('is-off')) e.preventDefault(); });
     var open = function (e) { e.preventDefault(); box.hidden = false; document.documentElement.style.overflow = 'hidden'; };
     var close = function () { box.hidden = true; document.documentElement.style.overflow = ''; };
