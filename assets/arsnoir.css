@@ -5842,3 +5842,9 @@ html.sgp-open { overflow: hidden; }
 .ppack__sizes { display: flex; gap: 8px; margin-top: 12px; }
 .ppack__sizes a { padding: 8px 14px; border: 1px solid #0a0a0a; border-radius: 999px; font-size: 13.5px; font-weight: 600; color: #0a0a0a; text-decoration: none; }
 .ppack__sizes a.is-on { background: #0a0a0a; color: #fff; }
+/* Tu foto: arrow down to the templates (Estilos) */
+.fintro__more { display: inline-flex; flex-direction: column; align-items: center; gap: 4px; margin-top: 18px; color: #490B1A; font-size: 13px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; text-decoration: none; }
+.fintro__more svg { animation: fmore-bob 1.6s ease-in-out infinite; }
+@keyframes fmore-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+@media (prefers-reduced-motion: reduce) { .fintro__more svg { animation: none; } }
+.pstyles { scroll-margin-top: 80px; }
