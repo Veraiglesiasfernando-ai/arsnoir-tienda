@@ -284,9 +284,17 @@
             "image": "shopify://shop_images/rose-dormitorio.jpg",
             "product": "rose"
           }
+        },
+        "w0": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/arsnoir-ambiente-salon-lapices.jpg",
+            "product": "retrato-a-lapices-de-colores"
+          }
         }
       },
       "block_order": [
+        "w0",
         "w1",
         "w2",
         "w3",
