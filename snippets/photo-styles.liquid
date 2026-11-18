@@ -9,8 +9,9 @@
   assign ex2 = product.media[2] | image_url: width: 600
   assign ex3 = 'arsnoir-estilo-veranos-contigo.jpg' | file_img_url: '600x'
   assign ex4 = 'arsnoir-estilo-mejores-amigos.jpg' | file_img_url: '600x'
+  assign ex5 = 'arsnoir-estilo-te-quiero-papa.jpg' | file_img_url: '600x'
   # name | border (blanco, negro, arena, sin) | filter | text | lettering | colour | position | example
-  assign looks = 'Minimalista|blanco|Original|Nuestro gran día · 2026|Clásica|Negro|Abajo|1;Contraste|negro|Blanco y negro|Un futuro brillante|Clásica|Blanco|Abajo|1;Paseo|blanco|Cálido|Te quiero, papá|Moderna|Negro|Abajo|2;Arena|arena|Suave|Mejores amigos|Manuscrita|Granate|Abajo|4;Blanco y negro|blanco|Blanco y negro|Veranos contigo|Moderna|Negro|Abajo|3;A sangre|sin|Intenso|Verano 2026|Manuscrita|Blanco|Abajo|2' | split: ';'
+  assign looks = 'Minimalista|blanco|Original|Nuestro gran día · 2026|Clásica|Negro|Abajo|1;Contraste|negro|Blanco y negro|Un futuro brillante|Clásica|Blanco|Abajo|1;Paseo|blanco|Cálido|Te quiero, papá|Moderna|Negro|Abajo|5;Arena|arena|Suave|Mejores amigos|Manuscrita|Granate|Abajo|4;Blanco y negro|blanco|Blanco y negro|Veranos contigo|Moderna|Negro|Abajo|3;A sangre|sin|Intenso|Verano 2026|Manuscrita|Blanco|Abajo|2' | split: ';'
 -%}
 <section class="pstyles" id="Estilos" data-pstyles>
   <div class="page-width">
@@ -25,7 +26,7 @@
     <ul class="pstyles__grid" role="list">
       {%- for l in looks -%}
         {%- assign f = l | split: '|' -%}
-        {%- if f[7] == '1' -%}{%- assign ex = ex1 -%}{%- elsif f[7] == '3' -%}{%- assign ex = ex3 -%}{%- elsif f[7] == '4' -%}{%- assign ex = ex4 -%}{%- else -%}{%- assign ex = ex2 -%}{%- endif -%}
+        {%- if f[7] == '1' -%}{%- assign ex = ex1 -%}{%- elsif f[7] == '3' -%}{%- assign ex = ex3 -%}{%- elsif f[7] == '4' -%}{%- assign ex = ex4 -%}{%- elsif f[7] == '5' -%}{%- assign ex = ex5 -%}{%- else -%}{%- assign ex = ex2 -%}{%- endif -%}
         <li>
           <button type="button" class="pstyles__card" data-look="{{ f[0] | escape }}" data-border="{{ f[1] }}" data-filter="{{ f[2] | escape }}" data-text="{{ f[3] | escape }}" data-font="{{ f[4] }}" data-color="{{ f[5] }}" data-pos="{{ f[6] }}">
             <span class="pstyles__frame pstyles__frame--{{ f[1] }}">
