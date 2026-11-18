@@ -5668,3 +5668,5 @@ html.sgp-open { overflow: hidden; }
 .pzstrip__list li { overflow: visible; }
 .pzstrip__item { padding-top: 4px; }
 .pzstrip__item.is-current img { border: 0; outline: 2px solid #490B1A; outline-offset: 2px; transform: none; }
+/* No «La foto muestra el marco negro · Tu elección…» note on the gallery photo */
+.pmedia__note { display: none !important; }
