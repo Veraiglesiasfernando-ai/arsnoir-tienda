@@ -204,13 +204,13 @@ const TEMPLATES = {
     aspectRatio: '3:4',
     reference: 'https://cdn.shopify.com/s/files/1/1020/8903/2064/files/estilo-lapices-color.jpg',
     prompt:
-      'The first image is the customer\'s photo: these are the only people (and pets) to draw. The second image only shows the style: none of its people, faces, hairstyles, beards, glasses, clothes or background may appear. ' +
-      'Draw a brand-new portrait of the people from the first image in the style of the second image: a vivid hand-drawn coloured-pencil drawing on textured paper, with visible diagonal pencil strokes and hatching, warm natural skin tones and rich saturated colours. ' +
-      'Background: a bright blue sky drawn with dense diagonal pencil strokes, a few soft white clouds, and green and yellow trees and foliage along the bottom, all in coloured pencil. ' +
-      'Keep the composition of the photo: the same people in the same pose and positions, from about the waist up, centred, filling most of the picture. ' +
-      'They must be instantly recognisable: each person\'s real face shape, expression, hairstyle, hair colour and length, beard or stubble exactly as in the photo, and their clothes and patterns. ' +
-      'Draw glasses, jewellery, watches or other accessories only if that person wears them in the photo; never add any. Draw exactly the same people and animals as in the photo: never invent anyone. Replace the photo background with the pencil sky and trees. ' +
-      'It must look hand-drawn with coloured pencils, never like a filtered photo. No text, no logos, no border. Vertical 3:4.'
+      'The first image is the customer\'s photo: these are the only people (and pets) to draw. The second image is the style to copy exactly; none of its people, faces, glasses, clothes or poses may appear. ' +
+      'Redraw the whole picture from scratch as a hand-made COLOURED-PENCIL DRAWING exactly like the second image: every surface, including faces, skin, hair and clothes, is made of clearly visible coloured-pencil strokes and diagonal hatching on rough textured white paper, with the paper grain showing through. ' +
+      'Nothing may look photographic: no photo pixels, no smooth photo skin, no photo lighting, no camera blur. Warm, saturated, slightly exaggerated pencil colours, as in the second image. ' +
+      'Background: replace everything behind the people with a bright blue sky made of dense diagonal blue pencil strokes, a few white clouds, and green and yellow pencil trees along the bottom, exactly like the second image. Leave out sofas, walls, furniture and any object from the photo. ' +
+      'Framing: crop to the people from about the waist or chest up, large and centred, like the second image, even if the photo shows more of their body. ' +
+      'Keep the people recognisable: same face shape, expression, hairstyle, hair colour and length, beard, caps or hats, and the same clothes and colours as in the photo. Draw glasses, jewellery or watches only if that person wears them in the photo; never add any. Never invent people or animals. ' +
+      'No text, no logos, no border. Vertical 3:4.'
   },
   'retrato-glam': {
     needsName: true,
