@@ -7,10 +7,19 @@
     "recent": {
       "type": "recently-viewed",
       "settings": {}
+    },
+    "reviews": {
+      "type": "reviews",
+      "settings": {
+        "eyebrow": "OPINIONES",
+        "heading": "Opiniones de los clientes",
+        "judgeme": true
+      }
     }
   },
   "order": [
     "main",
+    "reviews",
     "recent"
   ]
 }
