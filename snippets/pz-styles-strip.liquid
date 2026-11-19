@@ -35,9 +35,9 @@
       <li>
         <a class="pzstrip__item{% if p.handle == product.handle %} is-current{% endif %}" href="{{ p.url }}"{% if p.handle == product.handle %} aria-current="page"{% endif %}>
           {%- if img_ok -%}
-            {{ img | image_url: width: 160 | image_tag: loading: 'lazy', width: 80, height: 100, alt: '' }}
+            {{ img | image_url: width: 800 | image_tag: loading: 'lazy', widths: '300, 500, 800', sizes: '(min-width: 990px) 120px, 34vw', alt: '' }}
           {%- elsif p.featured_media -%}
-            {{ p.featured_media | image_url: width: 160 | image_tag: loading: 'lazy', width: 80, height: 100, alt: '' }}
+            {{ p.featured_media | image_url: width: 800 | image_tag: loading: 'lazy', widths: '300, 500, 800', sizes: '(min-width: 990px) 120px, 34vw', alt: '' }}
           {%- endif -%}
           <span>{{ p.title }}</span>
         </a>

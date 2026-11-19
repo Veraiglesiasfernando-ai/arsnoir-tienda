@@ -5886,3 +5886,6 @@ html.rvm-lock { overflow: hidden; }
 .mq.is-few .mq__track { animation: none !important; margin: 0 auto; }
 .mq.is-few .mq__set { padding-right: 0; }
 .mq.is-few .mq__tile { scroll-snap-align: center; }
+/* Otros estilos: sharp images, a bit smaller on phones */
+@media (max-width: 749px) { .pzstrip__list li { flex-basis: 34vw; } }
+.pzstrip__item img { border-radius: 10px; }
