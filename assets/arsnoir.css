@@ -5880,3 +5880,9 @@ html.rvm-lock { overflow: hidden; }
 .mq__write--btn { align-self: flex-start; margin-top: 2px; font-size: 13px; padding: 7px 12px; border-radius: 999px; background: #490B1A; color: #fff; text-decoration: none; }
 @media (hover: none) { .mq__tile:hover { transform: none; box-shadow: 0 2px 10px rgba(0,0,0,.06); } }
 .mq__tile { transition: box-shadow .35s ease; }
+/* Tu pared with few tiles: each one once, no endless loop */
+.mq.is-few { overflow-x: auto; scrollbar-width: none; -webkit-mask-image: none; mask-image: none; scroll-snap-type: x mandatory; padding-left: 16px; padding-right: 16px; }
+.mq.is-few::-webkit-scrollbar { display: none; }
+.mq.is-few .mq__track { animation: none !important; margin: 0 auto; }
+.mq.is-few .mq__set { padding-right: 0; }
+.mq.is-few .mq__tile { scroll-snap-align: center; }

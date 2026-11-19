@@ -91,7 +91,7 @@
   <div class="mq" style="--mq-n: {{ section.blocks.size | at_least: 1 }}; --mq-speed: {{ s.speed | default: 40 }}s;">
     <div class="mq__track">
       <div class="mq__set">{{ tiles }}</div>
-      <div class="mq__set" aria-hidden="true" data-mq-copy>{{ tiles }}</div>
+      {%- if section.blocks.size > 4 -%}<div class="mq__set" aria-hidden="true" data-mq-copy>{{ tiles }}</div>{%- endif -%}
     </div>
   </div>
 
@@ -171,6 +171,7 @@
     /* The row slides on its own, and the customer can always move it: finger, trackpad, wheel or mouse drag.
        Any touch pauses the slide for a few seconds; the copy of the tiles makes it endless */
     var mq = root.querySelector('.mq');
+    if (mq && !mq.querySelector('[data-mq-copy]')) { mq.classList.add('is-few'); mq = null; }
     if (mq) {
       mq.classList.add('is-js');
       var set = mq.querySelector('.mq__set'), hold = 0, dragging = false, moved = 0, sx = 0, sl = 0, last = 0;
