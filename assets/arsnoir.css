@@ -5851,3 +5851,9 @@ html.sgp-open { overflow: hidden; }
 /* Tu foto: everything (incl. the templates arrow) fits on the first screen */
 .fintro__more { margin-top: 12px; margin-bottom: 4px; }
 @media (min-width: 990px) { .fintro__drop { width: 130px; height: 130px; margin-bottom: 20px; } .fintro__text { margin-bottom: 18px; } .fintro .howto-btn { margin-top: 10px; } }
+/* Reviews: link to Judge.me's own widget; styles strip without stretched fallback images */
+.rvc__write-link { display: inline-block; font-weight: 700; color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+.app-reviews { padding: 8px 0 40px; }
+.app-reviews__inner { max-width: 900px; }
+.pzstrip__list li { overflow: hidden; }
+.pzstrip__item img { transform: none !important; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; }

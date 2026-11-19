@@ -80,10 +80,7 @@
       </div>
     </div>
     {%- if product != blank -%}
-      <details class="rvc__write">
-        <summary>{% if count > 0 %}Ver todas las opiniones o escribir la tuya{% else %}Escribir una opinión{% endif %}</summary>
-        <div id="judgeme_product_reviews" class="jdgm-widget jdgm-review-widget" data-id="{{ product.id }}">{{ product.metafields.judgeme.widget }}</div>
-      </details>
+      <div class="rvc__write"><a class="rvc__write-link" href="#EscribirOpinion">{% if count > 0 %}Ver todas las opiniones o escribir la tuya{% else %}Escribir una opinión{% endif %}</a></div>
     {%- endif -%}
   </div>
 </section>

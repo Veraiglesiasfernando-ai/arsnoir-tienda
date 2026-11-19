@@ -1,0 +1,12 @@
+{%- comment -%}
+  Judge.me's own review widget (app block), so customers can always write a review: the old
+  metafield widget is no longer filled by Judge.me. «Escribir una opinión» above links here.
+{%- endcomment -%}
+<section class="section app-reviews" id="EscribirOpinion">
+  <div class="page-width app-reviews__inner">
+    {%- for block in section.blocks -%}{% render block %}{%- endfor -%}
+  </div>
+</section>
+{% schema %}
+{ "name": "Opiniones (Judge.me)", "blocks": [{ "type": "@app" }], "presets": [{ "name": "Opiniones (Judge.me)" }] }
+{% endschema %}

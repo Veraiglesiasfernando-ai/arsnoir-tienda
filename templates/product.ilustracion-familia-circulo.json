@@ -1,6 +1,3 @@
-/*
- * Personalízalo · Familia en acuarela (template-studio, plantilla «familia-acuarela» del worker)
- */
 {
   "sections": {
     "main": {
@@ -101,10 +98,24 @@
         "heading": "Lo que dicen nuestros clientes",
         "judgeme": true
       }
+    },
+    "jdgm": {
+      "type": "app-reviews",
+      "blocks": {
+        "jdgm_widget": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "jdgm_widget"
+      ],
+      "settings": {}
     }
   },
   "order": [
     "main",
-    "reviews"
+    "reviews",
+    "jdgm"
   ]
 }
