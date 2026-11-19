@@ -52,8 +52,23 @@
             <span class="mq__who">{% if sample %}{{ sample_names[si] }} · EJEMPLO{% else %}{{ b.author }}{% endif %}</span>
             <span class="mq__prod">{{ label }}</span>
           {%- else -%}
-            <span class="mq__stars mq__stars--none" aria-hidden="true">★★★★★</span>
-            <span class="mq__quote mq__quote--muted">Aún sin reseñas.</span>{%- if p != blank -%}<span class="mq__write" role="link" tabindex="0" data-wst-write="{{ p.url }}?opinar=1">Escribir una reseña →</span>{%- endif -%}
+            {%- liquid
+              assign rc = p.metafields.reviews.rating_count.value | default: 0
+              assign rv = p.metafields.reviews.rating.value.rating | default: 0 | round
+              assign rd = p.metafields.judgeme.review_widget_data.value
+              assign rq = ''
+              if rd.reviews and rd.reviews.size > 0
+                assign rq = rd.reviews[0].body
+              endif
+            -%}
+            {%- if rc > 0 -%}
+              <span class="mq__stars" aria-label="{{ rv }} de 5">{% for i in (1..5) %}<span{% if i > rv %} class="is-off"{% endif %}>★</span>{% endfor %}</span>
+              {%- if rq != blank -%}<span class="mq__quote">«{{ rq | escape | truncate: 110 }}»</span>{%- endif -%}
+              <span class="mq__meta">{{ rc }} {% if rc == 1 %}opinión{% else %}opiniones{% endif %}{% if p != blank %} · <span class="mq__write" role="link" tabindex="0" data-wst-write="{{ p.url }}?opinar=1">Opinar</span>{% endif %}</span>
+            {%- else -%}
+              <span class="mq__stars mq__stars--none" aria-hidden="true">★★★★★</span>
+              <span class="mq__meta">Aún sin reseñas{% if p != blank %} · <span class="mq__write" role="link" tabindex="0" data-wst-write="{{ p.url }}?opinar=1">Escribir la primera</span>{% endif %}</span>
+            {%- endif -%}
             <span class="mq__name">{{ label }}</span>
             {%- if p != blank -%}<span class="mq__price">{{ 'general.print_from' | t }} {{ p.price_min | money }}</span>{%- endif -%}
           {%- endif -%}

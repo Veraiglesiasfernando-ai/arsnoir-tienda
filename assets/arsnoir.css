@@ -5857,7 +5857,8 @@ html.sgp-open { overflow: hidden; }
 .app-reviews__inner { max-width: 900px; }
 .pzstrip__list li { overflow: hidden; }
 .pzstrip__item img { transform: none !important; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; }
-.mq__write { display: inline-block; margin: 2px 0 6px; font-weight: 700; color: #490B1A; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.mq__meta { font-size: 13px; line-height: 1.4; color: var(--color-muted, #6b6b6b); }
+.mq__write { font: inherit; font-weight: 700; color: #490B1A; text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
 /* Review popup (Judge.me form inside) */
 .app-reviews { display: none; }
 .rvm { position: fixed; inset: 0; z-index: 1000; display: flex; align-items: flex-end; justify-content: center; background: rgba(10,10,10,.55); }
