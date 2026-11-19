@@ -5858,3 +5858,16 @@ html.sgp-open { overflow: hidden; }
 .pzstrip__list li { overflow: hidden; }
 .pzstrip__item img { transform: none !important; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; }
 .mq__write { display: inline-block; margin: 2px 0 6px; font-weight: 700; color: #490B1A; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+/* Review popup (Judge.me form inside) */
+.app-reviews { display: none; }
+.rvm { position: fixed; inset: 0; z-index: 1000; display: flex; align-items: flex-end; justify-content: center; background: rgba(10,10,10,.55); }
+.rvm[hidden] { display: none; }
+.rvm__card { position: relative; width: 100%; max-width: 560px; max-height: 92vh; overflow: auto; background: #fff; border-radius: 20px 20px 0 0; padding: 28px 20px 24px; box-shadow: 0 -10px 40px rgba(0,0,0,.25); }
+@media (min-width: 750px) { .rvm { align-items: center; } .rvm__card { border-radius: 20px; padding: 34px 32px 28px; } }
+.rvm__close { position: absolute; top: 12px; right: 12px; width: 38px; height: 38px; border-radius: 50%; border: 0; background: #F1EFEC; font-size: 16px; cursor: pointer; }
+.rvm__eyebrow { margin: 0 0 6px; font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: #490B1A; font-weight: 700; }
+.rvm__title { margin: 0 0 6px; font-size: 24px; font-weight: 800; letter-spacing: -.02em; }
+.rvm__sub { margin: 0 0 16px; color: #6b6b6b; font-size: 14px; }
+.rvm__body .jdgm-rev-widg__header > *:not(.jdgm-form-wrapper):not(.jdgm-rev-widg__summary) { }
+.rvm__body .jdgm-rev-widg__title, .rvm__body .jdgm-rev-widg__summary, .rvm__body .jdgm-rev-widg__sort-wrapper, .rvm__body .jdgm-rev-widg__body { display: none !important; }
+html.rvm-lock { overflow: hidden; }
