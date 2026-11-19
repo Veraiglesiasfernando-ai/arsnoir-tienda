@@ -5872,3 +5872,11 @@ html.sgp-open { overflow: hidden; }
 .rvm__body .jdgm-rev-widg__header > *:not(.jdgm-form-wrapper):not(.jdgm-rev-widg__summary) { }
 .rvm__body .jdgm-rev-widg__title, .rvm__body .jdgm-rev-widg__summary, .rvm__body .jdgm-rev-widg__sort-wrapper, .rvm__body .jdgm-rev-widg__body { display: none !important; }
 html.rvm-lock { overflow: hidden; }
+/* Tu pared: real review card, no clipping; no sticky hover jumps on touch */
+.mq__bubble:has(.mq__rv) { flex-basis: auto; height: auto; min-height: 158px; }
+.mq__rv { display: flex; flex-direction: column; gap: 6px; }
+.mq__stars--big { font-size: 19px; color: #0a0a0a; letter-spacing: 2px; }
+.mq__quote--rv { -webkit-line-clamp: 4; font-size: 14px; color: #0a0a0a; font-style: italic; }
+.mq__write--btn { align-self: flex-start; margin-top: 2px; font-size: 13px; padding: 7px 12px; border-radius: 999px; background: #490B1A; color: #fff; text-decoration: none; }
+@media (hover: none) { .mq__tile:hover { transform: none; box-shadow: 0 2px 10px rgba(0,0,0,.06); } }
+.mq__tile { transition: box-shadow .35s ease; }

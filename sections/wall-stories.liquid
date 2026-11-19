@@ -62,9 +62,21 @@
               endif
             -%}
             {%- if rc > 0 -%}
-              <span class="mq__stars" aria-label="{{ rv }} de 5">{% for i in (1..5) %}<span{% if i > rv %} class="is-off"{% endif %}>★</span>{% endfor %}</span>
-              {%- if rq != blank -%}<span class="mq__quote">«{{ rq | escape | truncate: 110 }}»</span>{%- endif -%}
-              <span class="mq__meta">{{ rc }} {% if rc == 1 %}opinión{% else %}opiniones{% endif %}{% if p != blank %} · <span class="mq__write" role="link" tabindex="0" data-wst-write="{{ p.url }}?opinar=1">Opinar</span>{% endif %}</span>
+              {%- liquid
+                assign rn = ''
+                if rd.reviews and rd.reviews.size > 0
+                  assign rn = rd.reviews[0].reviewer_name
+                endif
+                if rn == blank or rn == 'Anonymous'
+                  assign rn = 'Cliente'
+                endif
+              -%}
+              <span class="mq__rv">
+                <span class="mq__stars mq__stars--big" aria-label="{{ rv }} de 5">{% for i in (1..5) %}<span{% if i > rv %} class="is-off"{% endif %}>★</span>{% endfor %}</span>
+                {%- if rq != blank -%}<span class="mq__quote mq__quote--rv">«{{ rq | escape }}»</span>{%- endif -%}
+                <span class="mq__meta"><b>{{ rn | escape }}</b> · opinión en Judge.me</span>
+                <span class="mq__write mq__write--btn" role="link" tabindex="0" data-wst-write="{{ p.url }}#Reviews">Ver {% if rc == 1 %}la opinión{% else %}las {{ rc }} opiniones{% endif %} →</span>
+              </span>
             {%- else -%}
               <span class="mq__stars mq__stars--none" aria-hidden="true">★★★★★</span>
               <span class="mq__meta">Aún sin reseñas{% if p != blank %} · <span class="mq__write" role="link" tabindex="0" data-wst-write="{{ p.url }}?opinar=1">Escribir la primera</span>{% endif %}</span>
@@ -163,16 +175,22 @@
       mq.classList.add('is-js');
       var set = mq.querySelector('.mq__set'), hold = 0, dragging = false, moved = 0, sx = 0, sl = 0, last = 0;
       var speed = 0.35; /* px per frame */
-      var wrap = function () { var w = set.getBoundingClientRect().width; if (w && mq.scrollLeft >= w) mq.scrollLeft -= w; else if (mq.scrollLeft <= 0) mq.scrollLeft += w; };
+      var pos = mq.scrollLeft;
+      var wrap = function () { var w = set.getBoundingClientRect().width; if (!w) return; if (pos >= w) { pos -= w; mq.scrollLeft = Math.round(pos); } else if (pos <= 0) { pos += w; mq.scrollLeft = Math.round(pos); } };
       var pause = function (ms) { hold = Date.now() + (ms || 3500); };
       var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      (function tick() { if (!reduce && !dragging && Date.now() > hold) { mq.scrollLeft += speed; } wrap(); requestAnimationFrame(tick); })();
+      (function tick() {
+        /* our own float position (iPhone rounds scrollLeft, which made the row stutter) */
+        if (Math.abs(mq.scrollLeft - Math.round(pos)) > 2) { pos = mq.scrollLeft; pause(2500); }
+        if (!reduce && !dragging && Date.now() > hold) { pos += speed; mq.scrollLeft = Math.round(pos); }
+        wrap(); requestAnimationFrame(tick);
+      })();
       mq.addEventListener('mouseenter', function () { pause(600000); });
       mq.addEventListener('mouseleave', function () { pause(1200); });
       ['touchstart', 'wheel'].forEach(function (ev) { mq.addEventListener(ev, function () { pause(); }, { passive: true }); });
       mq.addEventListener('scroll', function () { if (dragging) return; }, { passive: true });
       mq.addEventListener('pointerdown', function (e) { if (e.pointerType !== 'mouse') return; dragging = true; moved = 0; sx = e.clientX; sl = mq.scrollLeft; mq.classList.add('is-drag'); });
-      window.addEventListener('pointermove', function (e) { if (!dragging) return; moved = Math.max(moved, Math.abs(e.clientX - sx)); mq.scrollLeft = sl - (e.clientX - sx); });
+      window.addEventListener('pointermove', function (e) { if (!dragging) return; moved = Math.max(moved, Math.abs(e.clientX - sx)); mq.scrollLeft = sl - (e.clientX - sx); pos = mq.scrollLeft; });
       window.addEventListener('pointerup', function () { if (!dragging) return; dragging = false; mq.classList.remove('is-drag'); pause(); });
       /* a drag is not a click on a photo */
       mq.addEventListener('click', function (e) { if (moved > 6) { e.preventDefault(); e.stopPropagation(); moved = 0; } }, true);
