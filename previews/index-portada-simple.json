@@ -243,48 +243,6 @@
     "walls": {
       "type": "wall-stories",
       "blocks": {
-        "w1": {
-          "type": "photo",
-          "settings": {
-            "image": "shopify://shop_images/rose-salon.jpg",
-            "product": "rose"
-          }
-        },
-        "w2": {
-          "type": "photo",
-          "settings": {
-            "image": "shopify://shop_images/retrato-comic-salon.jpg",
-            "product": "retrato-comic"
-          }
-        },
-        "w3": {
-          "type": "photo",
-          "settings": {
-            "image": "shopify://shop_images/arsnoir-room-dormitorio.jpg",
-            "product": "blue-corner-1"
-          }
-        },
-        "w4": {
-          "type": "photo",
-          "settings": {
-            "image": "shopify://shop_images/retrato-glam-dormitorio.jpg",
-            "product": "retrato-glam"
-          }
-        },
-        "w5": {
-          "type": "photo",
-          "settings": {
-            "image": "shopify://shop_images/arsnoir-room-estudio.jpg",
-            "product": "perro-amarillo"
-          }
-        },
-        "w6": {
-          "type": "photo",
-          "settings": {
-            "image": "shopify://shop_images/rose-dormitorio.jpg",
-            "product": "rose"
-          }
-        },
         "w0": {
           "type": "photo",
           "settings": {
@@ -309,14 +267,8 @@
       },
       "block_order": [
         "w0",
-        "w1",
         "w0b",
-        "w3",
-        "w0c",
-        "w5",
-        "w2",
-        "w6",
-        "w4"
+        "w0c"
       ],
       "settings": {
         "eyebrow": "INSPIRACIÓN",
