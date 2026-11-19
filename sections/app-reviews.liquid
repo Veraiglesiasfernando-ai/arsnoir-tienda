@@ -7,6 +7,21 @@
     {%- for block in section.blocks -%}{% render block %}{%- endfor -%}
   </div>
 </section>
+<script>
+(function () {
+  /* «Escribir una opinión» / «Escribir una reseña»: go to Judge.me's widget and open its write form */
+  function openForm() {
+    var tries = 0, t = setInterval(function () {
+      var b = document.querySelector('#EscribirOpinion .jdgm-write-rev-link, #EscribirOpinion .jdgm-rev-widg__summary-write-rev-link, .jdgm-write-rev-link');
+      var form = document.querySelector('.jdgm-form-wrapper');
+      if (b && !(form && form.offsetParent)) { b.click(); }
+      if (b || ++tries > 40) { clearInterval(t); var s = document.getElementById('EscribirOpinion'); if (s) s.scrollIntoView({ behavior: 'smooth' }); }
+    }, 250);
+  }
+  if (location.hash === '#EscribirOpinion') openForm();
+  document.addEventListener('click', function (e) { if (e.target.closest('a[href="#EscribirOpinion"]')) { e.preventDefault(); openForm(); } });
+})();
+</script>
 {% schema %}
 { "name": "Opiniones (Judge.me)", "blocks": [{ "type": "@app" }], "presets": [{ "name": "Opiniones (Judge.me)" }] }
 {% endschema %}

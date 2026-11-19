@@ -5857,3 +5857,4 @@ html.sgp-open { overflow: hidden; }
 .app-reviews__inner { max-width: 900px; }
 .pzstrip__list li { overflow: hidden; }
 .pzstrip__item img { transform: none !important; width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; }
+.mq__write { display: inline-block; margin: 2px 0 6px; font-weight: 700; color: #490B1A; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
