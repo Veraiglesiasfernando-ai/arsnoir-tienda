@@ -1,0 +1,62 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;900&family=Fraunces:opsz,wght@9..144,600;9..144,800&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:SG;src:url(space-grotesk-latin.woff2);font-weight:300 700}
+*{margin:0;box-sizing:border-box}
+body{width:540px;height:960px;overflow:hidden;background:radial-gradient(120% 80% at 50% 35%,#f6f1ea 0%,#e8dfd2 70%,#dcd1c1 100%);font-family:Inter,sans-serif;position:relative;perspective:1400px}
+.top{position:absolute;top:70px;left:0;right:0;text-align:center}
+.bf{display:inline-block;background:#0a0a0a;color:#fff;font-weight:900;letter-spacing:.14em;font-size:26px;padding:10px 20px;border-radius:6px}
+.h{font-family:Fraunces,serif;font-weight:800;font-size:40px;line-height:1.05;margin-top:16px;color:#141414;letter-spacing:-.01em}
+.sub{font-size:16px;color:#5b534a;margin-top:10px;font-weight:500}
+.stage{position:absolute;left:50%;top:500px;transform-style:preserve-3d}
+.phone{position:absolute;left:-118px;top:-240px;width:236px;height:480px;border-radius:38px;background:#111;padding:10px;box-shadow:0 30px 50px -18px rgba(0,0,0,.45);backface-visibility:hidden}
+.phone .scr{width:100%;height:100%;border-radius:30px;overflow:hidden;position:relative;background:#000}
+.phone img{width:100%;height:100%;object-fit:cover}
+.phone .isl{position:absolute;top:10px;left:50%;width:70px;height:20px;margin-left:-35px;background:#000;border-radius:20px}
+.phone .tag{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);background:rgba(255,255,255,.9);font-size:12px;font-weight:700;padding:6px 12px;border-radius:999px;white-space:nowrap}
+.canvas{position:absolute;left:-150px;top:-188px;width:300px;height:376px;transform-style:preserve-3d}
+.canvas .face{position:absolute;inset:0;background:url(obra.jpg) center/cover;box-shadow:0 34px 50px -20px rgba(0,0,0,.5);backface-visibility:hidden}
+.canvas .face:after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,.03) 0 1px,transparent 1px 3px),repeating-linear-gradient(90deg,rgba(0,0,0,.03) 0 1px,transparent 1px 3px)}
+.canvas .side{position:absolute;top:0;right:-16px;width:16px;height:100%;background:linear-gradient(90deg,#d99aa5,#b77882);transform-origin:left;transform:rotateY(90deg)}
+.canvas .bot{position:absolute;left:0;bottom:-16px;height:16px;width:100%;background:#b77882;transform-origin:top;transform:rotateX(-90deg)}
+.bow{position:absolute;right:-34px;top:-40px;font-size:78px;transform:rotate(14deg)}
+.chip{position:absolute;left:0;right:0;top:735px;text-align:center}
+.chip .p{display:inline-flex;align-items:baseline;gap:10px;background:#fff;border-radius:999px;padding:12px 22px;box-shadow:0 10px 24px -10px rgba(0,0,0,.3);font-weight:900;font-size:24px;color:#141414}
+.chip .p small{font-weight:500;font-size:14px;color:#5b534a}
+.chip .p s{font-weight:500;font-size:16px;color:#9a8f83}
+.chip .g{margin-top:12px;font-size:14px;font-weight:700;color:#A8322A}
+.trust{position:absolute;left:0;right:0;top:822px;text-align:center;font-size:11.5px;color:#5b534a;font-weight:500}
+.logo{position:absolute;left:0;right:0;bottom:44px;text-align:center;font-family:SG;font-weight:700;font-size:30px;letter-spacing:.08em;color:#0a0a0a}
+.logo small{display:block;font-family:Inter;font-size:12px;letter-spacing:.02em;font-weight:500;color:#5b534a;margin-top:4px}
+</style></head><body>
+<div class="top"><span class="bf" id="bf">BLACK FRIDAY</span><div class="h" id="h">De su foto<br>a tu pared.</div><div class="sub" id="sub">Sube su foto · lo ves en 1 minuto</div></div>
+<div class="stage">
+ <div class="phone" id="phone"><div class="scr"><img src="dog.jpg"><div class="isl"></div><div class="tag">📷 Su foto</div></div></div>
+ <div class="canvas" id="cv"><div class="face"></div><div class="side"></div><div class="bot"></div><div class="bow" id="bow">🎀</div></div>
+</div>
+<div class="chip" id="chip"><div class="p"><small>Lienzo desde</small>29,95 €<s>39,95 €</s></div><div class="g">🎁 + lámina A4 de regalo desde 60 € · hasta el 30 nov</div></div>
+<div class="trust" id="trust">🌲 Bastidor certificado FSC · 🛡️ Si llega dañado, lo reponemos · 🇪🇺 Impreso en Europa</div>
+<div class="logo">arsnoir<small>Sube su foto en arsnoir.com</small></div>
+<script>
+const cl=(x,a,b)=>Math.max(a,Math.min(b,x)), e=t=>1-Math.pow(1-t,3), eio=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+const back=t=>{const c1=1.7,c3=c1+1;return 1+c3*Math.pow(t-1,3)+c1*Math.pow(t-1,2)};
+const seg=(t,a,b)=>cl((t-a)/(b-a),0,1);
+window.render=function(t){
+ const ph=document.getElementById('phone'),cv=document.getElementById('cv'),bow=document.getElementById('bow'),chip=document.getElementById('chip'),tr=document.getElementById('trust');
+ // top texts in
+ const ti=e(seg(t,0,.5));['bf','h','sub'].forEach((id,i)=>{const k=e(seg(t,.1*i,.5+.1*i));const el=document.getElementById(id);el.style.opacity=k;el.style.transform=`translateY(${(1-k)*18}px)`});
+ // phone: float then flip out 1.6-2.4
+ const fl=Math.sin(t*2.2)*6, out=eio(seg(t,1.6,2.4));
+ ph.style.opacity=t<2.4?1:0;
+ ph.style.transform=`translateY(${fl}px) rotateY(${out*90}deg) rotateZ(${out*-12}deg) scale(${1-out*.1})`;
+ // canvas flip in 2.4-3.2
+ const ci=seg(t,2.4,3.3), k=back(ci);
+ cv.style.opacity=t<2.4?0:1;
+ const zoom=1+seg(t,3.3,8)*.06;
+ cv.style.transform=`rotateY(${(1-k)*-90}deg) rotateZ(${(1-k)*10}deg) scale(${(.9+.1*k)*zoom}) rotateX(4deg) rotateY(${t>3.3?-10+Math.sin((t-3.3)*.9)*4:0}deg)`;
+ const b=seg(t,3.1,3.6);bow.style.opacity=b>0?1:0;bow.style.transform=`rotate(14deg) scale(${b>0?back(b):0})`;
+ const c=e(seg(t,3.8,4.4));chip.style.opacity=c;chip.style.transform=`translateY(${(1-c)*24}px) scale(${.92+.08*c})`;
+ const r=e(seg(t,4.4,5));tr.style.opacity=r;
+};
+render(0);
+</script></body></html>
