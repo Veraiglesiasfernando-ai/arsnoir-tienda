@@ -1,0 +1,59 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;800&family=Fredoka:wght@500;600&display=swap" rel="stylesheet">
+<style>@font-face{font-family:SG;src:url(space-grotesk-latin.woff2);font-weight:300 700}
+*{margin:0;box-sizing:border-box}
+body{width:540px;height:960px;overflow:hidden;background:radial-gradient(110% 80% at 50% 40%,#fdeef0 0%,#f8dfe3 70%,#f3d2d8 100%);font-family:Inter,sans-serif;position:relative}
+.top{position:absolute;top:66px;left:0;right:0;text-align:center}
+.bf{display:inline-block;background:#141414;color:#fff;font-family:Fredoka;font-weight:600;font-size:15px;letter-spacing:.14em;padding:8px 16px;border-radius:999px}
+.h{font-family:Fredoka;font-weight:600;font-size:34px;letter-spacing:.04em;margin-top:16px;color:#141414;line-height:1.1}
+.s{font-size:15px;color:#6b5a5e;margin-top:8px;font-weight:500}
+.fr{position:absolute;left:50%;top:470px;width:250px;height:312px;margin:-156px 0 0 -125px;background:#141414;padding:12px;box-shadow:0 26px 40px -18px rgba(80,30,40,.45);will-change:transform}
+.fr img{width:100%;height:100%;object-fit:cover;display:block}
+.lab{position:absolute;left:0;right:0;top:672px;text-align:center;font-family:Fredoka;font-weight:600;font-size:22px;letter-spacing:.06em;color:#141414}
+.lab small{display:block;font-family:Inter;font-size:13px;letter-spacing:0;font-weight:500;color:#6b5a5e;margin-top:4px}
+.dots{position:absolute;top:740px;left:0;right:0;text-align:center}
+.dots i{display:inline-block;width:7px;height:7px;border-radius:50%;background:#e2b7bf;margin:0 4px}
+.dots i.on{background:#141414;width:20px;border-radius:4px}
+.price{position:absolute;top:790px;left:0;right:0;text-align:center;font-family:Fredoka;font-weight:600;font-size:30px;color:#141414}
+.price small{font-family:Inter;font-size:14px;color:#6b5a5e;font-weight:500}
+.price s{font-family:Inter;font-size:17px;color:#a8939a;font-weight:500;margin-left:6px}
+.logo{position:absolute;bottom:36px;left:0;right:0;text-align:center;font-family:SG;font-weight:700;font-size:26px;letter-spacing:.08em;color:#141414}
+.end{position:absolute;inset:0;z-index:200;background:inherit;opacity:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center}
+.end .eh{font-family:Fredoka;font-weight:600;font-size:34px;letter-spacing:.04em;line-height:1.12;color:#141414}
+.end .st{font-size:16px;color:#3d3236;font-weight:600;line-height:1.6}
+.end .g{background:#fff;border-radius:14px;padding:12px 18px;font-size:14px;font-weight:700;color:#141414;max-width:420px;box-shadow:0 10px 24px -14px rgba(80,30,40,.4)}
+.end .lg{font-family:SG;font-weight:700;font-size:34px;letter-spacing:.08em;margin-top:10px}
+.end .lg small{display:block;font-family:Inter;font-size:13px;letter-spacing:0;font-weight:600;color:#6b5a5e}
+</style></head><body>
+<div class="top"><span class="bf">BLACK FRIDAY · HASTA EL 30 NOV</span><div class="h">ELIGE SU ESTILO</div><div class="s">Sube su foto · lo ves antes de comprar</div></div>
+<div id="frames"></div>
+<div class="lab" id="lab"></div>
+<div class="dots" id="dots"></div>
+<div class="price"><small>desde </small>16,95 €<s>24,95 €</s></div>
+<div class="logo" id="lg">arsnoir</div>
+<div class="end" id="end"><div class="eh">SU MASCOTA,<br>CONVERTIDA EN ARTE</div>
+<div class="st">1 · Sube su foto<br>2 · Elige el estilo<br>3 · Míralo antes de comprar</div>
+<div class="g">🛡️ Si llega dañado o con un fallo de impresión, te lo reponemos gratis</div>
+<span class="bf">BLACK FRIDAY · HASTA EL 30 NOV</span>
+<div class="lg">arsnoir<small>arsnoir.com</small></div></div>
+<script>
+const names=[['Retrato con sudadera','con su nombre'],['Retrato con nombre','estilo óleo'],['Retrato cómic','colores pop'],['Retrato glam','con gafas de sol'],['Gorro de Papá Noel','edición Navidad'],['Acuarela','realista y suave']];
+const F=document.getElementById('frames'),D=document.getElementById('dots');
+names.forEach((n,i)=>{const d=document.createElement('div');d.className='fr';d.innerHTML=`<img src="a${i+1}.jpg">`;F.appendChild(d);D.appendChild(document.createElement('i'))});
+const cl=(x,a,b)=>Math.max(a,Math.min(b,x)),eio=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2,seg=(t,a,b)=>cl((t-a)/(b-a),0,1);
+const T0=.6,STEP=1.6,MOVE=.55,N=6,ENDT=T0+STEP*N;
+window.render=function(t){
+ // position p = continuous index of center item
+ let p=0;for(let k=1;k<N;k++){p+=eio(seg(t,T0+STEP*k-MOVE,T0+STEP*k))}
+ const intro=eio(seg(t,0,.6));
+ [...F.children].forEach((el,i)=>{const d=i-p;const ad=Math.abs(d);
+  const x=d*235, sc=1.15-Math.min(ad,1)*0.62-Math.max(0,ad-1)*0.1, op=ad>1.6?0:1-Math.max(0,ad-1)*1.2;
+  const pulse=ad<.05?1+0.03*Math.sin(Math.PI*seg((t-T0)%STEP,0.1,1.0)):1;
+  el.style.transform=`translateX(${x}px) translateY(${(1-intro)*120}px) scale(${sc*pulse}) rotate(${d*-3}deg)`;el.style.opacity=op*intro;el.style.zIndex=100-Math.round(ad*10);});
+ const ci=Math.round(p);document.getElementById('lab').innerHTML=`${names[ci][0].toUpperCase()}<small>${names[ci][1]}</small>`;
+ const lo=1-Math.abs(p-ci)*2.2;document.getElementById('lab').style.opacity=cl(lo,0,1)*intro;
+ [...D.children].forEach((d,i)=>d.className=i===ci?'on':'');
+ const e=eio(seg(t,ENDT-.1,ENDT+.5));document.getElementById('end').style.opacity=e;
+};
+render(0);
+</script></body></html>
