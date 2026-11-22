@@ -27,10 +27,22 @@
 -%}
 {%- if size_values != blank and size_values.size > 1 -%}
   <size-compare class="sguide-row" {{ block.shopify_attributes }}
-    data-none="{{ base | append: 'none.webp' | file_url }}&width=900"
-    data-white="{{ base | append: 'white.webp' | file_url }}&width=900"
-    data-wood="{{ base | append: 'wood.webp' | file_url }}&width=900"
-    data-canvas="{{ base | append: 'canvas.webp' | file_url }}&width=900"
+    data-none="{% liquid
+  assign fs_name = base | append: 'none'
+  render 'frame-src', name: fs_name, width: 900
+%}"
+    data-white="{% liquid
+  assign fs_name = base | append: 'white'
+  render 'frame-src', name: fs_name, width: 900
+%}"
+    data-wood="{% liquid
+  assign fs_name = base | append: 'wood'
+  render 'frame-src', name: fs_name, width: 900
+%}"
+    data-canvas="{% liquid
+  assign fs_name = base | append: 'canvas'
+  render 'frame-src', name: fs_name, width: 900
+%}"
     data-black="{{ product.handle | append: '-marco.png' | file_url }}&width=900"
     data-fallback="{{ fallback }}"
     data-art="{{ art_src }}">

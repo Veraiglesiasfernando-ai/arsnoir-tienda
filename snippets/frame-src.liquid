@@ -1,0 +1,15 @@
+{%- comment -%}
+  URL of a frame/canvas mockup from Shopify Files. Prefers the PNG copy
+  («<name>.png»): Shopify serves it as a light WebP to every phone, while the
+  old «<name>.webp» sources reach older iPhones as ~1 MB PNGs.
+  Usage: {% render 'frame-src', name: 'perro-amarillo-marco-none', width: 900 %}
+{%- endcomment -%}
+{%- liquid
+  assign png_name = name | append: '.png'
+  assign png_img = images[png_name]
+  if png_img.width > 0
+    echo png_img | image_url: width: width
+  else
+    echo name | append: '.webp' | file_url | append: '&width=' | append: width
+  endif
+-%}

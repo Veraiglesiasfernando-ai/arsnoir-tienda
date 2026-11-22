@@ -216,12 +216,12 @@
         "frames": {
           "type": "feature",
           "settings": {
-            "image": "shopify://shop_images/arsnoir-marco-black.webp",
-            "image_white": "shopify://shop_images/arsnoir-marco-white.webp",
-            "image_wood": "shopify://shop_images/arsnoir-marco-wood.webp",
-            "zoom": "shopify://shop_images/arsnoir-marco-black-detalle.webp",
-            "zoom_white": "shopify://shop_images/arsnoir-marco-white-detalle.webp",
-            "zoom_wood": "shopify://shop_images/arsnoir-marco-wood-detalle.webp",
+            "image": "shopify://shop_images/arsnoir-marco-black.png",
+            "image_white": "shopify://shop_images/arsnoir-marco-white.png",
+            "image_wood": "shopify://shop_images/arsnoir-marco-wood.png",
+            "zoom": "shopify://shop_images/arsnoir-marco-black-detalle.png",
+            "zoom_white": "shopify://shop_images/arsnoir-marco-white-detalle.png",
+            "zoom_wood": "shopify://shop_images/arsnoir-marco-wood-detalle.png",
             "show_with": "poster",
             "image_right": false,
             "heading": "Marco de galería, con colgador",
@@ -232,8 +232,8 @@
         "canvas": {
           "type": "feature",
           "settings": {
-            "image": "shopify://shop_images/arsnoir-lienzo.webp",
-            "zoom": "shopify://shop_images/arsnoir-lienzo-detalle.webp",
+            "image": "shopify://shop_images/arsnoir-lienzo.png",
+            "zoom": "shopify://shop_images/arsnoir-lienzo-detalle.png",
             "show_with": "canvas",
             "image_right": false,
             "heading": "Lienzo sobre bastidor de madera",
