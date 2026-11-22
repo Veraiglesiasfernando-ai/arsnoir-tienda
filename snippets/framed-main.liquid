@@ -21,28 +21,28 @@
     assign white_name = base | append: 'white.webp'
     assign white_img = images[white_name]
     if white_img.width > 0
-      assign white_src = white_img | image_url: width: 1000
+      assign white_src = white_img | image_url: width: 1000, format: 'pjpg'
     else
       assign white_src = white_name | file_url | append: '&width=1000'
     endif
     assign wood_name = base | append: 'wood.webp'
     assign wood_img = images[wood_name]
     if wood_img.width > 0
-      assign wood_src = wood_img | image_url: width: 1000
+      assign wood_src = wood_img | image_url: width: 1000, format: 'pjpg'
     else
       assign wood_src = wood_name | file_url | append: '&width=1000'
     endif
     assign none_name = base | append: 'none.webp'
     assign none_img = images[none_name]
     if none_img.width > 0
-      assign none_src = none_img | image_url: width: 1000
+      assign none_src = none_img | image_url: width: 1000, format: 'pjpg'
     else
       assign none_src = none_name | file_url | append: '&width=1000'
     endif
     assign canvas_name = base | append: 'canvas.webp'
     assign canvas_img = images[canvas_name]
     if canvas_img.width > 0
-      assign canvas_src = canvas_img | image_url: width: 1000
+      assign canvas_src = canvas_img | image_url: width: 1000, format: 'pjpg'
     else
       assign canvas_src = canvas_name | file_url | append: '&width=1000'
     endif
