@@ -19,12 +19,28 @@ body{width:540px;height:960px;overflow:hidden;background:linear-gradient(180deg,
 #end .bf{position:absolute;top:560px;left:50%;transform:translateX(-50%);font-size:12px;font-weight:600;letter-spacing:.2em;background:#1d1d1f;color:#fff;padding:9px 16px;border-radius:999px;white-space:nowrap}
 #end .g{position:absolute;top:640px;left:60px;right:60px;font-size:13px;color:#6e6e73;font-weight:500;line-height:1.5}
 #end .u{position:absolute;bottom:60px;left:0;right:0;font-size:14px;color:#86868b;font-weight:500}
+.beat{position:absolute;left:0;right:0;top:0;bottom:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;opacity:0}
+.beat .k{font-size:15px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#86868b;margin-bottom:14px}
+.beat .big{font-size:64px;font-weight:700;letter-spacing:-.045em;line-height:1}
+.beat .big2{font-size:52px;font-weight:700;letter-spacing:-.04em;line-height:1.02}
+.beat .sm{font-size:17px;font-weight:500;color:#6e6e73;margin-top:18px;line-height:1.45;letter-spacing:-.01em}
+.beat .sm s{color:#a1a1a6}
+.beat .ic{font-size:64px;margin-bottom:14px}
+.beat .sh{width:78px;height:78px;margin-bottom:16px}
+#offer{position:absolute;top:868px;left:0;right:0;text-align:center;font-size:14px;font-weight:600;color:#1d1d1f;letter-spacing:-.01em}
+#offer span{display:inline-block;background:#fff;border-radius:999px;padding:9px 16px;box-shadow:0 8px 20px -12px rgba(90,40,50,.35)}
+#offer s{color:#a1a1a6;font-weight:500;margin-left:4px}
+#offer b{color:#c4707f}
 </style></head><body>
 <div class="t" id="head">Black Friday</div>
 <div class="t" id="t1">Su mejor amigo.<br><span style="color:#c4707f">En arte.</span></div>
 <div id="items"></div>
 <div class="t" id="name"></div><div class="t" id="sub"></div>
+<div id="offer"><span><b>−32 %</b> · Desde 16,95 €<s>24,95 €</s> · 🛡️ Garantía</span></div>
 <div class="t" id="t2">Seis estilos · Uno es él</div>
+<div class="beat" id="b1"><div class="k">Black Friday</div><div class="big">Hasta <span style="color:#c4707f">−32 %</span></div><div class="sm">Desde 16,95 € <s>24,95 €</s></div></div>
+<div class="beat" id="b2"><div class="ic">🎁</div><div class="big2">Y una lámina<br>de regalo.</div><div class="sm">En pedidos desde 60 €. Dos desde 100 €.</div></div>
+<div class="beat" id="b3"><svg class="sh" viewBox="0 0 24 24"><path d="M12 2l8 3v6c0 5-3.4 9.4-8 11-4.6-1.6-8-6-8-11V5l8-3z" fill="none" stroke="#1d1d1f" stroke-width="1.4"/><path d="M8.5 12.2l2.4 2.4 4.8-5" fill="none" stroke="#c4707f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><div class="big2">Garantía<br>ARSNOIR.</div><div class="sm">Si llega dañado o con un fallo de impresión,<br>te lo reponemos gratis.</div></div>
 <div id="end"><div class="lg">arsnoir</div><div class="tag">Sube su foto. Míralo antes de comprar.</div>
 <div class="pr">Desde 16,95 €<s>24,95 €</s></div><div class="bf">BLACK FRIDAY · HASTA EL 30 NOV</div>
 <div class="g">Garantía ARSNOIR: si llega dañado o con un fallo de impresión, te lo reponemos gratis.</div><div class="u">arsnoir.com</div></div>
@@ -35,7 +51,7 @@ const I=document.getElementById('items');N.forEach((n,i)=>{const d=document.crea
 const cl=(x,a,b)=>Math.max(a,Math.min(b,x)),seg=(t,a,b)=>cl((t-a)/(b-a),0,1),eo=t=>1-Math.pow(1-t,4),eio=t=>t<.5?8*t*t*t*t:1-Math.pow(-2*t+2,4)/2;
 const S=(id)=>document.getElementById(id);
 const fx=(el,k,dy=24)=>{el.style.opacity=k;el.style.filter=`blur(${(1-k)*14}px)`;el.style.transform=`translateY(${(1-k)*dy}px)`};
-const A=2.0, STEP=1.35, GRID=A+STEP*6, END=GRID+4.2;
+const A=2.0, STEP=1.35, GRID=A+STEP*6, B1=GRID+2.4, B2=B1+1.8, B3=B2+1.8, END=B3+1.8+2.3;
 window.render=function(t){
  // intro title
  const k1=eo(seg(t,.1,.9))*(1-eo(seg(t,1.6,2.1)));fx(S('t1'),k1);S('t1').style.transform+=` scale(${1+seg(t,0,2.1)*.04})`;
@@ -49,7 +65,7 @@ window.render=function(t){
   // grid phase
   const g=eio(seg(t,GRID-.1,GRID+.9));
   if(t>GRID-.1){const col=i%3,row=Math.floor(i/3);x=(col-1)*165*g;const y=(row-.5)*215*g-30*g;sc=1-g*.55;rot=0;op=g;
-    const go=eio(seg(t,END-2.75,END-2.2));op*=1-go;el.style.transform=`translate(${x}px,${y}px) scale(${sc})`;}
+    const go=eio(seg(t,B1-.4,B1));op*=1-go;el.style.transform=`translate(${x}px,${y}px) scale(${sc})`;}
   else el.style.transform=`translateX(${x}px) rotateY(${rot}deg) scale(${sc*(1+seg(t,s,s+STEP)*.03)})`;
   el.style.opacity=op;el.style.zIndex=i;
  });
@@ -58,7 +74,10 @@ window.render=function(t){
  const lk=eo(seg(t,s+.1,s+.5))*(1-eo(seg(t,s+STEP-.35,s+STEP-.05)));
  S('name').textContent=N[idx][0];S('sub').textContent=N[idx][1];
  const show=t>A-.2&&t<GRID;fx(S('name'),show?lk:0,12);fx(S('sub'),show?lk:0,12);
- fx(S('t2'),eo(seg(t,GRID+.6,GRID+1.1))*(1-eo(seg(t,END-2.75,END-2.3))),14);
+ fx(S('t2'),eo(seg(t,GRID+.6,GRID+1.1))*(1-eo(seg(t,B1-.45,B1-.05))),14);
+ const bk=(id,a,b)=>{const k=eo(seg(t,a,a+.5))*(1-eo(seg(t,b-.35,b)));fx(S(id),k,20);S(id).style.transform+=` scale(${.97+.03*k})`;};
+ bk('b1',B1,B2);bk('b2',B2,B3);bk('b3',B3,END-2.3);
+ const of=eo(seg(t,A,A+.5))*(1-eo(seg(t,B1-.45,B1-.05)));S('offer').style.opacity=of;
  const e=eo(seg(t,END-2.3,END-1.5));const E=S('end');E.style.opacity=e;E.style.filter=`blur(${(1-e)*12}px)`;E.style.transform=`scale(${.98+e*.02})`;
 };
 render(0);
