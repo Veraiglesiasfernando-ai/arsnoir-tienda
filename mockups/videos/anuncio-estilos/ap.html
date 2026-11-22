@@ -1,0 +1,65 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>@font-face{font-family:SG;src:url(space-grotesk-latin.woff2);font-weight:300 700}
+*{margin:0;box-sizing:border-box}
+body{width:540px;height:960px;overflow:hidden;background:linear-gradient(180deg,#fdf3f4 0%,#f9e4e7 100%);font-family:'Inter Tight',sans-serif;color:#1d1d1f;position:relative;perspective:1600px}
+.t{position:absolute;left:0;right:0;text-align:center;letter-spacing:-.035em;font-weight:600;will-change:transform,opacity,filter}
+#t1{top:380px;font-size:52px;line-height:1.02}
+#t2{top:640px;font-size:15px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:#86868b}
+#name{top:770px;font-size:26px}
+#sub{top:806px;font-size:15px;font-weight:500;color:#86868b;letter-spacing:-.01em}
+#head{top:84px;font-size:15px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#86868b}
+.it{position:absolute;left:50%;top:430px;width:300px;height:375px;margin:-188px 0 0 -150px;background:#111;padding:10px;border-radius:3px;box-shadow:0 40px 60px -30px rgba(90,40,50,.45),0 2px 6px rgba(0,0,0,.12);will-change:transform,opacity}
+.it img{width:100%;height:100%;object-fit:cover;display:block}
+#end{position:absolute;inset:0;opacity:0;text-align:center}
+#end .lg{position:absolute;top:330px;left:0;right:0;font-family:SG;font-weight:700;font-size:64px;letter-spacing:.08em}
+#end .tag{position:absolute;top:430px;left:0;right:0;font-size:26px;font-weight:600;letter-spacing:-.03em}
+#end .pr{position:absolute;top:500px;left:0;right:0;font-size:17px;color:#1d1d1f;font-weight:500}
+#end .pr s{color:#86868b;margin-left:6px}
+#end .bf{position:absolute;top:560px;left:50%;transform:translateX(-50%);font-size:12px;font-weight:600;letter-spacing:.2em;background:#1d1d1f;color:#fff;padding:9px 16px;border-radius:999px;white-space:nowrap}
+#end .g{position:absolute;top:640px;left:60px;right:60px;font-size:13px;color:#6e6e73;font-weight:500;line-height:1.5}
+#end .u{position:absolute;bottom:60px;left:0;right:0;font-size:14px;color:#86868b;font-weight:500}
+</style></head><body>
+<div class="t" id="head">Black Friday</div>
+<div class="t" id="t1">Su mejor amigo.<br><span style="color:#c4707f">En arte.</span></div>
+<div id="items"></div>
+<div class="t" id="name"></div><div class="t" id="sub"></div>
+<div class="t" id="t2">Seis estilos · Uno es él</div>
+<div id="end"><div class="lg">arsnoir</div><div class="tag">Sube su foto. Míralo antes de comprar.</div>
+<div class="pr">Desde 16,95 €<s>24,95 €</s></div><div class="bf">BLACK FRIDAY · HASTA EL 30 NOV</div>
+<div class="g">Garantía ARSNOIR: si llega dañado o con un fallo de impresión, te lo reponemos gratis.</div><div class="u">arsnoir.com</div></div>
+<script>
+const N=[['Sudadera','Con su nombre.'],['Óleo','Con su nombre.'],['Cómic','Puro color.'],['Glam','Con actitud.'],['Navidad','Edición limitada de temporada.'],['Acuarela','Suave. Real.']];
+N[4][1]='Para estas fiestas.';
+const I=document.getElementById('items');N.forEach((n,i)=>{const d=document.createElement('div');d.className='it';d.innerHTML=`<img src="a${i+1}.jpg">`;I.appendChild(d)});
+const cl=(x,a,b)=>Math.max(a,Math.min(b,x)),seg=(t,a,b)=>cl((t-a)/(b-a),0,1),eo=t=>1-Math.pow(1-t,4),eio=t=>t<.5?8*t*t*t*t:1-Math.pow(-2*t+2,4)/2;
+const S=(id)=>document.getElementById(id);
+const fx=(el,k,dy=24)=>{el.style.opacity=k;el.style.filter=`blur(${(1-k)*14}px)`;el.style.transform=`translateY(${(1-k)*dy}px)`};
+const A=2.0, STEP=1.35, GRID=A+STEP*6, END=GRID+4.2;
+window.render=function(t){
+ // intro title
+ const k1=eo(seg(t,.1,.9))*(1-eo(seg(t,1.6,2.1)));fx(S('t1'),k1);S('t1').style.transform+=` scale(${1+seg(t,0,2.1)*.04})`;
+ fx(S('head'),eo(seg(t,.3,1))*(1-eo(seg(t,END-2.7,END-2.3))),10);
+ // items carousel: item i active during [A+i*STEP, A+(i+1)*STEP]
+ const its=[...I.children];
+ its.forEach((el,i)=>{
+  const s=A+i*STEP;
+  const inn=eio(seg(t,s-.35,s+.35)), out=eio(seg(t,s+STEP-.35,s+STEP+.35));
+  let x=(1-inn)*420 - out*420, rot=(1-inn)*-28 + out*28, sc=.86+inn*.14-out*.14, op=Math.min(inn,1-out);
+  // grid phase
+  const g=eio(seg(t,GRID-.1,GRID+.9));
+  if(t>GRID-.1){const col=i%3,row=Math.floor(i/3);x=(col-1)*165*g;const y=(row-.5)*215*g-30*g;sc=1-g*.55;rot=0;op=g;
+    const go=eio(seg(t,END-2.75,END-2.2));op*=1-go;el.style.transform=`translate(${x}px,${y}px) scale(${sc})`;}
+  else el.style.transform=`translateX(${x}px) rotateY(${rot}deg) scale(${sc*(1+seg(t,s,s+STEP)*.03)})`;
+  el.style.opacity=op;el.style.zIndex=i;
+ });
+ // labels
+ const idx=cl(Math.floor((t-A)/STEP),0,5);const s=A+idx*STEP;
+ const lk=eo(seg(t,s+.1,s+.5))*(1-eo(seg(t,s+STEP-.35,s+STEP-.05)));
+ S('name').textContent=N[idx][0];S('sub').textContent=N[idx][1];
+ const show=t>A-.2&&t<GRID;fx(S('name'),show?lk:0,12);fx(S('sub'),show?lk:0,12);
+ fx(S('t2'),eo(seg(t,GRID+.6,GRID+1.1))*(1-eo(seg(t,END-2.75,END-2.3))),14);
+ const e=eo(seg(t,END-2.3,END-1.5));const E=S('end');E.style.opacity=e;E.style.filter=`blur(${(1-e)*12}px)`;E.style.transform=`scale(${.98+e*.02})`;
+};
+render(0);
+</script></body></html>
