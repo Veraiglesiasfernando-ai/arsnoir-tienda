@@ -16,6 +16,12 @@
       <span><b data-bfc-m>00</b><i>min</i></span>
       <span><b data-bfc-s>00</b><i>seg</i></span>
     </div>
+    {%- comment -%} Real discounts: the shop's current price vs its struck price {%- endcomment -%}
+    <ul class="bfc__deals" role="list">
+      <li><b>−32 %</b> Láminas desde 16,95 €</li>
+      <li><b>−25 %</b> Lienzos desde 29,95 €</li>
+      <li><b>−33 %</b> Lienzo con marco desde 39,95 €</li>
+    </ul>
     {%- if settings.q4_bf_offer != blank -%}<p class="bfc__offer">{{ settings.q4_bf_offer }}</p>{%- endif -%}
     {%- if variant == 'hero' -%}<a class="bfc__cta" href="/collections/personalizalo">Crear su retrato →</a>{%- endif -%}
   </div>

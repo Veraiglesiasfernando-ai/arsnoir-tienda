@@ -5931,3 +5931,6 @@ html.rvm-lock { overflow: hidden; }
 .bfc__cta { display: inline-block; margin-top: 10px; padding: 10px 18px; border-radius: 999px; background: #0a3d5a; color: #fff; font-weight: 700; font-size: 14px; text-decoration: none; }
 .bfc__cta:hover { background: #0b4f73; }
 @media (max-width: 749px) { .bfc--hero { max-width: 92%; padding: 12px; } .bfc__badge { font-size: 19px; } .bfc--hero .bfc__time span { min-width: 48px; } }
+.bfc__deals { list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
+.bfc__deals li { padding: 5px 10px; border-radius: 999px; background: #fff; font-size: 13px; color: #0a3d5a; box-shadow: 0 1px 0 #b9e0f5; }
+.bfc__deals b { color: #c8102e; margin-right: 2px; }
