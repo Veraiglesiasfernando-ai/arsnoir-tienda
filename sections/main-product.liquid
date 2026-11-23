@@ -1116,8 +1116,11 @@
                             var c = m.querySelector('canvas.tart');
                             if (!c) { c = document.createElement('canvas'); c.className = 'tart'; c.setAttribute('role', 'img'); m.appendChild(c); }
                             c.setAttribute('aria-label', img.alt);
-                            c.width = img.naturalWidth; c.height = img.naturalHeight;
+                            /* draw at the screen's real resolution (retina), not the room photo's, so the customer's photo stays sharp */
+                            var S = Math.min(3, Math.max(1, (m.clientWidth || 0) * (window.devicePixelRatio || 1) / img.naturalWidth));
+                            c.width = Math.round(img.naturalWidth * S); c.height = Math.round(img.naturalHeight * S);
                             var g = c.getContext('2d');
+                            g.imageSmoothingEnabled = true; g.imageSmoothingQuality = 'high';
                             g.drawImage(img, 0, 0, c.width, c.height);
                             var x = r[0] / 100 * c.width, y = r[1] / 100 * c.height, w = r[2] / 100 * c.width, h = r[3] / 100 * c.height;
                             var k = kind();
@@ -1132,9 +1135,19 @@
                             }
                             /* same framing as the big preview: moved (crop.x, crop.y) and zoomed (crop.z) */
                             var s = Math.max(w / art.naturalWidth, h / art.naturalHeight) * crop.z;
-                            var sw = w / s, sh = h / s;
+                            /* big phone photos shrunk in one go look jagged: halve them step by step first */
+                            var src = art, sc = 1;
+                            while (s * sc < 0.5 && src.width > 64) {
+                              var hc = document.createElement('canvas');
+                              hc.width = Math.round(src.width / 2); hc.height = Math.round(src.height / 2);
+                              var hg = hc.getContext('2d'); hg.imageSmoothingQuality = 'high';
+                              hg.drawImage(src, 0, 0, hc.width, hc.height);
+                              src = hc; sc *= 2;
+                            }
+                            var sw = w / s / sc, sh = h / s / sc;
+                            var SW = src.width || src.naturalWidth, SH = src.height || src.naturalHeight;
                             if (filterCss() !== 'none') g.filter = filterCss();
-                            g.drawImage(art, (art.naturalWidth - sw) * crop.x / 100, (art.naturalHeight - sh) * crop.y / 100, sw, sh, x, y, w, h);
+                            g.drawImage(src, (SW - sw) * crop.x / 100, (SH - sh) * crop.y / 100, sw, sh, x, y, w, h);
                             g.filter = 'none';
                             img.hidden = true;
                           };
