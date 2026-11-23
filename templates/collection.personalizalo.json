@@ -248,9 +248,20 @@
             "image": "shopify://shop_images/retrato-lapices-color-marco.jpg",
             "link": "shopify://products/retrato-a-lapices-de-colores"
           }
+        },
+        "masPop": {
+          "type": "template",
+          "settings": {
+            "category": "Mascotas",
+            "name": "Retrato pop con nombre",
+            "tagline": "Fondo del color que quieras, su nombre y accesorios. También de 2.",
+            "image": "shopify://shop_images/plantilla-retrato-pop.jpg",
+            "link": "shopify://products/retrato-pop-con-nombre"
+          }
         }
       },
       "block_order": [
+        "masPop",
         "mas7",
         "mas6",
         "mas8",
@@ -406,9 +417,18 @@
             "template_id": "lapices-color",
             "needs_name": false
           }
+        },
+        "sPop": {
+          "type": "style",
+          "settings": {
+            "product": "retrato-pop-con-nombre",
+            "template_id": "retrato-pop",
+            "needs_name": true
+          }
         }
       },
       "block_order": [
+        "sPop",
         "s6",
         "s7",
         "s7a",
