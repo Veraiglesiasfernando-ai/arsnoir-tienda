@@ -405,6 +405,13 @@
             {%- elsif jm_badge_on -%}
               {%- comment -%} Judge.me's own star badge, only once there is at least one review {%- endcomment -%}
               <div class="product__rating jdgm-widget jdgm-preview-badge" data-id="{{ product.id }}">{{ product.metafields.judgeme.badge }}</div>
+            {%- else -%}
+              {%- comment -%} No reviews on this product yet: the shop's real overall rating (Judge.me), clearly labelled as the shop's {%- endcomment -%}
+              {%- assign s_count = shop.metafields.judgeme.all_reviews_count.value | default: shop.metafields.judgeme.all_reviews_count | plus: 0 -%}
+              {%- assign s_rating = shop.metafields.judgeme.all_reviews_rating.value | default: shop.metafields.judgeme.all_reviews_rating | plus: 0 -%}
+              {%- if s_count > 0 and s_rating > 0 -%}
+                <a href="#Reviews" class="product__rating product__rating--shop">{%- if s_count == 1 -%}{%- assign s_lab = 'opinión de clientes de ARSNOIR' -%}{%- else -%}{%- assign s_lab = 'opiniones de clientes de ARSNOIR' -%}{%- endif -%}{% render 'stars', rating: s_rating, max: 5, count: s_count, label: s_lab %}</a>
+              {%- endif -%}
             {%- endif -%}
 
           {%- when 'price' -%}

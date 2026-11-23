@@ -525,6 +525,19 @@
     if (nameInput && savedName && !nameInput.value) nameInput.value = savedName;
   } catch (e) {}
 
+  /* Choose the photo and it starts by itself: as soon as everything it needs is there (name, second
+     photo), the illustration starts without pressing «Ver mi ilustración». If the name is missing, the
+     name box is focused and it starts when the customer finishes typing it (Enter or leaving the box). */
+  let autoGo = false;
+  const tryAuto = function () {
+    if (!autoGo || go.disabled || urlInput.value) return;
+    if (!photo) return;
+    if (needsName && !nameInput.value.trim()) { nameInput.focus(); say('Escribe su nombre y empezamos.'); return; }
+    if (isPair() && !photo2) { say('Ahora la foto de la segunda mascota.'); return; }
+    if (isPair() && needsName && nameInput2 && !nameInput2.value.trim()) { nameInput2.hidden = false; nameInput2.focus(); say('Escribe el nombre de la segunda mascota y empezamos.'); return; }
+    autoGo = false;
+    go.click();
+  };
   /* Resize to max 1536 px and send as JPEG: enough detail for the model, small upload */
   fileInput.addEventListener('change', function () {
     const file = fileInput.files && fileInput.files[0];
@@ -546,6 +559,8 @@
       if (dropText) dropText.hidden = true;
       URL.revokeObjectURL(img.src);
       ready();
+      autoGo = true;
+      tryAuto();
     };
     img.onerror = function () { say(d.tError); };
     img.src = URL.createObjectURL(file);
@@ -573,11 +588,18 @@
       thumb2.src = photo2; thumb2.hidden = false;
       URL.revokeObjectURL(img.src);
       ready();
+      autoGo = true;
+      tryAuto();
     };
     img.onerror = function () { say(d.tError); };
     img.src = URL.createObjectURL(file);
   });
   if (nameInput2) nameInput2.addEventListener('input', function () { reset(); ready(); });
+  [nameInput, nameInput2].forEach(function (el) {
+    if (!el) return;
+    el.addEventListener('change', tryAuto);
+    el.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); el.blur(); tryAuto(); } });
+  });
   if (nameInput) nameInput.addEventListener('input', function () {
     try { sessionStorage.setItem(NAME_KEY, nameInput.value); } catch (e) {}
     reset(); ready();
