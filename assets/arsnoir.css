@@ -5914,3 +5914,13 @@ html.rvm-lock { overflow: hidden; }
 .tpair__second[hidden], .tpair__name2[hidden] { display: none; }
 .tpair__label { margin: 0 0 6px; font-weight: 600; font-size: 14px; }
 .tpair__name2 { margin-top: 8px; }
+
+/* Black Friday countdown (product page) */
+.bfc { margin: 14px 0 4px; padding: 12px 14px; border-radius: 14px; background: #e3f3fc; border: 1px solid #b9e0f5; color: #0b4f73; text-align: center; }
+.bfc[hidden] { display: none; }
+.bfc__title { margin: 0 0 8px; font-size: 13px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.bfc__time { display: flex; justify-content: center; gap: 8px; }
+.bfc__time span { min-width: 54px; padding: 6px 4px; background: #fff; border-radius: 10px; box-shadow: 0 1px 0 #b9e0f5; }
+.bfc__time b { display: block; font-size: 22px; line-height: 1.1; font-variant-numeric: tabular-nums; color: #0a3d5a; }
+.bfc__time i { display: block; font-style: normal; font-size: 11px; color: #3b7ea3; }
+.bfc__offer { margin: 8px 0 0; font-size: 13px; }
