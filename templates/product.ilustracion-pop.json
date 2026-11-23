@@ -1,0 +1,122 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "buy": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": false,
+            "highlight_largest": false,
+            "recommended_label": "Recomendado",
+            "recommended_size": "A3"
+          }
+        },
+        "returns_notice": {
+          "type": "notice",
+          "settings": {
+            "text": "Producto personalizado: no admite devolución por desistimiento, salvo defecto."
+          }
+        },
+        "photo_help": {
+          "type": "collapsible",
+          "settings": {
+            "heading": "¿Qué foto funciona mejor?",
+            "content": "<p>Una foto nítida, de frente o de tres cuartos, con buena luz y con la cara bien visible. Mejor una sola mascota por foto y sin filtros.</p><p>Antes de imprimir revisamos cada ilustración y la preparamos en alta calidad para el tamaño que elijas.</p>",
+            "open": false
+          }
+        },
+        "shipping": {
+          "type": "collapsible",
+          "settings": {
+            "heading": "Envío y devoluciones",
+            "content": "<p>Se imprime para ti y llega con seguimiento: 4-10 días hábiles en la Península. Envío 4,95 € a España y la UE; gratis desde 80 € (importe con descuentos).</p><p>Al hacerse con tu imagen, no admite devolución salvo que llegue dañada o con un defecto de impresión.</p>",
+            "open": false
+          }
+        },
+        "intro": {
+          "disabled": true,
+          "type": "notice",
+          "settings": {
+            "text": "Sube la foto de tu mascota, escribe su nombre y mira tu ilustración antes de comprar."
+          }
+        },
+        "studio": {
+          "type": "template_studio",
+          "settings": {
+            "endpoint": "https://arsnoir-plantillas.veraiglesiasfernando.workers.dev",
+            "template_id": "retrato-pop",
+            "template_name": "Retrato pop con nombre",
+            "needs_name": true,
+            "max_previews": 2,
+            "show_fonts": true,
+            "default_font": "moderna",
+            "colors": "azul|Azul|#6CB4E4\nrosa|Rosa|#F4B6C8\nverde|Verde menta|#A8DDC3\namarillo|Amarillo|#F7D774\nlila|Lila|#C9B6E8\nnaranja|Naranja|#F5B385\ngris|Gris|#D9D6D1",
+            "ba_result": "shopify://shop_images/plantilla-retrato-pop.jpg",
+            "accessories": "collar|Collar con chapa y su nombre|🏷️\ngorro-navidad|Gorro de Navidad|🎅\ngorro-fiesta|Gorro de cumpleaños|🎉\npajarita|Pajarita|🎀\nbandana|Bandana|🧣\ncorona|Corona|👑\ngafas|Gafas de sol|🕶️\nflor|Flor|🌸"
+          }
+        },
+        "delivery": {
+          "type": "delivery",
+          "settings": {}
+        },
+        "payments": {
+          "type": "payments",
+          "settings": {
+            "pill_2": "Lo ves antes de pagar",
+            "pill_2_icon": "eye"
+          }
+        }
+      },
+      "block_order": [
+        "title",
+        "price",
+        "intro",
+        "studio",
+        "buy",
+        "payments",
+        "delivery",
+        "returns_notice",
+        "photo_help",
+        "shipping"
+      ],
+      "settings": {
+        "lifestyle_from": 2
+      }
+    },
+    "reviews": {
+      "type": "reviews",
+      "settings": {
+        "eyebrow": "OPINIONES",
+        "heading": "Lo que dicen nuestros clientes",
+        "judgeme": true
+      }
+    },
+    "jdgm": {
+      "type": "app-reviews",
+      "blocks": {
+        "jdgm_widget": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "jdgm_widget"
+      ],
+      "settings": {}
+    }
+  },
+  "order": [
+    "main",
+    "reviews",
+    "jdgm"
+  ]
+}
