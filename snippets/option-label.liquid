@@ -1,5 +1,5 @@
 {%- comment -%}
-  Spanish display label for variant option values that come from Gelato in English.
+  Spanish display label for variant option values that come in English (Gelato / merchOne).
   Only the text shown changes; the real option values stay as they are.
   - value: the option value
   - kind: 'size' | 'finish' (product + style pair) | anything else (returned as is)
@@ -34,6 +34,8 @@
         echo '45 × 60 cm'
       elsif low contains '60x80'
         echo '60 × 80 cm'
+      elsif low contains '75x100'
+        echo '75 × 100 cm'
       else
         echo v
       endif
@@ -89,6 +91,8 @@
         echo 11
       elsif low contains '60x90'
         echo 12
+      elsif low contains '75x100'
+        echo 13
       elsif low contains 'mixpix' and low contains 'packde6'
         echo 24
       elsif low contains 'mixpix' and low contains 'packde3'
