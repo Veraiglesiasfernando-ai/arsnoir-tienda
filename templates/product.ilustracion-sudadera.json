@@ -61,7 +61,8 @@
             "default_font": "pincel",
             "colors": "rosa|Rosa|#F4AFC0\nazul|Azul|#A9C7E8\nverde|Verde|#B5CCAA\namarillo|Amarillo|#F3DE9A\nlila|Lila|#CDB8E3",
             "ba_photo": "shopify://shop_images/ejemplo-retrato-nombre-foto_d9dbaddf-6261-436d-b7d2-420df48d3051.jpg",
-            "ba_result": "shopify://shop_images/retrato-con-sudadera-obra.jpg"
+            "ba_result": "shopify://shop_images/retrato-con-sudadera-obra.jpg",
+            "allow_pair": true
           }
         },
         "delivery": {

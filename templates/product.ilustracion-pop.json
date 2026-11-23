@@ -61,7 +61,8 @@
             "default_font": "moderna",
             "colors": "azul|Azul|#6CB4E4\nrosa|Rosa|#F4B6C8\nverde|Verde menta|#A8DDC3\namarillo|Amarillo|#F7D774\nlila|Lila|#C9B6E8\nnaranja|Naranja|#F5B385\ngris|Gris|#D9D6D1",
             "ba_result": "shopify://shop_images/plantilla-retrato-pop.jpg",
-            "accessories": "collar|Collar con chapa y su nombre|🏷️\ngorro-navidad|Gorro de Navidad|🎅\ngorro-fiesta|Gorro de cumpleaños|🎉\npajarita|Pajarita|🎀\nbandana|Bandana|🧣\ncorona|Corona|👑\ngafas|Gafas de sol|🕶️\nflor|Flor|🌸"
+            "accessories": "collar|Collar con chapa y su nombre|🏷️\ngorro-navidad|Gorro de Navidad|🎅\ngorro-fiesta|Gorro de cumpleaños|🎉\npajarita|Pajarita|🎀\nbandana|Bandana|🧣\ncorona|Corona|👑\ngafas|Gafas de sol|🕶️\nflor|Flor|🌸",
+            "allow_pair": true
           }
         },
         "delivery": {

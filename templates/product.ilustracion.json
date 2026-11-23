@@ -61,7 +61,8 @@
             "default_font": "moderna",
             "colors": "crema|Crema|#F1ECE3\nrosa|Rosa|#F2C4CC\nazul|Azul|#C9DAEA\nverde|Verde|#C8D5C0\narena|Arena|#E3D2B8",
             "ba_photo": "shopify://shop_images/ejemplo-retrato-nombre-foto_d9dbaddf-6261-436d-b7d2-420df48d3051.jpg",
-            "ba_result": "shopify://shop_images/antes-despues-retrato-nombre.jpg"
+            "ba_result": "shopify://shop_images/antes-despues-retrato-nombre.jpg",
+            "allow_pair": true
           }
         },
         "delivery": {
