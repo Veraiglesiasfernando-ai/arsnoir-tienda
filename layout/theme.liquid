@@ -17,7 +17,8 @@
       {{ page_title }}
       {%- if current_tags %} &ndash; {{ current_tags | join: ', ' }}{% endif -%}
       {%- if current_page != 1 %} &ndash; Página {{ current_page }}{% endif -%}
-      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+      {%- assign pt_low = page_title | downcase -%}{%- assign sn_low = shop.name | downcase | strip -%}
+      {%- unless pt_low contains sn_low or pt_low contains 'arsnoir' %} &ndash; {{ shop.name }}{% endunless -%}
     </title>
 
     {% if page_description %}
