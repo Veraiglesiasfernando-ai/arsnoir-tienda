@@ -56,6 +56,8 @@
       </div>
     {%- endif -%}
 
+    {%- render 'bf-countdown', variant: 'hero' -%}
+
     {%- if s.heading != blank -%}
       <h1 class="vhero__heading">{{ s.heading | newline_to_br }}</h1>
       {%- if s.subheading != blank -%}<p class="vhero__sub">{{ s.subheading }}</p>{%- endif -%}

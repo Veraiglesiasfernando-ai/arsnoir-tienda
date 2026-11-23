@@ -5924,3 +5924,10 @@ html.rvm-lock { overflow: hidden; }
 .bfc__time b { display: block; font-size: 22px; line-height: 1.1; font-variant-numeric: tabular-nums; color: #0a3d5a; }
 .bfc__time i { display: block; font-style: normal; font-size: 11px; color: #3b7ea3; }
 .bfc__offer { margin: 8px 0 0; font-size: 13px; }
+/* Black Friday card on the home video */
+.bfc--hero { position: relative; z-index: 2; max-width: 380px; margin: 0 auto 18px; padding: 14px 16px 16px; background: rgba(227, 243, 252, .94); border: 1px solid #b9e0f5; box-shadow: 0 18px 40px -18px rgba(0,0,0,.55); backdrop-filter: blur(6px); }
+.bfc__badge { margin: 0 0 4px; font-weight: 900; font-size: 22px; letter-spacing: .08em; color: #0a3d5a; }
+.bfc--hero .bfc__title { margin-bottom: 8px; }
+.bfc__cta { display: inline-block; margin-top: 10px; padding: 10px 18px; border-radius: 999px; background: #0a3d5a; color: #fff; font-weight: 700; font-size: 14px; text-decoration: none; }
+.bfc__cta:hover { background: #0b4f73; }
+@media (max-width: 749px) { .bfc--hero { max-width: 92%; padding: 12px; } .bfc__badge { font-size: 19px; } .bfc--hero .bfc__time span { min-width: 48px; } }

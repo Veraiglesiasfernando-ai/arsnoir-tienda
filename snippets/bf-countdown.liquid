@@ -7,8 +7,9 @@
   assign bf_start = settings.gift_from | default: settings.q4_start
 -%}
 {%- if settings.gift_enabled and bf_end != blank -%}
-  <div class="bfc" data-bfc data-end="{{ bf_end }}T23:59:59+01:00" data-start="{{ bf_start }}T00:00:00+01:00" hidden>
-    <p class="bfc__title"><span aria-hidden="true">⏳</span> El Black Friday termina en</p>
+  <div class="bfc{% if variant == 'hero' %} bfc--hero{% endif %}" data-bfc data-end="{{ bf_end }}T23:59:59+01:00" data-start="{{ bf_start }}T00:00:00+01:00" hidden>
+    {%- if variant == 'hero' -%}<p class="bfc__badge">BLACK FRIDAY</p>{%- endif -%}
+    <p class="bfc__title"><span aria-hidden="true">⏳</span> {% if variant == 'hero' %}Termina en{% else %}El Black Friday termina en{% endif %}</p>
     <div class="bfc__time" role="timer" aria-live="off">
       <span><b data-bfc-d>0</b><i>días</i></span>
       <span><b data-bfc-h>00</b><i>horas</i></span>
@@ -16,6 +17,7 @@
       <span><b data-bfc-s>00</b><i>seg</i></span>
     </div>
     {%- if settings.q4_bf_offer != blank -%}<p class="bfc__offer">{{ settings.q4_bf_offer }}</p>{%- endif -%}
+    {%- if variant == 'hero' -%}<a class="bfc__cta" href="/collections/personalizalo">Crear su retrato →</a>{%- endif -%}
   </div>
   <script>
     (function () {
