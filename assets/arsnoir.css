@@ -5907,4 +5907,4 @@ html.rvm-lock { overflow: hidden; }
 .tacc__go.is-loading { opacity: .7; pointer-events: none; }
 .tacc__undo { display: block; margin: 10px auto 0; background: none; border: 0; color: #6b6b6b; text-decoration: underline; font-size: 14px; cursor: pointer; }
 .tacc__status { margin: 8px 0 0; font-size: 14px; color: #3a3a3a; text-align: center; }
-.tacc__status:empty { display: none; }
+.tacc__status:empty, .tacc__undo[hidden], .tacc[hidden] { display: none; }
