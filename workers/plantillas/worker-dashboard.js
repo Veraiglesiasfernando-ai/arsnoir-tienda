@@ -114,7 +114,7 @@ const TEMPLATES = {
       'The first image is the finished illustration template. The second image is the customer\'s photo of their pet. ' +
       'Edit the first image: replace its animal with the pet from the second image and keep everything else of the first image exactly as it is: ' +
       'the same clean flat vector style with crisp cel-shaded fur in a few flat tones, smooth shapes and fine whisker lines, the same thin white sticker outline around the animal, ' +
-      'the same close-up portrait framing as the template: only the head and the top of the chest, the head large and filling the upper two thirds of the picture, cropped at the chest. No legs, no paws, no full body. ' +
+      'portrait framing: the head large in the upper part of the picture, with the neck, the full chest and the shoulders drawn below it, continuing smoothly down until they run off the bottom edge of the picture. Never cut the animal off at the neck or with a straight horizontal line: the body simply continues out of the frame at the bottom. No legs, no paws, no full body. ' +
       'The head faces the viewer, looking at the viewer, like the template animal. Background: plain flat {COLOR}. ' +
       'Do not copy the pose, lying position, framing or angle of the photo. ' +
       'The pet must be fully redrawn as flat vector shapes: never keep photographic pixels, photo fur texture or anything of the photo background. Exactly one animal with one head and two ears. ' +
@@ -595,7 +595,7 @@ export default {
         const shown2 = font === 'manuscrita' ? name2 : name2.toUpperCase();
         const both = name && name2 ? shown + ' & ' + shown2 : '';
         prompt = 'The first image is the customer\'s photo of their first pet. The second image is the customer\'s photo of their second pet. The third image is only a style reference: never copy its animal, breed, colours or markings. ' +
-          'Create ONE new horizontal 4:3 artwork with exactly two animals: the first pet on the left and the second pet on the right, side by side and close together, both the same size, both facing forward with the head perfectly straight, looking at the viewer, framed from the chest up, centred in the picture. ' +
+          'Create ONE new horizontal 4:3 artwork with exactly two animals: the first pet on the left and the second pet on the right, side by side and close together, both the same size, both facing forward with the head perfectly straight, looking at the viewer, centred in the picture, framed from the chest up with their chests and shoulders continuing off the bottom edge of the picture (never cut off at the neck or with a straight line). ' +
           'Style, exactly like the third image: ' + fill(tpl.pair) + '. Redraw both animals completely in this style: never keep or paste photographic pixels, photo fur texture or the photo backgrounds. ' +
           'IDENTITY, the most important rule: each animal must be the very same individual as in its own photo, instantly recognisable to its owner: breed or mix, head and muzzle shape, ear shape and position, fur length, the exact fur colours and every patch, spot and marking in its exact place and on the correct side, nose and eye colour. Never mix the two pets\' features, and take nothing from the reference animal. ' +
           (both ? 'Write "' + both + '" in ' + FONTS[font] + ', centred at the top above both heads, spelled exactly: ' + Array.from(both).map((c) => (c === ' ' ? '(space)' : c)).join(' ') + '. No other text. ' : 'No text. ') +

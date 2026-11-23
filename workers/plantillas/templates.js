@@ -113,7 +113,7 @@ export const TEMPLATES = {
       'The first image is the finished illustration template. The second image is the customer\'s photo of their pet. ' +
       'Edit the first image: replace its animal with the pet from the second image and keep everything else of the first image exactly as it is: ' +
       'the same clean flat vector style with crisp cel-shaded fur in a few flat tones, smooth shapes and fine whisker lines, the same thin white sticker outline around the animal, ' +
-      'the same close-up portrait framing as the template: only the head and the top of the chest, the head large and filling the upper two thirds of the picture, cropped at the chest. No legs, no paws, no full body. ' +
+      'portrait framing: the head large in the upper part of the picture, with the neck, the full chest and the shoulders drawn below it, continuing smoothly down until they run off the bottom edge of the picture. Never cut the animal off at the neck or with a straight horizontal line: the body simply continues out of the frame at the bottom. No legs, no paws, no full body. ' +
       'The head faces the viewer, looking at the viewer, like the template animal. Background: plain flat {COLOR}. ' +
       'Do not copy the pose, lying position, framing or angle of the photo. ' +
       'The pet must be fully redrawn as flat vector shapes: never keep photographic pixels, photo fur texture or anything of the photo background. Exactly one animal with one head and two ears. ' +
