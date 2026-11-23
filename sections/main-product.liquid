@@ -1113,15 +1113,29 @@
                           var m = img.parentElement;
                           var draw = function () {
                             if (!img.naturalWidth) return;
+                            /* the gallery may have loaded a small version of the room: fetch a big one (once) so the result is sharp */
+                            if (img.naturalWidth < 1000 && !img._hi) {
+                              var hi = new Image();
+                              img._hi = hi;
+                              hi.onload = draw;
+                              hi.onerror = function () { img._hi = img; draw(); };
+                              var u = img.currentSrc || img.src;
+                              hi.src = /[?&]width=\d+/.test(u) ? u.replace(/([?&]width=)\d+/, '$11400') : u + (u.indexOf('?') < 0 ? '?' : '&') + 'width=1400';
+                              return;
+                            }
+                            var bg = (img._hi && img._hi.naturalWidth) ? img._hi : img;
+                            if (img._hi && !img._hi.complete) { img._hi.onload = draw; return; }
                             var c = m.querySelector('canvas.tart');
                             if (!c) { c = document.createElement('canvas'); c.className = 'tart'; c.setAttribute('role', 'img'); m.appendChild(c); }
                             c.setAttribute('aria-label', img.alt);
                             /* draw at the screen's real resolution (retina), not the room photo's, so the customer's photo stays sharp */
-                            var S = Math.min(3, Math.max(1, (m.clientWidth || 0) * (window.devicePixelRatio || 1) / img.naturalWidth));
-                            c.width = Math.round(img.naturalWidth * S); c.height = Math.round(img.naturalHeight * S);
+                            var bw = bg.naturalWidth, bh = bg.naturalHeight;
+                            var shown = m.clientWidth || window.innerWidth || bw;
+                            var S = Math.min(3, Math.max(1, shown * (window.devicePixelRatio || 1) / bw));
+                            c.width = Math.round(bw * S); c.height = Math.round(bh * S);
                             var g = c.getContext('2d');
                             g.imageSmoothingEnabled = true; g.imageSmoothingQuality = 'high';
-                            g.drawImage(img, 0, 0, c.width, c.height);
+                            g.drawImage(bg, 0, 0, c.width, c.height);
                             var x = r[0] / 100 * c.width, y = r[1] / 100 * c.height, w = r[2] / 100 * c.width, h = r[3] / 100 * c.height;
                             var k = kind();
                             if (k !== 'none') {
