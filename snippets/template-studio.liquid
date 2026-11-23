@@ -44,6 +44,14 @@
       </div>
     {%- endif -%}
     {%- render 'howto-button', product: product -%}
+    {%- if b.allow_pair -%}
+      {%- comment -%} One or two pets: with two, a second photo (and name) and the illustration comes out horizontal {%- endcomment -%}
+      <div class="tstudio__opts tpair" role="radiogroup" aria-label="¿Cuántas mascotas?">
+        <span class="tstudio__opts-label">¿Cuántas mascotas?</span>
+        <label class="tstudio__font"><input type="radio" name="tpair-{{ section_id }}" value="1" checked data-tpair><span>1 mascota</span></label>
+        <label class="tstudio__font"><input type="radio" name="tpair-{{ section_id }}" value="2" data-tpair><span>2 mascotas · horizontal</span></label>
+      </div>
+    {%- endif -%}
     <p class="vstep__head"><span class="vstep__num">1</span><span class="vstep__title">{{ b.photo_label }}</span></p>
     {%- comment -%} Upload, plain and big: a dashed square with a + (the photo shows inside once chosen), a black button, the formats {%- endcomment -%}
     <label class="tstudio__drop" for="TStudio-{{ section_id }}">
@@ -54,6 +62,18 @@
     </label>
     <label class="tstudio__pick" for="TStudio-{{ section_id }}" data-tstudio-pick><span data-tstudio-pick-text>Sube tu foto</span> <span aria-hidden="true">→</span></label>
     <p class="tstudio__formats">JPG o PNG · Desde la galería del móvil o el ordenador</p>
+    {%- if b.allow_pair -%}
+      <div class="tpair__second" data-tpair-box hidden>
+        <p class="tpair__label">Foto de la segunda mascota</p>
+        <label class="tstudio__drop tstudio__drop--second" for="TStudio2-{{ section_id }}">
+          <input class="tstudio__file" id="TStudio2-{{ section_id }}" type="file" accept="image/jpeg,image/png,image/webp" data-tstudio-file2>
+          <img class="tstudio__thumb" alt="" width="128" height="160" data-tstudio-thumb2 hidden>
+          <span class="tstudio__plus" aria-hidden="true"></span>
+          <span class="visually-hidden">Elige la foto de la segunda mascota</span>
+        </label>
+      </div>
+    {%- endif -%}
+
     <script>
       (function () {
         var p = document.currentScript.previousElementSibling.previousElementSibling;
@@ -70,6 +90,7 @@
     {%- if has_text -%}
       <p class="vstep__head"><span class="vstep__num">2</span><span class="vstep__title">{% if b.needs_name %}{{ b.name_label }}{% else %}{{ b.text_label }}{% endif %}</span></p>
       <input class="tstudio__name" type="text" maxlength="24" autocomplete="off" placeholder="{% if b.needs_name %}{{ b.name_placeholder | escape }}{% else %}{{ b.text_placeholder | escape }}{% endif %}" data-tstudio-name>
+      {%- if b.allow_pair -%}<input class="tstudio__name tpair__name2" type="text" maxlength="24" autocomplete="off" placeholder="Nombre de la segunda (ej. LUNA)" data-tstudio-name2 hidden>{%- endif -%}
       {%- if b.show_fonts -%}
         {%- comment -%} Keys must match FONTS in workers/plantillas/worker.js {%- endcomment -%}
         <div class="tstudio__opts" role="radiogroup" aria-label="{{ b.font_label | escape }}">
@@ -193,6 +214,7 @@
     {%- if has_text -%}<input type="hidden" name="properties[{% if b.needs_name %}Nombre{% else %}Texto{% endif %}]" form="{{ form_id }}" data-tstudio-name-prop>{%- endif -%}
     {%- if b.show_fonts and has_text -%}<input type="hidden" name="properties[Letra]" form="{{ form_id }}" data-tstudio-font-prop>{%- endif -%}
     {%- if b.colors != blank -%}<input type="hidden" name="properties[Color]" form="{{ form_id }}" data-tstudio-color-prop>{%- endif -%}
+    {%- if b.allow_pair -%}<input type="hidden" name="properties[Mascotas]" form="{{ form_id }}" data-tpair-prop><input type="hidden" name="properties[Nombre 2]" form="{{ form_id }}" data-tpair-name-prop>{%- endif -%}
   {%- endif -%}
 </div>
 {%- comment -%} Mobile: the gallery fills the first screen, so the upload box starts out of sight {%- endcomment -%}

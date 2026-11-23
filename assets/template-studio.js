@@ -121,6 +121,17 @@
   };
   studio.querySelectorAll('[data-tstudio-border]').forEach(function (el) { el.addEventListener('change', function () { applyBorder(); paintRooms(); }); });
   let photo = null;
+  /* Two pets: second photo + name, horizontal illustration (only when the block allows it) */
+  let photo2 = null;
+  let landscape = false; /* the illustration on screen is a horizontal pair */
+  const pairIns = [].slice.call(studio.querySelectorAll('[data-tpair]'));
+  const pairBox = studio.querySelector('[data-tpair-box]');
+  const fileInput2 = studio.querySelector('[data-tstudio-file2]');
+  const thumb2 = studio.querySelector('[data-tstudio-thumb2]');
+  const nameInput2 = studio.querySelector('[data-tstudio-name2]');
+  const pairProp = studio.querySelector('[data-tpair-prop]');
+  const pairNameProp = studio.querySelector('[data-tpair-name-prop]');
+  const isPair = function () { return pairIns.some(function (i) { return i.checked && i.value === '2'; }); };
 
   const used = function () {
     try { return parseInt(localStorage.getItem(d.key) || '0', 10); } catch (e) { return 0; }
@@ -153,7 +164,8 @@
     else if (/blanc|white/.test(f)) kind = 'white';
     else if (/madera|wood|natural/.test(f)) kind = 'wood';
     const s = sizeOf(sizeText);
-    const w = Math.min(s[0], s[1]), h = Math.max(s[0], s[1]);
+    let w = Math.min(s[0], s[1]), h = Math.max(s[0], s[1]);
+    if (landscape) { const t = w; w = h; h = t; }
     /* The illustration is the star: always drawn big (the room photos and the size guide show the scale) */
     const fw = kind === 'none' ? 0 : 2.5;
     const fwW = w + fw * 2, fwH = h + fw * 2;
@@ -262,7 +274,7 @@
     const white = studio.classList.contains('is-bordered');
     gallery.querySelectorAll('.product__media:not(.tlive) > img').forEach(function (img) {
       const media = img.parentElement;
-      if (!artUrl) { media.hidden = false; img.hidden = false; const old = media.querySelector('canvas.tart'); if (old) old.remove(); return; }
+      if (!artUrl || landscape) { media.hidden = false; img.hidden = false; const old = media.querySelector('canvas.tart'); if (old) old.remove(); return; }
       if (exampleOnly(img)) { media.hidden = true; return; }
       const r = roomOf(img);
       if (!r) return;
@@ -451,7 +463,7 @@
       const label = on.map(function (i) { return i.dataset.label; }).join(', ');
       const run = function (n) {
         return fetch(endpoint + '/accessory', { method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ id: accBase.id, items: on.map(function (i) { return i.value; }), name: nameInput ? nameInput.value.trim() : '', template: d.template, attempt: n }) })
+          body: JSON.stringify({ id: accBase.id, items: on.map(function (i) { return i.value; }), name: nameInput ? nameInput.value.trim() : '', name2: landscape && nameInput2 ? nameInput2.value.trim() : '', pair: landscape, template: d.template, attempt: n }) })
           .then(function (r) { return r.json().then(function (b) { if (!r.ok || !b.id) throw new Error(b.error || 'failed'); return b.id; }); })
           .then(function (id) { return poll(id, 0).then(function (done) { return { id: id, url: done.url, saved: done.saved || '', keep: done.temporary && done.keep ? id : '' }; }); })
           .catch(function (err) { return err && err.message === 'failed' && n < 1 ? run(n + 1) : Promise.reject(err); });
@@ -478,6 +490,9 @@
     if (nameProp) nameProp.value = '';
     if (fontProp) fontProp.value = '';
     if (colorProp) colorProp.value = '';
+    if (pairProp) pairProp.value = '';
+    if (pairNameProp) pairNameProp.value = '';
+    landscape = false;
     result.hidden = true;
     if (next) next.hidden = true;
     document.dispatchEvent(new CustomEvent('arsnoir:studio-reset'));
@@ -492,7 +507,8 @@
      the name box (a greyed-out button looked broken). Only the limit really disables it. */
   const ready = function () {
     go.disabled = used() >= max;
-    go.classList.toggle('is-wait', !photo || (needsName && !nameInput.value.trim()));
+    const p2 = isPair();
+    go.classList.toggle('is-wait', !photo || (needsName && !nameInput.value.trim()) || (p2 && !photo2) || (p2 && needsName && nameInput2 && !nameInput2.value.trim()));
   };
 
   /* Switching style (the «Otros estilos» strip) keeps the photo and the name already given */
@@ -534,6 +550,34 @@
     img.onerror = function () { say(d.tError); };
     img.src = URL.createObjectURL(file);
   });
+  pairIns.forEach(function (i) {
+    i.addEventListener('change', function () {
+      const on = isPair();
+      if (pairBox) pairBox.hidden = !on;
+      if (nameInput2) nameInput2.hidden = !on;
+      reset(); ready();
+    });
+  });
+  if (fileInput2) fileInput2.addEventListener('change', function () {
+    const file = fileInput2.files && fileInput2.files[0];
+    photo2 = null;
+    reset();
+    if (!file) return ready();
+    const img = new Image();
+    img.onload = function () {
+      const k = Math.min(1, 1536 / Math.max(img.naturalWidth, img.naturalHeight));
+      const c = document.createElement('canvas');
+      c.width = Math.round(img.naturalWidth * k); c.height = Math.round(img.naturalHeight * k);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      photo2 = c.toDataURL('image/jpeg', 0.9);
+      thumb2.src = photo2; thumb2.hidden = false;
+      URL.revokeObjectURL(img.src);
+      ready();
+    };
+    img.onerror = function () { say(d.tError); };
+    img.src = URL.createObjectURL(file);
+  });
+  if (nameInput2) nameInput2.addEventListener('input', function () { reset(); ready(); });
   if (nameInput) nameInput.addEventListener('input', function () {
     try { sessionStorage.setItem(NAME_KEY, nameInput.value); } catch (e) {}
     reset(); ready();
@@ -577,12 +621,16 @@
     if (go.disabled) return;
     if (!photo) { fileInput.click(); return; }
     if (needsName && !nameInput.value.trim()) { nameInput.focus(); if (d.tMissing) say(d.tMissing); return; }
+    const pairNow = isPair();
+    if (pairNow && !photo2) { say('Falta la foto de la segunda mascota.'); fileInput2.click(); return; }
+    if (pairNow && needsName && nameInput2 && !nameInput2.value.trim()) { nameInput2.focus(); say('Escribe el nombre de la segunda mascota.'); return; }
     go.disabled = true;
     go.classList.add('is-loading');
     startLoading();
     const name = nameInput ? nameInput.value.trim() : '';
     const payload = JSON.stringify({
       template: d.template, name: name, image: photo,
+      image2: pairNow ? photo2 : undefined, name2: pairNow && nameInput2 ? nameInput2.value.trim() : undefined,
       font: picked('data-tstudio-font') ? picked('data-tstudio-font').value : '',
       color: picked('data-tstudio-color') ? picked('data-tstudio-color').value : ''
     });
@@ -609,6 +657,9 @@
         const f = picked('data-tstudio-font'), c = picked('data-tstudio-color');
         if (fontProp) fontProp.value = name && f ? f.nextElementSibling.textContent : '';
         if (colorProp) colorProp.value = c ? c.dataset.label : '';
+        landscape = pairNow;
+        if (pairProp) pairProp.value = pairNow ? '2 (horizontal)' : '';
+        if (pairNameProp) pairNameProp.value = pairNow && nameInput2 ? nameInput2.value.trim() : '';
         resultImg.src = url;
         result.hidden = false;
         showSend(out.id, name);

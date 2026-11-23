@@ -7,6 +7,7 @@
  */
 export const TEMPLATES = {
   'retrato-nombre': {
+    pair: 'thick impasto oil paint with visible palette-knife and brush strokes, plain {COLOR} background, happy expressions. No clothes or accessories',
     needsName: true,
     font: 'moderna',
     colors: { crema: 'warm off-white', rosa: 'soft pastel pink', azul: 'pale powder blue', verde: 'soft sage green', arena: 'warm sand beige' },
@@ -23,6 +24,7 @@ export const TEMPLATES = {
       'No other text, no logos, no border. Vertical 3:4, with a little empty background around the subject.'
   },
   'retrato-pop': {
+    pair: 'clean modern digital illustration with smooth soft shading and fine fur detail, big glossy eyes, friendly happy expressions, plain flat solid {COLOR} background. No clothes, collars or accessories',
     needsName: true,
     font: 'moderna',
     colors: { azul: 'sky blue', rosa: 'soft pink', verde: 'mint green', amarillo: 'sunny yellow', lila: 'lilac', naranja: 'soft orange', gris: 'light warm grey' },
@@ -41,6 +43,7 @@ export const TEMPLATES = {
       'No other text, no logos, no border. Vertical 3:4, with a little empty background around the subject.'
   },
   'retrato-sudadera': {
+    pair: 'flat hand-painted illustration with soft brush texture, plain pastel {COLOR} background, happy expressions, each pet wearing a {COLOR} hoodie in a slightly deeper shade than the background, with white drawstrings',
     needsName: true,
     font: 'pincel',
     colors: { rosa: 'pink', azul: 'blue', verde: 'sage green', amarillo: 'butter yellow', lila: 'lilac' },
@@ -100,6 +103,7 @@ export const TEMPLATES = {
       'No text, no logos, no border. Vertical 3:4.'
   },
   'ilustracion-plana': {
+    pair: 'clean flat vector style with crisp cel-shaded fur in a few flat tones, smooth shapes and fine whisker lines, a thin white sticker outline around each animal, plain flat {COLOR} background',
     needsName: false,
     colors: { gris: 'light grey', rosa: 'soft pastel pink', azul: 'pale powder blue', verde: 'soft sage green', amarillo: 'soft butter yellow' },
     aspectRatio: '3:4',

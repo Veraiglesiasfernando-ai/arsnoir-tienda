@@ -8,6 +8,7 @@
  */
 const TEMPLATES = {
   'retrato-nombre': {
+    pair: 'thick impasto oil paint with visible palette-knife and brush strokes, plain {COLOR} background, happy expressions. No clothes or accessories',
     needsName: true,
     font: 'moderna',
     colors: { crema: 'warm off-white', rosa: 'soft pastel pink', azul: 'pale powder blue', verde: 'soft sage green', arena: 'warm sand beige' },
@@ -24,6 +25,7 @@ const TEMPLATES = {
       'No other text, no logos, no border. Vertical 3:4, with a little empty background around the subject.'
   },
   'retrato-pop': {
+    pair: 'clean modern digital illustration with smooth soft shading and fine fur detail, big glossy eyes, friendly happy expressions, plain flat solid {COLOR} background. No clothes, collars or accessories',
     needsName: true,
     font: 'moderna',
     colors: { azul: 'sky blue', rosa: 'soft pink', verde: 'mint green', amarillo: 'sunny yellow', lila: 'lilac', naranja: 'soft orange', gris: 'light warm grey' },
@@ -42,6 +44,7 @@ const TEMPLATES = {
       'No other text, no logos, no border. Vertical 3:4, with a little empty background around the subject.'
   },
   'retrato-sudadera': {
+    pair: 'flat hand-painted illustration with soft brush texture, plain pastel {COLOR} background, happy expressions, each pet wearing a {COLOR} hoodie in a slightly deeper shade than the background, with white drawstrings',
     needsName: true,
     font: 'pincel',
     colors: { rosa: 'pink', azul: 'blue', verde: 'sage green', amarillo: 'butter yellow', lila: 'lilac' },
@@ -101,6 +104,7 @@ const TEMPLATES = {
       'No text, no logos, no border. Vertical 3:4.'
   },
   'ilustracion-plana': {
+    pair: 'clean flat vector style with crisp cel-shaded fur in a few flat tones, smooth shapes and fine whisker lines, a thin white sticker outline around each animal, plain flat {COLOR} background',
     needsName: false,
     colors: { gris: 'light grey', rosa: 'soft pastel pink', azul: 'pale powder blue', verde: 'soft sage green', amarillo: 'soft butter yellow' },
     aspectRatio: '3:4',
@@ -581,10 +585,27 @@ export default {
       const retry = Math.min(2, Math.max(0, parseInt(body.attempt, 10) || 0));
       if (retry) prompt += ' Keep it a warm, friendly, family-safe illustration of the pet only; leave out any people, logos or text other than the name.';
       if (!tpl.needsName && name && tpl.textPrompt) prompt += ' ' + fill(tpl.textPrompt);
+      /* Two pets (templates with «pair»): both photos + the style, one horizontal picture */
+      const image2 = String(body.image2 || '');
+      const pair = !!(tpl.pair && image2);
+      if (pair && (!/^data:image\/(jpeg|png|webp);base64,/.test(image2) || image2.length > MAX_IMAGE_BYTES * 1.37)) return json({ error: 'image' }, 400);
+      const name2 = String(body.name2 || '').replace(/[^\p{L}\p{N} '\-&.!]/gu, '').trim().slice(0, 24);
+      if (pair && tpl.needsName && !name2) return json({ error: 'name' }, 400);
+      if (pair) {
+        const shown2 = font === 'manuscrita' ? name2 : name2.toUpperCase();
+        const both = name && name2 ? shown + ' & ' + shown2 : '';
+        prompt = 'The first image is the customer\'s photo of their first pet. The second image is the customer\'s photo of their second pet. The third image is only a style reference: never copy its animal, breed, colours or markings. ' +
+          'Create ONE new horizontal 4:3 artwork with exactly two animals: the first pet on the left and the second pet on the right, side by side and close together, both the same size, both facing forward with the head perfectly straight, looking at the viewer, framed from the chest up, centred in the picture. ' +
+          'Style, exactly like the third image: ' + fill(tpl.pair) + '. Redraw both animals completely in this style: never keep or paste photographic pixels, photo fur texture or the photo backgrounds. ' +
+          'IDENTITY, the most important rule: each animal must be the very same individual as in its own photo, instantly recognisable to its owner: breed or mix, head and muzzle shape, ear shape and position, fur length, the exact fur colours and every patch, spot and marking in its exact place and on the correct side, nose and eye colour. Never mix the two pets\' features, and take nothing from the reference animal. ' +
+          (both ? 'Write "' + both + '" in ' + FONTS[font] + ', centred at the top above both heads, spelled exactly: ' + Array.from(both).map((c) => (c === ' ' ? '(space)' : c)).join(' ') + '. No other text. ' : 'No text. ') +
+          'No logos, no border. Horizontal 4:3, with a little empty background around the two animals.';
+        if (retry) prompt += ' Keep it a warm, friendly, family-safe illustration of the two pets only.';
+      }
       const model = env.MODEL || 'google/nano-banana';
       const res = await replicate('/models/' + model + '/predictions', {
         method: 'POST',
-        body: JSON.stringify({ input: { prompt, image_input: (retry === 2 ? !tpl.refFirst : tpl.refFirst) ? [tpl.reference, image] : [image, tpl.reference], output_format: 'png', aspect_ratio: tpl.aspectRatio || '3:4' } })
+        body: JSON.stringify({ input: { prompt, image_input: pair ? [image, image2, tpl.reference] : (retry === 2 ? !tpl.refFirst : tpl.refFirst) ? [tpl.reference, image] : [image, tpl.reference], output_format: 'png', aspect_ratio: pair ? '4:3' : (tpl.aspectRatio || '3:4') } })
       });
       const data = await res.json();
       if (!res.ok || !data.id) return json({ error: 'replicate', detail: data.detail || null }, 502);
@@ -613,14 +634,15 @@ export default {
         await env.LIMITS.put(key, String(used + 1), { expirationTtl: 60 * 60 * 26 });
       }
       const shown = (name || 'LOVE').toUpperCase();
+      const n2 = String(body.name2 || '').replace(/[^\p{L}\p{N} '\-&.!]/gu, '').trim().slice(0, 24).toUpperCase();
       const list = items.map((k) => ACCESSORIES[k].split('{NAME}').join(shown)).join('; and ');
       let prompt = 'Edit this illustration. Keep absolutely everything exactly as it is: the same animal with the same face, fur, colours and markings, the same pose, framing, background colour, drawing style, shading and the same name text at the top. ' +
-        'Only add: ' + list + '. Draw the added items in exactly the same illustration style, with the same soft shading and lighting, fitted naturally to the animal\'s head and neck. Do not add any other objects, text or logos. Vertical 3:4.';
+        'Only add: ' + list + '. Draw the added items in exactly the same illustration style, with the same soft shading and lighting, fitted naturally to the animal\'s head and neck. Do not add any other objects, text or logos. If there are two animals, add the items to each of them' + (n2 ? ' (the second animal\'s name tag reads "' + n2 + '")' : '') + '.';
       if (parseInt(body.attempt, 10) > 0) prompt += ' Make only these small additions and change nothing else.';
       const model = env.MODEL || 'google/nano-banana';
       const res = await replicate('/models/' + model + '/predictions', {
         method: 'POST',
-        body: JSON.stringify({ input: { prompt, image_input: [url.origin + '/img/' + id + '.png'], output_format: 'png', aspect_ratio: '3:4' } })
+        body: JSON.stringify({ input: { prompt, image_input: [url.origin + '/img/' + id + '.png'], output_format: 'png', aspect_ratio: body.pair ? '4:3' : '3:4' } })
       });
       const data = await res.json();
       if (!res.ok || !data.id) return json({ error: 'replicate', detail: data.detail || null }, 502);

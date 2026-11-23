@@ -5908,3 +5908,9 @@ html.rvm-lock { overflow: hidden; }
 .tacc__undo { display: block; margin: 10px auto 0; background: none; border: 0; color: #6b6b6b; text-decoration: underline; font-size: 14px; cursor: pointer; }
 .tacc__status { margin: 8px 0 0; font-size: 14px; color: #3a3a3a; text-align: center; }
 .tacc__status:empty, .tacc__undo[hidden], .tacc[hidden] { display: none; }
+
+/* Two pets */
+.tpair__second { margin-top: 12px; }
+.tpair__second[hidden], .tpair__name2[hidden] { display: none; }
+.tpair__label { margin: 0 0 6px; font-weight: 600; font-size: 14px; }
+.tpair__name2 { margin-top: 8px; }
