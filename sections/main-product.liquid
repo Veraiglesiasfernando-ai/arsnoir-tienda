@@ -538,6 +538,7 @@
               </div>
             {%- endif -%}
 
+            {%- render 'bf-countdown' -%}
           {%- when 'description' -%}
             {%- if product.description != blank -%}
               <div class="accordion product__desc-acc" {{ block.shopify_attributes }} style="margin-top:0;border-top:0">
