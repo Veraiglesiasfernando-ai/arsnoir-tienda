@@ -34,7 +34,9 @@ export const TEMPLATES = {
       'Create a new portrait of the pet from the first image in exactly the same style as the second image: ' +
       'clean modern digital illustration with smooth soft shading and fine fur detail, big glossy eyes, friendly happy expression, ' +
       'plain flat solid {COLOR} background with nothing else on it. No clothes, collar or accessories. ' +
-      'It must be the very same individual animal as in the first image, instantly recognisable to its owner: same breed or mix, head and muzzle shape, ear shape, size and position, fur length, colours, every marking and eye colour. ' +
+      'POSE: exactly like the second image: the head perfectly straight and upright, not tilted, looking straight at the viewer, face symmetric and seen fully from the front, shoulders and chest square to the viewer, centred left to right. ' +
+      'IDENTITY, the most important rule: it must be the very same individual animal as in the first image, instantly recognisable to its owner. Before drawing, study the photo and copy faithfully: breed or mix, head and muzzle shape, ear shape, size and whether they stand up or fold, fur length and texture, the exact fur colours and shades, and every patch, spot, stripe, mask and blaze in its exact place and on the correct side of the face and body (left stays left, right stays right), nose colour and eye colour. ' +
+      'Do not invent, move, remove or simplify any marking, and take nothing from the second image\'s animal: its black eye patch and white fur must not appear unless the customer\'s pet really has them. ' +
       'Write the name "{NAME}" in white, in {FONT}, centred near the top above the head, medium size, spelled exactly: {SPELL}. ' +
       'No other text, no logos, no border. Vertical 3:4, with a little empty background around the subject.'
   },
