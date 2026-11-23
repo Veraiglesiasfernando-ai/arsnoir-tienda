@@ -267,7 +267,7 @@
   };
   const exampleOnly = function (img) {
     const a = img.alt || '';
-    return img.hasAttribute('data-black') || / con marco negro$|, la obra$|^Ejemplo:|^La foto original/i.test(a);
+    return img.hasAttribute('data-black') || / con marco negro$|, la obra$| de cerca$|^Ejemplo:|^La foto original/i.test(a);
   };
   const paintRooms = function () {
     if (!gallery) return;
