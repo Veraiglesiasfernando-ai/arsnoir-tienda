@@ -129,6 +129,29 @@
       </div>
       <figcaption>{{ b.result_note }}</figcaption>
     </figure>
+    {%- if b.accessories != blank -%}
+      {%- comment -%} Optional step once the illustration exists: the AI adds a collar, hat… on top of the SAME illustration.
+        One per line: key|Name|emoji — keys must match ACCESSORIES in workers/plantillas/worker-dashboard.js {%- endcomment -%}
+      <div class="tacc" data-tacc hidden>
+        <p class="tacc__head">{{ b.acc_title | default: '¿Le ponemos algo?' }} <span>(opcional)</span></p>
+        <p class="tacc__sub">{{ b.acc_text | default: 'Lo añadimos sobre su misma ilustración. Elige hasta 2.' }}</p>
+        <div class="tacc__list">
+          {%- assign acc_lines = b.accessories | newline_to_br | split: '<br />' -%}
+          {%- for line in acc_lines -%}
+            {%- assign parts = line | strip | split: '|' -%}
+            {%- if parts.size < 2 -%}{%- continue -%}{%- endif -%}
+            <label class="tacc__item">
+              <input type="checkbox" value="{{ parts[0] | strip }}" data-label="{{ parts[1] | strip | escape }}" data-tacc-item>
+              <span>{% if parts[2] != blank %}<i aria-hidden="true">{{ parts[2] | strip }}</i>{% endif %}{{ parts[1] | strip }}</span>
+            </label>
+          {%- endfor -%}
+        </div>
+        <button type="button" class="button tacc__go" data-tacc-go disabled>{{ b.acc_button | default: 'Añadir a su ilustración' }}</button>
+        <button type="button" class="tacc__undo" data-tacc-undo hidden>Quitar los accesorios</button>
+        <p class="tacc__status" role="status" aria-live="polite" data-tacc-status></p>
+      </div>
+      <input type="hidden" name="properties[Accesorios]" value="" form="{{ form_id }}" data-tacc-prop>
+    {%- endif -%}
     {%- comment -%} Straight from the preview to the size step (it sits under the studio, out of sight on mobile) {%- endcomment -%}
     <div class="tstudio__next tnext" data-tstudio-next hidden>
       <p class="tnext__ok">✓ Tu retrato está listo</p>

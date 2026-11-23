@@ -394,6 +394,83 @@
     sendEmail.addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); send(); } });
   }
 
+  /* Accessories (optional, after the preview): the worker edits the SAME illustration and adds a
+     collar with the name tag, a hat… (POST /accessory, then the usual poll). The base illustration is
+     kept so «Quitar los accesorios» goes back to it without making a new one. */
+  const acc = studio.querySelector('[data-tacc]');
+  const accProp = studio.querySelector('[data-tacc-prop]');
+  let accBase = null; /* { id, url, saved, keep } of the illustration without accessories */
+  let accCur = null;  /* the one on screen now */
+  const accHide = function () {
+    accBase = accCur = null;
+    if (accProp) accProp.value = '';
+    if (!acc) return;
+    acc.hidden = true;
+    acc.querySelectorAll('[data-tacc-item]').forEach(function (i) { i.checked = false; i.disabled = false; });
+    acc.querySelector('[data-tacc-undo]').hidden = true;
+    acc.querySelector('[data-tacc-status]').textContent = '';
+    acc.querySelector('[data-tacc-go]').disabled = true;
+  };
+  const accShow = function (state) {
+    if (!acc || !state || !state.id) return;
+    accBase = state; accCur = state;
+    acc.hidden = false;
+  };
+  const accApply = function (st, label) {
+    accCur = st;
+    keepId = st.keep || '';
+    urlInput.value = st.saved || st.url;
+    resultImg.src = st.url;
+    if (accProp) accProp.value = label || '';
+    showSend(st.id, nameInput ? nameInput.value.trim() : '');
+    showLive(st.url);
+  };
+  if (acc) {
+    const items = [].slice.call(acc.querySelectorAll('[data-tacc-item]'));
+    const accGo = acc.querySelector('[data-tacc-go]');
+    const accUndo = acc.querySelector('[data-tacc-undo]');
+    const accSay = function (t) { acc.querySelector('[data-tacc-status]').textContent = t || ''; };
+    const syncItems = function () {
+      const on = items.filter(function (i) { return i.checked; });
+      items.forEach(function (i) { i.disabled = !i.checked && on.length >= 2; });
+      accGo.disabled = !on.length;
+    };
+    items.forEach(function (i) { i.addEventListener('change', syncItems); });
+    accUndo.addEventListener('click', function () {
+      if (!accBase) return;
+      accApply(accBase, '');
+      accUndo.hidden = true;
+      accSay('Hemos vuelto a su ilustración sin accesorios.');
+    });
+    accGo.addEventListener('click', function () {
+      const on = items.filter(function (i) { return i.checked; });
+      if (!on.length || !accBase) return;
+      accGo.disabled = true; accGo.classList.add('is-loading');
+      items.forEach(function (i) { i.disabled = true; });
+      accSay('Añadiendo ' + on.map(function (i) { return i.dataset.label.toLowerCase(); }).join(' y ') + '… suele tardar menos de un minuto.');
+      const label = on.map(function (i) { return i.dataset.label; }).join(', ');
+      const run = function (n) {
+        return fetch(endpoint + '/accessory', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: accBase.id, items: on.map(function (i) { return i.value; }), name: nameInput ? nameInput.value.trim() : '', template: d.template, attempt: n }) })
+          .then(function (r) { return r.json().then(function (b) { if (!r.ok || !b.id) throw new Error(b.error || 'failed'); return b.id; }); })
+          .then(function (id) { return poll(id, 0).then(function (done) { return { id: id, url: done.url, saved: done.saved || '', keep: done.temporary && done.keep ? id : '' }; }); })
+          .catch(function (err) { return err && err.message === 'failed' && n < 1 ? run(n + 1) : Promise.reject(err); });
+      };
+      run(0)
+        .then(function (st) {
+          accApply(st, label);
+          accUndo.hidden = false;
+          accSay('¡Listo! Si no te convence, puedes quitarlos.');
+          requestAnimationFrame(function () { result.scrollIntoView({ behavior: 'smooth', block: 'center' }); });
+        })
+        .catch(function (err) {
+          accSay(err && err.message === 'limit' ? 'Has llegado al máximo de hoy. Prueba mañana o escríbenos a hola@arsnoir.com.' :
+            err && err.message === 'expired' ? 'Esta vista previa ha caducado: crea la ilustración otra vez.' : 'No hemos podido añadirlos. Inténtalo de nuevo en un momento.');
+        })
+        .finally(function () { accGo.classList.remove('is-loading'); items.forEach(function (i) { i.checked = false; }); syncItems(); });
+    });
+  }
+
   /* A new photo or name invalidates the previous preview */
   const reset = function () {
     keepId = '';
@@ -406,6 +483,7 @@
     document.dispatchEvent(new CustomEvent('arsnoir:studio-reset'));
     if (sendBox) sendBox.hidden = true;
     sendId = '';
+    accHide();
     if (live) live.hidden = true;
     artUrl = '';
     paintRooms();
@@ -535,6 +613,7 @@
         result.hidden = false;
         showSend(out.id, name);
         showNext();
+        accShow({ id: out.id, url: url, saved: out.saved, keep: out.keep });
         showLive(url);
         /* Show it where the customer is looking: the picture under the button */
         requestAnimationFrame(function () { result.scrollIntoView({ behavior: 'smooth', block: 'center' }); });
@@ -564,6 +643,7 @@
       resultImg.src = hand.url;
       result.hidden = false;
       showSend(hand.keep || ((hand.saved || '').match(/\/img\/([a-z0-9]+)\.png/i) || [])[1] || '', hand.name || '');
+      accShow({ id: hand.keep || ((hand.saved || '').match(/\/img\/([a-z0-9]+)\.png/i) || [])[1] || '', url: hand.url, saved: hand.saved || '', keep: hand.keep || '' });
       showNext();
       showLive(hand.url);
     }

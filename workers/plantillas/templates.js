@@ -22,6 +22,22 @@ export const TEMPLATES = {
       'Write the name "{NAME}" small in {FONT}, in black, centred at the top, spelled exactly. ' +
       'No other text, no logos, no border. Vertical 3:4, with a little empty background around the subject.'
   },
+  'retrato-pop': {
+    needsName: true,
+    font: 'moderna',
+    colors: { azul: 'sky blue', rosa: 'soft pink', verde: 'mint green', amarillo: 'sunny yellow', lila: 'lilac', naranja: 'soft orange', gris: 'light warm grey' },
+    aspectRatio: '3:4',
+    reference: 'https://cdn.shopify.com/s/files/1/1020/8903/2064/files/plantilla-retrato-pop.jpg',
+    prompt:
+      'The first image is the customer\'s photo: it is the subject. The second image is only a style reference: never copy its animal, breed, colours or markings. ' +
+      'It must be a completely new digital illustration in the style of the second image: redraw every part of the animal, never keep or paste photographic pixels, photo fur texture or the photo background. Exactly one animal with one head. Use the same pose, angle and framing as the animal in the second image: facing forward, head and chest centred, framed from the chest up, even if the photo shows the pet from the side, from above or lying down. ' +
+      'Create a new portrait of the pet from the first image in exactly the same style as the second image: ' +
+      'clean modern digital illustration with smooth soft shading and fine fur detail, big glossy eyes, friendly happy expression, ' +
+      'plain flat solid {COLOR} background with nothing else on it. No clothes, collar or accessories. ' +
+      'It must be the very same individual animal as in the first image, instantly recognisable to its owner: same breed or mix, head and muzzle shape, ear shape, size and position, fur length, colours, every marking and eye colour. ' +
+      'Write the name "{NAME}" in white, in {FONT}, centred near the top above the head, medium size, spelled exactly: {SPELL}. ' +
+      'No other text, no logos, no border. Vertical 3:4, with a little empty background around the subject.'
+  },
   'retrato-sudadera': {
     needsName: true,
     font: 'pincel',

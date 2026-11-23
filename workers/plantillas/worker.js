@@ -12,6 +12,7 @@
  *   GET  /img/:id.png    that copy (public, for the order and the store)
  *   GET  /send           { enabled } — the theme shows «Envíamela» only when sending is set up
  *   POST /send           { id, email, name?, template?, page } -> { ok }  the illustration by email (Brevo)
+ *   POST /accessory      { id, items[], name?, template? } -> { id }  add collar / hat… to a finished illustration (poll /preview/:id)
  *   GET  /stats          counter page: illustrations started / added to the cart per day and template
  *                        (only counts, never photos; uses the KEEP or LIMITS KV binding; ?k=STATS_KEY if set)
  *
@@ -31,6 +32,20 @@
  *   SENDER_EMAIL          verified Brevo sender, default hola@arsnoir.com
  */
 import { TEMPLATES } from './templates.js';
+
+/* Accessories added on top of a finished illustration (POST /accessory). Fixed list on purpose:
+   the key travels from the theme, the description goes to the model. {NAME} = the pet's name. */
+const ACCESSORIES = {
+  collar: 'a red collar around the neck with a round shiny gold name tag hanging from it, the tag engraved with the name "{NAME}" in small dark capital letters, spelled exactly',
+  'collar-azul': 'a blue collar around the neck with a round shiny gold name tag hanging from it, the tag engraved with the name "{NAME}" in small dark capital letters, spelled exactly',
+  'gorro-navidad': 'a red Santa Claus hat with white fluffy trim and pompom on the head, sitting naturally between or behind the ears',
+  'gorro-fiesta': 'a small striped birthday party hat with a pompom on top of the head, held at a slight tilt',
+  pajarita: 'a neat black bow tie at the neck',
+  bandana: 'a red bandana with a small white pattern tied around the neck',
+  corona: 'a small golden crown on top of the head',
+  gafas: 'cool round black sunglasses on the eyes',
+  flor: 'a small pink flower tucked behind one ear'
+};
 
 const MAX_IMAGE_BYTES = 6 * 1024 * 1024;
 
@@ -221,6 +236,42 @@ export default {
       const data = await res.json();
       if (!res.ok || !data.id) return json({ error: 'replicate', detail: data.detail || null }, 502);
       await count(env.KEEP || env.LIMITS, 'made', body.template);
+      return json({ id: data.id });
+    }
+
+    // Accessories: edit a finished illustration (its kept copy) and add the chosen items; same style, same pet
+    if (request.method === 'POST' && url.pathname === '/accessory') {
+      if (!env.KEEP) return json({ error: 'no_store' }, 501);
+      let body;
+      try { body = await request.json(); } catch (e) { return json({ error: 'bad_request' }, 400); }
+      const id = String(body.id || '');
+      if (!/^[a-z0-9]{8,64}$/i.test(id)) return json({ error: 'id' }, 400);
+      const items = (Array.isArray(body.items) ? body.items : []).map(String).filter((k, i, a) => ACCESSORIES[k] && a.indexOf(k) === i).slice(0, 3);
+      if (!items.length) return json({ error: 'items' }, 400);
+      const name = String(body.name || '').replace(/[^\p{L}\p{N} '\-&.!]/gu, '').trim().slice(0, 24);
+      const copy = await env.KEEP.get(id + '.png', { type: 'stream' });
+      if (!copy) return json({ error: 'expired' }, 410);
+      await copy.cancel();
+      if (env.LIMITS) {
+        const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
+        const key = 'n:' + new Date().toISOString().slice(0, 10) + ':' + ip;
+        const used = parseInt((await env.LIMITS.get(key)) || '0', 10);
+        if (used >= parseInt(env.DAILY_LIMIT || '6', 10) + 4) return json({ error: 'limit' }, 429);
+        await env.LIMITS.put(key, String(used + 1), { expirationTtl: 60 * 60 * 26 });
+      }
+      const shown = (name || 'LOVE').toUpperCase();
+      const list = items.map((k) => ACCESSORIES[k].split('{NAME}').join(shown)).join('; and ');
+      let prompt = 'Edit this illustration. Keep absolutely everything exactly as it is: the same animal with the same face, fur, colours and markings, the same pose, framing, background colour, drawing style, shading and the same name text at the top. ' +
+        'Only add: ' + list + '. Draw the added items in exactly the same illustration style, with the same soft shading and lighting, fitted naturally to the animal\'s head and neck. Do not add any other objects, text or logos. Vertical 3:4.';
+      if (parseInt(body.attempt, 10) > 0) prompt += ' Make only these small additions and change nothing else.';
+      const model = env.MODEL || 'google/nano-banana';
+      const res = await replicate('/models/' + model + '/predictions', {
+        method: 'POST',
+        body: JSON.stringify({ input: { prompt, image_input: [url.origin + '/img/' + id + '.png'], output_format: 'png', aspect_ratio: '3:4' } })
+      });
+      const data = await res.json();
+      if (!res.ok || !data.id) return json({ error: 'replicate', detail: data.detail || null }, 502);
+      await count(env.KEEP || env.LIMITS, 'acc', TEMPLATES[body.template] ? body.template : '-');
       return json({ id: data.id });
     }
 
