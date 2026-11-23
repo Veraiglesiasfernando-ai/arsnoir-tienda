@@ -76,7 +76,7 @@
 
     <script>
       (function () {
-        var p = document.currentScript.previousElementSibling.previousElementSibling;
+        var p = document.querySelector('[data-tstudio-pick]');
         var i = document.getElementById('TStudio-{{ section_id }}');
         if (i && p) i.addEventListener('change', function () { if (i.files && i.files.length) p.querySelector('[data-tstudio-pick-text]').textContent = 'Cambiar foto'; });
       })();
