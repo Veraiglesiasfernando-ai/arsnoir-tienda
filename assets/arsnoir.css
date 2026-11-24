@@ -5987,3 +5987,10 @@ main > .shopify-section:first-child .vhero .bfc--bar { top: 76px; }
 .npop__code { background: #fff; border-color: #0a3d5a; color: #0a3d5a; }
 .npop__code small { color: #3b7ea3; }
 .npop__close:hover { background: rgba(10, 61, 90, 0.08); }
+/* Mobile: a centred card (not a sheet stuck to the bottom), without the room photo */
+@media (max-width: 749px) {
+  .npop { align-items: center; padding: 16px; }
+  .npop__card, .npop__card--image { width: min(400px, 100%); grid-template-columns: 1fr; max-height: calc(100svh - 32px); border-radius: 0; }
+  .npop__card .npop__media { display: none; }
+  .npop__body { padding: 32px 22px 22px; }
+}
