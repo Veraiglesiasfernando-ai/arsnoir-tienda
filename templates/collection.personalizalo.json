@@ -34,27 +34,6 @@
     "templates": {
       "type": "custom-templates",
       "blocks": {
-        "mas1": {
-          "type": "template",
-          "settings": {
-            "category": "Mascotas",
-            "name": "Óleo vintage",
-            "tagline": "Pinceladas de óleo y fondo de rayas.",
-            "image": "shopify://shop_images/pz-frame-oleo-vintage.jpg",
-            "link": "shopify://products/oleo-vintage"
-          }
-        },
-        "mas2": {
-          "type": "template",
-          "settings": {
-            "category": "Mascotas",
-            "name": "Retrato en color pastel",
-            "tagline": "Retrato realista sobre el color pastel que elijas.",
-            "image": "shopify://shop_images/pz-frame-retrato-color-pastel.jpg",
-            "link": "shopify://products/retrato-color-pastel",
-            "badge": "Nuevo"
-          }
-        },
         "mas3": {
           "type": "template",
           "settings": {
@@ -265,10 +244,8 @@
         "mas7",
         "mas6",
         "mas8",
-        "mas2",
         "mas3",
         "mas4",
-        "mas1",
         "mas5",
         "fam3",
         "fam4",
