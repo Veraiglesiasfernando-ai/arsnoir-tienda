@@ -5975,3 +5975,15 @@ main > .shopify-section:first-child .vhero .bfc--bar { top: 76px; }
   .product--studio .product__gallery > .product__media:not(.tlive) > *, .product--studio .product__gallery > .product__media:not(.tlive) img { max-height: 100% !important; max-width: 100%; width: auto !important; height: auto !important; object-fit: contain; margin: 0 auto; }
   .product--studio .product__gallery > .product__media--lifestyle img { width: 100% !important; height: 100% !important; object-fit: cover; }
 }
+/* Newsletter popup in the Black Friday light blue (same colours as the countdown) */
+.npop__card { background: #e3f3fc; color: #0a3d5a; }
+.npop__eyebrow { color: #0b4f73; }
+.npop__title { color: #0a3d5a; }
+.npop__text, .npop__legal, .npop__skip { color: #3b7ea3; }
+.npop__field { background: #fff; border-color: #b9e0f5 !important; }
+.npop__field:focus { outline-color: #0a3d5a; }
+.npop .button--accent { background: #0a3d5a; border-color: #0a3d5a; color: #fff; }
+.npop .button--accent:hover { background: #0b4f73; border-color: #0b4f73; }
+.npop__code { background: #fff; border-color: #0a3d5a; color: #0a3d5a; }
+.npop__code small { color: #3b7ea3; }
+.npop__close:hover { background: rgba(10, 61, 90, 0.08); }
