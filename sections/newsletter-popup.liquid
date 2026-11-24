@@ -27,7 +27,7 @@
             {%- endif -%}
             {%- comment -%} Back to what they were looking at: on a product, stay there; elsewhere, the personalised styles (what the ads sell) {%- endcomment -%}
             {%- if template.name == 'product' -%}
-              <button type="button" class="button button--accent button--full" data-npop-close>Seguir con {{ product.title | escape }} →</button>
+              <button type="button" class="button button--accent button--full" data-npop-close>Seguir comprando →</button>
             {%- else -%}
               <a class="button button--accent button--full" href="/collections/personalizalo">Crear su retrato →</a>
             {%- endif -%}
