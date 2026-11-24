@@ -95,7 +95,34 @@
       })();
     </script>
   {%- endif -%}
-  <div class="product{% if rail %} product--rail{% endif %}">
+  {%- liquid
+    assign studio_top = false
+    for sb in section.blocks
+      if sb.type == 'template_studio'
+        assign studio_top = true
+      endif
+    endfor
+  -%}
+  <div class="product{% if rail %} product--rail{% endif %}{% if studio_top %} product--studio{% endif %}">
+    {%- if studio_top -%}
+      {%- comment -%} Mobile, before the photos: what to do here, in one line, with the button {%- endcomment -%}
+      <div class="qstart">
+        <p class="qstart__title">{{ product.title }}</p>
+        <p class="qstart__txt">Sube la foto de tu mascota y <b>míralo gratis en 1 minuto</b>.</p>
+        <button type="button" class="qstart__btn" data-qstart>Subir su foto <span aria-hidden="true">→</span></button>
+      </div>
+      <script>
+        (function () {
+          var b = document.currentScript.previousElementSibling.querySelector('[data-qstart]');
+          b.addEventListener('click', function () {
+            var f = document.querySelector('input[data-tstudio-file]');
+            var st = document.querySelector('[data-tstudio]');
+            if (st) st.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            if (f) f.click();
+          });
+        })();
+      </script>
+    {%- endif -%}
     <div class="product__gallery">
       {%- if rail -%}{% render 'fav-button', handle: product.handle, class: 'fav-btn--media' %}{%- endif -%}
       {%- liquid
@@ -373,7 +400,7 @@
     -%}
     <div class="product__info{% if studio_page %} is-studio is-studio-a{% endif %}">
       {%- unless up_first -%}
-      {%- if rail and section.settings.welcome_code != blank -%}{% render 'pdp-welcome', code: section.settings.welcome_code %}{%- endif -%}
+      {%- if rail and section.settings.welcome_code != blank and studio_page == false -%}{% render 'pdp-welcome', code: section.settings.welcome_code %}{%- endif -%}
       {% render 'breadcrumbs' %}
       {%- endunless -%}
       {%- for block in section.blocks -%}
