@@ -67,7 +67,7 @@
   {%- assign step = step | plus: 1 -%}
   <div class="pdc__step" data-pdc-step="size">
     <p class="pdc__head"><span class="pdc__num">{{ step }}</span><span class="pdc__title">Tamaño</span></p>
-    <div class="pdc__mode" data-pdc-mode role="radiogroup" aria-label="Con o sin marco" hidden>
+    <div class="pdc__mode" data-pdc-mode data-mode-off role="radiogroup" aria-label="Con o sin marco" hidden>
       <button type="button" role="radio" aria-checked="true" data-mode="sin">Sin marco</button>
       <button type="button" role="radio" aria-checked="false" data-mode="con">Con marco</button>
     </div>
@@ -310,7 +310,8 @@
       var modeBox = box.querySelector('[data-pdc-mode]');
       var mode = state.frame === 'sin' ? 'sin' : 'con';
       if (modeBox) {
-        modeBox.hidden = !useMode();
+        /* The frame cards below already switch between «Sin marco» and the frames: no second toggle */
+        modeBox.hidden = true;
         modeBox.querySelectorAll('[data-mode]').forEach(function (b) { var on = b.dataset.mode === mode; b.classList.toggle('is-active', on); b.setAttribute('aria-checked', String(on)); });
       }
       if (useMode()) list = list.filter(function (sz) { return inMode(sz, mode); });
@@ -543,6 +544,10 @@
     } else {
       var first = TYPES.filter(function (t) { return of(t).length; })[0];
       state = { type: first, size: null, frame: of(first, null, 'sin').length ? 'sin' : ((of(first)[0] || {}).frame || 'sin') };
+      /* Ready to buy: the cheapest size of that type and frame is chosen (the «desde» price), so the button
+         reads «Añadir al carrito · price» straight away; the customer can still change it */
+      var cheap = cheapest(of(state.type, null, state.frame));
+      if (cheap) state.size = cheap.size;
     }
     apply();
   };
