@@ -401,7 +401,7 @@
             -%}
             {%- assign p_count = product.metafields.reviews.rating_count.value | default: 0 -%}
             {%- if p_rating != blank and p_count > 0 -%}
-              <a href="#Reviews" class="product__rating">{% render 'stars', rating: p_rating.rating, max: p_rating.scale_max, count: p_count %}</a>
+              <a href="#Reviews" class="product__rating">{% render 'stars', rating: p_rating.rating, max: p_rating.scale_max, text: 'Lo que piensan nuestros clientes' %}</a>
             {%- elsif jm_badge_on -%}
               {%- comment -%} Judge.me's own star badge, only once there is at least one review {%- endcomment -%}
               <div class="product__rating jdgm-widget jdgm-preview-badge" data-id="{{ product.id }}">{{ product.metafields.judgeme.badge }}</div>
