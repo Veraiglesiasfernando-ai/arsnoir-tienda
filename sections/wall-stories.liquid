@@ -78,8 +78,8 @@
                 <span class="mq__write mq__write--btn" role="link" tabindex="0" data-wst-write="{{ p.url }}#Reviews">Ver {% if rc == 1 %}la opinión{% else %}las {{ rc }} opiniones{% endif %} →</span>
               </span>
             {%- else -%}
-              <span class="mq__stars mq__stars--none" aria-hidden="true">★★★★★</span>
-              <span class="mq__meta">Aún sin reseñas{% if p != blank %} · <span class="mq__write" role="link" tabindex="0" data-wst-write="{{ p.url }}?opinar=1">Escribir la primera</span>{% endif %}</span>
+              {%- comment -%} No reviews yet: no empty grey stars, just the work and a link to it {%- endcomment -%}
+              {%- if p != blank -%}<span class="mq__write mq__write--btn" role="link" tabindex="0" data-wst-write="{{ p.url }}">Ver la obra →</span>{%- endif -%}
             {%- endif -%}
             <span class="mq__name">{{ label }}</span>
             {%- if p != blank -%}<span class="mq__price">{{ 'general.print_from' | t }} {{ p.price_min | money }}</span>{%- endif -%}
