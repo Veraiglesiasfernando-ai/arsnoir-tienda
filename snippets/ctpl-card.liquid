@@ -12,7 +12,8 @@
   {%- if c_prod != blank and c_prod.id -%}
     {%- for m in c_prod.media -%}
       {%- assign ma = m.alt | downcase -%}
-      {%- if ma contains 'con marco' -%}{%- assign c_art = m -%}{%- break -%}{%- endif -%}
+      {%- if ma contains 'calidad de cerca' -%}{%- continue -%}{%- endif -%}
+      {%- if ma contains 'con marco' or ma contains 'enmarcado' -%}{%- assign c_art = m -%}{%- break -%}{%- endif -%}
     {%- endfor -%}
     {%- assign c_best = 0 -%}
     {%- for v in c_prod.variants -%}
