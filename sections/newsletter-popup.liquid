@@ -25,7 +25,12 @@
                 <span>{{ s.code }}</span><small data-copy-label>{{ 'general.copy' | t }}</small>
               </button>
             {%- endif -%}
-            <a class="button button--accent button--full" href="{{ routes.all_products_collection_url }}">{{ 'general.see_works' | t }}</a>
+            {%- comment -%} Back to what they were looking at: on a product, stay there; elsewhere, the personalised styles (what the ads sell) {%- endcomment -%}
+            {%- if template.name == 'product' -%}
+              <button type="button" class="button button--accent button--full" data-npop-close>Seguir con {{ product.title | escape }} →</button>
+            {%- else -%}
+              <a class="button button--accent button--full" href="/collections/personalizalo">Crear su retrato →</a>
+            {%- endif -%}
           </div>
         {%- else -%}
           <p class="npop__eyebrow">{{ s.eyebrow }}</p>
