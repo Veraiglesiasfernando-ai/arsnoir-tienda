@@ -410,7 +410,7 @@
               {%- assign s_count = shop.metafields.judgeme.all_reviews_count.value | default: shop.metafields.judgeme.all_reviews_count | plus: 0 -%}
               {%- assign s_rating = shop.metafields.judgeme.all_reviews_rating.value | default: shop.metafields.judgeme.all_reviews_rating | plus: 0 -%}
               {%- if s_count > 0 and s_rating > 0 -%}
-                <a href="#Reviews" class="product__rating product__rating--shop">{%- if s_count == 1 -%}{%- assign s_lab = 'opinión de clientes de ARSNOIR' -%}{%- else -%}{%- assign s_lab = 'opiniones de clientes de ARSNOIR' -%}{%- endif -%}{% render 'stars', rating: s_rating, max: 5, count: s_count, label: s_lab %}</a>
+                <a href="#Reviews" class="product__rating product__rating--shop">{% render 'stars', rating: s_rating, max: 5, text: 'Lo que piensan nuestros clientes' %}</a>
               {%- endif -%}
             {%- endif -%}
 

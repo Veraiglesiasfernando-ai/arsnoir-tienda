@@ -113,11 +113,41 @@
         "jdgm_widget"
       ],
       "settings": {}
+    },
+    "walls": {
+      "type": "wall-stories",
+      "blocks": {
+        "w0": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/arsnoir-ambiente-salon-lapices.jpg",
+            "product": "retrato-a-lapices-de-colores"
+          }
+        },
+        "w0b": {
+          "type": "photo",
+          "settings": {
+            "image": "shopify://shop_images/arsnoir-ambiente-rulo.jpg",
+            "product": "retrato-con-nombre"
+          }
+        }
+      },
+      "block_order": [
+        "w0",
+        "w0b"
+      ],
+      "settings": {
+        "eyebrow": "LO QUE PIENSAN NUESTROS CLIENTES",
+        "heading": "Así queda\nen una pared.",
+        "text": "Opiniones reales de clientes de ARSNOIR. Toca una foto para verla en grande.",
+        "note": "Imágenes de ambiente."
+      }
     }
   },
   "order": [
     "main",
     "reviews",
+    "walls",
     "jdgm"
   ]
 }
