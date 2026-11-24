@@ -71,7 +71,8 @@
           {%- if block.settings.link == blank and block.settings.image == blank and request.design_mode == false -%}{%- continue -%}{%- endif -%}
           {%- if block.settings.link contains '/products/' and request.design_mode == false -%}
             {%- assign n_handle = block.settings.link | split: '/products/' | last | split: '?' | first -%}
-            {%- if all_products[n_handle].id == blank -%}{%- continue -%}{%- endif -%}
+            {%- assign n_prod = nil -%}{%- for cp in collection.products -%}{%- if cp.handle == n_handle -%}{%- assign n_prod = cp -%}{%- break -%}{%- endif -%}{%- endfor -%}{%- if n_prod == nil -%}{%- assign n_prod = all_products[n_handle] -%}{%- endif -%}
+            {%- if n_prod.id == blank -%}{%- continue -%}{%- endif -%}
           {%- endif -%}
           {%- assign bc = block.settings.category | strip -%}
           {%- if bc == c -%}{%- assign n = n | plus: 1 -%}{%- endif -%}

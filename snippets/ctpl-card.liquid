@@ -7,7 +7,8 @@
 {%- assign c_prod = nil -%}{%- assign c_art = nil -%}{%- assign c_deal = nil -%}
 {%- if b.link != blank and b.link contains '/products/' -%}
   {%- assign c_handle = b.link | split: '/products/' | last | split: '?' | first -%}
-  {%- assign c_prod = all_products[c_handle] -%}
+  {%- comment -%} Look in this collection first: all_products allows only 20 different products per page {%- endcomment -%}
+  {%- assign c_prod = nil -%}{%- for cp in collection.products -%}{%- if cp.handle == c_handle -%}{%- assign c_prod = cp -%}{%- break -%}{%- endif -%}{%- endfor -%}{%- if c_prod == nil -%}{%- assign c_prod = all_products[c_handle] -%}{%- endif -%}
   {%- if c_prod != blank and c_prod.id -%}
     {%- for m in c_prod.media -%}
       {%- assign ma = m.alt | downcase -%}
