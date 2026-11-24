@@ -5953,7 +5953,8 @@ main > .shopify-section:first-child .vhero .bfc--bar { top: 76px; }
 .bfc--bar.bfc--bar-flow[hidden], .bfc--bar.bfc--bar-inline[hidden] { display: none; }
 
 /* Desktop: open the studio on the phone (QR) */
-.tmob { margin: 8px 0 0; }
+.tmob { margin: 8px 0 0; text-align: center; }
+.tmob__box { text-align: left; }
 .tmob[hidden], .tmob__box[hidden] { display: none; }
 .tmob__toggle { background: none; border: 0; padding: 0; font: inherit; font-size: 13px; color: inherit; opacity: .8; cursor: pointer; }
 .tmob__box { display: flex; gap: 14px; align-items: center; margin-top: 10px; padding: 12px; border: 1px solid rgba(0,0,0,.12); border-radius: 12px; background: #fff; }
