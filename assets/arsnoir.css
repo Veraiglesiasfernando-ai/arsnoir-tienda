@@ -5943,3 +5943,6 @@ html.rvm-lock { overflow: hidden; }
 .bfc--bar__t { font-variant-numeric: tabular-nums; }
 .bfc--bar__sep { opacity: .6; }
 @media (max-width: 749px) { .bfc--bar { font-size: 12px; padding: 6px 10px; } }
+/* Desktop: the hero sits under the menu, so the bar starts just below it */
+main > .shopify-section:first-child .vhero .bfc--bar { top: 76px; }
+@media (max-width: 749px) { main > .shopify-section:first-child .vhero .bfc--bar { top: 0; } }
