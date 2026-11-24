@@ -5934,3 +5934,12 @@ html.rvm-lock { overflow: hidden; }
 .bfc__deals { list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
 .bfc__deals li { padding: 5px 10px; border-radius: 999px; background: #fff; font-size: 13px; color: #0a3d5a; box-shadow: 0 1px 0 #b9e0f5; }
 .bfc__deals b { color: #c8102e; margin-right: 2px; }
+
+/* Black Friday: thin bar on top of the home hero */
+.bfc--bar { position: absolute; top: 0; left: 0; right: 0; z-index: 3; display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 0 8px; margin: 0; padding: 7px 12px; border: 0; border-radius: 0; background: #0a3d5a; color: #fff; font-size: 13px; letter-spacing: .03em; text-decoration: none; text-align: center; }
+.bfc--bar[hidden] { display: none; }
+.bfc--bar b { font-weight: 800; letter-spacing: .08em; }
+.bfc--bar em { font-style: normal; font-weight: 800; color: #9fdcff; }
+.bfc--bar__t { font-variant-numeric: tabular-nums; }
+.bfc--bar__sep { opacity: .6; }
+@media (max-width: 749px) { .bfc--bar { font-size: 12px; padding: 6px 10px; } }
