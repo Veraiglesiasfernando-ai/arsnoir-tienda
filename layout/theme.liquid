@@ -90,6 +90,7 @@
 
     {% sections 'header-group' %}
 
+    {%- unless template.name == 'index' or template.name == 'product' or template.name == 'cart' -%}{%- render 'bf-countdown', variant: 'bar', flow: true -%}{%- endunless -%}
     <main id="MainContent" role="main" tabindex="-1">
       {{ content_for_layout }}
     </main>

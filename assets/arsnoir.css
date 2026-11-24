@@ -5946,3 +5946,8 @@ html.rvm-lock { overflow: hidden; }
 /* Desktop: the hero sits under the menu, so the bar starts just below it */
 main > .shopify-section:first-child .vhero .bfc--bar { top: 76px; }
 @media (max-width: 749px) { main > .shopify-section:first-child .vhero .bfc--bar { top: 0; } }
+
+/* Bar in normal flow: below the menu on every page, and next to the price on product pages */
+.bfc--bar.bfc--bar-flow, .bfc--bar.bfc--bar-inline { position: relative; top: auto !important; }
+.bfc--bar.bfc--bar-inline { margin: 12px 0 4px; border-radius: 10px; cursor: default; }
+.bfc--bar.bfc--bar-flow[hidden], .bfc--bar.bfc--bar-inline[hidden] { display: none; }
