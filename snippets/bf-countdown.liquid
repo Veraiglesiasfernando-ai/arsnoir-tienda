@@ -21,11 +21,15 @@
         if v.compare_at_price > v.price
           assign pct = v.compare_at_price | minus: v.price | times: 100 | divided_by: v.compare_at_price
           assign t = v.title | downcase
-          if t contains 'marco' or t contains 'frame'
+          if t contains 'sin marco'
+            if pct > d_lam
+              assign d_lam = pct
+            endif
+          elsif t contains 'marco' or t contains 'frame'
             if pct > d_mar
               assign d_mar = pct
             endif
-          elsif t contains 'lienzo'
+          elsif t contains 'lienzo' or t contains 'canvas'
             if pct > d_lie
               assign d_lie = pct
             endif
@@ -57,6 +61,7 @@
   <a class="bfc bfc--bar{% if product %} bfc--bar-inline{% elsif flow %} bfc--bar-flow{% endif %}" href="{% if product %}#{% else %}/collections/personalizalo{% endif %}"{% if product %} onclick="return false"{% endif %} data-bfc data-end="{{ bf_end }}T23:59:59+01:00" data-start="{{ bf_start }}T00:00:00+01:00" hidden>
     <b>BLACK FRIDAY</b><span class="bfc--bar__sep">·</span>
     {%- if d_kinds > 1 -%}
+      <span>hasta</span>
       {%- if d_lam > 0 -%}<span><em>−{{ d_lam }} %</em> láminas</span><span class="bfc--bar__sep">·</span>{%- endif -%}
       {%- if d_lie > 0 -%}<span><em>−{{ d_lie }} %</em> lienzos</span><span class="bfc--bar__sep">·</span>{%- endif -%}
       {%- if d_mar > 0 -%}<span><em>−{{ d_mar }} %</em> con marco</span><span class="bfc--bar__sep">·</span>{%- endif -%}
