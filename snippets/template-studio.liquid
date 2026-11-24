@@ -62,6 +62,34 @@
     </label>
     <label class="tstudio__pick" for="TStudio-{{ section_id }}" data-tstudio-pick><span data-tstudio-pick-text>Sube tu foto</span> <span aria-hidden="true">→</span></label>
     <p class="tstudio__formats">JPG o PNG · Desde la galería del móvil o el ordenador</p>
+    <div class="tmob" data-tmob hidden>
+      <button type="button" class="tmob__toggle" data-tmob-toggle aria-expanded="false">¿Tienes la foto en el móvil? <u>Ábrelo allí</u></button>
+      <div class="tmob__box" data-tmob-box hidden>
+        <div class="tmob__qr" data-tmob-qr aria-hidden="true"></div>
+        <div class="tmob__txt">
+          <p><b>Escanea con la cámara del móvil</b> y sigue desde allí: se abre esta misma página.</p>
+          <button type="button" class="tmob__copy" data-tmob-copy>Copiar enlace</button> <span class="tmob__ok" data-tmob-ok role="status"></span>
+        </div>
+      </div>
+    </div>
+    <script src="{{ 'qrcode-generator.min.js' | asset_url }}" defer></script>
+    <script>
+      (function () {
+        var w = document.currentScript.previousElementSibling.previousElementSibling;
+        if (!w || !matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+        w.hidden = false;
+        var url = location.origin + location.pathname + '?utm_source=web&utm_medium=qr_movil';
+        var box = w.querySelector('[data-tmob-box]'), t = w.querySelector('[data-tmob-toggle]'), done = false;
+        t.addEventListener('click', function () {
+          box.hidden = !box.hidden; t.setAttribute('aria-expanded', String(!box.hidden));
+          if (!done && window.qrcode) { var q = qrcode(0, 'M'); q.addData(url); q.make(); w.querySelector('[data-tmob-qr]').innerHTML = q.createSvgTag({ cellSize: 4, margin: 2, scalable: true }); done = true; }
+        });
+        w.querySelector('[data-tmob-copy]').addEventListener('click', function () {
+          var ok = w.querySelector('[data-tmob-ok]');
+          (navigator.clipboard ? navigator.clipboard.writeText(url) : Promise.reject()).then(function () { ok.textContent = 'Copiado'; }, function () { ok.textContent = url; });
+        });
+      })();
+    </script>
     {%- if b.allow_pair -%}
       <div class="tpair__second" data-tpair-box hidden>
         <p class="tpair__label">Foto de la segunda mascota</p>
