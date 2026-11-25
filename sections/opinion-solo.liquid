@@ -1,0 +1,27 @@
+{%- comment -%}
+  Bare Judge.me form for general reviews about ARSNOIR. Loaded inside a full-screen iframe
+  (see snippets/opinion-popup.liquid) so the visitor stays on the page where they pressed the button.
+{%- endcomment -%}
+<div class="op-solo">{%- for block in section.blocks -%}{% render block %}{%- endfor -%}</div>
+<style>
+  .op-solo { position: absolute; left: -9999px; top: 0; width: 1px; height: 1px; overflow: hidden; }
+</style>
+<script>
+(function () {
+  function tell(m) { try { parent.postMessage({ arsnoirOpinion: m }, '*'); } catch (e) {} }
+  var opened = false, n = 0;
+  var t = setInterval(function () {
+    var b = document.querySelector('[data-testid="write-review-button"]');
+    if (b && !opened) { b.click(); opened = true; n = 0; tell('ready'); return; }
+    if (opened) {
+      /* Judge.me's popup is gone (closed with the X or after sending) → close our layer too */
+      var dlg = document.querySelector('[role="dialog"], dialog[open], .jm-modal, [class*="jm-modal"]');
+      if (!dlg || !dlg.offsetParent) { if (++n > 3) { clearInterval(t); tell('close'); } } else n = 0;
+    }
+  }, 300);
+  setTimeout(function () { if (!opened) tell('fail'); }, 12000);
+})();
+</script>
+{% schema %}
+{ "name": "Opinión sola (Judge.me)", "blocks": [{ "type": "@app" }] }
+{% endschema %}

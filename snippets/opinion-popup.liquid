@@ -1,0 +1,36 @@
+{%- comment -%}
+  «Enviar mi foto» / [data-opinion-open]: opens the general ARSNOIR review form (Judge.me, with photo upload)
+  on top of the current page, in a transparent full-screen iframe. Nothing navigates.
+{%- endcomment -%}
+<style>
+  .op-layer { position: fixed; inset: 0; z-index: 2147483000; border: 0; width: 100%; height: 100%; background: rgba(0,0,0,.45); }
+  .op-layer[hidden] { display: none; }
+  .op-wait { position: fixed; inset: 0; z-index: 2147483001; display: grid; place-items: center; pointer-events: none; color: #fff; font: 500 15px/1.4 sans-serif; }
+</style>
+<script>
+(function () {
+  var frame, wait;
+  function close() { if (frame) { frame.remove(); frame = null; } if (wait) { wait.remove(); wait = null; } document.documentElement.style.overflow = ''; }
+  function open() {
+    if (frame) return;
+    frame = document.createElement('iframe');
+    frame.className = 'op-layer'; frame.title = 'Escribir una opinión';
+    frame.setAttribute('allowtransparency', 'true');
+    frame.src = '/products/opinion-arsnoir';
+    wait = document.createElement('div'); wait.className = 'op-wait'; wait.textContent = 'Cargando…';
+    document.body.appendChild(frame); document.body.appendChild(wait);
+    document.documentElement.style.overflow = 'hidden';
+  }
+  window.addEventListener('message', function (e) {
+    var m = e.data && e.data.arsnoirOpinion; if (!m) return;
+    if (m === 'ready' && wait) { wait.remove(); wait = null; }
+    if (m === 'close') close();
+    if (m === 'fail') { close(); location.href = '/products/opinion-arsnoir'; }
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('[data-opinion-open]'); if (!a) return;
+    e.preventDefault(); e.stopPropagation(); open();
+  }, true);
+})();
+</script>
