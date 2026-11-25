@@ -27,9 +27,8 @@
     {%- if count > 0 -%}
       <p class="rvc__line">
         {% render 'rv-squares', r: avg %}
-        <b>{{ avg_r | replace: '.', ',' }}</b> basado en
-        {%- if product != blank %} <a href="#EscribirOpinion" data-rvm-open>{{ count }} {% if count == 1 %}reseña{% else %}reseñas{% endif %}</a>{% else %} {{ count }} {% if count == 1 %}reseña{% else %}reseñas{% endif %}{% endif %}
-        <span class="rvc__by">· verificadas con Judge.me</span>
+        <b>{{ avg_r | replace: '.', ',' }} de 5</b>
+        <span class="rvc__by">· verificadas con Judge.me</span>{%- if product != blank %} · <a href="#EscribirOpinion" data-rvm-open>Escribir una opinión</a>{% endif %}
       </p>
     {%- endif -%}
     <div class="rvc__row">
