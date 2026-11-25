@@ -868,6 +868,22 @@
                         bar.className = 'tready';
                         bar.innerHTML = '<span class="tready__ok">✓ Tu retrato está listo</span><button type="button" class="tready__edit">Cambiar foto o nombre</button>';
                         pdc.parentNode.insertBefore(bar, pdc);
+                        /* Right under the finished portrait: buy it now (the cheapest size is already chosen) or try another style with the same photo */
+                        var acts = document.createElement('div');
+                        acts.className = 'tready__acts';
+                        acts.innerHTML = '<button type="button" class="button button--accent tready__add">Añadir al carrito</button>' +
+                          '<a class="button tready__more" href="/collections/personalizalo#ctpl-mascotas">Probar otro estilo con esta foto</a>' +
+                          '<p class="tready__hint">O cambia abajo el tamaño y el marco.</p>';
+                        bar.appendChild(acts);
+                        var addBtn = function () { return document.querySelector('.product__info button.pdc-add') || document.querySelector('.product__info [name="add"]'); };
+                        var syncAdd = function () {
+                          var b = addBtn(), t = acts.querySelector('.tready__add');
+                          if (b && t) { var m = (b.textContent || '').match(/[0-9]+,[0-9]{2}\s*€/); t.textContent = 'Añadir al carrito' + (m ? ' · ' + m[0] : ''); }
+                        };
+                        acts.querySelector('.tready__add').addEventListener('click', function () { var b = addBtn(); if (b) b.click(); });
+                        var ab = addBtn();
+                        if (ab) new MutationObserver(syncAdd).observe(ab, { childList: true, subtree: true, characterData: true });
+                        syncAdd();
                         var send = studio.querySelector('[data-tstudio-send]');
                         var buy = document.querySelector('.product__info .pdc-checks') || document.querySelector('.product__info .product__buy');
                         var done = function () {

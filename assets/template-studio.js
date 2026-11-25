@@ -538,6 +538,18 @@
     autoGo = false;
     go.click();
   };
+  /* Coming from another style with a photo already chosen: one tap makes this style with the same photo */
+  const reuse = studio.querySelector('[data-tstudio-reuse]');
+  if (reuse && photo && !urlInput.value) {
+    const ri = reuse.querySelector('[data-tstudio-reuse-img]');
+    if (ri) ri.src = photo;
+    reuse.hidden = false;
+    const pt = studio.querySelector('[data-tstudio-pick-text]');
+    if (pt) pt.textContent = 'Usar otra foto';
+    reuse.addEventListener('click', function () { reuse.hidden = true; autoGo = true; tryAuto(); });
+    document.addEventListener('arsnoir:studio-ready', function () { reuse.hidden = true; });
+    fileInput.addEventListener('change', function () { reuse.hidden = true; });
+  }
   /* Resize to max 1536 px and send as JPEG: enough detail for the model, small upload */
   fileInput.addEventListener('change', function () {
     const file = fileInput.files && fileInput.files[0];
