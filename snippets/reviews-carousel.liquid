@@ -21,24 +21,18 @@
     assign label = 'Buenas'
   endif
 -%}
-<section class="section rvc" id="Reviews">
+<section class="section rvc rvc--strip" id="Reviews">
   <div class="page-width">
-    <h2 class="rvc__title">{{ heading | default: 'Opiniones de los clientes' }}</h2>
+    <h2 class="rvc__title">{{ heading | default: 'Por qué a la gente le encanta ARSNOIR' }}</h2>
+    {%- if count > 0 -%}
+      <p class="rvc__line">
+        <span class="rvc__sq" style="--r: {{ avg | divided_by: 5.0 | times: 100 }}%" aria-label="{{ avg_r }} de 5"></span>
+        <b>{{ avg_r | replace: '.', ',' }}</b> basado en
+        {%- if product != blank %} <a href="#EscribirOpinion" data-rvm-open>{{ count }} {% if count == 1 %}reseña{% else %}reseñas{% endif %}</a>{% else %} {{ count }} {% if count == 1 %}reseña{% else %}reseñas{% endif %}{% endif %}
+        <span class="rvc__by">· verificadas con Judge.me</span>
+      </p>
+    {%- endif -%}
     <div class="rvc__row">
-      <div class="rvc__sum">
-        {%- if count > 0 -%}
-          <p class="rvc__avg">{{ avg_r | replace: '.', ',' }}</p>
-          <p class="rvc__label">{{ label }}</p>
-          <span class="rvc__stars rvc__stars--big" style="--r: {{ avg | divided_by: 5.0 | times: 100 }}%" aria-label="{{ avg_r }} de 5"></span>
-          <p class="rvc__based">Basado en {{ count }} {% if count == 1 %}opinión{% else %}opiniones{% endif %}.</p>
-        {%- else -%}
-          <p class="rvc__avg rvc__avg--none">Nuevo</p>
-          <p class="rvc__label">Aún sin opiniones</p>
-          <span class="rvc__stars rvc__stars--big" style="--r: 0%" aria-hidden="true"></span>
-          <p class="rvc__based">ARSNOIR acaba de abrir. Publicamos todas las opiniones, sin filtrar.</p>
-        {%- endif -%}
-        <p class="rvc__by">Opiniones verificadas con Judge.me</p>
-      </div>
       <div class="rvc__track-wrap">
         <ul class="rvc__track" data-rvc-track>
           {%- if count > 0 and list != blank -%}
@@ -52,17 +46,16 @@
                   assign verified = true
                 endif
               -%}
+              {%- assign mi = r.created_at | date: '%-m' | minus: 1 -%}
+              {%- assign months = 'enero,febrero,marzo,abril,mayo,junio,julio,agosto,septiembre,octubre,noviembre,diciembre' | split: ',' -%}
+              {%- if name == 'Anonymous' -%}{%- assign name = 'Cliente' -%}{%- endif -%}
+              {%- assign ttl = r.title | default: body | truncatewords: 5, '…' -%}
               <li class="rvc__card">
-                <div class="rvc__card-top">
-                  <span class="rvc__stars" style="--r: {{ rating | times: 20 }}%" aria-label="{{ rating }} de 5"></span>
-                  {%- if verified -%}<span class="rvc__ok">Comprador verificado</span>{%- endif -%}
-                </div>
-                {%- if r.title != blank -%}<p class="rvc__card-title">{{ r.title | escape }}</p>{%- endif -%}
-                <p class="rvc__text">{{ body | escape }}</p>
-                {%- assign mi = r.created_at | date: '%-m' | minus: 1 -%}
-                {%- assign months = 'ene,feb,mar,abr,may,jun,jul,ago,sept,oct,nov,dic' | split: ',' -%}
-                <p class="rvc__date">{{ r.created_at | date: '%-d' }} {{ months[mi] }} {{ r.created_at | date: '%Y' }}</p>
-                <p class="rvc__name">{{ name | escape }}</p>
+                <span class="rvc__sq" style="--r: {{ rating | times: 20 }}%" aria-label="{{ rating }} de 5"></span>
+                <p class="rvc__card-title">{{ ttl | escape }}</p>
+                <p class="rvc__text">"{{ body | escape }}"</p>
+                <p class="rvc__name">{{ name | escape }}{% if verified %} · <span class="rvc__ok">Comprador verificado</span>{% endif %}</p>
+                <p class="rvc__date">{{ r.created_at | date: '%-d' }} {{ months[mi] }}</p>
               </li>
             {%- endfor -%}
           {%- else -%}
