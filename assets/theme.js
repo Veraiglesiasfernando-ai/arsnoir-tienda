@@ -1823,9 +1823,10 @@
       }
     } else if (npop.hasAttribute('data-preview')) {
       openPop();
-    /* Not on the pages where a photo is uploaded (illustrations, «Tu foto en un cuadro», Personalízalo):
+    /* Not on the pages where a photo is uploaded (illustrations, «Tu foto en un cuadro», Personalízalo),
+       nor on the first page of a visit from an ad (they came to see the product, not a popup):
        visitors should go straight to uploading the photo */
-    } else if (!saved.subscribed && !(saved.until > Date.now()) && document.body.dataset.template !== 'cart' && !document.querySelector('[data-tstudio], [data-fintro], [data-pzup], [data-cupload]')) {
+    } else if (!saved.subscribed && !(saved.until > Date.now()) && document.body.dataset.template !== 'cart' && !document.querySelector('[data-tstudio], [data-fintro], [data-pzup], [data-cupload]') && location.pathname.indexOf('/collections/personalizalo') < 0 && !(pv < 2 && /[?&](fbclid|utm_source)=/.test(location.search))) {
       const minPages = parseInt(npop.dataset.minPages, 10) || 2;
       const delay = (parseInt(npop.dataset.delay, 10) || 6) * 1000;
       if (pv >= minPages) setTimeout(tryOpen, delay);
