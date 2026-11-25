@@ -133,7 +133,7 @@
   {%- if s.upload_title != blank -%}
     <div class="page-width mq__cta">
       <p class="mq__cta-text"><b>{{ s.upload_title }}.</b> {{ s.upload_text }}</p>
-      {%- if s.upload_button != blank -%}<a class="mq__cta-btn" href="{{ s.upload_link | default: '/products/retrato-con-nombre?opinar=1' }}">{{ s.upload_button }} →</a>{%- endif -%}
+      {%- if s.upload_button != blank -%}<a class="mq__cta-btn" data-rvm-open href="{{ s.upload_link | default: '/products/retrato-con-nombre?opinar=1' }}">{{ s.upload_button }} →</a>{%- endif -%}
     </div>
   {%- endif -%}
 

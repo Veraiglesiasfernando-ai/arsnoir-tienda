@@ -25,6 +25,13 @@
   document.body.appendChild(modal);
   function close() { modal.hidden = true; document.documentElement.classList.remove('rvm-lock'); }
   function openForm() {
+    /* New Judge.me widget has its own popup form: open it directly, page stays where it is */
+    var jb = document.querySelector('[data-testid="write-review-button"]');
+    if (jb) { jb.click(); return; }
+    if (document.querySelector('.jm-review-widget__header-and-body, [class*="jm-review-widget"]')) {
+      var n = 0, w = setInterval(function () { var x = document.querySelector('[data-testid="write-review-button"]'); if (x) { clearInterval(w); x.click(); } else if (++n > 20) clearInterval(w); }, 250);
+      return;
+    }
     if (!body.firstChild) while (src.firstChild) body.appendChild(src.firstChild);
     modal.hidden = false; document.documentElement.classList.add('rvm-lock');
     var tries = 0, t = setInterval(function () {
@@ -38,7 +45,7 @@
   modal.addEventListener('click', function (e) { if (e.target === modal || e.target.closest('[data-rvm-close]')) close(); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !modal.hidden) close(); });
   document.addEventListener('click', function (e) { if (e.target.closest('[data-rvm-open], a[href="#EscribirOpinion"]')) { e.preventDefault(); openForm(); } });
-  if (/[?&]opinar=1/.test(location.search)) { window.scrollTo(0, 0); openForm(); }
+  if (/[?&]opinar=1/.test(location.search)) { window.addEventListener('load', function () { setTimeout(openForm, 800); }); }
 })();
 </script>
 {% schema %}
