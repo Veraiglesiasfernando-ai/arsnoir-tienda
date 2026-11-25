@@ -1,0 +1,8 @@
+{%- comment -%} Five square stars, filled to the rating (r = 0–5, decimals allowed) {%- endcomment -%}
+{%- assign rv = r | plus: 0.0 -%}
+<span class="rvc__sq" role="img" aria-label="{{ rv | round: 1 }} de 5">
+  {%- for i in (1..5) -%}
+    {%- assign f = rv | minus: i | plus: 1 | times: 100 | at_least: 0 | at_most: 100 -%}
+    <i style="--f: {{ f }}%"></i>
+  {%- endfor -%}
+</span>

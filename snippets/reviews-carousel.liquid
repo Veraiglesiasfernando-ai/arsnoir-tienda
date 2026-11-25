@@ -23,10 +23,10 @@
 -%}
 <section class="section rvc rvc--strip" id="Reviews">
   <div class="page-width">
-    <h2 class="rvc__title">{{ heading | default: 'Por qué a la gente le encanta ARSNOIR' }}</h2>
+    <h2 class="rvc__title">Por qué a la gente le encanta ARSNOIR</h2>
     {%- if count > 0 -%}
       <p class="rvc__line">
-        <span class="rvc__sq" style="--r: {{ avg | divided_by: 5.0 | times: 100 }}%" aria-label="{{ avg_r }} de 5"></span>
+        {% render 'rv-squares', r: avg %}
         <b>{{ avg_r | replace: '.', ',' }}</b> basado en
         {%- if product != blank %} <a href="#EscribirOpinion" data-rvm-open>{{ count }} {% if count == 1 %}reseña{% else %}reseñas{% endif %}</a>{% else %} {{ count }} {% if count == 1 %}reseña{% else %}reseñas{% endif %}{% endif %}
         <span class="rvc__by">· verificadas con Judge.me</span>
@@ -51,7 +51,7 @@
               {%- if name == 'Anonymous' -%}{%- assign name = 'Cliente' -%}{%- endif -%}
               {%- assign ttl = r.title | default: body | truncatewords: 5, '…' -%}
               <li class="rvc__card">
-                <span class="rvc__sq" style="--r: {{ rating | times: 20 }}%" aria-label="{{ rating }} de 5"></span>
+                {% render 'rv-squares', r: rating %}
                 <p class="rvc__card-title">{{ ttl | escape }}</p>
                 <p class="rvc__text">"{{ body | escape }}"</p>
                 <p class="rvc__name">{{ name | escape }}{% if verified %} · <span class="rvc__ok">Comprador verificado</span>{% endif %}</p>

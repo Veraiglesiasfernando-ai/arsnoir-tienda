@@ -6013,9 +6013,10 @@ main > .shopify-section:first-child .vhero .bfc--bar { top: 76px; }
 .rvc__line { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0 0 clamp(18px, 3vw, 30px); font-size: 15px; }
 .rvc__line a { color: inherit; text-decoration: underline; text-underline-offset: 3px; font-weight: 600; }
 .rvc__line .rvc__by { margin: 0; font-weight: 400; color: #666; font-size: 13px; }
-.rvc__sq { --r: 0%; position: relative; display: inline-block; font-size: 15px; line-height: 1; letter-spacing: 0; }
-.rvc__sq::before, .rvc__sq::after { content: '★★★★★'; display: inline-block; letter-spacing: 4px; padding: 3px 0 3px 4px; color: #fff; background: repeating-linear-gradient(90deg, #d4d4d4 0 1.05em, transparent 1.05em 1.3em); }
-.rvc__sq::after { position: absolute; left: 0; top: 0; width: var(--r); overflow: hidden; white-space: nowrap; background: repeating-linear-gradient(90deg, #0a3d5a 0 1.05em, transparent 1.05em 1.3em); }
+.rvc__sq { display: inline-flex; gap: 3px; align-self: flex-start; }
+.rvc__sq i { width: 20px; height: 20px; display: grid; place-items: center; background: linear-gradient(90deg, #0a3d5a var(--f), #d4d4d4 var(--f)); }
+.rvc__sq i::before { content: '★'; color: #fff; font-size: 14px; font-style: normal; line-height: 1; }
+.rvc__line .rvc__sq i { width: 18px; height: 18px; }
 .rvc--strip .rvc__row { display: block; }
 .rvc--strip .rvc__card { flex-basis: min(320px, 80%); min-height: 300px; padding: 24px 26px; background: #fff; border-radius: 16px; box-shadow: none; }
 .rvc--strip .rvc__card-title { margin: 22px 0 8px; font-size: 17px; font-weight: 700; }
