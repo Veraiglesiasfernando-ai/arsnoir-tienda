@@ -903,6 +903,25 @@
                               var pv = bar.querySelector('.tready__img');
                               if (!pv) { pv = document.createElement('img'); pv.className = 'tready__img'; pv.alt = 'Tu retrato'; bar.appendChild(pv); }
                               bar.appendChild(pv);
+                              /* …and the room photos with their portrait on the wall (painted by template-studio.js), to swipe through */
+                              var paintStrip = function () {
+                                var old = bar.querySelector('.tready__rooms'); if (old) old.remove();
+                                var cs = [].slice.call(document.querySelectorAll('.product__gallery .product__media:not([hidden]) canvas.tart'));
+                                if (!cs.length) return false;
+                                var strip = document.createElement('div'); strip.className = 'tready__rooms';
+                                var first = document.createElement('img'); first.src = art.src; first.alt = 'Tu retrato'; strip.appendChild(first);
+                                cs.forEach(function (c) {
+                                  if (!c.width) return;
+                                  var k = document.createElement('canvas'); k.width = c.width; k.height = c.height;
+                                  k.getContext('2d').drawImage(c, 0, 0); k.setAttribute('role', 'img'); k.setAttribute('aria-label', c.getAttribute('aria-label') || 'Tu retrato en una pared');
+                                  strip.appendChild(k);
+                                });
+                                var hint = document.createElement('p'); hint.className = 'tready__swipe'; hint.textContent = 'Desliza para verlo en una pared →';
+                                bar.appendChild(strip); bar.appendChild(hint);
+                                pv.hidden = true;
+                                return true;
+                              };
+                              var tries = 0, tm = setInterval(function () { if (paintStrip() || ++tries > 12) clearInterval(tm); }, 500);
                               pv.src = art.src;
                             }
                             if (!window.arsnoirSheet) bar.scrollIntoView({ behavior: 'smooth', block: 'start' });

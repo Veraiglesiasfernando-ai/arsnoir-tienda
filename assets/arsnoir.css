@@ -6035,3 +6035,9 @@ main > .shopify-section:first-child .vhero .bfc--bar { top: 76px; }
   .tready { scroll-margin-top: 150px; }
   .tready__img { max-width: 230px; aspect-ratio: auto; max-height: 34vh; width: auto; margin: 8px auto 0; }
 }
+
+.tready__rooms { order: 3; flex: 0 0 100%; display: flex; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; margin: 10px -14px 0; padding: 0 14px 6px; -webkit-overflow-scrolling: touch; }
+.tready__rooms > img, .tready__rooms > canvas { flex: 0 0 72%; max-height: 38vh; height: 38vh; width: auto; object-fit: cover; scroll-snap-align: center; border-radius: 10px; background: #fff; box-shadow: 0 10px 22px -14px rgba(0,0,0,.45); }
+.tready__rooms > img { object-fit: contain; }
+.tready__swipe { order: 4; flex: 0 0 100%; margin: 4px 0 0; font-size: 13px; color: #1d6b34; text-align: center; }
+@media (min-width: 990px) { .tready__rooms, .tready__swipe { display: none; } }
