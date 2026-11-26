@@ -6029,3 +6029,9 @@ main > .shopify-section:first-child .vhero .bfc--bar { top: 76px; }
 .rvc--strip .rvc__track::-webkit-scrollbar { display: block; height: 4px; }
 .rvc--strip .rvc__track::-webkit-scrollbar-thumb { background: #b9b2a8; border-radius: 4px; }
 .rvc--strip .rvc__arrow--prev { left: -44px; }
+
+/* Portrait ready (phone): picture small enough that «Elige cómo lo quieres» and the types show under it */
+@media (max-width: 989px) {
+  .tready { scroll-margin-top: 150px; }
+  .tready__img { max-width: 230px; aspect-ratio: auto; max-height: 34vh; width: auto; margin: 8px auto 0; }
+}

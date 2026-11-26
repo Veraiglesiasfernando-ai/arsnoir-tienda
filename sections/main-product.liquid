@@ -872,8 +872,7 @@
                         /* Right under the finished portrait: buy it now (the cheapest size is already chosen) or try another style with the same photo */
                         var acts = document.createElement('div');
                         acts.className = 'tready__acts';
-                        acts.innerHTML = '<button type="button" class="button button--accent tready__add" hidden>Añadir al carrito</button>' +
-                          '<a class="button tready__more" href="/collections/personalizalo#ctpl-mascotas">Probar otro estilo con esta foto</a>';
+                        acts.innerHTML = '<a class="button tready__more" href="/collections/personalizalo#ctpl-mascotas">Probar otro estilo con esta foto</a>';
                         /* Order on the page: ✓ listo → their portrait → Tipo · Tamaño · Marco + «Añadir al carrito» (the chooser) → another style */
                         var buyEnd = document.querySelector('.product__info .pdc-checks') || pdc;
                         buyEnd.parentNode.insertBefore(acts, buyEnd.nextSibling);
@@ -886,7 +885,7 @@
                           var b = addBtn(), t = acts.querySelector('.tready__add');
                           if (b && t) { var m = (b.textContent || '').match(/[0-9]+,[0-9]{2}\s*€/); t.textContent = 'Añadir al carrito' + (m ? ' · ' + m[0] : ''); }
                         };
-                        acts.querySelector('.tready__add').addEventListener('click', function () { var b = addBtn(); if (b) b.click(); });
+
                         var ab = addBtn();
                         if (ab) new MutationObserver(syncAdd).observe(ab, { childList: true, subtree: true, characterData: true });
                         syncAdd();
