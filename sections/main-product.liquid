@@ -918,7 +918,7 @@
                                 });
                                 var hint = document.createElement('p'); hint.className = 'tready__swipe'; hint.textContent = 'Desliza para verlo en una pared →';
                                 bar.appendChild(strip); bar.appendChild(hint);
-                                pv.hidden = true;
+                                pv.style.display = 'none';
                                 return true;
                               };
                               var tries = 0, tm = setInterval(function () { if (paintStrip() || ++tries > 12) clearInterval(tm); }, 500);
