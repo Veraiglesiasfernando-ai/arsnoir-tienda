@@ -4865,7 +4865,7 @@ body:has(.pdc) .product__tax { padding-bottom: 18px; border-bottom: 1px solid #e
 }
 
 /* Portraits in two steps (sections/main-product.liquid): A = make the illustration, B = choose format and buy */
-.product__info.is-studio-a .pdc, .product__info.is-studio-a .product__buy, .product__info.is-studio-a .pdc-checks, .product__info.is-studio-a .tready { display: none !important; }
+.product__info.is-studio-a .pdc, .product__info.is-studio-a .product__buy, .product__info.is-studio-a .pdc-checks, .product__info.is-studio-a .tready, .product__info.is-studio-a .tready__acts, .product__info.is-studio-a .tready__pick { display: none !important; }
 .product__info.is-studio-b .tstudio > .vstep__head, .product__info.is-studio-b .tstudio__drop, .product__info.is-studio-b .tstudio__hint,
 .product__info.is-studio-b .tstudio__name, .product__info.is-studio-b .tstudio__opts, .product__info.is-studio-b .tstudio__go,
 .product__info.is-studio-b .tstudio__result, .product__info.is-studio-b .tnext, .product__info.is-studio-b .tafter,
@@ -5997,7 +5997,8 @@ main > .shopify-section:first-child .vhero .bfc--bar { top: 76px; }
 
 /* Finished portrait: buy now / try another style */
 .tready { flex-wrap: wrap; }
-.tready__acts { flex-basis: 100%; display: grid; gap: 8px; margin-top: 4px; }
+.tready__acts { flex-basis: 100%; display: grid; gap: 8px; margin: 10px 0 6px; }
+.tready__pick { margin: 4px 0 10px; font-size: 15px; font-weight: 600; }
 .tready__acts .button { width: 100%; min-height: 50px; }
 .tready__more { background: #fff; color: #0a0a0a; border: 1px solid #0a0a0a; }
 .tready__hint { margin: 0; font-size: 12px; color: #4a4642; text-align: center; }

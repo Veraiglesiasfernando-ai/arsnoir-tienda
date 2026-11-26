@@ -117,7 +117,9 @@
           b.addEventListener('click', function () {
             var f = document.querySelector('input[data-tstudio-file]');
             var st = document.querySelector('[data-tstudio]');
-            if (f) f.click(); /* stay here: the result opens on top of the page (snippets/studio-sheet.liquid) */
+            var st = document.querySelector('[data-tstudio]');
+            if (st) st.scrollIntoView({ behavior: 'smooth', block: 'start' }); /* the portrait appears right there, with the sizes under it */
+            if (f) f.click();
           });
         })();
       </script>
@@ -870,10 +872,15 @@
                         /* Right under the finished portrait: buy it now (the cheapest size is already chosen) or try another style with the same photo */
                         var acts = document.createElement('div');
                         acts.className = 'tready__acts';
-                        acts.innerHTML = '<button type="button" class="button button--accent tready__add">Añadir al carrito</button>' +
-                          '<a class="button tready__more" href="/collections/personalizalo#ctpl-mascotas">Probar otro estilo</a>' +
-                          '<p class="tready__hint">O cambia abajo el tamaño y el marco.</p>';
-                        bar.appendChild(acts);
+                        acts.innerHTML = '<button type="button" class="button button--accent tready__add" hidden>Añadir al carrito</button>' +
+                          '<a class="button tready__more" href="/collections/personalizalo#ctpl-mascotas">Probar otro estilo con esta foto</a>';
+                        /* Order on the page: ✓ listo → their portrait → Tipo · Tamaño · Marco + «Añadir al carrito» (the chooser) → another style */
+                        var buyEnd = document.querySelector('.product__info .pdc-checks') || pdc;
+                        buyEnd.parentNode.insertBefore(acts, buyEnd.nextSibling);
+                        var pick = document.createElement('p');
+                        pick.className = 'tready__pick';
+                        pick.textContent = 'Elige cómo lo quieres: lámina, lienzo, con o sin marco y el tamaño.';
+                        pdc.parentNode.insertBefore(pick, pdc);
                         var addBtn = function () { return document.querySelector('.product__info button.pdc-add') || document.querySelector('.product__info [name="add"]'); };
                         var syncAdd = function () {
                           var b = addBtn(), t = acts.querySelector('.tready__add');
@@ -896,6 +903,7 @@
                             if (art && art.src && !window.matchMedia('(min-width: 990px)').matches) {
                               var pv = bar.querySelector('.tready__img');
                               if (!pv) { pv = document.createElement('img'); pv.className = 'tready__img'; pv.alt = 'Tu retrato'; bar.appendChild(pv); }
+                              bar.appendChild(pv);
                               pv.src = art.src;
                             }
                             if (!window.arsnoirSheet) bar.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -930,7 +938,7 @@
                         if (nx && !nx.hidden) done();
                       });
                     </script>
-                    {% render 'studio-sheet', product: product %}
+
                   {%- endif -%}
                 {%- elsif section.settings.size_visual -%}
                   {% render 'size-visual', product: product %}
