@@ -117,8 +117,7 @@
           b.addEventListener('click', function () {
             var f = document.querySelector('input[data-tstudio-file]');
             var st = document.querySelector('[data-tstudio]');
-            if (st) st.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            if (f) f.click();
+            if (f) f.click(); /* stay here: the result opens on top of the page (snippets/studio-sheet.liquid) */
           });
         })();
       </script>
@@ -899,7 +898,7 @@
                               if (!pv) { pv = document.createElement('img'); pv.className = 'tready__img'; pv.alt = 'Tu retrato'; bar.appendChild(pv); }
                               pv.src = art.src;
                             }
-                            bar.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            if (!window.arsnoirSheet) bar.scrollIntoView({ behavior: 'smooth', block: 'start' });
                           }, 120);
                           if (send && buy && buy.parentNode) buy.parentNode.insertBefore(send, buy.nextSibling);
                         };
@@ -931,6 +930,7 @@
                         if (nx && !nx.hidden) done();
                       });
                     </script>
+                    {% render 'studio-sheet', product: product %}
                   {%- endif -%}
                 {%- elsif section.settings.size_visual -%}
                   {% render 'size-visual', product: product %}

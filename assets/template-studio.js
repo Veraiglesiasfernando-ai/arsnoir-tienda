@@ -226,6 +226,7 @@
     };
     step();
     stepTimer = setInterval(step, 7000);
+    document.dispatchEvent(new CustomEvent('arsnoir:studio-start', { detail: { photo: photo } }));
     if (!el || !photo) return;
     const example = d.example || photo;
     el.querySelector('.tload__sketch').src = example;
@@ -239,13 +240,14 @@
     if (liveThumb) liveThumb.src = photo;
     if (liveApi) liveApi.show(); else gallery.scrollTo({ left: 0, top: 0, behavior: 'smooth' });
     const r = el.getBoundingClientRect();
-    if (r.bottom < 0 || r.top > window.innerHeight) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    if (!window.arsnoirSheet && (r.bottom < 0 || r.top > window.innerHeight)) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
   };
   /* ok = the illustration arrived: fill the bar, then reveal it with a sweep from left to right
      and a short «¡Listo!» (skipped when the visitor prefers reduced motion) */
   let revealTimer = null;
   const stopLoading = function (ok) {
     clearInterval(stepTimer);
+    if (!ok) document.dispatchEvent(new CustomEvent('arsnoir:studio-fail'));
     if (!live) return;
     live.classList.remove('is-loading');
     if (!ok || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -701,7 +703,7 @@
         accShow({ id: out.id, url: url, saved: out.saved, keep: out.keep });
         showLive(url);
         /* Show it where the customer is looking: the picture under the button */
-        requestAnimationFrame(function () { result.scrollIntoView({ behavior: 'smooth', block: 'center' }); });
+        if (!window.arsnoirSheet) requestAnimationFrame(function () { result.scrollIntoView({ behavior: 'smooth', block: 'center' }); });
         const left = max - used();
         say(left > 0 ? (d.tLeft || '').replace('[N]', left) : '');
       })
